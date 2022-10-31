@@ -82,6 +82,20 @@ const FeedbackState = ( props ) => {
     }
 
 
+    // check for if request already exists in database on not
+    const checkRequest = async(creatorID)=>{
+        const response = await fetch(`${host}/api/query/checkrequest/${creatorID}`, {
+            method: "GET",
+            headers: {
+                "Content-type" : "application/json",
+                "jwt-token": localStorage.getItem('jwtToken') // USER LOGIN
+            }
+        })
+        const json = await response.json()
+        return json
+    }
+
+
     // searches for the feedback once the use login for its previous unfeedbacked services
   const checkFBlatest = async() =>{
     const response = await fetch(`${host}/api/feedback/checklatestFeedback` , {
@@ -94,12 +108,29 @@ const FeedbackState = ( props ) => {
     return json
 }
 
+    // get the current rating of the creator
+    const getRatingCreator = async (id) =>{
+        const response = await fetch(`${host}/api/feedback/rating/${id}` , {
+            method: "GET",
+            headers: {
+                "jwt-token": localStorage.getItem('jwtToken') // USER LOGIN
+            }
+        })
+        const json = await response.json()
+        if(json.success){
+            return json.rating;
+        }
+        else{
+            return 4.1
+        }
+    }
+
 
 
 
     
     return (
-        <feedbackcontext.Provider value={{ feedbacks,checkFB, createFeedback,getallfeedback,createRequest,checkFBlatest }} >
+        <feedbackcontext.Provider value={{ checkRequest,getRatingCreator,feedbacks,checkFB, createFeedback,getallfeedback,createRequest,checkFBlatest }} >
         {props.children}
     </feedbackcontext.Provider>
   )

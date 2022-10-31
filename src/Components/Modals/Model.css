@@ -158,13 +158,20 @@
 }
 
 .fb_span_two{
-    width: 90%;
-    font-size: 1.2rem;
-    text-align: center;
+    width: 80%;
+    font-size: 1.1rem;
+    color: rgb(81, 79, 79);
+    /* text-align: center; */
     word-wrap: break-word;
+    font-family: 'Roboto',sans-serif !important;
     margin: 0;
     padding: 0;
+    margin-bottom: -20px;
 
+}
+
+.fb_span_two span{
+    margin-right: 10px;
 }
 
 .stars_model{
@@ -176,11 +183,12 @@
 }
 
 .fb_modal_main_box textarea{
-    width: 70%;
+    width: 75%;
     min-height: 20%;
     border-radius: 10px;
     resize: none;
     padding: 15px;
+    margin-bottom: -10px;
     font-size: 1.2rem;
     max-height: 35%;
 
@@ -317,15 +325,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 50px;
+    padding: 18px;
     justify-content: space-evenly;
     font-family: 'Roboto', sans-serif;
 }
 
 .thanks_model > i{
     position: relative;
-    left: 180px;
-    top: -20px;
+    left: 250px;
+    top: -8px;
     color: gray;
     transition: transform 0.3s ease;
     cursor: pointer;
@@ -384,6 +392,74 @@
 }
 
 
+/* social proof css ---------------------------------------- */
+
+.proof_box{
+    display: flex;
+    align-items: center;
+    position: fixed;
+    right: 20px;
+    opacity: 0;
+    top: 80px;
+    animation: socialIn 0.7s ease-in-out forwards;
+}
+
+.proof_img{
+    width: 2rem;
+    height: 2rem;
+    -webkit-animation: rotating 1.5s linear infinite;
+}
+
+.proof_box_content{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    font-family: 'Roboto',sans-serif;
+    font-weight: 400;
+    width: max-content;
+    padding: 8px;
+    padding-left: 30px;
+    background-color: rgba(70, 68, 68, 0.96);
+    border-bottom-right-radius: 30px;
+    border-top-right-radius: 30px;
+    margin-left: -8px;
+    letter-spacing: 2px;
+    color: white;
+}
+
+.proof_box_content i{
+    cursor: pointer;
+    margin-left: 30px;
+}
+
+.proof_user_name{
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 150px;
+}
+
+.proof_box_content p{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+
+.proof_box_content span{
+    color: rgb(131, 245, 227);
+    font-weight: bold;
+}
+
+.proof_box > span{
+    background-color: rgba(70, 68, 68, 0.96);
+    padding: 17px;
+    border-radius: 150px;
+}
+
+
+
+
 @keyframes rotating{
     from {
         -ms-transform: rotate(0deg);
@@ -403,11 +479,36 @@
       }
 }
 
+@keyframes socialIn{
+    0% {
+        opacity: 0;
+        position: fixed;
+        right: 0px;
+    }
+    100% {
+        position: fixed;
+        opacity: 100;
+        right: 30px;
+      }
+}
 
-@media (max-width: 450px) {
+@keyframes socialOut{
+    0% {
+        opacity: 0;
+        position: fixed;
+        top: 0px;
+    }
+    100% {
+        position: fixed;
+        opacity: 100;
+        top: 60px;
+      }
+}
 
-    
-    .model_main_box{
+
+@media (max-width: 550px) {
+
+        .model_main_box{
         width: 90vw;
         height: max-content;
         position: absolute;
@@ -446,10 +547,18 @@
     }
 
     .fb_span_one{
-        margin: 10px 0;
+        margin: 15px 0;
         font-size: 1.1rem;
         width: 90%;
     }
+
+    .fb_span_two{
+        font-size: 0.9rem;
+        text-align: left;
+        width: 90%;
+        margin-bottom: 5px;
+    }
+
 
     .stars_model{
         width: 98%;
@@ -481,7 +590,8 @@
     }
 
     .thanks_model{
-        padding: 15px;
+        padding: 8px;
+        width: 85vw;
     }
 
     .thanks_model >i {
@@ -502,6 +612,54 @@
         font-size: 1.1rem;
         padding: 13px;
     }
+
+
+    /* social proof mobile version */
+
+    .proof_box{
+        right: 0px;
+        top: 30px;
+        /* opacity: 100%; */
+        animation: socialOut 0.6s ease-in-out forwards;
+    }
+
+    .proof_img{
+        width: 1.1rem;
+        height: 1.1rem;
+    }
+
+    .proof_box_content{
+        letter-spacing: 1px;
+        font-size: 0.8rem;
+        padding: 5px;
+        padding-left: 12px;
+    }
+
+    .proof_box > span{
+        padding: 10px;
+    }
+
+    .proof_user_name{
+        width: 1.1rem;
+        height: 1.1rem;
+    }
+
+    .proof_box_content i{
+        margin-left: 10px;
+    }
+
+    /* request model box */
+
+    .request_model_box{
+        margin-top: 10px !important;
+    }
+
+    .request_model_button{
+        margin-top: 13px;
+    }
+
+
+
 }
 
 

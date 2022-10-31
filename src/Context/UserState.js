@@ -140,9 +140,25 @@ const UserState = (props) => {
         return json
     }
 
+    // get last user details for a service for social proof
+
+    const lastUser = async(id)=>{
+        const response = await fetch(`${host}/api/user/recentuserdetail/${id}`, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true
+            },
+            
+        })
+        const json = await response.json()
+        return json
+    }
+
 
     return (
-        <userContext.Provider value={{checkSubscriber, userPlaceOrder, addSubscriber,getUserDetails }}>
+        <userContext.Provider value={{lastUser,checkSubscriber, userPlaceOrder, addSubscriber,getUserDetails }}>
             {props.children}
         </userContext.Provider>
     )

@@ -231,11 +231,25 @@ const ServiceState = (props) => {
       const json =  await response.json()
       return json.success
     }
+
+
+    // get pervious one hour downloads of the file'
+
+    const getOneHourDownloads = async(id)=>{
+      const response = await fetch(`${host}/api/services/getonehourdownloads/${id}`,{
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+      const json =  await response.json()
+      return json.users
+    }
   
 
   return (
     <ServiceContext.Provider
-      value={{ compareJWT,updateService,getslugfromcpyid,checkCpyUrl ,checkFirstService,serviceInfo,services,slugCount,getserviceusingid,getallservicesusingid,getallservices,addservice,deleteService,Uploadfile,getserviceinfo,getslugcount}}
+      value={{ getOneHourDownloads,compareJWT,updateService,getslugfromcpyid,checkCpyUrl ,checkFirstService,serviceInfo,services,slugCount,getserviceusingid,getallservicesusingid,getallservices,addservice,deleteService,Uploadfile,getserviceinfo,getslugcount}}
     >
       {" "}
       {/* here we use the context created and the router whch are wrapped inside the notestate can access the state passed here ith the help of use context hook */}

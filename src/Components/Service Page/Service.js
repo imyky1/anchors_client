@@ -14,6 +14,8 @@ import { linkedinContext } from "../../Context/LinkedinState";
 import { paymentContext } from "../../Context/PaymentState";
 import Thanks from "../Modals/Thanks";
 import { feedbackcontext } from "../../Context/FeedbackState";
+import SocialProof from "../Modals/SocialProof";
+import Request_Modal from "../Modals/Request_Modal";
 
 function Service(props) {
   const { slug } = useParams();
@@ -22,17 +24,26 @@ function Service(props) {
   const context = useContext(ServiceContext);
   const [openModel, setOpenModel] = useState(false);
   const [openModelFB, setOpenModelFB] = useState(false);
+  const [openModelRequest, setOpenModelRequest] = useState(false);
+  const [OpenModelProof, setOpenModelProof] = useState(false);
   const [FBService, setFBService] = useState();
+  const [proofType, setproofType] = useState();
   const [UserDetails, setUserDetails] = useState();
   const [openModelDownload, setOpenModelDownload] = useState(false);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
-  const { serviceInfo, getserviceinfo, services, getallservicesusingid,getserviceusingid } =
-    context;
+  const {
+    serviceInfo,
+    getserviceinfo,
+    services,
+    getallservicesusingid,
+    getserviceusingid,
+    getOneHourDownloads,
+  } = context;
   const { basicCdata, getBasicCreatorInfo, basicCreatorInfo } =
     useContext(creatorContext);
-  const { userPlaceOrder, checkSubscriber,getUserDetails } =
+  const { userPlaceOrder, checkSubscriber, getUserDetails } =
     useContext(userContext);
-  const {checkFBlatest} = useContext(feedbackcontext)
+  const { checkFBlatest } = useContext(feedbackcontext);
 
   const { createRazorpayClientSecret, razorpay_key, checkfororder } =
     useContext(paymentContext);
@@ -56,7 +67,7 @@ function Service(props) {
       await getallservicesusingid(id[0]);
     };
     mixpanel.track("Page Visit", {
-      user:UserDetails?UserDetails:"",
+      user: UserDetails ? UserDetails : "",
       creator: basicCdata?.slug,
     });
 
@@ -64,28 +75,37 @@ function Service(props) {
     // eslint-disable-next-line
   }, []);
 
-
-// responsible for feedback popup
+  // responsible for feedback popup
   useEffect(() => {
-    if(localStorage.getItem("jwtToken") && localStorage.getItem("isUser")==="true"){
-      getUserDetails().then((e)=>{
-        if(e.success){
-          setUserDetails(e?.user?.email)
+    if (
+      localStorage.getItem("jwtToken") &&
+      localStorage.getItem("isUser") === "true"
+    ) {
+      getUserDetails().then((e) => {
+        if (e.success) {
+          setUserDetails(e?.user?.email);
         }
-      })
-      checkFBlatest().then((fb)=>{
+      });
+      checkFBlatest().then((fb) => {
         if (fb.success) {
           getserviceusingid(fb.res.serviceID).then((service) => {
-          setFBService(service);
-          setOpenModelFB(true);
-          //alert(`Send Feedback for "${service.sname}"`)
-        });
-      }
-    })
+            setFBService(service);
+            setOpenModelFB(true);
+            //alert(`Send Feedback for "${service.sname}"`)
+          });
+        }
+      });
     }
-  }, [localStorage.getItem("jwtToken")])
+  }, [localStorage.getItem("jwtToken")]);
 
-  
+  // Social proof popup ---------------------------------------
+
+  useEffect(() => {
+    setInterval(() => {
+      setproofType((Math.floor(Math.random() * 3) + 0).toString());
+      setOpenModelProof(true);
+    }, 8500);
+  }, []);
 
   const dox1 = document.getElementById("unsubscribe");
   const dox2 = document.getElementById("subscribe");
@@ -159,7 +179,7 @@ function Service(props) {
               );
               mixpanel.track("Downloaded Paid Service", {
                 service: slug,
-                user:UserDetails?UserDetails:"",
+                user: UserDetails ? UserDetails : "",
                 amount: serviceInfo?.ssp,
                 creator: basicCdata?.slug,
               });
@@ -259,7 +279,7 @@ function Service(props) {
             );
             mixpanel.track("Downloaded Paid Service for more than once", {
               service: slug,
-              user:UserDetails?UserDetails:"",
+              user: UserDetails ? UserDetails : "",
               amount: serviceInfo?.ssp,
               creator: basicCdata?.slug,
             });
@@ -294,7 +314,7 @@ function Service(props) {
           );
           mixpanel.track("Downloaded Service", {
             service: slug,
-            user:UserDetails?UserDetails:"",
+            user: UserDetails ? UserDetails : "",
             creator: basicCdata?.slug,
           });
         } else {
@@ -322,7 +342,7 @@ function Service(props) {
     } else {
       mixpanel.track("Clicked Download Service Without Login", {
         service: slug,
-        user:UserDetails?UserDetails:"",
+        user: UserDetails ? UserDetails : "",
         creator: basicCdata?.slug,
       });
       return setOpenModel(true);
@@ -336,7 +356,7 @@ function Service(props) {
   const handleLogoClick = () => {
     mixpanel.track("Creator Page from LOGO", {
       creator: basicCdata?.slug,
-      user:UserDetails?UserDetails:"",
+      user: UserDetails ? UserDetails : "",
     });
     navigate(`/c/${basicCdata?.slug}`);
   };
@@ -344,7 +364,7 @@ function Service(props) {
   const handleServiceClick = (slug) => {
     mixpanel.track("Extra Services Clicked after login", {
       creator: basicCdata?.slug,
-      user:UserDetails?UserDetails:"",
+      user: UserDetails ? UserDetails : "",
       serviceClicked: slug,
     });
   };
@@ -366,7 +386,18 @@ function Service(props) {
           slug={FBService?.slug}
           progress={props.progress}
           id={FBService?._id}
-          UserDetails = {UserDetails ? UserDetails : ""}
+          UserDetails={UserDetails ? UserDetails : ""}
+        />
+        <Request_Modal
+          open={openModelRequest}
+          onClose={() => {
+            setOpenModelRequest(false);
+          }}
+          slug={serviceInfo?.slug}
+          progress={props.progress}
+          id={basicCdata?._id}
+          cname={basicCreatorInfo?.name}
+          UserDetails={UserDetails ? UserDetails : ""}
         />
         <Thanks
           open={openModelDownload}
@@ -376,6 +407,8 @@ function Service(props) {
           copyURL={serviceInfo?.copyURL}
           slug={serviceInfo?.slug}
           name={serviceInfo?.sname}
+          control = {setOpenModelRequest}
+          c_id = {basicCdata?._id}
         />
         <User_login
           open={openModel}
@@ -383,6 +416,16 @@ function Service(props) {
             setOpenModel(false);
           }}
         />
+        {localStorage.getItem("isUser") !== "" && <SocialProof
+          open={OpenModelProof}
+          onClose={() => {
+            setOpenModelProof(false);
+          }}
+          sid={serviceInfo?._id}
+          cid={serviceInfo?.c_id}
+          type={proofType}
+          slug={slug}
+        />}
         <div className="profile_header service_header">
           <div className="logo" onClick={handleLogoClick}>
             <img src={require("../logo.png")} alt="Logo" />
@@ -465,7 +508,7 @@ function Service(props) {
               )}
               <p className="service_sdesc">{serviceInfo?.sdesc}</p>
               <h2 className="service_h2">
-                <i class="fa-regular fa-file-lines"></i>&nbsp; Resource
+                <i className="fa-regular fa-file-lines"></i>&nbsp; Resource
                 Description
               </h2>
               <div className="service_sdesc">
@@ -475,16 +518,16 @@ function Service(props) {
                   : ""}
               </div>
             </div>
-            {services.res?.filter((e)=>e.status===1).length-1 !== 0 && localStorage.getItem("jwtToken") ? (
+            {services.res?.filter((e) => e.status === 1).length - 1 !== 0 &&
+            localStorage.getItem("jwtToken") ? (
               <div className="more_services">
                 <h2 className="service_h2">
-                  <i class="fa-solid fa-circle-info"></i>&nbsp; More Services
+                  <i className="fa-solid fa-circle-info"></i>&nbsp; More Services
                   from the Creator
                 </h2>
                 <div className="display_services_list service_list_display">
                   {services.res
-                    ?.filter((e) => e._id !== serviceInfo?._id)
-                    .map((e) => {
+                    ?.filter((e) => e._id !== serviceInfo?._id)?.sort((a,b)=>{return (b?.smrp - a?.smrp)}).map((e) => {
                       if (e.status === 1) {
                         return (
                           <a
@@ -564,12 +607,14 @@ function Service(props) {
               src={basicCdata?.photo}
               alt="creator"
               className="service_page_profile_pic"
-              onClick={(e)=>{e.preventDefault()
+              onClick={(e) => {
+                e.preventDefault();
                 mixpanel.track("Clicked Creators profile pic on service page", {
-                service: slug,
-                user:UserDetails?UserDetails:"",
-                creator: basicCdata?.slug,
-              })}}
+                  service: slug,
+                  user: UserDetails ? UserDetails : "",
+                  creator: basicCdata?.slug,
+                });
+              }}
             />
 
             <div className="serv_profile_data">
@@ -658,7 +703,7 @@ function Service(props) {
                   onClick={() => {
                     mixpanel.track("Creator Page from Card", {
                       email: "",
-                      user:UserDetails?UserDetails:"",
+                      user: UserDetails ? UserDetails : "",
                       creatorID: basicCdata?.slug,
                     });
                   }}
