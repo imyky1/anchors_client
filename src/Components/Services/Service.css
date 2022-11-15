@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 .service_list_page{
     display: flex;
     flex-direction: column;
@@ -7,6 +9,7 @@
     width: 75vw;
     height: 25vh;
     padding: 0 8px;
+    font-family: 'Roboto',sans-serif;
 }
 
 .service_list_page h2{
@@ -18,8 +21,8 @@
     width: 105%;
     background-color: #eeeeee;
     display: grid;
-    /* grid-template-columns: 5% 18% 10% 10% 12% 10% 10% 9% 9% 7%; */
-    grid-template-columns: 5% 21% 10% 10% 10% 10% 10% 10% 7% 7%;
+    grid-template-columns: 4% 17% 8% 8% 11% 10% 8% 10% 10% 7% 9%;
+    /* grid-template-columns: 5% 21% 10% 10% 10% 10% 10% 10% 7% 7%; */
     height: 63px;
     align-items: center;
     font-size: 17px;

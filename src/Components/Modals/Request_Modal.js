@@ -16,18 +16,22 @@ function Request_Modal({
 {
     const {createRequest} = useContext(feedbackcontext)
   const [requestQuery, setRequestQuery] = useState("");
+  const [amount, setAmount] = useState();
 
   const handleSubmit = (e) => {
     progress(0)
     e.preventDefault();
-    const doc1 = document.querySelectorAll(".checkbox_modal_yesno");
-    let v1 = doc1[0].checked;
-    let v2 = doc1[1].checked;
-    if (requestQuery !== "" && (v1 || v2)) {
+    //const doc1 = document.querySelectorAll(".checkbox_modal_yesno");
+    //let v1 = doc1[0].checked;
+    //let v2 = doc1[1].checked;
+    //if (requestQuery !== "" && (v1 || v2)) {
+    if (requestQuery !== "") {
       createRequest(
         id,
         requestQuery,
-        v1 ? true : false
+        //v1 ? true : false,
+        (amount === 0 || !amount) ? false : true, 
+        amount ? amount : 0
       ).then((e) => {
         if (e.success) {
           toast.success("Request Captured Successfully", {
@@ -78,8 +82,8 @@ function Request_Modal({
             onClose();
           }}
         ></i>
-        <span className="fb_span_one model_question">Request Resources</span>
-        <span className="fb_span_two">Let <b>{cname}</b> know what you want in the next document.</span>
+        <span className="fb_span_one model_question request_model_span">Request New Resources</span>
+        <span className="fb_span_two">Let {cname} know what you want in the next document.</span>
         <textarea
           type="text"
           className="request_model_box "
@@ -87,9 +91,10 @@ function Request_Modal({
           value={requestQuery}
           onChange={(e) => setRequestQuery(e.target.value)}
         />
-        <span className="fb_span_two">Will you pay for the document?</span>
+        <span className="fb_span_two">How much will you pay for the document (in INR)?</span>
         <div className="fb_span_two">
-          <span>
+          <input type="number" name="amount" id="amount" value={amount} onChange={(e)=>{setAmount(parseInt(e.target.value))}} placeholder="Ex. 99" />
+          {/* <span>
             <input
               type="checkbox"
               name="yes"
@@ -116,7 +121,7 @@ function Request_Modal({
               }}
             />
             <label htmlFor="novalue">No</label>
-          </span>
+          </span> */}
         </div>
         <div className="model_buttons request_model_button">
           <button

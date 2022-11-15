@@ -6,12 +6,16 @@ import Delete_Model from "../Modals/DeleteModel";
 import { Link,useNavigate } from "react-router-dom";
 import { Email_Model2 } from "../Modals/Email_Modal";
 import { toast } from "react-toastify";
+import { useContext } from "react";
+import { emailcontext } from "../../Context/EmailState";
 
 function ServiceDetail(props) {
+  const {checkEmailSent} =  useContext(emailcontext)   // to check for notify emails
   const navigate = useNavigate()
   const [openModel, setOpenModel] = useState(false);
   const [openModel2, setOpenModel2] = useState(false);
   const [changeStatus, setChangeStatus] = useState(1);
+  const [NotifyEmailSent,setNotifyEmailSent] = useState(false)    // false means --- Notify email not sent
   const date = Moment(props.service.date).format().split("T")[0];
   const time = Moment(props.service.date).format().split("T")[1].split("+")[0];
 
@@ -32,6 +36,14 @@ function ServiceDetail(props) {
   }, [openModel]);
 
 
+  useEffect(() => {
+    checkEmailSent(props.service._id,"Notify").then((e)=>{
+      setNotifyEmailSent(e)
+    })
+  }, [])
+  
+
+
   const handleCheckClick = () =>{
     const doc = document.getElementById(`checkbox_${props.sno}`)
     if(doc.checked){ // means now it is checked
@@ -43,6 +55,7 @@ function ServiceDetail(props) {
       setOpenModel(true)
     }
   }
+
 
   return (
     <>
@@ -60,7 +73,8 @@ function ServiceDetail(props) {
           <img className="serv_banner" src={props.service.simg} alt="..." />
         </span>
         <span className="text-center">{props.service.downloads}</span>
-        {/* <span className="serv_email" onClick={() => {setOpenModel2(true)}}><a>Notify Users</a></span> */}
+        {NotifyEmailSent ? <span>Email Sent</span> :
+        <span className="serv_email" onClick={() => {setOpenModel2(true)}}><a>Notify Users</a></span>}
         <Link to={`/s/${props.service.slug}`}>Visit here</Link>
         <span className="display_action_icons">
           {/* <div
@@ -124,6 +138,7 @@ function ServiceDetail(props) {
           setOpenModel2(false);
         }}
         creatorID={props.service.c_id}
+        serviceID={props.service._id}
         serviceName={props.service.sname}
         serviceSlug={props.service.slug}
         serviceCopyURL={props.service.copyURL}

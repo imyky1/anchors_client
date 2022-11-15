@@ -20,6 +20,8 @@ function Service(props) {
     setOpenLoading(false)
     // eslint-disable-next-line
   }, [services]);
+  
+
 
   return (
     <>
@@ -33,7 +35,7 @@ function Service(props) {
           <span>Uploaded on</span>
           <span>Image</span>
           <span>Downloads</span>
-          {/* <span>Email</span> */}
+          <span>Email</span>
           <span>Link</span>
           <span>Action</span>
           <span>Status</span>

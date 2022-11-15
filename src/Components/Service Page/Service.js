@@ -164,7 +164,22 @@ function Service(props) {
             if (success) {
               setOpenModelDownload(true);
               if (ext === "pdf") {
-                downloadFile().then(() => {});
+                downloadFile("pdf").then(() => {});
+                mixpanel.track("Downloaded paid pdf", {
+                  service: slug,
+                  user: UserDetails ? UserDetails : "",
+                  amount: serviceInfo?.ssp,
+                  creator: basicCdata?.slug
+                });
+              }
+              else if (ext === "mp4") {
+                downloadFile("mp4").then(() => {});
+                mixpanel.track("Downloaded paid pdf", {
+                  service: slug,
+                  user: UserDetails ? UserDetails : "",
+                  amount: serviceInfo?.ssp,
+                  creator: basicCdata?.slug
+                });
               } else {
                 let link = document.createElement("a");
                 link.href = serviceInfo.surl;
@@ -231,7 +246,7 @@ function Service(props) {
     document.body.appendChild(script);
   };
 
-  const downloadFile = () => {
+  const downloadFile = (type) => {
     let oReq = new XMLHttpRequest();
     let URLToPDF = serviceInfo?.surl;
     oReq.open("GET", URLToPDF, true);
@@ -245,10 +260,10 @@ function Service(props) {
 
     oReq.onload = function () {
       let file = new Blob([oReq.response], {
-        type: "application/pdf",
+        type: `application/${type}`,
       });
 
-      saveAs(file, `${serviceInfo?.sname}.pdf`);
+      saveAs(file, `${serviceInfo?.sname}.${type}`);
     };
     oReq.send();
   };
@@ -263,7 +278,22 @@ function Service(props) {
         checkfororder(serviceInfo?._id).then((e) => {
           if (e) {
             if (ext === "pdf") {
-              downloadFile();
+              downloadFile("pdf");
+              mixpanel.track("Downloaded paid pdf again", {
+                service: slug,
+                user: UserDetails ? UserDetails : "",
+                amount: serviceInfo?.ssp,
+                creator: basicCdata?.slug,
+              });
+            }
+            else if (ext === "mp4") {
+              downloadFile("mp4");
+              mixpanel.track("Downloaded paid pdf again", {
+                service: slug,
+                user: UserDetails ? UserDetails : "",
+                amount: serviceInfo?.ssp,
+                creator: basicCdata?.slug,
+              });
             } else {
               let link = document.createElement("a");
               link.href = serviceInfo.surl;
@@ -299,7 +329,20 @@ function Service(props) {
         if (success) {
           setOpenModelDownload(true);
           if (ext === "pdf") {
-            downloadFile();
+            downloadFile("pdf");
+            mixpanel.track("Downloaded pdf", {
+              service: slug,
+              user: UserDetails ? UserDetails : "",
+              creator: basicCdata?.slug,
+            });
+          }
+          else if (ext === "mp4") {
+            downloadFile("mp4");
+            mixpanel.track("Downloaded pdf", {
+              service: slug,
+              user: UserDetails ? UserDetails : "",
+              creator: basicCdata?.slug,
+            });
           } else {
             let link = document.createElement("a");
             link.href = serviceInfo.surl;
@@ -331,7 +374,9 @@ function Service(props) {
     ) {
       setPaymentProcessing(true);
       if (ext === "pdf") {
-        downloadFile();
+        downloadFile("pdf");
+      }else if (ext === "mp4") {
+        downloadFile("mp4");
       } else {
         let link = document.createElement("a");
         link.href = serviceInfo.surl;

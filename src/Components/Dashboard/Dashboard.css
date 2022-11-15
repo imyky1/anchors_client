@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:wght@500&family=Ubuntu+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 .dashboard{
     display: flex;
@@ -6,6 +6,7 @@
     align-items: center;
     justify-content: space-evenly;
     margin: 40px;
+    font-family: 'Roboto',sans-serif;
     
 }
 
@@ -24,6 +25,7 @@
 
 .user_section h1{
     font-size: 25px;
+    font-weight: 700;
 }
 
 .user_section span{
@@ -49,7 +51,7 @@
 
 
 .add_event h2{
-    font-weight: 400;
+    font-weight: 500;
     font-size: 21px;
     margin-left: -50px;
 }

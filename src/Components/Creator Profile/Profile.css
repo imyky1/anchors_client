@@ -522,6 +522,19 @@
   margin-bottom: 22px;
 }
 
+.request_amount_input{
+  border: none;
+  border-bottom: 1px solid grey;
+  margin-top: 10px;
+  font-size: 1.1rem;
+  font-family: 'Roboto',sans-serif;
+  width: 150px;
+}
+
+.request_amount_input:focus{
+  outline: none;
+}
+
 .selection span{
   margin-right: 15px;
   font-size: 1.2rem;
@@ -814,6 +827,10 @@
       width: 85%;
       min-height: 25vh;
       padding: 20px;
+    }
+
+    .request_amount_input{
+      font-size: 0.9rem;
     }
 
     .request_query_section button{

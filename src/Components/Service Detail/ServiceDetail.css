@@ -1,8 +1,8 @@
 .serv_details{
     width: 99%;
     display: grid;
-    /* grid-template-columns: 5% 18% 10% 10% 12% 10% 10% 9% 9% 7%; */
-    grid-template-columns: 4% 22% 10% 10% 10% 10% 10% 10% 7% 9%;
+    grid-template-columns: 4% 17% 8% 8% 11% 10% 8% 10% 10% 7% 10%;
+    /* grid-template-columns: 4% 22% 10% 10% 10% 10% 10% 10% 7% 9%; */
     height: 63px;
     align-items: center;
     font-size: 17px;

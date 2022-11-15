@@ -282,13 +282,13 @@ function Create(props) {
               />
 
               <label htmlFor="sdoc" className="entry_labels">
-                Document ( supported .pdf only) <small>*</small>
+                Document ( supports all formats) <small>*</small>
               </label>
               <input
                 type="text"
                 name="sdoc"
                 id="sdoc"
-                accept="application/pdf"
+                //accept="application/pdf"
                 placeholder="Upload file..."
                 onFocus={(e) => {
                   e.target.type = "file";

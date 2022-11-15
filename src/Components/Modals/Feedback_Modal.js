@@ -64,18 +64,18 @@ function Feedback_Modal({open, onClose, name,slug,progress,id,UserDetails}) {
   }
 
     const handleratingclick = (e) => {
-      if (document.getElementById(`${e.target.id}`).style.color !== "red") {
+      if (document.getElementById(`${e.target.id}`).style.color !== "darkorange") {
         for (let index = e.target.id; index > 0; index--) {
-          document.getElementById(`${index}`).style.color = "red";
+          document.getElementById(`${index}`).style.color = "darkorange";
         }
         for (let index = e.target.id + 1; index < 6; index++) {
-          document.getElementById(`${index}`).style.color = "#afacacd4";
+          document.getElementById(`${index}`).style.color = "rgb(215, 214, 214)";
         }
         let temp = e.target.id;
         setrating(temp);
       } else {
         for (let index = 1; index < 6; index++) {
-          document.getElementById(`${index}`).style.color = "#afacacd4";
+          document.getElementById(`${index}`).style.color = "rgb(215, 214, 214)";
         }
         let temp = 0;
         setrating(temp);
@@ -95,7 +95,7 @@ function Feedback_Modal({open, onClose, name,slug,progress,id,UserDetails}) {
     })
           onClose()}}></i>
         <span className="fb_span_one model_question">
-          Did you Like<br/> "<b>{name}</b>"
+          Did you Like<br/> <b style={{color:"red"}}>{name}</b>
         </span>
         {/* <span className="fb_span_two model_gyan">
           Share your valuable feedback for Service - <b>{name}</b> with other users.

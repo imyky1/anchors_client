@@ -1,22 +1,18 @@
+.main_feedback_box{
+  width: 100vw;
+  min-height: 100vh;
+  height: max-content;
+  background-color: #a7a8aa;
+}
+
 
 .design_box{
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  margin-top: 30px;
-  width: 100%;
+  width: 100vw;
 }
 
-
-.design_box img{
-  width: 25rem;
-  height: 25rem;
-  transform: rotate(20deg);
-  position: absolute;
-  top: 40px;
-  left: 20px;
-  z-index: -9;
-}
 
 .rating {
   display: flex;
@@ -24,18 +20,17 @@
   z-index: 999;
   justify-content: space-between;
   align-items: center;
-  width: 60%;
+  width: 53%;
   text-align: center;
   padding: 15px 0;
   margin-top: 30px;
   border-radius: 10px;
-  /* background-color: rgba(238, 237, 237, 0.437); */
   background-color: white;
-  border: 2px solid rgba(128, 128, 128, 0.616);
 }
 
 .rating h1 {
-  font-size: 35px;
+  font-family: 'Roboto',sans-serif;
+  font-size: 25px;
 }
 
 .rating h1 span{
@@ -47,21 +42,28 @@
   justify-content: space-between;
   align-items: center;
   width: 25vw;
-  margin: 7vh 0;
+  margin: 6vh 0;
 }
 
 .stars i {
-  color: grey;
+  font-weight: normal;
+  color: rgb(215, 214, 214);
+  cursor: pointer;
 }
 
 .rating textarea {
   resize: none;
   padding: 20px;
-  width: 48vw;
-  min-height: 25vh;
-  border: 3px solid black;
+  width: 42vw;
+  min-height: 15vh;
+  border: 1px solid rgb(226, 226, 226);
   font-size: 1.1rem;
+  font-family: 'Roboto',sans-serif;
   border-radius: 5px;
+}
+
+.rating textarea:focus{
+  outline: none;
 }
 
 .submit {
@@ -87,45 +89,35 @@
   .design_box{
     /* background-color: red; */
     height: max-content;
-    margin-top: 60px;
-  }
-
-  .design_box img{
-    width: 10rem;
-    height: 10rem;
-    top: 55px;
-    left: -20px;
-    transform: rotate(30deg);
-    
-    
+    margin-top: 0px;
   }
 
   .rating{
-    width: 85%;
+    width: 90%;
   }
 
   .rating h1{
-      font-size: 1.4rem;
+      font-size: 1.2rem;
+      line-height: 26px;
       text-align: center;
   }
 
     .rating textarea{
-      width: 70%;
-      font-size: 1rem;
-      min-height: 17vh !important;
+      width: 75%;
+      font-size: 0.9rem;
     }
 
     .stars{
-        width: 70%;
+        width: 77%;
+        margin-left: 0;
     }
 
     .stars i{
       width: 20px;
+      font-size: 1.7rem;
     }
 
-    /* .submit{
-      position: sticky;
-      bottom: 25px;
-      width: 80vw;
-    } */
+    .submit{
+      font-size: 1.1rem;
+    }
 }

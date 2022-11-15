@@ -29,6 +29,7 @@ function Profile(props) {
   const { slug } = useParams();
   const [openModel, setOpenModel] = useState(false);
   const [willPay, setwillPay] = useState();
+  const [amount, setAmount] = useState();
   const [requestQuery, setRequestQuery] = useState("");
   const [UserDetails, setUserDetails] = useState();
 
@@ -126,8 +127,6 @@ function Profile(props) {
     localStorage.setItem("url", location.pathname);
   }
 
-  
-
   const handledropdown = () => {
     document.querySelector(".user_logout").style.display !== "none"
       ? (document.querySelector(".user_logout").style.display = "none")
@@ -200,26 +199,48 @@ function Profile(props) {
 
   const handleRequestClick = (e) => {
     e.preventDefault();
-    const doc1 = document.querySelectorAll(".checkbox_yesno")
-    let v1 = doc1[0].checked
-    let v2 = doc1[1].checked
+    //const doc1 = document.querySelectorAll(".checkbox_yesno")
+    //let v1 = doc1[0].checked
+    //let v2 = doc1[1].checked
     if (
       localStorage.getItem("jwtToken") &&
       localStorage.getItem("isUser") === "true"
     ) {
-      if (requestQuery !== "" && (v1 || v2) ) {
-        createRequest(basicCreatorInfo?.creatorID, requestQuery,v1?true:false).then((e) => {
+      //if (requestQuery !== "" && (v1 || v2) ) {
+      if (requestQuery !== "") {
+        createRequest(
+          basicCreatorInfo?.creatorID,
+          requestQuery, 
+          //v1 ? true : false,
+          amount === 0 || !amount ? false : true,
+          amount ? amount : 0
+        ).then((e) => {
           if (e.success) {
-            alert("Request Captured Successfully");
+            toast.success("Request Captured Successfully", {
+              position: "bottom-center",
+              autoClose: 2500,
+            });
             setRequestQuery("");
+            setAmount("")
           } else if (e.already) {
-            alert("You had already passed a request to the creator");
+            toast.info("You had already passed a request to the creator", {
+              position: "bottom-center",
+              autoClose: 2500,
+            });
+            setRequestQuery("");
+            setAmount("")
           } else {
-            alert("Some error occured, try again after some time!!");
+            toast.error("Some error occured, try again after some time!!", {
+              position: "bottom-center",
+              autoClose: 2500,
+            });
           }
         });
       } else {
-        alert("Please fill the request field");
+        toast.error("Please fill the mandatory fields", {
+          position: "bottom-center",
+          autoClose: 2500,
+        });
       }
     } else {
       setOpenModel(true);
@@ -546,11 +567,21 @@ function Profile(props) {
 
             <div className="user_comments_lists" ref={reviews} id="reviews">
               <div className="review_header">
-              <h2 className="headers_tag">Resources Reviews</h2>
-              <p className="slide_button">
-                <span><i className="fa-solid fa-angle-left fa-xl" id="prev_slide_button"></i></span>
-                <span><i className="fa-solid fa-angle-right fa-xl" id="next_slide_button"></i></span>
-              </p>
+                <h2 className="headers_tag">Resources Reviews</h2>
+                <p className="slide_button">
+                  <span>
+                    <i
+                      className="fa-solid fa-angle-left fa-xl"
+                      id="prev_slide_button"
+                    ></i>
+                  </span>
+                  <span>
+                    <i
+                      className="fa-solid fa-angle-right fa-xl"
+                      id="next_slide_button"
+                    ></i>
+                  </span>
+                </p>
               </div>
               <Swiper
                 slidesPerView={
@@ -563,15 +594,19 @@ function Profile(props) {
                 //  delay: 3000,
                 //  disableOnInteraction: false,
                 //}}
-                loop={feedbacks?.filter((e) => e.status === 1).length > 3 ? true : false}
+                loop={
+                  feedbacks?.filter((e) => e.status === 1).length > 3
+                    ? true
+                    : false
+                }
                 pagination={{
                   dynamicBullets: true,
                 }}
                 navigation={{
-                  nextEl:"#next_slide_button",
-                  prevEl:"#prev_slide_button"
+                  nextEl: "#next_slide_button",
+                  prevEl: "#prev_slide_button",
                 }}
-                modules={[ Pagination,Navigation]}
+                modules={[Pagination, Navigation]}
                 className="mySwiper"
               >
                 {feedbacks?.filter((e) => e.status === 1).length !== 0 ? (
@@ -588,13 +623,22 @@ function Profile(props) {
                                 className="user_profile_pic"
                               />
                               <span className="review_name_stars">
-                              <span className="user_name">{e2?.name ? (e2?.name.length > 15 ? e2?.name.slice(0,15) + ".." : e2?.name ) : "--"}</span>
-                              <span className="review_stars">
-                              {Array(e2?.rating).fill('a')?.map((e,i)=>{ 
-                                return <i className="fa-solid fa-star"></i>
-                                })}
-      
-                              </span>
+                                <span className="user_name">
+                                  {e2?.name
+                                    ? e2?.name.length > 15
+                                      ? e2?.name.slice(0, 15) + ".."
+                                      : e2?.name
+                                    : "--"}
+                                </span>
+                                <span className="review_stars">
+                                  {Array(e2?.rating)
+                                    .fill("a")
+                                    ?.map((e, i) => {
+                                      return (
+                                        <i className="fa-solid fa-star"></i>
+                                      );
+                                    })}
+                                </span>
                               </span>
                             </section>
                             <p className="fb_desc">{e2?.desc}</p>
@@ -610,14 +654,14 @@ function Profile(props) {
 
             <div className="request_query_section" ref={requests} id="request">
               <div>
-            <h2 className="headers_tag">Request New Resources</h2>
-            <span className="span_t1">
-              you can request for any other resource
-            </span>
-                </div>
+                <h2 className="headers_tag">Request New Resources</h2>
+                <span className="span_t1">
+                  you can request for any other resource
+                </span>
+              </div>
               <span>
-                Let {basicCreatorInfo?.name} know what you want in the
-                 next document.
+                Let {basicCreatorInfo?.name} know what you want in the next
+                document.
               </span>
               <textarea
                 type="text"
@@ -625,16 +669,27 @@ function Profile(props) {
                 value={requestQuery}
                 onChange={(e) => setRequestQuery(e.target.value)}
               />
-              <span>Will you pay for the document?</span>
+              <span>How much will you pay for the document (in INR)?</span>
               <div className="selection">
-                <span>
+                <input
+                  type="number"
+                  className="request_amount_input"
+                  name="amount"
+                  id="amount"
+                  value={amount}
+                  onChange={(e) => {
+                    setAmount(parseInt(e.target.value));
+                  }}
+                  placeholder="Ex. 99"
+                />
+                {/* <span>
                   <input type="checkbox" name="yes" id="yesvalue" className="checkbox_yesno" onClick={()=>{document.querySelectorAll(".checkbox_yesno")[1].checked = false}}/>
                   <label htmlFor="yesvalue">Yes</label>
                 </span>
                 <span>
                   <input type="checkbox" name="yes" id="novalue" className="checkbox_yesno" onClick={()=>{document.querySelectorAll(".checkbox_yesno")[0].checked = false}}/>
                   <label htmlFor="novalue">No</label>
-                </span>
+                </span> */}
               </div>
               <button className="submit_request" onClick={handleRequestClick}>
                 Submit

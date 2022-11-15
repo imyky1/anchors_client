@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 .subscriber_list_page {
   display: flex;
   flex-direction: column;
@@ -6,6 +8,7 @@
   margin: 39px;
   width: 70vw;
   height: 42vh;
+  font-family: 'Roboto',sans-serif;
 }
 
 .subscriber_list_page h2 {

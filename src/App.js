@@ -24,6 +24,7 @@ import Login from "./Developers/Login/Login";
 import PaymentState from "./Context/PaymentState";
 import Redirect_serv from "./Components/Redirect_serv";
 import Test from "./Components/Editor/Test";
+import EmailState from "./Context/EmailState";
 
 
 
@@ -45,7 +46,8 @@ function App() {
     <ServiceState>
        <CreatorState>
         <PaymentState>
-         <UserState> 
+         <UserState>
+          <EmailState>
           <FeedbackState>
          <LoadingBar
         color='#f11946'
@@ -75,6 +77,7 @@ function App() {
         </Routes>
 
         </FeedbackState>
+        </EmailState> 
      </UserState> 
      </PaymentState> 
        </CreatorState> 

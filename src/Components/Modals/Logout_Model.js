@@ -2,6 +2,7 @@ import React ,{useState}from "react";
 import "./Model.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import mixpanel from "mixpanel-browser";
 
 
 function Logout_Model() {
@@ -20,10 +21,12 @@ function Logout_Model() {
         navigate("/")     
       }
       else{
+        mixpanel.track("Clicked Logout By User")
         localStorage.removeItem("isUser")
         localStorage.removeItem("jwtToken")      
         localStorage.removeItem("from") 
         localStorage.removeItem("user") 
+        mixpanel.reset()
         navigate(localStorage.getItem("url"))     
       }
       toast.success("Logged Out successfully", {

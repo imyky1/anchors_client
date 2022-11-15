@@ -2,6 +2,7 @@ import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { host } from "../config/config";
 import { toast } from "react-toastify";
+import mixpanel from "mixpanel-browser";
 
 export const linkedinContext = createContext();
 
@@ -249,8 +250,18 @@ const LinkedinState = (props) => {
     localStorage.removeItem("from");
     const res = await response.json();
     if (res.success) {
+      if(!res.already){
+        mixpanel.alias(email)
+        mixpanel.people.set_once({
+          "Type":"user",
+          "$first_name":name.split(" ")[0],
+          "$last_name":name.split(" ")[1],
+          "$email":email
+        })
+      }
       localStorage.setItem("isUser", true);
       localStorage.setItem("jwtToken", res.jwtToken);
+      mixpanel.identify(email)
       navigate(localStorage.getItem("url"));
       
     } else {

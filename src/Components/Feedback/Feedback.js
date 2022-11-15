@@ -75,18 +75,18 @@ function Feedback(props) {
   };
 
   const handleratingclick = (e) => {
-    if (document.getElementById(`${e.target.id}`).style.color !== "black") {
+    if (document.getElementById(`${e.target.id}`).style.color !== "darkorange") {
       for (let index = e.target.id; index > 0; index--) {
-        document.getElementById(`${index}`).style.color = "black";
+        document.getElementById(`${index}`).style.color = "darkorange";
       }
       for (let index = e.target.id + 1; index < 6; index++) {
-        document.getElementById(`${index}`).style.color = "grey";
+        document.getElementById(`${index}`).style.color = "rgb(215, 214, 214)";
       }
       let temp = e.target.id;
       setrating(temp);
     } else {
       for (let index = 1; index < 6; index++) {
-        document.getElementById(`${index}`).style.color = "grey";
+        document.getElementById(`${index}`).style.color = "rgb(215, 214, 214)";
       }
       let temp = 0;
       setrating(temp);
@@ -160,7 +160,7 @@ function Feedback(props) {
 
   if (localStorage.getItem("isUser") === "") {
     const con = window.confirm(
-      "Feedbacking is a user action,Are you sure you want to logout as creator?"
+      "Feedbacking is an user action,Are you sure you want to logout as creator?"
     );
     if (con) {
       window.open("/logout", "_self");
@@ -177,6 +177,7 @@ function Feedback(props) {
           setOpenModel(false);
         }}
       />
+      <div className="main_feedback_box">
       <div className="profile_header" style={{ border: "none" }}>
         <div className="logo">
           <img src={require("../logo.png")} alt="Logo" />
@@ -236,8 +237,8 @@ function Feedback(props) {
           </div>
         )}
       </div>
+      
       <div className="design_box">
-              <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQGZ7Rv1YVqmvKnb6tiJWg8nM14Khz86StqNTT6a6Lqvnu4Ps72" alt="" />
       <div className="rating">
         <h1>Please tell us your experience with <br/><span>{service?.sname}</span></h1>
         {/* <img src={service?.simg} alt="" className="service_section_image"/> */}
@@ -281,6 +282,7 @@ function Feedback(props) {
         </button>
       </div>
          
+      </div>
       </div>
 
       <ToastContainer />

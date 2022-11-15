@@ -26,6 +26,7 @@ function SocialProof({ open, onClose, sid, cid, type, slug }) {
         }
       });
     }
+    // eslint-disable-next-line
   }, [sid]);
 
   useEffect(() => {
@@ -34,23 +35,29 @@ function SocialProof({ open, onClose, sid, cid, type, slug }) {
         setrating(e);
       });
     }
+    // eslint-disable-next-line
   }, [cid]);
 
   useEffect(() => {
     setTimeout(() => {
       onClose();
     }, 3200);
+
+    // eslint-disable-next-line
   }, [open]);
 
   useEffect(() => {
     if (downloads < 40) {
       setDownloads(parseInt(downloads) + 55);
     }
+
+    // eslint-disable-next-line
   }, [downloads]);
 
   if (!open) {
     return null;
   }
+
 
   return (
     <>
@@ -60,23 +67,24 @@ function SocialProof({ open, onClose, sid, cid, type, slug }) {
         </span>
         <div className="proof_box_content">
           <p>
-            <span>
-              {type === "1" ||
-              User?.name?.length === 0 ||
-              rating?.length === 0 ? (
+            <span>  
+              {/* here we used many cases to display various data available on social proofs */}
+              {type === "1" ? (
                 downloads
               ) : type === "2" ? (
-                rating
+                rating !== "NaN" ? rating : downloads
               ) : (
-                <img className="proof_user_name" src={User?.photo} />
+                User?.name?.length !== 0 ?
+                <img className="proof_user_name" src={User?.photo} /> : downloads
               )}{" "}
             </span>
             &nbsp;
             {type === "1" ? (
               "+ downloads in the last hour"
-            ) : type === "2" ? (
-              "/ 5 is creator's average rating"
+            ) : type === "2" ?  (
+              rating !== "NaN" ? "/ 5 is creator's average rating" : "+ downloads in the last hour"
             ) : (
+              User?.name?.length !== 0 ?
               <>
                 <span>
                   {User?.name.length > 15
@@ -84,7 +92,7 @@ function SocialProof({ open, onClose, sid, cid, type, slug }) {
                     : User?.name}
                 </span>
                 &nbsp; downloaded service recently
-              </>
+              </> : "+ downloads in the last hour"
             )}
           </p>
           <i
