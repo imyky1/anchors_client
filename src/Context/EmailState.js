@@ -77,8 +77,26 @@ const EmailState = (props) => {
     return json.success
 }
 
+
+const sendBulkEmailFromBackend = async(serviceID,recievers, sname, cname, serviceSlug, imageurl, Subject,Content)=>{
+  const token = localStorage.getItem("jwtToken")
+  const response = await fetch(`${host}/api/email/sendBulkEmailFromBackend/${serviceID}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
+      },
+      body:JSON.stringify({
+        recievers, sname, cname, serviceSlug, imageurl, Subject,Content,token
+      })
+})
+  const json = await response.json()
+  return json.success
+}
+
   return (
-    <emailcontext.Provider value={{ saveEmailData,sendEmail,checkEmailSent }}>
+    <emailcontext.Provider value={{ saveEmailData,sendEmail,checkEmailSent,sendBulkEmailFromBackend }}>
       {props.children}
     </emailcontext.Provider>
   );

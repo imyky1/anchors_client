@@ -149,25 +149,20 @@ function Email_Model_Two({
   serviceCopyURL,
   serviceBanner,
 }) {
-  
-  const {
-    getAllSubscribers,
-    allSubscribers,
-    basicNav
-  } = useContext(creatorContext);
-  
-  const { saveEmailData, sendEmail } = useContext(emailcontext);
+  const { getAllSubscribers, allSubscribers, basicNav } =
+    useContext(creatorContext);
+
+  const { saveEmailData, sendEmail,sendBulkEmailFromBackend } = useContext(emailcontext);
 
   useEffect(() => {
-    if(document.querySelector(".mail_content")){
-      document.querySelector(".mail_content").innerHTML=Content
+    if (document.querySelector(".mail_content")) {
+      document.querySelector(".mail_content").innerHTML = Content;
     }
-  }, [open])
+  }, [open]);
 
   useEffect(() => {
     getAllSubscribers();
   }, [creatorID]);
-
 
   const getUserMails = async () => {
     const subsData = await getAllSubscribers();
@@ -200,32 +195,18 @@ function Email_Model_Two({
       creatorName: basicNav?.name,
     });
     const userMails = await getUserMails();
-    const items = 14; // no of items allowed by ses to email
+    //const items = 50; // no of items allowed to email
     if (userMails) {
-      const success = await sendEmail(
-        userMails,
-        serviceName,
-        serviceCopyURL
-          ? `https://www.anchors.in/r/${serviceCopyURL}?utm_source=email_notify&utm_medium=email&utm_campaign={${serviceName}}`
-          : `https://www.anchors.in/s/${serviceSlug}?utm_source=email_notify&utm_medium=email&utm_campaign={${serviceName}}`,
-        serviceBanner,
-        basicNav?.name ? basicNav?.name : "Anchors"
-      );
-      if (success[0].statusCode === 202) {
-        await saveEmailData(
-          serviceID,
-          Subject,
-          Content,
-          success[0].headers["x-message-id"],
-          "Notify",
+      toast.info(
+        `Sending Mail in Progress, it may take up to ${parseInt(
           userMails.length
-        );
-        toast.success("Email Sent Successfully", {
-          position: "top-center",
-          autoClose: 2000,
-        });
-      }
+        )} seconds, and once it is sent you would be notice it in your services list section.`,
+        { position: "top-center", autoClose: 5000 }
+      );
+
+      await sendBulkEmailFromBackend(serviceID,userMails,serviceName,basicNav?.name ? basicNav?.name : "Anchors",serviceSlug,serviceBanner,Subject,Content)
       //const temp = [];
+      //var messageID = []
       //const numberOfMails =
       //  userMails?.length % items === 0
       //    ? parseInt(userMails?.length / items)
@@ -233,23 +214,53 @@ function Email_Model_Two({
       //for (let i = 0; i < numberOfMails; i++) {
       //  temp.push(userMails.slice(items * i, items * i + items));
       //}
-      //
+
+
       //for (let index = 0; index < temp.length; index++) {
-      //  setTimeout(async () => {
-      //    await sendMail(temp[index]);
-      //  }, 1000);
+      //  (function (index) {
+      //    setTimeout(async () => {
+      //      var success = await sendEmail(
+      //        temp[index],
+      //        serviceName,
+      //        serviceCopyURL
+      //          ? `https://www.anchors.in/r/${serviceCopyURL}?utm_source=email_notify&utm_medium=email&utm_campaign={${serviceName}}`
+      //          : `https://www.anchors.in/s/${serviceSlug}?utm_source=email_notify&utm_medium=email&utm_campaign={${serviceName}}`,
+      //        serviceBanner,
+      //        basicNav?.name ? basicNav?.name : "Anchors"
+      //      );
+      //      messageID.push(success[0].headers["x-message-id"]);
+      //    }, 1000 * index);
+      //  })(index);
       //}
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+
+      //setTimeout(() => {
+      //  saveEmailData(
+      //    serviceID,
+      //    Subject,
+      //    Content,
+      //    messageID,
+      //    "Notify",
+      //    userMails.length
+      //  );
+      //  toast.success("Email Sent Successfully", {
+      //    position: "top-center",
+      //    autoClose: 2000,
+      //  });
+      setsending(false);
+      onClose();
+      //}, temp.length * 1000);
+//
+      //setTimeout(() => {
+       // window.location.reload();
+      //}, temp.length * 1000 + 2000);
     } else {
       toast.info("No Subscribers", {
         position: "top-center",
         autoClose: 2000,
       });
+      setsending(false);
     }
     progress(100);
-    setsending(false);
   };
 
   if (!open) {
@@ -285,7 +296,7 @@ function Email_Model_Two({
               <label htmlFor="contentEmail" className="entry_labels">
                 Mail Content
               </label>
-                <div className="mail_content"></div>
+              <div className="mail_content"></div>
               {/* <div className="editorinemail">
                 <ReactEditor
                   readOnly={false}
@@ -308,7 +319,7 @@ function Email_Model_Two({
             </button>
           </div>
         </div>
-      </div>
+        </div>
       <ToastContainer />
     </>
   );
