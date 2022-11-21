@@ -126,12 +126,25 @@ const FeedbackState = ( props ) => {
         }
     }
 
+    const getallfb = async () =>{
+        const response = await fetch(`${host}/api/feedback/getallfb` , {
+            method: "GET",
+        })
+        const json = await response.json()
+        if(json.success){
+            return json.feedbacks;
+        }
+        else{
+            return json.success
+        }
+    }
+
 
 
 
     
     return (
-        <feedbackcontext.Provider value={{ checkRequest,getRatingCreator,feedbacks,checkFB, createFeedback,getallfeedback,createRequest,checkFBlatest }} >
+        <feedbackcontext.Provider value={{ checkRequest,getallfb,getRatingCreator,feedbacks,checkFB, createFeedback,getallfeedback,createRequest,checkFBlatest }} >
         {props.children}
     </feedbackcontext.Provider>
   )

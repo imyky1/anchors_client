@@ -34,7 +34,7 @@ function Creators_login() {
   return (
     <div className="creator_login">
       <div className="creator_login_header">
-      <div className="logo">
+      <div className="logo_loginPage">
           <img src={require("../../logo.png")} alt="Logo" />
           <span>anchors</span>
           </div>

@@ -18,22 +18,22 @@
   align-items: center;
 }
 
-.logo {
+.logo_loginPage{
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: max-content;
-  margin-top: 2vh;
+  /* margin-top: 0vh; */
   margin-left: 4vw;
 }
 
-.logo img {
+.logo_loginPage img {
   width: 1.9rem;
   height: 1.9rem;
   margin-right: 12px;
 }
 
-.logo span {
+.logo_loginPage span {
   font-family: "Roboto", sans-serif !important;
   font-size: 2rem;
   font-weight: 400;
