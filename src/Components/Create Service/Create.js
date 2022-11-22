@@ -302,7 +302,7 @@ function Create(props) {
                     <div className="tag" key={index}>
                       <span>{tag}</span>
                       <i
-                        class="fa-solid fa-circle-xmark"
+                        className="fa-solid fa-circle-xmark"
                         onClick={() => removeTag(index)}
                       ></i>
                     </div>

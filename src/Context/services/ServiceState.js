@@ -4,8 +4,9 @@ import { host } from "../../config/config";
 
 const ServiceState = (props) => {
   const servicesInitial = []; // this state is being passed as value to the notestate
-
+  const workshopInitial = [];
   const [services, setServices] = useState(servicesInitial);
+  const [workshops, setWorkshops] = useState(workshopInitial);
   const [serviceInfo, setServiceInfo] = useState(servicesInitial);
   const [slugCount, setSlugCount] = useState(0);
 
@@ -277,7 +278,9 @@ const ServiceState = (props) => {
     startDate,
     time,
     afterstartentry,
-    maxCapacity
+    maxCapacity,
+    svideo,
+    meetlink
   ) => {
     const response = await fetch(`${host}/api/workshop/createworkshop`, {
       method: "POST",
@@ -303,10 +306,76 @@ const ServiceState = (props) => {
         time: time,
         afterstartentry: afterstartentry,
         maxCapacity: maxCapacity,
+        svideo: svideo,
+        meetlink: meetlink,
       }),
     });
     const json = await response.json();
     return json;
+  };
+
+  // 1. Getting all the services for the respective creator
+  const getallworkshops = async () => {
+    const response = await fetch(`${host}/api/workshop/getallworkshop`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
+    });
+    const json = await response.json();
+    if (json.success) {
+      setWorkshops(json);
+    } else {
+      console.log("Some error Occured");
+    }
+  };
+
+  // Update the service
+  const updateWorkshop = async (id, data) => {
+    const response = await fetch(`${host}/api/workshop/updateworkshop/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
+      body: JSON.stringify({
+        sname: data.sname,
+        sdesc: data.sdesc,
+        ldesc: data.ldesc,
+        isPaid: data.isPaid,
+        smrp: data.smrp,
+        ssp: data.ssp,
+        simg: data.simg,
+        surl: data.surl,
+        tags: data.tags,
+        startDate: data.startDate,
+        time: data.time,
+        afterstartentry: data.afterstartentry,
+        maxCapacity: data.maxCapacity,
+        svideo: data.svideo,
+        meetlink: data.meetlink,
+      }),
+    });
+    const json = await response.json();
+    return json.success;
+  };
+
+  //  2. Getting all the services for the respective creator
+  const getallworkshopsusingid = async (c_id) => {
+    const response = await fetch(`${host}/api/workshop/getallworkshopusingid`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: c_id }),
+    });
+    const json = await response.json();
+    if (json.success) {
+      setWorkshops(json);
+    } else {
+      console.log("Some error Occured");
+    }
   };
 
   return (
@@ -321,6 +390,7 @@ const ServiceState = (props) => {
         serviceInfo,
         services,
         slugCount,
+        workshops,
         getserviceusingid,
         getallservicesusingid,
         getallservices,
@@ -330,6 +400,9 @@ const ServiceState = (props) => {
         getserviceinfo,
         getslugcount,
         addworkshop,
+        getallworkshops,
+        updateWorkshop,
+        getallworkshopsusingid,
       }}
     >
       {" "}

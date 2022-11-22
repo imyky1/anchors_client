@@ -83,10 +83,11 @@
 
 .input_split{ 
     display: flex !important;
+    gap: 5px;
 }
 
 .input_split{
-    max-width: 507px !important;
+    max-width: 505px !important;
 }
 
 .left_entry_box input{

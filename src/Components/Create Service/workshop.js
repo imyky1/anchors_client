@@ -33,6 +33,8 @@ function Workshop(props) {
     ssp: 0,
     startDate: "",
     maxCapacity: -1,
+    svideo: "",
+    meetlink: "",
   });
   // usestate for afterstartentry
   const [afterstartentry, setAfterStartEntry] = useState({
@@ -190,9 +192,6 @@ function Workshop(props) {
       return false;
     }
   };
-  if (datevalidator() && timevalidator()) {
-    console.log("wow");
-  }
 
   // Submit of form create the service ------------------------------------------------------------
   const handleSubmit = async (e) => {
@@ -231,7 +230,9 @@ function Workshop(props) {
             data.startDate,
             time,
             afterstartentry,
-            data.maxCapacity
+            data.maxCapacity,
+            data.svideo,
+            data.meetlink
           );
           if (json.success) {
             setdata({
@@ -242,7 +243,9 @@ function Workshop(props) {
               ssp: 0,
               sbanner: "",
               startDate: "",
-              maxCapacity: 50,
+              maxCapacity: -1,
+              svideo: "",
+              meetlink: "",
             });
             setTime({ startTime: "", endTime: "" });
             setOpenLoading(false);
@@ -316,7 +319,7 @@ function Workshop(props) {
                 placeholder="Please catchy line to download..."
               />
               <label htmlFor="sbanner" className="entry_labels">
-                Banner Image/Intro Video <small>*</small>
+                Banner Image <small>*</small>
               </label>
               <input
                 type="text"
@@ -344,10 +347,6 @@ function Workshop(props) {
               />
               <label htmlFor="startTime" className="time_entry entry_labels">
                 Time <small>*</small>
-                <h6>
-                  Start Date &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
-                  &emsp;End Date
-                </h6>
               </label>
               <section className="input_split">
                 <input
@@ -373,33 +372,63 @@ function Workshop(props) {
                   onChange={handleChangetime}
                 />
               </section>
-
-              <label htmlFor="stags" className="entry_labels">
-                Tags(Write a tag and press Enter)
+              <label htmlFor="meetlink" className="entry_labels">
+                Meeting Link (Meet/Zoom link) <small>*</small>
               </label>
-              <div className="tag-container">
-                {tags?.map((tag, index) => {
-                  return (
-                    <div className="tag" key={index}>
-                      <span>{tag}</span>
-                      <i
-                        class="fa-solid fa-circle-xmark"
-                        onClick={() => removeTag(index)}
-                      ></i>
-                    </div>
-                  );
-                })}
-                <input
-                  type="text"
-                  onKeyDown={handleKeyDown}
-                  name="stags"
-                  id="stags"
-                  placeholder="Type tags..."
-                />
-              </div>
+              <input
+                type="text"
+                name="meetlink"
+                id="meetlink"
+                onChange={handleChange}
+                value={data.meetlink}
+                placeholder="Please Paste zoom/meet link here.."
+              />
+
+              {paid === "free" ? (
+                ""
+              ) : (
+                <>
+                  <label htmlFor="stags" className="entry_labels">
+                    Tags(Write a tag and press Enter)
+                  </label>
+                  <div className="tag-container">
+                    {tags?.map((tag, index) => {
+                      return (
+                        <div className="tag" key={index}>
+                          <span>{tag}</span>
+                          <i
+                            className="fa-solid fa-circle-xmark"
+                            onClick={() => removeTag(index)}
+                          ></i>
+                        </div>
+                      );
+                    })}
+                    <input
+                      type="text"
+                      onKeyDown={handleKeyDown}
+                      name="stags"
+                      id="stags"
+                      placeholder="Type tags..."
+                    />
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="right_entry_box">
+              <label htmlFor="svideo" className="entry_labels">
+                Intro Video
+              </label>
+              <input
+                type="text"
+                name="svideo"
+                id="svideo"
+                placeholder="Upload file..."
+                onFocus={(e) => {
+                  e.target.type = "text";
+                }}
+                onChange={handleChange}
+              />
               <label htmlFor="stype" className="entry_labels">
                 Service Type <small>*</small>
               </label>
@@ -470,10 +499,44 @@ function Workshop(props) {
                 <option value="250">250</option>
                 <option value="500">500</option>
               </select>
+              {paid !== "free" ? (
+                ""
+              ) : (
+                <>
+                  <label htmlFor="stags" className="entry_labels">
+                    Tags(Write a tag and press Enter)
+                  </label>
+                  <div className="tag-container">
+                    {tags?.map((tag, index) => {
+                      return (
+                        <div className="tag" key={index}>
+                          <span>{tag}</span>
+                          <i
+                            class="fa-solid fa-circle-xmark"
+                            onClick={() => removeTag(index)}
+                          ></i>
+                        </div>
+                      );
+                    })}
+                    <input
+                      type="text"
+                      onKeyDown={handleKeyDown}
+                      name="stags"
+                      id="stags"
+                      placeholder="Type tags..."
+                    />
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </form>
-        <label htmlFor="ldesc" className="editor_entry_labels">
+        <label
+          htmlFor="ldesc"
+          className={`editor_entry_labels ${
+            paid === "free" ? "" : "add-margin-top"
+          }`}
+        >
           Long Description <small>*</small>
         </label>
         <Editor
