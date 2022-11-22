@@ -1,0 +1,26 @@
+
+
+.toggle_bar{
+    display: flex;
+    margin-left: 2%;
+    margin-top: 5%;
+}
+.button1_togglebar{
+    margin-right: 2%;
+    border: 2px solid black;
+    border-radius: 25px;
+    padding: 10px 15px 10px 15px;
+    cursor: pointer;
+}
+.button2_togglebar {
+    border: 2px solid black;
+    border-radius: 25px;
+    padding: 10px 40px 10px 40px;
+    cursor: pointer;
+}
+
+.red_border{
+    border: 2px solid red;
+    background-color: red;
+    color: #FFFF;
+}

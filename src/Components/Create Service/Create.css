@@ -81,6 +81,14 @@
     color: rgba(128, 128, 128, 0.91);
 }
 
+.input_split{ 
+    display: flex !important;
+}
+
+.input_split{
+    max-width: 507px !important;
+}
+
 .left_entry_box input{
     width: 470px;
     height: 35px;
