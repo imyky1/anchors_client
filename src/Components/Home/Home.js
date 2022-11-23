@@ -14,6 +14,8 @@ import Redirect_serv from "../Redirect_serv";
 import Reviews from "../Reviews/Reviews";
 import Requests from "../Requests/Requests";
 import Edit from "../Edit Service/Edit";
+import Editworkshop from "../Edit Service/Editworkshop";
+
 import IndexCreator from "../Create Service/index";
 
 function Home(props) {
@@ -89,6 +91,11 @@ function Home(props) {
             <Route
               path="/editservice/:slug"
               element={<Edit progress={props.progress} />}
+            />
+            {/**EDIT WORKSHOP ROUTE */}
+            <Route
+              path="/editworkshop/:slug"
+              element={<Editworkshop progress={props.progress} />}
             />
             <Route
               path="/servicelist"

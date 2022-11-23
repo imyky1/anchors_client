@@ -7,8 +7,8 @@ import { useNavigate, useParams } from "react-router-dom";
 
 function Edit(props) {
   const { slug } = useParams();
-  const navigate = useNavigate()
-  const { getserviceinfo, serviceInfo, Uploadfile, updateService,compareJWT } =
+  const navigate = useNavigate();
+  const { getserviceinfo, serviceInfo, Uploadfile, updateService, compareJWT } =
     useContext(ServiceContext);
   const [openLoading, setOpenLoading] = useState(false);
   const [openLoadingOne, setOpenLoadingOne] = useState(false);
@@ -30,13 +30,13 @@ function Edit(props) {
   // useffect get details of the service from slug -------------------------------------------
 
   useEffect(() => {
-    setOpenLoadingOne(true)
-    getserviceinfo(slug).then((e)=>{
-      compareJWT(e[0]).then((e2)=>{
-        setcheck(e2)
-        setOpenLoadingOne(false)
-      })
-    })
+    setOpenLoadingOne(true);
+    getserviceinfo(slug).then((e) => {
+      compareJWT(e[0]).then((e2) => {
+        setcheck(e2);
+        setOpenLoadingOne(false);
+      });
+    });
   }, []);
 
   useEffect(() => {
@@ -116,9 +116,7 @@ function Edit(props) {
   };
 
   const data1 = new FormData();
-  const data2 = new FormData();
   data1.append("file", previewSourceOne);
-  data2.append("file", previewSourceTwo);
 
   // Submitting the updated changes ------------------------------------------
 
@@ -135,29 +133,23 @@ function Edit(props) {
         } else {
           banner = { url: serviceInfo?.simg };
         }
-        if (previewSourceTwo) {
-          var doc = await Uploadfile(data2);
-        } else {
-          doc = { url: serviceInfo?.surl };
-        }
         const newData = {
           ...data,
           ldesc: Content,
           tags,
           simg: banner?.url,
-          surl: doc?.url,
           isPaid: value === "free" ? false : true,
           smrp: value === "free" ? 0 : data.smrp,
           ssp: value === "free" ? 0 : data.ssp,
         };
-        updateService(serviceInfo?._id,newData).then((e) => {
+        updateService(serviceInfo?._id, newData).then((e) => {
           if (e) {
             toast.success("Service Edited Succesfully", {
               position: "top-center",
               autoClose: 1500,
             });
             setTimeout(() => {
-                navigate("/servicelist")
+              navigate("/servicelist");
             }, 1500);
           } else {
             toast.error("Some error occured from server side", {
@@ -189,16 +181,15 @@ function Edit(props) {
     setdata({ ...data, [e.target.name]: e.target.value });
   };
 
-
-  if(!check){
-    navigate("/")
+  if (!check) {
+    navigate("/");
   }
 
   return (
     <>
       {openLoading && <LoadTwo open={openLoading} />}
       {openLoadingOne && <LoadOne open={openLoadingOne} />}
-      
+
       <div className="create_box">
         <h1>Edit Service - {serviceInfo?.sname}</h1>
         <form className="entries" onSubmit={handleSubmit}>

@@ -7,6 +7,8 @@ const ServiceState = (props) => {
   const workshopInitial = [];
   const [services, setServices] = useState(servicesInitial);
   const [workshops, setWorkshops] = useState(workshopInitial);
+  const [workshopInfo, setWorkshopInfo] = useState(workshopInitial);
+
   const [serviceInfo, setServiceInfo] = useState(servicesInitial);
   const [slugCount, setSlugCount] = useState(0);
 
@@ -377,6 +379,25 @@ const ServiceState = (props) => {
       console.log("Some error Occured");
     }
   };
+  const getworkshopinfo = async (slug) => {
+    const response = await fetch(
+      `${host}/api/workshop/getworkshopinfo/${slug}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const json = await response.json();
+    if (json.success) {
+      setWorkshopInfo(json.workshop[0]);
+
+      return [json.workshop[0]?.c_id, json.workshop[0]?._id];
+    } else {
+      //console.log("Some error Occured")
+    }
+  };
 
   return (
     <ServiceContext.Provider
@@ -391,9 +412,11 @@ const ServiceState = (props) => {
         services,
         slugCount,
         workshops,
+        workshopInfo,
         getserviceusingid,
         getallservicesusingid,
         getallservices,
+        getworkshopinfo,
         addservice,
         deleteService,
         Uploadfile,

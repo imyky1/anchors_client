@@ -106,7 +106,7 @@ function WorkshopDetail(props) {
           <div
             className="delete_serv"
             onClick={() => {
-              navigate(`/editservice/${props.service.slug}`);
+              navigate(`/editworkshop/${props.service.slug}`);
             }}
           >
             <i className="fa-solid fa-pen-to-square fa-lg delete_serv"></i>
