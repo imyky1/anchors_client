@@ -12,7 +12,7 @@
 .create_box{
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
+    /* margin-top: 30px; */
     margin-left: 30px;
     height: max-content;
     width: 76vw;
@@ -23,6 +23,7 @@
     color: rgba(128, 128, 128, 0.755);
     font-size: 26px;
 }
+
 
 .entry_labels{
     margin-top: 10px !important;
@@ -51,6 +52,7 @@
     color: gray;
     width: 100%;
     font-family: var(--font);
+    margin-top: 15px;
 
 }
 
@@ -79,6 +81,15 @@
     flex-direction: column;
     font-size: 21px;
     color: rgba(128, 128, 128, 0.91);
+}
+
+.input_split{ 
+    display: flex !important;
+    gap: 5px;
+}
+
+.input_split{
+    max-width: 505px !important;
 }
 
 .left_entry_box input{
@@ -231,4 +242,12 @@
     flex-grow: 1;
     outline: none;
     color: #333;
+  }
+
+
+
+  .create_buttons{
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }

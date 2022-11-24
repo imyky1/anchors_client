@@ -7,7 +7,7 @@
     align-items: flex-start;
     margin: 39px 20px;
     width: 75vw;
-    height: 25vh;
+    /* height: 25vh; */
     padding: 0 8px;
     font-family: 'Roboto',sans-serif;
 }
@@ -21,7 +21,21 @@
     width: 105%;
     background-color: #eeeeee;
     display: grid;
-    grid-template-columns: 4% 17% 8% 8% 11% 10% 8% 10% 10% 7% 9%;
+    grid-template-columns: 4% 17% 8% 8% 11% 10% 8% 10% 10% 7% 8%;
+    /* grid-template-columns: 5% 21% 10% 10% 10% 10% 10% 10% 7% 7%; */
+    height: 63px;
+    align-items: center;
+    font-size: 17px;
+    border-radius: 5px;
+    color: rgba(46, 43, 43, 0.808);
+}
+
+.services_table_headtwo{
+    width: 105%;
+    background-color: #eeeeee;
+    display: grid;
+    text-align: center;
+    grid-template-columns: 4% 17% 7% 8% 10% 9% 10% 10% 10% 7% 8%;
     /* grid-template-columns: 5% 21% 10% 10% 10% 10% 10% 10% 7% 7%; */
     height: 63px;
     align-items: center;
@@ -38,11 +52,11 @@
 .service_details_body{
     position: relative;
     left: 3vw;
-    top: -27px;
+    top: -20px;
 }
 
 .no_services{
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     margin-top: 40px;
     color: grey;
     text-align: center;

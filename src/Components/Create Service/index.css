@@ -1,0 +1,41 @@
+
+.header01{
+    color: rgba(128, 128, 128, 0.755);
+    font-size: 26px;
+    margin-left: 20px;
+    margin-top: 25px;
+}
+
+.toggle_bar{
+    display: flex;
+    margin-left: 2%;
+    margin-top: 3%;
+}
+
+.toggle_bar > div{
+    font-size: 1rem;
+}
+
+.button1_togglebar{
+    margin-right: 2%;
+    border: 2px solid black;
+    border-radius: 25px;
+    padding: 10px 15px 10px 15px;
+    cursor: pointer;
+}
+.button2_togglebar {
+    border: 2px solid black;
+    border-radius: 25px;
+    padding: 10px 40px 10px 40px;
+    cursor: pointer;
+}
+
+.red_border{
+    border: 2px solid red;
+    background-color: red;
+    color: #FFFF;
+}
+
+.add-margin-top{
+    margin-top: 20px;
+}

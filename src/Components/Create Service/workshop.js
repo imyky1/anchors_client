@@ -6,18 +6,22 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Editor from "../Editor/Editor";
 import { LoadTwo } from "../Modals/Loading";
-import PreviewService from "../Modals/PreviewService";
 
-function Create(props) {
+function Workshop(props) {
   const context = useContext(ServiceContext);
   const navigate = useNavigate();
-  const { slugCount, getslugcount, addservice, Uploadfile, checkCpyUrl } =
+  const { slugCount, getslugcount, addworkshop, Uploadfile, checkCpyUrl } =
     context;
   const [openLoading, setOpenLoading] = useState(false);
   const [previewSourceOne, setPreviewSourceOne] = useState(""); // saves the data of file selected in the form
   const [previewSourceTwo, setPreviewSourceTwo] = useState(""); // saves the data of file selected in the form
   const [copyURL, setCopyURL] = useState(""); // saves the data of file selected in the form
+
   const [paid, setPaid] = useState("free"); // tracks if the service is free or paid so that allow participants has limited options
+  const [time, setTime] = useState({
+    startTime: "",
+    endTime: "",
+  }); // tracks time object
   const [Content, setContent] = useState(
     "Please describe your service briefly.."
   );
@@ -27,6 +31,15 @@ function Create(props) {
     slug: "",
     smrp: 0,
     ssp: 0,
+    startDate: "",
+    maxCapacity: -1,
+    svideo: "",
+    meetlink: "",
+  });
+  // usestate for afterstartentry
+  const [afterstartentry, setAfterStartEntry] = useState({
+    allowed: false,
+    discount: "",
   });
 
   // genrating copy url string
@@ -86,9 +99,8 @@ function Create(props) {
   };
 
   const data1 = new FormData();
-  const data2 = new FormData();
+
   data1.append("file", previewSourceOne);
-  data2.append("file", previewSourceTwo);
 
   // Changing free and paid section layout ---------------------------------------------
 
@@ -121,6 +133,66 @@ function Create(props) {
     this.style.height = this.scrollHeight + "px";
   }
 
+  // Handling workshop input fields
+  const handlecapacityChange = (e) => {
+    let value = e.target.value;
+    setdata({ ...data, maxCapacity: value });
+  };
+  const handleentrychange = (e) => {
+    let value = e.target.value;
+    if (value === "allowed") {
+      setAfterStartEntry({ ...afterstartentry, allowed: true });
+    } else if (value === "notallowed") {
+      setAfterStartEntry({ allowed: false, discount: "" });
+    } else {
+      setAfterStartEntry({
+        allowed: true,
+        discount: value,
+      });
+    }
+  };
+  const handleChangetime = (e) => {
+    setTime({ ...time, [e.target.name]: e.target.value });
+  };
+
+  // validators for date and time
+  const datevalidator = () => {
+    if (!data.startDate) {
+      return false;
+    }
+    let today_date = new Date();
+    let diff = new Date(data.startDate) - today_date;
+    if (diff >= 0) {
+      return true;
+    }
+    return false;
+  };
+
+  const timevalidator = () => {
+    if (!time.startTime) {
+      return false;
+    }
+    if (!time.endTime) {
+      return false;
+    }
+    let start_hour = time.startTime[0] + time.startTime[1];
+    let end_hour = time.endTime[0] + time.endTime[1];
+
+    if (end_hour - start_hour > 0) {
+      return true;
+    } else if (end_hour - start_hour === 0) {
+      let start_min = time.startTime[3] + time.startTime[4];
+      let end_min = time.endTime[3] + time.endTime[4];
+      if (end_min - start_min > 5) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  };
+
   // Submit of form create the service ------------------------------------------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -131,16 +203,17 @@ function Create(props) {
       data.sdesc.length > 5 &&
       Content.length > 10 &&
       previewSourceOne &&
-      previewSourceTwo
+      datevalidator() &&
+      timevalidator()
     ) {
       try {
         const select = document.getElementById("stype");
         var value = select.options[select.selectedIndex].value;
         var banner = await Uploadfile(data1);
-        var doc = await Uploadfile(data2);
-        if (banner.success && doc.success) {
+
+        if (banner.success) {
           props.progress(75);
-          const json = await addservice(
+          const json = await addworkshop(
             data.sname,
             data.sdesc,
             Content,
@@ -149,12 +222,17 @@ function Create(props) {
               : data.slug.toLowerCase().concat("--", `${slugCount + 1}`),
             copyURL,
             banner.url,
-            doc.url,
             tags,
-            0,
+            1,
             value === "free" ? false : true,
             value === "free" ? 0 : data.smrp,
-            value === "free" ? 0 : data.ssp
+            value === "free" ? 0 : data.ssp,
+            data.startDate,
+            time,
+            afterstartentry,
+            data.maxCapacity,
+            data.svideo,
+            data.meetlink
           );
           if (json.success) {
             setdata({
@@ -164,8 +242,12 @@ function Create(props) {
               slug: "",
               ssp: 0,
               sbanner: "",
-              sdoc: "",
+              startDate: "",
+              maxCapacity: -1,
+              svideo: "",
+              meetlink: "",
             });
+            setTime({ startTime: "", endTime: "" });
             setOpenLoading(false);
             navigate(`/c/${localStorage.getItem("c_id")}`);
           } else {
@@ -191,10 +273,13 @@ function Create(props) {
       }
     } else {
       setOpenLoading(false);
-      toast.info("Mandatory fields cannot be empty or short in size", {
-        position: "top-center",
-        autoClose: 3000,
-      });
+      toast.info(
+        "Mandatory fields cannot be empty or short in size, Also check that your data and time are valid",
+        {
+          position: "top-center",
+          autoClose: 3000,
+        }
+      );
     }
 
     props.progress(100);
@@ -213,7 +298,7 @@ function Create(props) {
           <div>
             <div className="left_entry_box">
               <label htmlFor="sname" className="entry_labels">
-                Service Name <small>*</small>
+                Title <small>*</small>
               </label>
               <input
                 type="text"
@@ -224,7 +309,7 @@ function Create(props) {
                 placeholder="25JS Interview Important Question..."
               />
               <label htmlFor="sdesc" className="entry_labels">
-                Service Description <small>*</small>
+                Short Description <small>*</small>
               </label>
               <textarea
                 name="sdesc"
@@ -245,6 +330,58 @@ function Create(props) {
                   e.target.type = "file";
                 }}
                 onChange={handleChangeFileOne}
+              />
+              <label htmlFor="startDate" className="entry_labels">
+                Date <small>*</small>
+              </label>
+              <input
+                type="text"
+                name="startDate"
+                id="startDate"
+                placeholder="Choose Date"
+                onFocus={(e) => {
+                  e.target.type = "date";
+                }}
+                value={data.startDate}
+                onChange={handleChange}
+              />
+              <label htmlFor="startTime" className="time_entry entry_labels">
+                Time <small>*</small>
+              </label>
+              <section className="input_split">
+                <input
+                  type="text"
+                  name="startTime"
+                  id="startTime"
+                  placeholder="Choose Start Time"
+                  onFocus={(e) => {
+                    e.target.type = "time";
+                  }}
+                  value={time.startTime}
+                  onChange={handleChangetime}
+                />
+                <input
+                  type="text"
+                  name="endTime"
+                  id="endTime"
+                  placeholder="Choose End Time"
+                  onFocus={(e) => {
+                    e.target.type = "time";
+                  }}
+                  value={time.endTime}
+                  onChange={handleChangetime}
+                />
+              </section>
+              <label htmlFor="meetlink" className="entry_labels">
+                Meeting Link (Meet/Zoom link) <small>*</small>
+              </label>
+              <input
+                type="text"
+                name="meetlink"
+                id="meetlink"
+                onChange={handleChange}
+                value={data.meetlink}
+                placeholder="Please Paste zoom/meet link here.."
               />
 
               {paid === "free" ? (
@@ -279,6 +416,19 @@ function Create(props) {
             </div>
 
             <div className="right_entry_box">
+              <label htmlFor="svideo" className="entry_labels">
+                Intro Video
+              </label>
+              <input
+                type="text"
+                name="svideo"
+                id="svideo"
+                placeholder="Upload file..."
+                onFocus={(e) => {
+                  e.target.type = "text";
+                }}
+                onChange={handleChange}
+              />
               <label htmlFor="stype" className="entry_labels">
                 Service Type <small>*</small>
               </label>
@@ -310,23 +460,46 @@ function Create(props) {
                 value={data.ssp}
                 max={data.smrp}
               />
-
-              <label htmlFor="sdoc" className="entry_labels">
-                Document ( supports all formats) <small>*</small>
+              <label htmlFor="afterstartentry" className="entry_labels">
+                Open after events started <small>*</small>
+                <h6>You can allow participants even after event has started</h6>
               </label>
-              <input
-                type="text"
-                name="sdoc"
-                id="sdoc"
-                //accept="application/pdf"
-                placeholder="Upload file..."
-                onFocus={(e) => {
-                  e.target.type = "file";
-                }}
-                onChange={handleChangeFileTwo}
-              />
-
-{paid !== "free" ? (
+              <select id="afterstartentry" onChange={handleentrychange}>
+                <option value="notallowed">Not allowed</option>
+                <option value={`${paid === "free" ? "allowed" : "10mins"}`}>
+                  {paid === "free"
+                    ? "allowed"
+                    : "after 10 minutes 10% discount"}
+                </option>
+                {paid === "free" ? (
+                  ""
+                ) : (
+                  <>
+                    <option value="20mins">
+                      after 20 minutes 20% discount
+                    </option>
+                    <option value="30mins">
+                      after 30 minutes 30% discount
+                    </option>
+                  </>
+                )}
+              </select>
+              <label htmlFor="maxCapacity" className="entry_labels">
+                Max Capacity allowed <small>*</small>
+                <h6>You can set the number of seat limit</h6>
+              </label>
+              <select
+                id="maxCapacity"
+                value={data.maxCapacity}
+                onChange={handlecapacityChange}
+              >
+                <option value="-1">No Limit</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="250">250</option>
+                <option value="500">500</option>
+              </select>
+              {paid !== "free" ? (
                 ""
               ) : (
                 <>
@@ -358,7 +531,12 @@ function Create(props) {
             </div>
           </div>
         </form>
-        <label htmlFor="ldesc" className="editor_entry_labels">
+        <label
+          htmlFor="ldesc"
+          className={`editor_entry_labels ${
+            paid === "free" ? "" : "add-margin-top"
+          }`}
+        >
           Long Description <small>*</small>
         </label>
         <Editor
@@ -368,9 +546,9 @@ function Create(props) {
           className="text_editor"
         />
         <div className="create_buttons">
-          <button className="submit_button" onClick={handleSubmit}>
-            Submit and Publish
-          </button>
+        <button className="submit_button" onClick={handleSubmit}>
+          Submit and Publish
+        </button>
         </div>
         <ToastContainer />
       </div>
@@ -378,4 +556,4 @@ function Create(props) {
   );
 }
 
-export default Create;
+export default Workshop;

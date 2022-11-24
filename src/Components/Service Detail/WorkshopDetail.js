@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { useContext } from "react";
 import { emailcontext } from "../../Context/EmailState";
 
-function ServiceDetail(props) {
+function WorkshopDetail(props) {
   const { checkEmailSent } = useContext(emailcontext); // to check for notify emails
   const navigate = useNavigate();
   const [openModel, setOpenModel] = useState(false);
@@ -18,21 +18,7 @@ function ServiceDetail(props) {
   const [NotifyEmailSent, setNotifyEmailSent] = useState(false); // false means --- Notify email not sent
   const date = Moment(props.service.date).format().split("T")[0];
   const time = Moment(props.service.date).format().split("T")[1].split("+")[0];
-
-  const getDownload = async () => {
-    await fetch(`${host}/api/services/getDownloads/${props.service._id}`);
-  };
-
-  useEffect(() => {
-    getDownload();
-    const doc = document.getElementById(`checkbox_${props.sno}`);
-    if (doc && props.service.status === 1) {
-      doc.checked = true;
-    } else {
-      doc.checked = false;
-    }
-    // eslint-disable-next-line
-  }, [openModel]);
+  const StartDate = Moment(props.service.startDate).format().split("T")[0];
 
   useEffect(() => {
     checkEmailSent(props.service._id, "Notify").then((e) => {
@@ -55,7 +41,7 @@ function ServiceDetail(props) {
 
   return (
     <>
-      <div className="serv_details">
+      <div className="serv_details2">
         <span>{props.sno}</span>
         <span>{props.service.sname}</span>
         <span>{props.service.isPaid === true ? "Paid" : "Free"}</span>
@@ -72,16 +58,17 @@ function ServiceDetail(props) {
         {NotifyEmailSent ? (
           <span>Email Sent</span>
         ) : (
-          <span
-            className="serv_email"
-            onClick={() => {
-              setOpenModel2(true);
-            }}
-          >
-            <a>Notify Users</a>
+          <span className="text-center">
+            {props.service.maxCapacity === -1
+              ? "No Limit"
+              : props.service.maxCapacity}
           </span>
         )}
-        <Link to={`/s/${props.service.slug}`}>Visit here</Link>
+        <span>
+          {StartDate}
+          <br />
+          {props.service.time.startTime}-{props.service.time.endTime}
+        </span>
         <span className="display_action_icons">
           {/* <div
             className="delete_serv"
@@ -119,7 +106,7 @@ function ServiceDetail(props) {
           <div
             className="delete_serv"
             onClick={() => {
-              navigate(`/editservice/${props.service.slug}`);
+              navigate(`/editworkshop/${props.service.slug}`);
             }}
           >
             <i className="fa-solid fa-pen-to-square fa-lg delete_serv"></i>
@@ -129,11 +116,8 @@ function ServiceDetail(props) {
               setOpenModel2(true);
             }}></i> */}
         </span>
-        <span onClick={handleCheckClick}>
-          <label className="switch">
-            <input type="checkbox" id={`checkbox_${props.sno}`} />
-            <span className="slider round"></span>
-          </label>
+        <span>
+          <a href={props.service.meetlink} target="_blank" rel="no_referrer">Visit here</a>
         </span>
       </div>
       <Delete_Model
@@ -162,4 +146,4 @@ function ServiceDetail(props) {
   );
 }
 
-export default ServiceDetail;
+export default WorkshopDetail;
