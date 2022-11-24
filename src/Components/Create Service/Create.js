@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Editor from "../Editor/Editor";
 import { LoadTwo } from "../Modals/Loading";
+import PreviewService from "../Modals/PreviewService";
 
 
 function Create(props) {
@@ -13,6 +14,7 @@ function Create(props) {
   const navigate = useNavigate();
   const { slugCount, getslugcount, addservice, Uploadfile,checkCpyUrl } = context;
   const [openLoading, setOpenLoading] = useState(false)
+  const [openPreview,setOpenPreview] = useState(false)
   const [previewSourceOne, setPreviewSourceOne] = useState(""); // saves the data of file selected in the form
   const [previewSourceTwo, setPreviewSourceTwo] = useState(""); // saves the data of file selected in the form
   const [copyURL, setCopyURL] = useState(""); // saves the data of file selected in the form
@@ -207,6 +209,7 @@ function Create(props) {
   return (
     <>
     {openLoading && <LoadTwo open={openLoading} />}
+    <PreviewService open={openPreview} onClose={()=>{setOpenPreview(false)}} sname={data.sname} sdesc={data.sdesc} ldesc={Content} simg={previewSourceOne}/>
       <div className="create_box">
         <h1>Create Service</h1>
         <form className="entries" onSubmit={handleSubmit}>
@@ -316,9 +319,14 @@ function Create(props) {
             Long Description <small>*</small>
           </label>
         <Editor readOnly = {false} content={Content} setContent={setContent} className="text_editor"/>
+        <div className="button_create">
           <button className="submit_button" onClick={handleSubmit}>
             Submit and Publish
           </button>
+          <button className="submit_button" onClick={()=>{setOpenPreview(true)}}>
+            Preview
+          </button>
+        </div>
         <ToastContainer />
       </div>
     </>

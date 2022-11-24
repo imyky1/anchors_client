@@ -3,7 +3,7 @@
 .model{
     width: 82vw;
     height: 100vh;
-    background-color: #ffffff32;
+    background-color: #ffffff46;
     position: fixed;
     top: 0;
     margin-left: -40px;
@@ -346,7 +346,7 @@
 }
 
 
-/* thaks model css */
+/* thaks model css -------------------------------------------------------------------*/
 .thanks_model{
     background-color: white;
     border-radius: 10px;
@@ -420,7 +420,7 @@
 }
 
 
-/* social proof css ---------------------------------------- */
+/* social proof css --------------------------------------------------------------------- */
 
 .proof_box{
     display: flex;
@@ -483,6 +483,65 @@
     background-color: rgba(70, 68, 68, 0.96);
     padding: 17px;
     border-radius: 150px;
+}
+
+
+/* Preview Section Css ----------------------------------------------------------------- */
+
+.preview_model_box{
+    /* background-color: rgba(238, 238, 238, 0.575); */
+}
+
+.preview_model > i{
+    position: relative;
+    left: 420px;
+    cursor: pointer;
+    color: gray;
+    top: 32px;
+    transition: all 0.3s ease-in-out;
+}
+
+.preview_model >i:hover{
+    color: red;
+    transform: scale(1.2);
+}
+
+.preview_model > span{
+    margin-top: 30px;
+    margin-bottom: 25px;
+}
+
+.preview_section{
+    width: 99%;
+    overflow-y:auto;
+}
+
+.preview_section img{
+    width: 100%;
+    border-radius: 10px;
+}
+
+.preview_section > div{
+    margin: auto;
+    margin-top: 20px;
+    width: 92%;
+}
+
+.preview_section h1{
+    font-size: 1.7rem;
+    margin-bottom: 10px;
+}
+
+.preview_section h2{
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.preview_section p{
+    font-size: 1.1rem;
+    line-height: 21px;
+    width: 98%;
+    margin: auto;
 }
 
 
