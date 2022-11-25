@@ -210,7 +210,7 @@ function Profile(props) {
       if (requestQuery !== "") {
         createRequest(
           basicCreatorInfo?.creatorID,
-          requestQuery, 
+          requestQuery,
           //v1 ? true : false,
           amount === 0 || !amount ? false : true,
           amount ? amount : 0
@@ -221,14 +221,14 @@ function Profile(props) {
               autoClose: 2500,
             });
             setRequestQuery("");
-            setAmount("")
+            setAmount("");
           } else if (e.already) {
             toast.info("You had already passed a request to the creator", {
               position: "bottom-center",
               autoClose: 2500,
             });
             setRequestQuery("");
-            setAmount("")
+            setAmount("");
           } else {
             toast.error("Some error occured, try again after some time!!", {
               position: "bottom-center",

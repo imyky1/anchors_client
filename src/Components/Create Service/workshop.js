@@ -425,7 +425,7 @@ function Workshop(props) {
                 id="svideo"
                 placeholder="Upload file..."
                 onFocus={(e) => {
-                  e.target.type = "text";
+                  e.target.type = "file";
                 }}
                 onChange={handleChange}
               />
