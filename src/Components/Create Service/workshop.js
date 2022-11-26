@@ -8,10 +8,8 @@ import Editor from "../Editor/Editor";
 import { LoadTwo } from "../Modals/Loading";
 
 function Workshop(props) {
-  const context = useContext(ServiceContext);
   const navigate = useNavigate();
-  const { slugCount, getslugcount, addworkshop, Uploadfile, checkCpyUrl } =
-    context;
+  const { slugCount, getslugcountWorkshop, addworkshop, Uploadfile, checkCpyUrl,UploadVideo } = useContext(ServiceContext);
   const [openLoading, setOpenLoading] = useState(false);
   const [previewSourceOne, setPreviewSourceOne] = useState(""); // saves the data of file selected in the form
   const [previewSourceTwo, setPreviewSourceTwo] = useState(""); // saves the data of file selected in the form
@@ -33,7 +31,6 @@ function Workshop(props) {
     ssp: 0,
     startDate: "",
     maxCapacity: -1,
-    svideo: "",
     meetlink: "",
   });
   // usestate for afterstartentry
@@ -82,7 +79,7 @@ function Workshop(props) {
     generateCopyURL();
     let slug = data.sname.split(" ").join("-");
     setdata({ ...data, slug: slug });
-    getslugcount(slug.toLowerCase());
+    getslugcountWorkshop(slug.toLowerCase());
 
     // eslint-disable-next-line
   }, [data.sname]);
@@ -99,8 +96,9 @@ function Workshop(props) {
   };
 
   const data1 = new FormData();
-
+  const data2 = new FormData();
   data1.append("file", previewSourceOne);
+  data2.append("file", previewSourceTwo);
 
   // Changing free and paid section layout ---------------------------------------------
 
@@ -210,7 +208,9 @@ function Workshop(props) {
         const select = document.getElementById("stype");
         var value = select.options[select.selectedIndex].value;
         var banner = await Uploadfile(data1);
-
+        if(data2.length){
+          var svideo = await UploadVideo(data2);
+        }
         if (banner.success) {
           props.progress(75);
           const json = await addworkshop(
@@ -231,8 +231,8 @@ function Workshop(props) {
             time,
             afterstartentry,
             data.maxCapacity,
-            data.svideo,
-            data.meetlink
+            data.meetlink,
+            svideo ? svideo?.result.Location : ""
           );
           if (json.success) {
             setdata({
@@ -425,9 +425,9 @@ function Workshop(props) {
                 id="svideo"
                 placeholder="Upload file..."
                 onFocus={(e) => {
-                  e.target.type = "text";
+                  e.target.type = "file";
                 }}
-                onChange={handleChange}
+                onChange={handleChangeFileTwo}
               />
               <label htmlFor="stype" className="entry_labels">
                 Service Type <small>*</small>

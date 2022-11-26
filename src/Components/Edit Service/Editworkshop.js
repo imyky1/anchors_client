@@ -15,6 +15,7 @@ function Editworkshop(props) {
     workshopInfo,
     updateWorkshop,
     Uploadfile,
+    UploadVideo,
     compareJWT,
   } = context;
   const [openLoading, setOpenLoading] = useState(false);
@@ -261,16 +262,16 @@ function Editworkshop(props) {
         }
 
         if (previewSourceTwo) {
-          var doc = await Uploadfile(data2);
+          var doc = await UploadVideo(data2);
         } else {
-          doc = { url: workshopInfo?.surl };
+          doc = { result:{Location: workshopInfo?.svideo} };
         }
         const newData = {
           ...data,
           ldesc: Content,
           tags,
           simg: banner?.url,
-          surl: doc?.url,
+          svideo: doc?.result.Location,
           isPaid: value === "free" ? false : true,
           smrp: value === "free" ? 0 : data.smrp,
           ssp: value === "free" ? 0 : data.ssp,
@@ -465,9 +466,9 @@ function Editworkshop(props) {
                 id="svideo"
                 placeholder="Upload file..."
                 onFocus={(e) => {
-                  e.target.type = "text";
+                  e.target.type = "file";
                 }}
-                onChange={handleChange}
+                onChange={handleChangeFileTwo}
               />
               <label htmlFor="stype" className="entry_labels">
                 Service Type <small>*</small>

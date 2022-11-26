@@ -189,9 +189,42 @@ const ServiceState = (props) => {
     }
   };
 
-  //6. get slug count
+  //5. Upload video files to url form on aws s3
+  const UploadVideo = async (data) => {
+    try {
+      const response = await fetch(`${host}/api/file/upload/videos`, {
+        method: "POST",
+        body: data,
+      });
+      const json = await response.json();
+      return json;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  //6. get slug count for services
   const getslugcount = async (slug) => {
     const response = await fetch(`${host}/api/services/getslugcount`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ slug: slug }),
+    });
+    const json = await response.json();
+
+    if (json.success) {
+      setSlugCount(json.count);
+    } else {
+      console.log("Some error Occured");
+    }
+  };
+
+
+  //6. get slug count dor workshop
+  const getslugcountWorkshop = async (slug) => {
+    const response = await fetch(`${host}/api/workshop/getslugcount`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -281,8 +314,8 @@ const ServiceState = (props) => {
     time,
     afterstartentry,
     maxCapacity,
-    svideo,
-    meetlink
+    meetlink,
+    svideo
   ) => {
     const response = await fetch(`${host}/api/workshop/createworkshop`, {
       method: "POST",
@@ -420,8 +453,10 @@ const ServiceState = (props) => {
         addservice,
         deleteService,
         Uploadfile,
+        UploadVideo,
         getserviceinfo,
         getslugcount,
+        getslugcountWorkshop,
         addworkshop,
         getallworkshops,
         updateWorkshop,
