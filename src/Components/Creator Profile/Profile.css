@@ -564,6 +564,10 @@
 }
 
 
+.profile_page_display_date{
+  margin: 0px auto 0px auto;
+}
+
 @media (max-width: 1180px) {
     .display_services_list {
       grid-template-columns: repeat(2, 1fr);
