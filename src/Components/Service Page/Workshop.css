@@ -57,13 +57,13 @@
     margin-bottom: 15px;
 }
 
-.tags_section{
+.workshop_tags_section{
     display: flex;
     margin-top: 15px;
     margin-bottom: 8px;
 }
 
-.tags_section span{
+.workshop_tags_section span{
     background-color: #000000;
     border-radius: 5px;
     margin-right: 25px;
@@ -180,25 +180,25 @@
     color: green;
     font-size: 1.4rem;
     font-weight: bold;
-}
+}s
 
 
 /* creator profile on service page */
-.workshop_page_creator{
+.workshop_creators{
     border-radius: 10px;
     display: flex;
-    width: 65vw;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-evenly;
-    /* background-color: #F9F9F9;; */
+    /* background-color: #F9F9F9; */
     height: max-content;
     position: sticky;
     top: 89px;
+    width: 65vw;
     font-family: 'Roboto', sans-serif !important;
 }
 
-.workshop_page_creator > div{   
+.workshop_creators > div{   
     display: flex;
     align-items: center;
     margin: 12px 0;

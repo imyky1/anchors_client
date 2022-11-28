@@ -427,6 +427,7 @@
     align-items: center;
     position: fixed;
     right: 20px;
+    z-index: 9999;
     opacity: 0;
     top: 80px;
     animation: socialIn 0.7s ease-in-out forwards;

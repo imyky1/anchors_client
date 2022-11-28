@@ -16,7 +16,7 @@ import Thanks from "../Modals/Thanks";
 import { feedbackcontext } from "../../Context/FeedbackState";
 import SocialProof from "../Modals/SocialProof";
 import Request_Modal from "../Modals/Request_Modal";
-import Moment from "moment"
+import Moment from "moment";
 
 function Service(props) {
   const { slug } = useParams();
@@ -29,6 +29,7 @@ function Service(props) {
   const [OpenModelProof, setOpenModelProof] = useState(false);
   const [FBService, setFBService] = useState();
   const [proofType, setproofType] = useState();
+  const [WorkshopDate, setWorkshopDate] = useState();
   const [UserDetails, setUserDetails] = useState();
   const [openModelDownload, setOpenModelDownload] = useState(false);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
@@ -75,6 +76,19 @@ function Service(props) {
     process();
     // eslint-disable-next-line
   }, []);
+
+  // generates the workshop date accordingly
+  useEffect(() => {
+    const options = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      timeZone: "Asia/Kolkata",
+    };
+
+    var s = new Date(workshopInfo?.startDate).toLocaleString("en-US", options);
+    setWorkshopDate(s);
+  }, [workshopInfo]);
 
   // responsible for feedback popup
   useEffect(() => {
@@ -459,7 +473,7 @@ function Service(props) {
             setOpenModel(false);
           }}
         />
-        {localStorage.getItem("isUser") !== "" && (
+        {/* {localStorage.getItem("isUser") !== "" && (
           <SocialProof
             open={OpenModelProof}
             onClose={() => {
@@ -470,7 +484,7 @@ function Service(props) {
             type={proofType}
             slug={slug}
           />
-        )}
+        )} */}
         <div className="profile_header workshop_header">
           <div className="logo" onClick={handleLogoClick}>
             <img src={require("../logo.png")} alt="Logo" />
@@ -544,53 +558,68 @@ function Service(props) {
             />
             <div className="service_section_details">
               <h1>{workshopInfo?.sname}</h1>
-              <hr style={{width:"100%",color:"rgba(255, 255, 255, 0.507)"}}/>
+              <hr
+                style={{ width: "100%", color: "rgba(255, 255, 255, 0.507)" }}
+              />
               <div className="bottom_workshop_section">
-                <span>{workshopInfo?.startDate} at {workshopInfo?.time?.startTime} - {workshopInfo?.time?.endTime}</span>
-                <span > <i class="fa-solid fa-location-dot fa-xl" style={{color:"red"}}></i> &nbsp; Online | &nbsp;&nbsp;&nbsp;
+                <span>
+                  {WorkshopDate} at {workshopInfo?.time?.startTime} -{" "}
+                  {workshopInfo?.time?.endTime}
+                </span>
+                <span>
+                  {" "}
+                  <i
+                    class="fa-solid fa-location-dot fa-xl"
+                    style={{ color: "red" }}
+                  ></i>{" "}
+                  &nbsp; Online | &nbsp;&nbsp;&nbsp;
                   <>
-              {workshopInfo?.isPaid ? (
-                <div className="mobile_price_desc">
-                  <div>
-                    <h3>Price:&nbsp;</h3>
-                    <span>
-                      {" "}
-                      ₹
-                      <span style={{ textDecoration: "line-through" }}>
-                        {workshopInfo?.smrp}{" "}
-                      </span>
-                    </span>
-                  </div>
-                  <div>
-                    <span className="main_ssp">₹{workshopInfo?.ssp} </span>
-                    <span>
-                      (-
-                      {((workshopInfo?.smrp - workshopInfo?.ssp) /
-                        workshopInfo?.smrp).toFixed(2) *
-                        100}
-                      %)
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                <span className="free_label">Free</span>
-              )}</>
-              </span>
+                    {workshopInfo?.isPaid ? (
+                      <div className="mobile_price_desc">
+                        <div>
+                          <h3>Price:&nbsp;</h3>
+                          <span>
+                            {" "}
+                            ₹
+                            <span style={{ textDecoration: "line-through" }}>
+                              {workshopInfo?.smrp}{" "}
+                            </span>
+                          </span>
+                        </div>
+                        <div>
+                          <span className="main_ssp">
+                            ₹{workshopInfo?.ssp}{" "}
+                          </span>
+                          <span>
+                            (-
+                            {(
+                              (workshopInfo?.smrp - workshopInfo?.ssp) /
+                              workshopInfo?.smrp
+                            ).toFixed(2) * 100}
+                            %)
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <span className="free_label">Free</span>
+                    )}
+                  </>
+                </span>
 
-              <button
-                className="download_service"
-                onClick={download_service}
-                style={
-                  paymentProcessing
-                    ? { backgroundColor: "grey", border: "2px solid grey" }
-                    : {}
-                }
-              >
-                {paymentProcessing ? <>Processing</> : <>Reserve Your Seat</>}
-              </button>
-            </div>
+                <button
+                  className="download_service"
+                  onClick={download_service}
+                  style={
+                    paymentProcessing
+                      ? { backgroundColor: "grey", border: "2px solid grey" }
+                      : {}
+                  }
+                >
+                  {paymentProcessing ? <>Processing</> : <>Reserve Your Seat</>}
+                </button>
+              </div>
               {workshopInfo?.tags?.length !== 0 && workshopInfo.tags && (
-                <div className="tags_section">
+                <div className="workshop_tags_section">
                   <span>{workshopInfo?.tags[0]}</span>
                   <span>{workshopInfo?.tags[1]}</span>
                   <span>{workshopInfo?.tags[2]}</span>
@@ -601,7 +630,7 @@ function Service(props) {
                 <i className="fa-regular fa-file-lines"></i>&nbsp; Event
                 Information
               </h2>
-              <div className="workshop_sdesc" >
+              <div className="workshop_sdesc">
                 {document.querySelectorAll(".workshop_sdesc")[1]
                   ? (document.querySelectorAll(".workshop_sdesc")[1].innerHTML =
                       workshopInfo?.ldesc)
@@ -619,7 +648,6 @@ function Service(props) {
                   {workshops.res
                     ?.filter((e) => e._id !== workshopInfo?._id)
                     ?.sort((a, b) => {
-
                       return b?.smrp - a?.smrp;
                     })
                     .map((e) => {
@@ -655,128 +683,128 @@ function Service(props) {
             ) : (
               ""
             )}
-            
           </div>
 
-          <div className="workshop_page_creator">
-          <h2 className="service_h2" >
-                About Speaker
-              </h2>
-              <div >
-             
-            <img
-              src={basicCdata?.photo}
-              alt="creator"
-              className="workshop_page_profile_pic"
-              onClick={(e) => {
-                e.preventDefault();
-                mixpanel.track("Clicked Creators profile pic on service page", {
-                  service: slug,
-                  user: UserDetails ? UserDetails : "",
-                  creator: basicCdata?.slug,
-                });
-              }}
-            />+-
-
-            <div className="workshop_profile_data">
-              <span className="c_workshop_name">{basicCdata?.name}</span>
-              <span className="c_workshop_tagline">{basicCreatorInfo?.tagLine}</span>
-              <section>
-                {basicCreatorInfo?.linkedInLink && (
-                  <a
-                    target="_blank"
-                    without
-                    rel="noreferrer"
-                    href={basicCreatorInfo?.linkedInLink}
-                    className=""
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa-brands fa-linkedin fa-xl linkedin_icon"></i>
-                  </a>
-                )}
-                {basicCreatorInfo?.ytLink && (
-                  <a
-                    target="_blank"
-                    without
-                    rel="noreferrer"
-                    href={basicCreatorInfo?.ytLink}
-                    className=""
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa-brands fa-youtube fa-xl youtube_icon"></i>
-                  </a>
-                )}
-                {basicCreatorInfo?.teleLink && (
-                  <a
-                    target="_blank"
-                    without
-                    rel="noreferrer"
-                    href={basicCreatorInfo?.teleLink}
-                    className=""
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa-brands fa-telegram fa-xl telegram_icon"></i>
-                  </a>
-                )}
-                {basicCreatorInfo?.instaLink && (
-                  <a
-                    target="_blank"
-                    without
-                    rel="noreferrer"
-                    href={basicCreatorInfo?.instaLink}
-                    className=""
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa-brands fa-instagram fa-xl insta_icon"></i>
-                  </a>
-                )}
-                {basicCreatorInfo?.twitterLink && (
-                  <a
-                    target="_blank"
-                    without
-                    rel="noreferrer"
-                    href={basicCreatorInfo?.twitterLink}
-                    className=""
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa-brands fa-twitter fa-xl twitter_icon"></i>
-                  </a>
-                )}
-                {basicCreatorInfo?.fbLink && (
-                  <a
-                    target="_blank"
-                    without
-                    rel="noreferrer"
-                    href={basicCreatorInfo?.fbLink}
-                    className=""
-                    style={{ textDecoration: "none" }}
-                  >
-                    <i className="fa-brands fa-facebook fa-xl fb_icon"></i>
-                  </a>
-                )}
-              </section>
-              <Link
-                to={`/c/${basicCdata?.slug}`}
-                style={{ textDecoration: "none" }}
-              >
-                <button
-                  className="workshop_page_creator_button"
-                  onClick={() => {
-                    mixpanel.track("Creator Page from Card", {
-                      email: "",
+          <div className="workshop_creators">
+            <h2 className="service_h2">About Speaker</h2>
+            <div>
+              <img
+                src={basicCdata?.photo}
+                alt="creator"
+                className="workshop_page_profile_pic"
+                onClick={(e) => {
+                  e.preventDefault();
+                  mixpanel.track(
+                    "Clicked Creators profile pic on service page",
+                    {
+                      service: slug,
                       user: UserDetails ? UserDetails : "",
-                      creatorID: basicCdata?.slug,
-                    });
-                  }}
+                      creator: basicCdata?.slug,
+                    }
+                  );
+                }}
+              />
+
+              <div className="workshop_profile_data">
+                <span className="c_workshop_name">{basicCdata?.name}</span>
+                <span className="c_workshop_tagline">
+                  {basicCreatorInfo?.tagLine}
+                </span>
+                <section>
+                  {basicCreatorInfo?.linkedInLink && (
+                    <a
+                      target="_blank"
+                      without
+                      rel="noreferrer"
+                      href={basicCreatorInfo?.linkedInLink}
+                      className=""
+                      style={{ textDecoration: "none" }}
+                    >
+                      <i className="fa-brands fa-linkedin fa-xl linkedin_icon"></i>
+                    </a>
+                  )}
+                  {basicCreatorInfo?.ytLink && (
+                    <a
+                      target="_blank"
+                      without
+                      rel="noreferrer"
+                      href={basicCreatorInfo?.ytLink}
+                      className=""
+                      style={{ textDecoration: "none" }}
+                    >
+                      <i className="fa-brands fa-youtube fa-xl youtube_icon"></i>
+                    </a>
+                  )}
+                  {basicCreatorInfo?.teleLink && (
+                    <a
+                      target="_blank"
+                      without
+                      rel="noreferrer"
+                      href={basicCreatorInfo?.teleLink}
+                      className=""
+                      style={{ textDecoration: "none" }}
+                    >
+                      <i className="fa-brands fa-telegram fa-xl telegram_icon"></i>
+                    </a>
+                  )}
+                  {basicCreatorInfo?.instaLink && (
+                    <a
+                      target="_blank"
+                      without
+                      rel="noreferrer"
+                      href={basicCreatorInfo?.instaLink}
+                      className=""
+                      style={{ textDecoration: "none" }}
+                    >
+                      <i className="fa-brands fa-instagram fa-xl insta_icon"></i>
+                    </a>
+                  )}
+                  {basicCreatorInfo?.twitterLink && (
+                    <a
+                      target="_blank"
+                      without
+                      rel="noreferrer"
+                      href={basicCreatorInfo?.twitterLink}
+                      className=""
+                      style={{ textDecoration: "none" }}
+                    >
+                      <i className="fa-brands fa-twitter fa-xl twitter_icon"></i>
+                    </a>
+                  )}
+                  {basicCreatorInfo?.fbLink && (
+                    <a
+                      target="_blank"
+                      without
+                      rel="noreferrer"
+                      href={basicCreatorInfo?.fbLink}
+                      className=""
+                      style={{ textDecoration: "none" }}
+                    >
+                      <i className="fa-brands fa-facebook fa-xl fb_icon"></i>
+                    </a>
+                  )}
+                </section>
+                <Link
+                  to={`/c/${basicCdata?.slug}`}
+                  style={{ textDecoration: "none" }}
                 >
-                  View all Offering
-                </button>
-              </Link>
-            </div>
+                  <button
+                    className="workshop_page_creator_button"
+                    onClick={() => {
+                      mixpanel.track("Creator Page from Card", {
+                        email: "",
+                        user: UserDetails ? UserDetails : "",
+                        creatorID: basicCdata?.slug,
+                      });
+                    }}
+                  >
+                    View all Offering
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-
       </div>
       <ToastContainer />
     </>
