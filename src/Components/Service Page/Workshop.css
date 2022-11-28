@@ -13,6 +13,59 @@
     
 }
 
+
+.workshopdate_infobar{
+    width: 100%;
+    display: flex;
+    margin-top: 20px;
+    float: left;
+}
+
+.workshopdate_timing{
+    padding-top: 5px;
+    border: 2px solid green;
+    background: green;
+    border-radius: 17px;
+    padding: 7px 20px 7px 20px ;
+    margin-right: 10px;
+}
+
+
+.workshop_infobar_wrapper{
+    display: inline;
+    max-height: 50px;
+}
+.workshopdate_categ{
+    padding-top: 5px;
+        border: 2px solid grey;
+        background: grey;
+        border-radius: 17px;
+            padding: 7px 20px 7px 20px;
+}
+.workshopdate_calender{
+    border: 2px solid transparent;
+    float: right;
+    position: relative;
+    bottom: 120px;
+    padding-left: 39vw;
+}
+.calender_top{
+    background-color: red;
+    border: 2px solid red;
+    padding: 12px 28px;
+    font-weight: 700;
+    font-size: large;
+    border-radius: 15px 15px 0px 0px;
+}
+.calender_bottom{
+    background-color: #FFFFFF;
+        border: 2px solid #FFFFFF;
+        padding: 10px 20px;
+        color: grey;
+        font-size: 40px;
+        font-weight: 900;
+}
+
 .workshop_header{
     position: sticky;
     top: 0px;
@@ -328,9 +381,19 @@
     text-decoration:none
 }
 
+@media (max-width: 950px) {
+    .bottom_workshop_section {
+            display: block;
+        }
+}
+
 
 
 @media (max-width: 500px) {
+
+    .bottom_workshop_section{
+        display: block;
+    }
 
     .service_header{
         position: static;
@@ -510,4 +573,30 @@
         margin: auto;
     }
 
+}
+
+
+@media (max-width: 350px) {
+    .workshop_infobar_wrapper{
+        display: block;
+        max-height: 180px;
+    }
+    .workshopdate_calender{
+        position: relative;
+        float: left;
+        bottom: 0px;
+        margin-top: 20px;
+            padding-left: 25vw;
+        
+    }
+        .calender_bottom {
+            background-color: #FFFFFF;
+            border: 2px solid #FFFFFF;
+            padding: 10px 20px;
+            color: grey;
+            font-size: 40px;
+            font-weight: 900;
+            border-radius: 0px 0px 20px 20px;
+        }
+       
 }

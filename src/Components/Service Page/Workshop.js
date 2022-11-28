@@ -33,6 +33,7 @@ function Service(props) {
   const [UserDetails, setUserDetails] = useState();
   const [openModelDownload, setOpenModelDownload] = useState(false);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
+
   const {
     workshopInfo,
     getworkshopinfo,
@@ -556,6 +557,24 @@ function Service(props) {
               alt="service_image"
               className="service_section_image"
             />
+            <div className="workshop_infobar_wrapper">
+              <div className="workshopdate_infobar">
+                <div className="workshopdate_timing">Upcoming</div>
+                <div className="workshopdate_categ">Workshop</div>
+              </div>
+              <div className="workshopdate_calender">
+                <div className="calender_top">
+                  {new Date(workshopInfo.startDate)
+                    .toLocaleString("default", {
+                      month: "long",
+                    })
+                    .slice(0, 3)}
+                </div>
+                <div className="calender_bottom">
+                  {new Date(workshopInfo.startDate).getDate()}
+                </div>
+              </div>
+            </div>
             <div className="service_section_details">
               <h1>{workshopInfo?.sname}</h1>
               <hr
@@ -683,124 +702,123 @@ function Service(props) {
             ) : (
               ""
             )}
-          </div>
-
-          <div className="workshop_creators">
-            <h2 className="service_h2">About Speaker</h2>
-            <div>
-              <img
-                src={basicCdata?.photo}
-                alt="creator"
-                className="workshop_page_profile_pic"
-                onClick={(e) => {
-                  e.preventDefault();
-                  mixpanel.track(
-                    "Clicked Creators profile pic on service page",
-                    {
-                      service: slug,
-                      user: UserDetails ? UserDetails : "",
-                      creator: basicCdata?.slug,
-                    }
-                  );
-                }}
-              />
-
-              <div className="workshop_profile_data">
-                <span className="c_workshop_name">{basicCdata?.name}</span>
-                <span className="c_workshop_tagline">
-                  {basicCreatorInfo?.tagLine}
-                </span>
-                <section>
-                  {basicCreatorInfo?.linkedInLink && (
-                    <a
-                      target="_blank"
-                      without
-                      rel="noreferrer"
-                      href={basicCreatorInfo?.linkedInLink}
-                      className=""
-                      style={{ textDecoration: "none" }}
-                    >
-                      <i className="fa-brands fa-linkedin fa-xl linkedin_icon"></i>
-                    </a>
-                  )}
-                  {basicCreatorInfo?.ytLink && (
-                    <a
-                      target="_blank"
-                      without
-                      rel="noreferrer"
-                      href={basicCreatorInfo?.ytLink}
-                      className=""
-                      style={{ textDecoration: "none" }}
-                    >
-                      <i className="fa-brands fa-youtube fa-xl youtube_icon"></i>
-                    </a>
-                  )}
-                  {basicCreatorInfo?.teleLink && (
-                    <a
-                      target="_blank"
-                      without
-                      rel="noreferrer"
-                      href={basicCreatorInfo?.teleLink}
-                      className=""
-                      style={{ textDecoration: "none" }}
-                    >
-                      <i className="fa-brands fa-telegram fa-xl telegram_icon"></i>
-                    </a>
-                  )}
-                  {basicCreatorInfo?.instaLink && (
-                    <a
-                      target="_blank"
-                      without
-                      rel="noreferrer"
-                      href={basicCreatorInfo?.instaLink}
-                      className=""
-                      style={{ textDecoration: "none" }}
-                    >
-                      <i className="fa-brands fa-instagram fa-xl insta_icon"></i>
-                    </a>
-                  )}
-                  {basicCreatorInfo?.twitterLink && (
-                    <a
-                      target="_blank"
-                      without
-                      rel="noreferrer"
-                      href={basicCreatorInfo?.twitterLink}
-                      className=""
-                      style={{ textDecoration: "none" }}
-                    >
-                      <i className="fa-brands fa-twitter fa-xl twitter_icon"></i>
-                    </a>
-                  )}
-                  {basicCreatorInfo?.fbLink && (
-                    <a
-                      target="_blank"
-                      without
-                      rel="noreferrer"
-                      href={basicCreatorInfo?.fbLink}
-                      className=""
-                      style={{ textDecoration: "none" }}
-                    >
-                      <i className="fa-brands fa-facebook fa-xl fb_icon"></i>
-                    </a>
-                  )}
-                </section>
-                <Link
-                  to={`/c/${basicCdata?.slug}`}
-                  style={{ textDecoration: "none" }}
-                >
-                  <button
-                    className="workshop_page_creator_button"
-                    onClick={() => {
-                      mixpanel.track("Creator Page from Card", {
-                        email: "",
+            <div className="workshop_creators">
+              <h2 className="service_h2">About Speaker</h2>
+              <div>
+                <img
+                  src={basicCdata?.photo}
+                  alt="creator"
+                  className="workshop_page_profile_pic"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    mixpanel.track(
+                      "Clicked Creators profile pic on service page",
+                      {
+                        service: slug,
                         user: UserDetails ? UserDetails : "",
-                        creatorID: basicCdata?.slug,
-                      });
-                    }}
+                        creator: basicCdata?.slug,
+                      }
+                    );
+                  }}
+                />
+
+                <div className="workshop_profile_data">
+                  <span className="c_workshop_name">{basicCdata?.name}</span>
+                  <span className="c_workshop_tagline">
+                    {basicCreatorInfo?.tagLine}
+                  </span>
+                  <section>
+                    {basicCreatorInfo?.linkedInLink && (
+                      <a
+                        target="_blank"
+                        without
+                        rel="noreferrer"
+                        href={basicCreatorInfo?.linkedInLink}
+                        className=""
+                        style={{ textDecoration: "none" }}
+                      >
+                        <i className="fa-brands fa-linkedin fa-xl linkedin_icon"></i>
+                      </a>
+                    )}
+                    {basicCreatorInfo?.ytLink && (
+                      <a
+                        target="_blank"
+                        without
+                        rel="noreferrer"
+                        href={basicCreatorInfo?.ytLink}
+                        className=""
+                        style={{ textDecoration: "none" }}
+                      >
+                        <i className="fa-brands fa-youtube fa-xl youtube_icon"></i>
+                      </a>
+                    )}
+                    {basicCreatorInfo?.teleLink && (
+                      <a
+                        target="_blank"
+                        without
+                        rel="noreferrer"
+                        href={basicCreatorInfo?.teleLink}
+                        className=""
+                        style={{ textDecoration: "none" }}
+                      >
+                        <i className="fa-brands fa-telegram fa-xl telegram_icon"></i>
+                      </a>
+                    )}
+                    {basicCreatorInfo?.instaLink && (
+                      <a
+                        target="_blank"
+                        without
+                        rel="noreferrer"
+                        href={basicCreatorInfo?.instaLink}
+                        className=""
+                        style={{ textDecoration: "none" }}
+                      >
+                        <i className="fa-brands fa-instagram fa-xl insta_icon"></i>
+                      </a>
+                    )}
+                    {basicCreatorInfo?.twitterLink && (
+                      <a
+                        target="_blank"
+                        without
+                        rel="noreferrer"
+                        href={basicCreatorInfo?.twitterLink}
+                        className=""
+                        style={{ textDecoration: "none" }}
+                      >
+                        <i className="fa-brands fa-twitter fa-xl twitter_icon"></i>
+                      </a>
+                    )}
+                    {basicCreatorInfo?.fbLink && (
+                      <a
+                        target="_blank"
+                        without
+                        rel="noreferrer"
+                        href={basicCreatorInfo?.fbLink}
+                        className=""
+                        style={{ textDecoration: "none" }}
+                      >
+                        <i className="fa-brands fa-facebook fa-xl fb_icon"></i>
+                      </a>
+                    )}
+                  </section>
+                  <Link
+                    to={`/c/${basicCdata?.slug}`}
+                    style={{ textDecoration: "none" }}
                   >
-                    View all Offering
-                  </button>
-                </Link>
+                    <button
+                      className="workshop_page_creator_button"
+                      onClick={() => {
+                        mixpanel.track("Creator Page from Card", {
+                          email: "",
+                          user: UserDetails ? UserDetails : "",
+                          creatorID: basicCdata?.slug,
+                        });
+                      }}
+                    >
+                      View all Offering
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
