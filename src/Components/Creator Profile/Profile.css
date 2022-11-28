@@ -224,8 +224,8 @@
   font-weight: 700;
   font-family: 'Roboto',sans-serif;
   color: #6A6161;
-  margin-top: 30px;
-  margin-bottom: 25px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   position: sticky;
   top: 500px;
 
@@ -235,7 +235,7 @@
   margin: 1px 0;
   cursor: pointer;
   width: 110%;
-  padding: 14px 25px;
+  padding: 11px 25px;
 }
 
 .nav_left_side_profile span:hover{
@@ -563,6 +563,10 @@
   cursor: pointer;
 }
 
+
+.profile_page_display_date{
+  margin: 0px auto 0px auto;
+}
 
 @media (max-width: 1180px) {
     .display_services_list {

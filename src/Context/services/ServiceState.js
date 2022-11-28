@@ -431,6 +431,20 @@ const ServiceState = (props) => {
       //console.log("Some error Occured")
     }
   };
+  const getworkshopusingid = async (id) => {
+    const response = await fetch(
+      `${host}/api/services/getworkshopusingid/${id}`,
+      {
+        method: "GET",
+      }
+    );
+    const json = await response.json();
+    if (json.success) {
+      return json.workshop;
+    } else {
+      //console.log("Some error Occured")
+    }
+  };
 
   return (
     <ServiceContext.Provider
@@ -460,6 +474,7 @@ const ServiceState = (props) => {
         addworkshop,
         getallworkshops,
         updateWorkshop,
+        getworkshopusingid,
         getallworkshopsusingid,
       }}
     >

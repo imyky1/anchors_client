@@ -19,6 +19,7 @@ import "swiper/css/pagination";
 
 function Profile(props) {
   const services_list = useRef();
+  const workshop_list = useRef();
   const about = useRef();
   const reviews = useRef();
   const requests = useRef();
@@ -33,7 +34,8 @@ function Profile(props) {
   const [requestQuery, setRequestQuery] = useState("");
   const [UserDetails, setUserDetails] = useState();
 
-  const { services, getallservicesusingid } = context;
+  const { services, getallservicesusingid, workshops, getallworkshopsusingid } =
+    context;
   const { getcreatoridUsingSlug, basicCreatorInfo, basicCdata } =
     useContext(creatorContext);
 
@@ -44,12 +46,14 @@ function Profile(props) {
     useContext(userContext);
 
   let count = 0;
+  let countworkshop = 0;
 
   useEffect(() => {
     const process = async () => {
       getcreatoridUsingSlug(slug).then((data) => {
         getallfeedback(data);
         getallservicesusingid(data).then(() => {});
+        getallworkshopsusingid(data).then(() => {});
       });
       if (
         localStorage.getItem("isUser") === "true" &&
@@ -136,7 +140,6 @@ function Profile(props) {
   const userlogout = () => {
     window.location.pathname = "/logout";
   };
-
   const handleServiceClick = (slug) => {
     mixpanel.track("Service Card Clicked", {
       creator: basicCdata?.slug,
@@ -185,16 +188,19 @@ function Profile(props) {
     doc[0].children[1].className = "";
     doc[0].children[2].className = "";
     doc[0].children[3].className = "";
+    doc[0].children[4].className = "";
 
-    if (e.target.innerText === "About me") {
+    if (e.target.innerText === "About") {
       e.target.className = "active_nav_item";
-    } else if (e.target.innerText === "Available Resources") {
+    } else if (e.target.innerText === "Resources") {
       e.target.className = "active_nav_item";
     } else if (e.target.innerText === "Reviews") {
       e.target.className = "active_nav_item";
-    } else {
+    } else if (e.target.innerText === "Workshops") {
       e.target.className = "active_nav_item";
-    }
+    } else if (e.target.innerText === "Request") {
+      e.target.className = "active_nav_item";
+    } 
   };
 
   const handleRequestClick = (e) => {
@@ -210,7 +216,7 @@ function Profile(props) {
       if (requestQuery !== "") {
         createRequest(
           basicCreatorInfo?.creatorID,
-          requestQuery, 
+          requestQuery,
           //v1 ? true : false,
           amount === 0 || !amount ? false : true,
           amount ? amount : 0
@@ -221,14 +227,14 @@ function Profile(props) {
               autoClose: 2500,
             });
             setRequestQuery("");
-            setAmount("")
+            setAmount("");
           } else if (e.already) {
             toast.info("You had already passed a request to the creator", {
               position: "bottom-center",
               autoClose: 2500,
             });
             setRequestQuery("");
-            setAmount("")
+            setAmount("");
           } else {
             toast.error("Some error occured, try again after some time!!", {
               position: "bottom-center",
@@ -507,6 +513,9 @@ function Profile(props) {
               <span onClick={(e) => handleNavigation(services_list, e)}>
                 Resources
               </span>
+              <span onClick={(e) => handleNavigation(workshop_list, e)}>
+                Workshops
+              </span>
               <span onClick={(e) => handleNavigation(reviews, e)}>Reviews</span>
               <span onClick={(e) => handleNavigation(requests, e)}>
                 Request
@@ -559,6 +568,51 @@ function Profile(props) {
                 })}
                 {count === 0 ? (
                   <h1 className="no_services">No services to display</h1>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+            <div ref={workshop_list} id="services">
+              <h2 className="headers_tag">Workshops</h2>
+              <div className="display_services_list">
+                {workshops.res?.map((e) => {
+                  if (e.status === 1) {
+                    countworkshop++;
+                    return (
+                      <Link
+                        to={`/w/${e.slug}`}
+                        key={e._id}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <div
+                          className="item_displayed"
+                          onClick={() => handleServiceClick(e.slug)}
+                        >
+                          <img src={e.simg} alt="..." />
+                          <h2>{e.sname}</h2>
+                          <span className="profile_page_display_date">
+                            <h2>
+                              Date -{" "}
+                              {new Date(e.startDate).toLocaleDateString()}
+                            </h2>
+                          </span>
+                          {/* <span
+                    className={`${
+                      e.isPaid === true ? "paid" : "free"
+                    }_tag_dispalyed`}
+                  >
+                    {e.isPaid === true ? "Paid" : "Free"}
+                  </span> */}
+                        </div>
+                      </Link>
+                    );
+                  } else {
+                    return "";
+                  }
+                })}
+                {countworkshop === 0 ? (
+                  <h1 className="no_services">No Workshops to display</h1>
                 ) : (
                   ""
                 )}
