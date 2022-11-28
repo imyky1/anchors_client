@@ -601,7 +601,7 @@ function Service(props) {
                 <i className="fa-regular fa-file-lines"></i>&nbsp; Event
                 Information
               </h2>
-              <div className="workshop_sdesc"  style={{color:"white"}}>
+              <div className="workshop_sdesc" >
                 {document.querySelectorAll(".workshop_sdesc")[1]
                   ? (document.querySelectorAll(".workshop_sdesc")[1].innerHTML =
                       workshopInfo?.ldesc)
