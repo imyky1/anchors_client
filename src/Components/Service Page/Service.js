@@ -157,6 +157,7 @@ function Service(props) {
               serviceInfo?._id,
               basicCreatorInfo.creatorID,
               1,
+              0,
               razorpay_payment_id,
               razorpay_order_id,
               razorpay_signature
@@ -324,6 +325,7 @@ function Service(props) {
           1,
           serviceInfo._id,
           basicCreatorInfo.creatorID,
+          0,
           0
         );
         if (success) {
@@ -452,6 +454,7 @@ function Service(props) {
           copyURL={serviceInfo?.copyURL}
           slug={serviceInfo?.slug}
           name={serviceInfo?.sname}
+          stype={0}
           control = {setOpenModelRequest}
           c_id = {basicCdata?._id}
         />

@@ -61,7 +61,7 @@ const UserState = (props) => {
 
 
     // ROUTE 3 : USER ORDER
-    const userPlaceOrder = async ( amount , status , serviceid, creatorId ,paidUser,razorpayPaymentId , razorpayOrderId , razorpaySignature  ) => {
+    const userPlaceOrder = async ( amount , status , serviceid, creatorId ,paidUser,orderType,razorpayPaymentId , razorpayOrderId , razorpaySignature  ) => {
         const response = await fetch(`${host}/api/user/service/neworder/${serviceid}`, {
             method: 'POST',
             headers: {
@@ -71,7 +71,7 @@ const UserState = (props) => {
                 'jwt-token': localStorage.getItem('jwtToken')
             },
             body: JSON.stringify({
-                amount , status , razorpayPaymentId , razorpayOrderId , razorpaySignature 
+                amount , status , orderType, razorpayPaymentId , razorpayOrderId , razorpaySignature 
             })
         })
         const json = await response.json();
@@ -156,9 +156,24 @@ const UserState = (props) => {
         return json
     }
 
+    // check if userorder already exists or not
+    const checkUserOrderPlaced = async (id) => { // USER LOGIN IS REQUIRED
+        const response = await fetch(`${host}/api/user/checkUserOrder/${id}`, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true,
+                "jwt-token": localStorage.getItem('jwtToken')
+            },
+        })
+        const json = await response.json()
+        return json.success
+    }
+
 
     return (
-        <userContext.Provider value={{lastUser,checkSubscriber, userPlaceOrder, addSubscriber,getUserDetails }}>
+        <userContext.Provider value={{lastUser,checkSubscriber, userPlaceOrder, addSubscriber,getUserDetails,checkUserOrderPlaced }}>
             {props.children}
         </userContext.Provider>
     )

@@ -16,7 +16,7 @@ import Thanks from "../Modals/Thanks";
 import { feedbackcontext } from "../../Context/FeedbackState";
 import SocialProof from "../Modals/SocialProof";
 import Request_Modal from "../Modals/Request_Modal";
-import Moment from "moment";
+import CalendarIcon from "react-calendar-icon";
 
 function Service(props) {
   const { slug } = useParams();
@@ -33,6 +33,8 @@ function Service(props) {
   const [UserDetails, setUserDetails] = useState();
   const [openModelDownload, setOpenModelDownload] = useState(false);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [seatReserved, setSeatReserved] = useState(false);
+
   const {
     workshopInfo,
     getworkshopinfo,
@@ -43,7 +45,7 @@ function Service(props) {
   } = context;
   const { basicCdata, getBasicCreatorInfo, basicCreatorInfo } =
     useContext(creatorContext);
-  const { userPlaceOrder, checkSubscriber, getUserDetails } =
+  const { userPlaceOrder, checkSubscriber, getUserDetails,checkUserOrderPlaced } =
     useContext(userContext);
   const { checkFBlatest } = useContext(feedbackcontext);
 
@@ -88,6 +90,10 @@ function Service(props) {
 
     var s = new Date(workshopInfo?.startDate).toLocaleString("en-US", options);
     setWorkshopDate(s);
+
+    checkUserOrderPlaced(workshopInfo?._id).then((e)=>{
+      setSeatReserved(e)
+    })
   }, [workshopInfo]);
 
   // responsible for feedback popup
@@ -122,25 +128,24 @@ function Service(props) {
     }, 8500);
   }, []);
 
-  const dox1 = document.getElementById("unsubscribe");
-  const dox2 = document.getElementById("subscribe");
+  //const dox1 = document.getElementById("unsubscribe");
+  //const dox2 = document.getElementById("subscribe");
 
-  setTimeout(() => {
-    if (
-      localStorage.getItem("isUser") === "true" &&
-      localStorage.getItem("jwtToken")
-    ) {
-      checkSubscriber(basicCreatorInfo.creatorID).then((data) => {
-        if (data && dox2 && dox1) {
-          dox1.style.display = "none";
-          dox2.style.display = "inline-block";
-        }
-      });
-    }
-  }, 100);
+  //setTimeout(() => {
+  //  if (
+  //    localStorage.getItem("isUser") === "true" &&
+  //    localStorage.getItem("jwtToken")
+  //  ) {
+  //    checkSubscriber(basicCreatorInfo.creatorID).then((data) => {
+  //      if (data && dox2 && dox1) {
+  //        dox1.style.display = "none";
+  //        dox2.style.display = "inline-block";
+  //      }
+  //    });
+  //  }
+  //}, 100);
 
   const orderPlacing = () => {
-    const ext = workshopInfo.surl?.split(".").at(-1);
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
 
@@ -158,7 +163,7 @@ function Service(props) {
           amount: order.amount,
           currency: order.currency,
           name: "Anchors.in",
-          description: `Payment for Buying - ${workshopInfo?.sname}`,
+          description: `Payment for Attending - ${workshopInfo?.sname}`,
           order_id: order.id,
           handler: async function (response) {
             const {
@@ -172,41 +177,18 @@ function Service(props) {
               workshopInfo?._id,
               basicCreatorInfo.creatorID,
               1,
+              1,
               razorpay_payment_id,
               razorpay_order_id,
               razorpay_signature
             );
             if (success) {
               setOpenModelDownload(true);
-              if (ext === "pdf") {
-                downloadFile("pdf").then(() => {});
-                mixpanel.track("Downloaded paid pdf", {
-                  service: slug,
-                  user: UserDetails ? UserDetails : "",
-                  amount: workshopInfo?.ssp,
-                  creator: basicCdata?.slug,
-                });
-              } else if (ext === "mp4") {
-                downloadFile("mp4").then(() => {});
-                mixpanel.track("Downloaded paid pdf", {
-                  service: slug,
-                  user: UserDetails ? UserDetails : "",
-                  amount: workshopInfo?.ssp,
-                  creator: basicCdata?.slug,
-                });
-              } else {
-                let link = document.createElement("a");
-                link.href = workshopInfo.surl;
-                link.target = "_blank";
-                link.dispatchEvent(new MouseEvent("click"));
-              }
-              toast.info(
-                "Check the Downloads in few seconds, if file not found raise an issue at ravi@anchors.in",
-                {
-                  position: "top-center",
-                }
-              );
-              mixpanel.track("Downloaded Paid Service", {
+              toast.success("Successfully registered for the workshop",{
+                position:"top-center",
+                autoClose:2500
+              })
+              mixpanel.track("Reserved Seat for Paid Workshop", {
                 service: slug,
                 user: UserDetails ? UserDetails : "",
                 amount: workshopInfo?.ssp,
@@ -215,10 +197,10 @@ function Service(props) {
               setPaymentProcessing(false);
             } else {
               toast.error(
-                "Order not Placed Due to some error, If your payment has been deducted then it would be refunded in 3-4 working days",
+                "Seat not Reserved Due to some error, If your payment has been deducted then it would be refunded in 3-4 working days",
                 {
                   position: "top-center",
-                  autoClose: 3000,
+                  autoClose: 4000,
                 }
               );
               setPaymentProcessing(false);
@@ -227,7 +209,7 @@ function Service(props) {
           modal: {
             ondismiss: function () {
               toast.info(
-                "It is a paid service, For downloading it you have to pay the one time payment",
+                "It is a paid workshop, for reserving a seat, you would have to pay the one time payment",
                 {
                   position: "top-center",
                   autoClose: 5000,
@@ -260,76 +242,14 @@ function Service(props) {
     document.body.appendChild(script);
   };
 
-  const downloadFile = (type) => {
-    let oReq = new XMLHttpRequest();
-    let URLToPDF = workshopInfo?.surl;
-    oReq.open("GET", URLToPDF, true);
-    oReq.setRequestHeader(
-      "Access-Control-Allow-Origin",
-      "http://www.anchors.in"
-    );
-    oReq.setRequestHeader("Access-Control-Allow-Methods", "GET");
-
-    oReq.responseType = "blob";
-
-    oReq.onload = function () {
-      let file = new Blob([oReq.response], {
-        type: `application/${type}`,
-      });
-
-      saveAs(file, `${workshopInfo?.sname}.${type}`);
-    };
-    oReq.send();
-  };
 
   const download_service = async () => {
-    const ext = workshopInfo.surl?.split(".").at(-1);
     if (
       localStorage.getItem("isUser") === "true" &&
       localStorage.getItem("jwtToken")
     ) {
       if (workshopInfo?.isPaid) {
-        checkfororder(workshopInfo?._id).then((e) => {
-          if (e) {
-            if (ext === "pdf") {
-              downloadFile("pdf");
-              mixpanel.track("Downloaded paid pdf again", {
-                service: slug,
-                user: UserDetails ? UserDetails : "",
-                amount: workshopInfo?.ssp,
-                creator: basicCdata?.slug,
-              });
-            } else if (ext === "mp4") {
-              downloadFile("mp4");
-              mixpanel.track("Downloaded paid pdf again", {
-                service: slug,
-                user: UserDetails ? UserDetails : "",
-                amount: workshopInfo?.ssp,
-                creator: basicCdata?.slug,
-              });
-            } else {
-              let link = document.createElement("a");
-              link.href = workshopInfo.surl;
-              link.target = "_blank";
-              link.dispatchEvent(new MouseEvent("click"));
-            }
-            setOpenModelDownload(true);
-            toast.info(
-              "Check the Downloads in few seconds, if file not found raise an issue at ravi@anchors.in",
-              {
-                position: "top-center",
-              }
-            );
-            mixpanel.track("Downloaded Paid Service for more than once", {
-              service: slug,
-              user: UserDetails ? UserDetails : "",
-              amount: workshopInfo?.ssp,
-              creator: basicCdata?.slug,
-            });
-          } else {
-            orderPlacing().then(() => {});
-          }
-        });
+          orderPlacing().then(() => {});
       } else {
         setPaymentProcessing(true);
         const success = await userPlaceOrder(
@@ -337,67 +257,40 @@ function Service(props) {
           1,
           workshopInfo._id,
           basicCreatorInfo.creatorID,
-          0
+          0,
+          1
         );
         if (success) {
           setOpenModelDownload(true);
-          if (ext === "pdf") {
-            downloadFile("pdf");
-            mixpanel.track("Downloaded pdf", {
-              service: slug,
-              user: UserDetails ? UserDetails : "",
-              creator: basicCdata?.slug,
-            });
-          } else if (ext === "mp4") {
-            downloadFile("mp4");
-            mixpanel.track("Downloaded pdf", {
-              service: slug,
-              user: UserDetails ? UserDetails : "",
-              creator: basicCdata?.slug,
-            });
-          } else {
-            let link = document.createElement("a");
-            link.href = workshopInfo.surl;
-            link.target = "_blank";
-            link.dispatchEvent(new MouseEvent("click"));
-          }
-          toast.info(
-            "Check the Downloads in few seconds, if file not found raise an issue at ravi@anchors.in",
-            {
-              position: "top-center",
-            }
-          );
-          mixpanel.track("Downloaded Service", {
+          toast.success("Successfully registered for the workshop, you'll soon be notified on your email about its details",{
+            position:"top-center",
+            autoClose:3500
+          })
+          mixpanel.track("Reserved seat for free workshop", {
             service: slug,
             user: UserDetails ? UserDetails : "",
             creator: basicCdata?.slug,
           });
         } else {
-          toast.error("Order not Placed Due to some error", {
+          toast.error("Seat not reserved Due to some error, please try again some time", {
             position: "top-center",
-            autoClose: 2000,
+            autoClose: 2500,
           });
         }
         setPaymentProcessing(false);
       }
+
     } else if (
       localStorage.getItem("isUser") === "" &&
       localStorage.getItem("jwtToken")
     ) {
-      setPaymentProcessing(true);
-      if (ext === "pdf") {
-        downloadFile("pdf");
-      } else if (ext === "mp4") {
-        downloadFile("mp4");
-      } else {
-        let link = document.createElement("a");
-        link.href = workshopInfo.surl;
-        link.target = "_blank";
-        link.dispatchEvent(new MouseEvent("click"));
-      }
-      setPaymentProcessing(false);
+      toast.info("You cannot reserve seat as a creator, Please login as an user",{
+        position:"top-center",
+        autoClose:3000
+      })
+    
     } else {
-      mixpanel.track("Clicked Download Service Without Login", {
+      mixpanel.track("Clicked Reserve seat in workshop Without Login", {
         service: slug,
         user: UserDetails ? UserDetails : "",
         creator: basicCdata?.slug,
@@ -427,9 +320,9 @@ function Service(props) {
   };
 
   if (workshopInfo?.status === 0 || basicCdata?.status === 0)
-    return alert("The service doesn't exist");
+    return alert("The resource doesn't exist");
 
-  if (!slug) return alert("The service doesn't exist");
+  if (!slug) return alert("The resource doesn't exist");
 
   return (
     <>
@@ -464,6 +357,7 @@ function Service(props) {
           copyURL={workshopInfo?.copyURL}
           slug={workshopInfo?.slug}
           name={workshopInfo?.sname}
+          stype={1}
           control={setOpenModelRequest}
           c_id={basicCdata?._id}
         />
@@ -509,7 +403,7 @@ function Service(props) {
                     Login
                   </span>
                 ) : (
-                  <span className="user_login_name">
+                  <span className="dark_user_login_name user_login_name ">
                     {localStorage.getItem("user").slice(0, 12) ===
                     localStorage.getItem("user")
                       ? localStorage.getItem("user")
@@ -556,23 +450,48 @@ function Service(props) {
               alt="service_image"
               className="service_section_image"
             />
+            {/* <CalendarIcon date={new Date(workshopInfo?.startDate)}/> */}
             <div className="service_section_details">
-              <h1>{workshopInfo?.sname}</h1>
-              <hr
-                style={{ width: "100%", color: "rgba(255, 255, 255, 0.507)" }}
-              />
+              <h1 style={{ marginBottom: "15px" }}>{workshopInfo?.sname}</h1>
+
+              {/* Mobile workshop timing display for screen width < 500------------------ */}
+
+              {window.screen.width < 550 && (
+                <div className="mobile_workshop_time">
+                  <span>
+                    {WorkshopDate} at {workshopInfo?.time?.startTime} -{" "}
+                    {workshopInfo?.time?.endTime}
+                  </span>
+                  <span>
+                    {" "}
+                    <i
+                      class="fa-solid fa-location-dot fa-xl"
+                      style={{ color: "red" }}
+                    ></i>{" "}
+                    Online
+                  </span>
+                </div>
+              )}
+
+              {/* Bottom reserve seat button ---------------------------------------- */}
               <div className="bottom_workshop_section">
+                {window.screen.width > 550 && (
+                  <>
+                    <span>
+                      {WorkshopDate} at {workshopInfo?.time?.startTime} -{" "}
+                      {workshopInfo?.time?.endTime}
+                    </span>
+                    <span>
+                      {" "}
+                      <i
+                        class="fa-solid fa-location-dot fa-xl"
+                        style={{ color: "red" }}
+                      ></i>{" "}
+                      &nbsp; Online{" "}
+                    </span>
+                  </>
+                )}
                 <span>
-                  {WorkshopDate} at {workshopInfo?.time?.startTime} -{" "}
-                  {workshopInfo?.time?.endTime}
-                </span>
-                <span>
-                  {" "}
-                  <i
-                    class="fa-solid fa-location-dot fa-xl"
-                    style={{ color: "red" }}
-                  ></i>{" "}
-                  &nbsp; Online | &nbsp;&nbsp;&nbsp;
                   <>
                     {workshopInfo?.isPaid ? (
                       <div className="mobile_price_desc">
@@ -606,23 +525,30 @@ function Service(props) {
                   </>
                 </span>
 
-                <button
-                  className="download_service"
-                  onClick={download_service}
-                  style={
-                    paymentProcessing
-                      ? { backgroundColor: "grey", border: "2px solid grey" }
-                      : {}
-                  }
-                >
-                  {paymentProcessing ? <>Processing</> : <>Reserve Your Seat</>}
-                </button>
+                {/* Checks iff the seat is already reserved for the person */}
+                  <button
+                    className="download_service"
+                    disabled={seatReserved}
+                    onClick={download_service}
+                    style={
+                    (paymentProcessing || seatReserved)
+                        ? { backgroundColor: "black", border: "2px solid black" }
+                        : {}  
+                    }
+                  >
+                    {paymentProcessing ? (
+                      <>Processing...</>
+                    ) : (
+                      seatReserved ? <>Seat Reserved</> :
+                      <>Reserve Your Seat</>
+                    )}
+                  </button>
               </div>
               {workshopInfo?.tags?.length !== 0 && workshopInfo.tags && (
                 <div className="workshop_tags_section">
-                  <span>{workshopInfo?.tags[0]}</span>
-                  <span>{workshopInfo?.tags[1]}</span>
-                  <span>{workshopInfo?.tags[2]}</span>
+                  {workshopInfo?.tags?.slice(0,3)?.map((e,i)=>{
+                    return <span key={i}>{e}</span>
+                  })}
                 </div>
               )}
               <p className="workshop_sdesc">{workshopInfo?.sdesc}</p>
@@ -637,7 +563,7 @@ function Service(props) {
                   : ""}
               </div>
             </div>
-            {workshops.res?.filter((e) => e.status === 1).length - 1 !== 0 &&
+            {/* {workshops.res?.filter((e) => e.status === 1).length - 1 !== 0 &&
             localStorage.getItem("jwtToken") ? (
               <div className="more_services">
                 <h2 className="service_h2">
@@ -664,13 +590,7 @@ function Service(props) {
                             >
                               <img src={e.simg} alt="..." />
                               <h2>{e.sname}</h2>
-                              {/* <span
-                                className={`${
-                                  e.isPaid === true ? "paid" : "free"
-                                }_tag_dispalyed`}
-                              >
-                                {e.isPaid === true ? "Paid" : "Free"}
-                              </span> */}
+                            
                             </div>
                           </a>
                         );
@@ -682,7 +602,7 @@ function Service(props) {
               </div>
             ) : (
               ""
-            )}
+            )} */}
           </div>
 
           <div className="workshop_creators">
@@ -805,7 +725,18 @@ function Service(props) {
             </div>
           </div>
         </div>
+        <div className="workshop_footer_service">
+          <a
+            href="https://www.linkedin.com/company/beanchorite"
+            target="_blank"
+            rel="noreferrer"
+          >
+            {/* <span>Follow us on LinkedIn</span> */}
+          </a>
+          <span>Facing any issue? email us - ravi@anchors.in</span>
+        </div>
       </div>
+    
       <ToastContainer />
     </>
   );

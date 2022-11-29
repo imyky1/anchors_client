@@ -83,7 +83,7 @@ function Request_Modal({
           }}
         ></i>
         <span className="fb_span_one model_question request_model_span">Request New Resources</span>
-        <span className="fb_span_two">Let {cname} know what you want in the next document.</span>
+        <span className="fb_span_two">Let {cname} know what you want in the next document/workshop.</span>
         <textarea
           type="text"
           className="request_model_box "
@@ -91,7 +91,7 @@ function Request_Modal({
           value={requestQuery}
           onChange={(e) => setRequestQuery(e.target.value)}
         />
-        <span className="fb_span_two">How much will you pay for the document (in INR)?</span>
+        <span className="fb_span_two">How much will you pay for the document/workshop (in INR)?</span>
         <div className="fb_span_two">
           <input type="number" name="amount" id="amount" value={amount} onChange={(e)=>{setAmount(parseInt(e.target.value))}} placeholder="Ex. 99" />
           {/* <span>

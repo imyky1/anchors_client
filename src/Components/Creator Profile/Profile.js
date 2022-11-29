@@ -200,7 +200,7 @@ function Profile(props) {
       e.target.className = "active_nav_item";
     } else if (e.target.innerText === "Request") {
       e.target.className = "active_nav_item";
-    } 
+    }
   };
 
   const handleRequestClick = (e) => {
@@ -592,18 +592,27 @@ function Profile(props) {
                           <img src={e.simg} alt="..." />
                           <h2>{e.sname}</h2>
                           <span className="profile_page_display_date">
-                            <h2>
-                              Date -{" "}
-                              {new Date(e.startDate).toLocaleDateString()}
-                            </h2>
+                            {new Date(e.startDate).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                              timeZone: "Asia/Kolkata",
+                            })}
+                            <span>
+                              <i
+                                class="fa-solid fa-location-dot fa-xl"
+                                style={{ color: "red" }}
+                              ></i>{" "}
+                              &nbsp; Online{" "}
+                            </span>
                           </span>
-                          {/* <span
-                    className={`${
-                      e.isPaid === true ? "paid" : "free"
-                    }_tag_dispalyed`}
-                  >
-                    {e.isPaid === true ? "Paid" : "Free"}
-                  </span> */}
+                          <span
+                            className={`${
+                              e.isPaid === true ? "paid" : "free"
+                            }_tag_dispalyed`}
+                          >
+                            {e.isPaid === true ? "Paid" : "Free"}
+                          </span>
                         </div>
                       </Link>
                     );

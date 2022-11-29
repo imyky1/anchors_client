@@ -4,7 +4,7 @@ import "./Model.css";
 import mixpanel from "mixpanel-browser";
 import { feedbackcontext } from "../../Context/FeedbackState";
 
-function Thanks({ open, onClose, copyURL, slug, name, control, c_id }) {
+function Thanks({ open, onClose, copyURL, slug, name, control, c_id,stype }) {
   const { checkRequest } = useContext(feedbackcontext);
   const [request, setRequest] = useState(true); // request true means that request is not present in the database and false means that data is present
 
@@ -72,7 +72,7 @@ function Thanks({ open, onClose, copyURL, slug, name, control, c_id }) {
           <span className="thanks_model_header">
             <i class="fa-solid fa-cloud-arrow-down fa-xl"></i>
             <br />
-            Thanks for downloading...
+            {stype === 1 ? "Thanks for registering for workshop" : "Thanks for downloading..."}
           </span>
           <span className="thanks_model_content">
             {!request ? (
@@ -81,7 +81,7 @@ function Thanks({ open, onClose, copyURL, slug, name, control, c_id }) {
                 with friends
               </>
             ) : (
-              "Do you want to get the services based on your personalised requests?"
+              "Do you want to get the services/workshops based on your personalised requests?"
             )}
           </span>
           <div className="thanks_model_button">
