@@ -77,6 +77,88 @@ function Service(props) {
     process();
     // eslint-disable-next-line
   }, []);
+  const [timing, setTiming] = useState("");
+  useEffect(() => {
+    const todayDate = new Date();
+    const finalDate = new Date(workshopInfo.startDate);
+    var startHour = workshopInfo?.time?.startTime;
+    var endHour = workshopInfo?.time?.endTime;
+    if (startHour !== undefined) {
+      let temp = startHour.split("");
+      startHour = temp[0] + temp[1];
+      var startMinute = temp[3] + temp[4];
+    }
+    if (endHour !== undefined) {
+      let temp = endHour.split("");
+      endHour = temp[0] + temp[1];
+      var endMinute = temp[3] + temp[4];
+    }
+    if (
+      todayDate.getDate() - finalDate.getDate() === 0 &&
+      todayDate.getMonth() - finalDate.getMonth() === 0
+    ) {
+      // same day
+      var hourdiff = startHour - todayDate.getHours();
+      var hourenddiff = endHour - todayDate.getHours();
+
+      // case 1 - s.h - c.h - e.h
+      if (hourdiff < 0 && hourenddiff > 0) {
+        setTiming("Ongoing");
+        return;
+      }
+      // case 2 - c.h - s.h - e.h
+      if (hourdiff < 0 && hourenddiff < 0) {
+        setTiming("Upcoming");
+        return;
+      }
+      // case 3 s.h - e.h - c.r
+      if (hourdiff > 0 && hourenddiff > 0) {
+        setTiming("Past");
+        return;
+      }
+      // case 4 - s.h == c.h - e.h (check start minute)
+      if (hourdiff === 0 && hourenddiff > 0) {
+        let mindiff = startMinute - todayDate.getMinutes();
+        if (mindiff > 0) {
+          setTiming("Upcoming");
+        } else {
+          setTiming("OnGoing");
+        }
+      }
+      // case 5 - s.h  - e.h == c.h
+      if (hourdiff < 0 && hourenddiff === 0) {
+        let mindiff = endMinute - todayDate.getMinutes();
+        if (mindiff > 0) {
+          setTiming("OnGoing");
+        } else {
+          setTiming("Past");
+        }
+      }
+      // case 6 - s.h==c.h==e.h
+      if (hourdiff === 0 && hourenddiff === 0) {
+        let Startmindiff = startMinute - todayDate.getMinutes();
+        let Endmindiff = endMinute - todayDate.getMinutes();
+        // case 1 ongoing
+        if (Startmindiff < 0 && Endmindiff > 0) {
+          setTiming("Ongoing");
+          return;
+        }
+        // case 2 Past
+        if (Startmindiff < 0 && Endmindiff < 0) {
+          setTiming("Past");
+        }
+        // case 3 upcoming
+        if (Startmindiff > 0 && Endmindiff > 0) {
+          setTiming("Upcoming");
+        }
+      }
+    } else if (finalDate - todayDate > 0) {
+      // not the same day
+      setTiming("Upcoming");
+    } else {
+      setTiming("Past");
+    }
+  }, [workshopInfo]);
 
   // generates the workshop date accordingly
   useEffect(() => {
@@ -559,7 +641,7 @@ function Service(props) {
             />
             <div className="workshop_infobar_wrapper">
               <div className="workshopdate_infobar">
-                <div className="workshopdate_timing">Upcoming</div>
+                <div className="workshopdate_timing">{timing}</div>
                 <div className="workshopdate_categ">Workshop</div>
               </div>
               <div className="workshopdate_calender">
