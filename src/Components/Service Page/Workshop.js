@@ -376,7 +376,7 @@ function Service(props) {
           if (e) {
             if (ext === "pdf") {
               downloadFile("pdf");
-              mixpanel.track("Downloaded paid pdf again", {
+              mixpanel.track("Registered for workshop again", {
                 service: slug,
                 user: UserDetails ? UserDetails : "",
                 amount: workshopInfo?.ssp,
@@ -384,7 +384,7 @@ function Service(props) {
               });
             } else if (ext === "mp4") {
               downloadFile("mp4");
-              mixpanel.track("Downloaded paid pdf again", {
+              mixpanel.track("Registered for workshop again", {
                 service: slug,
                 user: UserDetails ? UserDetails : "",
                 amount: workshopInfo?.ssp,
@@ -398,12 +398,12 @@ function Service(props) {
             }
             setOpenModelDownload(true);
             toast.info(
-              "Check the Downloads in few seconds, if file not found raise an issue at ravi@anchors.in",
+              "Check to register in few seconds, if still having issues, raise an issue at ravi@anchors.in",
               {
                 position: "top-center",
               }
             );
-            mixpanel.track("Downloaded Paid Service for more than once", {
+            mixpanel.track("Registered for paid workshop for more than once", {
               service: slug,
               user: UserDetails ? UserDetails : "",
               amount: workshopInfo?.ssp,
