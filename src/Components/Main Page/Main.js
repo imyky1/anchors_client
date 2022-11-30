@@ -91,7 +91,7 @@ function Main() {
             localStorage.getItem("jwtToken") ? "/dashboard" : "/login/creators"
           }
         >
-          <button className="waitlist">
+          <button className="waitlist" style={{backgroundColor:"black",color:"white",border:"2px solid black"}}>
             {localStorage.getItem("jwtToken") &&
             localStorage.getItem("isUser") === ""
               ? "My Account"
