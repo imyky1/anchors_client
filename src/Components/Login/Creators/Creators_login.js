@@ -1,13 +1,9 @@
-import React,{useRef,useEffect} from "react";
+import React, { useRef, useEffect } from "react";
 import "./Creators_login.css";
-import {host} from "../../../config/config.js"
-
+import { host } from "../../../config/config.js";
 
 function Creators_login() {
-  const ref = useRef()
-  
-
-
+  const ref = useRef();
 
   //const handleShowPassword = () =>{
   //  const doc = document.getElementById("show_pass")
@@ -18,42 +14,46 @@ function Creators_login() {
   //  }
   //}
 
-  const handleGoogle = async() => {
-    localStorage.setItem('isUser' , "")
-    localStorage.setItem('from','google')
+  const handleGoogle = async () => {
+    localStorage.setItem("isUser", "");
+    localStorage.setItem("from", "google");
     window.open(`${host}/google/auth`, "_self");
-  }
-
+  };
 
   const handlelinkedin = async () => {
-    localStorage.setItem('isUser' , "")
-    localStorage.setItem('from','linkedin')
+    localStorage.setItem("isUser", "");
+    localStorage.setItem("from", "linkedin");
     window.open(`${host}/login/auth/linkedin`, "_self");
   };
 
   return (
     <div className="creator_login">
-      <div className="creator_login_header">
-      <div className="logo_loginPage">
+      <div className="mainpage_header creator_login_header ">
+        <div className="logo">
           <img src={require("../../logo.png")} alt="Logo" />
           <span>anchors</span>
-          </div>
-        <a href="https://forms.gle/BSX2K1ty1bQF7J3t8" target="_blank" rel="noreferrer" ><button className="waitlist">Join Waitlist</button></a>
+        </div>
+        <a
+          href="https://forms.gle/BSX2K1ty1bQF7J3t8"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <button className="waitlist">Join Waitlist</button>
+        </a>
       </div>
       <div className="main_page_login">
         <div className="gyan_container">
-          Start Monetizing your content, skills, Expertise and help your
-          followers to grow
+          <img src={require("../../main2.png")} alt="" />
         </div>
         <div className="login_container">
-          <h2>Welcome Back Anchorite</h2>
-          <img src={require("../../logo2.png")} alt="logo" />
-          <button className="linkedin_auth_link" onClick={handlelinkedin} >
-            <i className="fa-brands fa-linkedin-in"></i> Login with LinkedIn
+          <h1>Welcome Back Anchor</h1>
+          <button className="linkedin_auth_link" onClick={handlelinkedin}>
+          <i class="fa-brands fa-linkedin fa-xl"></i> Login with LinkedIn
           </button>
-          <div className="or_section"><hr/>or<hr/></div>
-          <button className="google_auth_link" onClick={handleGoogle} >
-            <i className="fa-brands fa-google"></i> Login with Google
+
+          <button className="google_auth_link" onClick={handleGoogle}>
+            <img src={require("../../google.png")} alt="" />
+            Login with Google
           </button>
           {/* <form>
             <input
@@ -79,8 +79,8 @@ function Creators_login() {
             </div>
             <input disabled={true} type="submit" className="login_submit" value="Login" />
           </form> */}
+        </div>
       </div>
-    </div>
     </div>
   );
 }
