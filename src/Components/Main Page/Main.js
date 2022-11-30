@@ -108,7 +108,7 @@ function Main() {
             </h1>
             <p>
               & Start Monetizing your
-              <br /> <b>Content</b>, <b>Skills</b>,<b>Expertise</b>
+              <br /> <b>Content</b>, <b>Skills</b>, <b>Expertise</b>
               <br /> and help your audience to grow
             </p>
             <a href="#eligibility"><button>Check Eligibility</button></a>
@@ -129,6 +129,7 @@ function Main() {
           <div className="features">
             <div>
               <i class="fa-solid fa-dollar-sign fa-2x"></i>
+              <h2 className="main_headers2">Offer Free / Paid Services</h2>
               <p>
                 Offer paid service to your follower/audience ( content, workshop
                 etc. )
@@ -136,14 +137,17 @@ function Main() {
             </div>
             <div>
               <i class="fa-solid fa-chart-simple fa-2x"></i>
+              <h2 className="main_headers2">Detailed Analysis</h2>
               <p>Detailed Analysis Report for Services and Audiences</p>
             </div>
             <div>
               <i class="fa-solid fa-hand-holding-dollar fa-2x"></i>
+              <h2 className="main_headers2">Collect Payment</h2>
               <p>Accept Payment directly from audience</p>
             </div>
             <div>
               <i class="fa-regular fa-comment-dots fa-2x"></i>
+              <h2 className="main_headers2">Communication with audience</h2>
               <p>
                 Communicate wth your audience and let them know your next
                 service
@@ -151,6 +155,7 @@ function Main() {
             </div>
             <div>
               <i class="fa-regular fa-circle-question fa-2x"></i>
+              <h2 className="main_headers2">Know your audience demand</h2>
               <p>
                 Allow your audience to connect with you and let you know what
                 they want
@@ -158,6 +163,7 @@ function Main() {
             </div>
             <div>
               <i class="fa-solid fa-users-line fa-2x"></i>
+              <h2 className="main_headers2">Premium Community</h2>
               <p>Become a part of Premium Creator Community</p>
             </div>
           </div>

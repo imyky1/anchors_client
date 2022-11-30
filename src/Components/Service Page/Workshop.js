@@ -450,7 +450,7 @@ function Service(props) {
               alt="service_image"
               className="service_section_image"
             />
-            {/* <CalendarIcon date={new Date(workshopInfo?.startDate)}/> */}
+            <CalendarIcon date={new Date(workshopInfo?.startDate)}/>
             <div className="service_section_details">
               <h1 style={{ marginBottom: "15px" }}>{workshopInfo?.sname}</h1>
 
