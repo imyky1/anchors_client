@@ -18,9 +18,9 @@
 }
 
 
-.main_waitlist{
+.main_waitlist_page{
     width: 70%;
-    margin: 22vh auto;
+    margin: 17vh auto 8vh auto;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -28,18 +28,49 @@
     justify-content: space-between;
 }
 
-.main_waitlist h1{
+.main_waitlist_page h1{
     font-size: 2rem;
 }
 
-.main_waitlist h1 span{
+.main_waitlist_page h1 span{
     color: red;
 }
 
-.main_waitlist p{
+.main_waitlist_page p{
     font-size: 1.7rem;
     width: 50%;
     margin: 20px 0;
     font-weight: 500;
     color: rgb(88, 85, 85);
+}
+.waitlist_form_button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.waitlist_form_button button{
+    background-color: #FF0000;
+    border: transparent;
+    padding: 15px 25px 15px 25px;
+        font-size: 1.6rem;
+        color: #ffff;
+        font-weight: 700;
+        line-height: 30px;
+        letter-spacing: 0em;
+        text-align: center;
+        border-radius: 10px;
+        cursor: pointer;
+}
+.waitlist_form_button_a{
+    text-decoration: none;
+            color: #ffff;
+        
+}
+
+.waitlist_form_button h2{
+    padding-top: 20px;
+    font-size: 1.15rem;
+    font-weight: 300;
 }
