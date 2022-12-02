@@ -24,7 +24,7 @@ function Waitlist() {
         <div className="main_waitlist_page">
           <h1 style={{ textAlign: "left" }}>Hey, {loginInfo.name}</h1>
           <h1>
-            Thanks for showing interest to become <span>Anchorite</span>
+            Thanks for showing interest to become <span>Anchor</span>
           </h1>
           <p>
             Our Team will review your LinkedIn profile and inform you on the
