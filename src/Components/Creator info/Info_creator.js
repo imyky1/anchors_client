@@ -205,9 +205,11 @@ useEffect(() => {
               About Me <small>*</small>
             </label>
       <ReactEditor readOnly = {false} content={allCreatorInfo?.aboutMe} setContent={setContent} />
+      <div className="create_buttons">
         <button className="submit_button" onClick={onSubmit}>
           Save Details
         </button>
+      </div>
     </div>
     </>
   );

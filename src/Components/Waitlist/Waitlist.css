@@ -4,9 +4,11 @@
     bottom: 0;
     background-color: rgb(173, 168, 168);
     width: 100vw !important;
-    height: 10vh;
+    /* height: 10vh; */
     color: rgb(48, 46, 46);
-    padding: 0 20px;
+    padding: 8px 20px;
+    display:flex;
+    flex-direction: row;
 }
 
 .waitlist_footer span{

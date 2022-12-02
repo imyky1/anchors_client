@@ -33,13 +33,13 @@ function Creators_login() {
           <img src={require("../../logo.png")} alt="Logo" />
           <span>anchors</span>
         </div>
-        <a
+        {/* <a
           href="https://forms.gle/BSX2K1ty1bQF7J3t8"
           target="_blank"
           rel="noreferrer"
         >
           <button className="waitlist">Join Waitlist</button>
-        </a>
+        </a> */}
       </div>
       <div className="main_page_login">
         <div className="gyan_container">

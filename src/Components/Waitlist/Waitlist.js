@@ -53,7 +53,7 @@ function Waitlist() {
           >
             <span>Follow us on LinkedIn</span>
           </a>
-          <span>Facing any issue? email us - ravi@anchors.in</span>
+          <span>Facing any issue? email us - support@anchors.in</span>
         </div>
       </div>
     </>
