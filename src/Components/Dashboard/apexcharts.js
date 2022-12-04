@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import Chart from "react-apexcharts";
 
-const Apexcharts = ({ titletext, xdata, ydata, property }) => {
+const Apexcharts = ({ titletext,cursortext, xdata, ydata, property }) => {
   const [loading, setLoading] = useState(true);
 
   const [userdata, setuserData] = useState({
@@ -26,7 +26,7 @@ const Apexcharts = ({ titletext, xdata, ydata, property }) => {
     },
     series: [
       {
-        name: "Unique Visits",
+        name: cursortext,
         data: ydata ? ydata : [30, 40, 45, 50, 49, 60, 70, 91],
       },
     ],
@@ -53,7 +53,7 @@ const Apexcharts = ({ titletext, xdata, ydata, property }) => {
       },
       series: [
         {
-          name: "Unique Visits",
+          name: cursortext,
           data: ydata ? ydata : [30, 40, 45, 50, 49, 60, 70, 91],
         },
       ],

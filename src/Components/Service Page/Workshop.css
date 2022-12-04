@@ -129,7 +129,7 @@
   justify-content: space-between;
   height: max-content;
   position: sticky;
-  top: 71px;
+  top: 69px;
   background-color: #1c1b1b;
   box-sizing: border-box;
   z-index: 999;
@@ -282,15 +282,21 @@
   .workshop_creators > div {
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     /* background-color: #1C1B1B; */
-    align-items:flex-start ;
     width: max-content;
-    margin-left: 10px;
-    margin-bottom: 10px;
+    margin: auto;
     font-size: 1.2rem;
     padding: 0 20px;
     line-height: 30px;
     color: rgb(82, 81, 81);
+    margin-bottom: 30px;
+}
+
+.workshop_profile_data{
+  align-items: center;
+  margin-left: 0;
+  margin-top: 15px;
 }
 
 .footer_service a{

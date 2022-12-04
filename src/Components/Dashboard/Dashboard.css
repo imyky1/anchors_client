@@ -12,6 +12,8 @@
 .dashboard a{
     text-decoration: none;
     color: black;
+    width: max-content;
+    height:max-content;
 }
 
 .user_section{
@@ -22,7 +24,7 @@
     margin-top: 28px;
 }
 
-.user_section h1{
+.dashboard_header1{
     font-size: 25px;
     font-weight: 700;
 }
@@ -61,19 +63,28 @@
     padding-left: 2vw;
 }
 .rangeselect_wrapper{
-    padding-left: 40vw;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
-.rangeselect_wrapper span{
+
+
+.rangeselect_wrapper > div{
+    margin-right: 15px;
+    width: 18%;
+}
+/* .rangeselect_wrapper span{
     margin-right: 20px;
 
-}
-.rangeselect_wrapper input{
+} */
+/* .rangeselect_wrapper input{
     max-width: 110px;
     min-width: 110px;
     padding: 6px 15px 6px 15px;
     border-radius: 12px;
     margin-right: 10px;
-}
+} */
 
 .linegraph_wrapper{
     display: flex;
@@ -82,10 +93,11 @@
 }
 
 .chart_two{
-    padding-left: 10vw;
+    padding-left: 8vw;
 }
 
 .chart_three{
+    margin-top: 40px;
     padding-top: 2vh;
     padding-left: 15vw;
 }

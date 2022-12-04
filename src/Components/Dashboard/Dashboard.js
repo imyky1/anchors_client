@@ -5,6 +5,7 @@ import { linkedinContext } from "../../Context/LinkedinState";
 import ServiceContext from "../../Context/services/serviceContext";
 import { creatorContext } from "../../Context/CreatorState";
 import Moment from "moment";
+import { TextField} from "@mui/material";
 
 import Apexcharts from "./apexcharts";
 import { useMemo } from "react";
@@ -28,8 +29,8 @@ function Dashboard() {
   } = useContext(ServiceContext);
   const { getAllCreatorInfo, basicNav } = useContext(creatorContext);
   const navigate = useNavigate();
-  const [dateRangefrom, setDateRangefrom] = useState("");
-  const [dateRangeto, setDateRangeto] = useState("");
+  const [dateRangefrom, setDateRangefrom] = useState("2022-11-20");
+  const [dateRangeto, setDateRangeto] = useState("2022-11-30");
   const [subscumul, setsubscumul] = useState({
     date: [],
     value: [],
@@ -177,7 +178,7 @@ function Dashboard() {
     <>
       <div className="dashboard">
         <div className="user_section">
-          <h1>
+          <h1 className="dashboard_header1">
             Welcome{" "}
             {localStorage.getItem("isDev") === "true"
               ? "Builders"
@@ -210,28 +211,29 @@ function Dashboard() {
         </div>
       </div>
       <div className="daterangeselect">
-        <h1>Analytics</h1>
+        <h1 className="dashboard_header1">Resource Analytics</h1>
 
         <div className="rangeselect_wrapper">
-          <span>Choose Date</span>
-          <input
-            placeholder="from"
-            type="text"
-            value={dateRangefrom}
-            onFocus={(e) => {
-              e.target.type = "date";
-            }}
-            onChange={handleinputfromdate}
-          ></input>
-          <input
-            placeholder="to"
-            type="text"
-            value={dateRangeto}
-            onFocus={(e) => {
-              e.target.type = "date";
-            }}
-            onChange={handleinputtodate}
-          ></input>
+          <TextField
+              label="from Date"
+              variant="outlined"
+              onChange={handleinputfromdate}
+              value={dateRangefrom}
+              placeholder="from Date"
+              onFocus={(e) => {
+                e.target.type = "date";
+              }}
+            />
+          <TextField
+              label="to Date"
+              variant="outlined"
+              onChange={handleinputtodate}
+              value={dateRangeto}
+              placeholder="to Date"
+              onFocus={(e) => {
+                e.target.type = "date";
+              }}
+            />
         </div>
       </div>
       <div className="linegraph_wrapper">
@@ -240,6 +242,7 @@ function Dashboard() {
             titletext="Your Profile Views"
             xdata={mixpaneldata.date}
             ydata={mixpaneldata.value}
+            cursortext="Unique Visits"
           />
         </div>
 
@@ -248,6 +251,7 @@ function Dashboard() {
             titletext="Subscriber Count"
             xdata={subscumul.date}
             ydata={subscumul.value}
+            cursortext="Subscribers Count"
           />
         </div>
       </div>
@@ -256,6 +260,7 @@ function Dashboard() {
           titletext="Overall Services Downloads"
           xdata={userorderdates.date}
           ydata={userorderdates.value}
+          cursortext="Downloads"
           property
         />
       </div>

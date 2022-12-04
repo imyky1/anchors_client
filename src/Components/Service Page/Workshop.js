@@ -17,6 +17,7 @@ import { feedbackcontext } from "../../Context/FeedbackState";
 import SocialProof from "../Modals/SocialProof";
 import Request_Modal from "../Modals/Request_Modal";
 import CalendarIcon from "react-calendar-icon";
+import Footer from "../Footer/Footer"
 
 function Service(props) {
   const { slug } = useParams();
@@ -829,6 +830,7 @@ function Service(props) {
           </div>
         </div>
       </div>
+      <Footer/>
       <ToastContainer />
     </>
   );
