@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Editor from "../Editor/Editor";
 import { LoadTwo } from "../Modals/Loading";
 import PreviewService from "../Modals/PreviewService";
+import { TextField, MenuItem } from "@mui/material";
 
 function Create(props) {
   const context = useContext(ServiceContext);
@@ -49,7 +50,7 @@ function Create(props) {
 
   /// TAGS section ------------------------------------------------------------------------
 
-  const [tags, setTags] = useState(["JavaScript"]);
+  const [tags, setTags] = useState(["Download"]);
 
   const handleKeyDown = (e) => {
     if (e.key !== "Enter") return;
@@ -92,23 +93,10 @@ function Create(props) {
 
   // Changing free and paid section layout ---------------------------------------------
 
-  const handleOptionChange = () => {
+  const handleOptionChange = (e) => {
     //  balancing the changing effect of free and paid option
-    const select = document.getElementById("stype");
-    var value = select?.options[select.selectedIndex].value;
-    setPaid(value);
-    if (value === "free") {
-      document.querySelector("#smrp").style.display = "none";
-      document.querySelector("#ssp").style.display = "none";
-      document.querySelectorAll(".price_label")[0].style.display = "none";
-      document.querySelectorAll(".price_label")[1].style.display = "none";
-    }
-    if (value === "paid") {
-      document.querySelector("#smrp").style.display = "block";
-      document.querySelector("#ssp").style.display = "block";
-      document.querySelectorAll(".price_label")[0].style.display = "block";
-      document.querySelectorAll(".price_label")[1].style.display = "block";
-    }
+
+    setPaid(e.target.value);
   };
 
   // Auto resize of textarea    -------------------------------------------
@@ -134,8 +122,6 @@ function Create(props) {
       previewSourceTwo
     ) {
       try {
-        const select = document.getElementById("stype");
-        var value = select.options[select.selectedIndex].value;
         var banner = await Uploadfile(data1);
         var doc = await Uploadfile(data2);
         if (banner.success && doc.success) {
@@ -152,9 +138,9 @@ function Create(props) {
             doc.url,
             tags,
             0,
-            value === "free" ? false : true,
-            value === "free" ? 0 : data.smrp,
-            value === "free" ? 0 : data.ssp
+            paid === "free" ? false : true,
+            paid === "free" ? 0 : data.smrp,
+            paid === "free" ? 0 : data.ssp
           );
           if (json.success) {
             setdata({
@@ -167,7 +153,7 @@ function Create(props) {
               sdoc: "",
             });
             setOpenLoading(false);
-            navigate(`/c/${localStorage.getItem("c_id")}`);
+            navigate(`/c/${localStorage.getItem("c_id")}?goto=services`);
           } else {
             setOpenLoading(false);
             toast.error(`Service Not Added Please Try Again`, {
@@ -209,7 +195,127 @@ function Create(props) {
     <>
       {openLoading && <LoadTwo open={openLoading} />}
       <div className="create_box">
-        <form className="entries" onSubmit={handleSubmit}>
+        <form className="workshop_form_create">
+          <div className="left_side_form_create">
+            <TextField
+              label="Service Name"
+              variant="outlined"
+              name="sname"
+              id="sname"
+              onChange={handleChange}
+              value={data.sname}
+              placeholder="25JS Interview Important Question..."
+            />
+            <TextField
+              multiline
+              label="Brief Service Description"
+              variant="outlined"
+              name="sdesc"
+              onChange={handleChange}
+              value={data.sdesc}
+              id="sdesc"
+              placeholder="Very brief description of the service..."
+            />
+            <TextField
+              name="sbanner"
+              id="sbanner"
+              label="Banner Image"
+              placeholder="Upload Image"
+              onFocus={(e) => {
+                e.target.type = "file";
+              }}
+              onChange={handleChangeFileOne}
+            />
+            {paid !== "free" && (
+              <TextField
+                type="text"
+                label="Tags (Write a tag and press Enter)"
+                onKeyDown={handleKeyDown}
+                name="stags"
+                id="stags"
+                placeholder="Type tags..."
+                //helperText="Write a tag and press Enter"
+              />
+            )}
+            <div className="tag-container_workshop">
+              {tags?.map((tag, index) => {
+                return (
+                  <div className="tag" key={index}>
+                    <span>{tag}</span>
+                    <i
+                      class="fa-solid fa-circle-xmark"
+                      onClick={() => removeTag(index)}
+                    ></i>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="right_side_form_create">
+            <TextField
+              className="mui_select"
+              select
+              label="Service Type"
+              defaultValue="free"
+              id="stype"
+              onChange={(e) => handleOptionChange(e)}
+            >
+              <MenuItem value="free">Free</MenuItem>
+              <MenuItem value="paid">Paid</MenuItem>
+            </TextField>
+
+            {paid !== "free" && (
+              <>
+                <TextField
+                  label="Set MRP (in INR)"
+                  variant="outlined"
+                  name="smrp"
+                  id="smrp"
+                  placeholder="Eg. 299"
+                  onChange={handleChange}
+                  value={data.smrp}
+                  type="number"
+                />
+                <TextField
+                  label="Selling Price"
+                  variant="outlined"
+                  type="number"
+                  name="ssp"
+                  id="ssp"
+                  placeholder="Eg. 199"
+                  onChange={handleChange}
+                  value={data.ssp}
+                  max={data.smrp}
+                />
+              </>
+            )}
+            <TextField
+              name="sdoc"
+              id="sdoc"
+              label="Document ( supports all formats)"
+              placeholder="Upload file"
+              onFocus={(e) => {
+                e.target.type = "file";
+              }}
+              onChange={handleChangeFileTwo}
+            />
+
+            {paid === "free" && (
+              <TextField
+                type="text"
+                label="Tags (Write a tag and press Enter)"
+                onKeyDown={handleKeyDown}
+                name="stags"
+                id="stags"
+                placeholder="Type tags..."
+                //helperText="Write a tag and press Enter"
+              />
+            )}
+            
+          </div>
+        </form>
+
+        {/* <form className="entries" onSubmit={handleSubmit}>
           <div>
             <div className="left_entry_box">
               <label htmlFor="sname" className="entry_labels">
@@ -326,7 +432,7 @@ function Create(props) {
                 onChange={handleChangeFileTwo}
               />
 
-{paid !== "free" ? (
+              {paid !== "free" ? (
                 ""
               ) : (
                 <>
@@ -357,9 +463,9 @@ function Create(props) {
               )}
             </div>
           </div>
-        </form>
+        </form> */}
         <label htmlFor="ldesc" className="editor_entry_labels">
-          Long Description <small>*</small>
+          Detailed Service Description
         </label>
         <Editor
           readOnly={false}

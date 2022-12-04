@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import "./Creators_login.css";
 import { host } from "../../../config/config.js";
+import Footer from "../../Footer/Footer";
+import {Link} from "react-router-dom"
 
 function Creators_login() {
   const ref = useRef();
@@ -27,12 +29,14 @@ function Creators_login() {
   };
 
   return (
+    <>
     <div className="creator_login">
       <div className="mainpage_header creator_login_header ">
+      <Link to="/" style={{textDecoration:"none",color:"unset"}}>
         <div className="logo">
           <img src={require("../../logo.png")} alt="Logo" />
           <span>anchors</span>
-        </div>
+        </div></Link>
         {/* <a
           href="https://forms.gle/BSX2K1ty1bQF7J3t8"
           target="_blank"
@@ -82,6 +86,8 @@ function Creators_login() {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }
 

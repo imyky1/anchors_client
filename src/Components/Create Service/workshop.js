@@ -6,10 +6,18 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Editor from "../Editor/Editor";
 import { LoadTwo } from "../Modals/Loading";
+import { TextField, MenuItem } from "@mui/material";
 
 function Workshop(props) {
   const navigate = useNavigate();
-  const { slugCount, getslugcountWorkshop, addworkshop, Uploadfile, checkCpyUrl,UploadVideo } = useContext(ServiceContext);
+  const {
+    slugCount,
+    getslugcountWorkshop,
+    addworkshop,
+    Uploadfile,
+    checkCpyUrl,
+    UploadVideo,
+  } = useContext(ServiceContext);
   const [openLoading, setOpenLoading] = useState(false);
   const [previewSourceOne, setPreviewSourceOne] = useState(""); // saves the data of file selected in the form
   const [previewSourceTwo, setPreviewSourceTwo] = useState(""); // saves the data of file selected in the form
@@ -59,7 +67,7 @@ function Workshop(props) {
 
   /// TAGS section ------------------------------------------------------------------------
 
-  const [tags, setTags] = useState(["JavaScript"]);
+  const [tags, setTags] = useState(["Workshop"]);
 
   const handleKeyDown = (e) => {
     if (e.key !== "Enter") return;
@@ -102,35 +110,13 @@ function Workshop(props) {
 
   // Changing free and paid section layout ---------------------------------------------
 
-  const handleOptionChange = () => {
+  const handleOptionChange = (e) => {
     //  balancing the changing effect of free and paid option
-    const select = document.getElementById("stype");
-    var value = select?.options[select.selectedIndex].value;
-    setPaid(value);
-    if (value === "free") {
-      document.querySelector("#smrp").style.display = "none";
-      document.querySelector("#ssp").style.display = "none";
-      document.querySelectorAll(".price_label")[0].style.display = "none";
-      document.querySelectorAll(".price_label")[1].style.display = "none";
-    }
-    if (value === "paid") {
-      document.querySelector("#smrp").style.display = "block";
-      document.querySelector("#ssp").style.display = "block";
-      document.querySelectorAll(".price_label")[0].style.display = "block";
-      document.querySelectorAll(".price_label")[1].style.display = "block";
-    }
+
+    setPaid(e.target.value);
   };
 
-  // Auto resize of textarea    -------------------------------------------
-
-  const textarea2 = document.querySelector("#sdesc");
-  textarea2?.addEventListener("input", autoResize, false);
-
-  function autoResize() {
-    this.style.height = "auto";
-    this.style.height = this.scrollHeight + "px";
-  }
-
+  
   // Handling workshop input fields
   const handlecapacityChange = (e) => {
     let value = e.target.value;
@@ -205,10 +191,8 @@ function Workshop(props) {
       timevalidator()
     ) {
       try {
-        const select = document.getElementById("stype");
-        var value = select.options[select.selectedIndex].value;
         var banner = await Uploadfile(data1);
-        if(data2.length){
+        if (data2.length) {
           var svideo = await UploadVideo(data2);
         }
         if (banner.success) {
@@ -224,9 +208,9 @@ function Workshop(props) {
             banner.url,
             tags,
             1,
-            value === "free" ? false : true,
-            value === "free" ? 0 : data.smrp,
-            value === "free" ? 0 : data.ssp,
+            paid === "free" ? false : true,
+            paid === "free" ? 0 : data.smrp,
+            paid === "free" ? 0 : data.ssp,
             data.startDate,
             time,
             afterstartentry,
@@ -234,6 +218,7 @@ function Workshop(props) {
             data.meetlink,
             svideo ? svideo?.result.Location : ""
           );
+          
           if (json.success) {
             setdata({
               sname: "",
@@ -249,7 +234,7 @@ function Workshop(props) {
             });
             setTime({ startTime: "", endTime: "" });
             setOpenLoading(false);
-            navigate(`/c/${localStorage.getItem("c_id")}`);
+            navigate(`/c/${localStorage.getItem("c_id")}?goto=workshops`);
           } else {
             setOpenLoading(false);
             toast.error(`Service Not Added Please Try Again`, {
@@ -294,7 +279,238 @@ function Workshop(props) {
     <>
       {openLoading && <LoadTwo open={openLoading} />}
       <div className="create_box">
-        <form className="entries" onSubmit={handleSubmit}>
+        <form className="workshop_form_create">
+          <div className="left_side_form_create">
+            <TextField
+              label="Title"
+              variant="outlined"
+              name="sname"
+              id="sname"
+              onChange={handleChange}
+              value={data.sname}
+              placeholder="Enter workshop title..."
+            />
+            <TextField
+              multiline
+              label="Short Description"
+              variant="outlined"
+              name="sdesc"
+              onChange={handleChange}
+              value={data.sdesc}
+              id="sdesc"
+              placeholder="Very brief description of Workshop..."
+            />
+            <TextField
+              name="sbanner"
+              id="sbanner"
+              label="Banner Image"
+              placeholder="Upload Image"
+              onFocus={(e) => {
+                e.target.type = "file";
+              }}
+              onChange={handleChangeFileOne}
+            />
+
+            <TextField
+              name="startDate"
+              id="startDate"
+              label="Date"
+              variant="outlined"
+              placeholder="Choose Date"
+              onFocus={(e) => {
+                e.target.type = "date";
+              }}
+              onBlur={(e) => {
+                e.target.type = "text";
+              }}
+              value={data.startDate}
+              onChange={handleChange}
+            />
+            <section>
+              <TextField
+                name="startTime"
+                id="startTime"
+                label="Start Time"
+                placeholder="Choose start time"
+                onFocus={(e) => {
+                  e.target.type = "time";
+                }}
+                onBlur={(e) => {
+                  e.target.type = "text";
+                }}
+                value={time.startTime}
+                onChange={handleChangetime}
+              />
+              <TextField
+                name="endTime"
+                id="endTime"
+                label="End Time"
+                placeholder="Choose end time"
+                onFocus={(e) => {
+                  e.target.type = "time";
+                }}
+                onBlur={(e) => {
+                  e.target.type = "text";
+                }}
+                value={time.endTime}
+                onChange={handleChangetime}
+              />
+            </section>
+
+            <TextField
+              label="Meeting Link(Meet/Zoom Link)"
+              variant="outlined"
+              placeholder="Enter meeting link here"
+              type="url"
+              name="meetlink"
+              id="meetlink"
+              onChange={handleChange}
+              value={data.meetlink}
+            />
+
+            {paid !== "free" && (
+              <TextField
+                type="text"
+                label="Tags (Write a tag and press Enter)"
+                onKeyDown={handleKeyDown}
+                name="stags"
+                id="stags"
+                placeholder="Type tags..."
+                //helperText="Write a tag and press Enter"
+              />
+            )}
+          </div>
+          <div className="right_side_form_create">
+            <TextField
+              name="svideo"
+              id="svideo"
+              label="Intro/Preview Video"
+              placeholder="Upload Video"
+              onFocus={(e) => {
+                e.target.type = "file";
+              }}
+              onChange={handleChangeFileTwo}
+            />
+
+            <TextField
+              className="mui_select"
+              select
+              label="Workshop Type"
+              defaultValue="free"
+              id="stype"
+              onChange={(e) => handleOptionChange(e)}
+            >
+              <MenuItem value="free">Free</MenuItem>
+              <MenuItem value="paid">Paid</MenuItem>
+            </TextField>
+
+            {paid !== "free" && (
+              <>
+                <TextField
+                  label="Set MRP (in INR)"
+                  variant="outlined"
+                  name="smrp"
+                  id="smrp"
+                  placeholder="Eg. 299"
+                  onChange={handleChange}
+                  value={data.smrp}
+                  type="number"
+                />
+                <TextField
+                  label="Selling Price"
+                  variant="outlined"
+                  type="number"
+                  name="ssp"
+                  id="ssp"
+                  placeholder="Eg. 199"
+                  onChange={handleChange}
+                  value={data.ssp}
+                  max={data.smrp}
+                />
+              </>
+            )}
+
+            {paid === "free" ? (
+              <TextField
+                select
+                id="afterstartentry" 
+                onChange={handleentrychange}
+                className="mui_select"
+                label="Open after events started (You can allow participants even after event has started)"
+                defaultValue="notallowed"
+                //helperText="You can allow participants even after event has started"
+              >
+                <MenuItem value="notallowed">Not allowed</MenuItem>
+                <MenuItem value="allowed">Allowed</MenuItem>
+              </TextField>
+            ) : (
+              <TextField
+                select
+                className="mui_select"
+                label="Open after events started (You can allow participants even after event has started)"
+                defaultValue="notallowed"
+                id="afterstartentry" 
+                onChange={handleentrychange}
+                //helperText="You can allow participants even after event has started"
+              >
+                <MenuItem value="notallowed">Not allowed</MenuItem>
+                <MenuItem value="10mins">
+                  after 10 minutes 10% discount
+                </MenuItem>
+                <MenuItem value="20mins">
+                  after 20 minutes 20% discount
+                </MenuItem>
+                <MenuItem value="30mins">
+                  after 30 minutes 30% discount
+                </MenuItem>
+              </TextField>
+            )}
+
+            <TextField
+              select
+              className="mui_select"
+              label="Max Capacity allowed (You can set the number of seat limit)"
+              defaultValue="-1"
+              id="maxCapacity"
+              value={data.maxCapacity}
+              onChange={handlecapacityChange}
+              //helperText="You can set the number of seat limit"
+            >
+              <MenuItem value="-1">No Limit</MenuItem>
+              <MenuItem value="50">50</MenuItem>
+              <MenuItem value="100">100</MenuItem>
+              <MenuItem value="250">250</MenuItem>
+              <MenuItem value="500">500</MenuItem>
+            </TextField>
+
+            {paid === "free" && (
+              <TextField
+                type="text"
+                label="Tags (Write a tag and press Enter)"
+                onKeyDown={handleKeyDown}
+                name="stags"
+                id="stags"
+                placeholder="Type tags..."
+                //helperText="Write a tag and press Enter"
+              />
+            )}
+            <div className="tag-container_workshop">
+              {tags?.map((tag, index) => {
+                return (
+                  <div className="tag" key={index}>
+                    <span>{tag}</span>
+                    <i
+                      class="fa-solid fa-circle-xmark"
+                      onClick={() => removeTag(index)}
+                    ></i>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </form>
+
+        {/* <form className="entries" onSubmit={handleSubmit}>
           <div>
             <div className="left_entry_box">
               <label htmlFor="sname" className="entry_labels">
@@ -530,14 +746,12 @@ function Workshop(props) {
               )}
             </div>
           </div>
-        </form>
+        </form> */}
         <label
           htmlFor="ldesc"
-          className={`editor_entry_labels ${
-            paid === "free" ? "" : "add-margin-top"
-          }`}
+          className="editor_entry_labels"
         >
-          Long Description <small>*</small>
+          Workshop Description
         </label>
         <Editor
           readOnly={false}
@@ -546,9 +760,9 @@ function Workshop(props) {
           className="text_editor"
         />
         <div className="create_buttons">
-        <button className="submit_button" onClick={handleSubmit}>
-          Submit and Publish
-        </button>
+          <button className="submit_button" onClick={handleSubmit}>
+            Submit and Publish
+          </button>
         </div>
         <ToastContainer />
       </div>

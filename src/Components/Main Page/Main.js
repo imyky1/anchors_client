@@ -6,6 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
+
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
@@ -14,6 +15,7 @@ import { Autoplay, Pagination } from "swiper";
 import { useContext } from "react";
 import { feedbackcontext } from "../../Context/FeedbackState";
 import mixpanel from "mixpanel-browser";
+import Footer from "../Footer/Footer";
 
 function Main() {
   const [data, setData] = useState("");
@@ -24,6 +26,8 @@ function Main() {
   const [result, setResult] = useState(false);
 
   const { getallfb } = useContext(feedbackcontext);
+
+  
 
   const handleChange = (e) => {
     setPlatform(e.target.value);
@@ -328,7 +332,7 @@ function Main() {
                     <button
                       onClick={() => {
                         window.location =
-                          "https://docs.google.com/forms/d/e/1FAIpQLSftL9rf8yqdWoosiPYf0ZWlM2dihlSRuzngfwNvStNXllIJQw/viewform";
+                          "https://izsxcwa0cfw.typeform.com/to/R9poKEJD";
                       }}
                     >
                       Join wishlist
@@ -374,26 +378,12 @@ function Main() {
                 : ""}
             </div>
           </section>
-
-          <section className="mainpage_footer">
-            <ul className="footer_articles">
-              <a
-                href="https://www.linkedin.com/company/beanchorite/"
-                target="_black"
-                rel="no_referrer"
-              >
-                <li>LinkedIn</li>
-              </a>
-              {/* <a href="https://www.linkedin.com/company/beanchorite/" target="_black" rel="no_referrer"><li>Pricing</li></a>
-            <a href="https://www.linkedin.com/company/beanchorite/" target="_black" rel="no_referrer"><li>Help & Support</li></a> */}
-              <a href="/login/creators">
-                <li>Become a creator</li>
-              </a>
-            </ul>
-          </section>
         </div>
       </div>
+      <Footer/>
       <ToastContainer />
+
+      
     </>
   );
 }

@@ -16,6 +16,7 @@ import Thanks from "../Modals/Thanks";
 import { feedbackcontext } from "../../Context/FeedbackState";
 import SocialProof from "../Modals/SocialProof";
 import Request_Modal from "../Modals/Request_Modal";
+import Footer from "../Footer/Footer.js"
 
 function Service(props) {
   const { slug } = useParams();
@@ -763,16 +764,17 @@ function Service(props) {
           </div>
         </div>
 
-        <div className="footer_service">
+        {/* <div className="footer_service">
           <a
             href="https://www.linkedin.com/company/beanchorite"
             target="_blank"
             rel="noreferrer"
           >
-            {/* <span>Follow us on LinkedIn</span> */}
+            <span>Follow us on LinkedIn</span>
           </a>
           <span>Facing any issue? email us - ravi@anchors.in</span>
-        </div>
+        </div> */}
+        <Footer/>
       </div>
       <ToastContainer />
     </>

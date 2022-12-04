@@ -377,6 +377,7 @@
         bottom: 1px;
         flex-direction: row;
         align-items: center;
+        margin-bottom: 0px;
         background-color: #eeeeee !important;
     }
 

@@ -127,15 +127,16 @@
 .bottom_service_section{
     display: flex;
     align-items: center;
-    width: 63%;
+    width: 95%;
     padding: 5px 28px;
     justify-content: space-between;
     height: max-content;
-    position: fixed;
+    position: sticky;
     border-radius: 5px;
     bottom: 1px;
     background-color: #f5f5f5;
     margin-left: -10px;
+    margin-bottom: 15px;
 }
 
 .mobile_price_desc{
@@ -179,7 +180,7 @@
     justify-content: space-evenly;
     background-color: #F9F9F9;;
     height: max-content;
-    position: sticky;
+    /* position: sticky; */
     top: 89px;
     font-family: 'Roboto', sans-serif !important;
 }

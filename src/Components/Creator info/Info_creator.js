@@ -8,7 +8,6 @@ import ServiceContext from "../../Context/services/serviceContext";
 import { LoadTwo } from "../Modals/Loading";
 
 
-
 function Info_creator(props) {
   const { allCreatorInfo, getAllCreatorInfo, setCreatorInfo } = useContext(creatorContext)
   const {Uploadfile} = useContext(ServiceContext)

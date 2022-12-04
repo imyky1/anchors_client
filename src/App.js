@@ -26,6 +26,7 @@ import Redirect_serv from "./Components/Redirect_serv";
 import Test from "./Components/Editor/Test";
 import EmailState from "./Context/EmailState";
 import Workshop from "./Components/Service Page/Workshop";
+import Pricing from "./Components/Pricing/Pricing";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -61,15 +62,16 @@ function App() {
                         path="/s/:slug"
                         element={<Service progress={changeprogress} />}
                       ></Route>
-                        <Route
-                          path="/w/:slug"
-                          element={<Workshop progress={changeprogress} />}
-                        ></Route>
+                      <Route
+                        path="/w/:slug"
+                        element={<Workshop progress={changeprogress} />}
+                      ></Route>
 
                       <Route
                         path="/privacy-policy"
                         element={<Privacy />}
                       ></Route>
+                      <Route path="/pricing" element={<Pricing />}></Route>
                       <Route path="/waitlist" element={<Waitlist />}></Route>
                       <Route path="/r/:id" element={<Redirect_serv />}></Route>
                       <Route

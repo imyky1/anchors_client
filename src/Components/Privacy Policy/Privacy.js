@@ -4,16 +4,14 @@ import "./Privacy.css";
 
 function Privacy() {
 
-
-
   return (
     <>
-      <div className="profile_header">
-        <div className="logo">
-          <img src={require("../logo.png")} alt="Logo" />
-          <span>Anchors</span>
+      <div className="mainpage_header creator_login_header ">
+          <div className="logo">
+            <img src={require("../logo.png")} alt="Logo" />
+            <span>anchors</span>
+          </div>
         </div>
-      </div>
       <div className="privacy_policy">
         <h1>Privacy Policy</h1>
         <section>
@@ -80,7 +78,7 @@ function Privacy() {
           <h2>CONTACT US</h2>
           For more information about our privacy practices, if you have
           questions, or if you would like to make a complaint, please contact us
-          by e-mail at ravi@anchors.in.
+          by e-mail at support@anchors.in.
         </section>
       </div>
     </>

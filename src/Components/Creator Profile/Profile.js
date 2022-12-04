@@ -11,6 +11,7 @@ import mixpanel from "mixpanel-browser";
 import { feedbackcontext } from "../../Context/FeedbackState";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper";
+import Footer from "../Footer/Footer.js"
 
 // Import Swiper styles
 import "swiper/css";
@@ -269,6 +270,15 @@ function Profile(props) {
   ) {
     setTimeout(() => {
       window.location.hash = "#about";
+    }, 500);
+  }
+  if (
+    window.location.search === "?goto=workshops" ||
+    (window.location.search === "?goto=workshops" &&
+      window.location.hash === "#workshops")
+  ) {
+    setTimeout(() => {
+      window.location.hash = "#workshops";
     }, 500);
   }
   if (
@@ -573,7 +583,7 @@ function Profile(props) {
                 )}
               </div>
             </div>
-            <div ref={workshop_list} id="services">
+            <div ref={workshop_list} id="workshops">
               <h2 className="headers_tag">Workshops</h2>
               <div className="display_services_list">
                 {workshops.res?.map((e) => {
@@ -760,6 +770,7 @@ function Profile(props) {
             </div>
           </div>
         </div>
+        <Footer/>
       </div>
     </>
   );
