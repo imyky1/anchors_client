@@ -8,9 +8,11 @@ const ServiceState = (props) => {
   const [services, setServices] = useState(servicesInitial);
   const [workshops, setWorkshops] = useState(workshopInitial);
   const [workshopInfo, setWorkshopInfo] = useState(workshopInitial);
-
+  const [getallsubscriber, setgetallsubs] = useState({});
+  const [totalsubscount, setTotalSubscount] = useState({});
   const [serviceInfo, setServiceInfo] = useState(servicesInitial);
   const [slugCount, setSlugCount] = useState(0);
+  const [alluserorder, setalluserorder] = useState([]);
 
   // 1. Getting all the services for the respective creator
   const getallservices = async () => {
@@ -220,7 +222,6 @@ const ServiceState = (props) => {
       console.log("Some error Occured");
     }
   };
-
 
   //6. get slug count dor workshop
   const getslugcountWorkshop = async (slug) => {
@@ -446,6 +447,61 @@ const ServiceState = (props) => {
     }
   };
 
+  // get all subscribers
+  const getallsubs = async ({
+    date,
+    month,
+    year,
+    enddate,
+    endmonth,
+    endyear,
+  }) => {
+    const response = await fetch(
+      `${host}/api/subscribe/getall?date=${date}&year=${year}&month=${month}&endyear=${endyear}&enddate=${enddate}&endmonth=${endmonth}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+      }
+    );
+    const json = await response.json();
+    if (json.success) {
+      setgetallsubs(json.res);
+      setTotalSubscount(json.info);
+    } else {
+      //console.log("Some error Occured")
+    }
+  };
+
+  // get all subscribers
+  const getuserorder = async ({
+    date,
+    month,
+    year,
+    enddate,
+    endmonth,
+    endyear,
+  }) => {
+    const response = await fetch(
+      `${host}/api/subscribe/serviceorders?date=${date}&year=${year}&month=${month}&endyear=${endyear}&enddate=${enddate}&endmonth=${endmonth}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+      }
+    );
+    const json = await response.json();
+    if (json.success) {
+      setalluserorder(json.res);
+    } else {
+      //console.log("Some error Occured")
+    }
+  };
+
   return (
     <ServiceContext.Provider
       value={{
@@ -455,11 +511,14 @@ const ServiceState = (props) => {
         getslugfromcpyid,
         checkCpyUrl,
         checkFirstService,
+        getuserorder,
         serviceInfo,
         services,
         slugCount,
         workshops,
         workshopInfo,
+        totalsubscount,
+        alluserorder,
         getserviceusingid,
         getallservicesusingid,
         getallservices,
@@ -470,12 +529,14 @@ const ServiceState = (props) => {
         UploadVideo,
         getserviceinfo,
         getslugcount,
+        getallsubscriber,
         getslugcountWorkshop,
         addworkshop,
         getallworkshops,
         updateWorkshop,
         getworkshopusingid,
         getallworkshopsusingid,
+        getallsubs,
       }}
     >
       {" "}
