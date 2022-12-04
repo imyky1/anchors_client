@@ -9,7 +9,14 @@ import { LoadTwo } from "../Modals/Loading";
 
 function Workshop(props) {
   const navigate = useNavigate();
-  const { slugCount, getslugcountWorkshop, addworkshop, Uploadfile, checkCpyUrl,UploadVideo } = useContext(ServiceContext);
+  const {
+    slugCount,
+    getslugcountWorkshop,
+    addworkshop,
+    Uploadfile,
+    checkCpyUrl,
+    UploadVideo,
+  } = useContext(ServiceContext);
   const [openLoading, setOpenLoading] = useState(false);
   const [previewSourceOne, setPreviewSourceOne] = useState(""); // saves the data of file selected in the form
   const [previewSourceTwo, setPreviewSourceTwo] = useState(""); // saves the data of file selected in the form
@@ -208,7 +215,7 @@ function Workshop(props) {
         const select = document.getElementById("stype");
         var value = select.options[select.selectedIndex].value;
         var banner = await Uploadfile(data1);
-        if(data2.length){
+        if (data2.length) {
           var svideo = await UploadVideo(data2);
         }
         if (banner.success) {
@@ -546,9 +553,9 @@ function Workshop(props) {
           className="text_editor"
         />
         <div className="create_buttons">
-        <button className="submit_button" onClick={handleSubmit}>
-          Submit and Publish
-        </button>
+          <button className="submit_button" onClick={handleSubmit}>
+            Submit and Publish
+          </button>
         </div>
         <ToastContainer />
       </div>

@@ -3,11 +3,10 @@
 .dashboard{
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: space-evenly;
     margin: 40px;
     font-family: 'Roboto',sans-serif;
-    
+    margin-bottom: 4vw;
 }
 
 .dashboard a{
@@ -55,3 +54,39 @@
     font-size: 21px;
     margin-left: -50px;
 }
+
+
+
+.daterangeselect{
+    padding-left: 2vw;
+}
+.rangeselect_wrapper{
+    padding-left: 40vw;
+}
+.rangeselect_wrapper span{
+    margin-right: 20px;
+
+}
+.rangeselect_wrapper input{
+    max-width: 110px;
+    min-width: 110px;
+    padding: 6px 15px 6px 15px;
+    border-radius: 12px;
+    margin-right: 10px;
+}
+
+.linegraph_wrapper{
+    display: flex;
+    margin-top: 5vw;
+    padding-left: 2vw;
+}
+
+.chart_two{
+    padding-left: 10vw;
+}
+
+.chart_three{
+    padding-top: 2vh;
+    padding-left: 15vw;
+}
+
