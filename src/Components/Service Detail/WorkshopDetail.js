@@ -20,24 +20,29 @@ function WorkshopDetail(props) {
   const time = Moment(props.service.date).format().split("T")[1].split("+")[0];
   const StartDate = Moment(props.service.startDate).format().split("T")[0];
 
+  const getRegistrations = async () => {
+    await fetch(`${host}/api/workshop/getRegistration/${props.service._id}`);
+  };
+
   useEffect(() => {
-    checkEmailSent(props.service._id, "Notify").then((e) => {
-      setNotifyEmailSent(e);
-    });
+    getRegistrations()
+    //checkEmailSent(props.service._id, "Notify").then((e) => {
+    //  setNotifyEmailSent(e);
+    //});
   }, []);
 
-  const handleCheckClick = () => {
-    const doc = document.getElementById(`checkbox_${props.sno}`);
-    if (doc.checked) {
-      // means now it is checked
-      setChangeStatus(1);
-      setOpenModel(true);
-    } else {
-      // means now it is unchecked
-      setChangeStatus(0);
-      setOpenModel(true);
-    }
-  };
+  //const handleCheckClick = () => {
+  //  const doc = document.getElementById(`checkbox_${props.sno}`);
+  //  if (doc.checked) {
+  //    // means now it is checked
+  //    setChangeStatus(1);
+  //    setOpenModel(true);
+  //  } else {
+  //    // means now it is unchecked
+  //    setChangeStatus(0);
+  //    setOpenModel(true);
+  //  }
+  //};
 
   return (
     <>
@@ -54,7 +59,7 @@ function WorkshopDetail(props) {
         <span>
           <img className="serv_banner" src={props.service.simg} alt="..." />
         </span>
-        <span className="text-center">{props.service.downloads}</span>
+        <span className="text-center">{props.service.registrations}</span>
         {NotifyEmailSent ? (
           <span>Email Sent</span>
         ) : (

@@ -24,7 +24,6 @@ function ServiceDetail(props) {
   };
 
   useEffect(() => {
-    getDownload();
     const doc = document.getElementById(`checkbox_${props.sno}`);
     if (doc && props.service.status === 1) {
       doc.checked = true;
@@ -33,8 +32,9 @@ function ServiceDetail(props) {
     }
     // eslint-disable-next-line
   }, [openModel]);
-
+  
   useEffect(() => {
+    getDownload();
     checkEmailSent(props.service._id, "Notify").then((e) => {
       setNotifyEmailSent(e);
     });
