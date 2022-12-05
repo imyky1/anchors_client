@@ -1,0 +1,21 @@
+
+
+.button_login_dev{
+    background-color: red !important;
+    text-align: center !important;
+    color: white;
+    font-weight: bold;
+    margin-top: 25px;
+    border: none;
+    font-size: 1.2rem !important;
+    padding: 10px 15px !important;
+    margin-bottom: 15px;
+}
+
+
+.otp{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
