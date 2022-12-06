@@ -47,8 +47,12 @@ function Service(props) {
   } = context;
   const { basicCdata, getBasicCreatorInfo, basicCreatorInfo } =
     useContext(creatorContext);
-  const { userPlaceOrder, checkSubscriber, getUserDetails,checkUserOrderPlaced } =
-    useContext(userContext);
+  const {
+    userPlaceOrder,
+    checkSubscriber,
+    getUserDetails,
+    checkUserOrderPlaced,
+  } = useContext(userContext);
   const { checkFBlatest } = useContext(feedbackcontext);
 
   const { createRazorpayClientSecret, razorpay_key, checkfororder } =
@@ -80,8 +84,6 @@ function Service(props) {
     process();
     // eslint-disable-next-line
   }, []);
-
-
 
   const [timing, setTiming] = useState("");
   useEffect(() => {
@@ -178,9 +180,9 @@ function Service(props) {
     var s = new Date(workshopInfo?.startDate).toLocaleString("en-US", options);
     setWorkshopDate(s);
 
-    checkUserOrderPlaced(workshopInfo?._id).then((e)=>{
-      setSeatReserved(e)
-    })
+    checkUserOrderPlaced(workshopInfo?._id).then((e) => {
+      setSeatReserved(e);
+    });
   }, [workshopInfo]);
 
   // responsible for feedback popup
@@ -271,10 +273,10 @@ function Service(props) {
             );
             if (success) {
               setOpenModelDownload(true);
-              toast.success("Successfully registered for the workshop",{
-                position:"top-center",
-                autoClose:2500
-              })
+              toast.success("Successfully registered for the workshop", {
+                position: "top-center",
+                autoClose: 2500,
+              });
               mixpanel.track("Reserved Seat for Paid Workshop", {
                 service: slug,
                 user: UserDetails ? UserDetails : "",
@@ -329,14 +331,13 @@ function Service(props) {
     document.body.appendChild(script);
   };
 
-
   const download_service = async () => {
     if (
       localStorage.getItem("isUser") === "true" &&
       localStorage.getItem("jwtToken")
     ) {
       if (workshopInfo?.isPaid) {
-          orderPlacing().then(() => {});
+        orderPlacing().then(() => {});
       } else {
         setPaymentProcessing(true);
         const success = await userPlaceOrder(
@@ -349,33 +350,40 @@ function Service(props) {
         );
         if (success) {
           setOpenModelDownload(true);
-          toast.success("Successfully registered for the workshop, you'll soon be notified on your email about its details",{
-            position:"top-center",
-            autoClose:3500
-          })
+          toast.success(
+            "Successfully registered for the workshop, you'll soon be notified on your email about its details",
+            {
+              position: "top-center",
+              autoClose: 3500,
+            }
+          );
           mixpanel.track("Reserved seat for free workshop", {
             service: slug,
             user: UserDetails ? UserDetails : "",
             creator: basicCdata?.slug,
           });
         } else {
-          toast.error("Seat not reserved Due to some error, please try again some time", {
-            position: "top-center",
-            autoClose: 2500,
-          });
+          toast.error(
+            "Seat not reserved Due to some error, please try again some time",
+            {
+              position: "top-center",
+              autoClose: 2500,
+            }
+          );
         }
         setPaymentProcessing(false);
       }
-
     } else if (
       localStorage.getItem("isUser") === "" &&
       localStorage.getItem("jwtToken")
     ) {
-      toast.info("You cannot reserve seat as a creator, Please login as an user",{
-        position:"top-center",
-        autoClose:3000
-      })
-    
+      toast.info(
+        "You cannot reserve seat as a creator, Please login as an user",
+        {
+          position: "top-center",
+          autoClose: 3000,
+        }
+      );
     } else {
       mixpanel.track("Clicked Reserve seat in workshop Without Login", {
         service: slug,
@@ -466,7 +474,7 @@ function Service(props) {
             slug={slug}
           />
         )} */}
-        <div className="profile_header workshop_header">
+        <div className="profile_header ">
           <div className="logo" onClick={handleLogoClick}>
             <img src={require("../logo.png")} alt="Logo" />
             <span>anchors</span>
@@ -535,7 +543,7 @@ function Service(props) {
             <img
               src={workshopInfo?.simg}
               alt="service_image"
-              className="service_section_image"
+              className="workshop_section_image"
             />
             <div className="workshop_infobar_wrapper">
               <div className="workshopdate_infobar">
@@ -543,43 +551,34 @@ function Service(props) {
                 <div className="workshopdate_categ">Workshop</div>
               </div>
               <div className="workshopdate_calender">
-                <div className="calender_top">
-                  {new Date(workshopInfo.startDate)
-                    .toLocaleString("default", {
-                      month: "long",
-                    })
-                    .slice(0, 3)}
-                </div>
-                <div className="calender_bottom">
-                  {new Date(workshopInfo.startDate).getDate()}
-                </div>
+                <CalendarIcon date={new Date(workshopInfo?.startDate)} />
               </div>
             </div>
-            <div className="service_section_details">
-              <h1 style={{ marginBottom: "15px" }}>{workshopInfo?.sname}</h1>
+            <div className="workshop_desc_content_wrapper">
+              <div className="service_section_details">
+                <h1 style={{ marginBottom: "15px" }}>{workshopInfo?.sname}</h1>
 
-              {/* Mobile workshop timing display for screen width < 500------------------ */}
+                {/* Mobile workshop timing display for screen width < 500------------------ */}
 
-              {window.screen.width < 550 && (
-                <div className="mobile_workshop_time">
-                  <span>
-                    {WorkshopDate} at {workshopInfo?.time?.startTime} -{" "}
-                    {workshopInfo?.time?.endTime}
-                  </span>
-                  <span>
-                    {" "}
-                    <i
-                      class="fa-solid fa-location-dot fa-xl"
-                      style={{ color: "red" }}
-                    ></i>{" "}
-                    Online
-                  </span>
-                </div>
-              )}
+                {/* {window.screen.width < 550 && (
+                  <div className="mobile_workshop_time">
+                    <span>
+                      {WorkshopDate} at {workshopInfo?.time?.startTime} -{" "}
+                      {workshopInfo?.time?.endTime}
+                    </span>
+                    <span>
+                      {" "}
+                      <i
+                        class="fa-solid fa-location-dot fa-xl"
+                        style={{ color: "red" }}
+                      ></i>{" "}
+                      Online
+                    </span>
+                  </div>
+                )} */}
 
-              {/* Bottom reserve seat button ---------------------------------------- */}
-              <div className="bottom_workshop_section">
-                {window.screen.width > 550 && (
+                {/* Bottom reserve seat button ---------------------------------------- */}
+                <div className="bottom_workshop_section">
                   <>
                     <span>
                       {WorkshopDate} at {workshopInfo?.time?.startTime} -{" "}
@@ -594,14 +593,48 @@ function Service(props) {
                       &nbsp; Online{" "}
                     </span>
                   </>
+                </div>
+                {workshopInfo?.tags?.length !== 0 && workshopInfo.tags && (
+                  <div className="workshop_tags_section">
+                    {workshopInfo?.tags?.slice(0, 3)?.map((e, i) => {
+                      return <span key={i}>{e}</span>;
+                    })}
+                  </div>
                 )}
+                <p className="workshop_sdesc">{workshopInfo?.sdesc}</p>
+                <h2 className="service_h2">
+                  <i className="fa-regular fa-file-lines"></i>&nbsp; Event
+                  Information
+                </h2>
+                <div className="workshop_sdesc">
+                  {document.querySelectorAll(".workshop_sdesc")[1]
+                    ? (document.querySelectorAll(
+                        ".workshop_sdesc"
+                      )[1].innerHTML = workshopInfo?.ldesc)
+                    : ""}
+                </div>
+              </div>
+              <div className="book_workshop_box">
+                {" "}
                 <span>
                   <>
                     {workshopInfo?.isPaid ? (
-                      <div className="mobile_price_desc">
+                      <div className="book_workshop_box_content">
+                        <h3>Special Offer&nbsp;</h3>
+                        <span className="book_workshop_box_price">
+                          ₹{workshopInfo?.ssp}{" "}
+                        </span>
+                        <span>
+                          (-
+                          {(
+                            (workshopInfo?.smrp - workshopInfo?.ssp) /
+                            workshopInfo?.smrp
+                          ).toFixed(2) * 100}
+                          %)
+                        </span>
+
                         <div>
-                          <h3>Price:&nbsp;</h3>
-                          <span>
+                          <span className="book_workshop_box_maxprice">
                             {" "}
                             ₹
                             <span style={{ textDecoration: "line-through" }}>
@@ -609,65 +642,34 @@ function Service(props) {
                             </span>
                           </span>
                         </div>
-                        <div>
-                          <span className="main_ssp">
-                            ₹{workshopInfo?.ssp}{" "}
-                          </span>
-                          <span>
-                            (-
-                            {(
-                              (workshopInfo?.smrp - workshopInfo?.ssp) /
-                              workshopInfo?.smrp
-                            ).toFixed(2) * 100}
-                            %)
-                          </span>
-                        </div>
                       </div>
                     ) : (
-                      <span className="free_label">Free</span>
+                      <span className="free_label_workshop">Free</span>
                     )}
                   </>
                 </span>
-
                 {/* Checks iff the seat is already reserved for the person */}
-                  <button
-                    className="download_service"
-                    disabled={seatReserved}
-                    onClick={download_service}
-                    style={
-                    (paymentProcessing || seatReserved)
-                        ? { backgroundColor: "black", border: "2px solid black" }
-                        : {}  
-                    }
-                  >
-                    {paymentProcessing ? (
-                      <>Processing...</>
-                    ) : (
-                      seatReserved ? <>Seat Reserved</> :
-                      <>Reserve Your Seat</>
-                    )}
-                  </button>
-              </div>
-              {workshopInfo?.tags?.length !== 0 && workshopInfo.tags && (
-                <div className="workshop_tags_section">
-                  {workshopInfo?.tags?.slice(0,3)?.map((e,i)=>{
-                    return <span key={i}>{e}</span>
-                  })}
-                </div>
-              )}
-              <p className="workshop_sdesc">{workshopInfo?.sdesc}</p>
-              <h2 className="service_h2">
-                <i className="fa-regular fa-file-lines"></i>&nbsp; Event
-                Information
-              </h2>
-              <div className="workshop_sdesc">
-                {document.querySelectorAll(".workshop_sdesc")[1]
-                  ? (document.querySelectorAll(".workshop_sdesc")[1].innerHTML =
-                      workshopInfo?.ldesc)
-                  : ""}
+                <button
+                  className="download_service"
+                  disabled={seatReserved}
+                  onClick={download_service}
+                  style={
+                    paymentProcessing || seatReserved
+                      ? { backgroundColor: "black", border: "2px solid black" }
+                      : {}
+                  }
+                >
+                  {paymentProcessing ? (
+                    <>Processing...</>
+                  ) : seatReserved ? (
+                    <>Seat Reserved</>
+                  ) : (
+                    <>Reserve Your Seat</>
+                  )}
+                </button>
               </div>
             </div>
-            {/* {workshops.res?.filter((e) => e.status === 1).length - 1 !== 0 &&
+            {workshops.res?.filter((e) => e.status === 1).length - 1 !== 0 &&
             localStorage.getItem("jwtToken") ? (
               <div className="more_services">
                 <h2 className="service_h2">
@@ -694,7 +696,6 @@ function Service(props) {
                             >
                               <img src={e.simg} alt="..." />
                               <h2>{e.sname}</h2>
-                            
                             </div>
                           </a>
                         );
@@ -706,7 +707,7 @@ function Service(props) {
               </div>
             ) : (
               ""
-            )} */}
+            )}{" "}
           </div>
 
           <div className="workshop_creators">

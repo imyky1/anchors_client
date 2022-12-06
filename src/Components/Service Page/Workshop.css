@@ -11,9 +11,14 @@
   justify-content: space-evenly;
   align-items: center;
   /* margin-top: 20px; */
-  background-color: #1c1b1b;
-  color: white;
   font-family: "Roboto", sans-serif !important;
+}
+.workshop_section_image {
+  width: 98%;
+  /* height: 50vh; */
+  border: none;
+  max-height: 55vh;
+  border-radius: 10px;
 }
 
 
@@ -27,9 +32,9 @@
 .workshopdate_timing{
     padding-top: 5px;
     border: 2px solid green;
-    background: green;
+    background:#B9FFD3EB;;
     border-radius: 17px;
-    padding: 7px 20px 7px 20px ;
+    padding: 7px 30px 7px 30px ;
     margin-right: 10px;
 }
 
@@ -41,41 +46,25 @@
 .workshopdate_categ{
     padding-top: 5px;
         border: 2px solid grey;
-        background: grey;
+        background: rgba(107, 103, 103, 0.644);
         border-radius: 17px;
             padding: 7px 20px 7px 20px;
+            color: #000;
 }
 .workshopdate_calender{
-    border: 2px solid transparent;
     float: right;
     position: relative;
     bottom: 120px;
     padding-left: 39vw;
-}
-.calender_top{
-    background-color: red;
-    border: 2px solid red;
-    padding: 12px 28px;
-    font-weight: 700;
-    font-size: large;
-    border-radius: 15px 15px 0px 0px;
-}
-.calender_bottom{
-    background-color: #FFFFFF;
-        border: 2px solid #FFFFFF;
-        padding: 10px 20px;
-        color: grey;
-        font-size: 40px;
-        font-weight: 900;
 }
 
 .workshop_header{
     position: sticky;
     top: 0px;
     z-index: 999;
-    background-color: #1C1B1B;
+    /* background-color: #1C1B1B; */
     border-bottom: 1px solid #3C3838;
-    color:white;
+    /* color:white; */
     font-family: 'Roboto', sans-serif !important;
 }
 
@@ -89,14 +78,74 @@
 }
 
 .workshop_tags_section span {
-  background-color: #000000;
+  background-color: grey;
   border-radius: 5px;
   margin-right: 25px;
   font-size: 1rem;
   font-weight: 400;
   padding: 5px 10px;
-  color: #6a6161;
+  color: #000000;
 }
+
+.workshop_desc_content_wrapper{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.book_workshop_box{
+  position: sticky;
+  left: 0px;
+  top: 80px;
+  background-color: #F9F4F0;
+  border-radius: 10px;
+  border: transparent;
+  max-height: 240px;
+  padding: 0px 20px 0px 20px;
+  margin-top: 60px;
+  width: 22vw;
+  margin-right: 120px;
+  text-align: center;
+  
+}
+.book_workshop_box button{
+  position: relative;
+  top: 40px;
+}
+.book_workshop_box_maxprice{
+  font-family: Roboto;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 35px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #BCB9B9;
+    position: relative;
+    top: 10px;
+}
+.book_workshop_box_content h3{
+  font-family: Roboto;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 26px;
+    letter-spacing: 0em;
+    text-align: center;
+    color:#388E3C;
+    padding-top: 10px;
+
+
+}
+.book_workshop_box_price{
+  font-family: Roboto;
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 59px;
+    letter-spacing: 0em;
+    text-align: center;
+    margin-top: 20px;
+    position: relative;
+      top: 5px;
+}
+
 
 .workshop_sdesc {
   font-size: 1.2rem;
@@ -106,8 +155,6 @@
   font-family: "Roboto", sans-serif !important;
   width: 90%;
   word-wrap: break-word;
-  color: black;
-  filter: invert(100%);
 }
 
 .service_h2 {
@@ -123,19 +170,24 @@
 
 .bottom_workshop_section {
   display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 5px 28px;
-  justify-content: space-between;
-  height: max-content;
-  position: sticky;
-  top: 69px;
-  background-color: #1c1b1b;
-  box-sizing: border-box;
-  z-index: 999;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.507);
-  border-top: 1px solid rgba(255, 255, 255, 0.507);
+    align-items: center;
+    width: 100%;
+    font-size: 20px;
+    padding: 5px 0px;
+    color: #FF574D;
+    height: max-content;
+    /* position: sticky; */
+    top: 71px;
+    box-sizing: border-box;
+
 }
+
+.bottom_workshop_section span:first-of-type{
+  border-right: 2px solid red;
+  margin-right: 2vw;
+  padding-right: 1vw;
+}
+
 
 .mobile_workshop_time{
     width: 100%;
@@ -154,6 +206,7 @@
 .bottom_workshop_section > span {
   display: flex;
   align-items: center;
+ 
 }
 
 
@@ -197,7 +250,7 @@
   font-size: 1.3rem;
   font-weight: 700;
   margin: 5px 0;
-  color: rgba(255, 255, 255, 0.57);
+  /* color: rgba(255, 255, 255, 0.57); */
 }
 
 .c_workshop_tagline {
@@ -207,9 +260,21 @@
   font-weight: 400;
   line-height: 30px;
   margin-bottom: 20px;
-  color: rgba(255, 255, 255, 0.57);
+  color: rgba(61, 60, 60, 0.892);
+}
+.free_label_workshop{
+  color: green;
+    font-size: 2.7rem;
+    font-weight: bold;
+  position: relative;
+    top: 10px;
 }
 
+.workshop_section_details h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  width: 75%;
+}
 .workshop_profile_data > section {
   width: 100%;
   /* background-color: red; */
@@ -227,11 +292,12 @@
 }
 
 .workshop_page_creator_button {
-  background: #1c1b1b;
+  /* background: #1c1b1b; */
   border: 2px solid #6a6161ea;
   border-radius: 10px;
-  color: white;
+  /* color: white; */
   padding: 10px;
+  letter-spacing: 1px;
   margin: 25px 0;
   font-size: 1.4rem;
   font-weight: 400;
@@ -241,15 +307,50 @@
   font-family: "Roboto", sans-serif !important;
 }
 
+.css-1fjavwo{
+  min-height: 110px;
+}
+.css-o50oyy{
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.css-o50oyy{
+  padding-top: 5px;
+    padding-bottom: 5px;
+}
 
 .workshop_footer_service{
   background-color: #1c1b1b;
   color: white;
   padding: 10px 15px;
   
+
 }
 
+@media (max-width: 1550px) {
+  .book_workshop_box{
+    width: 40vw;
+  }
+}
 
+@media (max-width: 1355px) {
+  .book_workshop_box {
+  max-height: 280px;
+  margin-left: 30px;
+  }
+}
+@media (max-width: 730px) {
+  .workshop_desc_content_wrapper{
+    flex-direction: column-reverse;
+  }
+    .book_workshop_box {
+      min-height: 250px;
+      max-height: 250px;
+      position: relative;
+      top: -10px;
+      left: 10vw;
+    }
+}
 @media (max-width: 550px) {
   .service_section_details h1 {
     width: 96%;
@@ -401,25 +502,20 @@
     width: 100%;
   }
 
-  .bottom_workshop_section {
-    position: fixed;
-    bottom: 0;
-    top: unset;
-    justify-content: space-between;
-    padding: unset;
-    border: none;
-    padding: 0 10px;
-    background-color: white;
-    color: black;
-    width: 100vw;
-    box-sizing: border-box;
-    margin-left: -11px;
-  }
+
 
   .download_service {
     width: max-content;
     padding: 5px 25px;
     font-size: 1.1rem;
+    position:absolute;
+    margin-left: -0px;
+  }
+  .book_workshop_box {
+    width: 100%;
+    position:unset;
+    padding:unset;
+    margin-left: unset;
   }
 
   .workshop_sdesc {
@@ -454,4 +550,24 @@
         margin: auto;
     }
 
+}
+
+@media (max-width: 390px) {
+  .bottom_workshop_section{
+    display: block;
+  }
+  .workshop_tags_section {
+    display: grid;
+    grid-template-columns: repeat(2fr);
+    gap: 5px
+    ;
+  }
+}
+@media (max-width: 320px) {
+  .workshopdate_calender{
+    display: none;
+  }
+    .workshop_tags_section{
+      margin-right: 4px;
+    }
 }
