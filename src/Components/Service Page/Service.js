@@ -99,6 +99,12 @@ function Service(props) {
     }
   }, [localStorage.getItem("jwtToken")]);
 
+  //Scroll to top automatically
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Social proof popup ---------------------------------------
 
   useEffect(() => {
@@ -171,16 +177,15 @@ function Service(props) {
                   service: slug,
                   user: UserDetails ? UserDetails : "",
                   amount: serviceInfo?.ssp,
-                  creator: basicCdata?.slug
+                  creator: basicCdata?.slug,
                 });
-              }
-              else if (ext === "mp4") {
+              } else if (ext === "mp4") {
                 downloadFile("mp4").then(() => {});
                 mixpanel.track("Downloaded paid pdf", {
                   service: slug,
                   user: UserDetails ? UserDetails : "",
                   amount: serviceInfo?.ssp,
-                  creator: basicCdata?.slug
+                  creator: basicCdata?.slug,
                 });
               } else {
                 let link = document.createElement("a");
@@ -287,8 +292,7 @@ function Service(props) {
                 amount: serviceInfo?.ssp,
                 creator: basicCdata?.slug,
               });
-            }
-            else if (ext === "mp4") {
+            } else if (ext === "mp4") {
               downloadFile("mp4");
               mixpanel.track("Downloaded paid pdf again", {
                 service: slug,
@@ -338,8 +342,7 @@ function Service(props) {
               user: UserDetails ? UserDetails : "",
               creator: basicCdata?.slug,
             });
-          }
-          else if (ext === "mp4") {
+          } else if (ext === "mp4") {
             downloadFile("mp4");
             mixpanel.track("Downloaded pdf", {
               service: slug,
@@ -378,7 +381,7 @@ function Service(props) {
       setPaymentProcessing(true);
       if (ext === "pdf") {
         downloadFile("pdf");
-      }else if (ext === "mp4") {
+      } else if (ext === "mp4") {
         downloadFile("mp4");
       } else {
         let link = document.createElement("a");
@@ -456,8 +459,8 @@ function Service(props) {
           slug={serviceInfo?.slug}
           name={serviceInfo?.sname}
           stype={0}
-          control = {setOpenModelRequest}
-          c_id = {basicCdata?._id}
+          control={setOpenModelRequest}
+          c_id={basicCdata?._id}
         />
         <User_login
           open={openModel}
@@ -465,16 +468,18 @@ function Service(props) {
             setOpenModel(false);
           }}
         />
-        {localStorage.getItem("isUser") !== "" && <SocialProof
-          open={OpenModelProof}
-          onClose={() => {
-            setOpenModelProof(false);
-          }}
-          sid={serviceInfo?._id}
-          cid={serviceInfo?.c_id}
-          type={proofType}
-          slug={slug}
-        />}
+        {localStorage.getItem("isUser") !== "" && (
+          <SocialProof
+            open={OpenModelProof}
+            onClose={() => {
+              setOpenModelProof(false);
+            }}
+            sid={serviceInfo?._id}
+            cid={serviceInfo?.c_id}
+            type={proofType}
+            slug={slug}
+          />
+        )}
         <div className="profile_header service_header">
           <div className="logo" onClick={handleLogoClick}>
             <img src={require("../logo.png")} alt="Logo" />
@@ -571,12 +576,16 @@ function Service(props) {
             localStorage.getItem("jwtToken") ? (
               <div className="more_services">
                 <h2 className="service_h2">
-                  <i className="fa-solid fa-circle-info"></i>&nbsp; More Services
-                  from the Creator
+                  <i className="fa-solid fa-circle-info"></i>&nbsp; More
+                  Services from the Creator
                 </h2>
                 <div className="display_services_list service_list_display">
                   {services.res
-                    ?.filter((e) => e._id !== serviceInfo?._id)?.sort((a,b)=>{return (b?.smrp - a?.smrp)}).map((e) => {
+                    ?.filter((e) => e._id !== serviceInfo?._id)
+                    ?.sort((a, b) => {
+                      return b?.smrp - a?.smrp;
+                    })
+                    .map((e) => {
                       if (e.status === 1) {
                         return (
                           <a

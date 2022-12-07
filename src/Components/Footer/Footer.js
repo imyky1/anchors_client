@@ -22,12 +22,12 @@ function Footer() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  if (
-    localStorage.getItem("jwtToken") &&
-    localStorage.getItem("isUser") === ""
-  ) {
-    return null;
-  }
+  //if (
+  //  localStorage.getItem("jwtToken") &&
+  //  localStorage.getItem("isUser") === ""
+  //) {
+  //  return null;
+  //}
 
   return (
     <>

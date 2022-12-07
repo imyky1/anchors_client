@@ -17,7 +17,7 @@ import { feedbackcontext } from "../../Context/FeedbackState";
 import SocialProof from "../Modals/SocialProof";
 import Request_Modal from "../Modals/Request_Modal";
 import CalendarIcon from "react-calendar-icon";
-import Footer from "../Footer/Footer"
+import Footer from "../Footer/Footer";
 
 function Service(props) {
   const { slug } = useParams();
@@ -86,6 +86,7 @@ function Service(props) {
   }, []);
 
   const [timing, setTiming] = useState("");
+
   useEffect(() => {
     const todayDate = new Date();
     const finalDate = new Date(workshopInfo.startDate);
@@ -121,7 +122,7 @@ function Service(props) {
       }
       // case 3 s.h - e.h - c.r
       if (hourdiff > 0 && hourenddiff > 0) {
-        setTiming("Past");
+        setTiming("Finished");
         return;
       }
       // case 4 - s.h == c.h - e.h (check start minute)
@@ -139,7 +140,7 @@ function Service(props) {
         if (mindiff > 0) {
           setTiming("OnGoing");
         } else {
-          setTiming("Past");
+          setTiming("Finished");
         }
       }
       // case 6 - s.h==c.h==e.h
@@ -153,7 +154,7 @@ function Service(props) {
         }
         // case 2 Past
         if (Startmindiff < 0 && Endmindiff < 0) {
-          setTiming("Past");
+          setTiming("Finished");
         }
         // case 3 upcoming
         if (Startmindiff > 0 && Endmindiff > 0) {
@@ -164,7 +165,7 @@ function Service(props) {
       // not the same day
       setTiming("Upcoming");
     } else {
-      setTiming("Past");
+      setTiming("Finished");
     }
   }, [workshopInfo]);
 
@@ -208,6 +209,12 @@ function Service(props) {
     }
   }, [localStorage.getItem("jwtToken")]);
 
+  //Scroll to top automatically
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Social proof popup ---------------------------------------
 
   useEffect(() => {
@@ -216,23 +223,6 @@ function Service(props) {
       setOpenModelProof(true);
     }, 8500);
   }, []);
-
-  //const dox1 = document.getElementById("unsubscribe");
-  //const dox2 = document.getElementById("subscribe");
-
-  //setTimeout(() => {
-  //  if (
-  //    localStorage.getItem("isUser") === "true" &&
-  //    localStorage.getItem("jwtToken")
-  //  ) {
-  //    checkSubscriber(basicCreatorInfo.creatorID).then((data) => {
-  //      if (data && dox2 && dox1) {
-  //        dox1.style.display = "none";
-  //        dox2.style.display = "inline-block";
-  //      }
-  //    });
-  //  }
-  //}, 100);
 
   const orderPlacing = () => {
     const script = document.createElement("script");
@@ -548,7 +538,7 @@ function Service(props) {
             <div className="workshop_infobar_wrapper">
               <div className="workshopdate_infobar">
                 <div className="workshopdate_timing">{timing}</div>
-                <div className="workshopdate_categ">Workshop</div>
+                <div className="workshopdate_categ">workshop</div>
               </div>
               <div className="workshopdate_calender">
                 <CalendarIcon date={new Date(workshopInfo?.startDate)} />
@@ -558,50 +548,48 @@ function Service(props) {
               <div className="service_section_details">
                 <h1 style={{ marginBottom: "15px" }}>{workshopInfo?.sname}</h1>
 
-                {/* Mobile workshop timing display for screen width < 500------------------ */}
-
-                {/* {window.screen.width < 550 && (
-                  <div className="mobile_workshop_time">
-                    <span>
-                      {WorkshopDate} at {workshopInfo?.time?.startTime} -{" "}
-                      {workshopInfo?.time?.endTime}
-                    </span>
-                    <span>
-                      {" "}
-                      <i
-                        class="fa-solid fa-location-dot fa-xl"
-                        style={{ color: "red" }}
-                      ></i>{" "}
-                      Online
-                    </span>
-                  </div>
-                )} */}
-
                 {/* Bottom reserve seat button ---------------------------------------- */}
                 <div className="bottom_workshop_section">
                   <>
+                  <div>
                     <span>
                       {WorkshopDate} at {workshopInfo?.time?.startTime} -{" "}
                       {workshopInfo?.time?.endTime}
                     </span>
                     <span>
-                      {" "}
+                      
                       <i
                         class="fa-solid fa-location-dot fa-xl"
                         style={{ color: "red" }}
-                      ></i>{" "}
+                      ></i>
                       &nbsp; Online{" "}
-                    </span>
+                    </span></div>
+                    {window.screen.width > 650 && 
+                    <button
+                      className="download_service workshop_reserve_button"
+                      onClick={download_service}
+                      style={
+                        paymentProcessing
+                          ? {
+                              backgroundColor: "grey",
+                              border: "2px solid grey",
+                            }
+                          : {}
+                      }
+                    >
+                      {paymentProcessing ? <>Processing</> : <>Reserve for free</>}
+                    </button>}
                   </>
                 </div>
+                
+                <p className="workshop_sdesc">{workshopInfo?.sdesc}</p>
                 {workshopInfo?.tags?.length !== 0 && workshopInfo.tags && (
-                  <div className="workshop_tags_section">
+                  <div className="tags_section">
                     {workshopInfo?.tags?.slice(0, 3)?.map((e, i) => {
                       return <span key={i}>{e}</span>;
                     })}
                   </div>
                 )}
-                <p className="workshop_sdesc">{workshopInfo?.sdesc}</p>
                 <h2 className="service_h2">
                   <i className="fa-regular fa-file-lines"></i>&nbsp; Event
                   Information
@@ -614,7 +602,8 @@ function Service(props) {
                     : ""}
                 </div>
               </div>
-              <div className="book_workshop_box">
+
+              {/* <div className="book_workshop_box">
                 {" "}
                 <span>
                   <>
@@ -647,15 +636,18 @@ function Service(props) {
                       <span className="free_label_workshop">Free</span>
                     )}
                   </>
-                </span>
+                </span> */}
                 {/* Checks iff the seat is already reserved for the person */}
-                <button
+                {/* <button
                   className="download_workshop"
                   disabled={seatReserved}
                   onClick={download_service}
                   style={
                     paymentProcessing || seatReserved
-                      ? { backgroundColor: "black", border: "2px solid black" }
+                      ? {
+                          backgroundColor: "black",
+                          border: "2px solid black",
+                        }
                       : {}
                   }
                 >
@@ -667,7 +659,7 @@ function Service(props) {
                     <>Reserve Your Seat</>
                   )}
                 </button>
-              </div>
+              </div> */}
             </div>
             {workshops.res?.filter((e) => e.status === 1).length - 1 !== 0 &&
             localStorage.getItem("jwtToken") ? (
@@ -729,6 +721,47 @@ function Service(props) {
                   );
                 }}
               />
+
+              <div className="bottom_service_section">
+                {workshopInfo?.isPaid ? (
+                  <div className="mobile_price_desc">
+                    <div>
+                      <h3>Price:&nbsp;</h3>
+                      <span>
+                        {" "}
+                        ₹
+                        <span style={{ textDecoration: "line-through" }}>
+                          {workshopInfo?.smrp}{" "}
+                        </span>
+                      </span>
+                    </div>
+                    <div>
+                      <span className="main_ssp">₹{workshopInfo?.ssp} </span>
+                      <span>
+                        (-
+                        {(((workshopInfo?.smrp - workshopInfo?.ssp) /
+                          workshopInfo?.smrp) *
+                          100).toFixed(0)}
+                        %)
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <span className="free_label">Free</span>
+                )}
+
+                <button
+                  className="download_service bottom_fixed_btn"
+                  onClick={download_service}
+                  style={
+                    paymentProcessing
+                      ? { backgroundColor: "grey", border: "2px solid grey" }
+                      : {}
+                  }
+                >
+                  {paymentProcessing ? <>Processing</> : <>Reserve Your Seat</>}
+                </button>
+              </div>
 
               <div className="workshop_profile_data">
                 <span className="c_workshop_name">{basicCdata?.name}</span>
@@ -831,7 +864,7 @@ function Service(props) {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
       <ToastContainer />
     </>
   );

@@ -80,6 +80,12 @@ function Profile(props) {
     // eslint-disable-next-line
   }, []);
 
+   //Scroll to top automatically
+
+   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     getUserDetails().then((e) => {
       if (e.success) {
@@ -616,13 +622,13 @@ function Profile(props) {
                               &nbsp; Online{" "}
                             </span>
                           </span>
-                          <span
+                          {/* <span
                             className={`${
                               e.isPaid === true ? "paid" : "free"
                             }_tag_dispalyed`}
                           >
                             {e.isPaid === true ? "Paid" : "Free"}
-                          </span>
+                          </span> */}
                         </div>
                       </Link>
                     );
