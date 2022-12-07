@@ -650,7 +650,7 @@ function Service(props) {
                 </span>
                 {/* Checks iff the seat is already reserved for the person */}
                 <button
-                  className="download_service"
+                  className="download_workshop"
                   disabled={seatReserved}
                   onClick={download_service}
                   style={

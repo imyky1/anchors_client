@@ -475,18 +475,6 @@
     }
 
 
-    .bottom_service_section{
-        height: max-content;
-        width: 100vw;
-        position: fixed;
-        padding: 0;
-        border-radius: 0;
-        bottom: 1px;
-        flex-direction: row;
-        align-items: center;
-        margin-bottom: 0px;
-        background-color: #eeeeee !important;
-    }
 
   .workshop_page_profile_pic {
     width: 90px;
@@ -504,7 +492,7 @@
 
 
 
-  .download_service {
+  .download_workshop {
     width: max-content;
     padding: 5px 25px;
     font-size: 1.1rem;

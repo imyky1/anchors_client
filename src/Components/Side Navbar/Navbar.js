@@ -33,7 +33,7 @@ function Navbar() {
 
       <ul className="nav_items">
          <Link to="/creator_info" className={`${location.pathname==='/creator_info'?'active':""} items`}><li >
-        Personel Info
+        Personal Info
         </li></Link>
         <Link to="/dashboard" className={`${location.pathname==='/dashboard'?'active':""} items`}><li >
         Dashboard

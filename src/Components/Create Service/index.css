@@ -1,4 +1,10 @@
 
+
+html{
+    -webkit-user-select: none;
+}
+
+
 .header01{
     color: rgba(128, 128, 128, 0.755);
     font-size: 26px;
