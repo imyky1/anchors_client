@@ -557,25 +557,6 @@ function Service(props) {
               <div className="service_section_details">
                 <h1 style={{ marginBottom: "15px" }}>{workshopInfo?.sname}</h1>
 
-                {/* Mobile workshop timing display for screen width < 500------------------ */}
-
-                {window.screen.width < 550 && (
-                  <div className="mobile_workshop_time">
-                    <span>
-                      {WorkshopDate} at {workshopInfo?.time?.startTime} -{" "}
-                      {workshopInfo?.time?.endTime}
-                    </span>
-                    <span>
-                      {" "}
-                      <i
-                        class="fa-solid fa-location-dot fa-xl"
-                        style={{ color: "red" }}
-                      ></i>{" "}
-                      Online
-                    </span>
-                  </div>
-                )}
-
                 {/* Bottom reserve seat button ---------------------------------------- */}
                 <div className="bottom_workshop_section">
                   <>
@@ -613,6 +594,7 @@ function Service(props) {
                     : ""}
                 </div>
               </div>
+
               <div className="book_workshop_box">
                 {" "}
                 <span>
@@ -654,7 +636,10 @@ function Service(props) {
                   onClick={download_service}
                   style={
                     paymentProcessing || seatReserved
-                      ? { backgroundColor: "black", border: "2px solid black" }
+                      ? {
+                          backgroundColor: "black",
+                          border: "2px solid black",
+                        }
                       : {}
                   }
                 >
@@ -728,6 +713,47 @@ function Service(props) {
                   );
                 }}
               />
+
+              <div className="bottom_service_section service_bar_bottom">
+                {workshopInfo?.isPaid ? (
+                  <div className="mobile_price_desc">
+                    <div>
+                      <h3>Price:&nbsp;</h3>
+                      <span>
+                        {" "}
+                        ₹
+                        <span style={{ textDecoration: "line-through" }}>
+                          {workshopInfo?.smrp}{" "}
+                        </span>
+                      </span>
+                    </div>
+                    <div>
+                      <span className="main_ssp">₹{workshopInfo?.ssp} </span>
+                      <span>
+                        (-
+                        {((workshopInfo?.smrp - workshopInfo?.ssp) /
+                          workshopInfo?.smrp) *
+                          100}
+                        %)
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <span className="free_label">Free</span>
+                )}
+
+                <button
+                  className="download_service bottom_fixed_btn"
+                  onClick={download_service}
+                  style={
+                    paymentProcessing
+                      ? { backgroundColor: "grey", border: "2px solid grey" }
+                      : {}
+                  }
+                >
+                  {paymentProcessing ? <>Processing</> : <>Reserve Your Seat</>}
+                </button>
+              </div>
 
               <div className="workshop_profile_data">
                 <span className="c_workshop_name">{basicCdata?.name}</span>
