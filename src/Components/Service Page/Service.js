@@ -61,6 +61,10 @@ function Service(props) {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const process = async () => {
       const id = await getserviceinfo(slug);
       await getBasicCreatorInfo(id[0]);

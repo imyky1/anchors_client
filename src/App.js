@@ -26,6 +26,8 @@ import Redirect_serv from "./Components/Redirect_serv";
 import Test from "./Components/Editor/Test";
 import EmailState from "./Context/EmailState";
 import Workshop from "./Components/Service Page/Workshop";
+import LoginWhatsapp from "./Components/whatsapplogin/loginw";
+import RedirectWhatsapp from "./Components/whatsapplogin/redirectw";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -61,10 +63,10 @@ function App() {
                         path="/s/:slug"
                         element={<Service progress={changeprogress} />}
                       ></Route>
-                        <Route
-                          path="/w/:slug"
-                          element={<Workshop progress={changeprogress} />}
-                        ></Route>
+                      <Route
+                        path="/w/:slug"
+                        element={<Workshop progress={changeprogress} />}
+                      ></Route>
 
                       <Route
                         path="/privacy-policy"
@@ -98,6 +100,14 @@ function App() {
                           element={<Creators_login progress={changeprogress} />}
                         />
                       </Route>
+                      <Route
+                        path="/login/whatsapp"
+                        element={<LoginWhatsapp progress={changeprogress} />}
+                      ></Route>
+                      <Route
+                        path="/login/whatsapp/token"
+                        element={<RedirectWhatsapp progress={changeprogress} />}
+                      ></Route>
                     </Routes>
                   </FeedbackState>
                 </EmailState>
