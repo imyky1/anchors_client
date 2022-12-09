@@ -212,6 +212,8 @@
     box-sizing: border-box;
     font-size: 1rem;
     font-weight: 500;
+    position: fixed;
+    bottom: 1px;
 }
 
 .bottom_workshop_section > span {
@@ -229,7 +231,7 @@
 
 .bottom_fixed_btn{
   font-size: 0.9rem !important;
-  padding: unset !important;
+  padding: 10px !important;
   width: unset !important;
 }
 
@@ -246,6 +248,19 @@
   position: sticky;
   top: 89px;
   font-family: "Roboto", sans-serif !important;
+}
+.bottom_workshop_section_bar {
+  display: flex;
+  align-items: center;
+  width: 90%;
+  padding: 5px 28px;
+  justify-content: space-between;
+  height: max-content;
+  position: fixed;
+  border-radius: 5px;
+  bottom: 1px;
+  background-color: #f5f5f5;
+  margin-left: -10px;
 }
 
 .workshop_creators > div {
@@ -349,7 +364,7 @@
 
 }
 
-.bottom_service_section{
+.bottom_workshop_section_bar{
   display: none;
 }
 
@@ -383,7 +398,7 @@
     max-width: 70vw;
   }
 
-  .bottom_service_section{
+  .bottom_workshop_section_bar{
     display: flex;
   }
 
@@ -602,6 +617,11 @@
   .workshopdate_calender{
     display: none;
   }
+    .bottom_fixed_btn {
+      font-size: 0.9rem !important;
+      padding: unset !important;
+      width: unset !important;
+    }
     .workshop_tags_section{
       margin-right: 4px;
     }

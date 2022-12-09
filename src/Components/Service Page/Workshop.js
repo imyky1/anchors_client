@@ -717,7 +717,7 @@ function Service(props) {
                 }}
               />
 
-              <div className="bottom_service_section service_bar_bottom">
+              <div className="bottom_workshop_section_bar service_bar_bottom">
                 {workshopInfo?.isPaid ? (
                   <div className="mobile_price_desc">
                     <div>
