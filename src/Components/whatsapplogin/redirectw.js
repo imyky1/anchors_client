@@ -1,5 +1,4 @@
 import React from "react";
-import OtplessSdk from "otpless-js-sdk";
 import { useEffect } from "react";
 import { useState } from "react";
 import { set } from "react-ga";
@@ -11,9 +10,9 @@ const RedirectWhatsapp = () => {
     var options = {
       method: "POST",
       headers: {
-        appId: "OTPLess:GPPAYTWNYRTDRAPGZLEOGRVIJPMKPMZA",
+        appId: "OTPLess:ZOBXLTVKLACASMPPBVCINROWRZRPZRJU",
         appSecret:
-          "FQrdW5LktjilxBKzFqBB2HxqyubMCb0QEx5lY7hz33y7XBO23Pm02g8bj6gJrtbpW",
+          "tdj4oXecbjBJHkypdzLYfLrypWo3cQsEi37XGn7q7dzA72gpWf1mik6b3fc62OUVR",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
