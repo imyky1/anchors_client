@@ -5,12 +5,12 @@ function LoginWhatsapp() {
     var options = {
       method: "POST",
       headers: {
-        appId: "OTPLess:GPPAYTWNYRTDRAPGZLEOGRVIJPMKPMZA",
+        appId: "OTPLess:ZOBXLTVKLACASMPPBVCINROWRZRPZRJU",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         loginMethod: "WHATSAPP",
-        redirectionURL: "http://localhost:3000/login/whatsapp/token",
+        redirectionURL: "https://www.anchors.in/login/whatsapp/token",
       }),
     };
     fetch("https://api.otpless.app/v1/client/user/session/initiate", options)

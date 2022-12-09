@@ -205,18 +205,20 @@
   transform: scale(1.05);
 }
 
-.mobile_workshop_time {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top: 2px solid #6a6161;
-  border-bottom: 2px solid #6a6161;
-  padding: 15px 0px;
-  padding-right: 10px;
-  box-sizing: border-box;
-  font-size: 1rem;
-  font-weight: 500;
+.mobile_workshop_time{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 2px solid #6a6161;
+    border-bottom: 2px solid #6a6161;
+    padding: 15px 0px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    font-weight: 500;
+    position: fixed;
+    bottom: 1px;
 }
 
 .bottom_workshop_section > span {
@@ -231,8 +233,9 @@
   left: 10px;
 }
 
-.bottom_fixed_btn {
-  font-size: 1rem !important;
+.bottom_fixed_btn{
+  font-size: 0.9rem !important;
+  padding: 10px !important;
   width: unset !important;
 }
 
@@ -248,6 +251,19 @@
   position: sticky;
   top: 89px;
   font-family: "Roboto", sans-serif !important;
+}
+.bottom_workshop_section_bar {
+  display: flex;
+  align-items: center;
+  width: 90%;
+  padding: 5px 28px;
+  justify-content: space-between;
+  height: max-content;
+  position: fixed;
+  border-radius: 5px;
+  bottom: 1px;
+  background-color: #f5f5f5;
+  margin-left: -10px;
 }
 
 .workshop_creators > div {
@@ -350,7 +366,7 @@
   padding: 10px 15px;
 }
 
-.bottom_service_section {
+.bottom_workshop_section_bar{
   display: none;
 }
 
@@ -410,7 +426,7 @@
     max-width: 70vw;
   }
 
-  .bottom_service_section {
+  .bottom_workshop_section_bar{
     display: flex;
     margin-left: 0;
   }
@@ -630,7 +646,12 @@
   .workshopdate_calender {
     display: none;
   }
-  .workshop_tags_section {
-    margin-right: 4px;
-  }
+    .bottom_fixed_btn {
+      font-size: 0.9rem !important;
+      padding: unset !important;
+      width: unset !important;
+    }
+    .workshop_tags_section{
+      margin-right: 4px;
+    }
 }
