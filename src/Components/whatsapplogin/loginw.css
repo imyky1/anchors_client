@@ -1,0 +1,16 @@
+.login_whatsapp_wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 300px;
+    
+}
+.login_whatsapp_wrapper button{
+    margin: 30px;
+    padding: 30px;
+    background: red;
+    color: #ffff;
+    border-radius: 80px;
+    cursor: pointer;
+}

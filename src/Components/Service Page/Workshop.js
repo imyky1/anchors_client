@@ -69,6 +69,9 @@ function Service(props) {
       ? (document.querySelector(".user_logout").style.display = "none")
       : (document.querySelector(".user_logout").style.display = "inline-block");
   };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     const process = async () => {
