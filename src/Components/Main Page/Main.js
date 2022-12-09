@@ -36,6 +36,10 @@ function Main() {
   const handleCheckEligibility = () => {
     mixpanel.track("Clicked Check Eligibility on Anchors Main Page");
     if (platform !== "Choose Platform" && parseInt(followers) > 0) {
+      mixpanel.track("Eligibility on Anchors Main Page",{
+        platform:platform,
+        followers:followers
+      });
       if (platform === "youtube") {
         if (parseInt(followers) >= 5000) {
           setResult(true);
@@ -75,6 +79,12 @@ function Main() {
       setData(e);
     });
   }, []);
+
+  // Visited page mix panel
+  useEffect(() => {
+    mixpanel.track("Visited Main Page")
+
+  }, [])
 
   return (
     <>

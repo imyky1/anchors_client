@@ -354,6 +354,14 @@
   display: none;
 }
 
+.workshop_list_display{
+  grid-template-columns: repeat(3,1fr);
+  width: 98%;
+  max-width: unset;
+  margin-top: 15px;
+  padding-bottom: 50px;
+}
+
 @media (max-width: 1550px) {
   .book_workshop_box {
     width: 40vw;
@@ -386,6 +394,14 @@
 
   .workshopdate_calender{
     margin-right: 10px;
+  }
+
+  .workshop_list_display{
+    grid-template-columns: repeat(1,1fr);
+    width: 98%;
+    max-width: unset;
+    margin-top: 15px;
+    padding-bottom: 40px;
   }
 
 }
@@ -529,6 +545,7 @@
     font-weight: 400;
     /* color: black; */
   }
+  
 
   .service_list_display {
     align-items: center !important;

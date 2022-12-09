@@ -1,8 +1,15 @@
+import mixpanel from "mixpanel-browser";
 import React,{useEffect} from "react";
 import "./Privacy.css";
 
 
 function Privacy() {
+
+  // Visited page mix panel
+  useEffect(() => {
+    mixpanel.track("Visited Privacy Policy")
+
+  }, [])
 
   return (
     <>

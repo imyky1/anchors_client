@@ -397,10 +397,10 @@ function Service(props) {
   };
 
   const handleServiceClick = (slug) => {
-    mixpanel.track("Extra Services Clicked after login", {
+    mixpanel.track("Extra workshops Clicked after login", {
       creator: basicCdata?.slug,
       user: UserDetails ? UserDetails : "",
-      serviceClicked: slug,
+      workshopClicked: slug,
     });
   };
 
@@ -464,7 +464,7 @@ function Service(props) {
             slug={slug}
           />
         )} */}
-        <div className="profile_header ">
+        <div className="profile_header service_header">
           <div className="logo" onClick={handleLogoClick}>
             <img src={require("../logo.png")} alt="Logo" />
             <span>anchors</span>
@@ -488,7 +488,7 @@ function Service(props) {
                     Login
                   </span>
                 ) : (
-                  <span className="dark_user_login_name user_login_name ">
+                  <span className="user_login_name">
                     {localStorage.getItem("user").slice(0, 12) ===
                     localStorage.getItem("user")
                       ? localStorage.getItem("user")
@@ -577,7 +577,7 @@ function Service(props) {
                           : {}
                       }
                     >
-                      {paymentProcessing ? <>Processing</> : <>Reserve for free</>}
+                      {paymentProcessing ? <>Processing</> : <>Reserve for {workshopInfo?.isPaid ? <>₹{workshopInfo?.ssp} &nbsp;₹<p style={{display:"inline-block",textDecoration:"line-through",fontWeight:"300"}}>{workshopInfo?.smrp}</p></> : "free"}</>}
                     </button>}
                   </>
                 </div>
@@ -666,9 +666,9 @@ function Service(props) {
               <div className="more_services">
                 <h2 className="service_h2">
                   <i className="fa-solid fa-circle-info"></i>&nbsp; More
-                  Services from the Creator
+                  Workshops from the Creator
                 </h2>
-                <div className="display_services_list service_list_display">
+                <div className="display_services_list workshop_list_display">
                   {workshops.res
                     ?.filter((e) => e._id !== workshopInfo?._id)
                     ?.sort((a, b) => {
@@ -678,7 +678,7 @@ function Service(props) {
                       if (e.status === 1) {
                         return (
                           <a
-                            href={`/s/${e.slug}`}
+                            href={`/w/${e.slug}`}
                             key={e._id}
                             style={{ textDecoration: "none" }}
                           >
@@ -688,6 +688,21 @@ function Service(props) {
                             >
                               <img src={e.simg} alt="..." />
                               <h2>{e.sname}</h2>
+                              <span className="profile_page_display_date">
+                            {new Date(e.startDate).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                              timeZone: "Asia/Kolkata",
+                            })}
+                            <span>
+                              <i
+                                class="fa-solid fa-location-dot fa-xl"
+                                style={{ color: "red" }}
+                              ></i>{" "}
+                              &nbsp; Online{" "}
+                            </span>
+                          </span>
                             </div>
                           </a>
                         );

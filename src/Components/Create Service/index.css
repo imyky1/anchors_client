@@ -1,10 +1,4 @@
 
-
-html{
-    -webkit-user-select: none;
-}
-
-
 .header01{
     color: rgba(128, 128, 128, 0.755);
     font-size: 26px;
@@ -16,6 +10,7 @@ html{
     display: flex;
     margin-left: 2%;
     margin-top: 3%;
+    -webkit-user-select: none;
 }
 
 .toggle_bar > div{

@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import "./Pricing.css";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer/Footer.js";
@@ -17,9 +17,21 @@ function Pricing() {
     setPlatform(e.target.value);
   };
 
+
+  // Visited page mix panel
+  useEffect(() => {
+    mixpanel.track("Visited Pricing Page")
+
+  }, [])
+  
+
   const handleCheckEligibility = () => {
     mixpanel.track("Clicked Check Eligibility on Anchors Main Page");
     if (platform !== "Choose Platform" && parseInt(followers) > 0) {
+      mixpanel.track("Eligibility on Anchors Pricing Page",{
+        platform:platform,
+        followers:followers
+      });
       if (platform === "youtube") {
         if (parseInt(followers) >= 5000) {
           setResult(true);
@@ -59,7 +71,7 @@ function Pricing() {
       <div className="main_pricing_container">
         <div className="mainpage_header creator_login_header ">
           <Link to="/" style={{textDecoration:"none",color:"unset"}}>
-          <div className="logo">
+          <div className="logo" >
             <img src={require("../logo.png")} alt="Logo" />
             <span>anchors</span>
           </div></Link>
