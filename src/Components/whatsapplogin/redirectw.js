@@ -1,8 +1,4 @@
 import React from "react";
-<<<<<<< HEAD
-//import OtplessSdk from "otpless-js-sdk";
-=======
->>>>>>> 296c25ca92cab169ddcb3410889c9caa12533c72
 import { useEffect } from "react";
 import { useState } from "react";
 import { set } from "react-ga";
