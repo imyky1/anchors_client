@@ -188,11 +188,11 @@
 }
 
 .bottom_workshop_section span:first-of-type {
-  border-right: 2px solid red;
   margin-right: 22px;
   padding-right: 1vw;
   font-size: 1.2rem;
 }
+
 
 .workshop_reserve_button{
   background-color: green;
@@ -237,6 +237,12 @@
   font-size: 0.9rem !important;
   padding: 10px !important;
   width: unset !important;
+  border-color: #2a302b;
+
+}
+
+.atcb-icon{
+  border: none;
 }
 
 /* creator profile on service page */
@@ -428,7 +434,6 @@
 
   .bottom_workshop_section_bar{
     display: flex;
-    margin-left: 0;
   }
 
   .book_workshop_box {

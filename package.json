@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "add-to-calendar-button": "^1.18.8",
     "apexcharts": "^3.36.3",
     "chart.js": "^3.9.1",
     "file-saver": "^2.0.5",
@@ -33,7 +34,9 @@
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
     "swiper": "^8.4.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xml-to-react": "^1.2.0-alpha.2",
+    "xml2js": "^0.4.23"
   },
   "scripts": {
     "start": "react-scripts start",

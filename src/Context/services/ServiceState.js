@@ -426,7 +426,7 @@ const ServiceState = (props) => {
     const json = await response.json();
     if (json.success) {
       setWorkshopInfo(json.workshop[0]);
-
+      console.log(json);
       return [json.workshop[0]?.c_id, json.workshop[0]?._id];
     } else {
       //console.log("Some error Occured")

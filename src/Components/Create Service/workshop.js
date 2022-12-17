@@ -116,7 +116,6 @@ function Workshop(props) {
     setPaid(e.target.value);
   };
 
-  
   // Handling workshop input fields
   const handlecapacityChange = (e) => {
     let value = e.target.value;
@@ -144,8 +143,25 @@ function Workshop(props) {
     if (!data.startDate) {
       return false;
     }
+    if (!time.startTime) {
+      return false;
+    }
     let today_date = new Date();
     let diff = new Date(data.startDate) - today_date;
+    // same date validator checking time
+    if (
+      new Date(data.startDate).toLocaleDateString() ===
+      new Date().toLocaleDateString()
+    ) {
+      if (
+        new Date().getHours().toLocaleString().slice(0, 2) >=
+        time.startTime.slice(0, 2)
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    }
     if (diff >= 0) {
       return true;
     }
@@ -153,12 +169,13 @@ function Workshop(props) {
   };
 
   const timevalidator = () => {
-    if (!time.startTime) {
+    if (time.startTime === "") {
       return false;
     }
-    if (!time.endTime) {
+    if (time.endTime === "") {
       return false;
     }
+
     let start_hour = time.startTime[0] + time.startTime[1];
     let end_hour = time.endTime[0] + time.endTime[1];
 
@@ -176,19 +193,34 @@ function Workshop(props) {
       return false;
     }
   };
-
   // Submit of form create the service ------------------------------------------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setOpenLoading(true);
+    //setOpenLoading(true);
     props.progress(0);
+    if (!datevalidator()) {
+      setOpenLoading(false);
+      toast.info("Please check that your data is valid!", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+
+      return;
+    }
+    if (!timevalidator()) {
+      setOpenLoading(false);
+      toast.info("Please check that your time is valid!", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+
+      return;
+    }
     if (
       data.sname.length > 3 &&
       data.sdesc.length > 5 &&
       Content.length > 10 &&
-      previewSourceOne &&
-      datevalidator() &&
-      timevalidator()
+      previewSourceOne
     ) {
       try {
         var banner = await Uploadfile(data1);
@@ -218,7 +250,7 @@ function Workshop(props) {
             data.meetlink,
             svideo ? svideo?.result.Location : ""
           );
-          
+
           if (json.success) {
             setdata({
               sname: "",
@@ -433,7 +465,7 @@ function Workshop(props) {
             {paid === "free" ? (
               <TextField
                 select
-                id="afterstartentry" 
+                id="afterstartentry"
                 onChange={handleentrychange}
                 className="mui_select"
                 label="Open after events started (You can allow participants even after event has started)"
@@ -449,7 +481,7 @@ function Workshop(props) {
                 className="mui_select"
                 label="Open after events started (You can allow participants even after event has started)"
                 defaultValue="notallowed"
-                id="afterstartentry" 
+                id="afterstartentry"
                 onChange={handleentrychange}
                 //helperText="You can allow participants even after event has started"
               >
@@ -747,10 +779,7 @@ function Workshop(props) {
             </div>
           </div>
         </form> */}
-        <label
-          htmlFor="ldesc"
-          className="editor_entry_labels"
-        >
+        <label htmlFor="ldesc" className="editor_entry_labels">
           Workshop Description
         </label>
         <Editor

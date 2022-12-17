@@ -27,8 +27,7 @@ import Test from "./Components/Editor/Test";
 import EmailState from "./Context/EmailState";
 import Workshop from "./Components/Service Page/Workshop";
 import Pricing from "./Components/Pricing/Pricing";
-import LoginWhatsapp from "./Components/whatsapplogin/loginw";
-import RedirectWhatsapp from "./Components/whatsapplogin/redirectw";
+import Sitemap from "./Components/sitemap/Sitemap";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -102,14 +101,7 @@ function App() {
                           element={<Creators_login progress={changeprogress} />}
                         />
                       </Route>
-                      <Route
-                        path="/login/whatsapp"
-                        element={<LoginWhatsapp progress={changeprogress} />}
-                      ></Route>
-                      <Route
-                        path="/login/whatsapp/token"
-                        element={<RedirectWhatsapp progress={changeprogress} />}
-                      ></Route>
+                      <Route path="/sitemapac" element={<Sitemap />}></Route>
                     </Routes>
                   </FeedbackState>
                 </EmailState>

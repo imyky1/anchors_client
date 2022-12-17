@@ -9,7 +9,7 @@ export const linkedinContext = createContext();
 const LinkedinState = (props) => {
   const navigate = useNavigate();
   const [loginInfo, setloginInfo] = useState({});
-
+  const [truecallervalue, settruecallervalue] = useState({});
 
   const creatorLinkedinLogin = async () => {
     fetch(`${host}/login/creator/success`, {
@@ -28,7 +28,13 @@ const LinkedinState = (props) => {
         if (resJSON.success) {
           const login = resJSON.res;
           setloginInfo(login);
-          registerCreatorLogin(login.id,"", login.name, login.email, login.photo);
+          registerCreatorLogin(
+            login.id,
+            "",
+            login.name,
+            login.email,
+            login.photo
+          );
         } else {
           toast.error("Login Failed! Please Try Again", {
             position: "top-center",
@@ -63,7 +69,13 @@ const LinkedinState = (props) => {
         if (resJson.success) {
           const login = resJson.res;
           setloginInfo(login);
-          registerCreatorLogin("", login.id, login.name, login.email, login.photo);
+          registerCreatorLogin(
+            "",
+            login.id,
+            login.name,
+            login.email,
+            login.photo
+          );
         } else {
           toast.error("Login Failed! Please Try Again", {
             position: "top-center",
@@ -81,7 +93,13 @@ const LinkedinState = (props) => {
       });
   };
 
-  const registerCreatorLogin = async (linkedinID,googleID, name, email, photo) => {
+  const registerCreatorLogin = async (
+    linkedinID,
+    googleID,
+    name,
+    email,
+    photo
+  ) => {
     let slugurl = name.split(" ").join("-");
     const count = await getslugcountcreator(slugurl.toLowerCase());
     let slugurl2 =
@@ -250,20 +268,19 @@ const LinkedinState = (props) => {
     localStorage.removeItem("from");
     const res = await response.json();
     if (res.success) {
-      if(!res.already){
-        mixpanel.alias(email)
+      if (!res.already) {
+        mixpanel.alias(email);
         mixpanel.people.set_once({
-          "Type":"user",
-          "$first_name":name.split(" ")[0],
-          "$last_name":name.split(" ")[1],
-          "$email":email
-        })
+          Type: "user",
+          $first_name: name.split(" ")[0],
+          $last_name: name.split(" ")[1],
+          $email: email,
+        });
       }
       localStorage.setItem("isUser", true);
       localStorage.setItem("jwtToken", res.jwtToken);
-      mixpanel.identify(email)
+      mixpanel.identify(email);
       navigate(localStorage.getItem("url"));
-      
     } else {
       toast.error("Login Failed! Please Try Again", {
         position: "top-center",
@@ -272,8 +289,102 @@ const LinkedinState = (props) => {
     }
   };
 
+  const truecallerlogin = async () => {
+    window.location =
+      "truecallersdk://truesdk/web_verify?requestNonce=515115151215&partnerKey=VfJBw0e9c586386864769b56aa850f1f66efc&partnerName=Anchors&lang=en&title=signUp";
 
-  
+    setTimeout(function () {
+      if (document.hasFocus()) {
+        alert("Truecaller not present");
+      } else {
+        // Truecaller app present on the device and the profile overlay opens
+        // The user clicks on verify & you'll receive the user's access token to fetch the profile on your
+        // callback URL - post which, you can refresh the session at your frontend and complete the user  verification
+        setTimeout(async () => {
+          const response = await fetch(
+            "https://www.anchors.in:5000/truecaller/auth",
+            {
+              method: "GET",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true,
+              },
+            }
+          );
+          const json = await response.json();
+          settruecallervalue(json);
+          localStorage.setItem("isUser", true);
+          localStorage.setItem("from", "truecaller");
+          localStorage.setItem("url", "c/himanshu-shekhar");
+          localStorage.setItem(
+            "user",
+            json.userdata?.name?.first + " " + json.userdata?.name?.last
+          );
+
+          await registerTruecallerLogin(
+            json.userdata?.id,
+            json.userdata?.name?.first + " " + json.userdata?.name?.last,
+            json.userdata?.onlineIdentities?.email,
+            json.userdata?.avatarUrl ? json.userdata?.avatarUrl : "",
+            json.userdata?.phoneNumbers[0]
+          );
+        }, 3000);
+      }
+    }, 600);
+  };
+
+  const registerTruecallerLogin = async (
+    id,
+    name,
+    email,
+    photo,
+    phoneNumber
+  ) => {
+    const userdata = await userIp();
+    const response = await fetch(`${host}/api/user/newUsertruecaller`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
+      },
+      body: JSON.stringify({
+        linkedinID: "",
+        googleID: "",
+        truecallerID: id,
+        name,
+        photo,
+        email,
+        location: userdata,
+        phoneNumber,
+      }),
+    });
+    localStorage.removeItem("from");
+    const res = await response.json();
+    if (res.success) {
+      if (!res.already) {
+        mixpanel.alias(email);
+        mixpanel.people.set_once({
+          Type: "user",
+          $first_name: name.split(" ")[0],
+          $last_name: name.split(" ")[1],
+          $email: email,
+        });
+      }
+      localStorage.setItem("isUser", true);
+      localStorage.setItem("jwtToken", res.jwtToken);
+      mixpanel.identify(email);
+      setTimeout(() => {
+        navigate(localStorage.getItem("url"));
+      }, 1000);
+    } else {
+      toast.error("Login Failed! Please Try Again", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    }
+  };
 
   // Route : GET user IP ADDRESS and location
   const userIp = async () => {
@@ -320,7 +431,10 @@ const LinkedinState = (props) => {
         creatorLinkedinLogin,
         creatorGoogleLogin,
         getStatus,
+        registerTruecallerLogin,
+        truecallerlogin,
         loginInfo,
+        truecallervalue,
       }}
     >
       {props.children}

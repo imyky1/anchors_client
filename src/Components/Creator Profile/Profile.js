@@ -11,7 +11,7 @@ import mixpanel from "mixpanel-browser";
 import { feedbackcontext } from "../../Context/FeedbackState";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper";
-import Footer from "../Footer/Footer.js"
+import Footer from "../Footer/Footer.js";
 
 // Import Swiper styles
 import "swiper/css";
@@ -80,9 +80,9 @@ function Profile(props) {
     // eslint-disable-next-line
   }, []);
 
-   //Scroll to top automatically
+  //Scroll to top automatically
 
-   useEffect(() => {
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
@@ -526,13 +526,27 @@ function Profile(props) {
               >
                 About
               </span>
-              <span onClick={(e) => handleNavigation(services_list, e)}>
-                Resources
-              </span>
-              <span onClick={(e) => handleNavigation(workshop_list, e)}>
-                Workshops
-              </span>
-              <span onClick={(e) => handleNavigation(reviews, e)}>Reviews</span>
+              {services?.res?.length === 0 ? (
+                ""
+              ) : (
+                <span onClick={(e) => handleNavigation(services_list, e)}>
+                  Resources
+                </span>
+              )}
+              {workshops?.res?.length === 0 ? (
+                ""
+              ) : (
+                <span onClick={(e) => handleNavigation(workshop_list, e)}>
+                  Workshops
+                </span>
+              )}
+              {feedbacks?.filter((e) => e.status === 1).length === 0 ? (
+                ""
+              ) : (
+                <span onClick={(e) => handleNavigation(reviews, e)}>
+                  Reviews
+                </span>
+              )}
               <span onClick={(e) => handleNavigation(requests, e)}>
                 Request
               </span>
@@ -550,186 +564,201 @@ function Profile(props) {
               </div>
             </div>
 
-            <div ref={services_list} id="services">
-              <h2 className="headers_tag">Available Resources</h2>
-              <div className="display_services_list">
-                {services.res?.map((e) => {
-                  if (e.status === 1) {
-                    count++;
-                    return (
-                      <Link
-                        to={`/s/${e.slug}`}
-                        key={e._id}
-                        style={{ textDecoration: "none" }}
-                      >
-                        <div
-                          className="item_displayed"
-                          onClick={() => handleServiceClick(e.slug)}
+            {services?.res?.length === 0 ? (
+              ""
+            ) : (
+              <div ref={services_list} id="services">
+                <h2 className="headers_tag">Available Resources</h2>
+                <div className="display_services_list">
+                  {services.res?.map((e) => {
+                    if (e.status === 1) {
+                      count++;
+                      return (
+                        <Link
+                          to={`/s/${e.slug}`}
+                          key={e._id}
+                          style={{ textDecoration: "none" }}
                         >
-                          <img src={e.simg} alt="..." />
-                          <h2>{e.sname}</h2>
-                          {/* <span
+                          <div
+                            className="item_displayed"
+                            onClick={() => handleServiceClick(e.slug)}
+                          >
+                            <img src={e.simg} alt="..." />
+                            <h2>{e.sname}</h2>
+                            {/* <span
                     className={`${
                       e.isPaid === true ? "paid" : "free"
                     }_tag_dispalyed`}
                   >
                     {e.isPaid === true ? "Paid" : "Free"}
                   </span> */}
-                        </div>
-                      </Link>
-                    );
-                  } else {
-                    return "";
-                  }
-                })}
-                {count === 0 ? (
-                  <h1 className="no_services">No services to display</h1>
-                ) : (
-                  ""
-                )}
+                          </div>
+                        </Link>
+                      );
+                    } else {
+                      return "";
+                    }
+                  })}
+                  {count === 0 ? (
+                    <h1 className="no_services">No services to display</h1>
+                  ) : (
+                    ""
+                  )}
+                </div>
               </div>
-            </div>
-            <div ref={workshop_list} id="workshops">
-              <h2 className="headers_tag">Workshops</h2>
-              <div className="display_services_list">
-                {workshops.res?.map((e) => {
-                  if (e.status === 1) {
-                    countworkshop++;
-                    return (
-                      <Link
-                        to={`/w/${e.slug}`}
-                        key={e._id}
-                        style={{ textDecoration: "none" }}
-                      >
-                        <div
-                          className="item_displayed"
-                          onClick={() => handleServiceClick(e.slug)}
+            )}
+            {workshops?.res?.length === 0 ? (
+              ""
+            ) : (
+              <div ref={workshop_list} id="workshops">
+                <h2 className="headers_tag">Workshops</h2>
+                <div className="display_services_list">
+                  {workshops.res?.map((e) => {
+                    if (e.status === 1) {
+                      countworkshop++;
+                      return (
+                        <Link
+                          to={`/w/${e.slug}`}
+                          key={e._id}
+                          style={{ textDecoration: "none" }}
                         >
-                          <img src={e.simg} alt="..." />
-                          <h2>{e.sname}</h2>
-                          <span className="profile_page_display_date">
-                            {new Date(e.startDate).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                              timeZone: "Asia/Kolkata",
-                            })}
-                            <span>
-                              <i
-                                class="fa-solid fa-location-dot fa-xl"
-                                style={{ color: "red" }}
-                              ></i>{" "}
-                              &nbsp; Online{" "}
+                          <div
+                            className="item_displayed"
+                            onClick={() => handleServiceClick(e.slug)}
+                          >
+                            <img src={e.simg} alt="..." />
+                            <h2>{e.sname}</h2>
+                            <span className="profile_page_display_date">
+                              {new Date(e.startDate).toLocaleDateString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                  timeZone: "Asia/Kolkata",
+                                }
+                              )}
+                              <span>
+                                <i
+                                  class="fa-solid fa-location-dot fa-xl"
+                                  style={{ color: "red" }}
+                                ></i>{" "}
+                                &nbsp; Online{" "}
+                              </span>
                             </span>
-                          </span>
-                          {/* <span
+                            {/* <span
                             className={`${
                               e.isPaid === true ? "paid" : "free"
                             }_tag_dispalyed`}
                           >
                             {e.isPaid === true ? "Paid" : "Free"}
                           </span> */}
-                        </div>
-                      </Link>
-                    );
-                  } else {
-                    return "";
-                  }
-                })}
-                {countworkshop === 0 ? (
-                  <h1 className="no_services">No Workshops to display</h1>
-                ) : (
-                  ""
-                )}
-              </div>
-            </div>
-
-            <div className="user_comments_lists" ref={reviews} id="reviews">
-              <div className="review_header">
-                <h2 className="headers_tag">Resources Reviews</h2>
-                <p className="slide_button">
-                  <span>
-                    <i
-                      className="fa-solid fa-angle-left fa-xl"
-                      id="prev_slide_button"
-                    ></i>
-                  </span>
-                  <span>
-                    <i
-                      className="fa-solid fa-angle-right fa-xl"
-                      id="next_slide_button"
-                    ></i>
-                  </span>
-                </p>
-              </div>
-              <Swiper
-                slidesPerView={
-                  window.matchMedia("(max-width: 500px)").matches ? 1 : 3
-                }
-                spaceBetween={
-                  window.matchMedia("(max-width: 500px)").matches ? 5 : 20
-                }
-                //autoplay={{
-                //  delay: 3000,
-                //  disableOnInteraction: false,
-                //}}
-                loop={
-                  feedbacks?.filter((e) => e.status === 1).length > 3
-                    ? true
-                    : false
-                }
-                pagination={{
-                  dynamicBullets: true,
-                }}
-                navigation={{
-                  nextEl: "#next_slide_button",
-                  prevEl: "#prev_slide_button",
-                }}
-                modules={[Pagination, Navigation]}
-                className="mySwiper"
-              >
-                {feedbacks?.filter((e) => e.status === 1).length !== 0 ? (
-                  feedbacks
-                    ?.filter((e) => e.status === 1)
-                    .map((e2, index) => {
-                      return (
-                        <SwiperSlide key={index}>
-                          <div className="comment_box">
-                            <section>
-                              <img
-                                src={e2?.photo}
-                                alt="user"
-                                className="user_profile_pic"
-                              />
-                              <span className="review_name_stars">
-                                <span className="user_name">
-                                  {e2?.name
-                                    ? e2?.name.length > 15
-                                      ? e2?.name.slice(0, 15) + ".."
-                                      : e2?.name
-                                    : "--"}
-                                </span>
-                                <span className="review_stars">
-                                  {Array(e2?.rating)
-                                    .fill("a")
-                                    ?.map((e, i) => {
-                                      return (
-                                        <i className="fa-solid fa-star"></i>
-                                      );
-                                    })}
-                                </span>
-                              </span>
-                            </section>
-                            <p className="fb_desc">{e2?.desc}</p>
                           </div>
-                        </SwiperSlide>
+                        </Link>
                       );
-                    })
-                ) : (
-                  <h1 className="no_services">No reviews to display</h1>
-                )}
-              </Swiper>
-            </div>
+                    } else {
+                      return "";
+                    }
+                  })}
+                  {countworkshop === 0 ? (
+                    <h1 className="no_services">No Workshops to display</h1>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+            )}
+            {console.log(feedbacks.length)}
+            {feedbacks?.filter((e) => e.status === 1).length === 0 ? (
+              ""
+            ) : (
+              <div className="user_comments_lists" ref={reviews} id="reviews">
+                <div className="review_header">
+                  <h2 className="headers_tag">Resources Reviews</h2>
+                  <p className="slide_button">
+                    <span>
+                      <i
+                        className="fa-solid fa-angle-left fa-xl"
+                        id="prev_slide_button"
+                      ></i>
+                    </span>
+                    <span>
+                      <i
+                        className="fa-solid fa-angle-right fa-xl"
+                        id="next_slide_button"
+                      ></i>
+                    </span>
+                  </p>
+                </div>
+                <Swiper
+                  slidesPerView={
+                    window.matchMedia("(max-width: 500px)").matches ? 1 : 3
+                  }
+                  spaceBetween={
+                    window.matchMedia("(max-width: 500px)").matches ? 5 : 20
+                  }
+                  //autoplay={{
+                  //  delay: 3000,
+                  //  disableOnInteraction: false,
+                  //}}
+                  loop={
+                    feedbacks?.filter((e) => e.status === 1).length > 3
+                      ? true
+                      : false
+                  }
+                  pagination={{
+                    dynamicBullets: true,
+                  }}
+                  navigation={{
+                    nextEl: "#next_slide_button",
+                    prevEl: "#prev_slide_button",
+                  }}
+                  modules={[Pagination, Navigation]}
+                  className="mySwiper"
+                >
+                  {feedbacks?.filter((e) => e.status === 1).length !== 0 ? (
+                    feedbacks
+                      ?.filter((e) => e.status === 1)
+                      .map((e2, index) => {
+                        return (
+                          <SwiperSlide key={index}>
+                            <div className="comment_box">
+                              <section>
+                                <img
+                                  src={e2?.photo}
+                                  alt="user"
+                                  className="user_profile_pic"
+                                />
+                                <span className="review_name_stars">
+                                  <span className="user_name">
+                                    {e2?.name
+                                      ? e2?.name.length > 15
+                                        ? e2?.name.slice(0, 15) + ".."
+                                        : e2?.name
+                                      : "--"}
+                                  </span>
+                                  <span className="review_stars">
+                                    {Array(e2?.rating)
+                                      .fill("a")
+                                      ?.map((e, i) => {
+                                        return (
+                                          <i className="fa-solid fa-star"></i>
+                                        );
+                                      })}
+                                  </span>
+                                </span>
+                              </section>
+                              <p className="fb_desc">{e2?.desc}</p>
+                            </div>
+                          </SwiperSlide>
+                        );
+                      })
+                  ) : (
+                    <h1 className="no_services">No reviews to display</h1>
+                  )}
+                </Swiper>
+              </div>
+            )}
 
             <div className="request_query_section" ref={requests} id="request">
               <div>
@@ -776,7 +805,7 @@ function Profile(props) {
             </div>
           </div>
         </div>
-        <Footer/>
+        <Footer />
       </div>
     </>
   );

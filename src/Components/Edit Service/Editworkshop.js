@@ -207,8 +207,25 @@ function Editworkshop(props) {
     if (!data.startDate) {
       return false;
     }
+    if (!time.startTime) {
+      return false;
+    }
     let today_date = new Date();
     let diff = new Date(data.startDate) - today_date;
+    // same date validator checking time
+    if (
+      new Date(data.startDate).toLocaleDateString() ===
+      new Date().toLocaleDateString()
+    ) {
+      if (
+        new Date().getHours().toLocaleString().slice(0, 2) >=
+        time.startTime.slice(0, 2)
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    }
     if (diff >= 0) {
       return true;
     }
@@ -264,7 +281,7 @@ function Editworkshop(props) {
         if (previewSourceTwo) {
           var doc = await UploadVideo(data2);
         } else {
-          doc = { result:{Location: workshopInfo?.svideo} };
+          doc = { result: { Location: workshopInfo?.svideo } };
         }
         const newData = {
           ...data,
@@ -588,7 +605,7 @@ function Editworkshop(props) {
         />
         <div className="create_buttons">
           <button className="submit_button" onClick={handleSubmit}>
-          Update the Changes
+            Update the Changes
           </button>
         </div>
         <ToastContainer />

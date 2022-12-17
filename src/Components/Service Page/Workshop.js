@@ -8,6 +8,10 @@ import User_login from "../Login/Users/User_login";
 import { ToastContainer, toast } from "react-toastify";
 import { saveAs } from "file-saver";
 import { Cross as Hamburger } from "hamburger-react";
+// add to calender
+import { atcb_action, atcb_init } from "add-to-calendar-button";
+import "add-to-calendar-button/assets/css/atcb.css";
+
 import mixpanel from "mixpanel-browser";
 import Feedback_Modal from "../Modals/Feedback_Modal";
 import { linkedinContext } from "../../Context/LinkedinState";
@@ -78,6 +82,7 @@ function Service(props) {
       const id = await getworkshopinfo(slug);
       await getBasicCreatorInfo(id[0]);
       await getallworkshopsusingid(id[0]);
+      atcb_init();
     };
     mixpanel.track("Page Visit", {
       user: UserDetails ? UserDetails : "",
@@ -87,6 +92,8 @@ function Service(props) {
     process();
     // eslint-disable-next-line
   }, []);
+
+  // add to calender useEffect initializing
 
   const [timing, setTiming] = useState("");
 
@@ -188,7 +195,9 @@ function Service(props) {
       setSeatReserved(e);
     });
   }, [workshopInfo]);
-
+  useEffect(() => {
+    atcb_init();
+  }, [paymentProcessing]);
   // responsible for feedback popup
   useEffect(() => {
     if (
@@ -276,6 +285,7 @@ function Service(props) {
                 amount: workshopInfo?.ssp,
                 creator: basicCdata?.slug,
               });
+              setSeatReserved(true);
               setPaymentProcessing(false);
             } else {
               toast.error(
@@ -355,6 +365,7 @@ function Service(props) {
             user: UserDetails ? UserDetails : "",
             creator: basicCdata?.slug,
           });
+          setSeatReserved(true);
         } else {
           toast.error(
             "Seat not reserved Due to some error, please try again some time",
@@ -554,37 +565,86 @@ function Service(props) {
                 {/* Bottom reserve seat button ---------------------------------------- */}
                 <div className="bottom_workshop_section">
                   <>
-                  <div>
-                    <span>
-                      {WorkshopDate} at {workshopInfo?.time?.startTime} -{" "}
-                      {workshopInfo?.time?.endTime}
-                    </span>
-                    <span>
-                      
-                      <i
-                        class="fa-solid fa-location-dot fa-xl"
-                        style={{ color: "red" }}
-                      ></i>
-                      &nbsp; Online{" "}
-                    </span></div>
-                    {window.screen.width > 650 && 
-                    <button
-                      className="download_service workshop_reserve_button"
-                      onClick={download_service}
-                      style={
-                        paymentProcessing
-                          ? {
-                              backgroundColor: "grey",
-                              border: "2px solid grey",
-                            }
-                          : {}
-                      }
-                    >
-                      {paymentProcessing ? <>Processing</> : <>Reserve for {workshopInfo?.isPaid ? <>₹{workshopInfo?.ssp} &nbsp;₹<p style={{display:"inline-block",textDecoration:"line-through",fontWeight:"300"}}>{workshopInfo?.smrp}</p></> : "free"}</>}
-                    </button>}
+                    <div>
+                      <span>
+                        {WorkshopDate} at {workshopInfo?.time?.startTime} -{" "}
+                        {workshopInfo?.time?.endTime}
+                      </span>
+                      <span>
+                        <i
+                          class="fa-solid fa-location-dot fa-xl"
+                          style={{ color: "red" }}
+                        ></i>
+                        &nbsp; Online{" "}
+                      </span>
+                    </div>
+                    {window.screen.width > 650 && (
+                      <button
+                        className="download_service workshop_reserve_button"
+                        onClick={download_service}
+                        style={
+                          paymentProcessing
+                            ? {
+                                backgroundColor: "grey",
+                                border: "2px solid grey",
+                              }
+                            : seatReserved
+                            ? {
+                                backgroundColor: "grey",
+                              }
+                            : {}
+                        }
+                      >
+                        {paymentProcessing ? (
+                          <>Processing</>
+                        ) : (
+                          <>
+                            {seatReserved
+                              ? "Already Registered"
+                              : "Reserve for"}{" "}
+                            {workshopInfo?.isPaid ? (
+                              <>
+                                {seatReserved ? "" : `₹${workshopInfo?.ssp}`}{" "}
+                                &nbsp;₹
+                                <p
+                                  style={{
+                                    display: "inline-block",
+                                    textDecoration: "line-through",
+                                    fontWeight: "300",
+                                  }}
+                                >
+                                  {workshopInfo?.smrp}
+                                </p>
+                              </>
+                            ) : seatReserved ? (
+                              ""
+                            ) : (
+                              "free"
+                            )}
+                          </>
+                        )}
+                      </button>
+                    )}
                   </>
+                  {seatReserved ? (
+                    <div className="atcb">
+                      {"{"}
+                      "name":"{`${workshopInfo?.sname}`}", "description":"
+                      {`${workshopInfo?.sdesc}`}", "startDate":"
+                      {`${workshopInfo?.startDate?.slice(0, 10)}`}", "endDate":"
+                      {`${workshopInfo?.startDate?.slice(0, 10)}`}",
+                      "startTime":"
+                      {`${workshopInfo?.time?.startTime}`}", "endTime":"
+                      {`${workshopInfo?.time?.endTime}`}", "location":"
+                      {`${workshopInfo?.meetlink}`}
+                      ", "options":["Google","Apple"],
+                      "timeZone":"Asia/Kolkata", "iCalFileName":"Reminder-Event"
+                      {"}"}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
-                
                 <p className="workshop_sdesc">{workshopInfo?.sdesc}</p>
                 {workshopInfo?.tags?.length !== 0 && workshopInfo.tags && (
                   <div className="tags_section">
@@ -605,7 +665,6 @@ function Service(props) {
                     : ""}
                 </div>
               </div>
-
               {/* <div className="book_workshop_box">
                 {" "}
                 <span>
@@ -640,8 +699,8 @@ function Service(props) {
                     )}
                   </>
                 </span> */}
-                {/* Checks iff the seat is already reserved for the person */}
-                {/* <button
+              {/* Checks iff the seat is already reserved for the person */}
+              {/* <button
                   className="download_workshop"
                   disabled={seatReserved}
                   onClick={download_service}
@@ -692,20 +751,23 @@ function Service(props) {
                               <img src={e.simg} alt="..." />
                               <h2>{e.sname}</h2>
                               <span className="profile_page_display_date">
-                            {new Date(e.startDate).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                              timeZone: "Asia/Kolkata",
-                            })}
-                            <span>
-                              <i
-                                class="fa-solid fa-location-dot fa-xl"
-                                style={{ color: "red" }}
-                              ></i>{" "}
-                              &nbsp; Online{" "}
-                            </span>
-                          </span>
+                                {new Date(e.startDate).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                    timeZone: "Asia/Kolkata",
+                                  }
+                                )}
+                                <span>
+                                  <i
+                                    class="fa-solid fa-location-dot fa-xl"
+                                    style={{ color: "red" }}
+                                  ></i>{" "}
+                                  &nbsp; Online{" "}
+                                </span>
+                              </span>
                             </div>
                           </a>
                         );
@@ -744,28 +806,39 @@ function Service(props) {
                 {workshopInfo?.isPaid ? (
                   <div className="mobile_price_desc">
                     <div>
-                      <h3>Price:&nbsp;</h3>
+                      <h3>
+                        {seatReserved ? "Already Registered" : "Price:"}&nbsp;
+                      </h3>
                       <span>
                         {" "}
-                        ₹
+                        {seatReserved ? "" : "₹"}
                         <span style={{ textDecoration: "line-through" }}>
-                          {workshopInfo?.smrp}{" "}
+                          {seatReserved ? "" : `${workshopInfo?.smrp}{" "}`}
                         </span>
                       </span>
                     </div>
                     <div>
-                      <span className="main_ssp">₹{workshopInfo?.ssp} </span>
+                      <span className="main_ssp">
+                        {seatReserved ? "" : `₹${workshopInfo?.ssp}`}{" "}
+                      </span>
                       <span>
+                        {seatReserved
+                          ? ""
+                          : ` 
                         (-
-                        {(((workshopInfo?.smrp - workshopInfo?.ssp) /
-                          workshopInfo?.smrp) *
-                          100).toFixed(0)}
-                        %)
+                        ${(
+                          ((workshopInfo?.smrp - workshopInfo?.ssp) /
+                            workshopInfo?.smrp) *
+                          100
+                        ).toFixed(0)}
+                        %)`}
                       </span>
                     </div>
                   </div>
                 ) : (
-                  <span className="free_label">Free</span>
+                  <span className="free_label">
+                    {seatReserved ? "" : "Free"}
+                  </span>
                 )}
 
                 <button
@@ -773,11 +846,24 @@ function Service(props) {
                   onClick={download_service}
                   style={
                     paymentProcessing
-                      ? { backgroundColor: "grey", border: "2px solid grey" }
+                      ? {
+                          backgroundColor: "grey",
+                          border: "2px solid grey",
+                        }
+                      : seatReserved
+                      ? {
+                          backgroundColor: "grey",
+                        }
                       : {}
                   }
                 >
-                  {paymentProcessing ? <>Processing</> : <>Reserve Your Seat</>}
+                  {paymentProcessing ? (
+                    <>Processing</>
+                  ) : seatReserved ? (
+                    <>Already Registered</>
+                  ) : (
+                    <>Reserve Your Seat</>
+                  )}
                 </button>
               </div>
 
