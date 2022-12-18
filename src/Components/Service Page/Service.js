@@ -282,20 +282,12 @@ function Service(props) {
 
   const download_service = async () => {
     const ext = serviceInfo.surl?.split(".").at(-1);
-<<<<<<< HEAD
     if (localStorage.getItem("jwtToken")) {
       if (serviceInfo?.isPaid) {
         checkfororder(
           serviceInfo?._id,
           localStorage.getItem("isUser") === "true" ? "user" : "creator"
         ).then((e) => {
-=======
-    if (
-      localStorage.getItem("jwtToken")
-    ) {
-      if (serviceInfo?.isPaid) {
-        checkfororder(serviceInfo?._id,localStorage.getItem("isUser") === "true" ? "user" : "creator").then((e) => {
->>>>>>> 516bedfc48f7a9d5dbc7f9d0177fab12e55b1a74
           if (e) {
             if (ext === "pdf") {
               downloadFile("pdf");
@@ -388,11 +380,7 @@ function Service(props) {
         }
         setPaymentProcessing(false);
       }
-<<<<<<< HEAD
     }
-=======
-    } 
->>>>>>> 516bedfc48f7a9d5dbc7f9d0177fab12e55b1a74
     //else if (
     //  localStorage.getItem("isUser") === "" &&
     //  localStorage.getItem("jwtToken")
@@ -409,11 +397,7 @@ function Service(props) {
     //    link.dispatchEvent(new MouseEvent("click"));
     //  }
     //  setPaymentProcessing(false);
-<<<<<<< HEAD
     //}
-=======
-    //} 
->>>>>>> 516bedfc48f7a9d5dbc7f9d0177fab12e55b1a74
     else {
       mixpanel.track("Clicked Download Service Without Login", {
         service: slug,
@@ -477,11 +461,7 @@ function Service(props) {
         <Thanks
           open={openModelDownload}
           onClose={() => {
-<<<<<<< HEAD
             setPaymentProcessing(false);
-=======
-            setPaymentProcessing(false)
->>>>>>> 516bedfc48f7a9d5dbc7f9d0177fab12e55b1a74
             setOpenModelDownload(false);
           }}
           copyURL={serviceInfo?.copyURL}

@@ -21,15 +21,11 @@ function Service(props) {
           Workshop/Event
         </div>
       </div>
-<<<<<<< HEAD
       {toggle === 0 ? (
         <Document progress={props.progress} />
       ) : (
         <Workshop progress={props.progress} />
       )}
-=======
-      {toggle === 0 ? <Document progress={props.progress}/> : <Workshop progress={props.progress}/>}
->>>>>>> 516bedfc48f7a9d5dbc7f9d0177fab12e55b1a74
     </div>
   );
 }

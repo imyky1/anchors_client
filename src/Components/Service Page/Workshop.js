@@ -220,26 +220,17 @@ function Service(props) {
     var s = new Date(workshopInfo?.startDate).toLocaleString("en-US", options);
     setWorkshopDate(s);
 
-<<<<<<< HEAD
     checkUserOrderPlaced(
       workshopInfo?._id,
       localStorage.getItem("isUser") === "true" ? "user" : "creator"
     ).then((e) => {
-=======
-    checkUserOrderPlaced(workshopInfo?._id,localStorage.getItem("isUser") === "true" ? "user" : "creator").then((e) => {
->>>>>>> 516bedfc48f7a9d5dbc7f9d0177fab12e55b1a74
       setSeatReserved(e);
     });
   }, [workshopInfo]);
 
   useEffect(() => {
     atcb_init();
-<<<<<<< HEAD
   }, [paymentProcessing, seatReserved]);
-=======
-  }, [paymentProcessing]);
-
->>>>>>> 516bedfc48f7a9d5dbc7f9d0177fab12e55b1a74
   // responsible for feedback popup
   useEffect(() => {
     if (
@@ -264,7 +255,6 @@ function Service(props) {
           });
         }
       });
-<<<<<<< HEAD
     } // check for seat reservability on user login
     checkUserOrderPlaced(
       workshopInfo?._id,
@@ -280,17 +270,6 @@ function Service(props) {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-=======
-    }
-
-    // check for seat reservability on user login
-    checkUserOrderPlaced(workshopInfo?._id,localStorage.getItem("isUser") === "true" ? "user" : "creator").then((e) => {
-      setSeatReserved(e);
-    });
-    // add to calender on login of user
-    atcb_init();
-  }, [localStorage.getItem("jwtToken")]);
->>>>>>> 516bedfc48f7a9d5dbc7f9d0177fab12e55b1a74
 
   // Social proof popup ---------------------------------------
 
@@ -401,13 +380,7 @@ function Service(props) {
   };
 
   const download_service = async () => {
-<<<<<<< HEAD
     if (localStorage.getItem("jwtToken")) {
-=======
-    if (
-      localStorage.getItem("jwtToken")
-    ) {
->>>>>>> 516bedfc48f7a9d5dbc7f9d0177fab12e55b1a74
       if (workshopInfo?.isPaid) {
         orderPlacing().then(() => {});
       } else {
@@ -447,24 +420,7 @@ function Service(props) {
         }
         setPaymentProcessing(false);
       }
-<<<<<<< HEAD
     } else {
-=======
-    } 
-    //else if (
-    //  localStorage.getItem("isUser") === "" &&
-    //  localStorage.getItem("jwtToken")
-    //) {
-    //  toast.info(
-    //    "You cannot reserve seat as a creator, Please login as an user",
-    //    {
-    //      position: "top-center",
-    //      autoClose: 3000,
-    //    }
-    //  );
-    //} 
-    else {
->>>>>>> 516bedfc48f7a9d5dbc7f9d0177fab12e55b1a74
       mixpanel.track("Clicked Reserve seat in workshop Without Login", {
         service: slug,
         user: UserDetails ? UserDetails : "",
@@ -943,9 +899,9 @@ function Service(props) {
                         }
                       : seatReserved
                       ? {
-                        backgroundColor: "black",
-                        border: "2px solid black",
-                      }
+                          backgroundColor: "black",
+                          border: "2px solid black",
+                        }
                       : {}
                   }
                 >
