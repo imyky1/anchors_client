@@ -7,7 +7,7 @@ import Profile from "./Components/Creator Profile/Profile";
 import CreatorState from "./Context/CreatorState";
 import UserState from "./Context/UserState";
 import Service from "./Components/Service Page/Service";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import LoadingBar from "react-top-loading-bar";
 import Feedback from "./Components/Feedback/Feedback";
 import LinkedinState from "./Context/LinkedinState";
@@ -31,7 +31,14 @@ import Sitemap from "./Components/sitemap/Sitemap";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
+
 function App() {
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+
   const [progress, setprogress] = useState(0);
 
   const changeprogress = (progress) => {
