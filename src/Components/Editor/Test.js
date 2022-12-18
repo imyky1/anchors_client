@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { linkedinContext } from "../../Context/LinkedinState";
 import { atcb_action, atcb_init } from "add-to-calendar-button";
+import { InlineShareButtons } from "sharethis-reactjs";
+import "./teststyle.css";
+
 import "add-to-calendar-button/assets/css/atcb.css";
 
 function Test() {
@@ -9,10 +12,20 @@ function Test() {
   const handleClick = async () => {
     await truecallerlogin();
   };
+  const handlewhatsappshare = async () => {
+    window.open(
+      `https://api.whatsapp.com/send?text=Checkout this Important resource -- ** at https://www.anchors.in/w/workshopname`,
+      "MsgWindow",
+      "width=100",
+      "height=50"
+    );
+  };
 
-  useEffect(() => {
-    atcb_init();
-  }, []);
+  const handlelinkedInshare = async () => {
+    window.open(
+      `http://www.linkedin.com/shareArticle?mini=true&url=https://anchors.in/w/how-to-make-custom-linkedin-share-button&title=How%20to%20make%20custom%20linkedin%20share%20button&summary=some%20summary%20if%20you%20want&source=stackoverflow.com`
+    );
+  };
 
   return (
     <div className="test">
@@ -29,16 +42,12 @@ function Test() {
         </p>
         <p>EMAIL - {truecallervalue.userdata?.onlineIdentities?.email}</p>
       </div>
-      <div>
-        <div className="atcb">
-          {"{"}
-          "name":"Add the title of your event", "description":"A nice
-          description does not hurt", "startDate":"2022-02-21",
-          "endDate":"2022-03-24", "startTime":"10:13", "endTime":"17:57",
-          "location":"Somewhere over the rainbow", "label":"Add to Calendar",
-          "options":[ "Apple", "Google", "iCal", "Microsoft365", "Outlook.com",
-          "Yahoo" ], "timeZone":"Europe/Berlin", "iCalFileName":"Reminder-Event"
-          {"}"}
+      <div></div>
+      <div class="btn_wrap_share">
+        <span>Share</span>
+        <div class="container_buttons_share">
+          <i onClick={handlelinkedInshare} class="fab fa-linkedin"></i>
+          <i onClick={handlewhatsappshare} class="fab fa-whatsapp"></i>
         </div>
       </div>
     </div>

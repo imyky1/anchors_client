@@ -187,7 +187,7 @@
   margin-top: -15px;
 }
 
-.bottom_workshop_section span:first-of-type {
+.bottom_workshop_section_firstspan span:first-of-type {
   margin-right: 22px;
   padding-right: 1vw;
   font-size: 1.2rem;
@@ -384,6 +384,122 @@
   padding-bottom: 50px;
 }
 
+
+/* share button */
+
+.share_btns_wrapper h3{
+  padding: 5px 0px 10px 0px;
+}
+
+.btn__container {
+  height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn_share {
+  min-width: 110px;
+  background-color: #fff;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  color: #286;
+  display: flex;
+  transition: all 0.2s ease-in-out;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.btn_share i {
+  color: #286;
+  font-size: 20px;
+  padding-right: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn_share span {
+  font-family: "Roboto", sans-serif;
+  align-self: center;
+  transform: translateX(0px);
+  transition: all 0.1s ease-in-out;
+  opacity: 1;
+}
+
+.btn_share:hover {
+  transform: scale(1.1);
+  background: #286;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.btn_share:hover i {
+  transform: translateX(45px);
+  padding-right: 0;
+  color: #FFF;
+}
+
+.btn_share:hover span {
+  transform: translateX(30px);
+  opacity: 0;
+}
+
+.btn_share:active {
+  transform: scale(1);
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-f {
+  min-width: 110px;
+  background-color: #fff;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  color: #286ED6;
+  display: flex;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-f i {
+  color: #286ED6;
+  font-size: 20px;
+  padding-right: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-f span {
+  font-family: "Roboto", sans-serif;
+  align-self: center;
+  transform: translateX(0px);
+  transition: all 0.1s ease-in-out;
+  opacity: 1;
+}
+
+.btn-f:hover {
+  transform: scale(1.1);
+  background-color: #286ED6;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.btn-f:hover i {
+  transform: translateX(45px);
+  padding-right: 0;
+  color: #FFF;
+}
+
+.btn-f:hover span {
+  transform: translateX(30px);
+  opacity: 0;
+}
+
+.btn-f:active {
+  transform: scale(1);
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/*share button css end*/
+
+
+
+
 @media (max-width: 1550px) {
   .book_workshop_box {
     width: 40vw;
@@ -454,6 +570,9 @@
   .service_section_content {
     width: 100vw;
   }
+  .workshop_reserve_button{
+    display: none;
+  }
 
   .service_section_details {
     width: 95%;
@@ -498,7 +617,7 @@
     font-size: 1.1rem;
   }
   
-  .bottom_workshop_section span:first-of-type{
+  .bottom_workshop_section_firstspan span:first-of-type{
     font-size: 1.1rem;
 
   }
@@ -646,6 +765,35 @@
     grid-template-columns: repeat(2fr);
     gap: 5px;
   }
+
+  .btn__container{
+    
+  }
+  .btn_share{
+    min-width: 50px;
+    padding: unset;
+    transition: none;
+    min-height: 10px;
+  }
+  .btn-f{
+    padding: unset;
+    padding-left: 10px;
+    min-width: 50px;
+  }
+  .btn_share:hover i {
+      transform: translateX(40px);
+      padding-right: 0;
+      color: #FFF;
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+        .btn-f:hover i {
+          transform: translateX(28px);
+          padding-right: 0;
+          color: #FFF;
+          padding-top: 4px;
+            padding-bottom: 4px;
+        }
 }
 @media (max-width: 320px) {
   .workshopdate_calender {
