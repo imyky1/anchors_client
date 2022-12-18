@@ -191,13 +191,15 @@ function Service(props) {
     var s = new Date(workshopInfo?.startDate).toLocaleString("en-US", options);
     setWorkshopDate(s);
 
-    checkUserOrderPlaced(workshopInfo?._id).then((e) => {
+    checkUserOrderPlaced(workshopInfo?._id,localStorage.getItem("isUser") === "true" ? "user" : "creator").then((e) => {
       setSeatReserved(e);
     });
   }, [workshopInfo]);
+
   useEffect(() => {
     atcb_init();
   }, [paymentProcessing]);
+
   // responsible for feedback popup
   useEffect(() => {
     if (
@@ -219,13 +221,14 @@ function Service(props) {
         }
       });
     }
+
+    // check for seat reservability on user login
+    checkUserOrderPlaced(workshopInfo?._id,localStorage.getItem("isUser") === "true" ? "user" : "creator").then((e) => {
+      setSeatReserved(e);
+    });
+    // add to calender on login of user
+    atcb_init();
   }, [localStorage.getItem("jwtToken")]);
-
-  //Scroll to top automatically
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   // Social proof popup ---------------------------------------
 
@@ -269,6 +272,7 @@ function Service(props) {
               basicCreatorInfo.creatorID,
               1,
               1,
+              localStorage.getItem("isUser") === "true" ? "user" : "creator",
               razorpay_payment_id,
               razorpay_order_id,
               razorpay_signature
@@ -336,7 +340,6 @@ function Service(props) {
 
   const download_service = async () => {
     if (
-      localStorage.getItem("isUser") === "true" &&
       localStorage.getItem("jwtToken")
     ) {
       if (workshopInfo?.isPaid) {
@@ -349,7 +352,8 @@ function Service(props) {
           workshopInfo._id,
           basicCreatorInfo.creatorID,
           0,
-          1
+          1,
+          localStorage.getItem("isUser") === "true" ? "user" : "creator"
         );
         if (success) {
           setOpenModelDownload(true);
@@ -377,18 +381,20 @@ function Service(props) {
         }
         setPaymentProcessing(false);
       }
-    } else if (
-      localStorage.getItem("isUser") === "" &&
-      localStorage.getItem("jwtToken")
-    ) {
-      toast.info(
-        "You cannot reserve seat as a creator, Please login as an user",
-        {
-          position: "top-center",
-          autoClose: 3000,
-        }
-      );
-    } else {
+    } 
+    //else if (
+    //  localStorage.getItem("isUser") === "" &&
+    //  localStorage.getItem("jwtToken")
+    //) {
+    //  toast.info(
+    //    "You cannot reserve seat as a creator, Please login as an user",
+    //    {
+    //      position: "top-center",
+    //      autoClose: 3000,
+    //    }
+    //  );
+    //} 
+    else {
       mixpanel.track("Clicked Reserve seat in workshop Without Login", {
         service: slug,
         user: UserDetails ? UserDetails : "",
@@ -582,6 +588,7 @@ function Service(props) {
                       <button
                         className="download_service workshop_reserve_button"
                         onClick={download_service}
+                        disabled={seatReserved}
                         style={
                           paymentProcessing
                             ? {
@@ -590,7 +597,8 @@ function Service(props) {
                               }
                             : seatReserved
                             ? {
-                                backgroundColor: "grey",
+                                backgroundColor: "black",
+                                border: "2px solid black",
                               }
                             : {}
                         }
@@ -844,6 +852,7 @@ function Service(props) {
                 <button
                   className="download_service bottom_fixed_btn"
                   onClick={download_service}
+                  disabled={seatReserved}
                   style={
                     paymentProcessing
                       ? {
@@ -852,8 +861,9 @@ function Service(props) {
                         }
                       : seatReserved
                       ? {
-                          backgroundColor: "grey",
-                        }
+                        backgroundColor: "black",
+                        border: "2px solid black",
+                      }
                       : {}
                   }
                 >

@@ -100,6 +100,7 @@ const LinkedinState = (props) => {
     email,
     photo
   ) => {
+    const userdata = await userIp();
     let slugurl = name.split(" ").join("-");
     const count = await getslugcountcreator(slugurl.toLowerCase());
     let slugurl2 =
@@ -121,6 +122,7 @@ const LinkedinState = (props) => {
         email,
         photo,
         slug: slugurl2,
+        location:userdata
       }),
     });
     const res = await response.json();

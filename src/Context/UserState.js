@@ -63,9 +63,10 @@ const UserState = (props) => {
     creatorId,
     paidUser,
     orderType,
+    orderFrom,
     razorpayPaymentId,
     razorpayOrderId,
-    razorpaySignature
+    razorpaySignature,
   ) => {
     const response = await fetch(
       `${host}/api/user/service/neworder/${serviceid}`,
@@ -84,6 +85,7 @@ const UserState = (props) => {
           razorpayPaymentId,
           razorpayOrderId,
           razorpaySignature,
+          orderFrom : orderFrom ? orderFrom : "user",
         }),
       }
     );
@@ -165,16 +167,19 @@ const UserState = (props) => {
   };
 
   // check if userorder already exists or not
-  const checkUserOrderPlaced = async (id) => {
+  const checkUserOrderPlaced = async (id,orderFrom) => {
     // USER LOGIN IS REQUIRED
     const response = await fetch(`${host}/api/user/checkUserOrder/${id}`, {
-      method: "GET",
+      method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Credentials": true,
         "jwt-token": localStorage.getItem("jwtToken"),
       },
+      body:JSON.stringify({
+        orderFrom : orderFrom ? orderFrom : "user",
+      })
     });
     const json = await response.json();
     return json.success;

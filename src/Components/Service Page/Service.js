@@ -169,6 +169,7 @@ function Service(props) {
               basicCreatorInfo.creatorID,
               1,
               0,
+              localStorage.getItem("isUser") === "true" ? "user" : "creator",
               razorpay_payment_id,
               razorpay_order_id,
               razorpay_signature
@@ -282,11 +283,10 @@ function Service(props) {
   const download_service = async () => {
     const ext = serviceInfo.surl?.split(".").at(-1);
     if (
-      localStorage.getItem("isUser") === "true" &&
       localStorage.getItem("jwtToken")
     ) {
       if (serviceInfo?.isPaid) {
-        checkfororder(serviceInfo?._id).then((e) => {
+        checkfororder(serviceInfo?._id,localStorage.getItem("isUser") === "true" ? "user" : "creator").then((e) => {
           if (e) {
             if (ext === "pdf") {
               downloadFile("pdf");
@@ -335,7 +335,8 @@ function Service(props) {
           serviceInfo._id,
           basicCreatorInfo.creatorID,
           0,
-          0
+          0,
+          localStorage.getItem("isUser") === "true" ? "user" : "creator"
         );
         if (success) {
           setOpenModelDownload(true);
@@ -378,23 +379,25 @@ function Service(props) {
         }
         setPaymentProcessing(false);
       }
-    } else if (
-      localStorage.getItem("isUser") === "" &&
-      localStorage.getItem("jwtToken")
-    ) {
-      setPaymentProcessing(true);
-      if (ext === "pdf") {
-        downloadFile("pdf");
-      } else if (ext === "mp4") {
-        downloadFile("mp4");
-      } else {
-        let link = document.createElement("a");
-        link.href = serviceInfo.surl;
-        link.target = "_blank";
-        link.dispatchEvent(new MouseEvent("click"));
-      }
-      setPaymentProcessing(false);
-    } else {
+    } 
+    //else if (
+    //  localStorage.getItem("isUser") === "" &&
+    //  localStorage.getItem("jwtToken")
+    //) {
+    //  setPaymentProcessing(true);
+    //  if (ext === "pdf") {
+    //    downloadFile("pdf");
+    //  } else if (ext === "mp4") {
+    //    downloadFile("mp4");
+    //  } else {
+    //    let link = document.createElement("a");
+    //    link.href = serviceInfo.surl;
+    //    link.target = "_blank";
+    //    link.dispatchEvent(new MouseEvent("click"));
+    //  }
+    //  setPaymentProcessing(false);
+    //} 
+    else {
       mixpanel.track("Clicked Download Service Without Login", {
         service: slug,
         user: UserDetails ? UserDetails : "",
@@ -457,6 +460,7 @@ function Service(props) {
         <Thanks
           open={openModelDownload}
           onClose={() => {
+            setPaymentProcessing(false)
             setOpenModelDownload(false);
           }}
           copyURL={serviceInfo?.copyURL}
