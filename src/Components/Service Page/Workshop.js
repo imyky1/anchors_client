@@ -93,7 +93,36 @@ function Service(props) {
     // eslint-disable-next-line
   }, []);
 
-  // add to calender useEffect initializing
+  // share button handlers
+  const handlewhatsappshare = async () => {
+    window.open(
+      `https://api.whatsapp.com/send?text=Checkout this Important Workshop -- ${workshopInfo?.sname} at https://www.anchors.in/w/${workshopInfo?.slug}`,
+      "MsgWindow",
+      "width=100",
+      "height=50"
+    );
+
+    mixpanel.track("Clicked Share on whatsapp workshop", {
+      service: slug,
+      user: UserDetails ? UserDetails : "",
+      creator: basicCdata?.slug,
+    });
+  };
+  const elem = document.getElementsByClassName("atcb-button");
+
+  const handlelinkedInshare = async () => {
+    window.open(
+      `http://www.linkedin.com/shareArticle?mini=true&url=https://anchors.in/w/${workshopInfo?.slug}&title=${workshopInfo?.sname}&summary=${workshopInfo?.sdesc}&source=https://www.anchors.in/`,
+      "MsgWindow",
+      "width=100",
+      "height=50"
+    );
+    mixpanel.track("Clicked Share on LinkedIn workshop", {
+      service: slug,
+      user: UserDetails ? UserDetails : "",
+      creator: basicCdata?.slug,
+    });
+  };
 
   const [timing, setTiming] = useState("");
 
@@ -567,11 +596,10 @@ function Service(props) {
             <div className="workshop_desc_content_wrapper">
               <div className="service_section_details">
                 <h1 style={{ marginBottom: "15px" }}>{workshopInfo?.sname}</h1>
-
                 {/* Bottom reserve seat button ---------------------------------------- */}
                 <div className="bottom_workshop_section">
                   <>
-                    <div>
+                    <div className="bottom_workshop_section_firstspan">
                       <span>
                         {WorkshopDate} at {workshopInfo?.time?.startTime} -{" "}
                         {workshopInfo?.time?.endTime}
@@ -584,55 +612,50 @@ function Service(props) {
                         &nbsp; Online{" "}
                       </span>
                     </div>
-                    {window.screen.width > 650 && (
-                      <button
-                        className="download_service workshop_reserve_button"
-                        onClick={download_service}
-                        disabled={seatReserved}
-                        style={
-                          paymentProcessing
-                            ? {
-                                backgroundColor: "grey",
-                                border: "2px solid grey",
-                              }
-                            : seatReserved
-                            ? {
-                                backgroundColor: "black",
-                                border: "2px solid black",
-                              }
-                            : {}
-                        }
-                      >
-                        {paymentProcessing ? (
-                          <>Processing</>
-                        ) : (
-                          <>
-                            {seatReserved
-                              ? "Already Registered"
-                              : "Reserve for"}{" "}
-                            {workshopInfo?.isPaid ? (
-                              <>
-                                {seatReserved ? "" : `₹${workshopInfo?.ssp}`}{" "}
-                                &nbsp;₹
-                                <p
-                                  style={{
-                                    display: "inline-block",
-                                    textDecoration: "line-through",
-                                    fontWeight: "300",
-                                  }}
-                                >
-                                  {workshopInfo?.smrp}
-                                </p>
-                              </>
-                            ) : seatReserved ? (
-                              ""
-                            ) : (
-                              "free"
-                            )}
-                          </>
-                        )}
-                      </button>
-                    )}
+
+                    <button
+                      className="download_service workshop_reserve_button"
+                      onClick={download_service}
+                      style={
+                        paymentProcessing
+                          ? {
+                              backgroundColor: "grey",
+                              border: "2px solid grey",
+                            }
+                          : seatReserved
+                          ? {
+                              backgroundColor: "grey",
+                            }
+                          : {}
+                      }
+                    >
+                      {paymentProcessing ? (
+                        <>Processing</>
+                      ) : (
+                        <>
+                          {seatReserved ? "Already Registered" : "Reserve for"}{" "}
+                          {workshopInfo?.isPaid ? (
+                            <>
+                              {seatReserved ? "" : `₹${workshopInfo?.ssp}`}{" "}
+                              &nbsp;₹
+                              <p
+                                style={{
+                                  display: "inline-block",
+                                  textDecoration: "line-through",
+                                  fontWeight: "300",
+                                }}
+                              >
+                                {workshopInfo?.smrp}
+                              </p>
+                            </>
+                          ) : seatReserved ? (
+                            ""
+                          ) : (
+                            "free"
+                          )}
+                        </>
+                      )}
+                    </button>
                   </>
                   {seatReserved ? (
                     <div className="atcb">
@@ -653,6 +676,23 @@ function Service(props) {
                     ""
                   )}
                 </div>
+                {seatReserved ? (
+                  <div className="share_btns_wrapper">
+                    <h3>Share with your Friends</h3>
+                    <div class="btn__container">
+                      <a onClick={handlewhatsappshare} class="btn_share">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                      </a>
+                      <a onClick={handlelinkedInshare} class="btn-f">
+                        <i class="fab fa-linkedin"></i>
+                        <span>LinkedIn</span>
+                      </a>
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
                 <p className="workshop_sdesc">{workshopInfo?.sdesc}</p>
                 {workshopInfo?.tags?.length !== 0 && workshopInfo.tags && (
                   <div className="tags_section">
