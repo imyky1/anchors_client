@@ -5,6 +5,25 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Editor from "../Editor/Editor";
 import { LoadTwo } from "../Modals/Loading";
+import { TextField, MenuItem } from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material";
+import "./Edit.css";
+
+// style asterisk
+export const theme = createTheme({
+  components: {
+    MuiFormLabel: {
+      styleOverrides: {
+        asterisk: {
+          color: "red",
+          "&$error": {
+            color: "#db3131",
+          },
+        },
+      },
+    },
+  },
+});
 
 function Editworkshop(props) {
   const { slug } = useParams();
@@ -103,7 +122,7 @@ function Editworkshop(props) {
         allowed: false,
         discount: "",
       });
-      document.querySelector("#afterstartentry").value = "notallowed";
+      setAfterEntry("notallowed");
     } else if (
       paid !== "free" &&
       workshopInfo?.afterstartentry?.discount !== ""
@@ -112,24 +131,20 @@ function Editworkshop(props) {
         ...afterstartentry,
         discount: workshopInfo?.afterstartentry?.discount,
       });
-      document.querySelector("#afterstartentry").value =
-        workshopInfo?.afterstartentry?.discount;
+      setAfterEntry(workshopInfo?.afterstartentry?.discount);
     } else {
       setAfterStartEntry({
         allowed: true,
         discount: "",
       });
+      setAfterEntry("allowed");
       document.querySelector("#afterstartentry").value = "allowed";
     }
 
     if (workshopInfo?.isPaid) {
-      select.value = "paid";
-      document.querySelector("#smrp").style.display = "block";
-      document.querySelector("#ssp").style.display = "block";
-      document.querySelectorAll(".price_label")[0].style.display = "block";
-      document.querySelectorAll(".price_label")[1].style.display = "block";
+      setPaid("paid");
     } else {
-      select.value = "free";
+      setPaid("free");
     }
   }, [getworkshopinfo]);
 
@@ -151,22 +166,16 @@ function Editworkshop(props) {
 
   // Changing free and paid section layout ---------------------------------------------
 
-  const handleOptionChange = () => {
+  const handleOptionChange = (e) => {
     //  balancing the changing effect of free and paid option
-    const select = document.getElementById("stype");
-    var value = select?.options[select.selectedIndex].value;
-    setPaid(value);
-    if (value === "free") {
-      document.querySelector("#smrp").style.display = "none";
-      document.querySelector("#ssp").style.display = "none";
-      document.querySelectorAll(".price_label")[0].style.display = "none";
-      document.querySelectorAll(".price_label")[1].style.display = "none";
-    }
-    if (value === "paid") {
-      document.querySelector("#smrp").style.display = "block";
-      document.querySelector("#ssp").style.display = "block";
-      document.querySelectorAll(".price_label")[0].style.display = "block";
-      document.querySelectorAll(".price_label")[1].style.display = "block";
+
+    setPaid(e.target.value);
+    if (e.target.value === "paid") {
+      setAfterEntry("notallowed");
+      setAfterStartEntry({
+        allowed: false,
+        discount: "",
+      });
     }
   };
 
@@ -185,19 +194,25 @@ function Editworkshop(props) {
     let value = e.target.value;
     setdata({ ...data, maxCapacity: value });
   };
+
+  const [afterentry, setAfterEntry] = useState("");
   const handleentrychange = (e) => {
     let value = e.target.value;
     if (value === "allowed") {
       setAfterStartEntry({ ...afterstartentry, allowed: true });
+      setAfterEntry("allowed");
     } else if (value === "notallowed") {
       setAfterStartEntry({ allowed: false, discount: "" });
+      setAfterEntry("notallowed");
     } else {
       setAfterStartEntry({
         allowed: true,
         discount: value,
       });
+      setAfterEntry(value);
     }
   };
+
   const handleChangetime = (e) => {
     setTime({ ...time, [e.target.name]: e.target.value });
   };
@@ -217,10 +232,11 @@ function Editworkshop(props) {
       new Date(data.startDate).toLocaleDateString() ===
       new Date().toLocaleDateString()
     ) {
-      if (
-        new Date().getHours().toLocaleString().slice(0, 2) >=
-        time.startTime.slice(0, 2)
-      ) {
+      let starttime = new Date().getHours().toLocaleString().toString();
+      if (starttime.length === 1) {
+        starttime = `0${starttime}`;
+      }
+      if (starttime.slice(0, 2) >= time.startTime.slice(0, 2)) {
         return false;
       } else {
         return true;
@@ -263,6 +279,34 @@ function Editworkshop(props) {
     setOpenLoading(true);
     props.progress(0);
     if (
+      !data.sname.length > 3 &&
+      !data.sdesc.length > 5 &&
+      !Content.length > 10
+    ) {
+      setOpenLoading(false);
+      toast.info("Mandatory fields cannot be empty or short in size", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (!datevalidator()) {
+      setOpenLoading(false);
+      toast.info("Please check your Date", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (!timevalidator()) {
+      setOpenLoading(false);
+      toast.info("Please check your Time", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (
       data.sname.length > 3 &&
       data.sdesc.length > 5 &&
       Content.length > 10 &&
@@ -270,8 +314,8 @@ function Editworkshop(props) {
       timevalidator()
     ) {
       try {
-        const select = document.getElementById("stype");
-        var value = select.options[select.selectedIndex].value;
+        console.log(data);
+        var value = paid;
         if (previewSourceOne) {
           var banner = await Uploadfile(data1);
         } else {
@@ -283,6 +327,7 @@ function Editworkshop(props) {
         } else {
           doc = { result: { Location: workshopInfo?.svideo } };
         }
+
         const newData = {
           ...data,
           ldesc: Content,
@@ -290,12 +335,13 @@ function Editworkshop(props) {
           simg: banner?.url,
           svideo: doc?.result.Location,
           isPaid: value === "free" ? false : true,
-          smrp: value === "free" ? 0 : data.smrp,
-          ssp: value === "free" ? 0 : data.ssp,
-          startDate: data.startDate,
+          smrp: value === "free" ? 0 : data?.smrp,
+          ssp: value === "free" ? 0 : data?.ssp,
+          startDate: data?.startDate,
           time: time,
           afterstartentry: afterstartentry,
         };
+
         updateWorkshop(workshopInfo?._id, newData).then((e) => {
           if (e) {
             toast.success("Service Edited Succesfully", {
@@ -340,9 +386,285 @@ function Editworkshop(props) {
 
   return (
     <>
-      {openLoading && <LoadTwo open={openLoading} />}
-      <div className="create_box">
-        <form className="entries" onSubmit={handleSubmit}>
+      <ThemeProvider theme={theme}>
+        {openLoading && <LoadTwo open={openLoading} />}
+        <div className="create_box">
+          <form className="workshop_form_create">
+            <div className="left_side_form_create">
+              <TextField
+                label="Title"
+                required
+                variant="outlined"
+                name="sname"
+                id="sname"
+                onChange={handleChange}
+                value={data.sname}
+                placeholder="Enter workshop title..."
+              />
+              <TextField
+                multiline
+                required
+                label="Short Description"
+                variant="outlined"
+                name="sdesc"
+                onChange={handleChange}
+                value={data.sdesc}
+                id="sdesc"
+                placeholder="Very brief description of Workshop..."
+              />
+              {workshopInfo?.simg ? (
+                <a
+                  href={workshopInfo?.simg}
+                  className="existingimagevid"
+                  target="_blank"
+                >
+                  Click to view current banner
+                </a>
+              ) : (
+                ""
+              )}
+
+              <TextField
+                name="sbanner"
+                required
+                id="sbanner"
+                label="Banner Image"
+                placeholder="Upload Image"
+                onFocus={(e) => {
+                  e.target.type = "file";
+                }}
+                onBlur={(e) => {
+                  e.target.type = "text";
+                }}
+                onChange={handleChangeFileOne}
+              />
+
+              <TextField
+                name="startDate"
+                required
+                id="startDate"
+                label="Date"
+                variant="outlined"
+                placeholder="Choose Date"
+                onFocus={(e) => {
+                  e.target.type = "date";
+                }}
+                onBlur={(e) => {
+                  e.target.type = "text";
+                }}
+                value={data.startDate}
+                onChange={handleChange}
+              />
+              <section>
+                <TextField
+                  name="startTime"
+                  required
+                  id="startTime"
+                  label="Start Time"
+                  placeholder="Choose start time"
+                  onFocus={(e) => {
+                    e.target.type = "time";
+                  }}
+                  onBlur={(e) => {
+                    e.target.type = "text";
+                  }}
+                  value={time.startTime}
+                  onChange={handleChangetime}
+                />
+                <TextField
+                  name="endTime"
+                  required
+                  id="endTime"
+                  label="End Time"
+                  placeholder="Choose end time"
+                  onFocus={(e) => {
+                    e.target.type = "time";
+                  }}
+                  onBlur={(e) => {
+                    e.target.type = "text";
+                  }}
+                  value={time.endTime}
+                  onChange={handleChangetime}
+                />
+              </section>
+
+              <TextField
+                label="Meeting Link(Meet/Zoom Link)"
+                required
+                variant="outlined"
+                placeholder="Enter meeting link here"
+                type="url"
+                name="meetlink"
+                id="meetlink"
+                onChange={handleChange}
+                value={data.meetlink}
+              />
+
+              {paid !== "free" && (
+                <TextField
+                  type="text"
+                  label="Tags (Write a tag and press Enter)"
+                  onKeyDown={handleKeyDown}
+                  name="stags"
+                  id="stags"
+                  placeholder="Type tags..."
+                  //helperText="Write a tag and press Enter"
+                />
+              )}
+            </div>
+            <div className="right_side_form_create">
+              {workshopInfo?.svideo ? (
+                <a
+                  href={workshopInfo?.svideo}
+                  className="existingimagevid"
+                  target="_blank"
+                >
+                  Click to view current Intro Video
+                </a>
+              ) : (
+                ""
+              )}
+
+              <TextField
+                name="svideo"
+                id="svideo"
+                label="Intro/Preview Video"
+                placeholder="Upload Video"
+                onFocus={(e) => {
+                  e.target.type = "file";
+                }}
+                onBlur={(e) => {
+                  e.target.type = "text";
+                }}
+                onChange={handleChangeFileTwo}
+              />
+
+              <TextField
+                className="mui_select"
+                select
+                label="Workshop Type"
+                required
+                defaultValue="free"
+                id="stype"
+                value={paid}
+                onChange={(e) => handleOptionChange(e)}
+              >
+                <MenuItem value="free">Free</MenuItem>
+                <MenuItem value="paid">Paid</MenuItem>
+              </TextField>
+
+              {paid !== "free" && (
+                <>
+                  <TextField
+                    label="Set MRP (in INR)"
+                    variant="outlined"
+                    required
+                    name="smrp"
+                    id="smrp"
+                    placeholder="Eg. 299"
+                    onChange={handleChange}
+                    value={data.smrp}
+                    type="number"
+                  />
+                  <TextField
+                    label="Selling Price"
+                    variant="outlined"
+                    required
+                    type="number"
+                    name="ssp"
+                    id="ssp"
+                    placeholder="Eg. 199"
+                    onChange={handleChange}
+                    value={data.ssp}
+                    max={data.smrp}
+                  />
+                </>
+              )}
+
+              {paid === "free" ? (
+                <TextField
+                  select
+                  id="afterstartentry"
+                  onChange={handleentrychange}
+                  className="mui_select"
+                  value={afterentry}
+                  label="Open after events started (You can allow participants even after event has started)"
+                  defaultValue="notallowed"
+                  //helperText="You can allow participants even after event has started"
+                >
+                  <MenuItem value="notallowed">Not allowed</MenuItem>
+                  <MenuItem value="allowed">Allowed</MenuItem>
+                </TextField>
+              ) : (
+                <TextField
+                  select
+                  className="mui_select"
+                  value={afterentry}
+                  label="Open after events started (You can allow participants even after event has started)"
+                  defaultValue="notallowed"
+                  id="afterstartentry"
+                  onChange={handleentrychange}
+                  //helperText="You can allow participants even after event has started"
+                >
+                  <MenuItem value="notallowed">Not allowed</MenuItem>
+                  <MenuItem value="10mins">
+                    after 10 minutes 10% discount
+                  </MenuItem>
+                  <MenuItem value="20mins">
+                    after 20 minutes 20% discount
+                  </MenuItem>
+                  <MenuItem value="30mins">
+                    after 30 minutes 30% discount
+                  </MenuItem>
+                </TextField>
+              )}
+
+              <TextField
+                select
+                required
+                className="mui_select"
+                label="Max Capacity allowed (You can set the number of seat limit)"
+                defaultValue="-1"
+                id="maxCapacity"
+                value={data.maxCapacity}
+                onChange={handlecapacityChange}
+                //helperText="You can set the number of seat limit"
+              >
+                <MenuItem value="-1">No Limit</MenuItem>
+                <MenuItem value="50">50</MenuItem>
+                <MenuItem value="100">100</MenuItem>
+                <MenuItem value="250">250</MenuItem>
+                <MenuItem value="500">500</MenuItem>
+              </TextField>
+
+              {paid === "free" && (
+                <TextField
+                  type="text"
+                  label="Tags (Write a tag and press Enter)"
+                  onKeyDown={handleKeyDown}
+                  name="stags"
+                  id="stags"
+                  placeholder="Type tags..."
+                  //helperText="Write a tag and press Enter"
+                />
+              )}
+              <div className="tag-container_workshop">
+                {tags?.map((tag, index) => {
+                  return (
+                    <div className="tag" key={index}>
+                      <span>{tag}</span>
+                      <i
+                        className="fa-solid fa-circle-xmark"
+                        onClick={() => removeTag(index)}
+                      ></i>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </form>
+
+          {/* <form className="entries" onSubmit={handleSubmit}>
           <div>
             <div className="left_entry_box">
               <label htmlFor="sname" className="entry_labels">
@@ -368,11 +690,6 @@ function Editworkshop(props) {
               />
               <label htmlFor="sbanner" className="entry_labels">
                 Banner Image <small>*</small>
-                <br />(
-                <a href={workshopInfo?.simg} target="_blank">
-                  Click to view current banner
-                </a>
-                )
               </label>
               <input
                 type="text"
@@ -471,11 +788,6 @@ function Editworkshop(props) {
             <div className="right_entry_box">
               <label htmlFor="svideo" className="entry_labels">
                 Intro Video
-                <br />(
-                <a href={workshopInfo?.svideo} target="_blank">
-                  Click to view current Intro Video
-                </a>
-                )
               </label>
               <input
                 type="text"
@@ -570,7 +882,7 @@ function Editworkshop(props) {
                         <div className="tag" key={index}>
                           <span>{tag}</span>
                           <i
-                            className="fa-solid fa-circle-xmark"
+                            class="fa-solid fa-circle-xmark"
                             onClick={() => removeTag(index)}
                           ></i>
                         </div>
@@ -588,28 +900,24 @@ function Editworkshop(props) {
               )}
             </div>
           </div>
-        </form>
-        <label
-          htmlFor="ldesc"
-          className={`editor_entry_labels ${
-            paid === "free" ? "" : "add-margin-top"
-          }`}
-        >
-          Long Description <small>*</small>
-        </label>
-        <Editor
-          readOnly={false}
-          content={Content}
-          setContent={setContent}
-          className="text_editor"
-        />
-        <div className="create_buttons">
-          <button className="submit_button" onClick={handleSubmit}>
-            Update the Changes
-          </button>
+        </form> */}
+          <label htmlFor="ldesc" className="editor_entry_labels">
+            Workshop Description <small>*</small>
+          </label>
+          <Editor
+            readOnly={false}
+            content={Content}
+            setContent={setContent}
+            className="text_editor"
+          />
+          <div className="create_buttons">
+            <button className="submit_button" onClick={handleSubmit}>
+              Submit and Publish
+            </button>
+          </div>
+          <ToastContainer />
         </div>
-        <ToastContainer />
-      </div>
+      </ThemeProvider>
     </>
   );
 }
