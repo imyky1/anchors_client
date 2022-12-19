@@ -4,9 +4,13 @@ import JoditEditor from "jodit-react";
 
 const ReactEditor = ({ readOnly = true, content, setContent, placeholder }) => {
   const editor = React.useRef(null);
-  const config = {
-    placeholder: placeholder || "Please Describe your workshop briefly...",
-  };
+
+  const config = useMemo(
+    () => ({
+      placeholder: placeholder || "Please Describe your workshop briefly...",
+    }),
+    []
+  );
   return (
     <>
       <JoditEditor

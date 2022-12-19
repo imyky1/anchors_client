@@ -19,9 +19,7 @@ function Create(props) {
   const [previewSourceTwo, setPreviewSourceTwo] = useState(""); // saves the data of file selected in the form
   const [copyURL, setCopyURL] = useState(""); // saves the data of file selected in the form
   const [paid, setPaid] = useState("free"); // tracks if the service is free or paid so that allow participants has limited options
-  const [Content, setContent] = useState(
-    "Please describe your service briefly.."
-  );
+  const [Content, setContent] = useState("");
   const [data, setdata] = useState({
     sname: "",
     sdesc: "",
@@ -311,7 +309,6 @@ function Create(props) {
                 //helperText="Write a tag and press Enter"
               />
             )}
-            
           </div>
         </form>
 
@@ -472,6 +469,7 @@ function Create(props) {
           content={Content}
           setContent={setContent}
           className="text_editor"
+          placeholder="Please Describe your Service briefly..."
         />
         <div className="create_buttons">
           <button className="submit_button" onClick={handleSubmit}>
