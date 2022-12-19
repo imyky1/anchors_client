@@ -424,9 +424,9 @@ const ServiceState = (props) => {
       }
     );
     const json = await response.json();
+    //console.log(json);
     if (json.success) {
       setWorkshopInfo(json.workshop[0]);
-      console.log(json);
       return [json.workshop[0]?.c_id, json.workshop[0]?._id];
     } else {
       //console.log("Some error Occured")
@@ -434,7 +434,7 @@ const ServiceState = (props) => {
   };
   const getworkshopusingid = async (id) => {
     const response = await fetch(
-      `${host}/api/services/getworkshopusingid/${id}`,
+      `${host}/api/workshop/getworkshopusingid/${id}`,
       {
         method: "GET",
       }

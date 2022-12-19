@@ -7,7 +7,7 @@ import Profile from "./Components/Creator Profile/Profile";
 import CreatorState from "./Context/CreatorState";
 import UserState from "./Context/UserState";
 import Service from "./Components/Service Page/Service";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import LoadingBar from "react-top-loading-bar";
 import Feedback from "./Components/Feedback/Feedback";
 import LinkedinState from "./Context/LinkedinState";
@@ -28,16 +28,14 @@ import EmailState from "./Context/EmailState";
 import Workshop from "./Components/Service Page/Workshop";
 import Pricing from "./Components/Pricing/Pricing";
 import Sitemap from "./Components/sitemap/Sitemap";
+import WorkshopFeedback from "./Components/Feedback/Workshopfeedback";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
-
 function App() {
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
 
   const [progress, setprogress] = useState(0);
 
@@ -95,6 +93,10 @@ function App() {
                       <Route
                         path="/feedback"
                         element={<Feedback progress={changeprogress} />}
+                      ></Route>
+                      <Route
+                        path="/feedback/workshop/:id"
+                        element={<WorkshopFeedback progress={changeprogress} />}
                       ></Route>
                       {localStorage.getItem("jwtToken") && (
                         <Route
