@@ -152,7 +152,8 @@ function Email_Model_Two({
   const { getAllSubscribers, allSubscribers, basicNav } =
     useContext(creatorContext);
 
-  const { saveEmailData, sendEmail,sendBulkEmailFromBackend } = useContext(emailcontext);
+  const { saveEmailData, sendEmail, sendBulkEmailFromBackend } =
+    useContext(emailcontext);
 
   useEffect(() => {
     if (document.querySelector(".mail_content")) {
@@ -168,16 +169,30 @@ function Email_Model_Two({
     const subsData = await getAllSubscribers();
     if (subsData.length !== 0) {
       let users = [];
+      const items = 100; // no of items allowed to email
       for (let index = 0; index < subsData.length; index++) {
+        let temp = {};
         let email = subsData[index]?.userID?.email
           ? subsData[index]?.userID?.email
           : "";
-        users.push(email);
+        temp.to = email;
+        users.push(temp);
       }
-      return users;
+
+      let temp = [];
+      var messageID = [];
+      const numberOfMails =
+        users?.length % items === 0
+          ? parseInt(users?.length / items)
+          : parseInt(users?.length / items) + 1;
+      for (let i = 0; i < numberOfMails; i++) {
+        temp.push(users.slice(items * i, items * i + items));
+      }
+      return temp;
     }
     return null;
   };
+
 
   const [sending, setsending] = useState(false);
 
@@ -195,26 +210,61 @@ function Email_Model_Two({
       creatorName: basicNav?.name,
     });
     const userMails = await getUserMails();
-    //const items = 50; // no of items allowed to email
+    const userMails2 = [
+      [{
+        to: "magdalen.kulas@gmail.com",
+      },
+      {
+        to: "randall88@parisian.net",
+      },
+      {
+        to: "raviahirwar660@gmail.com",
+      },
+      {
+        to: "jerry97@hotmail.com",
+      },
+      {
+        to: "xjones@macejkovic.com",
+      },
+      {
+        to: "singhyuvraj0506@gmail.com",
+      },
+      {
+        to: "adrian.stehr@gmail.com",
+      },
+      {
+        to: "rajpootyuvraj02@gmail.com",
+      },
+      {
+        to: "jmertz@yahoo.com",
+      },
+      {
+        to: "noelia22@toy.biz",
+      },
+      {
+        to: "yoyouv2002@gmail.com",
+      },
+      {
+        to: "ravi@anchors.in",
+      }]
+    ];
+    //const items = 100; // no of items allowed to email
     if (userMails) {
       toast.info(
-        `Sending Mail in Progress, it may take up to ${parseInt(
-          userMails.length
-        )} seconds, and once it is sent you would be notice it in your services list section.`,
+        `Sending Mail in Progress, it may take up to few minutes and it would be shown on your list once you refresh.`,
         { position: "top-center", autoClose: 5000 }
       );
 
-      await sendBulkEmailFromBackend(serviceID,userMails,serviceName,basicNav?.name ? basicNav?.name : "Anchors",serviceSlug,serviceBanner,Subject,Content)
-      //const temp = [];
-      //var messageID = []
-      //const numberOfMails =
-      //  userMails?.length % items === 0
-      //    ? parseInt(userMails?.length / items)
-      //    : parseInt(userMails?.length / items) + 1;
-      //for (let i = 0; i < numberOfMails; i++) {
-      //  temp.push(userMails.slice(items * i, items * i + items));
-      //}
-
+      await sendBulkEmailFromBackend(
+        serviceID,
+        userMails,
+        serviceName,
+        basicNav?.name ? basicNav?.name : "Anchors",
+        serviceSlug,
+        serviceBanner,
+        Subject,
+        Content
+      );
 
       //for (let index = 0; index < temp.length; index++) {
       //  (function (index) {
@@ -249,10 +299,10 @@ function Email_Model_Two({
       setsending(false);
       onClose();
       //}, temp.length * 1000);
-//
+      //
       //setTimeout(() => {
-       // window.location.reload();
-      //}, temp.length * 1000 + 2000);
+      // window.location.reload();
+      //}, userMails.length * 1000 + 2000);
     } else {
       toast.info("No Subscribers", {
         position: "top-center",
@@ -319,7 +369,7 @@ function Email_Model_Two({
             </button>
           </div>
         </div>
-        </div>
+      </div>
       <ToastContainer />
     </>
   );
