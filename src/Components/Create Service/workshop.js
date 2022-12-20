@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { createTheme, ThemeProvider } from "@mui/material";
 import "./Create.css";
 import ServiceContext from "../../Context/services/serviceContext";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +8,22 @@ import "react-toastify/dist/ReactToastify.css";
 import Editor from "../Editor/Editor";
 import { LoadTwo } from "../Modals/Loading";
 import { TextField, MenuItem } from "@mui/material";
+
+// style asterisk
+export const theme = createTheme({
+  components: {
+    MuiFormLabel: {
+      styleOverrides: {
+        asterisk: {
+          color: "red",
+          "&$error": {
+            color: "#db3131",
+          },
+        },
+      },
+    },
+  },
+});
 
 function Workshop(props) {
   const navigate = useNavigate();
@@ -28,9 +45,7 @@ function Workshop(props) {
     startTime: "",
     endTime: "",
   }); // tracks time object
-  const [Content, setContent] = useState(
-    "Please describe your service briefly.."
-  );
+  const [Content, setContent] = useState("");
   const [data, setdata] = useState({
     sname: "",
     sdesc: "",
@@ -153,6 +168,10 @@ function Workshop(props) {
       new Date(data.startDate).toLocaleDateString() ===
       new Date().toLocaleDateString()
     ) {
+      let starttime = new Date().getHours().toLocaleString().toString();
+      if (starttime.length === 1) {
+        starttime = `0${starttime}`;
+      }
       if (
         new Date().getHours().toLocaleString().slice(0, 2) >=
         time.startTime.slice(0, 2)
@@ -198,22 +217,32 @@ function Workshop(props) {
     e.preventDefault();
     //setOpenLoading(true);
     props.progress(0);
-    if (!datevalidator()) {
+    if (
+      !data.sname.length > 3 &&
+      !data.sdesc.length > 5 &&
+      !Content.length > 10
+    ) {
       setOpenLoading(false);
-      toast.info("Please check that your data is valid!", {
+      toast.info("Mandatory fields cannot be empty or short in size", {
         position: "top-center",
         autoClose: 3000,
       });
-
+      return;
+    }
+    if (!datevalidator()) {
+      setOpenLoading(false);
+      toast.info("Please check your Date", {
+        position: "top-center",
+        autoClose: 3000,
+      });
       return;
     }
     if (!timevalidator()) {
       setOpenLoading(false);
-      toast.info("Please check that your time is valid!", {
+      toast.info("Please check your Time", {
         position: "top-center",
         autoClose: 3000,
       });
-
       return;
     }
     if (
@@ -309,240 +338,258 @@ function Workshop(props) {
 
   return (
     <>
-      {openLoading && <LoadTwo open={openLoading} />}
-      <div className="create_box">
-        <form className="workshop_form_create">
-          <div className="left_side_form_create">
-            <TextField
-              label="Title"
-              variant="outlined"
-              name="sname"
-              id="sname"
-              onChange={handleChange}
-              value={data.sname}
-              placeholder="Enter workshop title..."
-            />
-            <TextField
-              multiline
-              label="Short Description"
-              variant="outlined"
-              name="sdesc"
-              onChange={handleChange}
-              value={data.sdesc}
-              id="sdesc"
-              placeholder="Very brief description of Workshop..."
-            />
-            <TextField
-              name="sbanner"
-              id="sbanner"
-              label="Banner Image"
-              placeholder="Upload Image"
-              onFocus={(e) => {
-                e.target.type = "file";
-              }}
-              onChange={handleChangeFileOne}
-            />
-
-            <TextField
-              name="startDate"
-              id="startDate"
-              label="Date"
-              variant="outlined"
-              placeholder="Choose Date"
-              onFocus={(e) => {
-                e.target.type = "date";
-              }}
-              onBlur={(e) => {
-                e.target.type = "text";
-              }}
-              value={data.startDate}
-              onChange={handleChange}
-            />
-            <section>
+      <ThemeProvider theme={theme}>
+        {openLoading && <LoadTwo open={openLoading} />}
+        <div className="create_box">
+          <form className="workshop_form_create">
+            <div className="left_side_form_create">
               <TextField
-                name="startTime"
-                id="startTime"
-                label="Start Time"
-                placeholder="Choose start time"
+                label="Title"
+                required
+                variant="outlined"
+                name="sname"
+                id="sname"
+                onChange={handleChange}
+                value={data.sname}
+                placeholder="Enter workshop title..."
+              />
+              <TextField
+                multiline
+                required
+                label="Short Description"
+                variant="outlined"
+                name="sdesc"
+                onChange={handleChange}
+                value={data.sdesc}
+                id="sdesc"
+                placeholder="Very brief description of Workshop..."
+              />
+              <TextField
+                name="sbanner"
+                required
+                id="sbanner"
+                label="Banner Image"
+                placeholder="Upload Image"
                 onFocus={(e) => {
-                  e.target.type = "time";
+                  e.target.type = "file";
                 }}
                 onBlur={(e) => {
                   e.target.type = "text";
                 }}
-                value={time.startTime}
-                onChange={handleChangetime}
+                onChange={handleChangeFileOne}
               />
+
               <TextField
-                name="endTime"
-                id="endTime"
-                label="End Time"
-                placeholder="Choose end time"
+                name="startDate"
+                required
+                id="startDate"
+                label="Date"
+                variant="outlined"
+                placeholder="Choose Date"
                 onFocus={(e) => {
-                  e.target.type = "time";
+                  e.target.type = "date";
                 }}
                 onBlur={(e) => {
                   e.target.type = "text";
                 }}
-                value={time.endTime}
-                onChange={handleChangetime}
+                value={data.startDate}
+                onChange={handleChange}
               />
-            </section>
-
-            <TextField
-              label="Meeting Link(Meet/Zoom Link)"
-              variant="outlined"
-              placeholder="Enter meeting link here"
-              type="url"
-              name="meetlink"
-              id="meetlink"
-              onChange={handleChange}
-              value={data.meetlink}
-            />
-
-            {paid !== "free" && (
-              <TextField
-                type="text"
-                label="Tags (Write a tag and press Enter)"
-                onKeyDown={handleKeyDown}
-                name="stags"
-                id="stags"
-                placeholder="Type tags..."
-                //helperText="Write a tag and press Enter"
-              />
-            )}
-          </div>
-          <div className="right_side_form_create">
-            <TextField
-              name="svideo"
-              id="svideo"
-              label="Intro/Preview Video"
-              placeholder="Upload Video"
-              onFocus={(e) => {
-                e.target.type = "file";
-              }}
-              onChange={handleChangeFileTwo}
-            />
-
-            <TextField
-              className="mui_select"
-              select
-              label="Workshop Type"
-              defaultValue="free"
-              id="stype"
-              onChange={(e) => handleOptionChange(e)}
-            >
-              <MenuItem value="free">Free</MenuItem>
-              <MenuItem value="paid">Paid</MenuItem>
-            </TextField>
-
-            {paid !== "free" && (
-              <>
+              <section>
                 <TextField
-                  label="Set MRP (in INR)"
-                  variant="outlined"
-                  name="smrp"
-                  id="smrp"
-                  placeholder="Eg. 299"
-                  onChange={handleChange}
-                  value={data.smrp}
-                  type="number"
+                  name="startTime"
+                  required
+                  id="startTime"
+                  label="Start Time"
+                  placeholder="Choose start time"
+                  onFocus={(e) => {
+                    e.target.type = "time";
+                  }}
+                  onBlur={(e) => {
+                    e.target.type = "text";
+                  }}
+                  value={time.startTime}
+                  onChange={handleChangetime}
                 />
                 <TextField
-                  label="Selling Price"
-                  variant="outlined"
-                  type="number"
-                  name="ssp"
-                  id="ssp"
-                  placeholder="Eg. 199"
-                  onChange={handleChange}
-                  value={data.ssp}
-                  max={data.smrp}
+                  name="endTime"
+                  required
+                  id="endTime"
+                  label="End Time"
+                  placeholder="Choose end time"
+                  onFocus={(e) => {
+                    e.target.type = "time";
+                  }}
+                  onBlur={(e) => {
+                    e.target.type = "text";
+                  }}
+                  value={time.endTime}
+                  onChange={handleChangetime}
                 />
-              </>
-            )}
+              </section>
 
-            {paid === "free" ? (
               <TextField
-                select
-                id="afterstartentry"
-                onChange={handleentrychange}
-                className="mui_select"
-                label="Open after events started (You can allow participants even after event has started)"
-                defaultValue="notallowed"
-                //helperText="You can allow participants even after event has started"
-              >
-                <MenuItem value="notallowed">Not allowed</MenuItem>
-                <MenuItem value="allowed">Allowed</MenuItem>
-              </TextField>
-            ) : (
-              <TextField
-                select
-                className="mui_select"
-                label="Open after events started (You can allow participants even after event has started)"
-                defaultValue="notallowed"
-                id="afterstartentry"
-                onChange={handleentrychange}
-                //helperText="You can allow participants even after event has started"
-              >
-                <MenuItem value="notallowed">Not allowed</MenuItem>
-                <MenuItem value="10mins">
-                  after 10 minutes 10% discount
-                </MenuItem>
-                <MenuItem value="20mins">
-                  after 20 minutes 20% discount
-                </MenuItem>
-                <MenuItem value="30mins">
-                  after 30 minutes 30% discount
-                </MenuItem>
-              </TextField>
-            )}
-
-            <TextField
-              select
-              className="mui_select"
-              label="Max Capacity allowed (You can set the number of seat limit)"
-              defaultValue="-1"
-              id="maxCapacity"
-              value={data.maxCapacity}
-              onChange={handlecapacityChange}
-              //helperText="You can set the number of seat limit"
-            >
-              <MenuItem value="-1">No Limit</MenuItem>
-              <MenuItem value="50">50</MenuItem>
-              <MenuItem value="100">100</MenuItem>
-              <MenuItem value="250">250</MenuItem>
-              <MenuItem value="500">500</MenuItem>
-            </TextField>
-
-            {paid === "free" && (
-              <TextField
-                type="text"
-                label="Tags (Write a tag and press Enter)"
-                onKeyDown={handleKeyDown}
-                name="stags"
-                id="stags"
-                placeholder="Type tags..."
-                //helperText="Write a tag and press Enter"
+                label="Meeting Link(Meet/Zoom Link)"
+                required
+                variant="outlined"
+                placeholder="Enter meeting link here"
+                type="url"
+                name="meetlink"
+                id="meetlink"
+                onChange={handleChange}
+                value={data.meetlink}
               />
-            )}
-            <div className="tag-container_workshop">
-              {tags?.map((tag, index) => {
-                return (
-                  <div className="tag" key={index}>
-                    <span>{tag}</span>
-                    <i
-                      class="fa-solid fa-circle-xmark"
-                      onClick={() => removeTag(index)}
-                    ></i>
-                  </div>
-                );
-              })}
+
+              {paid !== "free" && (
+                <TextField
+                  type="text"
+                  label="Tags (Write a tag and press Enter)"
+                  onKeyDown={handleKeyDown}
+                  name="stags"
+                  id="stags"
+                  placeholder="Type tags..."
+                  //helperText="Write a tag and press Enter"
+                />
+              )}
             </div>
-          </div>
-        </form>
+            <div className="right_side_form_create">
+              <TextField
+                name="svideo"
+                id="svideo"
+                label="Intro/Preview Video"
+                placeholder="Upload Video"
+                onFocus={(e) => {
+                  e.target.type = "file";
+                }}
+                onBlur={(e) => {
+                  e.target.type = "text";
+                }}
+                onChange={handleChangeFileTwo}
+              />
 
-        {/* <form className="entries" onSubmit={handleSubmit}>
+              <TextField
+                className="mui_select"
+                select
+                label="Workshop Type"
+                required
+                defaultValue="free"
+                id="stype"
+                onChange={(e) => handleOptionChange(e)}
+              >
+                <MenuItem value="free">Free</MenuItem>
+                <MenuItem value="paid">Paid</MenuItem>
+              </TextField>
+
+              {paid !== "free" && (
+                <>
+                  <TextField
+                    label="Set MRP (in INR)"
+                    variant="outlined"
+                    required
+                    name="smrp"
+                    id="smrp"
+                    placeholder="Eg. 299"
+                    onChange={handleChange}
+                    value={data.smrp}
+                    type="number"
+                  />
+                  <TextField
+                    label="Selling Price"
+                    variant="outlined"
+                    required
+                    type="number"
+                    name="ssp"
+                    id="ssp"
+                    placeholder="Eg. 199"
+                    onChange={handleChange}
+                    value={data.ssp}
+                    max={data.smrp}
+                  />
+                </>
+              )}
+
+              {paid === "free" ? (
+                <TextField
+                  select
+                  id="afterstartentry"
+                  onChange={handleentrychange}
+                  className="mui_select"
+                  label="Open after events started (You can allow participants even after event has started)"
+                  defaultValue="notallowed"
+                  //helperText="You can allow participants even after event has started"
+                >
+                  <MenuItem value="notallowed">Not allowed</MenuItem>
+                  <MenuItem value="allowed">Allowed</MenuItem>
+                </TextField>
+              ) : (
+                <TextField
+                  select
+                  className="mui_select"
+                  label="Open after events started (You can allow participants even after event has started)"
+                  defaultValue="notallowed"
+                  id="afterstartentry"
+                  onChange={handleentrychange}
+                  //helperText="You can allow participants even after event has started"
+                >
+                  <MenuItem value="notallowed">Not allowed</MenuItem>
+                  <MenuItem value="10mins">
+                    after 10 minutes 10% discount
+                  </MenuItem>
+                  <MenuItem value="20mins">
+                    after 20 minutes 20% discount
+                  </MenuItem>
+                  <MenuItem value="30mins">
+                    after 30 minutes 30% discount
+                  </MenuItem>
+                </TextField>
+              )}
+
+              <TextField
+                select
+                required
+                className="mui_select"
+                label="Max Capacity allowed (You can set the number of seat limit)"
+                defaultValue="-1"
+                id="maxCapacity"
+                value={data.maxCapacity}
+                onChange={handlecapacityChange}
+                //helperText="You can set the number of seat limit"
+              >
+                <MenuItem value="-1">No Limit</MenuItem>
+                <MenuItem value="50">50</MenuItem>
+                <MenuItem value="100">100</MenuItem>
+                <MenuItem value="250">250</MenuItem>
+                <MenuItem value="500">500</MenuItem>
+              </TextField>
+
+              {paid === "free" && (
+                <TextField
+                  type="text"
+                  label="Tags (Write a tag and press Enter)"
+                  onKeyDown={handleKeyDown}
+                  name="stags"
+                  id="stags"
+                  placeholder="Type tags..."
+                  //helperText="Write a tag and press Enter"
+                />
+              )}
+              <div className="tag-container_workshop">
+                {tags?.map((tag, index) => {
+                  return (
+                    <div className="tag" key={index}>
+                      <span>{tag}</span>
+                      <i
+                        class="fa-solid fa-circle-xmark"
+                        onClick={() => removeTag(index)}
+                      ></i>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </form>
+
+          {/* <form className="entries" onSubmit={handleSubmit}>
           <div>
             <div className="left_entry_box">
               <label htmlFor="sname" className="entry_labels">
@@ -779,22 +826,23 @@ function Workshop(props) {
             </div>
           </div>
         </form> */}
-        <label htmlFor="ldesc" className="editor_entry_labels">
-          Workshop Description
-        </label>
-        <Editor
-          readOnly={false}
-          content={Content}
-          setContent={setContent}
-          className="text_editor"
-        />
-        <div className="create_buttons">
-          <button className="submit_button" onClick={handleSubmit}>
-            Submit and Publish
-          </button>
+          <label htmlFor="ldesc" className="editor_entry_labels">
+            Workshop Description <small>*</small>
+          </label>
+          <Editor
+            readOnly={false}
+            content={Content}
+            setContent={setContent}
+            className="text_editor"
+          />
+          <div className="create_buttons">
+            <button className="submit_button" onClick={handleSubmit}>
+              Submit and Publish
+            </button>
+          </div>
+          <ToastContainer />
         </div>
-        <ToastContainer />
-      </div>
+      </ThemeProvider>
     </>
   );
 }

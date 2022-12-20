@@ -25,7 +25,7 @@ function WorkshopDetail(props) {
   };
 
   useEffect(() => {
-    getRegistrations()
+    getRegistrations();
     //checkEmailSent(props.service._id, "Notify").then((e) => {
     //  setNotifyEmailSent(e);
     //});
@@ -90,10 +90,10 @@ function WorkshopDetail(props) {
               {
                 props.service.copyURL
                   ? navigator.clipboard.writeText(
-                      `https://www.anchors.in/r/${props.service.copyURL}`
+                      `https://www.anchors.in/w/${props.service.slug}`
                     )
                   : navigator.clipboard.writeText(
-                      `https://www.anchors.in/s/${props.service.slug}`
+                      `https://www.anchors.in/w/${props.service.slug}`
                     );
               }
               toast.info("Copied link to clipboard", {
@@ -114,7 +114,7 @@ function WorkshopDetail(props) {
               navigate(`/editworkshop/${props.service.slug}`);
             }}
           >
-            <i className="fa-solid fa-pen-to-square fa-lg delete_serv"></i> 
+            <i className="fa-solid fa-pen-to-square fa-lg delete_serv"></i>
             <span>Edit</span>
           </div>
           {/* <i class="fa-solid fa-envelope fa-lg delete_serv" onClick={() => {
@@ -122,7 +122,13 @@ function WorkshopDetail(props) {
             }}></i> */}
         </span>
         <span>
-          <a href={props.service.meetlink} target="_blank" rel="no_referrer">Visit here</a>
+          <a
+            href={`${props.service.meetlink}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Visit here
+          </a>
         </span>
       </div>
       <Delete_Model

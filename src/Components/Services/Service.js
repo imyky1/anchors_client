@@ -21,7 +21,11 @@ function Service(props) {
           Workshop/Event
         </div>
       </div>
-      {toggle === 0 ? <Document progress={props.progress}/> : <Workshop progress={props.progress}/>}
+      {toggle === 0 ? (
+        <Document progress={props.progress} />
+      ) : (
+        <Workshop progress={props.progress} />
+      )}
     </div>
   );
 }

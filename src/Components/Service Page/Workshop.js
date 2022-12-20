@@ -220,15 +220,17 @@ function Service(props) {
     var s = new Date(workshopInfo?.startDate).toLocaleString("en-US", options);
     setWorkshopDate(s);
 
-    checkUserOrderPlaced(workshopInfo?._id,localStorage.getItem("isUser") === "true" ? "user" : "creator").then((e) => {
+    checkUserOrderPlaced(
+      workshopInfo?._id,
+      localStorage.getItem("isUser") === "true" ? "user" : "creator"
+    ).then((e) => {
       setSeatReserved(e);
     });
   }, [workshopInfo]);
 
   useEffect(() => {
     atcb_init();
-  }, [paymentProcessing]);
-
+  }, [paymentProcessing, seatReserved]);
   // responsible for feedback popup
   useEffect(() => {
     if (
@@ -240,6 +242,10 @@ function Service(props) {
           setUserDetails(e?.user?.email);
         }
       });
+      checkUserOrderPlaced(workshopInfo?._id).then((e) => {
+        setSeatReserved(e);
+      });
+
       checkFBlatest().then((fb) => {
         if (fb.success) {
           getworkshopusingid(fb.res.serviceID).then((service) => {
@@ -249,15 +255,21 @@ function Service(props) {
           });
         }
       });
-    }
-
-    // check for seat reservability on user login
-    checkUserOrderPlaced(workshopInfo?._id,localStorage.getItem("isUser") === "true" ? "user" : "creator").then((e) => {
+    } // check for seat reservability on user login
+    checkUserOrderPlaced(
+      workshopInfo?._id,
+      localStorage.getItem("isUser") === "true" ? "user" : "creator"
+    ).then((e) => {
       setSeatReserved(e);
     });
     // add to calender on login of user
     atcb_init();
   }, [localStorage.getItem("jwtToken")]);
+
+  //Scroll to top automatically
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Social proof popup ---------------------------------------
 
@@ -368,9 +380,7 @@ function Service(props) {
   };
 
   const download_service = async () => {
-    if (
-      localStorage.getItem("jwtToken")
-    ) {
+    if (localStorage.getItem("jwtToken")) {
       if (workshopInfo?.isPaid) {
         orderPlacing().then(() => {});
       } else {
@@ -410,20 +420,7 @@ function Service(props) {
         }
         setPaymentProcessing(false);
       }
-    } 
-    //else if (
-    //  localStorage.getItem("isUser") === "" &&
-    //  localStorage.getItem("jwtToken")
-    //) {
-    //  toast.info(
-    //    "You cannot reserve seat as a creator, Please login as an user",
-    //    {
-    //      position: "top-center",
-    //      autoClose: 3000,
-    //    }
-    //  );
-    //} 
-    else {
+    } else {
       mixpanel.track("Clicked Reserve seat in workshop Without Login", {
         service: slug,
         user: UserDetails ? UserDetails : "",
@@ -636,8 +633,9 @@ function Service(props) {
                           {seatReserved ? "Already Registered" : "Reserve for"}{" "}
                           {workshopInfo?.isPaid ? (
                             <>
-                              {seatReserved ? "" : `₹${workshopInfo?.ssp}`}{" "}
-                              &nbsp;₹
+                              {seatReserved ? "" : `₹${workshopInfo?.ssp} `}
+                              {"    "}&nbsp;
+                              {seatReserved ? "" : " ₹"}
                               <p
                                 style={{
                                   display: "inline-block",
@@ -645,7 +643,7 @@ function Service(props) {
                                   fontWeight: "300",
                                 }}
                               >
-                                {workshopInfo?.smrp}
+                                {seatReserved ? "" : workshopInfo?.smrp}
                               </p>
                             </>
                           ) : seatReserved ? (
@@ -901,9 +899,9 @@ function Service(props) {
                         }
                       : seatReserved
                       ? {
-                        backgroundColor: "black",
-                        border: "2px solid black",
-                      }
+                          backgroundColor: "black",
+                          border: "2px solid black",
+                        }
                       : {}
                   }
                 >
