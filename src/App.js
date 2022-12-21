@@ -29,6 +29,9 @@ import Workshop from "./Components/Service Page/Workshop";
 import Pricing from "./Components/Pricing/Pricing";
 import Sitemap from "./Components/sitemap/Sitemap";
 import WorkshopFeedback from "./Components/Feedback/Workshopfeedback";
+import Dashboarduser from "./Components/User Dashboard/Dashboarduser";
+import Logout_Model_user from "./Components/Modals/Logout_Model_user";
+import UserDashboardState from "./Context/userdashbaord";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -52,66 +55,93 @@ function App() {
               <UserState>
                 <EmailState>
                   <FeedbackState>
-                    <LoadingBar color="#f11946" progress={progress} />
-                    <Routes>
-                      <Route
-                        path="*"
-                        element={<Home progress={changeprogress} />}
-                      ></Route>
-                      <Route path="/" element={<Main />}></Route>
-                      <Route
-                        exact
-                        path="/c/:slug"
-                        element={<Profile progress={changeprogress} />}
-                      ></Route>
-                      <Route
-                        path="/s/:slug"
-                        element={<Service progress={changeprogress} />}
-                      ></Route>
-                      <Route
-                        path="/w/:slug"
-                        element={<Workshop progress={changeprogress} />}
-                      ></Route>
+                    <UserDashboardState>
+                      <LoadingBar color="#f11946" progress={progress} />
+                      <Routes>
+                        <Route
+                          path="*"
+                          element={<Home progress={changeprogress} />}
+                        ></Route>
+                        <Route path="/" element={<Main />}></Route>
+                        <Route
+                          exact
+                          path="/c/:slug"
+                          element={<Profile progress={changeprogress} />}
+                        ></Route>
+                        <Route
+                          path="/s/:slug"
+                          element={<Service progress={changeprogress} />}
+                        ></Route>
+                        <Route
+                          path="/w/:slug"
+                          element={<Workshop progress={changeprogress} />}
+                        ></Route>
 
-                      <Route
-                        path="/privacy-policy"
-                        element={<Privacy />}
-                      ></Route>
-                      <Route path="/pricing" element={<Pricing />}></Route>
-                      <Route path="/waitlist" element={<Waitlist />}></Route>
-                      <Route path="/r/:id" element={<Redirect_serv />}></Route>
-                      <Route
-                        path="/developer/count"
-                        element={<UserCount />}
-                      ></Route>
-                      <Route path="/developer/admin" element={<View />}></Route>
-                      <Route
-                        path="/developer/login"
-                        element={<Login />}
-                      ></Route>
-                      <Route path="/developer/test" element={<Test />}></Route>
-                      <Route
-                        path="/feedback"
-                        element={<Feedback progress={changeprogress} />}
-                      ></Route>
-                      <Route
-                        path="/feedback/workshop/:id"
-                        element={<WorkshopFeedback progress={changeprogress} />}
-                      ></Route>
-                      {localStorage.getItem("jwtToken") && (
                         <Route
-                          path="/logout"
-                          element={<Logout_Model progress={progress} />}
-                        />
-                      )}
-                      <Route path="/login">
+                          path="/privacy-policy"
+                          element={<Privacy />}
+                        ></Route>
+                        <Route path="/pricing" element={<Pricing />}></Route>
+                        <Route path="/waitlist" element={<Waitlist />}></Route>
                         <Route
-                          path="creators"
-                          element={<Creators_login progress={changeprogress} />}
-                        />
-                      </Route>
-                      <Route path="/sitemapac" element={<Sitemap />}></Route>
-                    </Routes>
+                          path="/r/:id"
+                          element={<Redirect_serv />}
+                        ></Route>
+                        <Route
+                          path="/developer/count"
+                          element={<UserCount />}
+                        ></Route>
+                        <Route
+                          path="/developer/admin"
+                          element={<View />}
+                        ></Route>
+                        <Route
+                          path="/developer/login"
+                          element={<Login />}
+                        ></Route>
+                        <Route
+                          path="/developer/test"
+                          element={<Test />}
+                        ></Route>
+                        <Route
+                          path="/feedback"
+                          element={<Feedback progress={changeprogress} />}
+                        ></Route>
+                        <Route
+                          path="/feedback/workshop/:id"
+                          element={
+                            <WorkshopFeedback progress={changeprogress} />
+                          }
+                        ></Route>
+                        {localStorage.getItem("jwtToken") && (
+                          <Route
+                            path="/logout"
+                            element={<Logout_Model progress={progress} />}
+                          />
+                        )}
+                        {localStorage.getItem("jwtToken") && (
+                          <Route
+                            path="/logout/user"
+                            element={<Logout_Model_user progress={progress} />}
+                          />
+                        )}
+                        {localStorage.getItem("jwtToken") && (
+                          <Route
+                            path="/user/dashboard"
+                            element={<Dashboarduser progress={progress} />}
+                          />
+                        )}
+                        <Route path="/login">
+                          <Route
+                            path="creators"
+                            element={
+                              <Creators_login progress={changeprogress} />
+                            }
+                          />
+                        </Route>
+                        <Route path="/sitemapac" element={<Sitemap />}></Route>
+                      </Routes>
+                    </UserDashboardState>
                   </FeedbackState>
                 </EmailState>
               </UserState>

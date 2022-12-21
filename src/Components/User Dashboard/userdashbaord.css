@@ -1,0 +1,536 @@
+.creator-image-userdash{
+    max-width: 56px;
+    max-height: 56px;
+    min-width: 56px;
+    min-height: 56px;
+    border-radius: 50px;
+    margin-right: 10px;
+    background-repeat: no-repeat;
+}
+.all_sub_creators{
+    margin: 10px 10px 5px 10px;
+}
+
+.addshadow-userdash{
+box-shadow: 6px 3px 3px red;
+}
+.toggle_document-userdash{
+    display: flex;
+
+}
+.unlocked_wrapper-userdash {
+    margin-left: 8px;
+    
+}
+.unlocked_wrapper-userdash h4{
+    font-family: Roboto;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 35px;
+        letter-spacing: 0em;
+        text-align: left;
+}
+
+.userdashboard-buttons{
+    margin: 5px 0px 20px 0px;
+    padding: 5px 15px 5px 15px;
+    border: 1px solid black;
+    border-radius: 50px;
+    background-color: #fff;
+    color: black;
+    min-width: 110px;
+    max-width: 120px;
+    margin-right: 20px;
+    font-family: Roboto;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: center;
+}
+
+.selectedbutton-userdashboard{
+    background-color: black;
+    color: #fff;
+
+}
+
+.documents-userdash-download{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 5px;
+}
+.documents-userdash-review{
+    display: flex;
+}
+
+.documents-userdash-download-button{
+    background-color: black;
+    max-width: fit-content;
+    color: #fff;
+    display: flex;
+}
+
+
+.events-bar-userdash{
+    margin: 0px 8px 1vw 8px;
+    
+}
+
+
+.documents-userdash{
+    background: #FFFFFF;
+        border: 1px solid #EEEEEE;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        padding: 5px;
+    
+        margin-bottom: 10px;
+}
+.documents-userdash-upper {
+    display: flex;
+    gap: 10px;
+}
+
+.documents-userdash-upper img {
+    max-width: 40vw;
+    min-height: 14vh;
+    max-height: 14vh;
+    min-width: 40vw;
+    border-radius: 5px;
+    margin: 5px 5px 5px 5px;
+
+}
+
+.documents-userdash-upper h3{
+    font-family: Roboto;
+        font-size: 15px;
+        font-weight: 400;
+        line-height: 16px;
+        letter-spacing: 0em;
+        text-align: left;
+        max-height: 70px;
+        overflow: hidden;
+        padding-top: 8px;
+}
+.documents-userdash-upper h4{
+    background: #97FFBE;
+        border-radius: 2000px;
+        max-width: fit-content;
+        padding: 4px 17px 4px 17px;
+        margin-top: 12px;
+        font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            /* or 292% */
+        
+            display: flex;
+            align-items: center;
+            text-align: center;
+        
+            color: #000000;
+}
+
+.documents-userdash-review{
+    border: 1px solid #FF574C;
+        border-radius: 5px;
+        padding:6px 8px 6px 8px;
+
+    
+    text-align: center;
+}
+.documents-userdash-review h5{
+    margin-top: 0px;
+    font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        /* or 250% */
+    
+        display: flex;
+        align-items: center;
+        text-align: center;
+    
+        color: #FF574C;
+}
+.documents-userdash-review svg{
+        margin-top: 2px;
+        margin-right: 3px;
+}
+
+
+.documents-userdash-download-button{
+    background: #000000;
+        border: 1px solid #000000;
+        border-radius: 5px;
+                padding: 6px 17px 6px 17px;
+}
+
+.documents-userdash-download-button svg{
+    margin-top: 2px;
+    margin-right: 12px;
+    margin-left: -4px;
+
+}
+
+
+
+.document-bar-userdash{
+        margin: 0px 8px 0px 8px;
+
+}
+
+.workshop-userdash-timing{
+    font-family: Roboto;
+        font-size: 12px;
+        font-weight: 400;
+        
+        letter-spacing: 0em;
+        background: #93FFBB;
+            border-radius: 2000px;
+            width: fit-content;
+            padding: 3px 25px 3px 25px;
+            margin-top: 3px;
+            margin-bottom: 9px;
+            margin-left: 8px;
+            padding-bottom: 4px;
+
+}
+.yellowpaid-userdash h4:nth-child(2){
+    background-color: #FFF0C8 !important;
+}
+.workshop-userdash-timing svg {
+    margin-right: 14px;
+    margin-left: -14px;
+    padding-top: 2px;
+}
+
+.workshop-userdash-tags{
+    display: flex;
+    gap: 10px;
+    
+}
+.workshop-userdash-tags h4{
+    background: #DBFFE8 !important;
+        border-radius: 2000px;
+}
+.workshop-userdash-date{
+    font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 13px;
+        /* or 292% */
+        display: flex;
+        gap: 20px;
+
+        align-items: center;
+        color: #FF574C;
+        margin-top: 10px;
+    padding-bottom: 5px;
+}
+.workshop-userdash-date svg{
+    margin-top: -3px;
+}
+
+
+.workshop-userdash-download-button{
+    background-color: black;
+        max-width: fit-content;
+        max-height: 19px;
+        min-height: 10px;
+        color: #fff;
+        margin-top: 15px;
+        display: flex;
+        background: #000000;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            padding: 6px 17px 6px 17px;
+            font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 15px;
+                /* or 250% */
+            letter-spacing: 0.5px;
+                display: flex;
+                align-items: center;
+                text-align: center;
+            
+                color: #FFFFFF;
+                margin-right: 12px;
+
+}
+
+.workshop-userdash-download-button svg {
+    margin-top: 2px;
+    margin-right: 5px;
+    margin-left: -4px;
+    margin-right: 24px;
+}
+
+
+.workshop-userdash-review{
+
+            border: 1px solid #000000;
+                border-radius: 5px;
+            padding: 6px 8px 6px 8px;
+        display: flex;
+    max-width: fit-content;
+                    margin-right: 12px;
+            margin-top: 13px;
+        max-height: 19px;
+        min-height: 10px;
+            text-align: center;
+            
+}
+    
+        .workshop-userdash-review h5 {
+            font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 35px;
+                /* or 250% */
+            
+                display: flex;
+                align-items: center;
+                text-align: center;
+            
+                color: #000000;
+        }
+    
+        .workshop-userdash-review svg {
+            margin-top: 3px;
+                margin-right: 3px;
+                margin-left: 4px;
+                margin-right: 24px;
+        }
+
+
+
+        .completed-workshop-userdash{
+            color: #6A6161;
+        }
+
+.userdash-creator-img{
+    display: flex;
+    flex-direction: row;
+}
+.all_sub_creators{
+    display: block;
+}
+ .userdash-overall-wrapper {
+     width: 80%;
+     display: flex;
+     margin:0 auto;
+     gap: 1vw
+     ;
+ }
+
+ .workshop-userdash-download {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 5px;
+    
+ }
+
+/** desktop view :) */
+
+
+@media screen and (max-width: 850px) {
+    .userdash-creator-img h5{
+        display: none;
+    }
+    .all_sub_creators{
+        display: flex;
+    }
+    .userdash-overall-wrapper{
+        width: 100%;
+        display: block;
+    }
+}
+@media screen and (min-width: 850px) {
+    .documents-userdash-upper img{
+        max-width: 33vw;
+            min-height: 24vh;
+            max-height: 24vh;
+                min-width: 33vw;
+            
+    }
+    .documents-userdash-upper{
+        margin-right: 20px;
+    }
+
+    .userdash-creator-img{
+        margin-bottom: 2vh;
+        cursor: pointer;
+    }
+    .right-userdash-wrapper{
+        margin-top: 2vh;
+    }
+    .userdash-creator-img h5{
+        padding-top: 15px;
+    }
+    .all_sub_creators{
+                align-self: flex-start;
+        min-width: 240px;
+        position:sticky;
+        top:20vh;
+        font-size: 17px;
+    }
+    .desktop-view-userdash{
+        background-color: #F3F3F3;
+        padding: 10px 20px 10px 10px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    .addshadow-userdash{
+        box-shadow: none;
+    }
+    .userdash-title-tags{
+        min-width: 18vw;
+        max-width: 18vw;
+    }
+        .documents-userdash-download{
+            justify-content: flex-end;
+            gap: 4vw;
+            margin-right: 4vw;
+        }
+                .documents-userdash-review {
+                    border: 1px solid #FF574C;
+                    border-radius: 5px;
+                    padding: 10px 12px 10px 12px;
+        
+        
+                    text-align: center;
+                }
+        
+                .documents-userdash-review h5 {
+                    margin-top: 0px;
+                    font-family: 'Roboto';
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 15px;
+                    /* or 250% */
+        
+                    display: flex;
+                    align-items: center;
+                    text-align: center;
+        
+                    color: #FF574C;
+                }
+        
+                .documents-userdash-review svg {
+                    margin-top: 2px;
+                    margin-right:15px;
+                }
+                                .documents-userdash-download-button {
+                                    background: #000000;
+                                    border: 1px solid #000000;
+                                    border-radius: 5px;
+                                    padding: 10px 25px 10px 25px;
+                                }
+                
+                                .documents-userdash-download-button svg {
+                                    margin-top: 2px;
+                                    margin-right: 12px;
+                                    margin-left: 0px;
+                                    margin-right: 20px;
+                                }
+                                .userdash-title-tags h3{
+                                    font-weight: 500;
+                                }
+                                                                .workshop-userdash-review {
+                                
+                                                                    border: 1px solid #000000;
+                                                                    border-radius: 5px;
+                                                                    padding: 10px 20px 10px 20px;
+                                                                    display: flex;
+                                                                    max-width: fit-content;
+                                                                    margin-right: 3vw;
+                                                                    margin-top: 13px;
+                                                                    max-height: 19px;
+                                                                    min-height: 10px;
+                                                                    text-align: center;
+                                
+                                                                }
+                                
+                                                                .workshop-userdash-review h5 {
+                                                                    font-family: 'Roboto';
+                                                                    font-style: normal;
+                                                                    font-weight: 500;
+                                                                    font-size: 14px;
+                                                                    line-height: 35px;
+                                                                    /* or 250% */
+                                
+                                                                    display: flex;
+                                                                    align-items: center;
+                                                                    text-align: center;
+                                
+                                                                    color: #000000;
+                                                                }
+                                
+                                                                .workshop-userdash-review svg {
+                                                                    margin-top: 3px;
+                                                                    margin-right: 3px;
+                                                                    margin-left: 4px;
+                                                                    margin-right: 24px;
+                                                                }
+                                                                                                                                .workshop-userdash-download-button {
+                                                                                                                                    background-color: black;
+                                                                                                                                    max-width: fit-content;
+                                                                                                                                    max-height: 19px;
+                                                                                                                                    min-height: 10px;
+                                                                                                                                    color: #fff;
+                                                                                                                                margin-right:3vw !important;
+                                                                                                                                    margin-top: 12px;
+                                                                                                                                    display: flex;
+                                                                                                                                    background: #000000;
+                                                                                                                                    border: 1px solid #000000;
+                                                                                                                                    border-radius: 5px;
+                                                                                                                                    padding: 13px 25px 13px 25px;
+                                                                                                                                    font-family: 'Roboto';
+                                                                                                                                    font-style: normal;
+                                                                                                                                    font-weight: 500;
+                                                                                                                                    font-size: 17px;
+                                                                                                                                    /* or 250% */
+                                                                                                                                    letter-spacing: 0.7px;
+                                                                                                                                    display: flex;
+                                                                                                                                    align-items: center;
+                                                                                                                                    text-align: center;
+                                                                
+                                                                                                                                    color: #FFFFFF;
+                                                                                                                                    margin-right: 12px;
+                                                                
+                                                                                                                                }
+                                                                
+                                                                                                                                .workshop-userdash-download-button svg {
+                                                                                                                                    margin-top: 2px;
+                                                                                                                                    margin-right: 5px;
+                                                                                                                                    margin-left: -4px;
+                                                                                                                                    margin-right: 24px;
+                                                                                                                                }
+                                                                                                                                .events-bar-userdash h2{
+                                                                                                                                    padding: 100px;
+                                                                                                                                }
+                                                                                                                                .document-bar-userdash h2{
+                                                                                                                                    padding: 100px;
+                                                                                                                                }
+                                                                                                                                .userdashboard-buttons {
+                                                                                                                                    padding: 10px 35px 10px 35px;
+                                                                                                                                    font-size: 15px;
+                                                                                                                                    min-width: 150px;
+                                                                                                                                    max-width: 200px;
+                                                                                                                                }
+                                                                                                                                .unlocked_wrapper-userdash h4{
+                                                                                                                                    font-size: 23px;
+                                                                                                                                    font-weight: 500;
+                                                                                                                                    margin-bottom: 20px;
+                                                                                                                                }
+                                                                                                                                .creator-image-userdash {
+                                                                                                                                    
+                                                                                                                                    background-repeat: no-repeat;
+                                                                                                                                }
+                                                                                                                              
+    }
+
