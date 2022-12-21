@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
+import { SuperSEO } from "react-super-seo";
 import Document from "./Document";
 import Workshop from "./Workshop";
 
 function Service(props) {
   const [toggle, setToggle] = useState(0);
   return (
+    <>
     <div>
       <h1 className="header01">Service details</h1>
       <div className="toggle_bar">
@@ -27,6 +29,10 @@ function Service(props) {
         <Workshop progress={props.progress} />
       )}
     </div>
+    <SuperSEO
+        title="Anchors - Services"
+      />
+    </>
   );
 }
 

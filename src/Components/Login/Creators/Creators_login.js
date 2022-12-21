@@ -3,6 +3,7 @@ import "./Creators_login.css";
 import { host } from "../../../config/config.js";
 import Footer from "../../Footer/Footer";
 import {Link} from "react-router-dom"
+import { SuperSEO } from "react-super-seo";
 
 function Creators_login() {
   const ref = useRef();
@@ -87,6 +88,9 @@ function Creators_login() {
       </div>
     </div>
     <Footer/>
+    <SuperSEO
+        title="Anchors - Login Creators"
+      />
     </>
   );
 }

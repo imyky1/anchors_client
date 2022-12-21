@@ -4,6 +4,7 @@ import { creatorContext } from '../../Context/CreatorState';
 import ReviewDetail from './Review Details/ReviewDetail';
 import "./Reviews.css"
 import { LoadTwo } from "../Modals/Loading";
+import { SuperSEO } from 'react-super-seo';
 
 function Reviews(props) {
 const [openLoading, setOpenLoading] = useState(false)
@@ -74,6 +75,9 @@ useEffect(() => {
           <h1 className="no_services">No reviews to display</h1>
       }
       </div>
+      <SuperSEO
+        title="Anchors - Reviews"
+      />
     </>
   );
       }

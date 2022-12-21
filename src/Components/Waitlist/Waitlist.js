@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Waitlist.css";
 
 import { linkedinContext } from "../../Context/LinkedinState";
+import { SuperSEO } from "react-super-seo";
 
 function Waitlist() {
   const { loginInfo } = useContext(linkedinContext);
@@ -56,6 +57,9 @@ function Waitlist() {
           <span>Facing any issue? email us - support@anchors.in</span>
         </div>
       </div>
+      <SuperSEO
+        title="Anchors - Waitlist"
+      />
     </>
   );
 }

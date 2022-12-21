@@ -4,6 +4,7 @@ import { creatorContext } from '../../Context/CreatorState';
 import RequestDetail from './Request Details/RequestDetail';
 import { LoadTwo } from "../Modals/Loading";
 import "./Requests.css"
+import { SuperSEO } from 'react-super-seo';
 
 function Requests() {
   //const [openLoading, setOpenLoading] = useState(true)
@@ -61,6 +62,9 @@ function Requests() {
           <h1 className="no_services">No requests to display</h1>
         } 
       </div>
+      <SuperSEO
+        title="Anchors - Request Resources"
+      />
     </>
   );
       }

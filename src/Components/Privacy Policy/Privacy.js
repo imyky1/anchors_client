@@ -1,5 +1,6 @@
 import mixpanel from "mixpanel-browser";
 import React,{useEffect} from "react";
+import { SuperSEO } from "react-super-seo";
 import "./Privacy.css";
 
 
@@ -88,6 +89,9 @@ function Privacy() {
           by e-mail at support@anchors.in.
         </section>
       </div>
+      <SuperSEO
+        title="Anchors - Terms & Conditions"
+      />
     </>
   );
 }

@@ -7,6 +7,7 @@ import ServiceContext from "../../Context/services/serviceContext";
 import "react-toastify/dist/ReactToastify.css";
 import User_login from "../Login/Users/User_login";
 import { Cross as Hamburger } from "hamburger-react";
+import { SuperSEO } from "react-super-seo";
 
 
 function Feedback(props) {
@@ -286,6 +287,9 @@ function Feedback(props) {
       </div>
 
       <ToastContainer />
+      <SuperSEO
+        title="Anchors - Feedback"
+      />
     </>
   );
 }

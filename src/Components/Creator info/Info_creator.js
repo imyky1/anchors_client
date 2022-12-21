@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ReactEditor from "../Editor/Editor";
 import ServiceContext from "../../Context/services/serviceContext";
 import { LoadTwo } from "../Modals/Loading";
+import { SuperSEO } from "react-super-seo";
 
 
 function Info_creator(props) {
@@ -210,6 +211,9 @@ useEffect(() => {
         </button>
       </div>
     </div>
+    <SuperSEO
+        title="Anchors - Personal Information"
+      />
     </>
   );
 }

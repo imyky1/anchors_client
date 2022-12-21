@@ -3,6 +3,7 @@ import SubscriberDetail from "../Subscriber Details/Subscriber_detail";
 import { creatorContext } from "../../Context/CreatorState";
 import "./Subscribers.css";
 import { LoadTwo } from "../Modals/Loading";
+import { SuperSEO } from "react-super-seo";
 
 function Subscribers() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -298,6 +299,9 @@ function Subscribers() {
             <h1 className="no_services">No subscribers to display</h1>
           ))}
       </div>
+      <SuperSEO
+        title="Anchors - Subscribers"
+      />
     </>
   );
 }

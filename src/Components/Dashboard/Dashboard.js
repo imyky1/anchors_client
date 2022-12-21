@@ -9,6 +9,7 @@ import { TextField} from "@mui/material";
 
 import Apexcharts from "./apexcharts";
 import { useMemo } from "react";
+import { SuperSEO } from "react-super-seo";
 
 function Dashboard() {
   const { loginInfo, getStatus } = useContext(linkedinContext);
@@ -264,6 +265,9 @@ function Dashboard() {
           property
         />
       </div>
+      <SuperSEO
+        title="Anchors - Dashboard"
+      />
     </>
   );
 }

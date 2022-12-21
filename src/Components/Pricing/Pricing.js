@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Footer/Footer.js";
 import mixpanel from "mixpanel-browser";
 import { toast, ToastContainer } from "react-toastify";
+import { SuperSEO } from "react-super-seo";
 
 function Pricing() {
   const navigate = useNavigate();
@@ -220,6 +221,9 @@ function Pricing() {
       </div>
       <Footer />
       <ToastContainer/>
+      <SuperSEO
+        title="Anchors - Pricing"
+      />
     </>
   );
 }

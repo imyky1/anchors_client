@@ -17,6 +17,7 @@ import { feedbackcontext } from "../../Context/FeedbackState";
 import SocialProof from "../Modals/SocialProof";
 import Request_Modal from "../Modals/Request_Modal";
 import Footer from "../Footer/Footer.js";
+import { SuperSEO } from "react-super-seo";
 
 function Service(props) {
   const { slug } = useParams();
@@ -795,6 +796,27 @@ function Service(props) {
         <Footer />
       </div>
       <ToastContainer />
+      <SuperSEO
+        title={`Anchors - ${serviceInfo?.sname} `}
+        description={serviceInfo?.ldesc}
+        lang="en"
+        openGraph={{
+          ogImage: {
+            ogImage: serviceInfo?.simg,
+            ogImageAlt: serviceInfo?.sname,
+            ogImageWidth: 1200,
+            ogImageHeight: 630,
+            ogImageType: "image/jpeg",
+          },
+        }}
+        twitter={{
+          twitterSummaryCard: {
+            summaryCardImage: serviceInfo?.simg,
+            summaryCardImageAlt: serviceInfo?.sname,
+            summaryCardSiteUsername: basicCdata?.name,
+          },
+        }}
+      />
     </>
   );
 }

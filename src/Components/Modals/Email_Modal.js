@@ -171,6 +171,9 @@ function Email_Model_Two({
       let users = [];
       const items = 100; // no of items allowed to email
       for (let index = 0; index < subsData.length; index++) {
+        if(!subsData[index]?.userID?.email){
+          continue;
+        }
         let temp = {};
         let email = subsData[index]?.userID?.email
           ? subsData[index]?.userID?.email
@@ -180,7 +183,6 @@ function Email_Model_Two({
       }
 
       let temp = [];
-      var messageID = [];
       const numberOfMails =
         users?.length % items === 0
           ? parseInt(users?.length / items)
@@ -212,7 +214,7 @@ function Email_Model_Two({
     const userMails = await getUserMails();
     const userMails2 = [
       [{
-        to: "magdalen.kulas@gmail.com",
+        to: "",
       },
       {
         to: "randall88@parisian.net",

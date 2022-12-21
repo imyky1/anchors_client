@@ -17,6 +17,7 @@ import Footer from "../Footer/Footer.js";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { SuperSEO } from "react-super-seo";
 
 function Profile(props) {
   const services_list = useRef();
@@ -807,6 +808,25 @@ function Profile(props) {
         </div>
         <Footer />
       </div>
+      <SuperSEO
+        title={`Anchors - ${basicCdata?.name} `}
+        description={basicCreatorInfo?.aboutMe}
+        lang="en"
+        openGraph={{
+          ogImage: {
+            ogImage: basicCdata?.photo,
+            ogImageAlt: basicCdata?.name,
+            ogImageType: "image/jpeg",
+          },
+        }}
+        twitter={{
+          twitterSummaryCard: {
+            summaryCardImage: basicCdata?.photo,
+            summaryCardImageAlt: basicCdata?.name,
+            summaryCardSiteUsername: basicCdata?.name,
+          },
+        }}
+      />
     </>
   );
 }
