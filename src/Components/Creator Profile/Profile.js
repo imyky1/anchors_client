@@ -330,55 +330,68 @@ function Profile(props) {
             <div className="user_login">
               <span>
                 {!localStorage.getItem("jwtToken") ? (
-                  <span
-                    className="login_button_user"
-                    onClick={() => {
-                      mixpanel.track(
-                        "Clicked Login button on creators profile page",
-                        {
-                          creator: slug,
-                        }
-                      );
-                      setOpenModel(true);
-                    }}
-                  >
-                    Login
-                  </span>
-                ) : (
-                  <span className="user_login_name">
-                    {localStorage.getItem("user").slice(0, 12) ===
-                    localStorage.getItem("user")
-                      ? localStorage.getItem("user")
-                      : localStorage.getItem("user").slice(0, 12) + ".."}
-                    <i
-                      className="fa-solid fa-caret-down"
-                      onClick={handledropdown}
-                    ></i>
-                    <Hamburger
-                      className="hamburger-react"
-                      size={20}
-                      onToggle={(toggled) => {
-                        if (toggled) {
-                          document.querySelector(
-                            ".hamburger-menu"
-                          ).style.display = "block";
-                        } else {
-                          document.querySelector(
-                            ".hamburger-menu"
-                          ).style.display = "none";
-                          // close a menu
-                        }
+                  <>
+                    <span
+                      className="login_button_user"
+                      onClick={() => {
+                        mixpanel.track(
+                          "Clicked Login button on creators profile page",
+                          {
+                            creator: slug,
+                          }
+                        );
+                        setOpenModel(true);
                       }}
-                    />
-                    <button className="user_logout" onClick={userlogout}>
-                      Logout
+                    >
+                      Login
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <button
+                      className="cprofile-userdashbutton"
+                      onClick={() => {
+                        window.open("/user/dashboard");
+                      }}
+                    >
+                      Dashboard
                     </button>
-                    <ul className="hamburger-menu">
-                      <li className="hamburger-item" onClick={userlogout}>
+                    <span className="user_login_name">
+                      {localStorage.getItem("user").slice(0, 12) ===
+                      localStorage.getItem("user")
+                        ? localStorage.getItem("user")
+                        : localStorage.getItem("user").slice(0, 12) + ".."}
+                      <i
+                        className="fa-solid fa-caret-down"
+                        onClick={handledropdown}
+                      ></i>
+                      <Hamburger
+                        className="hamburger-react"
+                        size={20}
+                        onToggle={(toggled) => {
+                          if (toggled) {
+                            document.querySelector(
+                              ".hamburger-menu"
+                            ).style.display = "block";
+                          } else {
+                            document.querySelector(
+                              ".hamburger-menu"
+                            ).style.display = "none";
+                            // close a menu
+                          }
+                        }}
+                      />
+                      <button className="user_logout" onClick={userlogout}>
                         Logout
-                      </li>
-                    </ul>
-                  </span>
+                      </button>
+                      <ul className="hamburger-menu">
+                        <li className="hamburger-item" onClick={userlogout}>
+                          Logout
+                        </li>
+                      </ul>
+                    </span>
+                  </>
                 )}
               </span>
             </div>

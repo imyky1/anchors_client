@@ -336,11 +336,11 @@ const Dashboarduser = () => {
           </div>
           {showevents ? (
             <div className="document-bar-userdash">
-              {actuallworkshops.length === 0 ? (
+              {actuallworkshops?.length === 0 ? (
                 <h2>NO CONTENT TO DISPLAY !</h2>
               ) : (
                 <>
-                  {actuallworkshops.map((elem, i) => (
+                  {actuallworkshops?.map((elem, i) => (
                     <div key={i} className="documents-userdash">
                       <div className="workshop-userdash-timing">
                         {handletiming(elem.startDate, elem.time) ===
@@ -528,11 +528,11 @@ const Dashboarduser = () => {
             </div>
           ) : (
             <div className="events-bar-userdash">
-              {actualldocuments.length === 0 ? (
+              {actualldocuments?.length === 0 ? (
                 <h2>NO CONTENT TO DISPLAY !</h2>
               ) : (
                 <>
-                  {actualldocuments.map((elem, i) => (
+                  {actualldocuments?.map((elem, i) => (
                     <div key={i} className="documents-userdash">
                       <div className="documents-userdash-upper">
                         <img src={elem.simg} alt="SERVICE"></img>

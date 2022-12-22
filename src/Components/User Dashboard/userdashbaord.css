@@ -351,14 +351,15 @@ box-shadow: 6px 3px 3px red;
 }
 @media screen and (min-width: 850px) {
     .documents-userdash-upper img{
-        max-width: 33vw;
-            min-height: 24vh;
-            max-height: 24vh;
-                min-width: 33vw;
+        max-width: 28vw;
+            min-height: 28vh;
+            max-height: 28vh;
+                min-width: 28vw;
             
     }
     .documents-userdash-upper{
         margin-right: 20px;
+        gap: 2vw;
     }
 
     .userdash-creator-img{

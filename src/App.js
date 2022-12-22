@@ -62,7 +62,17 @@ function App() {
                           path="*"
                           element={<Home progress={changeprogress} />}
                         ></Route>
-                        <Route path="/" element={<Main />}></Route>
+                        <Route
+                          path="/"
+                          element={
+                            localStorage.getItem("jwtToken") &&
+                            localStorage.getItem("isUser") ? (
+                              <Dashboarduser progress={progress} />
+                            ) : (
+                              <Main />
+                            )
+                          }
+                        ></Route>
                         <Route
                           exact
                           path="/c/:slug"
