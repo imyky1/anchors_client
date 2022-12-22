@@ -51,10 +51,11 @@ const Dashboarduser = () => {
     };
     oReq.send();
   };
+
   const handledocumentdownload = (surl, slug, sname) => {
     const ext = surl?.split(".").at(-1);
     if (ext === "pdf") {
-      //downloadFile("pdf", surl, sname);
+      downloadFile("pdf", surl, sname);
       /*
       mixpanel.track("Downloaded pdf", {
         service: slug,
@@ -63,7 +64,7 @@ const Dashboarduser = () => {
       });
       */
     } else if (ext === "mp4") {
-      downloadFile("mp4", slug, sname);
+      downloadFile("mp4", surl, sname);
       /*
       mixpanel.track("Downloaded pdf", {
         service: slug,
