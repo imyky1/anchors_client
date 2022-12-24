@@ -7,9 +7,26 @@ import "react-toastify/dist/ReactToastify.css";
 import Editor from "../Editor/Editor";
 import { LoadTwo } from "../Modals/Loading";
 import PreviewService from "../Modals/PreviewService";
-import { TextField, MenuItem } from "@mui/material";
+import { TextField, MenuItem, ThemeProvider, createTheme } from "@mui/material";
+
+export const theme = createTheme({
+  components: {
+    MuiFormLabel: {
+      styleOverrides: {
+        asterisk: {
+          color: "red",
+          "&$error": {
+            color: "#db3131",
+          },
+        },
+      },
+    },
+  },
+});
+
 
 function Create(props) {
+  
   const context = useContext(ServiceContext);
   const navigate = useNavigate();
   const { slugCount, getslugcount, addservice, Uploadfile, checkCpyUrl } =
@@ -83,12 +100,12 @@ function Create(props) {
     const file = e.target.files[0];
     setPreviewSourceTwo(file);
   };
-
+  
   const data1 = new FormData();
   const data2 = new FormData();
   data1.append("file", previewSourceOne);
   data2.append("file", previewSourceTwo);
-
+  
   // Changing free and paid section layout ---------------------------------------------
 
   const handleOptionChange = (e) => {
@@ -151,7 +168,7 @@ function Create(props) {
               sdoc: "",
             });
             setOpenLoading(false);
-            navigate(`/c/${localStorage.getItem("c_id")}?goto=services`);
+            navigate(`/servicelist`);
           } else {
             setOpenLoading(false);
             toast.error(`Service Not Added Please Try Again`, {
@@ -191,12 +208,14 @@ function Create(props) {
 
   return (
     <>
+    <ThemeProvider theme={theme}>
       {openLoading && <LoadTwo open={openLoading} />}
       <div className="create_box">
         <form className="workshop_form_create">
           <div className="left_side_form_create">
             <TextField
               label="Service Name"
+              required
               variant="outlined"
               name="sname"
               id="sname"
@@ -206,6 +225,7 @@ function Create(props) {
             />
             <TextField
               multiline
+              required
               label="Brief Service Description"
               variant="outlined"
               name="sdesc"
@@ -217,7 +237,8 @@ function Create(props) {
             <TextField
               name="sbanner"
               id="sbanner"
-              label="Banner Image"
+              required
+              //label={!previewSourceOne?.name && "Banner Image"}
               placeholder="Upload Image"
               onFocus={(e) => {
                 e.target.type = "file";
@@ -266,6 +287,7 @@ function Create(props) {
               <>
                 <TextField
                   label="Set MRP (in INR)"
+                  required
                   variant="outlined"
                   name="smrp"
                   id="smrp"
@@ -276,6 +298,7 @@ function Create(props) {
                 />
                 <TextField
                   label="Selling Price"
+                  required
                   variant="outlined"
                   type="number"
                   name="ssp"
@@ -288,9 +311,10 @@ function Create(props) {
               </>
             )}
             <TextField
+              required
               name="sdoc"
               id="sdoc"
-              label="Document ( supports all formats)"
+              //label="Document ( supports all formats)"
               placeholder="Upload file"
               onFocus={(e) => {
                 e.target.type = "file";
@@ -312,157 +336,8 @@ function Create(props) {
           </div>
         </form>
 
-        {/* <form className="entries" onSubmit={handleSubmit}>
-          <div>
-            <div className="left_entry_box">
-              <label htmlFor="sname" className="entry_labels">
-                Service Name <small>*</small>
-              </label>
-              <input
-                type="text"
-                name="sname"
-                id="sname"
-                onChange={handleChange}
-                value={data.sname}
-                placeholder="25JS Interview Important Question..."
-              />
-              <label htmlFor="sdesc" className="entry_labels">
-                Service Description <small>*</small>
-              </label>
-              <textarea
-                name="sdesc"
-                onChange={handleChange}
-                value={data.sdesc}
-                id="sdesc"
-                placeholder="Please catchy line to download..."
-              />
-              <label htmlFor="sbanner" className="entry_labels">
-                Banner Image <small>*</small>
-              </label>
-              <input
-                type="text"
-                name="sbanner"
-                id="sbanner"
-                placeholder="Upload file..."
-                onFocus={(e) => {
-                  e.target.type = "file";
-                }}
-                onChange={handleChangeFileOne}
-              />
-
-              {paid === "free" ? (
-                ""
-              ) : (
-                <>
-                  <label htmlFor="stags" className="entry_labels">
-                    Tags(Write a tag and press Enter)
-                  </label>
-                  <div className="tag-container">
-                    {tags?.map((tag, index) => {
-                      return (
-                        <div className="tag" key={index}>
-                          <span>{tag}</span>
-                          <i
-                            className="fa-solid fa-circle-xmark"
-                            onClick={() => removeTag(index)}
-                          ></i>
-                        </div>
-                      );
-                    })}
-                    <input
-                      type="text"
-                      onKeyDown={handleKeyDown}
-                      name="stags"
-                      id="stags"
-                      placeholder="Type tags..."
-                    />
-                  </div>
-                </>
-              )}
-            </div>
-
-            <div className="right_entry_box">
-              <label htmlFor="stype" className="entry_labels">
-                Service Type <small>*</small>
-              </label>
-              <select id="stype" onChange={handleOptionChange}>
-                <option value="free">Free</option>
-                <option value="paid">Paid</option>
-              </select>
-
-              <label htmlFor="smrp" className="entry_labels price_label">
-                Set MRP <small>*</small>
-              </label>
-              <input
-                type="number"
-                name="smrp"
-                id="smrp"
-                placeholder="Eg. 299"
-                onChange={handleChange}
-                value={data.smrp}
-              />
-              <label htmlFor="ssp" className="entry_labels price_label">
-                Selling Price <small>*</small>
-              </label>
-              <input
-                type="number"
-                name="ssp"
-                id="ssp"
-                placeholder="Eg. 199"
-                onChange={handleChange}
-                value={data.ssp}
-                max={data.smrp}
-              />
-
-              <label htmlFor="sdoc" className="entry_labels">
-                Document ( supports all formats) <small>*</small>
-              </label>
-              <input
-                type="text"
-                name="sdoc"
-                id="sdoc"
-                //accept="application/pdf"
-                placeholder="Upload file..."
-                onFocus={(e) => {
-                  e.target.type = "file";
-                }}
-                onChange={handleChangeFileTwo}
-              />
-
-              {paid !== "free" ? (
-                ""
-              ) : (
-                <>
-                  <label htmlFor="stags" className="entry_labels">
-                    Tags(Write a tag and press Enter)
-                  </label>
-                  <div className="tag-container">
-                    {tags?.map((tag, index) => {
-                      return (
-                        <div className="tag" key={index}>
-                          <span>{tag}</span>
-                          <i
-                            class="fa-solid fa-circle-xmark"
-                            onClick={() => removeTag(index)}
-                          ></i>
-                        </div>
-                      );
-                    })}
-                    <input
-                      type="text"
-                      onKeyDown={handleKeyDown}
-                      name="stags"
-                      id="stags"
-                      placeholder="Type tags..."
-                    />
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </form> */}
         <label htmlFor="ldesc" className="editor_entry_labels">
-          Detailed Service Description
+          Detailed Service Description <small>*</small>
         </label>
         <Editor
           readOnly={false}
@@ -478,6 +353,7 @@ function Create(props) {
         </div>
         <ToastContainer />
       </div>
+      </ThemeProvider>
     </>
   );
 }

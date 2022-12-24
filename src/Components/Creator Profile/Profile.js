@@ -682,7 +682,6 @@ function Profile(props) {
                 </div>
               </div>
             )}
-            {console.log(feedbacks.length)}
             {feedbacks?.filter((e) => e.status === 1).length === 0 ? (
               ""
             ) : (

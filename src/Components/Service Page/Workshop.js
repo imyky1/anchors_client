@@ -47,7 +47,8 @@ function Service(props) {
     workshops,
     getallworkshopsusingid,
     getworkshopusingid,
-    getOneHourDownloads,
+    getserviceusingid,
+    getOneHourDownloads
   } = context;
   const { basicCdata, getBasicCreatorInfo, basicCreatorInfo } =
     useContext(creatorContext);
@@ -248,11 +249,20 @@ function Service(props) {
 
       checkFBlatest().then((fb) => {
         if (fb.success) {
-          getworkshopusingid(fb.res.serviceID).then((service) => {
-            setFBService(service);
-            setOpenModelFB(true);
-            //alert(`Send Feedback for "${service.sname}"`)
-          });
+          if(fb.res.serviceID){
+            getserviceusingid(fb.res.serviceID).then((service) => {
+              setFBService(service);
+              setOpenModelFB(true);
+              //alert(`Send Feedback for "${service.sname}"`)
+            });
+          }else{
+            getworkshopusingid(fb.res.workshopID).then((service) => {
+              setFBService(service);
+              setOpenModelFB(true);
+              //alert(`Send Feedback for "${service.sname}"`)
+            });
+
+          }
         }
       });
     } // check for seat reservability on user login

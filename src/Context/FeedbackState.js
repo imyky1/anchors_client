@@ -21,7 +21,9 @@ const FeedbackState = (props) => {
     const json = await response.json();
     return json.success;
   };
-  const getworkshopFB = async (workshopID) => {
+
+  // check feedback for wokshop submitted or not
+  const checkworkshopFB = async (workshopID) => {
     const response = await fetch(
       `${host}/api/feedback/checkworkshopFeedback/${workshopID}`,
       {
@@ -179,7 +181,7 @@ const FeedbackState = (props) => {
         getRatingCreator,
         feedbacks,
         checkFB,
-        getworkshopFB,
+        checkworkshopFB,
         createFeedback,
         getallfeedback,
         createRequest,

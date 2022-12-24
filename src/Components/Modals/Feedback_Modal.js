@@ -5,10 +5,10 @@ import {toast } from "react-toastify";
 import mixpanel from "mixpanel-browser";
 import { feedbackcontext } from '../../Context/FeedbackState';
 
-function Feedback_Modal({open, onClose, name,slug,progress,id,UserDetails}) {
+function Feedback_Modal({open, onClose, name,slug,progress,id,serviceType,UserDetails}) {
     const navigate = useNavigate()
     const [rating, setrating] = useState(0);
-    const { createFeedback } = useContext(feedbackcontext);
+    const { createFeedback,createworkshopFeedback } = useContext(feedbackcontext);
     const [feedback, setfeedback] = useState({ comment: "" });
 
 
@@ -16,7 +16,7 @@ function Feedback_Modal({open, onClose, name,slug,progress,id,UserDetails}) {
       e.preventDefault();
       progress(0);
         if (rating !== 0 && feedback.comment !== "") {
-          const success = await createFeedback(id, rating, feedback.comment);
+          const success = serviceType === "download" ? await createFeedback(id, rating, feedback.comment) : await createworkshopFeedback(id, rating, feedback.comment)
           if (success) {
             toast.success("Thanks for your Valuable Feedback ",{
               position:"top-center",
