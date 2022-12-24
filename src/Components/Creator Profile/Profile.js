@@ -18,6 +18,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { SuperSEO } from "react-super-seo";
+import { Button } from "@mui/material";
 
 function Profile(props) {
   const services_list = useRef();
@@ -349,14 +350,15 @@ function Profile(props) {
                 ) : (
                   <>
                     {" "}
-                    <button
+                    <Button
                       className="cprofile-userdashbutton"
+                      variant="contained"
                       onClick={() => {
                         window.open("/user/dashboard");
                       }}
                     >
                       Dashboard
-                    </button>
+                    </Button>
                     <span className="user_login_name">
                       {localStorage.getItem("user").slice(0, 12) ===
                       localStorage.getItem("user")

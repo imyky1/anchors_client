@@ -22,6 +22,7 @@ import SocialProof from "../Modals/SocialProof";
 import Request_Modal from "../Modals/Request_Modal";
 import CalendarIcon from "react-calendar-icon";
 import Footer from "../Footer/Footer";
+import WorkshopThanks from "../Modals/WorkshopThanks";
 
 function Service(props) {
   const { slug } = useParams();
@@ -36,7 +37,7 @@ function Service(props) {
   const [proofType, setproofType] = useState();
   const [WorkshopDate, setWorkshopDate] = useState();
   const [UserDetails, setUserDetails] = useState();
-  const [openModelDownload, setOpenModelDownload] = useState(false);
+  const [openModelDownload, setOpenModelDownload] = useState(true);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
 
   const [seatReserved, setSeatReserved] = useState(false);
@@ -480,7 +481,7 @@ function Service(props) {
           cname={basicCreatorInfo?.name}
           UserDetails={UserDetails ? UserDetails : ""}
         />
-        <Thanks
+        <WorkshopThanks
           open={openModelDownload}
           onClose={() => {
             setOpenModelDownload(false);

@@ -320,11 +320,11 @@ box-shadow: 6px 3px 3px red;
     display: block;
 }
  .userdash-overall-wrapper {
-     width: 80%;
+     width: 70%;
+     height: 100vh;
      display: flex;
-     margin:0 auto;
-     gap: 1vw
-     ;
+     margin: auto;
+     gap: 1vw;
  }
 
  .workshop-userdash-download {
@@ -373,9 +373,10 @@ box-shadow: 6px 3px 3px red;
         padding-top: 15px;
     }
     .all_sub_creators{
-                align-self: flex-start;
+        position: sticky;
+        align-self: flex-start;
         min-width: 240px;
-        position:sticky;
+        overflow: hidden;
         top:20vh;
         font-size: 17px;
     }
