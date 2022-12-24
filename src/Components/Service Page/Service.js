@@ -613,10 +613,10 @@ function Service(props) {
                 </h2>
                 <div className="display_services_list service_list_display">
                   {services.res
-                    ?.filter((e) => e._id !== serviceInfo?._id)
+                    ?.filter((e) => e._id !== serviceInfo?._id).reverse()
                     ?.sort((a, b) => {
                       return b?.smrp - a?.smrp;
-                    })
+                    }).slice(0,4)
                     .map((e) => {
                       if (e.status === 1) {
                         return (

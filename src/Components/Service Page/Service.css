@@ -309,7 +309,7 @@
     }
 
     .service_comment_list{
-        margin-bottom: -57px !important;
+        margin-bottom: -30px !important;
     }
 
     .more_services{
@@ -373,7 +373,7 @@
         position: fixed;
         padding: 0;
         border-radius: 0;
-        bottom: 1px;
+        bottom: 0px;
         flex-direction: row;
         align-items: center;
         margin-bottom: 0;

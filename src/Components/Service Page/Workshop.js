@@ -38,6 +38,7 @@ function Service(props) {
   const [UserDetails, setUserDetails] = useState();
   const [openModelDownload, setOpenModelDownload] = useState(false);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [FBserviceType, setFBserviceType] = useState(); // type of service in feedback
 
   const [seatReserved, setSeatReserved] = useState(false);
 
@@ -249,19 +250,20 @@ function Service(props) {
 
       checkFBlatest().then((fb) => {
         if (fb.success) {
-          if(fb.res.serviceID){
+          if (fb.res.serviceID) {
             getserviceusingid(fb.res.serviceID).then((service) => {
               setFBService(service);
+              setFBserviceType("download");
               setOpenModelFB(true);
               //alert(`Send Feedback for "${service.sname}"`)
             });
-          }else{
+          } else {
             getworkshopusingid(fb.res.workshopID).then((service) => {
               setFBService(service);
+              setFBserviceType("workshop");
               setOpenModelFB(true);
               //alert(`Send Feedback for "${service.sname}"`)
             });
-
           }
         }
       });
@@ -476,6 +478,7 @@ function Service(props) {
           name={FBService?.sname}
           slug={FBService?.slug}
           progress={props.progress}
+          serviceType
           id={FBService?._id}
           UserDetails={UserDetails ? UserDetails : ""}
         />
