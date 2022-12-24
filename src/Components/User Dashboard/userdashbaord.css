@@ -74,7 +74,6 @@ box-shadow: 6px 3px 3px red;
 
 .events-bar-userdash{
     margin: 0px 8px 1vw 8px;
-    
 }
 
 
@@ -321,8 +320,8 @@ box-shadow: 6px 3px 3px red;
 }
  .userdash-overall-wrapper {
      width: 70%;
-     height: 100vh;
      display: flex;
+     min-height: 360px;
      margin: auto;
      gap: 1vw;
  }
@@ -368,6 +367,7 @@ box-shadow: 6px 3px 3px red;
     }
     .right-userdash-wrapper{
         margin-top: 2vh;
+        margin-bottom: 9.5vh;
     }
     .userdash-creator-img h5{
         padding-top: 15px;
@@ -514,6 +514,7 @@ box-shadow: 6px 3px 3px red;
                                                                                                                                 }
                                                                                                                                 .events-bar-userdash h2{
                                                                                                                                     padding: 100px;
+                                                                                                                                    margin-bottom: 14.1vh;
                                                                                                                                 }
                                                                                                                                 .document-bar-userdash h2{
                                                                                                                                     padding: 100px;
