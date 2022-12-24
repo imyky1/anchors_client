@@ -32,6 +32,7 @@ import WorkshopFeedback from "./Components/Feedback/Workshopfeedback";
 import Dashboarduser from "./Components/User Dashboard/Dashboarduser";
 import Logout_Model_user from "./Components/Modals/Logout_Model_user";
 import UserDashboardState from "./Context/userdashbaord";
+import Redirect_servworkshop from "./Components/Redirect_servworkshop";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -96,6 +97,10 @@ function App() {
                         <Route
                           path="/r/:id"
                           element={<Redirect_serv />}
+                        ></Route>
+                        <Route
+                          path="/rw/:id"
+                          element={<Redirect_servworkshop />}
                         ></Route>
                         <Route
                           path="/developer/count"

@@ -90,7 +90,7 @@ function WorkshopDetail(props) {
               {
                 props.service.copyURL
                   ? navigator.clipboard.writeText(
-                      `https://www.anchors.in/w/${props.service.slug}`
+                      `https://www.anchors.in/rw/${props.service.copyURL}`
                     )
                   : navigator.clipboard.writeText(
                       `https://www.anchors.in/w/${props.service.slug}`

@@ -8,6 +8,8 @@ import { UserDashbaord } from "../../Context/userdashbaord";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { saveAs } from "file-saver";
+import Footer from "../Footer/Footer"
+
 const Dashboarduser = () => {
   const navigate = useNavigate();
 
@@ -480,7 +482,7 @@ const Dashboarduser = () => {
                           <div
                             className="workshop-userdash-review"
                             onClick={() => {
-                              window.open(`/feedback/workshop/${elem.slug}`);
+                              window.open(`/feedback?service=workshop&slug=${elem.slug}`);
                             }}
                           >
                             <svg
@@ -546,7 +548,7 @@ const Dashboarduser = () => {
                         <div
                           className="documents-userdash-review"
                           onClick={() => {
-                            window.open("/feedback");
+                            window.open(`/feedback?service=download&slug=${elem?.slug}`);
                           }}
                         >
                           <svg
@@ -596,6 +598,7 @@ const Dashboarduser = () => {
           )}
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

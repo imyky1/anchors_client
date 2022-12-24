@@ -39,6 +39,7 @@ function Service(props) {
   const [UserDetails, setUserDetails] = useState();
   const [openModelDownload, setOpenModelDownload] = useState(true);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [FBserviceType, setFBserviceType] = useState(); // type of service in feedback
 
   const [seatReserved, setSeatReserved] = useState(false);
 
@@ -48,7 +49,8 @@ function Service(props) {
     workshops,
     getallworkshopsusingid,
     getworkshopusingid,
-    getOneHourDownloads,
+    getserviceusingid,
+    getOneHourDownloads
   } = context;
   const { basicCdata, getBasicCreatorInfo, basicCreatorInfo } =
     useContext(creatorContext);
@@ -249,11 +251,21 @@ function Service(props) {
 
       checkFBlatest().then((fb) => {
         if (fb.success) {
-          getworkshopusingid(fb.res.serviceID).then((service) => {
-            setFBService(service);
-            setOpenModelFB(true);
-            //alert(`Send Feedback for "${service.sname}"`)
-          });
+          if (fb.res.serviceID) {
+            getserviceusingid(fb.res.serviceID).then((service) => {
+              setFBService(service);
+              setFBserviceType("download");
+              setOpenModelFB(true);
+              //alert(`Send Feedback for "${service.sname}"`)
+            });
+          } else {
+            getworkshopusingid(fb.res.workshopID).then((service) => {
+              setFBService(service);
+              setFBserviceType("workshop");
+              setOpenModelFB(true);
+              //alert(`Send Feedback for "${service.sname}"`)
+            });
+          }
         }
       });
     } // check for seat reservability on user login
@@ -467,6 +479,7 @@ function Service(props) {
           name={FBService?.sname}
           slug={FBService?.slug}
           progress={props.progress}
+          serviceType
           id={FBService?._id}
           UserDetails={UserDetails ? UserDetails : ""}
         />

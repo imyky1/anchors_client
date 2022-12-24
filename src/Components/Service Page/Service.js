@@ -18,6 +18,13 @@ import SocialProof from "../Modals/SocialProof";
 import Request_Modal from "../Modals/Request_Modal";
 import Footer from "../Footer/Footer.js";
 import { SuperSEO } from "react-super-seo";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 function Service(props) {
   const { slug } = useParams();
@@ -31,6 +38,7 @@ function Service(props) {
   const [FBService, setFBService] = useState();
   const [proofType, setproofType] = useState();
   const [UserDetails, setUserDetails] = useState();
+  const [FBserviceType, setFBserviceType] = useState(); // type of service in feedback
   const [openModelDownload, setOpenModelDownload] = useState(false);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
   const {
@@ -39,13 +47,15 @@ function Service(props) {
     services,
     getallservicesusingid,
     getserviceusingid,
+    getworkshopusingid,
     getOneHourDownloads,
   } = context;
   const { basicCdata, getBasicCreatorInfo, basicCreatorInfo } =
     useContext(creatorContext);
   const { userPlaceOrder, checkSubscriber, getUserDetails } =
     useContext(userContext);
-  const { checkFBlatest } = useContext(feedbackcontext);
+  const { checkFBlatest, getallfeedback, feedbacks } =
+    useContext(feedbackcontext);
 
   const { createRazorpayClientSecret, razorpay_key, checkfororder } =
     useContext(paymentContext);
@@ -70,6 +80,7 @@ function Service(props) {
     const process = async () => {
       const id = await getserviceinfo(slug);
       await getBasicCreatorInfo(id[0]);
+      await getallfeedback(id[0]);
       await getallservicesusingid(id[0]);
     };
     mixpanel.track("Page Visit", {
@@ -94,11 +105,21 @@ function Service(props) {
       });
       checkFBlatest().then((fb) => {
         if (fb.success) {
-          getserviceusingid(fb.res.serviceID).then((service) => {
-            setFBService(service);
-            setOpenModelFB(true);
-            //alert(`Send Feedback for "${service.sname}"`)
-          });
+          if (fb.res.serviceID) {
+            getserviceusingid(fb.res.serviceID).then((service) => {
+              setFBService(service);
+              setFBserviceType("download");
+              setOpenModelFB(true);
+              //alert(`Send Feedback for "${service.sname}"`)
+            });
+          } else {
+            getworkshopusingid(fb.res.workshopID).then((service) => {
+              setFBService(service);
+              setFBserviceType("workshop");
+              setOpenModelFB(true);
+              //alert(`Send Feedback for "${service.sname}"`)
+            });
+          }
         }
       });
     }
@@ -445,6 +466,7 @@ function Service(props) {
           name={FBService?.sname}
           slug={FBService?.slug}
           progress={props.progress}
+          serviceType
           id={FBService?._id}
           UserDetails={UserDetails ? UserDetails : ""}
         />
@@ -591,10 +613,10 @@ function Service(props) {
                 </h2>
                 <div className="display_services_list service_list_display">
                   {services.res
-                    ?.filter((e) => e._id !== serviceInfo?._id)
+                    ?.filter((e) => e._id !== serviceInfo?._id).reverse()
                     ?.sort((a, b) => {
                       return b?.smrp - a?.smrp;
-                    })
+                    }).slice(0,4)
                     .map((e) => {
                       if (e.status === 1) {
                         return (
@@ -628,6 +650,99 @@ function Service(props) {
             ) : (
               ""
             )}
+
+{feedbacks?.filter((e) => e.status === 1).length === 0 ? (
+              ""
+            ) : (
+            <div className="user_comments_lists service_comment_list" id="reviews">
+              <div className="review_header">
+                <h2 className="service_h2">
+                <i class="fa-solid fa-magnifying-glass"></i>&nbsp; User Reviews
+                </h2>
+                <p className="slide_button">
+                  <span>
+                    <i
+                      className="fa-solid fa-angle-left fa-xl"
+                      id="prev_slide_button"
+                    ></i>
+                  </span>
+                  <span>
+                    <i
+                      className="fa-solid fa-angle-right fa-xl"
+                      id="next_slide_button"
+                    ></i>
+                  </span>
+                </p>
+              </div>
+              <Swiper
+                slidesPerView={
+                  window.matchMedia("(max-width: 500px)").matches ? 1 : 3
+                }
+                spaceBetween={
+                  window.matchMedia("(max-width: 500px)").matches ? 5 : 20
+                }
+                //autoplay={{
+                //  delay: 3000,
+                //  disableOnInteraction: false,
+                //}}
+                loop={
+                  feedbacks?.filter((e) => e.status === 1).length > 3
+                    ? true
+                    : false
+                }
+                pagination={{
+                  dynamicBullets: true,
+                }}
+                navigation={{
+                  nextEl: "#next_slide_button",
+                  prevEl: "#prev_slide_button",
+                }}
+                modules={[Pagination, Navigation]}
+                className="mySwiper"
+              >
+                {feedbacks?.filter((e) => e.status === 1).length !== 0 ? (
+                  feedbacks
+                    ?.filter((e) => e.status === 1)
+                    .map((e2, index) => {
+                      return (
+                        <SwiperSlide key={index}>
+                          <div className="comment_box">
+                            <section>
+                              <img
+                                src={e2?.photo}
+                                alt="user"
+                                className="user_profile_pic"
+                              />
+                              <span className="review_name_stars">
+                                <span className="user_name">
+                                  {e2?.name
+                                    ? e2?.name.length > 15
+                                      ? e2?.name.slice(0, 15) + ".."
+                                      : e2?.name
+                                    : "--"}
+                                </span>
+                                <span className="review_stars">
+                                  {Array(e2?.rating)
+                                    .fill("a")
+                                    ?.map((e, i) => {
+                                      return (
+                                        <i className="fa-solid fa-star"></i>
+                                      );
+                                    })}
+                                </span>
+                              </span>
+                            </section>
+                            <p className="fb_desc">{e2?.desc}</p>
+                          </div>
+                        </SwiperSlide>
+                      );
+                    })
+                ) : (
+                  <h1 className="no_services">No reviews to display</h1>
+                )}
+              </Swiper>
+            </div>)}
+
             <div className="bottom_service_section">
               {serviceInfo?.isPaid ? (
                 <div className="mobile_price_desc">
@@ -783,16 +898,6 @@ function Service(props) {
           </div>
         </div>
 
-        {/* <div className="footer_service">
-          <a
-            href="https://www.linkedin.com/company/beanchorite"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span>Follow us on LinkedIn</span>
-          </a>
-          <span>Facing any issue? email us - ravi@anchors.in</span>
-        </div> */}
         <Footer />
       </div>
       <ToastContainer />
