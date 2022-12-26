@@ -552,12 +552,26 @@
   font-weight: 500;
 }
 
+/**USERDASHBOARD BUTTON*/
+
+.cprofile-userdashbutton {
+  margin-right: 2vw !important;
+  margin-top: 15px !important;
+
+  padding: 7px 18px 7px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+
+}
+
+
 @media (max-width: 1180px) {
   .display_services_list {
     grid-template-columns: repeat(2, 1fr);
     max-width: 60vw;
   }
 
+   
   .item_displayed {
     width: 25vw;
   }
@@ -602,6 +616,14 @@
 }
 
 @media (max-width: 550px) {
+  
+  .cprofile-userdashbutton {
+      position: fixed !important;
+      bottom: 2vh;
+      right: 1.5vw;
+
+      z-index: 99;
+    }
   .profile_page {
     flex-direction: column;
     align-items: flex-start;
@@ -817,6 +839,11 @@
     margin-top: 25px;
     width: 40vw;
   }
+    /**USERDASHBOARD BUTTON*/
+  
+        .cprofile-userdashbutton{
+          display: none;
+        }
 }
 
 @media (max-width: 470px) {
@@ -838,17 +865,4 @@
 }
 
 
-/**USERDASHBOARD BUTTON*/
 
-.cprofile-userdashbutton{
-  margin-right: 2vw !important;
-  margin-top: 15px !important;
-
-  padding: 7px 18px 7px 18px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.cprofile-userdashbutton:hover{
-
-}

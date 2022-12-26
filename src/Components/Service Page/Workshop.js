@@ -37,7 +37,7 @@ function Service(props) {
   const [proofType, setproofType] = useState();
   const [WorkshopDate, setWorkshopDate] = useState();
   const [UserDetails, setUserDetails] = useState();
-  const [openModelDownload, setOpenModelDownload] = useState(true);
+  const [openModelDownload, setOpenModelDownload] = useState(false);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
   const [FBserviceType, setFBserviceType] = useState(); // type of service in feedback
 
@@ -50,7 +50,7 @@ function Service(props) {
     getallworkshopsusingid,
     getworkshopusingid,
     getserviceusingid,
-    getOneHourDownloads
+    getOneHourDownloads,
   } = context;
   const { basicCdata, getBasicCreatorInfo, basicCreatorInfo } =
     useContext(creatorContext);

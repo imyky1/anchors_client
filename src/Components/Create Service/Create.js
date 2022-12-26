@@ -24,9 +24,7 @@ export const theme = createTheme({
   },
 });
 
-
 function Create(props) {
-  
   const context = useContext(ServiceContext);
   const navigate = useNavigate();
   const { slugCount, getslugcount, addservice, Uploadfile, checkCpyUrl } =
@@ -100,12 +98,12 @@ function Create(props) {
     const file = e.target.files[0];
     setPreviewSourceTwo(file);
   };
-  
+
   const data1 = new FormData();
   const data2 = new FormData();
   data1.append("file", previewSourceOne);
   data2.append("file", previewSourceTwo);
-  
+
   // Changing free and paid section layout ---------------------------------------------
 
   const handleOptionChange = (e) => {
@@ -208,151 +206,151 @@ function Create(props) {
 
   return (
     <>
-    <ThemeProvider theme={theme}>
-      {openLoading && <LoadTwo open={openLoading} />}
-      <div className="create_box">
-        <form className="workshop_form_create">
-          <div className="left_side_form_create">
-            <TextField
-              label="Service Name"
-              required
-              variant="outlined"
-              name="sname"
-              id="sname"
-              onChange={handleChange}
-              value={data.sname}
-              placeholder="25JS Interview Important Question..."
-            />
-            <TextField
-              multiline
-              required
-              label="Brief Service Description"
-              variant="outlined"
-              name="sdesc"
-              onChange={handleChange}
-              value={data.sdesc}
-              id="sdesc"
-              placeholder="Very brief description of the service..."
-            />
-            <TextField
-              name="sbanner"
-              id="sbanner"
-              required
-              //label={!previewSourceOne?.name && "Banner Image"}
-              placeholder="Upload Image"
-              onFocus={(e) => {
-                e.target.type = "file";
-              }}
-              onChange={handleChangeFileOne}
-            />
-            {paid !== "free" && (
+      <ThemeProvider theme={theme}>
+        {openLoading && <LoadTwo open={openLoading} />}
+        <div className="create_box">
+          <form className="workshop_form_create">
+            <div className="left_side_form_create">
               <TextField
-                type="text"
-                label="Tags (Write a tag and press Enter)"
-                onKeyDown={handleKeyDown}
-                name="stags"
-                id="stags"
-                placeholder="Type tags..."
-                //helperText="Write a tag and press Enter"
+                label="Service Name"
+                required
+                variant="outlined"
+                name="sname"
+                id="sname"
+                onChange={handleChange}
+                value={data.sname}
+                placeholder="25JS Interview Important Question..."
               />
-            )}
-            <div className="tag-container_workshop">
-              {tags?.map((tag, index) => {
-                return (
-                  <div className="tag" key={index}>
-                    <span>{tag}</span>
-                    <i
-                      class="fa-solid fa-circle-xmark"
-                      onClick={() => removeTag(index)}
-                    ></i>
-                  </div>
-                );
-              })}
+              <TextField
+                multiline
+                required
+                label="Brief Service Description"
+                variant="outlined"
+                name="sdesc"
+                onChange={handleChange}
+                value={data.sdesc}
+                id="sdesc"
+                placeholder="Very brief description of the service..."
+              />
+              <TextField
+                name="sbanner"
+                id="sbanner"
+                required
+                //label={!previewSourceOne?.name && "Banner Image"}
+                placeholder="Upload Image"
+                onFocus={(e) => {
+                  e.target.type = "file";
+                }}
+                onChange={handleChangeFileOne}
+              />
+              {paid !== "free" && (
+                <TextField
+                  type="text"
+                  label="Tags (Write a tag and press Enter)"
+                  onKeyDown={handleKeyDown}
+                  name="stags"
+                  id="stags"
+                  placeholder="Type tags..."
+                  //helperText="Write a tag and press Enter"
+                />
+              )}
+              <div className="tag-container_workshop">
+                {tags?.map((tag, index) => {
+                  return (
+                    <div className="tag" key={index}>
+                      <span>{tag}</span>
+                      <i
+                        class="fa-solid fa-circle-xmark"
+                        onClick={() => removeTag(index)}
+                      ></i>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-          <div className="right_side_form_create">
-            <TextField
-              className="mui_select"
-              select
-              label="Service Type"
-              defaultValue="free"
-              id="stype"
-              onChange={(e) => handleOptionChange(e)}
-            >
-              <MenuItem value="free">Free</MenuItem>
-              <MenuItem value="paid">Paid</MenuItem>
-            </TextField>
-
-            {paid !== "free" && (
-              <>
-                <TextField
-                  label="Set MRP (in INR)"
-                  required
-                  variant="outlined"
-                  name="smrp"
-                  id="smrp"
-                  placeholder="Eg. 299"
-                  onChange={handleChange}
-                  value={data.smrp}
-                  type="number"
-                />
-                <TextField
-                  label="Selling Price"
-                  required
-                  variant="outlined"
-                  type="number"
-                  name="ssp"
-                  id="ssp"
-                  placeholder="Eg. 199"
-                  onChange={handleChange}
-                  value={data.ssp}
-                  max={data.smrp}
-                />
-              </>
-            )}
-            <TextField
-              required
-              name="sdoc"
-              id="sdoc"
-              //label="Document ( supports all formats)"
-              placeholder="Upload file"
-              onFocus={(e) => {
-                e.target.type = "file";
-              }}
-              onChange={handleChangeFileTwo}
-            />
-
-            {paid === "free" && (
+            <div className="right_side_form_create">
               <TextField
-                type="text"
-                label="Tags (Write a tag and press Enter)"
-                onKeyDown={handleKeyDown}
-                name="stags"
-                id="stags"
-                placeholder="Type tags..."
-                //helperText="Write a tag and press Enter"
-              />
-            )}
-          </div>
-        </form>
+                className="mui_select"
+                select
+                label="Service Type"
+                defaultValue="free"
+                id="stype"
+                onChange={(e) => handleOptionChange(e)}
+              >
+                <MenuItem value="free">Free</MenuItem>
+                <MenuItem value="paid">Paid</MenuItem>
+              </TextField>
 
-        <label htmlFor="ldesc" className="editor_entry_labels">
-          Detailed Service Description <small>*</small>
-        </label>
-        <Editor
-          readOnly={false}
-          content={Content}
-          setContent={setContent}
-          className="text_editor"
-          placeholder="Please Describe your Service briefly..."
-        />
-        <div className="create_buttons">
-          <button className="submit_button" onClick={handleSubmit}>
-            Submit and Publish
-          </button>
+              {paid !== "free" && (
+                <>
+                  <TextField
+                    label="Set MRP (in INR)"
+                    required
+                    variant="outlined"
+                    name="smrp"
+                    id="smrp"
+                    placeholder="Eg. 299"
+                    onChange={handleChange}
+                    value={data.smrp}
+                    type="number"
+                  />
+                  <TextField
+                    label="Selling Price"
+                    required
+                    variant="outlined"
+                    type="number"
+                    name="ssp"
+                    id="ssp"
+                    placeholder="Eg. 199"
+                    onChange={handleChange}
+                    value={data.ssp}
+                    max={data.smrp}
+                  />
+                </>
+              )}
+              <TextField
+                required
+                name="sdoc"
+                id="sdoc"
+                //label="Document ( supports all formats)"
+                placeholder="Upload file"
+                onFocus={(e) => {
+                  e.target.type = "file";
+                }}
+                onChange={handleChangeFileTwo}
+              />
+
+              {paid === "free" && (
+                <TextField
+                  type="text"
+                  label="Tags (Write a tag and press Enter)"
+                  onKeyDown={handleKeyDown}
+                  name="stags"
+                  id="stags"
+                  placeholder="Type tags..."
+                  //helperText="Write a tag and press Enter"
+                />
+              )}
+            </div>
+          </form>
+
+          <label htmlFor="ldesc" className="editor_entry_labels">
+            Detailed Service Description <small>*</small>
+          </label>
+          <Editor
+            readOnly={false}
+            content={Content}
+            setContent={setContent}
+            className="text_editor"
+            placeholder="Please Describe your Service briefly..."
+          />
+          <div className="create_buttons">
+            <button className="submit_button" onClick={handleSubmit}>
+              Submit and Publish
+            </button>
+          </div>
+          <ToastContainer />
         </div>
-        <ToastContainer />
-      </div>
       </ThemeProvider>
     </>
   );
