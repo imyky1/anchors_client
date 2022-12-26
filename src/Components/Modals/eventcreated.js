@@ -64,7 +64,7 @@ function EventCreated({
 
   return (
     <>
-      <div onClick={onClose} className="logout_model_logout">
+      <div onClick={onClose} className="logout_model_logout_workshop">
         <div
           onClick={(e) => e.stopPropagation()}
           className="workshops_create_model"
@@ -116,7 +116,6 @@ function EventCreated({
             <br />
             {sharescreen ? `${`https://www.anchors.in/s/${slug}`}` : ""}
           </span>
-          {console.log(Workshop)}
           {sharescreen ? (
             <div className="workshop_create_model_button">
               <button

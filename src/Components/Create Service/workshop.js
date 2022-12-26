@@ -45,7 +45,6 @@ function Workshop(props) {
     startTime: "",
     endTime: "",
   }); // tracks time object
-  const [showpopup, setShowPopup] = useState(true);
   const [Content, setContent] = useState("");
   const [data, setdata] = useState({
     sname: "",
@@ -287,7 +286,7 @@ function Workshop(props) {
               autoClose: 3000,
             });
             setOpenLoading(false);
-            setShowPopup(true);
+            props.setShowPopup(true);
           } else {
             setOpenLoading(false);
             toast.error(`Service Not Added Please Try Again`, {
@@ -331,8 +330,9 @@ function Workshop(props) {
   return (
     <>
       <EventCreated
-        open={showpopup}
+        open={props.showpopup}
         onClose={() => {
+          props.setShowPopup(false);
           navigate("/servicelist#event");
         }}
         Workshop={data}

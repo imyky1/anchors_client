@@ -34,7 +34,14 @@
     place-items: center;
     
 }
-
+.logout_model_logout_workshop{
+    width: 100vw;
+        height: 100vh;
+        position: fixed;
+        z-index: 9999;
+        display: grid;
+        place-items: center;
+}
 .model_main_box{
     display: flex;
     flex-direction: column;

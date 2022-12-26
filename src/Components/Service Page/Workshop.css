@@ -242,6 +242,15 @@
   background-color: black;
 
 }
+.popup_create_workshop_background{
+  width: 100vw;
+    height: 100vh;
+    background-color: #a0a0a039;
+    position: fixed;
+    z-index: 9;
+    display: grid;
+    place-items: center;
+}
 
 .atcb-icon{
   border: none;

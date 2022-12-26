@@ -6,6 +6,7 @@ import { SuperSEO } from "react-super-seo";
 
 const IndexCreator = (props) => {
   const [toggle, setToggle] = useState(0);
+
   return (
     <>
       <div>
@@ -27,7 +28,11 @@ const IndexCreator = (props) => {
         {toggle === 0 ? (
           <Create progress={props.progress} />
         ) : (
-          <Workshop progress={props.progress} />
+          <Workshop
+            progress={props.progress}
+            showpopup={props.showpopup}
+            setShowPopup={props.setShowPopup}
+          />
         )}
       </div>
       <SuperSEO title="Anchors - Create Services" />
