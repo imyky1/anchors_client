@@ -45,7 +45,7 @@ function Workshop(props) {
     startTime: "",
     endTime: "",
   }); // tracks time object
-  const [showpopup, setShowPopup] = useState(false);
+  const [showpopup, setShowPopup] = useState(true);
   const [Content, setContent] = useState("");
   const [data, setdata] = useState({
     sname: "",
