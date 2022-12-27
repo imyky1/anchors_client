@@ -82,7 +82,7 @@ function ServiceDetail(props) {
             <a>Notify<br/> Users</a>
           </span>
         )}
-        <Link to={`/s/${props.service.slug}`}>Visit here</Link>
+        <Link to={`/s/${props.service.slug}`}>Visit<br /> here</Link>
         <span className="display_action_icons">
           {/* <div
             className="delete_serv"
@@ -134,6 +134,15 @@ function ServiceDetail(props) {
           >
             <i class="fa-solid fa-chart-simple fa-lg delete_serv"></i>
             <span>Stats</span>
+          </div>
+          <div
+            className="delete_serv"
+            onClick={() => {
+              window.open(`/viewusersdetails/${props.service.slug}`,'_blank');
+            }}
+          >
+            <i class="fa-solid fa-users fa-lg delete_serv"></i>
+            <span>User<br/>Data</span>
           </div>
           {/* <i class="fa-solid fa-envelope fa-lg delete_serv" onClick={() => {
               setOpenModel2(true);

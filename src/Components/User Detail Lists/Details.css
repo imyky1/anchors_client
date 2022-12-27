@@ -10,21 +10,8 @@
     margin-left: 0;
 }
 
-.user_details_table_head{
-    width: 100%;
-    margin-top: 40px;
-    background-color: #eeeeee;
-    display: grid;
-    /* grid-template-columns: 9% 18% 25% 15% 12% 18%; */
-    grid-template-columns: 10% 20% 25% 25% 18%;
-    height: 62px;
-    align-items: center;
-    font-size: 19px;
-    border-radius: 5px;
-    color: rgba(46, 43, 43, 0.808);
-}
 
-.user_details_table_head2{
+.user_details_table_head{
     width: 100%;
     margin-top: 40px;
     background-color: #eeeeee;
@@ -41,9 +28,7 @@
 .user_details_table_head > span{
     text-align: center;
 }
-.user_details_table_head2 > span{
-    text-align: center;
-}
+
 
 .user_details_data{
     margin-top: 15px;

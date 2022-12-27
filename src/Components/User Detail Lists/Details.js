@@ -58,12 +58,13 @@ function Details(props) {
     }
   }, []);
 
+
   useEffect(() => {
     setopenLoading(true);
     getUserDetails(serviceType === "download" ? serviceInfo?._id : workshopInfo?._id,serviceType).then((e) => {
       setopenLoading(false);
     });
-  }, [serviceInfo]);
+  }, [serviceType === "download" ? serviceInfo : workshopInfo]);
 
 
   return (
@@ -72,23 +73,23 @@ function Details(props) {
         <h2 className="header01">
           List of Users who {serviceType === "download" ? "downloaded" : "registered for"} - "{serviceType === "download" ? serviceInfo?.sname : workshopInfo?.sname}"
         </h2>
-        <div className={serviceType === "download" ? "user_details_table_head" : "user_details_table_head2"}>
+        <div className="user_details_table_head">
           <span>S.No.</span>
           <span>Name</span>
           <span>Email ID</span>
           <span>Location</span>
-          {serviceType === "workshop" && <span>Amount Paid</span>}
+          <span>Amount Paid</span>
           <span>{serviceType === "download" ? "Downloaded" : "Registered"} On</span>
         </div>
       </div>
 
       {openLoading && <LoadTwo open={openLoading} />}
-      {allUserDetails.length > 0 ?
+      {allUserDetails.length !== 0 ?
       <div className="user_details_data">
         {allUserDetails?.map((e, i) => {
           return <Detail_list key={i} sno={i + 1} info={e} serviceType={serviceType}/>;
         })}
-      </div> : <h1 className="no_services">No user details to display</h1>}
+      </div> : <h1 className="no_services">{openLoading ? "Fetching users...." : "No user details to display"}</h1>}
       <SuperSEO title="Anchors - User Download Details" />
     </>
   );

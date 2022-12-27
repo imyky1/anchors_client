@@ -33,8 +33,8 @@ function Workshop(props) {
           <span>Registrations</span>
           <span>Max Capacity</span>
           <span>Date & Time</span>
-          <span>Action</span>
-          <span>MeetLink</span>
+          <span>Actions</span>
+          <span>Meet Link</span>
         </div>
       </div>
       {openLoading && <LoadTwo open={openLoading} />}

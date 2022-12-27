@@ -25,9 +25,11 @@ function Stats(props) {
   }
 
   const query = useQuery();
+
   useEffect(() => {
     handler();
-  }, [workshopInfo]);
+  }, [serviceType === "download" ? serviceInfo : workshopInfo]);
+
   useEffect(() => {
     props.progress(0);
     if (query.get("service") === "workshop") {
@@ -54,17 +56,19 @@ function Stats(props) {
       });
     }
   }, []);
+
   const [mixpaneldata, setMixpanelData] = useState({
     valueunique: 0,
     valuenotunique: 0,
   });
-  console.log(mixpaneldata);
+
 
   const date = Moment(
     serviceType === "download" ? serviceInfo?.date : workshopInfo?.startDate
   )
     .format()
     .split("T")[0];
+
   const time =
     serviceType === "download"
       ? Moment(serviceInfo?.date).format().split("T")[1].split("+")[0]
@@ -81,15 +85,17 @@ function Stats(props) {
     var value2 = 0;
     const options = {
       method: "GET",
+      credentials: "include",
       headers: {
         accept: "application/json",
+        "Access-Control-Allow-Credentials": true,
         authorization: "Basic MDg3MmMzNTAyODBiMTdiNzk0YjVjOWM5NTRjZTAwZjc6",
       },
     };
 
     let res = await fetch(
       `https://mixpanel.com/api/2.0/segmentation?project_id=2804309&event=Page%20Visit&from_date=${new Date(
-        workshopInfo?.date
+        serviceType === "download" ? serviceInfo?.date : workshopInfo?.date
       )
         .toISOString()
         .slice(0, 10)}&to_date=${new Date()
@@ -98,13 +104,13 @@ function Stats(props) {
           0,
           10
         )}&where=properties%5B%22%24current_url%22%5D%20in%20%5B%22https%3A%2F%2Fwww.anchors.in%2F${
-        serviceType === "download" ? "c" : "w"
-      }%2F${workshopInfo.slug}%22%5D&type=unique&format=csv`,
+        serviceType === "download" ? "s" : "w"
+      }%2F${slug}%22%5D&type=unique&format=csv`,
       options
     );
     let resnotunique = await fetch(
       `https://mixpanel.com/api/2.0/segmentation?project_id=2804309&event=Page%20Visit&from_date=${new Date(
-        workshopInfo?.date
+        serviceType === "download" ? serviceInfo?.date : workshopInfo?.date
       )
         .toISOString()
         .slice(0, 10)}&to_date=${new Date()
@@ -113,8 +119,8 @@ function Stats(props) {
           0,
           10
         )}&where=properties%5B%22%24current_url%22%5D%20in%20%5B%22https%3A%2F%2Fwww.anchors.in%2F${
-        serviceType === "download" ? "c" : "w"
-      }%2F${workshopInfo.slug}%22%5D&format=csv`,
+        serviceType === "download" ? "s" : "w"
+      }%2F${slug}%22%5D&format=csv`,
       options
     );
 
@@ -153,8 +159,8 @@ function Stats(props) {
           <button
             onClick={() => {
               serviceType === "download"
-                ? navigate(`/viewusersdetials/${slug}`)
-                : navigate(`/viewusersdetials/${slug}?service=workshop`);
+                ? navigate(`/viewusersdetails/${slug}`)
+                : navigate(`/viewusersdetails/${slug}?service=workshop`);
             }}
           >
             <i class="fa-solid fa-user-check fa-lg"></i> &nbsp;{" "}
@@ -222,7 +228,7 @@ function Stats(props) {
             <div style={{ backgroundColor: "#C9FFDE" }}>
               <i class="fa-solid fa-percent fa-3x"></i>
               <div>
-                <span className="stats_number">71%</span>
+                <span className="stats_number">{mixpaneldata?.valuenotunique === "0" ? serviceType === "download" ? (serviceInfo?.downloads*100/mixpaneldata?.valueunique).toFixed(2) : (workshopInfo?.registrations*100/mixpaneldata?.valueunique).toFixed(2) + "%" : "---"}</span>
                 <span className="stats_texts_data">
                   Conversion Rate (
                   {serviceType === "download" ? "downloads" : "registrations"}
@@ -233,14 +239,14 @@ function Stats(props) {
           </section>
           <section className="stats_02">
             <div>
-              <span className="stats_number">263</span>
+              <span className="stats_number">{mixpaneldata?.valuenotunique === "0" ? mixpaneldata?.valuenotunique : "---"}</span>
               <span className="stats_texts_data2">
                 Total {serviceType !== "download" ? "Event " : ""}Page visit
               </span>
             </div>
             <div>
-              <span className="stats_number">71 %</span>
-              <span className="stats_texts_data2">Unique Users visit</span>
+              <span className="stats_number">{mixpaneldata?.valuenotunique === "0" ? mixpaneldata?.valueunique : "---"}</span>
+              <span className="stats_texts_data2">Unique User visits</span>
             </div>
             <div>
               <span className="stats_number">71 %</span>

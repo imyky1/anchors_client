@@ -19,6 +19,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { SuperSEO } from "react-super-seo";
 import { Button } from "@mui/material";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 function Profile(props) {
   const services_list = useRef();
@@ -739,9 +740,10 @@ function Profile(props) {
                           <SwiperSlide key={index}>
                             <div className="comment_box">
                               <section>
-                                <img
+                              <LazyLoadImage
                                   src={e2?.photo}
-                                  alt="user"
+                                  alt=""
+                                  placeholderSrc={require("../default_user.png")}
                                   className="user_profile_pic"
                                 />
                                 <span className="review_name_stars">

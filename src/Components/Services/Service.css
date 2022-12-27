@@ -21,7 +21,7 @@
     width: 105%;
     background-color: #eeeeee;
     display: grid;
-    grid-template-columns: 3% 17% 8% 8% 11% 9% 8% 8% 10% 9% 10%;
+    grid-template-columns: 3% 17% 7% 8% 11% 9% 8% 7% 8% 13% 10%;
     /* grid-template-columns: 5% 21% 10% 10% 10% 10% 10% 10% 7% 7%; */
     height: 63px;
     align-items: center;
@@ -35,7 +35,7 @@
     background-color: #eeeeee;
     display: grid;
     text-align: center;
-    grid-template-columns: 4% 17% 7% 8% 10% 9% 10% 10% 10% 7% 8%;
+    grid-template-columns: 3% 17% 7% 8% 9% 8% 9% 8% 9% 13% 8%;
     /* grid-template-columns: 5% 21% 10% 10% 10% 10% 10% 10% 7% 7%; */
     height: 63px;
     align-items: center;

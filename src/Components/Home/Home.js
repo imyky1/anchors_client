@@ -118,7 +118,7 @@ function Home(props) {
             />
             {/**view user details of services ROUTE */}
             <Route
-              path="/viewusersdetials/:slug"
+              path="/viewusersdetails/:slug"
               element={<Details progress={props.progress} />}
             />
             <Route

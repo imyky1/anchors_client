@@ -1,7 +1,7 @@
 .serv_details{
     width: 99%;
     display: grid;
-    grid-template-columns: 3% 17% 8% 8% 11% 9% 8% 8% 10% 9% 10%;
+    grid-template-columns: 3% 17% 7% 8% 11% 9% 8% 7% 8% 13% 10%;
     /* grid-template-columns: 4% 22% 10% 10% 10% 10% 10% 10% 7% 9%; */
     height: 63px;
     align-items: center;
@@ -15,7 +15,7 @@
 .serv_details2{
   width: 99%;
   display: grid;
-  grid-template-columns: 4% 17% 7% 8% 10% 9% 10% 10% 10% 7% 10%;
+  grid-template-columns: 3% 17% 7% 8% 9% 8% 9% 8% 9% 14% 8%;
   /* grid-template-columns: 4% 22% 10% 10% 10% 10% 10% 10% 7% 9%; */
   height: 63px;
   text-align: center;

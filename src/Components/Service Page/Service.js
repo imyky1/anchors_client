@@ -25,6 +25,7 @@ import { Autoplay, Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 function Service(props) {
   const { slug } = useParams();
@@ -584,14 +585,27 @@ function Service(props) {
               className="service_section_image"
             />
             <div className="service_section_details">
+              <div className="servicepage_tags">
+                {serviceInfo?.isPaid ? (
+                  <span style={{ background: "rgb(224 255 219)" }}>
+                    <i
+                      className="fa-solid fa-gear"
+                      style={{ color: "#5fc585" }}
+                    ></i>{" "}
+                    &nbsp;Exclusive
+                  </span>
+                ) : (
+                  <span style={{ background: "#FFD3C5" }}>
+                    <i
+                      className="fa-solid fa-fire"
+                      style={{ color: "#DA8181" }}
+                    ></i>{" "}
+                    &nbsp;Trending
+                  </span>
+                )}
+                <span>Downloadable</span>
+              </div>
               <h1>{serviceInfo?.sname}</h1>
-              {serviceInfo?.tags?.length !== 0 && serviceInfo.tags && (
-                <div className="tags_section">
-                  <span>{serviceInfo?.tags[0]}</span>
-                  <span>{serviceInfo?.tags[1]}</span>
-                  <span>{serviceInfo?.tags[2]}</span>
-                </div>
-              )}
               <p className="service_sdesc">{serviceInfo?.sdesc}</p>
               <h2 className="service_h2">
                 <i className="fa-regular fa-file-lines"></i>&nbsp; Resource
@@ -603,20 +617,130 @@ function Service(props) {
                       serviceInfo?.ldesc)
                   : ""}
               </div>
+              {serviceInfo?.tags?.length !== 0 && serviceInfo.tags && (
+                <div className="tags_section">
+                  <span>{serviceInfo?.tags[0]}</span>
+                  <span>{serviceInfo?.tags[1]}</span>
+                  <span>{serviceInfo?.tags[2]}</span>
+                </div>
+              )}
             </div>
+
+            {feedbacks?.filter((e) => e.status === 1).length === 0 ? (
+              ""
+            ) : (
+              <div
+                className="user_comments_lists service_comment_list"
+                id="reviews"
+              >
+                <div className="review_header service_review_header">
+                  <h2 className="service_h2">
+                    <i class="fa-solid fa-magnifying-glass"></i>&nbsp;
+                    Publisher's Review
+                  </h2>
+                  <p className="slide_button">
+                    <span>
+                      <i
+                        className="fa-solid fa-angle-left fa-xl"
+                        id="prev_slide_button"
+                      ></i>
+                    </span>
+                    <span>
+                      <i
+                        className="fa-solid fa-angle-right fa-xl"
+                        id="next_slide_button"
+                      ></i>
+                    </span>
+                  </p>
+                </div>
+                <Swiper
+                  slidesPerView={
+                    window.matchMedia("(max-width: 500px)").matches ? 1 : 3
+                  }
+                  spaceBetween={
+                    window.matchMedia("(max-width: 500px)").matches ? 5 : 20
+                  }
+                  //autoplay={{
+                  //  delay: 3000,
+                  //  disableOnInteraction: false,
+                  //}}
+                  loop={
+                    feedbacks?.filter((e) => e.status === 1).length > 3
+                      ? true
+                      : false
+                  }
+                  pagination={{
+                    dynamicBullets: true,
+                  }}
+                  navigation={{
+                    nextEl: "#next_slide_button",
+                    prevEl: "#prev_slide_button",
+                  }}
+                  modules={[Pagination, Navigation]}
+                  className="mySwiper"
+                >
+                  {feedbacks?.filter((e) => e.status === 1).length !== 0 ? (
+                    feedbacks
+                      ?.filter((e) => e.status === 1)
+                      .map((e2, index) => {
+                        return (
+                          <SwiperSlide key={index}>
+                            <div className="comment_box">
+                              <section>
+                                <LazyLoadImage
+                                  src={e2?.photo}
+                                  alt=""
+                                  placeholderSrc={require("../default_user.png")}
+                                  className="user_profile_pic"
+                                />
+                                <span className="review_name_stars">
+                                  <span className="user_name">
+                                    {e2?.name
+                                      ? e2?.name.length > 15
+                                        ? e2?.name.slice(0, 15) + ".."
+                                        : e2?.name
+                                      : "--"}
+                                  </span>
+                                  <span className="review_stars">
+                                    {Array(e2?.rating)
+                                      .fill("a")
+                                      ?.map((e, i) => {
+                                        return (
+                                          <i className="fa-solid fa-star"></i>
+                                        );
+                                      })}
+                                  </span>
+                                </span>
+                              </section>
+                              <p className="fb_desc">{e2?.desc.length < 130 ? e2?.desc : e2?.desc.slice(0,130) + "....."}</p>
+                            </div>
+                          </SwiperSlide>
+                        );
+                      })
+                  ) : (
+                    <h1 className="no_services">No reviews to display</h1>
+                  )}
+                </Swiper>
+              </div>
+            )}
+
             {services.res?.filter((e) => e.status === 1).length - 1 !== 0 &&
             localStorage.getItem("jwtToken") ? (
               <div className="more_services">
                 <h2 className="service_h2">
-                  <i className="fa-solid fa-circle-info"></i>&nbsp; More
-                  Services from the Creator
+                  <i className="fa-solid fa-circle-info"></i>&nbsp; More From
+                  Same Creator
                 </h2>
-                <div className="display_services_list service_list_display">
+                <div className="more_services_section_service_page">
                   {services.res
-                    ?.filter((e) => e._id !== serviceInfo?._id).reverse()
+                    ?.filter((e) => e._id !== serviceInfo?._id)
+                    .reverse()
                     ?.sort((a, b) => {
+                      return b?.downloads - a?.downloads;
+                    })?.sort((a, b) => {
                       return b?.smrp - a?.smrp;
-                    }).slice(0,4)
+                    })
+                    .slice(0, 4)
                     .map((e) => {
                       if (e.status === 1) {
                         return (
@@ -626,18 +750,40 @@ function Service(props) {
                             style={{ textDecoration: "none" }}
                           >
                             <div
-                              className="item_displayed service_list_display_item"
+                              className="other_service_items"
                               onClick={() => handleServiceClick(e.slug)}
                             >
-                              <img src={e.simg} alt="..." />
-                              <h2>{e.sname}</h2>
-                              {/* <span
-                                className={`${
-                                  e.isPaid === true ? "paid" : "free"
-                                }_tag_dispalyed`}
-                              >
-                                {e.isPaid === true ? "Paid" : "Free"}
-                              </span> */}
+                              <section className="other_service_part_one">
+                                <img src={e?.simg} alt="" />
+                                <div>
+                                  <h3>{e?.sname}</h3>
+                                  <section className="other_service_tags">
+                                    <span>Document</span>
+                                    {e?.isPaid ? (
+                                      <span style={{ background: "#FFEED4" }}>
+                                        Paid
+                                      </span>
+                                    ) : (
+                                      <span>Free</span>
+                                    )}
+                                  </section>
+                                </div>
+                              </section>
+                              <section className="other_service_part_two">
+                                {e?.downloads > 50 && (
+                                  <span>
+                                    <i
+                                      className="fa-solid fa-fire fa-lg"
+                                      style={{ color: "#DA8181" }}
+                                    ></i>{" "}
+                                    &nbsp;{e?.downloads} users downloaded
+                                  </span>
+                                )}
+                                <button onClick={()=>{navigate(`/s/${e?.slug}`)}}>
+                                  Explore&nbsp;&nbsp;
+                                  <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                              </section>
                             </div>
                           </a>
                         );
@@ -650,98 +796,6 @@ function Service(props) {
             ) : (
               ""
             )}
-
-{feedbacks?.filter((e) => e.status === 1).length === 0 ? (
-              ""
-            ) : (
-            <div className="user_comments_lists service_comment_list" id="reviews">
-              <div className="review_header">
-                <h2 className="service_h2">
-                <i class="fa-solid fa-magnifying-glass"></i>&nbsp; User Reviews
-                </h2>
-                <p className="slide_button">
-                  <span>
-                    <i
-                      className="fa-solid fa-angle-left fa-xl"
-                      id="prev_slide_button"
-                    ></i>
-                  </span>
-                  <span>
-                    <i
-                      className="fa-solid fa-angle-right fa-xl"
-                      id="next_slide_button"
-                    ></i>
-                  </span>
-                </p>
-              </div>
-              <Swiper
-                slidesPerView={
-                  window.matchMedia("(max-width: 500px)").matches ? 1 : 3
-                }
-                spaceBetween={
-                  window.matchMedia("(max-width: 500px)").matches ? 5 : 20
-                }
-                //autoplay={{
-                //  delay: 3000,
-                //  disableOnInteraction: false,
-                //}}
-                loop={
-                  feedbacks?.filter((e) => e.status === 1).length > 3
-                    ? true
-                    : false
-                }
-                pagination={{
-                  dynamicBullets: true,
-                }}
-                navigation={{
-                  nextEl: "#next_slide_button",
-                  prevEl: "#prev_slide_button",
-                }}
-                modules={[Pagination, Navigation]}
-                className="mySwiper"
-              >
-                {feedbacks?.filter((e) => e.status === 1).length !== 0 ? (
-                  feedbacks
-                    ?.filter((e) => e.status === 1)
-                    .map((e2, index) => {
-                      return (
-                        <SwiperSlide key={index}>
-                          <div className="comment_box">
-                            <section>
-                              <img
-                                src={e2?.photo}
-                                alt="user"
-                                className="user_profile_pic"
-                              />
-                              <span className="review_name_stars">
-                                <span className="user_name">
-                                  {e2?.name
-                                    ? e2?.name.length > 15
-                                      ? e2?.name.slice(0, 15) + ".."
-                                      : e2?.name
-                                    : "--"}
-                                </span>
-                                <span className="review_stars">
-                                  {Array(e2?.rating)
-                                    .fill("a")
-                                    ?.map((e, i) => {
-                                      return (
-                                        <i className="fa-solid fa-star"></i>
-                                      );
-                                    })}
-                                </span>
-                              </span>
-                            </section>
-                            <p className="fb_desc">{e2?.desc}</p>
-                          </div>
-                        </SwiperSlide>
-                      );
-                    })
-                ) : (
-                  <h1 className="no_services">No reviews to display</h1>
-                )}
-              </Swiper>
-            </div>)}
 
             <div className="bottom_service_section">
               {serviceInfo?.isPaid ? (

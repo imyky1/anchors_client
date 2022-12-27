@@ -18,24 +18,18 @@ function Detail_list(props) {
     .split("+")[0];
 
   return (
-    <div
-      className={
-        props.serviceType === "download"
-          ? "detail_list_main"
-          : "detail_list_main2"
-      }
-    >
+    <div className="detail_list_main">
       <span>{props?.sno}</span>
       <span>{props.info?.userID ? props.info?.userID?.name : "----"}</span>
       <span>{props.info?.userID?.email ? email : "----"}</span>
       <span>
-        {props.info?.userID
+        {props.info?.userID?.location
           ? props.info?.userID?.location?.city +
             ", " +
             props.info?.userID?.location?.country
           : "----"}
       </span>
-      {props.serviceType === "workshop" && <span>{props.info?.amount}</span>}
+      <span>{props.info?.amount}</span>
       <span>
         {date}&nbsp; {time}
       </span>
