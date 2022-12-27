@@ -523,6 +523,8 @@
   flex-direction: column;
   align-items: center;
   justify-content:space-between;
+  position: sticky;
+  top: 10vh;
 }
 .workshop-box-register p:first-of-type{
   font-size: 2.5rem;
@@ -542,11 +544,12 @@
   font-size: 1.5rem;
 } 
 
-.already_registered-box svg{
- margin-top: 7px;
+.already_registered-box i{
+ margin-top: 5px;
  margin-right: 10px;
-  
+  color: green;
 }
+
 .already_registered-box  {
   display: flex;
   flex-direction: row;
