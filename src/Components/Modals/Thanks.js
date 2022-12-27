@@ -30,26 +30,16 @@ function Thanks({ open, onClose, copyURL, slug, name, control, c_id,stype }) {
     });
   };
 
-  const handleLinkedIn = async () => {
-    const shareData = {
-      title: `${name} at Anchors`,
-      text: "Checkout this Important resource",
-      url: copyURL
-        ? `https://www.anchors.in/r/${copyURL}`
-        : `https://www.anchors.in/s/${slug}`,
-    };
-    if (navigator.share) {
-      await navigator.share(shareData);
-    } else {
-      navigator.clipboard.writeText(
-        `Checkout this Important resource -- *${name}* at ${
-          copyURL
-            ? `https://www.anchors.in/r/${copyURL}`
-            : `https://www.anchors.in/s/${slug}`
-        }`
-      );
-      alert("Message has been copied, Do share it");
-    }
+  const handlelinkedInshare = async () => {
+    window.open(
+      `http://www.linkedin.com/shareArticle?mini=true&url=https://anchors.in/s/${slug}&title=${name}&summary=Hey connections, Checkout this wonderful resource of ${name}&source=https://www.anchors.in/`,
+      "MsgWindow",
+      "width=100",
+      "height=50"
+    );
+    mixpanel.track("Clicked Share on LinkedIn workshop", {
+      service: slug,
+    });
   };
 
   const request_resource = async () => {
@@ -70,7 +60,7 @@ function Thanks({ open, onClose, copyURL, slug, name, control, c_id,stype }) {
         <div onClick={(e) => e.stopPropagation()} className="thanks_model ">
           <i className="fa-solid fa-xmark fa-2x" onClick={onClose}></i>
           <span className="thanks_model_header">
-            <i class="fa-solid fa-cloud-arrow-down fa-xl"></i>
+            <i className="fa-solid fa-cloud-arrow-down fa-xl"></i>
             <br />
             {stype === 1 ? "Thanks for registering for workshop" : "Thanks for downloading..."}
           </span>
@@ -85,9 +75,13 @@ function Thanks({ open, onClose, copyURL, slug, name, control, c_id,stype }) {
             )}
           </span>
           <div className="thanks_model_button">
-            {!request ? <button className="whatsapp_btn" onClick={handleWhatsApp}>
-            <i class="fa-brands fa-whatsapp fa-xl"></i>&nbsp;WhatsApp
-          </button> :
+            {!request ? <><button className="whatsapp_btn" onClick={handleWhatsApp}>
+            <i className="fa-brands fa-whatsapp fa-xl"></i>&nbsp;WhatsApp
+          </button> 
+          <button className="linkedin_btn" onClick={handlelinkedInshare}>
+          <i className="fa-brands fa-linkedin fa-lg"></i>&nbsp;LinkedIn
+            </button>
+           </>:
             <button className="linkedin_btn" onClick={request_resource}>
               Request New Resources
             </button>}

@@ -3,6 +3,7 @@ import "./Navbar.css";
 import { Link, useLocation } from "react-router-dom";
 import { linkedinContext } from "../../Context/LinkedinState";
 import { creatorContext } from "../../Context/CreatorState";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 
 function Navbar() {
@@ -22,10 +23,12 @@ function Navbar() {
     <div className="side_navbar">
       <Link className="creators_profile" target="_blank" rel="noreferrer" to={`c/${localStorage.getItem("c_id")}`}>
 
-        <img
+        <LazyLoadImage
+          effect="blur"
           src={loginInfo?.photo ? loginInfo?.photo : basicNav?.photo}
           alt="..."
           className="c_pic"
+          placeholderSrc="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHaAfOzOEovz1u7rsIMbl_SzAAxk99xlyxAVJ4r3475UvmyHLFVZSZkaGSbLFc5PNRO3A&usqp=CAU"
         />
         <span className="c_name">{loginInfo?.name ? loginInfo?.name : basicNav?.name}</span>
         <span className="c_email">{loginInfo?.email ? loginInfo?.email : basicNav?.email}</span>

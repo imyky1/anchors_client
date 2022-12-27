@@ -17,6 +17,8 @@ import Edit from "../Edit Service/Edit";
 import Editworkshop from "../Edit Service/Editworkshop";
 
 import IndexCreator from "../Create Service/index";
+import Stats from "../Service Stats/Stats";
+import Details from "../User Detail Lists/Details";
 
 function Home(props) {
   const navigate = useNavigate();
@@ -96,6 +98,16 @@ function Home(props) {
             <Route
               path="/editworkshop/:slug"
               element={<Editworkshop progress={props.progress} />}
+            />
+            {/**view stats of services ROUTE */}
+            <Route
+              path="/serviceStats/:slug"
+              element={<Stats progress={props.progress} />}
+            />
+            {/**view user details of services ROUTE */}
+            <Route
+              path="/viewusersdetials/:slug"
+              element={<Details progress={props.progress} />}
             />
             <Route
               path="/servicelist"

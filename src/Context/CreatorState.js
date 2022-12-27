@@ -11,6 +11,7 @@ const CreatorState = (props) => {
     const [allCreatorInfo, setallCreatorInfo] = useState({})
     const [FeedbackStats, setFeedbackStats] = useState()
     const [RequestsStats, setRequestsStats] = useState()
+    const [allUserDetails, setallUserDetails] = useState([])
 
     const [allSubscribers, setallSubscribers] = useState([])
     const [subsInfo, setsubsInfo] = useState([])
@@ -269,9 +270,32 @@ const CreatorState = (props) => {
         }
     }
 
+    // display all USERS for creator SERVICE
+    const getUserDetails = async (id,type) => {
+        const response = await fetch(`${host}/api/userdetails/getallusers/${id}`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": true,
+                "jwt-token" : localStorage.getItem('jwtToken')
+            },
+            body: JSON.stringify({
+                type
+            })
+        })
+        const json = await response.json()
+        if (json.success) {
+            setallUserDetails(json.users)   
+        } else{ 
+            //  toastify error
+        }
+    }
+
 
     return (
-        <creatorContext.Provider value={{ RequestsStats,FeedbackStats,getUserQueries,updateFeedbackStatus,getAllFeedbacks,basicNav,paging,basicCdata,getUserInfo, allSubscribers, subscriberCount,getStatus,getcreatoridUsingSlug, getAllCreatorInfo, getBasicCreatorInfo, basicCreatorInfo, allCreatorInfo, getAllSubscribers, subsInfo, getSubsInfo, getSubCounts, setsubsInfo, setCreatorInfo }}>
+        <creatorContext.Provider value={{ RequestsStats,FeedbackStats,getUserDetails,allUserDetails,getUserQueries,updateFeedbackStatus,getAllFeedbacks,basicNav,paging,basicCdata,getUserInfo, allSubscribers, subscriberCount,getStatus,getcreatoridUsingSlug, getAllCreatorInfo, getBasicCreatorInfo, basicCreatorInfo, allCreatorInfo, getAllSubscribers, subsInfo, getSubsInfo, getSubCounts, setsubsInfo, setCreatorInfo }}>
             {props.children}
         </creatorContext.Provider>
     )

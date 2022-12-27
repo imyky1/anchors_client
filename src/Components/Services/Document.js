@@ -6,17 +6,19 @@ import { LoadTwo } from "../Modals/Loading";
 import { Fragment } from "react";
 
 function Document(props) {
-  const [openLoading, setOpenLoading] = useState(true);
+  const [openLoading, setOpenLoading] = useState(false);
   const context = useContext(ServiceContext);
   const { services, getallservices } = context;
 
   let count = 0;
 
   useEffect(() => {
-    getallservices().then(() => {});
-    setOpenLoading(false);
+    setOpenLoading(true);
+    getallservices().then(() => {
+      setOpenLoading(false);
+    });
     // eslint-disable-next-line
-  }, [services]);
+  }, []);
 
   return (
     <>

@@ -6,17 +6,19 @@ import { LoadTwo } from "../Modals/Loading";
 import { Fragment } from "react";
 
 function Workshop(props) {
-  const [openLoading, setOpenLoading] = useState(true);
+  const [openLoading, setOpenLoading] = useState(false);
   const context = useContext(ServiceContext);
   const { workshops, getallworkshops } = context;
 
   let count = 0;
 
   useEffect(() => {
-    getallworkshops().then(() => {});
-    setOpenLoading(false);
+    setOpenLoading(true);
+    getallworkshops().then(() => {
+      setOpenLoading(false);
+    });
     // eslint-disable-next-line
-  }, [workshops]);
+  }, []);
 
   return (
     <>

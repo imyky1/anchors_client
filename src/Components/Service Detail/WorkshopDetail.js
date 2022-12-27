@@ -8,6 +8,7 @@ import { Email_Model2 } from "../Modals/Email_Modal";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { emailcontext } from "../../Context/EmailState";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 function WorkshopDetail(props) {
   const { checkEmailSent } = useContext(emailcontext); // to check for notify emails
@@ -57,7 +58,7 @@ function WorkshopDetail(props) {
           {time}
         </span>
         <span>
-          <img className="serv_banner" src={props.service.simg} alt="..." />
+          <LazyLoadImage className="serv_banner" src={props.service.simg} alt="..." />
         </span>
         <span className="text-center">{props.service.registrations}</span>
         {NotifyEmailSent ? (
@@ -116,6 +117,15 @@ function WorkshopDetail(props) {
           >
             <i className="fa-solid fa-pen-to-square fa-lg delete_serv"></i>
             <span>Edit</span>
+          </div>
+          <div
+            className="delete_serv"
+            onClick={() => {
+              window.open(`/serviceStats/${props.service.slug}?service=workshop`,'_blank');
+            }}
+          >
+            <i class="fa-solid fa-chart-simple fa-lg delete_serv"></i>
+            <span>Stats</span>
           </div>
           {/* <i class="fa-solid fa-envelope fa-lg delete_serv" onClick={() => {
               setOpenModel2(true);

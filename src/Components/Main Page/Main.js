@@ -3,7 +3,7 @@ import "./Main.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Swiper, SwiperSlide } from "swiper/react";
 
 
@@ -91,7 +91,7 @@ function Main() {
       <div className="main_creator_page">
         <div className="mainpage_header creator_login_header ">
           <div className="logo">
-            <img src={require("../logo.png")} alt="Logo" />
+            <LazyLoadImage effect="blur" src={require("../logo.png")} alt="Logo" />
             <span>anchors</span>
           </div>
           <Link
@@ -373,9 +373,9 @@ function Main() {
                           <div className="user_details_fb_main">
                             {e?.userID.photo ===
                             "https://media-exp1.licdn.com/dms/image/C5603AQHbuisFLZQv7w/profile-displayphoto-shrink_100_100/0/1597657855604?e=1673481600&v=beta&t=tMsAXmN2WayqLTDKFPl3ZuugC7vsoBXdNJ2KeK-lN88" ? (
-                              <img src={PNGIMG} alt="" />
+                              <LazyLoadImage src={PNGIMG} alt="" />
                             ) : (
-                              <img src={e?.userID?.photo} alt="" />
+                              <LazyLoadImage src={e?.userID?.photo} alt="" />
                             )}
 
                             <span>
