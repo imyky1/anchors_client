@@ -217,17 +217,48 @@ function Workshop(props) {
     e.preventDefault();
     //setOpenLoading(true);
     props.progress(0);
-    if (
-      !data.sname.length > 3 &&
-      !data.sdesc.length > 5 &&
-      !Content.length > 10
-    ) {
+    if (data.sname.length < 3) {
       setOpenLoading(false);
-      toast.info("Mandatory fields cannot be empty or short in size", {
+      toast.info("Event title cannot be that short!", {
         position: "top-center",
         autoClose: 3000,
       });
       return;
+    }
+    if (data.sdesc.length < 5) {
+      setOpenLoading(false);
+      toast.info("Event description cannot be that short !", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+    console.log(Content);
+    if (Content.length < 10) {
+      setOpenLoading(false);
+      toast.info("Event brief description is not brief enough !", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (paid) {
+      if (data.smrp === 0) {
+        setOpenLoading(false);
+        toast.info("MRP cannot be zero for paid events !", {
+          position: "top-center",
+          autoClose: 3000,
+        });
+        return;
+      }
+      if (data.ssp === 0) {
+        setOpenLoading(false);
+        toast.info("Selling price cannot be zero for paid events !", {
+          position: "top-center",
+          autoClose: 3000,
+        });
+        return;
+      }
     }
     if (!datevalidator()) {
       setOpenLoading(false);
@@ -240,6 +271,14 @@ function Workshop(props) {
     if (!timevalidator()) {
       setOpenLoading(false);
       toast.info("Please check your Time", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (previewSourceOne === "") {
+      setOpenLoading(false);
+      toast.info("The Event image has not been uploaded !", {
         position: "top-center",
         autoClose: 3000,
       });
