@@ -233,7 +233,6 @@ function Workshop(props) {
       });
       return;
     }
-    console.log(Content);
     if (Content.length < 10) {
       setOpenLoading(false);
       toast.info("Event brief description is not brief enough !", {
@@ -242,7 +241,7 @@ function Workshop(props) {
       });
       return;
     }
-    if (paid) {
+    if (paid !== "free") {
       if (data.smrp === 0) {
         setOpenLoading(false);
         toast.info("MRP cannot be zero for paid events !", {
