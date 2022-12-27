@@ -291,6 +291,7 @@ function Workshop(props) {
       });
       return;
     }
+
     if (
       data.sname.length > 3 &&
       data.sdesc.length > 5 &&

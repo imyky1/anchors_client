@@ -362,6 +362,14 @@ function Editworkshop(props) {
       });
       return;
     }
+    if (data.meetlink === "") {
+      setOpenLoading(false);
+      toast.info("The Event Meeting Link is empty !", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
     if (
       data.sname.length > 3 &&
       data.sdesc.length > 5 &&

@@ -31,7 +31,7 @@ function EventCreated({
       `Checkout this live event -- *${Workshop?.sname}${" , "}
           Event description
           ${Workshop?.sdesc}
-       at ${`https://www.anchors.in/s/${slug}`}`
+       at ${`https://www.anchors.in/w/${slug}`}`
     );
     toast.info("Copied to clipboard", {
       position: "top-left",
@@ -114,7 +114,7 @@ function EventCreated({
               ? Workshop?.sdesc
               : "Please share with your audience and allow them to be part of this event"}
             <br />
-            {sharescreen ? `${`https://www.anchors.in/s/${slug}`}` : ""}
+            {sharescreen ? `${`https://www.anchors.in/w/${slug}`}` : ""}
           </span>
           {sharescreen ? (
             <div className="workshop_create_model_button">
