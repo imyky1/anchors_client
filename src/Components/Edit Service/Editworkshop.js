@@ -337,14 +337,6 @@ function Editworkshop(props) {
       });
       return;
     }
-    if (previewSourceOne === "") {
-      setOpenLoading(false);
-      toast.info("The Event image has not been uploaded !", {
-        position: "top-center",
-        autoClose: 3000,
-      });
-      return;
-    }
 
     if (!datevalidator()) {
       setOpenLoading(false);
