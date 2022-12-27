@@ -34,7 +34,14 @@
     place-items: center;
     
 }
-
+.logout_model_logout_workshop{
+    width: 100vw;
+        height: 100vh;
+        position: fixed;
+        z-index: 9999;
+        display: grid;
+        place-items: center;
+}
 .model_main_box{
     display: flex;
     flex-direction: column;
@@ -371,6 +378,106 @@
     transform: scale(1.18);
     color: red;
 }
+
+
+.workshops_create_model {
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 50vw;
+    padding: 18px;
+    justify-content: space-evenly;
+    font-family: 'Roboto', sans-serif;
+    position: relative;
+    right: 10vw;
+    top: -10vw;
+}
+
+.workshops_create_model > i {
+    position: relative;
+    left: 250px;
+    top: -8px;
+    color: gray;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.workshops_create_model > i:hover {
+    transform: scale(1.18);
+    color: red;
+    cursor: pointer;
+}
+
+.workshop_created_model{
+  font-size: 1.4rem;
+    font-weight: 500;
+    margin: 10px 0;
+    text-align: center;
+}
+.workshop_created_model svg{
+    padding-bottom: 10px;
+}
+.workshop_create_share_btn svg{
+    padding-right:25px;
+}
+.workshop_create_share_btn {
+    background-color: #000000;
+    color: #fff;
+}
+.workshop_create_model_button{
+    margin-top:30px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 110%;
+}
+.workshop_create_model_button button {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    margin: 10px 15px;
+    cursor: pointer;
+}
+.workshop-created-btns{
+    margin-top: 30px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 110%;
+}
+.atcb{
+    all: unset;
+}
+
+.workshop_create_share_btn{
+    font-size: 1.2rem;
+        font-weight: 700;
+        color: white;
+        padding: 15px;
+        border: none;
+        border-radius: 5px;
+        margin: 10px 15px;
+        cursor: pointer;
+}
+
+.workshop_create_model_content{
+    color: #6A6161;
+        font-size: 1.2rem;
+        text-align: center;
+        margin: 10px 0;
+        font-weight: 400;
+        max-width: 50vw;
+        padding-top: 20px;
+        margin: 0vw 10vw;
+}
+
 
 
 

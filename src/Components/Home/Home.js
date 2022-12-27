@@ -29,6 +29,7 @@ function Home(props) {
     creatorLinkedinLogin,
     creatorGoogleLogin,
   } = useContext(linkedinContext);
+  const [createWorkshoppopup, constCreateWorkshoppopup] = useState(false);
 
   useEffect(() => {
     // for users only
@@ -75,6 +76,11 @@ function Home(props) {
 
   return (
     <>
+      {createWorkshoppopup ? (
+        <div className="popup_create_workshop_background"></div>
+      ) : (
+        ""
+      )}
       <ToastContainer />
       {location.pathname === "/check" && <LoadOne />}
       <div className="main_box">
@@ -88,7 +94,13 @@ function Home(props) {
             />
             <Route
               path="/createservice"
-              element={<IndexCreator progress={props.progress} />}
+              element={
+                <IndexCreator
+                  progress={props.progress}
+                  showpopup={createWorkshoppopup}
+                  setShowPopup={constCreateWorkshoppopup}
+                />
+              }
             />
             <Route
               path="/editservice/:slug"

@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Editor from "../Editor/Editor";
 import { LoadTwo } from "../Modals/Loading";
 import { TextField, MenuItem } from "@mui/material";
+import EventCreated from "../Modals/eventcreated";
 
 // style asterisk
 export const theme = createTheme({
@@ -39,7 +40,6 @@ function Workshop(props) {
   const [previewSourceOne, setPreviewSourceOne] = useState(""); // saves the data of file selected in the form
   const [previewSourceTwo, setPreviewSourceTwo] = useState(""); // saves the data of file selected in the form
   const [copyURL, setCopyURL] = useState(""); // saves the data of file selected in the form
-
   const [paid, setPaid] = useState("free"); // tracks if the service is free or paid so that allow participants has limited options
   const [time, setTime] = useState({
     startTime: "",
@@ -281,21 +281,12 @@ function Workshop(props) {
           );
 
           if (json.success) {
-            setdata({
-              sname: "",
-              sdesc: "",
-              smrp: 0,
-              slug: "",
-              ssp: 0,
-              sbanner: "",
-              startDate: "",
-              maxCapacity: -1,
-              svideo: "",
-              meetlink: "",
+            toast.success("Event Created Successfully", {
+              position: "top-center",
+              autoClose: 3000,
             });
-            setTime({ startTime: "", endTime: "" });
             setOpenLoading(false);
-            navigate(`/c/${localStorage.getItem("c_id")}?goto=workshops`);
+            props.setShowPopup(true);
           } else {
             setOpenLoading(false);
             toast.error(`Service Not Added Please Try Again`, {
@@ -338,6 +329,22 @@ function Workshop(props) {
 
   return (
     <>
+      <EventCreated
+        open={props.showpopup}
+        onClose={() => {
+          props.setShowPopup(false);
+          navigate("/servicelist#event");
+        }}
+        Workshop={data}
+        time={time}
+        slug={
+          slugCount === 0
+            ? data.slug.toLowerCase()
+            : data.slug.toLowerCase().concat("--", `${slugCount + 1}`)
+        }
+        content={Content}
+        progress={props.progress}
+      />
       <ThemeProvider theme={theme}>
         {openLoading && <LoadTwo open={openLoading} />}
         <div className="create_box">
@@ -368,17 +375,12 @@ function Workshop(props) {
                 name="sbanner"
                 required
                 id="sbanner"
-                label="Banner Image"
                 placeholder="Upload Image"
                 onFocus={(e) => {
                   e.target.type = "file";
                 }}
-                onBlur={(e) => {
-                  e.target.type = "text";
-                }}
                 onChange={handleChangeFileOne}
               />
-
               <TextField
                 name="startDate"
                 required
@@ -456,13 +458,9 @@ function Workshop(props) {
               <TextField
                 name="svideo"
                 id="svideo"
-                label="Intro/Preview Video"
-                placeholder="Upload Video"
+                placeholder="Intro/Preview Video"
                 onFocus={(e) => {
                   e.target.type = "file";
-                }}
-                onBlur={(e) => {
-                  e.target.type = "text";
                 }}
                 onChange={handleChangeFileTwo}
               />

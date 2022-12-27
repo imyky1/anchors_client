@@ -22,6 +22,7 @@ import SocialProof from "../Modals/SocialProof";
 import Request_Modal from "../Modals/Request_Modal";
 import CalendarIcon from "react-calendar-icon";
 import Footer from "../Footer/Footer";
+import WorkshopThanks from "../Modals/WorkshopThanks";
 
 function Service(props) {
   const { slug } = useParams();
@@ -49,7 +50,7 @@ function Service(props) {
     getallworkshopsusingid,
     getworkshopusingid,
     getserviceusingid,
-    getOneHourDownloads
+    getOneHourDownloads,
   } = context;
   const { basicCdata, getBasicCreatorInfo, basicCreatorInfo } =
     useContext(creatorContext);
@@ -493,7 +494,7 @@ function Service(props) {
           cname={basicCreatorInfo?.name}
           UserDetails={UserDetails ? UserDetails : ""}
         />
-        <Thanks
+        <WorkshopThanks
           open={openModelDownload}
           onClose={() => {
             setOpenModelDownload(false);
@@ -608,84 +609,19 @@ function Service(props) {
                 <h1 style={{ marginBottom: "15px" }}>{workshopInfo?.sname}</h1>
                 {/* Bottom reserve seat button ---------------------------------------- */}
                 <div className="bottom_workshop_section">
-                  <>
-                    <div className="bottom_workshop_section_firstspan">
-                      <span>
-                        {WorkshopDate} at {workshopInfo?.time?.startTime} -{" "}
-                        {workshopInfo?.time?.endTime}
-                      </span>
-                      <span>
-                        <i
-                          class="fa-solid fa-location-dot fa-xl"
-                          style={{ color: "red" }}
-                        ></i>
-                        &nbsp; Online{" "}
-                      </span>
-                    </div>
-
-                    <button
-                      className="download_service workshop_reserve_button"
-                      onClick={download_service}
-                      style={
-                        paymentProcessing
-                          ? {
-                              backgroundColor: "grey",
-                              border: "2px solid grey",
-                            }
-                          : seatReserved
-                          ? {
-                              backgroundColor: "grey",
-                            }
-                          : {}
-                      }
-                    >
-                      {paymentProcessing ? (
-                        <>Processing</>
-                      ) : (
-                        <>
-                          {seatReserved ? "Already Registered" : "Reserve for"}{" "}
-                          {workshopInfo?.isPaid ? (
-                            <>
-                              {seatReserved ? "" : `₹${workshopInfo?.ssp} `}
-                              {"    "}&nbsp;
-                              {seatReserved ? "" : " ₹"}
-                              <p
-                                style={{
-                                  display: "inline-block",
-                                  textDecoration: "line-through",
-                                  fontWeight: "300",
-                                }}
-                              >
-                                {seatReserved ? "" : workshopInfo?.smrp}
-                              </p>
-                            </>
-                          ) : seatReserved ? (
-                            ""
-                          ) : (
-                            "free"
-                          )}
-                        </>
-                      )}
-                    </button>
-                  </>
-                  {seatReserved ? (
-                    <div className="atcb">
-                      {"{"}
-                      "name":"{`${workshopInfo?.sname}`}", "description":"
-                      {`${workshopInfo?.sdesc}`}", "startDate":"
-                      {`${workshopInfo?.startDate?.slice(0, 10)}`}", "endDate":"
-                      {`${workshopInfo?.startDate?.slice(0, 10)}`}",
-                      "startTime":"
-                      {`${workshopInfo?.time?.startTime}`}", "endTime":"
-                      {`${workshopInfo?.time?.endTime}`}", "location":"
-                      {`${workshopInfo?.meetlink}`}
-                      ", "options":["Google","Apple"],
-                      "timeZone":"Asia/Kolkata", "iCalFileName":"Reminder-Event"
-                      {"}"}
-                    </div>
-                  ) : (
-                    ""
-                  )}
+                  <div className="bottom_workshop_section_firstspan">
+                    <span>
+                      {WorkshopDate} at {workshopInfo?.time?.startTime} -{" "}
+                      {workshopInfo?.time?.endTime}
+                    </span>
+                    <span>
+                      <i
+                        class="fa-solid fa-location-dot fa-xl"
+                        style={{ color: "red" }}
+                      ></i>
+                      &nbsp; Online{" "}
+                    </span>
+                  </div>
                 </div>
                 {seatReserved ? (
                   <div className="share_btns_wrapper">
@@ -724,40 +660,73 @@ function Service(props) {
                     : ""}
                 </div>
               </div>
-              {/* <div className="book_workshop_box">
-                {" "}
-                <span>
+              <div className="workshop-box-register">
+                <h3>Special Offer</h3>
+                {workshopInfo?.isPaid ? (
                   <>
-                    {workshopInfo?.isPaid ? (
-                      <div className="book_workshop_box_content">
-                        <h3>Special Offer&nbsp;</h3>
-                        <span className="book_workshop_box_price">
-                          ₹{workshopInfo?.ssp}{" "}
-                        </span>
-                        <span>
-                          (-
-                          {(
-                            (workshopInfo?.smrp - workshopInfo?.ssp) /
-                            workshopInfo?.smrp
-                          ).toFixed(2) * 100}
-                          %)
-                        </span>
-
-                        <div>
-                          <span className="book_workshop_box_maxprice">
-                            {" "}
-                            ₹
-                            <span style={{ textDecoration: "line-through" }}>
-                              {workshopInfo?.smrp}{" "}
-                            </span>
-                          </span>
-                        </div>
-                      </div>
-                    ) : (
-                      <span className="free_label_workshop">Free</span>
-                    )}
+                    <p>
+                      ₹{workshopInfo?.ssp} {"    "}&nbsp;
+                    </p>
+                    <p
+                      style={{
+                        display: "inline-block",
+                        textDecoration: "line-through",
+                        fontWeight: "300",
+                      }}
+                    >
+                      ₹{workshopInfo?.smrp}
+                    </p>
                   </>
-                </span> */}
+                ) : (
+                  <span className="free_workshop_book">Free</span>
+                )}
+                {seatReserved ? (
+                  <div className="already_registered-box">
+                    <i class="fa-sharp fa-solid fa-circle-check"></i>
+
+                    <h3>Registered</h3>
+                  </div>
+                ) : timing === "Finished" ? (
+                  <span className="finished_workshop">
+                    No more registration allowed for this event
+                  </span>
+                ) : (
+                  <button
+                    className="download_service workshop_reserve_button"
+                    onClick={download_service}
+                    style={
+                      paymentProcessing
+                        ? {
+                            backgroundColor: "grey",
+                            border: "2px solid grey",
+                          }
+                        : null
+                    }
+                  >
+                    {paymentProcessing ? <>Processing</> : "Reserve your Seat"}
+                  </button>
+                )}
+
+                {seatReserved ? (
+                  <div className="atcb">
+                    {"{"}
+                    "name":"{`${workshopInfo?.sname}`}", "description":"
+                    {`${workshopInfo?.sdesc}`}", "startDate":"
+                    {`${workshopInfo?.startDate?.slice(0, 10)}`}", "endDate":"
+                    {`${workshopInfo?.startDate?.slice(0, 10)}`}", "startTime":"
+                    {`${workshopInfo?.time?.startTime}`}", "endTime":"
+                    {`${workshopInfo?.time?.endTime}`}", "location":"
+                    {`${workshopInfo?.meetlink}`}
+                    ", "options":["Google","Apple"], "timeZone":"Asia/Kolkata",
+                    "inline":true, "trigger":"click",
+                    "iCalFileName":"Reminder-Event"
+                    {"}"}
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+
               {/* Checks iff the seat is already reserved for the person */}
               {/* <button
                   className="download_workshop"
@@ -862,70 +831,80 @@ function Service(props) {
               />
 
               <div className="bottom_workshop_section_bar service_bar_bottom">
-                {workshopInfo?.isPaid ? (
-                  <div className="mobile_price_desc">
-                    <div>
-                      <h3>
-                        {seatReserved ? "Already Registered" : "Price:"}&nbsp;
-                      </h3>
-                      <span>
-                        {" "}
-                        {seatReserved ? "" : "₹"}
-                        <span style={{ textDecoration: "line-through" }}>
-                          {seatReserved ? "" : `${workshopInfo?.smrp}{" "}`}
+                <div className="mobile-workshop-wrapper">
+                  {workshopInfo?.isPaid ? (
+                    <div className="mobile_price_desc-workshop">
+                      <div>
+                        <span className="main_ssp">₹{workshopInfo?.ssp}</span>
+                      </div>
+                      <div>
+                        <span>
+                          <span style={{ textDecoration: "line-through" }}>
+                            ₹{workshopInfo?.smrp}
+                          </span>
                         </span>
-                      </span>
+                      </div>
                     </div>
-                    <div>
-                      <span className="main_ssp">
-                        {seatReserved ? "" : `₹${workshopInfo?.ssp}`}{" "}
-                      </span>
-                      <span>
-                        {seatReserved
-                          ? ""
-                          : ` 
-                        (-
-                        ${(
-                          ((workshopInfo?.smrp - workshopInfo?.ssp) /
-                            workshopInfo?.smrp) *
-                          100
-                        ).toFixed(0)}
-                        %)`}
-                      </span>
+                  ) : (
+                    <span className="free_label">
+                      {seatReserved ? "" : "Free"}
+                    </span>
+                  )}
+                  {seatReserved ? (
+                    <div className="already_registered-box">
+                      <i class="fa-sharp fa-solid fa-circle-check"></i>
+                      <h3>Registered</h3>
                     </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+
+                {timing === "Finished" && !seatReserved ? (
+                  <span className="finished_workshop_mobile">
+                    No more registration allowed for this event
+                  </span>
+                ) : seatReserved ? (
+                  <div className="atcb">
+                    {"{"}
+                    "name":"{`${workshopInfo?.sname}`}", "description":"
+                    {`${workshopInfo?.sdesc}`}", "startDate":"
+                    {`${workshopInfo?.startDate?.slice(0, 10)}`}", "endDate":"
+                    {`${workshopInfo?.startDate?.slice(0, 10)}`}", "startTime":"
+                    {`${workshopInfo?.time?.startTime}`}", "endTime":"
+                    {`${workshopInfo?.time?.endTime}`}", "location":"
+                    {`${workshopInfo?.meetlink}`}
+                    ", "options":["Google","Apple"], "timeZone":"Asia/Kolkata",
+                    "inline":true, "trigger":"click",
+                    "iCalFileName":"Reminder-Event"
+                    {"}"}
                   </div>
                 ) : (
-                  <span className="free_label">
-                    {seatReserved ? "" : "Free"}
-                  </span>
+                  <button
+                    className="download_service bottom_fixed_btn"
+                    onClick={download_service}
+                    disabled={seatReserved}
+                    style={
+                      paymentProcessing
+                        ? {
+                            backgroundColor: "grey",
+                            border: "2px solid grey",
+                          }
+                        : seatReserved
+                        ? {
+                            backgroundColor: "black",
+                            border: "2px solid black",
+                          }
+                        : {}
+                    }
+                  >
+                    {paymentProcessing ? (
+                      <>Processing</>
+                    ) : (
+                      <>Reserve Your Seat</>
+                    )}
+                  </button>
                 )}
-
-                <button
-                  className="download_service bottom_fixed_btn"
-                  onClick={download_service}
-                  disabled={seatReserved}
-                  style={
-                    paymentProcessing
-                      ? {
-                          backgroundColor: "grey",
-                          border: "2px solid grey",
-                        }
-                      : seatReserved
-                      ? {
-                          backgroundColor: "black",
-                          border: "2px solid black",
-                        }
-                      : {}
-                  }
-                >
-                  {paymentProcessing ? (
-                    <>Processing</>
-                  ) : seatReserved ? (
-                    <>Already Registered</>
-                  ) : (
-                    <>Reserve Your Seat</>
-                  )}
-                </button>
               </div>
 
               <div className="workshop_profile_data">

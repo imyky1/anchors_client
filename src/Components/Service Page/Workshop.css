@@ -195,9 +195,10 @@
 
 
 .workshop_reserve_button{
-  background-color: green;
+  background-color: black;
   border: none;
   font-weight: 500;
+
   transition: transform 0.3s ease-in-out;
 }
 
@@ -238,7 +239,17 @@
   padding: 10px !important;
   width: unset !important;
   border-color: #2a302b;
+  background-color: black;
 
+}
+.popup_create_workshop_background{
+  width: 100vw;
+    height: 100vh;
+    background-color: #a0a0a039;
+    position: fixed;
+    z-index: 9;
+    display: grid;
+    place-items: center;
 }
 
 .atcb-icon{
@@ -268,7 +279,7 @@
   position: fixed;
   border-radius: 5px;
   bottom: 1px;
-  background-color: #f5f5f5;
+  background-color:  #E7FFEA;
   margin-left: -10px;
 }
 
@@ -396,6 +407,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
 }
 
 .btn_share {
@@ -428,6 +440,7 @@
 .btn_share:hover {
   transform: scale(1.1);
   background: #286;
+  border-radius: 10px;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -477,6 +490,7 @@
   transform: scale(1.1);
   background-color: #286ED6;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
 .btn-f:hover i {
@@ -497,8 +511,76 @@
 
 /*share button css end*/
 
+.workshop-box-register{
+  background-color: #E7FFEA;
+  padding: 15px 20px 15px 20px;
+  display: flex;
+  min-width: 14vw;
+  min-height: 25vh;
+  max-height: 25vh;
+  margin-top: 4vh;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-between;
+  position: sticky;
+  top: 10vh;
+}
+.workshop-box-register p:first-of-type{
+  font-size: 2.5rem;
+  font-family: Roboto;
+    font-weight: 700;
+    margin-top: -10px;
+}
 
 
+.workshop-box-register p:last-of-type {
+      color:  #BCB9B9;
+      font-size: 1.5rem;
+      margin-top: -25px;
+}
+.workshop-box-register h3{
+  color: #388E3C;
+  font-size: 1.5rem;
+} 
+
+.already_registered-box i{
+ margin-top: 5px;
+ margin-right: 10px;
+  color: green;
+}
+
+.already_registered-box  {
+  display: flex;
+  flex-direction: row;
+
+}
+.mobile_price_desc-workshop{
+  display: flex;
+
+  flex-direction: row;
+  gap: 4vw;
+}
+.finished_workshop{
+  color: red;
+  font-size: 1.3rem;
+  max-width: 95%;
+  text-align: center;
+}
+.free_workshop_book{
+  font-size: 2rem;
+  font-weight: 500;
+}
+.finished_workshop_mobile{
+  font-size: 1.2rem;
+  width: 60%;
+  text-align: center;
+  color: red;
+}
+.mobile-workshop-wrapper{
+  display: flex;
+  flex-direction: column;
+}
 
 @media (max-width: 1550px) {
   .book_workshop_box {
@@ -544,6 +626,9 @@
 
 }
 @media (max-width: 550px) {
+  .workshop-box-register{
+    display: none;
+  }
   .c_workshop_tagline {
     max-width: 70vw;
   }
@@ -754,6 +839,17 @@
     display: inline-block;
     margin: auto;
   }
+    .already_registered-box svg {
+      margin-top: 7px;
+      margin-right: 10px;
+      color: green;
+    }
+  
+    .already_registered-box {
+      display: flex;
+      flex-direction: row;
+      color: green;
+    }
 }
 
 @media (max-width: 390px) {
