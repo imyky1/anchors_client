@@ -62,6 +62,8 @@ function Stats(props) {
     valuenotunique: 0,
   });
 
+  console.log(mixpaneldata)
+
 
   const date = Moment(
     serviceType === "download" ? serviceInfo?.date : workshopInfo?.startDate
@@ -85,25 +87,15 @@ function Stats(props) {
     var value2 = 0;
     const options = {
       method: "GET",
-      credentials: "include",
       headers: {
         accept: "application/json",
-        "Access-Control-Allow-Credentials": true,
         authorization: "Basic MDg3MmMzNTAyODBiMTdiNzk0YjVjOWM5NTRjZTAwZjc6",
       },
     };
 
     let res = await fetch(
       `https://mixpanel.com/api/2.0/segmentation?project_id=2804309&event=Page%20Visit&from_date=${new Date(
-        serviceType === "download" ? serviceInfo?.date : workshopInfo?.date
-      )
-        .toISOString()
-        .slice(0, 10)}&to_date=${new Date()
-        .toISOString()
-        .slice(
-          0,
-          10
-        )}&where=properties%5B%22%24current_url%22%5D%20in%20%5B%22https%3A%2F%2Fwww.anchors.in%2F${
+        serviceType === "download" ? serviceInfo?.date : workshopInfo?.date).toISOString().slice(0, 10)}&to_date=${new Date().toISOString().slice(0,10)}&where=properties%5B%22%24current_url%22%5D%20in%20%5B%22https%3A%2F%2Fwww.anchors.in%2F${
         serviceType === "download" ? "s" : "w"
       }%2F${slug}%22%5D&type=unique&format=csv`,
       options
@@ -228,7 +220,7 @@ function Stats(props) {
             <div style={{ backgroundColor: "#C9FFDE" }}>
               <i class="fa-solid fa-percent fa-3x"></i>
               <div>
-                <span className="stats_number">{mixpaneldata?.valuenotunique === "0" ? serviceType === "download" ? (serviceInfo?.downloads*100/mixpaneldata?.valueunique).toFixed(2) : (workshopInfo?.registrations*100/mixpaneldata?.valueunique).toFixed(2) + "%" : "---"}</span>
+                <span className="stats_number">{mixpaneldata?.valuenotunique === 0 ? serviceType === "download" ? (serviceInfo?.downloads*100/mixpaneldata?.valueunique).toFixed(2) : (workshopInfo?.registrations*100/mixpaneldata?.valueunique).toFixed(2) + "%" : "---"}</span>
                 <span className="stats_texts_data">
                   Conversion Rate (
                   {serviceType === "download" ? "downloads" : "registrations"}
@@ -239,19 +231,19 @@ function Stats(props) {
           </section>
           <section className="stats_02">
             <div>
-              <span className="stats_number">{mixpaneldata?.valuenotunique === "0" ? mixpaneldata?.valuenotunique : "---"}</span>
+              <span className="stats_number">{mixpaneldata?.valuenotunique === 0 ? mixpaneldata?.valuenotunique : "---"}</span>
               <span className="stats_texts_data2">
                 Total {serviceType !== "download" ? "Event " : ""}Page visit
               </span>
             </div>
             <div>
-              <span className="stats_number">{mixpaneldata?.valuenotunique === "0" ? mixpaneldata?.valueunique : "---"}</span>
+              <span className="stats_number">{mixpaneldata?.valuenotunique === 0 ? mixpaneldata?.valueunique : "---"}</span>
               <span className="stats_texts_data2">Unique User visits</span>
             </div>
-            <div>
+            {/* <div>
               <span className="stats_number">71 %</span>
               <span className="stats_texts_data2">Avg time spent on page</span>
-            </div>
+            </div> */}
           </section>
         </div>
       </div>
