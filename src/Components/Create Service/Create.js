@@ -172,7 +172,7 @@ function Create(props) {
               sdoc: "",
             });
             setOpenLoading(false);
-            props.setShowPopup(true);
+            //props.setShowPopup(true);
           } else {
             setOpenLoading(false);
             toast.error(`Service Not Added Please Try Again`, {

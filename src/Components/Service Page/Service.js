@@ -42,6 +42,8 @@ function Service(props) {
   const [FBserviceType, setFBserviceType] = useState(); // type of service in feedback
   const [openModelDownload, setOpenModelDownload] = useState(false);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
+
+  const [alreadyOrderPlaced, setAlreadyOrderPlaced] = useState(false);
   const {
     serviceInfo,
     getserviceinfo,
@@ -83,6 +85,13 @@ function Service(props) {
       await getBasicCreatorInfo(id[0]);
       await getallfeedback(id[0]);
       await getallservicesusingid(id[0]);
+      localStorage.getItem("isUser") !== "" &&
+        (checkfororder(
+          // checks if order is already placed or not
+          serviceInfo?._id
+        ).then((e) => {
+          setAlreadyOrderPlaced(e);
+        }));
     };
     mixpanel.track("Page Visit", {
       user: UserDetails ? UserDetails : "",
@@ -99,6 +108,12 @@ function Service(props) {
       localStorage.getItem("jwtToken") &&
       localStorage.getItem("isUser") === "true"
     ) {
+      checkfororder(
+        // checks if order is already placed or not
+        serviceInfo?._id
+      ).then((e) => {
+        setAlreadyOrderPlaced(e);
+      });
       getUserDetails().then((e) => {
         if (e.success) {
           setUserDetails(e?.user?.email);
@@ -836,14 +851,24 @@ function Service(props) {
 
               <button
                 className="download_service"
-                onClick={download_service}
+                onClick={() => {
+                  !alreadyOrderPlaced ? download_service() : navigate(`/?utm_source=service_page`);
+                }}
                 style={
                   paymentProcessing
                     ? { backgroundColor: "grey", border: "2px solid grey" }
                     : {}
                 }
               >
-                {paymentProcessing ? <>Processing</> : <>Download Here</>}
+                {!alreadyOrderPlaced ? (
+                  paymentProcessing ? (
+                    <>Processing</>
+                  ) : (
+                    <>Download Here</>
+                  )
+                ) : (
+                  <>Go to Dashboard</>
+                )}
               </button>
             </div>
           </div>
