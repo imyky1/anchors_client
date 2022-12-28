@@ -740,7 +740,7 @@ function Service(props) {
                     {`${workshopInfo?.meetlink}`}
                     ", "options":["Google","Apple"], "timeZone":"Asia/Kolkata",
                     "inline":true, "trigger":"click",
-                    "iCalFileName":"Reminder-Event"
+                    "iCalFileName":"Reminder-Event", "lightMode" : "dark"
                     {"}"}
                   </div>
                 ) : (
@@ -897,7 +897,8 @@ function Service(props) {
                     {`${workshopInfo?.meetlink}`}
                     ", "options":["Google","Apple"], "timeZone":"Asia/Kolkata",
                     "inline":true, "trigger":"click",
-                    "iCalFileName":"Reminder-Event"
+                    "iCalFileName":"Reminder-Event", "size" : "2","lightMode" :
+                    "dark"
                     {"}"}
                   </div>
                 ) : timing === "Ongoing" && seatReserved ? (
