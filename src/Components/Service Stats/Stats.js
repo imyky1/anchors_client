@@ -133,7 +133,7 @@ function Stats(props) {
           10
         )}&where=properties%5B%22%24current_url%22%5D%20in%20%5B%22https%3A%2F%2Fwww.anchors.in%2F${
         serviceType === "download" ? "s" : "w"
-      }%2F${slug}%22%5D&format=csv`,
+      }%2F${slug}%22%5D&type=general&format=csv`,
       options
     );
 

@@ -26,7 +26,9 @@ const IndexCreator = (props) => {
           </div>
         </div>
         {toggle === 0 ? (
-          <Create progress={props.progress} />
+          <Create progress={props.progress} 
+            showpopup={props.showpopup}
+            setShowPopup={props.setShowPopup}/>
         ) : (
           <Workshop
             progress={props.progress}
