@@ -274,6 +274,7 @@
   align-items: center;
   width: 90%;
   padding: 5px 28px;
+  gap:5vw;
   justify-content: space-between;
   height: max-content;
   position: fixed;
@@ -281,6 +282,11 @@
   bottom: 1px;
   background-color:  #E7FFEA;
   margin-left: -10px;
+}
+.atcb-button{
+  background-color: #000000;
+  color: #ffff;
+  border-color: #000000;
 }
 
 .workshop_creators > div {
@@ -891,7 +897,7 @@
             padding-bottom: 4px;
         }
 }
-@media (max-width: 320px) {
+@media (max-width: 340px) {
   .workshopdate_calender {
     display: none;
   }
@@ -903,4 +909,18 @@
     .workshop_tags_section{
       margin-right: 4px;
     }
+        .bottom_workshop_section_bar{
+          justify-items: left;
+          justify-content: left;
+          padding: unset;
+          width: 100%;
+        }
+        .already_registered-box{
+          font-size: 1rem !important;
+        }
+
+        .free_label{
+          padding: unset;
+          margin: unset;
+        }
 }
