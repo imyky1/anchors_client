@@ -747,7 +747,6 @@ function Service(props) {
                   ""
                 )}
               </div>
-
               {/* Checks iff the seat is already reserved for the person */}
               {/* <button
                   className="download_workshop"
