@@ -113,6 +113,12 @@ function Service(props) {
   };
   const elem = document.getElementsByClassName("atcb-button");
 
+  // ongoing event meet link redirect
+
+  const redirect_ongoingevent = () => {
+    window.open(workshopInfo?.meetlink);
+  };
+
   const handlelinkedInshare = async () => {
     window.open(
       `http://www.linkedin.com/shareArticle?mini=true&url=https://anchors.in/w/${workshopInfo?.slug}&title=${workshopInfo?.sname}&summary=${workshopInfo?.sdesc}&source=https://www.anchors.in/`,
@@ -159,12 +165,12 @@ function Service(props) {
       }
       // case 2 - c.h - s.h - e.h
       if (hourdiff < 0 && hourenddiff < 0) {
-        setTiming("Upcoming");
+        setTiming("Finished");
         return;
       }
       // case 3 s.h - e.h - c.r
       if (hourdiff > 0 && hourenddiff > 0) {
-        setTiming("Finished");
+        setTiming("Upcoming");
         return;
       }
       // case 4 - s.h == c.h - e.h (check start minute)
@@ -681,15 +687,30 @@ function Service(props) {
                   <span className="free_workshop_book">Free</span>
                 )}
                 {seatReserved ? (
-                  <div className="already_registered-box">
-                    <i class="fa-sharp fa-solid fa-circle-check"></i>
+                  timing === "Ongoing" ? (
+                    <button
+                      className="download_service workshop_reserve_button"
+                      onClick={redirect_ongoingevent}
+                    >
+                      Join Event
+                    </button>
+                  ) : timing === "Finished" ? (
+                    <span className="finished_workshop">
+                      No more registration allowed for this event
+                    </span>
+                  ) : (
+                    <div className="already_registered-box">
+                      <i class="fa-sharp fa-solid fa-circle-check"></i>
 
-                    <h3>Registered</h3>
-                  </div>
+                      <h3>Registered</h3>
+                    </div>
+                  )
                 ) : timing === "Finished" ? (
                   <span className="finished_workshop">
                     No more registration allowed for this event
                   </span>
+                ) : timing === "Ongoing" && !seatReserved ? (
+                  "No more registration allowed for this event"
                 ) : (
                   <button
                     className="download_service workshop_reserve_button"
@@ -707,7 +728,7 @@ function Service(props) {
                   </button>
                 )}
 
-                {seatReserved ? (
+                {seatReserved && timing === "Upcoming" ? (
                   <div className="atcb">
                     {"{"}
                     "name":"{`${workshopInfo?.sname}`}", "description":"
@@ -719,7 +740,7 @@ function Service(props) {
                     {`${workshopInfo?.meetlink}`}
                     ", "options":["Google","Apple"], "timeZone":"Asia/Kolkata",
                     "inline":true, "trigger":"click",
-                    "iCalFileName":"Reminder-Event"
+                    "iCalFileName":"Reminder-Event", "lightMode" : "dark"
                     {"}"}
                   </div>
                 ) : (
@@ -847,10 +868,10 @@ function Service(props) {
                     </div>
                   ) : (
                     <span className="free_label">
-                      {seatReserved ? "" : "Free"}
+                      {seatReserved ? "Free" : "Free"}
                     </span>
                   )}
-                  {seatReserved ? (
+                  {seatReserved && timing === "Upcoming" ? (
                     <div className="already_registered-box">
                       <i class="fa-sharp fa-solid fa-circle-check"></i>
                       <h3>Registered</h3>
@@ -860,11 +881,11 @@ function Service(props) {
                   )}
                 </div>
 
-                {timing === "Finished" && !seatReserved ? (
+                {timing === "Finished" ? (
                   <span className="finished_workshop_mobile">
                     No more registration allowed for this event
                   </span>
-                ) : seatReserved ? (
+                ) : seatReserved && timing === "Upcoming" ? (
                   <div className="atcb">
                     {"{"}
                     "name":"{`${workshopInfo?.sname}`}", "description":"
@@ -876,9 +897,17 @@ function Service(props) {
                     {`${workshopInfo?.meetlink}`}
                     ", "options":["Google","Apple"], "timeZone":"Asia/Kolkata",
                     "inline":true, "trigger":"click",
-                    "iCalFileName":"Reminder-Event"
+                    "iCalFileName":"Reminder-Event", "size" : "2","lightMode" :
+                    "dark"
                     {"}"}
                   </div>
+                ) : timing === "Ongoing" && seatReserved ? (
+                  <button
+                    className="download_service bottom_fixed_btn"
+                    onClick={redirect_ongoingevent}
+                  >
+                    Join Event
+                  </button>
                 ) : (
                   <button
                     className="download_service bottom_fixed_btn"

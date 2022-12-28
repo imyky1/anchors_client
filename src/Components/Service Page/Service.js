@@ -712,7 +712,11 @@ function Service(props) {
                                   </span>
                                 </span>
                               </section>
-                              <p className="fb_desc">{e2?.desc.length < 130 ? e2?.desc : e2?.desc.slice(0,130) + "....."}</p>
+                              <p className="fb_desc">
+                                {e2?.desc.length < 130
+                                  ? e2?.desc
+                                  : e2?.desc.slice(0, 130) + "....."}
+                              </p>
                             </div>
                           </SwiperSlide>
                         );
@@ -737,7 +741,8 @@ function Service(props) {
                     .reverse()
                     ?.sort((a, b) => {
                       return b?.downloads - a?.downloads;
-                    })?.sort((a, b) => {
+                    })
+                    ?.sort((a, b) => {
                       return b?.smrp - a?.smrp;
                     })
                     .slice(0, 4)
@@ -779,7 +784,11 @@ function Service(props) {
                                     &nbsp;{e?.downloads} users downloaded
                                   </span>
                                 )}
-                                <button onClick={()=>{navigate(`/s/${e?.slug}`)}}>
+                                <button
+                                  onClick={() => {
+                                    navigate(`/s/${e?.slug}`);
+                                  }}
+                                >
                                   Explore&nbsp;&nbsp;
                                   <i class="fa-solid fa-arrow-right"></i>
                                 </button>
