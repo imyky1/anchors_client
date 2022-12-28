@@ -62,8 +62,6 @@ function Stats(props) {
     valuenotunique: 0,
   });
 
-  console.log(mixpaneldata);
-
   const date = Moment(
     serviceType === "download" ? serviceInfo?.date : workshopInfo?.startDate
   )
@@ -92,12 +90,25 @@ function Stats(props) {
       },
     };
 
+    const dateservice =
+      serviceType === "download"
+        ? new Date(
+            new Date(serviceInfo?.date).setDate(
+              new Date(serviceInfo?.date).getDate() - 1
+            )
+          )
+            .toISOString()
+            .slice(0, 10)
+        : new Date(
+            new Date(workshopInfo?.date).setDate(
+              new Date(workshopInfo?.date).getDate() - 1
+            )
+          )
+            .toISOString()
+            .slice(0, 10);
+
     let res = await fetch(
-      `https://mixpanel.com/api/2.0/segmentation?project_id=2804309&event=Page%20Visit&from_date=${new Date(
-        serviceType === "download" ? serviceInfo?.date : workshopInfo?.date
-      )
-        .toISOString()
-        .slice(0, 10)}&to_date=${new Date()
+      `https://mixpanel.com/api/2.0/segmentation?project_id=2804309&event=Page%20Visit&from_date=${dateservice}&to_date=${new Date()
         .toISOString()
         .slice(
           0,
@@ -107,26 +118,8 @@ function Stats(props) {
       }%2F${slug}%22%5D&type=unique&format=csv`,
       options
     );
-    console.log(
-      `https://mixpanel.com/api/2.0/segmentation?project_id=2804309&event=Page%20Visit&from_date=${new Date(
-        serviceType === "download" ? serviceInfo?.date : workshopInfo?.date
-      )
-        .toISOString()
-        .slice(0, 10)}&to_date=${new Date()
-        .toISOString()
-        .slice(
-          0,
-          10
-        )}&where=properties%5B%22%24current_url%22%5D%20in%20%5B%22https%3A%2F%2Fwww.anchors.in%2F${
-        serviceType === "download" ? "s" : "w"
-      }%2F${slug}%22%5D&type=unique&format=csv`
-    );
     let resnotunique = await fetch(
-      `https://mixpanel.com/api/2.0/segmentation?project_id=2804309&event=Page%20Visit&from_date=${new Date(
-        serviceType === "download" ? serviceInfo?.date : workshopInfo?.date
-      )
-        .toISOString()
-        .slice(0, 10)}&to_date=${new Date()
+      `https://mixpanel.com/api/2.0/segmentation?project_id=2804309&event=Page%20Visit&from_date=${dateservice}&to_date=${new Date()
         .toISOString()
         .slice(
           0,
@@ -242,7 +235,7 @@ function Stats(props) {
               <i class="fa-solid fa-percent fa-3x"></i>
               <div>
                 <span className="stats_number">
-                  {mixpaneldata?.valuenotunique === 0
+                  {mixpaneldata?.valuenotunique !== 0
                     ? serviceType === "download"
                       ? (
                           (serviceInfo?.downloads * 100) /
@@ -265,7 +258,7 @@ function Stats(props) {
           <section className="stats_02">
             <div>
               <span className="stats_number">
-                {mixpaneldata?.valuenotunique === 0
+                {mixpaneldata?.valuenotunique !== 0
                   ? mixpaneldata?.valuenotunique
                   : "---"}
               </span>
@@ -275,7 +268,7 @@ function Stats(props) {
             </div>
             <div>
               <span className="stats_number">
-                {mixpaneldata?.valuenotunique === 0
+                {mixpaneldata?.valueunique !== 0
                   ? mixpaneldata?.valueunique
                   : "---"}
               </span>
