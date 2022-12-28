@@ -4,6 +4,7 @@
     width: 75vw;
     margin-top: 35px;
     margin-left: 25px;
+    -webkit-user-select: none;
 }
 
 .details_main > h2{
@@ -34,4 +35,5 @@
     margin-top: 15px;
     width: 75vw;
     margin-left: 25px;
+    -webkit-user-select: none;
 }

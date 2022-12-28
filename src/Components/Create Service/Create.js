@@ -8,6 +8,7 @@ import Editor from "../Editor/Editor";
 import { LoadTwo } from "../Modals/Loading";
 import PreviewService from "../Modals/PreviewService";
 import { TextField, MenuItem, ThemeProvider, createTheme } from "@mui/material";
+import EventCreated from "../Modals/eventcreated";
 
 export const theme = createTheme({
   components: {
@@ -32,6 +33,7 @@ function Create(props) {
   const [openLoading, setOpenLoading] = useState(false);
   const [previewSourceOne, setPreviewSourceOne] = useState(""); // saves the data of file selected in the form
   const [previewSourceTwo, setPreviewSourceTwo] = useState(""); // saves the data of file selected in the form
+  const [checkFormData, setCheckFormData] = useState(false); // checking if all the data is present or not in the form
   const [copyURL, setCopyURL] = useState(""); // saves the data of file selected in the form
   const [paid, setPaid] = useState("free"); // tracks if the service is free or paid so that allow participants has limited options
   const [Content, setContent] = useState("");
@@ -42,6 +44,8 @@ function Create(props) {
     smrp: 0,
     ssp: 0,
   });
+
+  const [servData, setservData] = useState([])
 
   // genrating copy url string
 
@@ -123,17 +127,18 @@ function Create(props) {
   }
 
   // Submit of form create the service ------------------------------------------------------------
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async () => {
     setOpenLoading(true);
+    setCheckFormData(true)
     props.progress(0);
     if (
       data.sname.length > 3 &&
       data.sdesc.length > 5 &&
-      Content.length > 10 &&
       previewSourceOne &&
       previewSourceTwo
     ) {
+      if(Content.length > 10){
+      setCheckFormData(false)
       try {
         var banner = await Uploadfile(data1);
         var doc = await Uploadfile(data2);
@@ -156,6 +161,7 @@ function Create(props) {
             paid === "free" ? 0 : data.ssp
           );
           if (json.success) {
+            setservData(json.res)
             setdata({
               sname: "",
               sdesc: "",
@@ -166,7 +172,7 @@ function Create(props) {
               sdoc: "",
             });
             setOpenLoading(false);
-            navigate(`/servicelist`);
+            props.setShowPopup(true);
           } else {
             setOpenLoading(false);
             toast.error(`Service Not Added Please Try Again`, {
@@ -176,7 +182,7 @@ function Create(props) {
           }
         } else {
           setOpenLoading(false);
-          toast.error(`Service Not Added please Try Again`, {
+          toast.error(`Image or files is not uploaded Please Try Again`, {
             position: "top-center",
             autoClose: 2000,
           });
@@ -188,6 +194,14 @@ function Create(props) {
           autoClose: 2000,
         });
       }
+    }
+    else{
+      setOpenLoading(false);
+      toast.info("Detailed description must contain atleast 11 characters", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+    }
     } else {
       setOpenLoading(false);
       toast.info("Mandatory fields cannot be empty or short in size", {
@@ -204,8 +218,22 @@ function Create(props) {
     setdata({ ...data, [e.target.name]: e.target.value });
   };
 
+
+
   return (
     <>
+    <EventCreated
+        open={props.showpopup}
+        onClose={() => {
+          props.setShowPopup(false);
+          navigate("/servicelist");
+        }}
+        Workshop={servData}
+        slug={servData?.copyURL}
+        content={Content}
+        progress={props.progress}
+      />
+
       <ThemeProvider theme={theme}>
         {openLoading && <LoadTwo open={openLoading} />}
         <div className="create_box">
@@ -220,6 +248,8 @@ function Create(props) {
                 onChange={handleChange}
                 value={data.sname}
                 placeholder="25JS Interview Important Question..."
+                error={checkFormData && data?.sname?.length <= 3}
+                helperText={checkFormData && data?.sname?.length <= 3 && "Service name must contain atleast 4 characters"}
               />
               <TextField
                 multiline
@@ -231,6 +261,8 @@ function Create(props) {
                 value={data.sdesc}
                 id="sdesc"
                 placeholder="Very brief description of the service..."
+                error={checkFormData && data?.sdesc?.length <= 5}
+                helperText={checkFormData && data?.sname?.length <= 5 && "Description must contain atleast 6 characters"}
               />
               <TextField
                 name="sbanner"
@@ -242,7 +274,10 @@ function Create(props) {
                   e.target.type = "file";
                 }}
                 onChange={handleChangeFileOne}
+                error={checkFormData && !previewSourceOne?.name}
+                helperText={checkFormData && !previewSourceOne?.name && "Banner Image is required"}
               />
+
               {paid !== "free" && (
                 <TextField
                   type="text"
@@ -293,6 +328,8 @@ function Create(props) {
                     onChange={handleChange}
                     value={data.smrp}
                     type="number"
+                    error={checkFormData && (data.smrp === 0 || data.smrp === "0" || !data.smrp)}
+                    helperText={checkFormData && (data.smrp === 0 || data.smrp === "0" || !data.smrp) && "Paid service need to have some amount"}
                   />
                   <TextField
                     label="Selling Price"
@@ -305,6 +342,8 @@ function Create(props) {
                     onChange={handleChange}
                     value={data.ssp}
                     max={data.smrp}
+                    error={checkFormData && (!data.ssp || data.ssp > data.smrp)}
+                    helperText={checkFormData && (!data.ssp || data.ssp > data.smrp) && "Selling price cannot be empty or greater than MRP (it can be 0)"}
                   />
                 </>
               )}
@@ -313,11 +352,13 @@ function Create(props) {
                 name="sdoc"
                 id="sdoc"
                 //label="Document ( supports all formats)"
-                placeholder="Upload file"
+                placeholder="Upload document"
                 onFocus={(e) => {
                   e.target.type = "file";
                 }}
                 onChange={handleChangeFileTwo}
+                error={checkFormData && !previewSourceTwo?.name}
+                helperText={checkFormData && !previewSourceTwo?.name && "Document is required"}
               />
 
               {paid === "free" && (
@@ -345,7 +386,7 @@ function Create(props) {
             placeholder="Please Describe your Service briefly..."
           />
           <div className="create_buttons">
-            <button className="submit_button" onClick={handleSubmit}>
+            <button className="submit_button" onClick={onSubmit}>
               Submit and Publish
             </button>
           </div>
