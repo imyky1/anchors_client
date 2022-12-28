@@ -157,8 +157,7 @@ function Service(props) {
       // same day
       var hourdiff = startHour - todayDate.getHours();
       var hourenddiff = endHour - todayDate.getHours();
-      console.log(hourdiff);
-      console.log(hourenddiff);
+
       // case 1 - s.h - c.h - e.h
       if (hourdiff < 0 && hourenddiff > 0) {
         setTiming("Ongoing");
@@ -882,7 +881,7 @@ function Service(props) {
                   )}
                 </div>
 
-                {timing === "Finished" && !seatReserved ? (
+                {timing === "Finished" ? (
                   <span className="finished_workshop_mobile">
                     No more registration allowed for this event
                   </span>
