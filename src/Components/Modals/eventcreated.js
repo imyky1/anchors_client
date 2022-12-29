@@ -30,14 +30,14 @@ function EventCreated({
       `Checkout this live event -- *${Workshop?.sname}${" , "}
           Event description
           ${Workshop?.sdesc}
-       at ${`https://www.anchors.in/w/${slug}`}`
+       at ${`https://www.anchors.in/rw/${slug}`}`
     );
     toast.info("Copied to clipboard", {
       position: "top-left",
       autoClose: 3000,
     });
     window.open(
-      `http://www.linkedin.com/shareArticle?mini=true&url=https://anchors.in/w/${Workshop?.slug}&title=${Workshop?.sname}&summary=${Workshop?.sdesc}&source=https://www.anchors.in/`,
+      `http://www.linkedin.com/shareArticle?mini=true&url=https://anchors.in/rw/${slug}&title=${Workshop?.sname}&summary=${Workshop?.sdesc}&source=https://www.anchors.in/`,
       "MsgWindow",
       "width=100",
       "height=50"
@@ -113,7 +113,7 @@ function EventCreated({
               ? Workshop?.sdesc
               : "Please share with your audience and allow them to be part of this event"}
             <br />
-            {sharescreen ? `${`https://www.anchors.in/w/${slug}`}` : ""}
+            {sharescreen ? `${`https://www.anchors.in/rw/${slug}`}` : ""}
           </span>
           {sharescreen ? (
             <div className="workshop_create_model_button">

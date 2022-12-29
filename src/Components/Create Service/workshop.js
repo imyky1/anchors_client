@@ -384,11 +384,7 @@ function Workshop(props) {
         }}
         Workshop={data}
         time={time}
-        slug={
-          slugCount === 0
-            ? data.slug.toLowerCase()
-            : data.slug.toLowerCase().concat("--", `${slugCount + 1}`)
-        }
+        slug={copyURL}
         content={Content}
         progress={props.progress}
       />
