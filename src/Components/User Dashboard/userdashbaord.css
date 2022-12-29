@@ -62,13 +62,16 @@ box-shadow: 6px 3px 3px red;
 }
 .documents-userdash-review{
     display: flex;
+    cursor: pointer;
 }
+
 
 .documents-userdash-download-button{
     background-color: black;
     max-width: fit-content;
     color: #fff;
     display: flex;
+    cursor: pointer;
 }
 
 

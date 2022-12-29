@@ -23,12 +23,7 @@ function Stats(props) {
     const { search } = useLocation();
     return useMemo(() => new URLSearchParams(search), [search]);
   }
-
   const query = useQuery();
-
-  useEffect(() => {
-    handler();
-  }, [serviceType === "download" ? serviceInfo : workshopInfo]);
 
   useEffect(() => {
     props.progress(0);
@@ -56,6 +51,9 @@ function Stats(props) {
       });
     }
   }, []);
+  useEffect(() => {
+    handler();
+  }, [serviceType === "download" ? serviceInfo : workshopInfo]);
 
   const [mixpaneldata, setMixpanelData] = useState({
     valueunique: 0,
@@ -80,8 +78,9 @@ function Stats(props) {
   // mixpanel api
 
   const handler = async () => {
-    var value = 0;
-    var value2 = 0;
+    // var value = 0;
+    // var value2 = 0;
+
     const options = {
       method: "GET",
       headers: {
@@ -89,7 +88,15 @@ function Stats(props) {
         authorization: "Basic MDg3MmMzNTAyODBiMTdiNzk0YjVjOWM5NTRjZTAwZjc6",
       },
     };
-
+    let wowdate = new Date(
+      (serviceType === "download"
+        ? serviceInfo?.date
+        : workshopInfo?.date
+      ).slice(0, 10)
+    );
+    wowdate = new Date(wowdate.setDate(wowdate.getDate() - 1));
+    wowdate = wowdate.toISOString().split("T")[0];
+    /*
     const dateservice =
       serviceType === "download"
         ? new Date(
@@ -106,35 +113,38 @@ function Stats(props) {
           )
             .toISOString()
             .slice(0, 10);
+            */
 
     let res = await fetch(
-      `https://mixpanel.com/api/2.0/segmentation?project_id=2804309&event=Page%20Visit&from_date=${dateservice}&to_date=${new Date()
+      `https://mixpanel.com/api/2.0/segmentation?project_id=2804309&event=Page%20Visit&from_date=${wowdate}&to_date=${new Date()
         .toISOString()
         .slice(
           0,
           10
-        )}&where=properties%5B%22%24current_url%22%5D%20in%20%5B%22https%3A%2F%2Fwww.anchors.in%2F${
+        )}&interval=1000&where=properties%5B%22%24current_url%22%5D%20in%20%5B%22https%3A%2F%2Fwww.anchors.in%2F${
         serviceType === "download" ? "s" : "w"
       }%2F${slug}%22%5D&type=unique&format=csv`,
       options
     );
     let resnotunique = await fetch(
-      `https://mixpanel.com/api/2.0/segmentation?project_id=2804309&event=Page%20Visit&from_date=${dateservice}&to_date=${new Date()
+      `https://mixpanel.com/api/2.0/segmentation?project_id=2804309&event=Page%20Visit&from_date=${wowdate}&to_date=${new Date()
         .toISOString()
         .slice(
           0,
           10
-        )}&where=properties%5B%22%24current_url%22%5D%20in%20%5B%22https%3A%2F%2Fwww.anchors.in%2F${
+        )}&interval=1000&where=properties%5B%22%24current_url%22%5D%20in%20%5B%22https%3A%2F%2Fwww.anchors.in%2F${
         serviceType === "download" ? "s" : "w"
-      }%2F${slug}%22%5D&type=general&format=csv`,
+      }%2F${slug}%22%5D&format=csv`,
       options
     );
 
-    const helper = await res.text();
+    const helper = (await res.text()).slice(0, 40);
     const lines = helper.split(/\r?\n/);
-    const helper2 = await resnotunique.text();
+    const helper2 = (await resnotunique.text()).slice(0, 40);
     const lines2 = helper2.split(/\r?\n/);
-    var csvData2 = [];
+
+    /*
+        var csvData2 = [];
 
     var csvData = [];
     for (let i = 1; i < lines.length - 1; i++) {
@@ -151,10 +161,10 @@ function Stats(props) {
     for (let i = 0; i < csvData2.length; i++) {
       value2 = +value2 + +parseInt(csvData2[i][1]);
     }
-
+      */
     setMixpanelData({
-      valueunique: value,
-      valuenotunique: value2,
+      valueunique: lines[1].split(",")[1],
+      valuenotunique: lines2[1].split(",")[1],
     });
   };
 

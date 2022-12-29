@@ -8,7 +8,7 @@ import { UserDashbaord } from "../../Context/userdashbaord";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { saveAs } from "file-saver";
-import Footer from "../Footer/Footer"
+import Footer from "../Footer/Footer";
 
 const Dashboarduser = () => {
   const navigate = useNavigate();
@@ -203,6 +203,7 @@ const Dashboarduser = () => {
       ? (document.querySelector(".user_logout").style.display = "none")
       : (document.querySelector(".user_logout").style.display = "inline-block");
   };
+
   return (
     <>
       <User_login
@@ -346,7 +347,7 @@ const Dashboarduser = () => {
                   {actuallworkshops?.map((elem, i) => (
                     <div key={i} className="documents-userdash">
                       <div className="workshop-userdash-timing">
-                        {handletiming(elem.startDate, elem.time) ===
+                        {handletiming(elem?.startDate, elem?.time) ===
                         "Completed" ? (
                           <svg
                             width="13"
@@ -413,7 +414,7 @@ const Dashboarduser = () => {
                         </div>
                       </div>
                       <div className="workshop-userdash-download">
-                        <div className="documents-userdash-timewrap" >
+                        <div className="documents-userdash-timewrap">
                           <div
                             className={`workshop-userdash-date ${
                               handletiming(elem.startDate, elem.time) ===
@@ -482,7 +483,9 @@ const Dashboarduser = () => {
                           <div
                             className="workshop-userdash-review"
                             onClick={() => {
-                              window.open(`/feedback?service=workshop&slug=${elem.slug}`);
+                              window.open(
+                                `/feedback?service=workshop&slug=${elem.slug}`
+                              );
                             }}
                           >
                             <svg
@@ -537,7 +540,12 @@ const Dashboarduser = () => {
                 <>
                   {actualldocuments?.map((elem, i) => (
                     <div key={i} className="documents-userdash">
-                      <div className="documents-userdash-upper">
+                      <div
+                        className="documents-userdash-upper"
+                        onClick={() => {
+                          window.open(`/s/${elem.slug}`);
+                        }}
+                      >
                         <img src={elem.simg} alt="SERVICE"></img>
                         <div className="userdash-title-tags">
                           <h3>{elem.sname}</h3>
@@ -548,7 +556,9 @@ const Dashboarduser = () => {
                         <div
                           className="documents-userdash-review"
                           onClick={() => {
-                            window.open(`/feedback?service=download&slug=${elem?.slug}`);
+                            window.open(
+                              `/feedback?service=download&slug=${elem?.slug}`
+                            );
                           }}
                         >
                           <svg
@@ -598,7 +608,7 @@ const Dashboarduser = () => {
           )}
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 };
