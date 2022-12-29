@@ -203,7 +203,6 @@ const Dashboarduser = () => {
       ? (document.querySelector(".user_logout").style.display = "none")
       : (document.querySelector(".user_logout").style.display = "inline-block");
   };
-  console.log(actuallworkshops);
 
   return (
     <>
@@ -541,7 +540,12 @@ const Dashboarduser = () => {
                 <>
                   {actualldocuments?.map((elem, i) => (
                     <div key={i} className="documents-userdash">
-                      <div className="documents-userdash-upper">
+                      <div
+                        className="documents-userdash-upper"
+                        onClick={() => {
+                          window.open(`/s/${elem.slug}`);
+                        }}
+                      >
                         <img src={elem.simg} alt="SERVICE"></img>
                         <div className="userdash-title-tags">
                           <h3>{elem.sname}</h3>

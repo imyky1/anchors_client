@@ -61,7 +61,7 @@ function Service(props) {
     checkUserOrderPlaced,
   } = useContext(userContext);
   const { checkFBlatest } = useContext(feedbackcontext);
-
+  console.log(workshopInfo);
   const { createRazorpayClientSecret, razorpay_key, checkfororder } =
     useContext(paymentContext);
 
