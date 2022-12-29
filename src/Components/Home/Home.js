@@ -104,7 +104,13 @@ function Home(props) {
             />
             <Route
               path="/editservice/:slug"
-              element={<Edit progress={props.progress} />}
+              element={
+                <Edit
+                  progress={props.progress}
+                  showpopup={createWorkshoppopup}
+                  setShowPopup={constCreateWorkshoppopup}
+                />
+              }
             />
             {/**EDIT WORKSHOP ROUTE */}
             <Route

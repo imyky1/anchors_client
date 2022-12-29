@@ -7,7 +7,7 @@ import mixpanel from "mixpanel-browser";
 import { feedbackcontext } from "../../Context/FeedbackState";
 import { toast } from "react-toastify";
 
-function EventCreated({
+function ServiceCreated({
   open,
   onClose,
   Workshop,
@@ -19,25 +19,20 @@ function EventCreated({
   const { checkRequest } = useContext(feedbackcontext);
   const [request, setRequest] = useState(true); // request true means that request is not present in the database and false means that data is present
   const [sharescreen, setShareScreen] = useState(false);
-
-  useEffect(() => {
-    if (open) {
-      atcb_init();
-    }
-  }, [Workshop, time, open]);
+  console.log(Workshop);
   const handlecopyshare = () => {
     navigator.clipboard.writeText(
       `Checkout this live event -- *${Workshop?.sname}${" , "}
           Event description
           ${Workshop?.sdesc}
-       at ${`https://www.anchors.in/w/${slug}`}`
+       at ${`https://www.anchors.in/r/${slug}`}`
     );
     toast.info("Copied to clipboard", {
       position: "top-left",
       autoClose: 3000,
     });
     window.open(
-      `http://www.linkedin.com/shareArticle?mini=true&url=https://anchors.in/w/${Workshop?.slug}&title=${Workshop?.sname}&summary=${Workshop?.sdesc}&source=https://www.anchors.in/`,
+      `http://www.linkedin.com/shareArticle?mini=true&url=https://anchors.in/r/${slug}&title=${Workshop?.sname}&summary=${Workshop?.sdesc}&source=https://www.anchors.in/`,
       "MsgWindow",
       "width=100",
       "height=50"
@@ -106,7 +101,7 @@ function EventCreated({
             <br />
             {sharescreen
               ? "Share with your audience"
-              : "Event Created Successfully"}
+              : "Service Created Successfully"}
           </span>
           <span className="workshop_create_model_content">
             {sharescreen
@@ -138,21 +133,6 @@ function EventCreated({
             </div>
           ) : (
             <div className="workshop-created-btns">
-              <div className="atcb">
-                {"{"}
-                "name":"{`${Workshop?.sname}`}", "description":"
-                {`${Workshop?.sdesc}`}", "startDate":"
-                {`${Workshop?.startDate?.slice(0, 10)}`}", "endDate":"
-                {`${Workshop?.startDate?.slice(0, 10)}`}", "startTime":"
-                {`${time?.startTime}`}", "endTime":"
-                {`${time?.endTime}`}", "location":"
-                {`${Workshop?.meetlink}`}
-                ", "options":["Google","Apple"], "timeZone":"Asia/Kolkata",
-                "inline":true, "trigger":"click",
-                "iCalFileName":"Reminder-Event"
-                {"}"}
-              </div>
-
               <button
                 className="workshop_create_share_btn"
                 onClick={handleshare}
@@ -179,4 +159,4 @@ function EventCreated({
   );
 }
 
-export default EventCreated;
+export default ServiceCreated;

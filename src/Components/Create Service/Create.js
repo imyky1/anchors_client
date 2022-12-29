@@ -9,6 +9,7 @@ import { LoadTwo } from "../Modals/Loading";
 import PreviewService from "../Modals/PreviewService";
 import { TextField, MenuItem, ThemeProvider, createTheme } from "@mui/material";
 import EventCreated from "../Modals/eventcreated";
+import ServiceCreated from "../Modals/servicecreated";
 
 export const theme = createTheme({
   components: {
@@ -45,7 +46,7 @@ function Create(props) {
     ssp: 0,
   });
 
-  const [servData, setservData] = useState([])
+  const [servData, setservData] = useState([]);
 
   // genrating copy url string
 
@@ -129,7 +130,7 @@ function Create(props) {
   // Submit of form create the service ------------------------------------------------------------
   const onSubmit = async () => {
     setOpenLoading(true);
-    setCheckFormData(true)
+    setCheckFormData(true);
     props.progress(0);
     if (
       data.sname.length > 3 &&
@@ -137,71 +138,61 @@ function Create(props) {
       previewSourceOne &&
       previewSourceTwo
     ) {
-      if(Content.length > 10){
-      setCheckFormData(false)
-      try {
-        var banner = await Uploadfile(data1);
-        var doc = await Uploadfile(data2);
-        if (banner.success && doc.success) {
-          props.progress(75);
-          const json = await addservice(
-            data.sname,
-            data.sdesc,
-            Content,
-            slugCount === 0
-              ? data.slug.toLowerCase()
-              : data.slug.toLowerCase().concat("--", `${slugCount + 1}`),
-            copyURL,
-            banner.url,
-            doc.url,
-            tags,
-            0,
-            paid === "free" ? false : true,
-            paid === "free" ? 0 : data.smrp,
-            paid === "free" ? 0 : data.ssp
-          );
-          if (json.success) {
-            setservData(json.res)
-            setdata({
-              sname: "",
-              sdesc: "",
-              smrp: 0,
-              slug: "",
-              ssp: 0,
-              sbanner: "",
-              sdoc: "",
-            });
-            setOpenLoading(false);
-            //props.setShowPopup(true);
+      if (Content.length > 10) {
+        setCheckFormData(false);
+        try {
+          var banner = await Uploadfile(data1);
+          var doc = await Uploadfile(data2);
+          if (banner.success && doc.success) {
+            props.progress(75);
+            const json = await addservice(
+              data.sname,
+              data.sdesc,
+              Content,
+              slugCount === 0
+                ? data.slug.toLowerCase()
+                : data.slug.toLowerCase().concat("--", `${slugCount + 1}`),
+              copyURL,
+              banner.url,
+              doc.url,
+              tags,
+              0,
+              paid === "free" ? false : true,
+              paid === "free" ? 0 : data.smrp,
+              paid === "free" ? 0 : data.ssp
+            );
+            if (json.success) {
+              setservData(json.res);
+              setOpenLoading(false);
+              props.setShowPopup(true);
+            } else {
+              setOpenLoading(false);
+              toast.error(`Service Not Added Please Try Again`, {
+                position: "top-center",
+                autoClose: 2000,
+              });
+            }
           } else {
             setOpenLoading(false);
-            toast.error(`Service Not Added Please Try Again`, {
+            toast.error(`Image or files is not uploaded Please Try Again`, {
               position: "top-center",
               autoClose: 2000,
             });
           }
-        } else {
+        } catch (error) {
           setOpenLoading(false);
-          toast.error(`Image or files is not uploaded Please Try Again`, {
+          toast.error(`Server side error please try after some time`, {
             position: "top-center",
             autoClose: 2000,
           });
         }
-      } catch (error) {
+      } else {
         setOpenLoading(false);
-        toast.error(`Server side error please try after some time`, {
+        toast.info("Detailed description must contain atleast 11 characters", {
           position: "top-center",
-          autoClose: 2000,
+          autoClose: 3000,
         });
       }
-    }
-    else{
-      setOpenLoading(false);
-      toast.info("Detailed description must contain atleast 11 characters", {
-        position: "top-center",
-        autoClose: 3000,
-      });
-    }
     } else {
       setOpenLoading(false);
       toast.info("Mandatory fields cannot be empty or short in size", {
@@ -218,18 +209,16 @@ function Create(props) {
     setdata({ ...data, [e.target.name]: e.target.value });
   };
 
-
-
   return (
     <>
-    <EventCreated
+      <ServiceCreated
         open={props.showpopup}
         onClose={() => {
           props.setShowPopup(false);
           navigate("/servicelist");
         }}
-        Workshop={servData}
-        slug={servData?.copyURL}
+        Workshop={data}
+        slug={copyURL}
         content={Content}
         progress={props.progress}
       />
@@ -249,7 +238,11 @@ function Create(props) {
                 value={data.sname}
                 placeholder="25JS Interview Important Question..."
                 error={checkFormData && data?.sname?.length <= 3}
-                helperText={checkFormData && data?.sname?.length <= 3 && "Service name must contain atleast 4 characters"}
+                helperText={
+                  checkFormData &&
+                  data?.sname?.length <= 3 &&
+                  "Service name must contain atleast 4 characters"
+                }
               />
               <TextField
                 multiline
@@ -262,7 +255,11 @@ function Create(props) {
                 id="sdesc"
                 placeholder="Very brief description of the service..."
                 error={checkFormData && data?.sdesc?.length <= 5}
-                helperText={checkFormData && data?.sname?.length <= 5 && "Description must contain atleast 6 characters"}
+                helperText={
+                  checkFormData &&
+                  data?.sname?.length <= 5 &&
+                  "Description must contain atleast 6 characters"
+                }
               />
               <TextField
                 name="sbanner"
@@ -275,7 +272,11 @@ function Create(props) {
                 }}
                 onChange={handleChangeFileOne}
                 error={checkFormData && !previewSourceOne?.name}
-                helperText={checkFormData && !previewSourceOne?.name && "Banner Image is required"}
+                helperText={
+                  checkFormData &&
+                  !previewSourceOne?.name &&
+                  "Banner Image is required"
+                }
               />
 
               {paid !== "free" && (
@@ -328,8 +329,15 @@ function Create(props) {
                     onChange={handleChange}
                     value={data.smrp}
                     type="number"
-                    error={checkFormData && (data.smrp === 0 || data.smrp === "0" || !data.smrp)}
-                    helperText={checkFormData && (data.smrp === 0 || data.smrp === "0" || !data.smrp) && "Paid service need to have some amount"}
+                    error={
+                      checkFormData &&
+                      (data.smrp === 0 || data.smrp === "0" || !data.smrp)
+                    }
+                    helperText={
+                      checkFormData &&
+                      (data.smrp === 0 || data.smrp === "0" || !data.smrp) &&
+                      "Paid service need to have some amount"
+                    }
                   />
                   <TextField
                     label="Selling Price"
@@ -343,7 +351,11 @@ function Create(props) {
                     value={data.ssp}
                     max={data.smrp}
                     error={checkFormData && (!data.ssp || data.ssp > data.smrp)}
-                    helperText={checkFormData && (!data.ssp || data.ssp > data.smrp) && "Selling price cannot be empty or greater than MRP (it can be 0)"}
+                    helperText={
+                      checkFormData &&
+                      (!data.ssp || data.ssp > data.smrp) &&
+                      "Selling price cannot be empty or greater than MRP (it can be 0)"
+                    }
                   />
                 </>
               )}
@@ -358,7 +370,11 @@ function Create(props) {
                 }}
                 onChange={handleChangeFileTwo}
                 error={checkFormData && !previewSourceTwo?.name}
-                helperText={checkFormData && !previewSourceTwo?.name && "Document is required"}
+                helperText={
+                  checkFormData &&
+                  !previewSourceTwo?.name &&
+                  "Document is required"
+                }
               />
 
               {paid === "free" && (
