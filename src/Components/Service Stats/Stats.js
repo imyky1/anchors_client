@@ -144,11 +144,16 @@ function Stats(props) {
       var csvData = [];
       for (let i = 1; i < lines.length - 1; i++) {
         csvData[i - 1] = lines[i].split(",");
+      }
+
+      for (let i = 1; i < lines2.length - 1; i++) {
         csvData2[i - 1] = lines2[i].split(",");
       }
 
       for (let i = 0; i < csvData.length; i++) {
         value = +value + +parseInt(csvData[i][1]);
+      }
+      for (let i = 0; i < csvData2.length; i++) {
         value2 = +value2 + +parseInt(csvData2[i][1]);
       }
 

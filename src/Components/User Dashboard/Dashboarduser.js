@@ -413,7 +413,7 @@ const Dashboarduser = () => {
                         </div>
                       </div>
                       <div className="workshop-userdash-download">
-                        <div className="documents-userdash-timewrap">
+                        <div className="documents-userdash-timewrap" >
                           <div
                             className={`workshop-userdash-date ${
                               handletiming(elem.startDate, elem.time) ===
@@ -587,7 +587,7 @@ const Dashboarduser = () => {
                               fill="white"
                             />
                           </svg>
-                          <h5>ReDownload</h5>
+                          <h5>Redownload</h5>
                         </div>
                       </div>
                     </div>
