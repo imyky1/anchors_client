@@ -390,11 +390,15 @@
 }
 
 .workshop_list_display{
-  grid-template-columns: repeat(3,1fr);
+  display: grid;
+    grid-template-columns: repeat(auto-fill, 2fr);
   width: 98%;
+  gap: 18px;
   max-width: unset;
+  margin: auto;
   margin-top: 15px;
-  padding-bottom: 50px;
+    padding-bottom: 50px;
+ 
 }
 
 
