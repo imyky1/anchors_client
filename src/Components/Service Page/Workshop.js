@@ -61,7 +61,6 @@ function Service(props) {
     checkUserOrderPlaced,
   } = useContext(userContext);
   const { checkFBlatest } = useContext(feedbackcontext);
-  console.log(workshopInfo);
   const { createRazorpayClientSecret, razorpay_key, checkfororder } =
     useContext(paymentContext);
 
@@ -132,7 +131,6 @@ function Service(props) {
       creator: basicCdata?.slug,
     });
   };
-
   const [timing, setTiming] = useState("");
 
   useEffect(() => {
@@ -225,7 +223,7 @@ function Service(props) {
       day: "numeric",
       timeZone: "Asia/Kolkata",
     };
-
+    console.log(workshopInfo);
     var s = new Date(workshopInfo?.startDate).toLocaleString("en-US", options);
     setWorkshopDate(s);
 
@@ -705,6 +703,37 @@ function Service(props) {
                       <h3>Registered</h3>
                     </div>
                   )
+                ) : workshopInfo?.maxCapacity !== -1 ? (
+                  workshopInfo?.maxCapacity <= workshopInfo?.registrations ? (
+                    <span className="finished_workshop">
+                      No more registration allowed for this event
+                    </span>
+                  ) : timing === "Finished" ? (
+                    <span className="finished_workshop">
+                      No more registration allowed for this event
+                    </span>
+                  ) : timing === "Ongoing" && !seatReserved ? (
+                    "No more registration allowed for this event"
+                  ) : (
+                    <button
+                      className="download_service workshop_reserve_button"
+                      onClick={download_service}
+                      style={
+                        paymentProcessing
+                          ? {
+                              backgroundColor: "grey",
+                              border: "2px solid grey",
+                            }
+                          : null
+                      }
+                    >
+                      {paymentProcessing ? (
+                        <>Processing</>
+                      ) : (
+                        "Reserve your Seat"
+                      )}
+                    </button>
+                  )
                 ) : timing === "Finished" ? (
                   <span className="finished_workshop">
                     No more registration allowed for this event
@@ -880,7 +909,66 @@ function Service(props) {
                   )}
                 </div>
 
-                {timing === "Finished" ? (
+                {workshopInfo?.maxCapacity !== -1 ? (
+                  workshopInfo?.maxCapacity <= workshopInfo?.registrations ? (
+                    <span className="finished_workshop">
+                      No more registration allowed for this event
+                    </span>
+                  ) : timing === "Finished" ? (
+                    <span className="finished_workshop_mobile">
+                      No more registration allowed for this event
+                    </span>
+                  ) : seatReserved && timing === "Upcoming" ? (
+                    <div className="atcb">
+                      {"{"}
+                      "name":"{`${workshopInfo?.sname}`}", "description":"
+                      {`${workshopInfo?.sdesc}`}", "startDate":"
+                      {`${workshopInfo?.startDate?.slice(0, 10)}`}", "endDate":"
+                      {`${workshopInfo?.startDate?.slice(0, 10)}`}",
+                      "startTime":"
+                      {`${workshopInfo?.time?.startTime}`}", "endTime":"
+                      {`${workshopInfo?.time?.endTime}`}", "location":"
+                      {`${workshopInfo?.meetlink}`}
+                      ", "options":["Google","Apple"],
+                      "timeZone":"Asia/Kolkata", "inline":true,
+                      "trigger":"click", "iCalFileName":"Reminder-Event", "size"
+                      : "2","lightMode" : "dark"
+                      {"}"}
+                    </div>
+                  ) : timing === "Ongoing" && seatReserved ? (
+                    <button
+                      className="download_service bottom_fixed_btn"
+                      onClick={redirect_ongoingevent}
+                    >
+                      Join Event
+                    </button>
+                  ) : (
+                    <button
+                      className="download_service bottom_fixed_btn"
+                      onClick={download_service}
+                      disabled={seatReserved}
+                      style={
+                        paymentProcessing
+                          ? {
+                              backgroundColor: "grey",
+                              border: "2px solid grey",
+                            }
+                          : seatReserved
+                          ? {
+                              backgroundColor: "black",
+                              border: "2px solid black",
+                            }
+                          : {}
+                      }
+                    >
+                      {paymentProcessing ? (
+                        <>Processing</>
+                      ) : (
+                        <>Reserve Your Seat</>
+                      )}
+                    </button>
+                  )
+                ) : timing === "Finished" ? (
                   <span className="finished_workshop_mobile">
                     No more registration allowed for this event
                   </span>
