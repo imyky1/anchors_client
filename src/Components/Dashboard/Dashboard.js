@@ -5,7 +5,7 @@ import { linkedinContext } from "../../Context/LinkedinState";
 import ServiceContext from "../../Context/services/serviceContext";
 import { creatorContext } from "../../Context/CreatorState";
 import Moment from "moment";
-import { TextField} from "@mui/material";
+import { TextField } from "@mui/material";
 
 import Apexcharts from "./apexcharts";
 import { useMemo } from "react";
@@ -216,25 +216,25 @@ function Dashboard() {
 
         <div className="rangeselect_wrapper">
           <TextField
-              label="from Date"
-              variant="outlined"
-              onChange={handleinputfromdate}
-              value={dateRangefrom}
-              placeholder="from Date"
-              onFocus={(e) => {
-                e.target.type = "date";
-              }}
-            />
+            label="from Date"
+            variant="outlined"
+            onChange={handleinputfromdate}
+            value={dateRangefrom}
+            placeholder="from Date"
+            onFocus={(e) => {
+              e.target.type = "date";
+            }}
+          />
           <TextField
-              label="to Date"
-              variant="outlined"
-              onChange={handleinputtodate}
-              value={dateRangeto}
-              placeholder="to Date"
-              onFocus={(e) => {
-                e.target.type = "date";
-              }}
-            />
+            label="to Date"
+            variant="outlined"
+            onChange={handleinputtodate}
+            value={dateRangeto}
+            placeholder="to Date"
+            onFocus={(e) => {
+              e.target.type = "date";
+            }}
+          />
         </div>
       </div>
       <div className="linegraph_wrapper">
@@ -265,9 +265,7 @@ function Dashboard() {
           property
         />
       </div>
-      <SuperSEO
-        title="Anchors - Dashboard"
-      />
+      <SuperSEO title="Anchors - Dashboard" />
     </>
   );
 }
