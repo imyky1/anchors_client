@@ -10,26 +10,6 @@ import { FormHelperText } from "@mui/material";
 function Test() {
   const { truecallerlogin, truecallervalue } = useContext(linkedinContext);
 
-  const Helper = async () => {
-    const options = {
-      method: "GET",
-      headers: {
-        "Access-Control-Allow-Headers": "*",
-        authorization: "Basic MDg3MmMzNTAyODBiMTdiNzk0YjVjOWM5NTRjZTAwZjc6",
-        "Access-Control-Allow-Origin": "*",
-      },
-    };
-    let res = await fetch(
-      `https://data.mixpanel.com/api/2.0/export?from_date=2022-10-20&to_date=2022-10-21`,
-      options
-    );
-    const helper = await res.text();
-    const lines = helper.split(/\r?\n/);
-    console.log(lines);
-  };
-  useEffect(() => {
-    Helper();
-  }, []);
   const handleClick = async () => {
     await truecallerlogin();
   };

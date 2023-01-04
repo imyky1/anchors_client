@@ -6,6 +6,8 @@ import "./Stats.css";
 import Moment from "moment";
 import { SuperSEO } from "react-super-seo";
 
+import { host } from "../../config/config";
+
 function Stats(props) {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -53,7 +55,7 @@ function Stats(props) {
   }, []);
   useEffect(() => {
     handler();
-  }, [serviceType === "download" ? serviceInfo : workshopInfo]);
+  }, [serviceInfo, workshopInfo]);
 
   const [mixpaneldata, setMixpanelData] = useState({
     valueunique: 0,
@@ -78,96 +80,31 @@ function Stats(props) {
   // mixpanel api
 
   const handler = async () => {
-    // var value = 0;
-    // var value2 = 0;
-
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        authorization: "Basic MDg3MmMzNTAyODBiMTdiNzk0YjVjOWM5NTRjZTAwZjc6",
-      },
-    };
-    let wowdate = new Date(
-      (serviceType === "download"
-        ? serviceInfo?.date
-        : workshopInfo?.date
-      ).slice(0, 10)
-    );
-    wowdate = new Date(wowdate.setDate(wowdate.getDate() - 1));
-    wowdate = wowdate.toISOString().split("T")[0];
-    /*
-    const dateservice =
-      serviceType === "download"
-        ? new Date(
-            new Date(serviceInfo?.date).setDate(
-              new Date(serviceInfo?.date).getDate() - 1
-            )
-          )
-            .toISOString()
-            .slice(0, 10)
-        : new Date(
-            new Date(workshopInfo?.date).setDate(
-              new Date(workshopInfo?.date).getDate() - 1
-            )
-          )
-            .toISOString()
-            .slice(0, 10);
-            */
-
-    let res = await fetch(
-      `https://mixpanel.com/api/2.0/segmentation?project_id=2804309&event=Page%20Visit&from_date=${wowdate}&to_date=${new Date()
-        .toISOString()
-        .slice(
-          0,
-          10
-        )}&interval=1000&where=properties%5B%22%24current_url%22%5D%20in%20%5B%22https%3A%2F%2Fwww.anchors.in%2F${
-        serviceType === "download" ? "s" : "w"
-      }%2F${slug}%22%5D&type=unique&format=csv`,
-      options
-    );
-    let resnotunique = await fetch(
-      `https://mixpanel.com/api/2.0/segmentation?project_id=2804309&event=Page%20Visit&from_date=${wowdate}&to_date=${new Date()
-        .toISOString()
-        .slice(
-          0,
-          10
-        )}&interval=1000&where=properties%5B%22%24current_url%22%5D%20in%20%5B%22https%3A%2F%2Fwww.anchors.in%2F${
-        serviceType === "download" ? "s" : "w"
-      }%2F${slug}%22%5D&format=csv`,
-      options
-    );
-
-    const helper = (await res.text()).slice(0, 40);
-    const lines = helper.split(/\r?\n/);
-    const helper2 = (await resnotunique.text()).slice(0, 40);
-    const lines2 = helper2.split(/\r?\n/);
-
-    /*
-        var csvData2 = [];
-
-    var csvData = [];
-    for (let i = 1; i < lines.length - 1; i++) {
-      csvData[i - 1] = lines[i].split(",");
+    if (serviceType === undefined) {
+    } else {
+      fetch(`${host}/api/stats/getStats`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+        body: JSON.stringify({
+          service: serviceType === "download" ? serviceInfo : workshopInfo,
+          serviceType: serviceType,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setMixpanelData({
+            valueunique: data.response.uniquevisits,
+            valuenotunique: data.response.Totalvisits,
+          });
+          console.log(data);
+        });
     }
-
-    for (let i = 1; i < lines2.length - 1; i++) {
-      csvData2[i - 1] = lines2[i].split(",");
-    }
-
-    for (let i = 0; i < csvData.length; i++) {
-      value = +value + +parseInt(csvData[i][1]);
-    }
-    for (let i = 0; i < csvData2.length; i++) {
-      value2 = +value2 + +parseInt(csvData2[i][1]);
-    }
-      */
-    setMixpanelData({
-      valueunique: lines[1].split(",")[1],
-      valuenotunique: lines2[1].split(",")[1],
-    });
   };
-
   return (
     <>
       <div className="stats_mainPage">
