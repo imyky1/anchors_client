@@ -97,11 +97,12 @@ function Stats(props) {
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
+
           setMixpanelData({
             valueunique: data.response.uniquevisits,
             valuenotunique: data.response.Totalvisits,
           });
-          console.log(data);
         });
     }
   };
