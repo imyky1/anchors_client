@@ -61,6 +61,7 @@ function Workshop(props) {
     allowed: false,
     discount: "",
   });
+  const [checkFormData, setCheckFormData] = useState(false); // checking if all the data is present or not in the form
 
   // genrating copy url string
 
@@ -217,6 +218,7 @@ function Workshop(props) {
     e.preventDefault();
     //setOpenLoading(true);
     props.progress(0);
+    setCheckFormData(true);
     if (data.sname.length < 3) {
       setOpenLoading(false);
       toast.info("Event title cannot be that short!", {
@@ -298,6 +300,7 @@ function Workshop(props) {
       Content.length > 10 &&
       previewSourceOne
     ) {
+      setCheckFormData(false);
       try {
         var banner = await Uploadfile(data1);
         if (data2.length) {
@@ -400,6 +403,12 @@ function Workshop(props) {
                 name="sname"
                 id="sname"
                 onChange={handleChange}
+                error={checkFormData && data?.sname?.length <= 3}
+                helperText={
+                  checkFormData &&
+                  data?.sname?.length <= 3 &&
+                  "Event name must contain atleast 4 characters"
+                }
                 value={data.sname}
                 placeholder="Enter workshop title..."
               />
@@ -412,6 +421,12 @@ function Workshop(props) {
                 onChange={handleChange}
                 value={data.sdesc}
                 id="sdesc"
+                error={checkFormData && data?.sdesc?.length <= 5}
+                helperText={
+                  checkFormData && data?.sdesc?.length <= 5
+                    ? "Description must contain atleast 6 characters"
+                    : ""
+                }
                 placeholder="Very brief description of Workshop..."
               />
               <TextField
@@ -419,6 +434,12 @@ function Workshop(props) {
                 required
                 id="sbanner"
                 placeholder="Upload Image"
+                error={checkFormData && !previewSourceOne?.name}
+                helperText={
+                  checkFormData &&
+                  !previewSourceOne?.name &&
+                  "Banner Image is required"
+                }
                 onFocus={(e) => {
                   e.target.type = "file";
                 }}
@@ -431,6 +452,12 @@ function Workshop(props) {
                 label="Date"
                 variant="outlined"
                 placeholder="Choose Date"
+                error={checkFormData && data?.startDate === ""}
+                helperText={
+                  checkFormData &&
+                  !data?.startDate &&
+                  "Event Start Date is required"
+                }
                 onFocus={(e) => {
                   e.target.type = "date";
                 }}
@@ -453,6 +480,17 @@ function Workshop(props) {
                   onBlur={(e) => {
                     e.target.type = "text";
                   }}
+                  error={
+                    (checkFormData && time?.startTime === "") ||
+                    (!timevalidator() && checkFormData)
+                  }
+                  helperText={
+                    checkFormData && !time?.startTime
+                      ? "Event Start Time is required"
+                      : !timevalidator() && checkFormData
+                      ? "Please check your start time and end time"
+                      : ""
+                  }
                   value={time.startTime}
                   onChange={handleChangetime}
                 />
@@ -468,6 +506,17 @@ function Workshop(props) {
                   onBlur={(e) => {
                     e.target.type = "text";
                   }}
+                  error={
+                    (checkFormData && time?.endTime === "") ||
+                    (!timevalidator() && checkFormData)
+                  }
+                  helperText={
+                    checkFormData && !time?.endTime
+                      ? "Event End Time is required"
+                      : !timevalidator() && checkFormData
+                      ? "Please check your start time and end time"
+                      : ""
+                  }
                   value={time.endTime}
                   onChange={handleChangetime}
                 />
@@ -483,6 +532,12 @@ function Workshop(props) {
                 id="meetlink"
                 onChange={handleChange}
                 value={data.meetlink}
+                error={checkFormData && data?.meetlink?.length <= 1}
+                helperText={
+                  checkFormData &&
+                  data?.meetlink?.length <= 1 &&
+                  "Event Meetlink is required"
+                }
               />
 
               {paid !== "free" && (
@@ -533,6 +588,12 @@ function Workshop(props) {
                     onChange={handleChange}
                     value={data.smrp}
                     type="number"
+                    error={checkFormData && data?.smrp === 0}
+                    helperText={
+                      checkFormData &&
+                      data?.smrp === 0 &&
+                      "Price is required as Event is paid"
+                    }
                   />
                   <TextField
                     label="Selling Price"
@@ -543,6 +604,12 @@ function Workshop(props) {
                     id="ssp"
                     placeholder="Eg. 199"
                     onChange={handleChange}
+                    error={checkFormData && data?.ssp === 0}
+                    helperText={
+                      checkFormData &&
+                      data?.ssp === 0 &&
+                      "Price is required as Event is paid"
+                    }
                     value={data.ssp}
                     max={data.smrp}
                   />
