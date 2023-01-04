@@ -108,7 +108,7 @@ function ServiceCreated({
               ? Workshop?.sdesc
               : "Please share with your audience and allow them to be part of this event"}
             <br />
-            {sharescreen ? `${`https://www.anchors.in/w/${slug}`}` : ""}
+            {sharescreen ? `${`https://www.anchors.in/r/${slug}`}` : ""}
           </span>
           {sharescreen ? (
             <div className="workshop_create_model_button">
