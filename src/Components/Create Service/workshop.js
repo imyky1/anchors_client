@@ -10,6 +10,9 @@ import { LoadTwo } from "../Modals/Loading";
 import { TextField, MenuItem } from "@mui/material";
 import EventCreated from "../Modals/eventcreated";
 
+// editor
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 // style asterisk
 export const theme = createTheme({
   components: {
@@ -937,11 +940,17 @@ function Workshop(props) {
           <label htmlFor="ldesc" className="editor_entry_labels">
             Workshop Description <small>*</small>
           </label>
-          <Editor
-            readOnly={false}
-            content={Content}
-            setContent={setContent}
-            className="text_editor"
+          <CKEditor
+            editor={ClassicEditor}
+            data={Content}
+            config={{ placeholder: "Please Describe Your Service Briefly..." }}
+            onReady={(editor) => {
+              console.log("CKEditor5 React Component is ready to use!", editor);
+            }}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              setContent(data);
+            }}
           />
           <div className="create_buttons">
             <button className="submit_button" onClick={handleSubmit}>
