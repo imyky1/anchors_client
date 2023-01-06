@@ -6,6 +6,7 @@ import "./teststyle.css";
 
 import "add-to-calendar-button/assets/css/atcb.css";
 import { FormHelperText } from "@mui/material";
+import PreviewDocument from "../Modals/PreviewDoc";
 
 function Test() {
   const { truecallerlogin, truecallervalue } = useContext(linkedinContext);
@@ -28,8 +29,20 @@ function Test() {
     );
   };
 
+  // popup preview
+  const previewopen = (e) => {
+    setShopPopup(true);
+  };
+  const [showpopup, setShopPopup] = useState(false);
+
   return (
     <div className="test">
+      <PreviewDocument
+        open={showpopup}
+        onClose={() => {
+          setShopPopup(false);
+        }}
+      />
       <button onClick={handleClick}>Login through Truecaller</button>
       <div className="response">
         <h1>{truecallervalue ? "something" : "nothing yet..."}</h1>
@@ -68,6 +81,10 @@ function Test() {
           </span>
         </div>
         <div class="nL aif"></div>
+      </div>
+
+      <div>
+        <button onClick={() => previewopen()}>Preview Document</button>
       </div>
     </div>
   );
