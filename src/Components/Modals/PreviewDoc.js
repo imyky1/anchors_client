@@ -22,7 +22,6 @@ function PreviewDocument({ open, onClose, url }) {
   const [pageNumber, setPageNumber] = useState(1);
 
   function onDocumentLoadSuccess({ numPages }) {
-    setOpenLoading(false);
     setNumPages(numPages);
   }
 
@@ -61,28 +60,25 @@ function PreviewDocument({ open, onClose, url }) {
           onClick={(e) => e.stopPropagation()}
           className="document_preivew_create_model"
         >
-          {!openLoading ? (
-            <>
-              <i
-                class="fa fa-chevron-circle-left prev"
-                aria-hidden="true"
-                onClick={() => changepagedec()}
-              ></i>
-              <i
-                class="fa fa-chevron-circle-right next"
-                aria-hidden="true"
-                onClick={() => changepageinc()}
-              ></i>
-              <div className="top_document_preivew">
-                <i className="fa-solid fa-xmark fa-2x" onClick={onClose}></i>
-                <p>
-                  Page {pageNumber} of {numPages}
-                </p>
-              </div>
-            </>
-          ) : (
-            ""
-          )}
+          <>
+            <i
+              class="fa fa-chevron-circle-left prev"
+              aria-hidden="true"
+              onClick={() => changepagedec()}
+            ></i>
+            <i
+              class="fa fa-chevron-circle-right next"
+              aria-hidden="true"
+              onClick={() => changepageinc()}
+            ></i>
+            <div className="top_document_preivew">
+              <i className="fa-solid fa-xmark fa-2x" onClick={onClose}></i>
+              <p>
+                Page {pageNumber} of {numPages}
+              </p>
+            </div>
+          </>
+
           <Document
             file={{
               url: "https://icseindia.org/document/sample.pdf",
