@@ -20,7 +20,6 @@ function PreviewDocument({ open, onClose, url }) {
   // pdf
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
-  const [openLoading, setOpenLoading] = useState(true);
 
   function onDocumentLoadSuccess({ numPages }) {
     setOpenLoading(false);
@@ -54,11 +53,9 @@ function PreviewDocument({ open, onClose, url }) {
   if (!open) {
     return null;
   }
-  console.log(openLoading);
+
   return (
     <>
-      {openLoading && <LoadOne open={openLoading} />}
-
       <div onClick={onClose} className="document_preivew_model">
         <div
           onClick={(e) => e.stopPropagation()}
