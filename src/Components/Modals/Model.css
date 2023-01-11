@@ -24,6 +24,16 @@
     top: 2vh;
 }
 
+.document_preivew_model_logout_workshop{
+    font-family: 'Roboto', sans-serif;
+        width: 72%;
+        height: 93vh;
+        background-color: #84808082;
+        position: absolute;
+        left: 19vw;
+        top: 2vh;
+}
+
 .logout_model_logout{
     width: 100vw;
     height: 100vh;
@@ -116,6 +126,7 @@
     margin: auto;
     -webkit-animation: rotating 1.5s linear infinite;
 }
+
 
 .loadbar2{
     position: fixed;
@@ -650,6 +661,122 @@
     line-height: 21px;
     width: 98%;
     margin: auto;
+}
+
+
+/**Document Preview Model**/
+.document_preivew_model {
+ width: 100vw;
+    height: 100vh;
+    position: fixed;
+        background-color: #a0a0a039;
+        position: fixed;
+        z-index: 9999;
+        display: grid;
+        place-items: center;
+    place-items: center;
+}
+
+.top_document_preivew{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.document_preivew_create_model{
+     /* display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        background-color: white;
+        width: 530px;
+        height: 300px;
+        /* margin-top: 20vh; */
+        /* margin-left: 17vw; */
+        /*
+        border: 2px solid rgb(110, 108, 108);
+        border-radius: 9px; 
+         */
+         position: relative;
+        
+}
+
+
+
+/* Next & previous buttons */
+
+
+.document_preview_changepage{
+    display: flex;
+    justify-content: space-between;
+
+    position: relative;
+}
+
+.prev{
+        padding: 16px;
+     cursor: pointer;
+     position: absolute;
+    transform: translateY(35vh);
+     z-index: 9999999;
+     /*
+    width: auto;
+    margin-top: -50px;
+    z-index: 999999;
+    position: fixed;
+    color: rgb(59, 50, 50);
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    -webkit-user-select: none; */
+
+}
+
+.next {
+        padding: 16px;
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+            transform: translateY(35vh);
+            z-index: 9999999;
+    /* 
+    display: flex;
+    top: 40%;
+    width: auto;
+    margin-top: -50px;
+    color: rgb(59, 50, 50);
+    font-weight: bold;
+    z-index: 999999999;
+    font-size: 20px;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    -webkit-user-select: none; */
+    border-radius: 3px 0 0 3px;
+}
+
+.loadbar2_preview_popup{
+    position: fixed;
+        top: 7vh;
+        bottom: 2vh;
+        left: 5vw;
+        right: 5vw;
+        z-index: 99;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent !important;
+}
+.loader_home_preview {
+    width: 20%;
+    display: inline-block;
+    margin: auto;
+    -webkit-animation: rotating 1.5s linear infinite;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+    background-color: rgba(99, 96, 96, 0.8);
 }
 
 

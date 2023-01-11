@@ -551,13 +551,13 @@ function Profile(props) {
                   Resources
                 </span>
               )}
-              {workshops?.res?.length === 0 ? (
+              {/* {workshops?.res?.length === 0 ? (
                 ""
               ) : (
                 <span onClick={(e) => handleNavigation(workshop_list, e)}>
                   Workshops
                 </span>
-              )}
+              )} */}
               {feedbacks?.filter((e) => e.status === 1).length === 0 ? (
                 ""
               ) : (
@@ -625,7 +625,7 @@ function Profile(props) {
                 </div>
               </div>
             )}
-            {workshops?.res?.length === 0 ? (
+            {/* {workshops?.res?.length === 0 ? (
               ""
             ) : (
               <div ref={workshop_list} id="workshops">
@@ -670,7 +670,7 @@ function Profile(props) {
                             }_tag_dispalyed`}
                           >
                             {e.isPaid === true ? "Paid" : "Free"}
-                          </span> */}
+                          </span>}
                           </div>
                         </Link>
                       );
@@ -685,7 +685,7 @@ function Profile(props) {
                   )}
                 </div>
               </div>
-            )}
+            )} */}
             {feedbacks?.filter((e) => e.status === 1).length === 0 ? (
               ""
             ) : (
@@ -741,7 +741,7 @@ function Profile(props) {
                           <SwiperSlide key={index}>
                             <div className="comment_box">
                               <section>
-                              <LazyLoadImage
+                                <LazyLoadImage
                                   src={e2?.photo}
                                   alt=""
                                   placeholderSrc={require("../default_user.png")}

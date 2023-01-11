@@ -5,13 +5,18 @@ import "./index.css";
 import { SuperSEO } from "react-super-seo";
 
 const IndexCreator = (props) => {
-  const [toggle, setToggle] = useState(0);
+  //const [toggle, setToggle] = useState(0);
 
   return (
     <>
       <div>
         <h1 className="header01">Create Service</h1>
-        <div className="toggle_bar">
+        <Create
+          progress={props.progress}
+          showpopup={props.showpopup}
+          setShowPopup={props.setShowPopup}
+        />
+        {/* <div className="toggle_bar">
           <div
             className={`button1_togglebar ${toggle === 0 ? "red_border" : ""}`}
             onClick={() => setToggle(0)}
@@ -36,6 +41,7 @@ const IndexCreator = (props) => {
             setShowPopup={props.setShowPopup}
           />
         )}
+     */}
       </div>
       <SuperSEO title="Anchors - Create Services" />
     </>

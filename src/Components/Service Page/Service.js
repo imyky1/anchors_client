@@ -86,17 +86,19 @@ function Service(props) {
       await getallfeedback(id[0]);
       await getallservicesusingid(id[0]);
       localStorage.getItem("isUser") !== "" &&
-        (checkfororder(
+        checkfororder(
           // checks if order is already placed or not
           serviceInfo?._id
         ).then((e) => {
           setAlreadyOrderPlaced(e);
-        }));
+        });
     };
     mixpanel.track("Page Visit", {
       user: UserDetails ? UserDetails : "",
       creator: basicCdata?.slug,
     });
+
+    // reading the doucment
 
     process();
     // eslint-disable-next-line
@@ -641,7 +643,6 @@ function Service(props) {
                 </div>
               )}
             </div>
-
             {feedbacks?.filter((e) => e.status === 1).length === 0 ? (
               ""
             ) : (
@@ -853,7 +854,9 @@ function Service(props) {
               <button
                 className="download_service"
                 onClick={() => {
-                  !alreadyOrderPlaced ? download_service() : navigate(`/?utm_source=service_page`);
+                  !alreadyOrderPlaced
+                    ? download_service()
+                    : navigate(`/?utm_source=service_page`);
                 }}
                 style={
                   paymentProcessing

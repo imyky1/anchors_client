@@ -286,3 +286,11 @@
 .tag-container_workshop > div {
     margin-right: 10px;
 }
+
+
+/**EDITOR*/
+
+.ck.ck-editor__main .ck-content {
+  min-height: 120px;
+  max-height: 300px;
+}

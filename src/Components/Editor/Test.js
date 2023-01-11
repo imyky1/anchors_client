@@ -2,17 +2,24 @@ import React, { useContext, useEffect, useState } from "react";
 import { linkedinContext } from "../../Context/LinkedinState";
 import { atcb_action, atcb_init } from "add-to-calendar-button";
 import { InlineShareButtons } from "sharethis-reactjs";
+import { host } from "../../config/config";
+
 import "./teststyle.css";
 
 import "add-to-calendar-button/assets/css/atcb.css";
 import { FormHelperText } from "@mui/material";
+import PreviewDocument from "../Modals/PreviewDoc";
+import Canvas from "./Canvas";
 
 function Test() {
   const { truecallerlogin, truecallervalue } = useContext(linkedinContext);
-
+  const [url, setUrl] = useState("");
+  const [title, setTitle] = useState("");
+  const [imageLoading, setImageLoading] = useState(0);
   const handleClick = async () => {
     await truecallerlogin();
   };
+
   const handlewhatsappshare = async () => {
     window.open(
       `https://api.whatsapp.com/send?text=Checkout this Important resource -- ** at https://www.anchors.in/w/workshopname`,
@@ -21,6 +28,26 @@ function Test() {
       "height=50"
     );
   };
+  const generateImage = async () => {
+    if (title.length < 5) {
+      alert("title small than 5 bruh");
+    } else {
+      setImageLoading(1);
+      const response = await fetch(`${host}/ai/generateImage`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          title: title,
+        },
+      });
+      const json = await response.json();
+      console.log(json);
+      setUrl(json.img);
+      setImageLoading(0);
+    }
+  };
 
   const handlelinkedInshare = async () => {
     window.open(
@@ -28,8 +55,19 @@ function Test() {
     );
   };
 
+  // popup preview
+  const previewopen = (e) => {
+    setShopPopup(true);
+  };
+  const [showpopup, setShopPopup] = useState(false);
   return (
     <div className="test">
+      <PreviewDocument
+        open={showpopup}
+        onClose={() => {
+          setShopPopup(false);
+        }}
+      />
       <button onClick={handleClick}>Login through Truecaller</button>
       <div className="response">
         <h1>{truecallervalue ? "something" : "nothing yet..."}</h1>
@@ -51,6 +89,49 @@ function Test() {
           <i onClick={handlewhatsappshare} class="fab fa-whatsapp"></i>
         </div>
       </div>
+      <div class="TN bzz aHS-YH">
+        <div class="qj qr"></div>
+        <div class="aio UKr6le">
+          <span class="nU false">
+            <a
+              href="https://meet.google.com/new?hs=180&amp;authuser=0"
+              target="_top"
+              class="J-Ke n0"
+              title="Start a meeting"
+              aria-label="Start a meeting"
+              draggable="false"
+            >
+              Start a meeting
+            </a>
+          </span>
+        </div>
+        <div className="nL aif"></div>
+      </div>
+
+      <div>
+        <button onClick={() => previewopen()}>Preview Document</button>
+      </div>
+
+      {/* <div className="aiImage">
+        <div>
+          <input type="text" onChange={(e) => setTitle(e.target.value)}></input>
+        </div>
+        <button onClick={() => generateImage()}>Generate Image</button>
+        <h1>{imageLoading === 1 ? "LOADING ......" : ""}</h1>
+        {/** {imageLoading === 1
+          ? ""
+          : url.map((e, i) => {
+              return <img src={e.url} alt="will come !!!" id={i} />;
+            })}} 
+        <img src={url} alt="will come !!!" />;
+      </div> */}
+      <Canvas
+        textToShow="This is testing sample text"
+        width="1200"
+        height="450"
+        imgBackground="https://www.anchors.in:5000/api/file/1670005634078--himanshu.bf15583cd698b88970c3.jpg"
+        imgBack="../backgroundimg.png"
+      />
     </div>
   );
 }

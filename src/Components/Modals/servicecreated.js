@@ -19,7 +19,6 @@ function ServiceCreated({
   const { checkRequest } = useContext(feedbackcontext);
   const [request, setRequest] = useState(true); // request true means that request is not present in the database and false means that data is present
   const [sharescreen, setShareScreen] = useState(false);
-  console.log(Workshop);
   const handlecopyshare = () => {
     navigator.clipboard.writeText(
       `Checkout this live event -- *${Workshop?.sname}${" , "}

@@ -11,6 +11,10 @@ import { TextField, MenuItem, ThemeProvider, createTheme } from "@mui/material";
 import EventCreated from "../Modals/eventcreated";
 import ServiceCreated from "../Modals/servicecreated";
 
+// editor
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 export const theme = createTheme({
   components: {
     MuiFormLabel: {
@@ -394,12 +398,29 @@ function Create(props) {
           <label htmlFor="ldesc" className="editor_entry_labels">
             Detailed Service Description <small>*</small>
           </label>
-          <Editor
-            readOnly={false}
-            content={Content}
-            setContent={setContent}
-            className="text_editor"
-            placeholder="Please Describe your Service briefly..."
+          <CKEditor
+            editor={ClassicEditor}
+            data={Content}
+            config={{
+              placeholder: "Please Describe Your Service Briefly...",
+              toolbar: [
+                "|",
+                "bold",
+                "italic",
+                "blockQuote",
+                "link",
+                "numberedList",
+                "bulletedList",
+                "imageUpload",
+                "|",
+                "undo",
+                "redo",
+              ],
+            }}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              setContent(data);
+            }}
           />
           <div className="create_buttons">
             <button className="submit_button" onClick={onSubmit}>
