@@ -14,11 +14,39 @@ class Canvas extends Component {
     const ctx = this.canvas.current.getContext("2d");
     const img = this.image.current;
     const backimg = this.imageback.current;
-    backimg.onload = () => {
-      ctx.drawImage(backimg, 0, 0);
+
+    backimg.onload = async () => {
+      await ctx.drawImage(backimg, 0, 0);
     };
-    ctx.fill();
-    const wrapText = function (ctx, text, x, y, maxWidth, lineHeight) {
+    img.onload = async () => {
+      ctx.font = "600 40px Courier";
+      ctx.fillStyle = "White";
+      let lenghte = this.props.textToShow.length;
+      //ctx.fillText(this.props.textToShow, 10, 100);
+      let texttowrite = this.props.textToShow;
+      if (lenghte >= 109) {
+        texttowrite = texttowrite.slice(0, 108);
+      }
+      let wrappedText = await wrapText(
+        ctx,
+        texttowrite,
+        60,
+        lenghte <= 27 ? 200 : lenghte <= 54 ? 170 : lenghte <= 81 ? 160 : 135,
+        700,
+        50
+      );
+      wrappedText.forEach(async (item) => {
+        await ctx.fillText(item[0], item[1], item[2]);
+      });
+      await ctx.beginPath();
+      await ctx.arc(950, 200, 130, 0, 2 * Math.PI);
+      await ctx.closePath();
+      await ctx.clip();
+      await ctx.drawImage(img, 817, 70, 270, 270);
+      await ctx.restore();
+    };
+
+    const wrapText = async (ctx, text, x, y, maxWidth, lineHeight) => {
       // First, start by splitting all of our text into words, but splitting it into an array split by spaces
       let words = text.split(" ");
       let line = ""; // This will store the text of the current line
@@ -29,7 +57,7 @@ class Canvas extends Component {
       for (var n = 0; n < words.length; n++) {
         // Create a test line, and measure it..
         testLine += `${words[n]} `;
-        let metrics = ctx.measureText(testLine);
+        let metrics = await ctx.measureText(testLine);
         let testWidth = metrics.width;
         // If the width of this test line is more than the max width
         if (testWidth > maxWidth && n > 0) {
@@ -51,35 +79,6 @@ class Canvas extends Component {
       }
       // Return the line array
       return lineArray;
-    };
-
-    img.onload = () => {
-      ctx.font = "600 40px Courier";
-      ctx.fillStyle = "White";
-      let lenghte = this.props.textToShow.length;
-      //ctx.fillText(this.props.textToShow, 10, 100);
-      let texttowrite = this.props.textToShow;
-      if (lenghte >= 109) {
-        texttowrite = texttowrite.slice(0, 108);
-      }
-      let wrappedText = wrapText(
-        ctx,
-        texttowrite,
-        60,
-        lenghte <= 27 ? 200 : lenghte <= 54 ? 170 : lenghte <= 81 ? 160 : 135,
-        700,
-        50
-      );
-      wrappedText.forEach(function (item) {
-        ctx.fillText(item[0], item[1], item[2]);
-      });
-      ctx.beginPath();
-      ctx.arc(950, 200, 130, 0, 2 * Math.PI);
-      ctx.closePath();
-      ctx.clip();
-      ctx.drawImage(img, 817, 70, 270, 270);
-      ctx.restore();
-      ctx.stroke();
     };
   }
 
