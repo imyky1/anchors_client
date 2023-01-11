@@ -319,8 +319,10 @@ const Dashboarduser = () => {
         </div>
         <div className="right-userdash-wrapper">
           <div className="unlocked_wrapper-userdash">
-            <h4>Unlocked Items ( {totaluserorders} )</h4>
-            <div className="toggle_document-userdash">
+            <h4>
+              Unlocked Items ( {totaluserorders - alluserWorkshops.length} )
+            </h4>
+            {/* <div className="toggle_document-userdash">
               <button
                 onClick={() => setShowevents(false)}
                 className={`userdashboard-buttons ${
@@ -337,7 +339,7 @@ const Dashboarduser = () => {
               >
                 Events
               </button>
-            </div>
+            </div> */}
           </div>
           {showevents ? (
             <div className="document-bar-userdash">

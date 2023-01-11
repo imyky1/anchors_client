@@ -30,8 +30,17 @@ function Dashboard() {
   } = useContext(ServiceContext);
   const { getAllCreatorInfo, basicNav } = useContext(creatorContext);
   const navigate = useNavigate();
-  const [dateRangefrom, setDateRangefrom] = useState("2022-11-20");
-  const [dateRangeto, setDateRangeto] = useState("2022-11-30");
+  const getfromdate = () => {
+    let dateenddef = new Date();
+    dateenddef.setDate(dateenddef.getDate() - 10);
+    dateenddef = dateenddef.toISOString().slice(0, 10);
+    return dateenddef;
+  };
+  const [dateRangefrom, setDateRangefrom] = useState(getfromdate());
+  const [dateRangeto, setDateRangeto] = useState(
+    new Date().toISOString().slice(0, 10)
+  );
+
   const [subscumul, setsubscumul] = useState({
     date: [],
     value: [],
@@ -75,11 +84,16 @@ function Dashboard() {
         authorization: "Basic MDg3MmMzNTAyODBiMTdiNzk0YjVjOWM5NTRjZTAwZjc6",
       },
     };
+    const datestartdef = new Date().toISOString().slice(0, 10);
+    let dateenddef = new Date();
+    dateenddef.setDate(dateenddef.getDate() - 10);
+    dateenddef = dateenddef.toISOString().slice(0, 10);
+
     let res = await fetch(
       `https://mixpanel.com/api/2.0/segmentation?project_id=2804309&event=Page%20Visit&from_date=${
-        dateRangefrom ? dateRangefrom : "2022-11-20"
+        dateRangefrom ? dateRangefrom : datestartdef
       }&to_date=${
-        dateRangeto ? dateRangeto : "2022-11-30"
+        dateRangeto ? dateRangeto : dateenddef
       }&where=properties%5B%22%24current_url%22%5D%20in%20%5B%22https%3A%2F%2Fwww.anchors.in%2Fc%2F${
         basicNav.slug
       }%22%5D&type=unique&format=csv`,
