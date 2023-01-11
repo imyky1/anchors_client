@@ -37,6 +37,7 @@ function Creators_login() {
         <div className="logo">
           <img src={require("../../logo.png")} alt="Logo" />
           <span>anchors</span>
+          <p className="beta_tagname">beta</p>
         </div></Link>
         {/* <a
           href="https://forms.gle/BSX2K1ty1bQF7J3t8"

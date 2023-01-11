@@ -27,6 +27,7 @@
   width: max-content;
   margin-top: 2vh;
   margin-left: 4vw;
+  -webkit-user-select: none;
 }
 
 .logo img {
@@ -39,6 +40,17 @@
   font-family: "Roboto", sans-serif !important;
   font-size: 2rem;
   font-weight: 400;
+}
+
+.beta_tagname{
+  background-color: black;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 5px;
+    margin-left: 9px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 4px;
 }
 
 .user_login {

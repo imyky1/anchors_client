@@ -93,6 +93,7 @@ function Main() {
           <div className="logo">
             <LazyLoadImage effect="blur" src={require("../logo.png")} alt="Logo" />
             <span>anchors</span>
+            <p className="beta_tagname">beta</p>
           </div>
           <Link
             to={

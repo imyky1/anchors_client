@@ -325,6 +325,7 @@ function Profile(props) {
           <div className="logo">
             <img src={require("../logo.png")} alt="Logo" />
             <span>anchors</span>
+            <p className="beta_tagname">beta</p>
           </div>
           {localStorage.getItem("isUser") === "" ? (
             ""
