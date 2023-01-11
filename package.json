@@ -16,6 +16,7 @@
     "add-to-calendar-button": "^1.18.8",
     "add-to-calendar-buttons": "^1.0.0",
     "apexcharts": "^3.36.3",
+    "canvas": "^2.11.0",
     "chart.js": "^3.9.1",
     "file-saver": "^2.0.5",
     "hamburger-react": "^2.5.0",

@@ -943,9 +943,21 @@ function Workshop(props) {
           <CKEditor
             editor={ClassicEditor}
             data={Content}
-            config={{ placeholder: "Please Describe Your Service Briefly..." }}
-            onReady={(editor) => {
-              console.log("CKEditor5 React Component is ready to use!", editor);
+            config={{
+              placeholder: "Please Describe Your Workshop Briefly...",
+              toolbar: [
+                "|",
+                "bold",
+                "italic",
+                "blockQuote",
+                "link",
+                "numberedList",
+                "bulletedList",
+                "imageUpload",
+                "|",
+                "undo",
+                "redo",
+              ],
             }}
             onChange={(event, editor) => {
               const data = editor.getData();

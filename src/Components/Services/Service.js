@@ -17,7 +17,7 @@ function Service(props) {
     <>
       <div>
         <h1 className="header01">Service details</h1>
-        <div className="toggle_bar">
+        {/* <div className="toggle_bar">
           <div
             className={`button1_togglebar ${toggle === 0 ? "red_border" : ""}`}
             onClick={() => setToggle(0)}
@@ -30,12 +30,13 @@ function Service(props) {
           >
             Workshop/Event
           </div>
-        </div>
-        {toggle === 0 ? (
+        </div> */}
+        {/* {toggle === 0 ? (
           <Document progress={props.progress} />
         ) : (
           <Workshop progress={props.progress} />
-        )}
+        )} */}
+        <Document progress={props.progress} />
       </div>
       <SuperSEO title="Anchors - Services" />
     </>
