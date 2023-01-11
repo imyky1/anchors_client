@@ -44,6 +44,7 @@ function Service(props) {
   const [paymentProcessing, setPaymentProcessing] = useState(false);
 
   const [alreadyOrderPlaced, setAlreadyOrderPlaced] = useState(false);
+
   const {
     serviceInfo,
     getserviceinfo,
@@ -88,7 +89,7 @@ function Service(props) {
       localStorage.getItem("isUser") !== "" &&
         checkfororder(
           // checks if order is already placed or not
-          serviceInfo?._id
+          id[1]
         ).then((e) => {
           setAlreadyOrderPlaced(e);
         });
@@ -144,18 +145,16 @@ function Service(props) {
   }, [localStorage.getItem("jwtToken")]);
 
   //Scroll to top automatically
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   // Social proof popup ---------------------------------------
-
   useEffect(() => {
     setInterval(() => {
       setproofType((Math.floor(Math.random() * 3) + 0).toString());
       setOpenModelProof(true);
-    }, 8500);
+    },  8500);
   }, []);
 
   const dox1 = document.getElementById("unsubscribe");
@@ -193,8 +192,9 @@ function Service(props) {
           key: key,
           amount: order.amount,
           currency: order.currency,
-          name: "Anchors.in",
+          name: "anchors.in",
           description: `Payment for Buying - ${serviceInfo?.sname}`,
+          image:require("../logo.png"),
           order_id: order.id,
           handler: async function (response) {
             const {
