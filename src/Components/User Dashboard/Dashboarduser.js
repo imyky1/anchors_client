@@ -56,44 +56,41 @@ const Dashboarduser = () => {
 
   const handledocumentdownload = (surl, slug, sname) => {
     const ext = surl?.split(".").at(-1);
-    if (ext === "pdf") {
-      downloadFile("pdf", surl, sname);
-      /*
-      mixpanel.track("Downloaded pdf", {
-        service: slug,
-        user: UserDetails ? UserDetails : "",
-        creator: basicCdata?.slug,
-      });
-      */
-    } else if (ext === "mp4") {
-      downloadFile("mp4", surl, sname);
-      /*
-      mixpanel.track("Downloaded pdf", {
-        service: slug,
-        user: UserDetails ? UserDetails : "",
-        creator: basicCdata?.slug,
-      });
-      */
-    } else {
-      let link = document.createElement("a");
-      link.href = surl;
-      link.target = "_blank";
-      link.dispatchEvent(new MouseEvent("click"));
-    }
-    console.log("wow");
+    //if (ext === "pdf") {
+    //  downloadFile("pdf", surl, sname);
+    //  /*
+    //  mixpanel.track("Downloaded pdf", {
+    //    service: slug,
+    //    user: UserDetails ? UserDetails : "",
+    //    creator: basicCdata?.slug,
+    //  });
+    //  */
+    //} else if (ext === "mp4") {
+    //  downloadFile("mp4", surl, sname);
+    //  /*
+    //  mixpanel.track("Downloaded pdf", {
+    //    service: slug,
+    //    user: UserDetails ? UserDetails : "",
+    //    creator: basicCdata?.slug,
+    //  });
+    //  */
+    //} else {
+    let link = document.createElement("a");
+    link.href = surl;
+    //link.target = "_blank";
+    link.download = sname
+    link.dispatchEvent(new MouseEvent("click"));
+    //}
+    //console.log("wow");
     toast.info(
       "Check the Downloads in few seconds, if file not found raise an issue at ravi@anchors.in",
       {
         position: "top-center",
       }
     );
-    /*
-    mixpanel.track("Downloaded Service", {
+    mixpanel.track("Re Downloaded pdf from user dashboard ", {
       service: slug,
-      user: UserDetails ? UserDetails : "",
-      creator: basicCdata?.slug,
     });
-    */
   };
 
   const handletiming = (startDate, time) => {

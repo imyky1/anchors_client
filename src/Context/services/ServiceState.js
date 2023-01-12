@@ -177,7 +177,7 @@ const ServiceState = (props) => {
     }
   };
 
-  //5. Upload files to url form
+  //5. Upload files to url form and save it in the server itself
   const Uploadfile = async (data) => {
     try {
       const response = await fetch(`${host}/api/file/upload`, {
@@ -194,7 +194,35 @@ const ServiceState = (props) => {
   //5. Upload video files to url form on aws s3
   const UploadVideo = async (data) => {
     try {
-      const response = await fetch(`${host}/api/file/upload/videos`, {
+      const response = await fetch(`${host}/api/file/upload/s3/videos`, {
+        method: "POST",
+        body: data,
+      });
+      const json = await response.json();
+      return json;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  //5. Upload banners to url form on aws s3
+  const UploadBanners = async (data) => {
+    try {
+      const response = await fetch(`${host}/api/file/upload/s3/banners`, {
+        method: "POST",
+        body: data,
+      });
+      const json = await response.json();
+      return json;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  //5. Upload docs  to url form on aws s3
+  const UploadDocuments = async (data) => {
+    try {
+      const response = await fetch(`${host}/api/file/upload/s3/docs`, {
         method: "POST",
         body: data,
       });
@@ -545,6 +573,8 @@ const ServiceState = (props) => {
         deleteService,
         Uploadfile,
         UploadVideo,
+        UploadDocuments,
+        UploadBanners,
         getserviceinfo,
         getslugcount,
         getallsubscriber,

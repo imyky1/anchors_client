@@ -15,6 +15,7 @@ import ServiceCreated from "../Modals/servicecreated";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
+// Theme for MUI --------------------------------------------------------------------
 export const theme = createTheme({
   components: {
     MuiFormLabel: {
@@ -33,7 +34,7 @@ export const theme = createTheme({
 function Create(props) {
   const context = useContext(ServiceContext);
   const navigate = useNavigate();
-  const { slugCount, getslugcount, addservice, Uploadfile, checkCpyUrl } =
+  const { slugCount, getslugcount, addservice, Uploadfile,UploadDocuments,UploadBanners, checkCpyUrl } =
     context;
   const [openLoading, setOpenLoading] = useState(false);
   const [previewSourceOne, setPreviewSourceOne] = useState(""); // saves the data of file selected in the form
@@ -53,7 +54,6 @@ function Create(props) {
   const [servData, setservData] = useState([]);
 
   // genrating copy url string
-
   const generateCopyURL = async () => {
     var result = "";
     var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -71,7 +71,6 @@ function Create(props) {
   };
 
   /// TAGS section ------------------------------------------------------------------------
-
   const [tags, setTags] = useState(["Download"]);
 
   const handleKeyDown = (e) => {
@@ -86,8 +85,8 @@ function Create(props) {
     setTags(tags.filter((e, i) => i !== index));
   };
 
-  // use effect to genrate slug and copy url-----------------------------------------------
 
+  // use effect to genrate slug and copy url-----------------------------------------------------------------
   useEffect(() => {
     generateCopyURL();
     let slug = data.sname.split(" ").join("-");
@@ -97,8 +96,7 @@ function Create(props) {
     // eslint-disable-next-line
   }, [data.sname]);
 
-  // uploading file using file input -------------------------------------------
-
+  // uploading file using file input --------------------------------------------------------------------------
   const handleChangeFileOne = (e) => {
     const file = e.target.files[0];
     setPreviewSourceOne(file);
@@ -123,18 +121,18 @@ function Create(props) {
 
   // Auto resize of textarea    -------------------------------------------
 
-  const textarea2 = document.querySelector("#sdesc");
-  textarea2?.addEventListener("input", autoResize, false);
-
-  function autoResize() {
-    this.style.height = "auto";
-    this.style.height = this.scrollHeight + "px";
-  }
+  ///const textarea2 = document.querySelector("#sdesc");
+  ///textarea2?.addEventListener("input", autoResize, false);
+///
+  ///function autoResize() {
+  ///  this.style.height = "auto";
+  ///  this.style.height = this.scrollHeight + "px";
+  ///}
 
   // Submit of form create the service ------------------------------------------------------------
   const onSubmit = async () => {
-    setOpenLoading(true);
-    setCheckFormData(true);
+    setOpenLoading(true);   // true on loader 
+    setCheckFormData(true);   /// checking error in mui
     props.progress(0);
     if (
       data.sname.length > 3 &&
@@ -145,8 +143,8 @@ function Create(props) {
       if (Content.length > 10) {
         setCheckFormData(false);
         try {
-          var banner = await Uploadfile(data1);
-          var doc = await Uploadfile(data2);
+          var banner = await UploadBanners(data1);    /// uplaoding banner and files on s3
+          var doc = await UploadDocuments(data2);
           if (banner.success && doc.success) {
             props.progress(75);
             const json = await addservice(
@@ -157,8 +155,8 @@ function Create(props) {
                 ? data.slug.toLowerCase()
                 : data.slug.toLowerCase().concat("--", `${slugCount + 1}`),
               copyURL,
-              banner.url,
-              doc.url,
+              banner?.result?.Location,
+              doc?.result?.Location,
               tags,
               0,
               paid === "free" ? false : true,
@@ -199,7 +197,7 @@ function Create(props) {
       }
     } else {
       setOpenLoading(false);
-      toast.info("Mandatory fields cannot be empty or short in size", {
+      toast.info("Fill all the required inputs", {
         position: "top-center",
         autoClose: 3000,
       });

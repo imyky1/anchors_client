@@ -30,6 +30,7 @@
   height: 323px;
   border: none;
   border-radius: 10px;
+  pointer-events: none;
 }
 
 .service_section_details {

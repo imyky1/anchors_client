@@ -989,6 +989,16 @@
     }
 
 
+    .loadbar2{
+        top:unset;
+        left: unset;
+        bottom: unset;
+        right: unset;
+        width: 100vw;
+        height: 100vh;
+    }
+
+
 
 }
 

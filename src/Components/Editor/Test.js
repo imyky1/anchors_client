@@ -132,6 +132,8 @@ function Test() {
         imgBackground="https://www.anchors.in:5000/api/file/1670005634078--himanshu.bf15583cd698b88970c3.jpg"
         imgBack="../backgroundimg.png"
       />
+
+      <a href="https://anchors-files.s3.ap-south-1.amazonaws.com/docs/1673505520670-Result_41621037.pdf" download="GFG">Click Me</a>
     </div>
   );
 }

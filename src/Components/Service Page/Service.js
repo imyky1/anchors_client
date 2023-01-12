@@ -26,6 +26,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { LoadOne, LoadTwo } from "../Modals/Loading";
 
 function Service(props) {
   const { slug } = useParams();
@@ -42,6 +43,7 @@ function Service(props) {
   const [FBserviceType, setFBserviceType] = useState(); // type of service in feedback
   const [openModelDownload, setOpenModelDownload] = useState(false);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [loaderLogin, setLoaderLogin] = useState(false);
 
   const [alreadyOrderPlaced, setAlreadyOrderPlaced] = useState(false);
 
@@ -107,6 +109,7 @@ function Service(props) {
 
   // responsible for feedback popup
   useEffect(() => {
+    localStorage.getItem("jwtToken") && setLoaderLogin(true)
     if (
       localStorage.getItem("jwtToken") &&
       localStorage.getItem("isUser") === "true"
@@ -122,6 +125,9 @@ function Service(props) {
           setUserDetails(e?.user?.email);
         }
       });
+      setInterval(() => {
+        setLoaderLogin(false)
+      }, 1500);
       checkFBlatest().then((fb) => {
         if (fb.success) {
           if (fb.res.serviceID) {
@@ -142,6 +148,7 @@ function Service(props) {
         }
       });
     }
+    //setLoaderLogin(false)
   }, [localStorage.getItem("jwtToken")]);
 
   //Scroll to top automatically
@@ -216,28 +223,29 @@ function Service(props) {
             );
             if (success) {
               setOpenModelDownload(true);
-              if (ext === "pdf") {
-                downloadFile("pdf").then(() => {});
-                mixpanel.track("Downloaded paid pdf", {
-                  service: slug,
-                  user: UserDetails ? UserDetails : "",
-                  amount: serviceInfo?.ssp,
-                  creator: basicCdata?.slug,
-                });
-              } else if (ext === "mp4") {
-                downloadFile("mp4").then(() => {});
-                mixpanel.track("Downloaded paid pdf", {
-                  service: slug,
-                  user: UserDetails ? UserDetails : "",
-                  amount: serviceInfo?.ssp,
-                  creator: basicCdata?.slug,
-                });
-              } else {
+              //if (ext === "pdf") {
+              //  downloadFile("pdf").then(() => {});
+              //  mixpanel.track("Downloaded paid pdf", {
+              //    service: slug,
+              //    user: UserDetails ? UserDetails : "",
+              //    amount: serviceInfo?.ssp,
+              //    creator: basicCdata?.slug,
+              //  });
+              //} else if (ext === "mp4") {
+              //  downloadFile("mp4").then(() => {});
+              //  mixpanel.track("Downloaded paid pdf", {
+              //    service: slug,
+              //    user: UserDetails ? UserDetails : "",
+              //    amount: serviceInfo?.ssp,
+              //    creator: basicCdata?.slug,
+              //  });
+              //} else {
                 let link = document.createElement("a");
                 link.href = serviceInfo.surl;
-                link.target = "_blank";
+                //link.target = "_blank";
+                link.download = serviceInfo?.sname
                 link.dispatchEvent(new MouseEvent("click"));
-              }
+              //}
               toast.info(
                 "Check the Downloads in few seconds, if file not found raise an issue at ravi@anchors.in",
                 {
@@ -304,7 +312,7 @@ function Service(props) {
     oReq.open("GET", URLToPDF, true);
     oReq.setRequestHeader(
       "Access-Control-Allow-Origin",
-      "http://www.anchors.in"
+      "https://www.anchors.in"
     );
     oReq.setRequestHeader("Access-Control-Allow-Methods", "GET");
 
@@ -321,36 +329,37 @@ function Service(props) {
   };
 
   const download_service = async () => {
-    const ext = serviceInfo.surl?.split(".").at(-1);
+    //const ext = serviceInfo.surl?.split(".").at(-1);
     if (localStorage.getItem("jwtToken")) {
       if (serviceInfo?.isPaid) {
         checkfororder(
           serviceInfo?._id,
           localStorage.getItem("isUser") === "true" ? "user" : "creator"
-        ).then((e) => {
+        ).then((e) => {    // user already paid for the order
           if (e) {
-            if (ext === "pdf") {
-              downloadFile("pdf");
-              mixpanel.track("Downloaded paid pdf again", {
-                service: slug,
-                user: UserDetails ? UserDetails : "",
-                amount: serviceInfo?.ssp,
-                creator: basicCdata?.slug,
-              });
-            } else if (ext === "mp4") {
-              downloadFile("mp4");
-              mixpanel.track("Downloaded paid pdf again", {
-                service: slug,
-                user: UserDetails ? UserDetails : "",
-                amount: serviceInfo?.ssp,
-                creator: basicCdata?.slug,
-              });
-            } else {
+            //if (ext === "pdf") {
+            //  downloadFile("pdf");
+            //  mixpanel.track("Downloaded paid pdf again", {
+            //    service: slug,
+            //    user: UserDetails ? UserDetails : "",
+            //    amount: serviceInfo?.ssp,
+            //    creator: basicCdata?.slug,
+            //  });
+            //} else if (ext === "mp4") {
+            //  downloadFile("mp4");
+            //  mixpanel.track("Downloaded paid pdf again", {
+            //    service: slug,
+            //    user: UserDetails ? UserDetails : "",
+            //    amount: serviceInfo?.ssp,
+            //    creator: basicCdata?.slug,
+            //  });
+            //} else {
               let link = document.createElement("a");
               link.href = serviceInfo.surl;
-              link.target = "_blank";
+              //link.target = "_blank";
+              link.download = serviceInfo?.sname
               link.dispatchEvent(new MouseEvent("click"));
-            }
+            //}
             setOpenModelDownload(true);
             toast.info(
               "Check the Downloads in few seconds, if file not found raise an issue at ravi@anchors.in",
@@ -381,33 +390,34 @@ function Service(props) {
         );
         if (success) {
           setOpenModelDownload(true);
-          if (ext === "pdf") {
-            downloadFile("pdf");
-            mixpanel.track("Downloaded pdf", {
-              service: slug,
-              user: UserDetails ? UserDetails : "",
-              creator: basicCdata?.slug,
-            });
-          } else if (ext === "mp4") {
-            downloadFile("mp4");
-            mixpanel.track("Downloaded pdf", {
-              service: slug,
-              user: UserDetails ? UserDetails : "",
-              creator: basicCdata?.slug,
-            });
-          } else {
+          //if (ext === "pdf") {
+          //  downloadFile("pdf");
+          //  mixpanel.track("Downloaded pdf", {
+          //    service: slug,
+          //    user: UserDetails ? UserDetails : "",
+          //    creator: basicCdata?.slug,
+          //  });
+          //} else if (ext === "mp4") {
+          //  downloadFile("mp4");
+          //  mixpanel.track("Downloaded pdf", {
+          //    service: slug,
+          //    user: UserDetails ? UserDetails : "",
+          //    creator: basicCdata?.slug,
+          //  });
+          //} else {
             let link = document.createElement("a");
             link.href = serviceInfo.surl;
-            link.target = "_blank";
+            link.download = serviceInfo?.sname
+            //link.target = "_blank";
             link.dispatchEvent(new MouseEvent("click"));
-          }
+          //}
           toast.info(
             "Check the Downloads in few seconds, if file not found raise an issue at ravi@anchors.in",
             {
               position: "top-center",
             }
           );
-          mixpanel.track("Downloaded Service", {
+          mixpanel.track("Downloaded Service and pdf", {
             service: slug,
             user: UserDetails ? UserDetails : "",
             creator: basicCdata?.slug,
@@ -476,6 +486,7 @@ function Service(props) {
   return (
     <>
       <div className="service_section">
+        {loaderLogin && <LoadTwo open={loaderLogin}/>}
         <Feedback_Modal
           open={openModelFB}
           onClose={() => {
