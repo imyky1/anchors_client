@@ -4,6 +4,11 @@ import ServiceContext from "../../Context/services/serviceContext";
 import ReactEditor from "../Editor/Editor";
 import { LoadOne, LoadTwo } from "../Modals/Loading";
 import { useNavigate, useParams } from "react-router-dom";
+import { MenuItem, TextField } from "@mui/material";
+
+// editor
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 function Edit(props) {
   const { slug } = useParams();
@@ -13,6 +18,8 @@ function Edit(props) {
   const [openLoading, setOpenLoading] = useState(false);
   const [openLoadingOne, setOpenLoadingOne] = useState(false);
   const [check, setcheck] = useState(true);
+  const [checkFormData, setCheckFormData] = useState(false); // checking if all the data is present or not in the form
+const [paid, setPaid] = useState("free"); // tracks if the service is free or paid so that allow participants has limited options
 
   const [data, setdata] = useState({
     sname: "",
@@ -194,6 +201,7 @@ function Edit(props) {
         <h1>Edit Service - {serviceInfo?.sname}</h1>
         <form className="entries" onSubmit={handleSubmit}>
           <div>
+          
             <div className="left_entry_box">
               <label htmlFor="sname" className="entry_labels">
                 Service Name <small>*</small>
