@@ -5,6 +5,10 @@ import ReactEditor from "../Editor/Editor";
 import { LoadOne, LoadTwo } from "../Modals/Loading";
 import { useNavigate, useParams } from "react-router-dom";
 
+// editor
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 function Edit(props) {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -318,11 +322,29 @@ function Edit(props) {
         <label htmlFor="ldesc" className="editor_entry_labels">
           Long Description <small>*</small>
         </label>
-        <ReactEditor
-          readOnly={false}
-          content={Content}
-          setContent={setContent}
-          className="text_editor"
+        <CKEditor
+          editor={ClassicEditor}
+          data={Content ? Content : ""}
+          config={{
+            placeholder: "Please Describe Your Service Briefly...",
+            toolbar: [
+              "|",
+              "bold",
+              "italic",
+              "blockQuote",
+              "link",
+              "numberedList",
+              "bulletedList",
+              "imageUpload",
+              "|",
+              "undo",
+              "redo",
+            ],
+          }}
+          onChange={(event, editor) => {
+            const data = editor.getData();
+            setContent(data);
+          }}
         />
         <div className="create_buttons">
           <button className="submit_button" onClick={handleSubmit}>
