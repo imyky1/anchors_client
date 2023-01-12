@@ -16,9 +16,8 @@ class Canvas extends Component {
     const backimg = this.imageback.current;
 
     backimg.onload = async () => {
+      console.log("backloaded");
       await ctx.drawImage(backimg, 0, 0);
-    };
-    img.onload = async () => {
       ctx.font = "600 40px Courier";
       ctx.fillStyle = "White";
       let lenghte = this.props.textToShow.length;
@@ -38,6 +37,11 @@ class Canvas extends Component {
       wrappedText.forEach(async (item) => {
         await ctx.fillText(item[0], item[1], item[2]);
       });
+    };
+
+    img.onload = async () => {
+      console.log("img loaded");
+
       await ctx.beginPath();
       await ctx.arc(950, 200, 130, 0, 2 * Math.PI);
       await ctx.closePath();
@@ -83,9 +87,7 @@ class Canvas extends Component {
   }
 
   render() {
-    console.log(this.imageback.current);
     const { textToShow, width, height, imgBackground, imgback } = this.props;
-    console.log(textToShow.length);
 
     const downloadCanvasAsImage = () => {
       let canvasImage = this.canvas.current.toDataURL("image/png");
@@ -109,22 +111,22 @@ class Canvas extends Component {
       <>
         <div className="canvas_image" style={{ display: "none" }}>
           <img
-            crossorigin="anonymous"
-            src={imgBackground}
-            alt=""
-            ref={this.image}
-          />
-          <img
-            crossorigin="anonymous"
+            crossOrigin="anonymous"
             src={backgroundimg}
             alt=""
             ref={this.imageback}
+          />
+          <img
+            crossOrigin="anonymous"
+            src={imgBackground}
+            alt=""
+            ref={this.image}
           />
         </div>
         <div>
           <h3>Image with title</h3>
           <canvas
-            crossorigin="anonymous"
+            crossOrigin="anonymous"
             ref={this.canvas}
             width={width}
             height={height}
