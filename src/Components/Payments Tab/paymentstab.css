@@ -1,0 +1,70 @@
+.paymentstabwrapper
+{
+    margin-left: 10%;
+    width: 100%;
+}
+.paymentstabtitle{
+    padding-top: 7vh;
+    padding-bottom: 5vh;
+    color: grey;
+}
+.topboxedwrapper{
+    display: flex;
+    gap: 4vw;
+    align-items: center;
+    margin-bottom:8vh;
+}
+.paymentstabtable h2{
+    padding-bottom: 3vh;
+    color: grey;
+}
+.topboxedwrapper p{
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.paymentsboxinside-flex{
+    display: flex;
+    padding-bottom: 10px;
+    justify-content: center;
+}
+.totalsalesbox{
+    background-color: rgba(252, 252, 110, 0.356);
+    padding-top: 1.8rem;
+    padding-bottom: 1.8rem;
+    min-width: 15vw;
+    max-width: 15vw;
+        text-align: center;
+}
+.widthdrawalbox{
+    background-color: rgba(127, 216, 127, 0.452);
+padding-top: 1.8rem;
+    padding-bottom: 1.8rem;
+    min-width: 15vw;
+    max-width: 15vw;
+    text-align: center;
+}
+.totalsalesbox h2{
+    color: grey;
+}
+.widthdrawalbox h2 {
+    color: grey;
+}
+.availablebox h2 {
+    color: grey;
+}
+.availablebox{
+        background-color: rgba(240, 96, 240, 0.466);
+padding-top: 1.8rem;
+    padding-bottom: 1.8rem;
+    min-width: 15vw;
+        text-align: center;
+}
+
+
+
+
+
+
+.paymentstabtable{
+    width: 100%;
+}

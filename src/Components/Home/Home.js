@@ -19,6 +19,7 @@ import Editworkshop from "../Edit Service/Editworkshop";
 import IndexCreator from "../Create Service/index";
 import Stats from "../Service Stats/Stats";
 import Details from "../User Detail Lists/Details";
+import PaymentsTab from "../Payments Tab/paymentab";
 
 function Home(props) {
   const navigate = useNavigate();
@@ -126,6 +127,10 @@ function Home(props) {
             <Route
               path="/viewusersdetails/:slug"
               element={<Details progress={props.progress} />}
+            />
+            <Route
+              path="/paymentstab"
+              element={<PaymentsTab progress={props.progress} />}
             />
             <Route
               path="/servicelist"
