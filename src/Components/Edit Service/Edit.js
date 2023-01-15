@@ -4,26 +4,38 @@ import ServiceContext from "../../Context/services/serviceContext";
 import ReactEditor from "../Editor/Editor";
 import { LoadOne, LoadTwo } from "../Modals/Loading";
 import { useNavigate, useParams } from "react-router-dom";
-import { MenuItem, TextField } from "@mui/material";
+import { createTheme, MenuItem, TextField, ThemeProvider } from "@mui/material";
 
 // editor
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-// editor
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+// Theme for MUI --------------------------------------------------------------------
+export const theme = createTheme({
+  components: {
+    MuiFormLabel: {
+      styleOverrides: {
+        asterisk: {
+          color: "red",
+          "&$error": {
+            color: "#db3131",
+          },
+        },
+      },
+    },
+  },
+});
 
 function Edit(props) {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const { getserviceinfo, serviceInfo, Uploadfile, updateService, compareJWT } =
+  const { getserviceinfo, serviceInfo, UploadDocuments,UploadBanners, updateService, compareJWT } =
     useContext(ServiceContext);
   const [openLoading, setOpenLoading] = useState(false);
   const [openLoadingOne, setOpenLoadingOne] = useState(false);
   const [check, setcheck] = useState(true);
   const [checkFormData, setCheckFormData] = useState(false); // checking if all the data is present or not in the form
-const [paid, setPaid] = useState("free"); // tracks if the service is free or paid so that allow participants has limited options
+  const [paid, setPaid] = useState(""); // tracks if the service is free or paid so that allow participants has limited options
 
   const [data, setdata] = useState({
     sname: "",
@@ -51,23 +63,19 @@ const [paid, setPaid] = useState("free"); // tracks if the service is free or pa
   }, []);
 
   useEffect(() => {
-    const select = document.getElementById("stype");
     setdata({
       sname: serviceInfo?.sname,
       sdesc: serviceInfo?.sdesc,
       smrp: serviceInfo?.smrp,
       ssp: serviceInfo?.ssp,
+      isPaid: serviceInfo?.isPaid,
     });
     setTags(serviceInfo?.tags);
     setContent(serviceInfo?.ldesc);
     if (serviceInfo?.isPaid) {
-      select.value = "paid";
-      document.querySelector("#smrp").style.display = "block";
-      document.querySelector("#ssp").style.display = "block";
-      document.querySelectorAll(".price_label")[0].style.display = "block";
-      document.querySelectorAll(".price_label")[1].style.display = "block";
+      setPaid("paid");
     } else {
-      select.value = "free";
+      setPaid("free");
     }
   }, [getserviceinfo]);
 
@@ -87,33 +95,21 @@ const [paid, setPaid] = useState("free"); // tracks if the service is free or pa
 
   // Changing free and paid section layout ---------------------------------------------
 
-  const handleOptionChange = () => {
+  const handleOptionChange = (e) => {
     //  balancing the changing effect of free and paid option
-    const select = document.getElementById("stype");
-    var value = select?.options[select.selectedIndex].value;
-    if (value === "free") {
-      document.querySelector("#smrp").style.display = "none";
-      document.querySelector("#ssp").style.display = "none";
-      document.querySelectorAll(".price_label")[0].style.display = "none";
-      document.querySelectorAll(".price_label")[1].style.display = "none";
-    }
-    if (value === "paid") {
-      document.querySelector("#smrp").style.display = "block";
-      document.querySelector("#ssp").style.display = "block";
-      document.querySelectorAll(".price_label")[0].style.display = "block";
-      document.querySelectorAll(".price_label")[1].style.display = "block";
-    }
+
+    setPaid(e.target.value);
   };
 
   // Auto resize of textarea    ------------------------------------------------------------
 
-  const textarea2 = document.querySelector("#sdesc");
-  textarea2?.addEventListener("mouseover", autoResize, false);
-
-  function autoResize() {
-    this.style.height = "auto";
-    this.style.height = this.scrollHeight + "px";
-  }
+  //const textarea2 = document.querySelector("#sdesc");
+  //textarea2?.addEventListener("mouseover", autoResize, false);
+  //
+  //function autoResize() {
+  //  this.style.height = "auto";
+  //  this.style.height = this.scrollHeight + "px";
+  //}
 
   // uploading file using file input -------------------------------------------
 
@@ -127,31 +123,39 @@ const [paid, setPaid] = useState("free"); // tracks if the service is free or pa
   };
 
   const data1 = new FormData();
+  const data2 = new FormData();
   data1.append("file", previewSourceOne);
+  data2.append("file", previewSourceTwo);
 
   // Submitting the updated changes ------------------------------------------
 
   const handleSubmit = async (e) => {
     props.progress(0);
     setOpenLoading(true);
+    setCheckFormData(true); /// checking error in mui
     e?.preventDefault();
     if (data.sname.length > 3 && data.sdesc.length > 5 && Content.length > 10) {
+      setCheckFormData(false);
       try {
-        const select = document.getElementById("stype");
-        var value = select.options[select.selectedIndex].value;
-        if (previewSourceOne) {
-          var banner = await Uploadfile(data1);
-        } else {
+        if (previewSourceOne) {    // to check if the craero has uploaded banner image o upload 
+          var banner = await UploadBanners(data1);
+        }else {
           banner = { url: serviceInfo?.simg };
+        }
+        if(previewSourceTwo){  /// to check if the creator want soto to change the document or not
+          var docs = await UploadDocuments(data2);
+        }else{
+          docs = {url:serviceInfo?.surl}
         }
         const newData = {
           ...data,
           ldesc: Content,
           tags,
           simg: banner?.url,
-          isPaid: value === "free" ? false : true,
-          smrp: value === "free" ? 0 : data.smrp,
-          ssp: value === "free" ? 0 : data.ssp,
+          surl:docs?.url,
+          isPaid: paid === "free" ? false : true,
+          smrp: paid === "free" ? 0 : data.smrp,
+          ssp: paid === "free" ? 0 : data.ssp,
         };
         updateService(serviceInfo?._id, newData).then((e) => {
           if (e) {
@@ -163,7 +167,7 @@ const [paid, setPaid] = useState("free"); // tracks if the service is free or pa
               navigate("/servicelist");
             }, 1500);
           } else {
-            toast.error("Some error occured from server side", {
+            toast.error("Some error occured", {
               position: "top-center",
               autoClose: 3000,
             });
@@ -178,7 +182,7 @@ const [paid, setPaid] = useState("free"); // tracks if the service is free or pa
       }
     } else {
       setOpenLoading(false);
-      toast.info("Mandatory fields cannot be empty or short in size", {
+      toast.info("Fill all the required fileds", {
         position: "top-center",
         autoClose: 3000,
       });
@@ -187,6 +191,7 @@ const [paid, setPaid] = useState("free"); // tracks if the service is free or pa
     props.progress(100);
   };
 
+ 
   // Change in values of input tags ---------------------------------------------------------------------
   const handleChange = (e) => {
     setdata({ ...data, [e.target.name]: e.target.value });
@@ -196,115 +201,76 @@ const [paid, setPaid] = useState("free"); // tracks if the service is free or pa
     navigate("/");
   }
 
+
   return (
     <>
       {openLoading && <LoadTwo open={openLoading} />}
       {openLoadingOne && <LoadOne open={openLoadingOne} />}
 
-      <div className="create_box">
-        <h1>Edit Service - {serviceInfo?.sname}</h1>
-        <form className="entries" onSubmit={handleSubmit}>
-          <div>
-          
-            <div className="left_entry_box">
-              <label htmlFor="sname" className="entry_labels">
-                Service Name <small>*</small>
-              </label>
-              <input
-                type="text"
+      <ThemeProvider theme={theme}>
+        <div className="create_box">
+          <h1>Edit Service - {serviceInfo?.sname}</h1>
+          <form className="workshop_form_create">
+            <div className="left_side_form_create">
+              <TextField
+                label="Service Name"
+                required
+                variant="outlined"
                 name="sname"
                 id="sname"
                 onChange={handleChange}
                 value={data.sname}
                 placeholder="25JS Interview Important Question..."
+                error={checkFormData && data?.sname?.length <= 3}
+                helperText={
+                  checkFormData &&
+                  data?.sname?.length <= 3 &&
+                  "Service name must contain atleast 4 characters"
+                }
               />
-              <label htmlFor="sdesc" className="entry_labels">
-                Service Description <small>*</small>
-              </label>
-              <textarea
+              <TextField
+                multiline
+                required
+                label="Brief Service Description"
+                variant="outlined"
                 name="sdesc"
                 onChange={handleChange}
                 value={data.sdesc}
                 id="sdesc"
-                placeholder="Please catchy line to download..."
+                placeholder="Very brief description of the service..."
+                error={checkFormData && data?.sdesc?.length <= 5}
+                helperText={
+                  checkFormData &&
+                  data?.sdesc?.length <= 5 &&
+                  "Description must contain atleast 6 characters"
+                }
               />
-              <label htmlFor="sbanner" className="entry_labels">
-                Banner Image <small>*</small>
-                <br />(
-                <a href={serviceInfo?.simg} target="_blank">
-                  Click to view current banner
-                </a>
-                )
-              </label>
-              <input
-                type="text"
+              <TextField
                 name="sbanner"
                 id="sbanner"
-                placeholder="Upload New file..."
+                required
+                //label={!previewSourceOne?.name && "Banner Image"}
+                placeholder="Upload Image"
                 onFocus={(e) => {
                   e.target.type = "file";
                 }}
                 onChange={handleChangeFileOne}
-              />
-            </div>
-
-            <div className="right_entry_box">
-              <label htmlFor="stype" className="entry_labels">
-                Service Type <small>*</small>
-              </label>
-              <select id="stype" onChange={handleOptionChange}>
-                <option value="free">Free</option>
-                <option value="paid">Paid</option>
-              </select>
-
-              <label htmlFor="smrp" className="entry_labels price_label">
-                Set MRP <small>*</small>
-              </label>
-              <input
-                type="number"
-                name="smrp"
-                id="smrp"
-                placeholder="Eg. 299"
-                onChange={handleChange}
-                value={data.smrp}
-              />
-              <label htmlFor="ssp" className="entry_labels price_label">
-                Selling Price <small>*</small>
-              </label>
-              <input
-                type="number"
-                name="ssp"
-                id="ssp"
-                placeholder="Eg. 199"
-                onChange={handleChange}
-                value={data.ssp}
-                max={data.smrp}
+                //error={checkFormData && !previewSourceOne?.name }
+                helperText={<a href={serviceInfo?.simg} target="_blank" rel="noreferrer">Click here to view previous banner</a>}
               />
 
-              <label htmlFor="sdoc" className="entry_labels">
-                Document ( supported .pdf only) <small>*</small>
-                <br />(
-                <a href={serviceInfo?.surl} target="_blank">
-                  Click to view current document
-                </a>
-                )
-              </label>
-              <input
-                type="text"
-                name="sdoc"
-                id="sdoc"
-                accept="application/pdf"
-                placeholder="Upload New file..."
-                onFocus={(e) => {
-                  e.target.type = "file";
-                }}
-                onChange={handleChangeFileTwo}
-              />
-
-              <label htmlFor="stags" className="entry_labels">
-                Tags(Write a tag and press Enter)
-              </label>
-              <div className="tag-container">
+              {paid !== "free" && (
+                <TextField
+                  type="text"
+                  label="Tags (Write a tag and press Enter)"
+                  onKeyDown={handleKeyDown}
+                  name="stags"
+                  id="stags"
+                  placeholder="Type tags..."
+                  //helperText="Write a tag and press Enter"
+                />
+              )}
+              <div className="tag-container_workshop">
                 {tags?.map((tag, index) => {
                   return (
                     <div className="tag" key={index}>
@@ -316,51 +282,140 @@ const [paid, setPaid] = useState("free"); // tracks if the service is free or pa
                     </div>
                   );
                 })}
-                <input
+              </div>
+            </div>
+            <div className="right_side_form_create">
+              {paid === "free" && 
+                <TextField
+                  className="mui_select"
+                  select
+                  label="Service Type"
+                  defaultValue="free"
+                  id="stype"
+                  onChange={(e) => handleOptionChange(e)}
+                >
+                  <MenuItem value="free">Free</MenuItem>
+                  <MenuItem value="paid">Paid</MenuItem>
+                </TextField>} 
+
+                {paid === "paid" && 
+                <TextField
+                  className="mui_select"
+                  select
+                  label="Service Type"
+                  defaultValue="paid"
+                  id="stype"
+                  onChange={(e) => handleOptionChange(e)}
+                >
+                  <MenuItem value="free">Free</MenuItem>
+                  <MenuItem value="paid">Paid</MenuItem>
+                </TextField>}
+
+              {paid !== "free" && (
+                <>
+                  <TextField
+                    label="Set MRP (in INR)"
+                    required
+                    variant="outlined"
+                    name="smrp"
+                    id="smrp"
+                    placeholder="Eg. 299"
+                    onChange={handleChange}
+                    value={parseInt(data.smrp)}
+                    type="number"
+                    error={
+                      checkFormData &&
+                      (data.smrp === 0 || data.smrp === "0" || !data.smrp)
+                    }
+                    helperText={
+                      checkFormData &&
+                      (data.smrp === 0 || data.smrp === "0" || !data.smrp) &&
+                      "Paid service need to have some amount"
+                    }
+                  />
+                  <TextField
+                    label="Selling Price"
+                    required
+                    variant="outlined"
+                    type="number"
+                    name="ssp"
+                    id="ssp"
+                    placeholder="Eg. 199"
+                    onChange={handleChange}
+                    value={parseInt(data.ssp)}
+                    max={parseInt(data.smrp)}
+                    error={checkFormData && (!data.ssp || data.ssp > data.smrp)}
+                    helperText={
+                      checkFormData &&
+                      (!data.ssp || data.ssp > data.smrp) &&
+                      "Selling price cannot be empty or greater than MRP (it can be 0)"
+                    }
+                  />
+                </>
+              )}
+              <TextField
+                required
+                name="sdoc"
+                id="sdoc"
+                //label="Document ( supports all formats)"
+                placeholder="Upload document"
+                onFocus={(e) => {
+                  e.target.type = "file";
+                }}
+                onChange={handleChangeFileTwo}
+                //error={checkFormData && !previewSourceTwo?.name}
+                helperText={<a href={serviceInfo?.surl} target="_blank" rel="noreferrer">Click here to view previous document</a>}
+              />
+
+              {paid === "free" && (
+                <TextField
                   type="text"
+                  label="Tags (Write a tag and press Enter)"
                   onKeyDown={handleKeyDown}
                   name="stags"
                   id="stags"
                   placeholder="Type tags..."
+                  //helperText="Write a tag and press Enter"
                 />
-              </div>
+              )}
             </div>
+          </form>
+
+          <label htmlFor="ldesc" className="editor_entry_labels">
+            Detailed Service Description <small>*</small>
+          </label>
+          <CKEditor
+            editor={ClassicEditor}
+            data={Content ? Content : ""}
+            config={{
+              placeholder: "Please Describe Your Service Briefly...",
+              toolbar: [
+                "|",
+                "bold",
+                "italic",
+                "blockQuote",
+                "link",
+                "numberedList",
+                "bulletedList",
+                "imageUpload",
+                "|",
+                "undo",
+                "redo",
+              ],
+            }}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              setContent(data);
+            }}
+          />
+          <div className="create_buttons">
+            <button className="submit_button" onClick={handleSubmit}>
+              Update the Changes
+            </button>
           </div>
-        </form>
-        <label htmlFor="ldesc" className="editor_entry_labels">
-          Long Description <small>*</small>
-        </label>
-        <CKEditor
-          editor={ClassicEditor}
-          data={Content ? Content : ""}
-          config={{
-            placeholder: "Please Describe Your Service Briefly...",
-            toolbar: [
-              "|",
-              "bold",
-              "italic",
-              "blockQuote",
-              "link",
-              "numberedList",
-              "bulletedList",
-              "imageUpload",
-              "|",
-              "undo",
-              "redo",
-            ],
-          }}
-          onChange={(event, editor) => {
-            const data = editor.getData();
-            setContent(data);
-          }}
-        />
-        <div className="create_buttons">
-          <button className="submit_button" onClick={handleSubmit}>
-            Update the Changes
-          </button>
+          <ToastContainer />
         </div>
-        <ToastContainer />
-      </div>
+      </ThemeProvider>
     </>
   );
 }

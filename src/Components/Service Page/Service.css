@@ -199,12 +199,13 @@
 }
 
 .other_service_part_two button {
-  color: white;
-  background: #000000;
-  border: 1px solid #000000;
+  color: black;
+  background: white;
+  border: 2px solid #000000;
   border-radius: 5px;
   font-size: 1.2rem;
   padding: 8px 15px;
+  font-weight: 450;
   cursor: pointer;
 
 }

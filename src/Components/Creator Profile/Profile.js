@@ -587,31 +587,57 @@ function Profile(props) {
             ) : (
               <div ref={services_list} id="services">
                 <h2 className="headers_tag">Available Resources</h2>
-                <div className="display_services_list">
-                  {services.res?.map((e) => {
+                <div className="more_services_section_service_page">
+                  {services.res?.reverse()?.map((e) => {
                     if (e.status === 1) {
                       count++;
                       return (
                         <Link
-                          to={`/s/${e.slug}`}
-                          key={e._id}
-                          style={{ textDecoration: "none" }}
-                        >
-                          <div
-                            className="item_displayed"
-                            onClick={() => handleServiceClick(e.slug)}
+                            to={`/s/${e.slug}`}
+                            key={e._id}
+                            style={{ textDecoration: "none" }}
                           >
-                            <img src={e.simg} alt="..." />
-                            <h2>{e.sname}</h2>
-                            {/* <span
-                    className={`${
-                      e.isPaid === true ? "paid" : "free"
-                    }_tag_dispalyed`}
-                  >
-                    {e.isPaid === true ? "Paid" : "Free"}
-                  </span> */}
-                          </div>
-                        </Link>
+                            <div
+                              className="other_service_items"
+                              onClick={() => handleServiceClick(e.slug)}
+                            >
+                              <section className="other_service_part_one">
+                                <img src={e?.simg} alt="" />
+                                <div>
+                                  <h3>{e?.sname}</h3>
+                                  <section className="other_service_tags">
+                                    <span>Document</span>
+                                    {e?.isPaid ? (
+                                      <span style={{ background: "#FFEED4" }}>
+                                        Paid
+                                      </span>
+                                    ) : (
+                                      <span>Free</span>
+                                    )}
+                                  </section>
+                                </div>
+                              </section>
+                              <section className="other_service_part_two">
+                                {e?.downloads > 50 && (
+                                  <span>
+                                    <i
+                                      className="fa-solid fa-fire fa-lg"
+                                      style={{ color: "#DA8181" }}
+                                    ></i>{" "}
+                                    &nbsp;{e?.downloads} users downloaded
+                                  </span>
+                                )}
+                                <button
+                                  onClick={() => {
+                                    navigate(`/s/${e?.slug}`);
+                                  }}
+                                >
+                                  Explore&nbsp;&nbsp;
+                                  <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                              </section>
+                            </div>
+                          </Link>
                       );
                     } else {
                       return "";

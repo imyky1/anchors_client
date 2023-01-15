@@ -12,7 +12,7 @@
 .create_box {
   display: flex;
   flex-direction: column;
-  /* margin-top: 30px; */
+  margin-top: 30px;
   margin-left: 30px;
   height: max-content;
   width: 76vw;
@@ -22,8 +22,9 @@
 .create_box h1 {
   color: rgba(128, 128, 128, 0.755);
   font-size: 26px;
+  margin-bottom: 25px;
 }
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 .entry_labels {
   margin-top: 10px !important;
 }

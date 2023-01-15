@@ -34,7 +34,7 @@ export const theme = createTheme({
 function Create(props) {
   const context = useContext(ServiceContext);
   const navigate = useNavigate();
-  const { slugCount, getslugcount, addservice, Uploadfile,UploadDocuments,UploadBanners, checkCpyUrl } =
+  const { slugCount, getslugcount, addservice,UploadDocuments,UploadBanners, checkCpyUrl } =
     context;
   const [openLoading, setOpenLoading] = useState(false);
   const [previewSourceOne, setPreviewSourceOne] = useState(""); // saves the data of file selected in the form
