@@ -34,7 +34,7 @@ export const theme = createTheme({
 function Create(props) {
   const context = useContext(ServiceContext);
   const navigate = useNavigate();
-  const { slugCount, getslugcount, addservice,UploadDocuments,UploadBanners, checkCpyUrl } =
+  const { slugCount, getslugcount, addservice,UploadDocuments,Uploadfile,UploadBanners, checkCpyUrl } =
     context;
   const [openLoading, setOpenLoading] = useState(false);
   const [previewSourceOne, setPreviewSourceOne] = useState(""); // saves the data of file selected in the form
@@ -143,7 +143,7 @@ function Create(props) {
       if (Content.length > 10) {
         setCheckFormData(false);
         try {
-          var banner = await UploadBanners(data1);    /// uplaoding banner and files on s3
+          var banner = await Uploadfile(data1);    /// uplaoding banner and files on s3
           var doc = await UploadDocuments(data2);
           if (banner.success && doc.success) {
             props.progress(75);
@@ -155,7 +155,7 @@ function Create(props) {
                 ? data.slug.toLowerCase()
                 : data.slug.toLowerCase().concat("--", `${slugCount + 1}`),
               copyURL,
-              banner?.result?.Location,
+              banner?.url,
               doc?.result?.Location,
               tags,
               0,

@@ -41,7 +41,7 @@ function Document(props) {
       {openLoading && <LoadTwo open={openLoading} />}
       <div className="service_details_body">
         {services.res?.length !== 0 ? (
-          services.res?.map((e, i) => {
+          services.res?.reverse()?.map((e, i) => {
             return (
               <Fragment key={i}>
                 {e.stype === 0 ? (

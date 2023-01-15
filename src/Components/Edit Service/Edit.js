@@ -29,7 +29,7 @@ export const theme = createTheme({
 function Edit(props) {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const { getserviceinfo, serviceInfo, UploadDocuments,UploadBanners, updateService, compareJWT } =
+  const { getserviceinfo, serviceInfo, UploadDocuments,UploadBanners,Uploadfile, updateService, compareJWT } =
     useContext(ServiceContext);
   const [openLoading, setOpenLoading] = useState(false);
   const [openLoadingOne, setOpenLoadingOne] = useState(false);
@@ -138,21 +138,21 @@ function Edit(props) {
       setCheckFormData(false);
       try {
         if (previewSourceOne) {    // to check if the craero has uploaded banner image o upload 
-          var banner = await UploadBanners(data1);
+          var banner = await Uploadfile(data1);
         }else {
           banner = { url: serviceInfo?.simg };
         }
         if(previewSourceTwo){  /// to check if the creator want soto to change the document or not
           var docs = await UploadDocuments(data2);
         }else{
-          docs = {url:serviceInfo?.surl}
+          docs = {result:{Location : serviceInfo?.surl}}
         }
         const newData = {
           ...data,
           ldesc: Content,
           tags,
           simg: banner?.url,
-          surl:docs?.url,
+          surl:docs?.result?.Location,
           isPaid: paid === "free" ? false : true,
           smrp: paid === "free" ? 0 : data.smrp,
           ssp: paid === "free" ? 0 : data.ssp,
