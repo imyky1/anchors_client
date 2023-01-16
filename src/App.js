@@ -33,6 +33,7 @@ import Dashboarduser from "./Components/User Dashboard/Dashboarduser";
 import Logout_Model_user from "./Components/Modals/Logout_Model_user";
 import UserDashboardState from "./Context/userdashbaord";
 import Redirect_servworkshop from "./Components/Redirect_servworkshop";
+import Homepageui from "./Components/Editor/Homepagecreator/Homepageui";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -63,6 +64,8 @@ function App() {
                           path="*"
                           element={<Home progress={changeprogress} />}
                         ></Route>
+                        <Route path="/homepageui" element={<Homepageui />} />
+
                         <Route
                           path="/"
                           element={
