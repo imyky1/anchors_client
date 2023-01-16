@@ -11,6 +11,7 @@ import { SuperSEO } from "react-super-seo";
 // editor
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { MenuItem, TextField } from "@mui/material";
 
 function Info_creator(props) {
   const { allCreatorInfo, getAllCreatorInfo, setCreatorInfo } =
@@ -18,6 +19,7 @@ function Info_creator(props) {
   const { Uploadfile } = useContext(ServiceContext);
   const [Content, setContent] = useState();
   const [openLoading, setOpenLoading] = useState(false);
+  const [checkFormData, setCheckFormData] = useState(false); // checking if all the data is present or not in the form
   const [previewSourceOne, setPreviewSourceOne] = useState(""); // saves the data of file selected in the form
   const [data, setdata] = useState({
     name: "",
@@ -96,6 +98,161 @@ function Info_creator(props) {
       <ToastContainer />
       {openLoading && <LoadTwo open={openLoading} />}
       <div className="create_box creator_info">
+        {/* <form className="workshop_form_create">
+          <div className="left_side_form_create">
+            <TextField
+              label="Full Name"
+              required
+              variant="outlined"
+              name="name"
+              id="name"
+              onChange={handleChange}
+              value={data.name}
+              placeholder="25JS Interview Important Question..."
+              error={checkFormData && data?.name?.length <= 3}
+              helperText={
+                checkFormData &&
+                data?.name?.length <= 3 &&
+                "Service name must contain atleast 4 characters"
+              }
+            />
+            <TextField
+              label="Contact Number"
+              required
+              variant="outlined"
+              name="phone"
+              id="phone"
+              onChange={handleChange}
+              value={data.phone}
+              placeholder="25JS Interview Important Question..."
+              error={checkFormData && data?.phone?.length <= 3}
+              helperText={
+                checkFormData &&
+                data?.phone?.length <= 3 &&
+                "Service name must contain atleast 4 characters"
+              }
+            />
+
+            <TextField
+              label="Tagline"
+              required
+              variant="outlined"
+              name="tagLine"
+              id="tagLine"
+              onChange={handleChange}
+              value={data.tagLine}
+              placeholder="25JS Interview Important Question..."
+              error={checkFormData && data?.tagLine?.length <= 3}
+              helperText={
+                checkFormData &&
+                data?.tagLine?.length <= 3 &&
+                "Service name must contain atleast 4 characters"
+              }
+            />
+
+            <TextField
+              name="cpic"
+              id="cpic"
+              required
+              //label={!previewSourceOne?.name && "Banner Image"}
+              placeholder="Upload Profile Image"
+              onFocus={(e) => {
+                e.target.type = "file";
+              }}
+              onChange={handleChangeFileOne}
+              error={checkFormData && !previewSourceOne?.name}
+              helperText={
+                checkFormData &&
+                !previewSourceOne?.name &&
+                "Profile Image is required"
+              }
+            />
+
+            <TextField
+              label="LinkedIn Link"
+              required
+              variant="outlined"
+              name="linkedInLink"
+              id="linkedIn"
+              onChange={handleChange}
+              value={data.linkedInLink}
+              placeholder="25JS Interview Important Question..."
+              error={checkFormData && data?.linkedInLink?.length <= 3}
+              helperText={
+                checkFormData &&
+                data?.linkedInLink?.length <= 3 &&
+                "Service name must contain atleast 4 characters"
+              }
+            />
+          </div>
+
+          <div className="right_side_form_create">
+          <TextField
+              label="Youtube Link"
+              required
+              variant="outlined"
+              name="ytLink"
+              id="ytLink"
+              onChange={handleChange}
+              value={data.ytLink}
+              placeholder="25JS Interview Important Question..."
+              error={checkFormData && data?.ytLink?.length <= 3}
+              helperText={
+                checkFormData &&
+                data?.ytLink?.length <= 3 &&
+                "Service name must contain atleast 4 characters"
+              }
+            />
+            <TextField
+              label="Instagram Link"
+              required
+              variant="outlined"
+              name="linkedInLink"
+              id="linkedIn"
+              onChange={handleChange}
+              value={data.linkedInLink}
+              placeholder="25JS Interview Important Question..."
+              error={checkFormData && data?.linkedInLink?.length <= 3}
+              helperText={
+                checkFormData &&
+                data?.linkedInLink?.length <= 3 &&
+                "Service name must contain atleast 4 characters"
+              }
+            /><TextField
+            label="LinkedIn Link"
+            required
+            variant="outlined"
+            name="linkedInLink"
+            id="linkedIn"
+            onChange={handleChange}
+            value={data.linkedInLink}
+            placeholder="25JS Interview Important Question..."
+            error={checkFormData && data?.linkedInLink?.length <= 3}
+            helperText={
+              checkFormData &&
+              data?.linkedInLink?.length <= 3 &&
+              "Service name must contain atleast 4 characters"
+            }
+          />
+          <TextField
+              label="LinkedIn Link"
+              required
+              variant="outlined"
+              name="linkedInLink"
+              id="linkedIn"
+              onChange={handleChange}
+              value={data.linkedInLink}
+              placeholder="25JS Interview Important Question..."
+              error={checkFormData && data?.linkedInLink?.length <= 3}
+              helperText={
+                checkFormData &&
+                data?.linkedInLink?.length <= 3 &&
+                "Service name must contain atleast 4 characters"
+              }
+            />
+          </div>
+        </form> */}
+
         <form onSubmit={(e) => onSubmit(e)} className="entries">
           <div>
             <div className="left_entry_box">
@@ -200,7 +357,7 @@ function Info_creator(props) {
             </div>
           </div>
         </form>
-        <label className="editor_entry_labels">
+        <label htmlFor="ldesc" className="editor_entry_labels">
           About Me <small>*</small>
         </label>
         <CKEditor

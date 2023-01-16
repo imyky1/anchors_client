@@ -33,6 +33,7 @@ import Dashboarduser from "./Components/User Dashboard/Dashboarduser";
 import Logout_Model_user from "./Components/Modals/Logout_Model_user";
 import UserDashboardState from "./Context/userdashbaord";
 import Redirect_servworkshop from "./Components/Redirect_servworkshop";
+import Main2 from "./Components/Main Page/Main2";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -67,10 +68,10 @@ function App() {
                           path="/"
                           element={
                             localStorage.getItem("jwtToken") &&
-                            localStorage.getItem("isUser") ? (
+                            localStorage.getItem("isUser") === "true" ? (
                               <Dashboarduser progress={progress} />
                             ) : (
-                              <Main />
+                              <Main2 />
                             )
                           }
                         ></Route>
