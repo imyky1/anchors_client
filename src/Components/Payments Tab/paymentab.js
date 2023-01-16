@@ -15,6 +15,8 @@ const PaymentsTab = (props) => {
   const [uorders, setUorders] = useState([]);
   const [totalearning, setTotalEarning] = useState(0);
   const [tablevalues, setTableValues] = useState({});
+  const [withdrawal, setWithdrawal] = useState(0);
+
   const gettotalearning = async () => {
     const response = await fetch(`${host}/payments/totalearning`, {
       method: "GET",
@@ -94,24 +96,32 @@ const PaymentsTab = (props) => {
       <div className="topboxedwrapper">
         <div className="totalsalesbox">
           <div className="paymentsboxinside-flex">
-            {" "}
-            <p>{totalearning - (totalearning * 1) / 100}</p>
-            <BsInfoCircle style={style}></BsInfoCircle>
+            <p>₹ {totalearning - (totalearning * 1) / 100}</p>
+            <span className="iconhover">
+              <p>Total earning minus the percantage of Anchors</p>
+              <BsInfoCircle style={style}></BsInfoCircle>
+            </span>
           </div>
 
           <h2>Total Earning</h2>
         </div>
         <div className="widthdrawalbox">
           <div className="paymentsboxinside-flex">
-            <p>23,000</p>
-            <BsInfoCircle style={style}></BsInfoCircle>
+            <p>₹ {withdrawal}</p>
+            <span className="iconhover">
+              <p>Total money credited</p>
+              <BsInfoCircle style={style}></BsInfoCircle>
+            </span>
           </div>
-          <h2>Widthdrawal</h2>
+          <h2>Withdrawal</h2>
         </div>
         <div className="availablebox">
           <div className="paymentsboxinside-flex">
-            <p>4,000</p>
-            <BsInfoCircle style={style}></BsInfoCircle>
+            <p>₹ {totalearning - (totalearning * 1) / 100 - withdrawal}</p>
+            <span className="iconhover">
+              <p>Total money left to withdraw</p>
+              <BsInfoCircle style={style}></BsInfoCircle>
+            </span>
           </div>
           <h2>Available Balance</h2>
         </div>
@@ -149,7 +159,7 @@ const PaymentsTab = (props) => {
                         component="th"
                         scope="row"
                       >
-                        {i}{" "}
+                        {i + 1}{" "}
                       </StyledTableCell>
                       <StyledTableCell align="center">{elem}</StyledTableCell>
                       <StyledTableCell align="center">{value}</StyledTableCell>

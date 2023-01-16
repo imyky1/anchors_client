@@ -7,13 +7,20 @@ import "react-toastify/dist/ReactToastify.css";
 import Editor from "../Editor/Editor";
 import { LoadTwo } from "../Modals/Loading";
 import PreviewService from "../Modals/PreviewService";
-import { TextField, MenuItem, ThemeProvider, createTheme } from "@mui/material";
+import {
+  TextField,
+  MenuItem,
+  ThemeProvider,
+  createTheme,
+  Button,
+} from "@mui/material";
 import EventCreated from "../Modals/eventcreated";
 import ServiceCreated from "../Modals/servicecreated";
 
 // editor
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import Cover from "../Modals/ImagePreview/Cover";
 
 // Theme for MUI --------------------------------------------------------------------
 export const theme = createTheme({
@@ -34,8 +41,14 @@ export const theme = createTheme({
 function Create(props) {
   const context = useContext(ServiceContext);
   const navigate = useNavigate();
-  const { slugCount, getslugcount, addservice,UploadDocuments,UploadBanners, checkCpyUrl } =
-    context;
+  const {
+    slugCount,
+    getslugcount,
+    addservice,
+    UploadDocuments,
+    UploadBanners,
+    checkCpyUrl,
+  } = context;
   const [openLoading, setOpenLoading] = useState(false);
   const [previewSourceOne, setPreviewSourceOne] = useState(""); // saves the data of file selected in the form
   const [previewSourceTwo, setPreviewSourceTwo] = useState(""); // saves the data of file selected in the form
@@ -52,6 +65,9 @@ function Create(props) {
   });
 
   const [servData, setservData] = useState([]);
+
+  //Image preview and resize opening model
+  const [openimagePreview, setImagePreview] = useState(false);
 
   // genrating copy url string
   const generateCopyURL = async () => {
@@ -84,7 +100,6 @@ function Create(props) {
   const removeTag = (index) => {
     setTags(tags.filter((e, i) => i !== index));
   };
-
 
   // use effect to genrate slug and copy url-----------------------------------------------------------------
   useEffect(() => {
@@ -123,7 +138,7 @@ function Create(props) {
 
   ///const textarea2 = document.querySelector("#sdesc");
   ///textarea2?.addEventListener("input", autoResize, false);
-///
+  ///
   ///function autoResize() {
   ///  this.style.height = "auto";
   ///  this.style.height = this.scrollHeight + "px";
@@ -131,19 +146,14 @@ function Create(props) {
 
   // Submit of form create the service ------------------------------------------------------------
   const onSubmit = async () => {
-    setOpenLoading(true);   // true on loader 
-    setCheckFormData(true);   /// checking error in mui
+    setOpenLoading(true); // true on loader
+    setCheckFormData(true); /// checking error in mui
     props.progress(0);
-    if (
-      data.sname.length > 3 &&
-      data.sdesc.length > 5 &&
-      previewSourceOne &&
-      previewSourceTwo
-    ) {
+    if (data.sname.length > 3 && previewSourceOne && previewSourceTwo) {
       if (Content.length > 10) {
         setCheckFormData(false);
         try {
-          var banner = await UploadBanners(data1);    /// uplaoding banner and files on s3
+          var banner = await UploadBanners(data1); /// uplaoding banner and files on s3
           var doc = await UploadDocuments(data2);
           if (banner.success && doc.success) {
             props.progress(75);
@@ -248,7 +258,6 @@ function Create(props) {
               />
               <TextField
                 multiline
-                required
                 label="Brief Service Description"
                 variant="outlined"
                 name="sdesc"
@@ -256,12 +265,6 @@ function Create(props) {
                 value={data.sdesc}
                 id="sdesc"
                 placeholder="Very brief description of the service..."
-                error={checkFormData && data?.sdesc?.length <= 5}
-                helperText={
-                  checkFormData &&
-                  data?.sname?.length <= 5 &&
-                  "Description must contain atleast 6 characters"
-                }
               />
               <TextField
                 name="sbanner"
@@ -280,6 +283,20 @@ function Create(props) {
                   "Banner Image is required"
                 }
               />
+              {/* {previewSourceOne ? (
+                <>
+                  {" "}
+                  <Button
+                    variant="outlined"
+                    onClick={(prev) => setImagePreview(true)}
+                  >
+                    Preview Image and Resize
+                  </Button>
+                  <br />
+                </>
+              ) : (
+                ""
+              )} */}
 
               {paid !== "free" && (
                 <TextField
@@ -392,6 +409,18 @@ function Create(props) {
               )}
             </div>
           </form>
+          {/* {openimagePreview && previewSourceOne ? (
+            <div className="imagepreviewbox">
+              {" "}
+              <Cover
+                cover={URL.createObjectURL(previewSourceOne)}
+                setImage={setPreviewSourceOne}
+                close={setImagePreview}
+              />
+            </div>
+          ) : (
+            ""
+          )} */}
 
           <label htmlFor="ldesc" className="editor_entry_labels">
             Detailed Service Description <small>*</small>
