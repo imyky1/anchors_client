@@ -93,11 +93,17 @@ function Create(props) {
   const handleKeyDown = (e) => {
     if (e.key !== "Enter") return;
     const value = e.target.value;
+    if (value.includes(",")) {
+      let arrcomma = value.split(",");
+      setTags([...tags, ...arrcomma]);
+      e.target.value = "";
+      return;
+    }
     if (!value.trim()) return;
     setTags([...tags, value]);
     e.target.value = "";
   };
-
+  console.log(tags);
   const removeTag = (index) => {
     setTags(tags.filter((e, i) => i !== index));
   };
@@ -272,7 +278,7 @@ function Create(props) {
                 id="sbanner"
                 required
                 //label={!previewSourceOne?.name && "Banner Image"}
-                placeholder="Upload Image"
+                placeholder="Upload Image (Aspect ratio- 3:1)"
                 onFocus={(e) => {
                   e.target.type = "file";
                 }}
