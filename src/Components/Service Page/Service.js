@@ -79,10 +79,6 @@ function Service(props) {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
     const process = async () => {
       const id = await getserviceinfo(slug);
       await getBasicCreatorInfo(id[0]);
@@ -109,7 +105,9 @@ function Service(props) {
 
   // responsible for feedback popup
   useEffect(() => {
-    localStorage.getItem("jwtToken") && setLoaderLogin(true)
+    localStorage.getItem("jwtToken") &&
+      localStorage.getItem("isUser") === "true" &&
+      setLoaderLogin(true);
     if (
       localStorage.getItem("jwtToken") &&
       localStorage.getItem("isUser") === "true"
@@ -126,7 +124,7 @@ function Service(props) {
         }
       });
       setInterval(() => {
-        setLoaderLogin(false)
+        setLoaderLogin(false);
       }, 1500);
       checkFBlatest().then((fb) => {
         if (fb.success) {
@@ -161,7 +159,7 @@ function Service(props) {
     setInterval(() => {
       setproofType((Math.floor(Math.random() * 3) + 0).toString());
       setOpenModelProof(true);
-    },  8500);
+    }, 8500);
   }, []);
 
   const dox1 = document.getElementById("unsubscribe");
@@ -201,7 +199,7 @@ function Service(props) {
           currency: order.currency,
           name: "anchors.in",
           description: `Payment for Buying - ${serviceInfo?.sname}`,
-          image:require("../logo.png"),
+          image: require("../logo.png"),
           order_id: order.id,
           handler: async function (response) {
             const {
@@ -240,11 +238,11 @@ function Service(props) {
               //    creator: basicCdata?.slug,
               //  });
               //} else {
-                let link = document.createElement("a");
-                link.href = serviceInfo.surl;
-                //link.target = "_blank";
-                link.download = serviceInfo?.sname
-                link.dispatchEvent(new MouseEvent("click"));
+              let link = document.createElement("a");
+              link.href = serviceInfo.surl;
+              //link.target = "_blank";
+              link.download = serviceInfo?.sname;
+              link.dispatchEvent(new MouseEvent("click"));
               //}
               toast.info(
                 "Check the Downloads in few seconds, if file not found raise an issue at ravi@anchors.in",
@@ -335,7 +333,8 @@ function Service(props) {
         checkfororder(
           serviceInfo?._id,
           localStorage.getItem("isUser") === "true" ? "user" : "creator"
-        ).then((e) => {    // user already paid for the order
+        ).then((e) => {
+          // user already paid for the order
           if (e) {
             //if (ext === "pdf") {
             //  downloadFile("pdf");
@@ -354,11 +353,11 @@ function Service(props) {
             //    creator: basicCdata?.slug,
             //  });
             //} else {
-              let link = document.createElement("a");
-              link.href = serviceInfo.surl;
-              //link.target = "_blank";
-              link.download = serviceInfo?.sname
-              link.dispatchEvent(new MouseEvent("click"));
+            let link = document.createElement("a");
+            link.href = serviceInfo.surl;
+            //link.target = "_blank";
+            link.download = serviceInfo?.sname;
+            link.dispatchEvent(new MouseEvent("click"));
             //}
             setOpenModelDownload(true);
             toast.info(
@@ -405,11 +404,11 @@ function Service(props) {
           //    creator: basicCdata?.slug,
           //  });
           //} else {
-            let link = document.createElement("a");
-            link.href = serviceInfo.surl;
-            link.download = serviceInfo?.sname
-            //link.target = "_blank";
-            link.dispatchEvent(new MouseEvent("click"));
+          let link = document.createElement("a");
+          link.href = serviceInfo.surl;
+          link.download = serviceInfo?.sname;
+          //link.target = "_blank";
+          link.dispatchEvent(new MouseEvent("click"));
           //}
           toast.info(
             "Check the Downloads in few seconds, if file not found raise an issue at ravi@anchors.in",
@@ -486,7 +485,7 @@ function Service(props) {
   return (
     <>
       <div className="service_section">
-        {loaderLogin && <LoadTwo open={loaderLogin}/>}
+        {loaderLogin && <LoadTwo open={loaderLogin} />}
         <Feedback_Modal
           open={openModelFB}
           onClose={() => {
@@ -545,7 +544,7 @@ function Service(props) {
           <div className="logo" onClick={handleLogoClick}>
             <img src={require("../logo.png")} alt="Logo" />
             <span>anchors</span>
-            <p className="beta_tagname">beta</p>
+            <p className="beta_tagname">Beta</p>
           </div>
           {localStorage.getItem("isUser") === "" ? (
             ""
@@ -862,29 +861,32 @@ function Service(props) {
                 <span className="free_label">Free</span>
               )}
 
-              <button
-                className="download_service"
-                onClick={() => {
-                  !alreadyOrderPlaced
-                    ? download_service()
-                    : navigate(`/?utm_source=service_page`);
-                }}
-                style={
-                  paymentProcessing
-                    ? { backgroundColor: "grey", border: "2px solid grey" }
-                    : {}
-                }
-              >
-                {!alreadyOrderPlaced ? (
-                  paymentProcessing ? (
-                    <>Processing</>
-                  ) : (
-                    <>Download Here</>
-                  )
-                ) : (
-                  <>Go to Dashboard</>
-                )}
-              </button>
+              {!alreadyOrderPlaced && (     // if order is placed or not
+                <button
+                  className="download_service"
+                  onClick={() => {
+                    download_service();
+                  }}
+                  style={
+                    paymentProcessing
+                      ? { backgroundColor: "grey", border: "2px solid grey" }
+                      : {}
+                  }
+                >
+                  {paymentProcessing ? <>Processing</> : <>Download Here</>}
+                </button>
+              )}
+
+              {alreadyOrderPlaced && (
+                <button
+                  className="download_service"
+                  onClick={() => {
+                    navigate(`/?utm_source=service_page`);
+                  }}
+                >
+                  Go to Dashboard
+                </button>
+              )}
             </div>
           </div>
 

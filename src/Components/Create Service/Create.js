@@ -46,6 +46,7 @@ function Create(props) {
     getslugcount,
     addservice,
     UploadDocuments,
+    Uploadfile,
     UploadBanners,
     checkCpyUrl,
   } = context;
@@ -153,7 +154,7 @@ function Create(props) {
       if (Content.length > 10) {
         setCheckFormData(false);
         try {
-          var banner = await UploadBanners(data1); /// uplaoding banner and files on s3
+          var banner = await Uploadfile(data1); /// uplaoding banner and files on s3
           var doc = await UploadDocuments(data2);
           if (banner.success && doc.success) {
             props.progress(75);
@@ -165,7 +166,7 @@ function Create(props) {
                 ? data.slug.toLowerCase()
                 : data.slug.toLowerCase().concat("--", `${slugCount + 1}`),
               copyURL,
-              banner?.result?.Location,
+              banner?.url,
               doc?.result?.Location,
               tags,
               0,

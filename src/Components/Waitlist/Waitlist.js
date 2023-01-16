@@ -19,6 +19,7 @@ function Waitlist() {
           <div className="logo">
             <img src={require("../logo.png")} alt="Logo" />
             <span>anchors</span>
+            <p className="beta_tagname">Beta</p>
           </div>
         </div>
 
