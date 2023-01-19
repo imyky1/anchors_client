@@ -4,11 +4,22 @@ import ServiceContext from "../../Context/services/serviceContext";
 import ReactEditor from "../Editor/Editor";
 import { LoadOne, LoadTwo } from "../Modals/Loading";
 import { useNavigate, useParams } from "react-router-dom";
-import { createTheme, MenuItem, TextField, ThemeProvider } from "@mui/material";
-
+import {
+  Button,
+  createTheme,
+  MenuItem,
+  Modal,
+  Slider,
+  TextField,
+  ThemeProvider,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 // editor
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import getCroppedImg, { generateDownload } from "../helper/imageresize";
+import Cropper from "react-easy-crop";
 
 // Theme for MUI --------------------------------------------------------------------
 export const theme = createTheme({
@@ -29,8 +40,15 @@ export const theme = createTheme({
 function Edit(props) {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const { getserviceinfo, serviceInfo, UploadDocuments,UploadBanners,Uploadfile, updateService, compareJWT } =
-    useContext(ServiceContext);
+  const {
+    getserviceinfo,
+    serviceInfo,
+    UploadDocuments,
+    UploadBanners,
+    Uploadfile,
+    updateService,
+    compareJWT,
+  } = useContext(ServiceContext);
   const [openLoading, setOpenLoading] = useState(false);
   const [openLoadingOne, setOpenLoadingOne] = useState(false);
   const [check, setcheck] = useState(true);
@@ -61,6 +79,41 @@ function Edit(props) {
       });
     });
   }, []);
+
+  /***IMAGE CROP */
+  //Image preview and resize opening model
+  const [openimagePreview, setImagePreview] = useState(false);
+
+  const [imagetocrop, setImageToCrop] = useState(null);
+  const [croppedArea, setCroppedArea] = useState(null);
+  const [crop, setCrop] = useState({
+    x: 0,
+    y: 0,
+  });
+
+  const [zoom, setZoom] = useState(1);
+
+  const onCropComplete = (croppedAreaPercentage, croppedAreaPixels) => {
+    setCroppedArea(croppedAreaPixels);
+  };
+  const openimageresizebar = () => {
+    setImagePreview((prev) => !prev);
+  };
+
+  const downloadcroppedimage = () => {
+    generateDownload(imagetocrop, croppedArea);
+  };
+  const savecroppedImage = async () => {
+    const img = await getCroppedImg(
+      imagetocrop,
+      croppedArea,
+      previewSourceOne?.name
+    );
+    setPreviewSourceOne(img);
+    setImagePreview(false);
+  };
+
+  /******IMAGE CROP */
 
   useEffect(() => {
     setdata({
@@ -115,7 +168,17 @@ function Edit(props) {
 
   const handleChangeFileOne = (e) => {
     const file = e.target.files[0];
-    setPreviewSourceOne(file);
+    setZoom(1);
+    setCrop({ x: 0, y: 0 });
+    setCroppedArea(null);
+    if (e.target.files && e.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.addEventListener("load", () => {
+        setImageToCrop(reader.result);
+      });
+      setPreviewSourceOne(file);
+    }
   };
   const handleChangeFileTwo = (e) => {
     const file = e.target.files[0];
@@ -134,25 +197,27 @@ function Edit(props) {
     setOpenLoading(true);
     setCheckFormData(true); /// checking error in mui
     e?.preventDefault();
-    if (data.sname.length > 3 && data.sdesc.length > 5 && Content.length > 10) {
+    if (data.sname.length > 3 && Content.length > 10) {
       setCheckFormData(false);
       try {
-        if (previewSourceOne) {    // to check if the craero has uploaded banner image o upload 
+        if (previewSourceOne) {
+          // to check if the craero has uploaded banner image o upload
           var banner = await Uploadfile(data1);
-        }else {
+        } else {
           banner = { url: serviceInfo?.simg };
         }
-        if(previewSourceTwo){  /// to check if the creator want soto to change the document or not
+        if (previewSourceTwo) {
+          /// to check if the creator want soto to change the document or not
           var docs = await UploadDocuments(data2);
-        }else{
-          docs = {result:{Location : serviceInfo?.surl}}
+        } else {
+          docs = { result: { Location: serviceInfo?.surl } };
         }
         const newData = {
           ...data,
           ldesc: Content,
           tags,
           simg: banner?.url,
-          surl:docs?.result?.Location,
+          surl: docs?.result?.Location,
           isPaid: paid === "free" ? false : true,
           smrp: paid === "free" ? 0 : data.smrp,
           ssp: paid === "free" ? 0 : data.ssp,
@@ -191,7 +256,6 @@ function Edit(props) {
     props.progress(100);
   };
 
- 
   // Change in values of input tags ---------------------------------------------------------------------
   const handleChange = (e) => {
     setdata({ ...data, [e.target.name]: e.target.value });
@@ -200,8 +264,7 @@ function Edit(props) {
   if (!check) {
     navigate("/");
   }
-
-
+  console.log(imagetocrop);
   return (
     <>
       {openLoading && <LoadTwo open={openLoading} />}
@@ -230,7 +293,6 @@ function Edit(props) {
               />
               <TextField
                 multiline
-                required
                 label="Brief Service Description"
                 variant="outlined"
                 name="sdesc"
@@ -238,12 +300,6 @@ function Edit(props) {
                 value={data.sdesc}
                 id="sdesc"
                 placeholder="Very brief description of the service..."
-                error={checkFormData && data?.sdesc?.length <= 5}
-                helperText={
-                  checkFormData &&
-                  data?.sdesc?.length <= 5 &&
-                  "Description must contain atleast 6 characters"
-                }
               />
               <TextField
                 name="sbanner"
@@ -256,8 +312,27 @@ function Edit(props) {
                 }}
                 onChange={handleChangeFileOne}
                 //error={checkFormData && !previewSourceOne?.name }
-                helperText={<a href={serviceInfo?.simg} target="_blank" rel="noreferrer">Click here to view previous banner</a>}
+                helperText={
+                  <a href={serviceInfo?.simg} target="_blank" rel="noreferrer">
+                    Click here to view previous banner
+                  </a>
+                }
               />
+              {previewSourceOne ? (
+                <>
+                  {" "}
+                  <Button
+                    variant="outlined"
+                    onClick={openimageresizebar}
+                    className="imageresizeopenerbutton"
+                  >
+                    Preview Image and Resize
+                  </Button>
+                  <br />
+                </>
+              ) : (
+                ""
+              )}
 
               {paid !== "free" && (
                 <TextField
@@ -285,7 +360,7 @@ function Edit(props) {
               </div>
             </div>
             <div className="right_side_form_create">
-              {paid === "free" && 
+              {paid === "free" && (
                 <TextField
                   className="mui_select"
                   select
@@ -296,9 +371,10 @@ function Edit(props) {
                 >
                   <MenuItem value="free">Free</MenuItem>
                   <MenuItem value="paid">Paid</MenuItem>
-                </TextField>} 
+                </TextField>
+              )}
 
-                {paid === "paid" && 
+              {paid === "paid" && (
                 <TextField
                   className="mui_select"
                   select
@@ -309,7 +385,8 @@ function Edit(props) {
                 >
                   <MenuItem value="free">Free</MenuItem>
                   <MenuItem value="paid">Paid</MenuItem>
-                </TextField>}
+                </TextField>
+              )}
 
               {paid !== "free" && (
                 <>
@@ -364,7 +441,11 @@ function Edit(props) {
                 }}
                 onChange={handleChangeFileTwo}
                 //error={checkFormData && !previewSourceTwo?.name}
-                helperText={<a href={serviceInfo?.surl} target="_blank" rel="noreferrer">Click here to view previous document</a>}
+                helperText={
+                  <a href={serviceInfo?.surl} target="_blank" rel="noreferrer">
+                    Click here to view previous document
+                  </a>
+                }
               />
 
               {paid === "free" && (
@@ -416,6 +497,86 @@ function Edit(props) {
           <ToastContainer />
         </div>
       </ThemeProvider>
+      {openimagePreview && previewSourceOne ? (
+        <Modal
+          open={openimagePreview}
+          onClose={() => setImagePreview(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <div className="ultimatewrapper_imageprev">
+            <div className="container_imageresize">
+              <div className="container-cropper">
+                <>
+                  <div className="cropper">
+                    <Cropper
+                      image={imagetocrop}
+                      crop={crop}
+                      zoom={zoom}
+                      aspect={3 / 1}
+                      onCropChange={setCrop}
+                      onZoomChange={setZoom}
+                      onCropComplete={onCropComplete}
+                    />
+                  </div>
+                </>
+              </div>
+
+              <div className="container-buttons">
+                <div className="slider-imagecrop">
+                  <div>
+                    {" "}
+                    <AddIcon />
+                  </div>
+                  <div className="slider-imagecrop-wrap">
+                    <Slider
+                      min={1}
+                      max={3}
+                      step={0.1}
+                      value={zoom}
+                      onChange={(e, zoom) => setZoom(zoom)}
+                    />
+                  </div>
+                  <div>
+                    {" "}
+                    <RemoveIcon />
+                  </div>
+                </div>
+                <div className="button-preview">
+                  {" "}
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={savecroppedImage}
+                  >
+                    Save
+                  </Button>
+                  {/* <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={downloadcroppedimage}
+                      >
+                        Download
+                      </Button> */}
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => setImagePreview(false)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <span className="warningspan_imagepreview">
+                  *Do not save if you want the full image to be covered in
+                  banner.
+                </span>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      ) : (
+        ""
+      )}
     </>
   );
 }

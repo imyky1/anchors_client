@@ -58,7 +58,6 @@ export default async function getCroppedImg(
   let filename = name.split(".");
   let filenamefinal = filename[0];
   filenamefinal = filenamefinal.concat(".jpeg");
-  console.log(filenamefinal);
   // As Base64 string
   const dataurl = canvas.toDataURL("image/jpeg");
   var arr = dataurl.split(","),
