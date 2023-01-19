@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import "./Create.css";
 import ServiceContext from "../../Context/services/serviceContext";
 import { useNavigate } from "react-router-dom";
@@ -6,13 +6,20 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Editor from "../Editor/Editor";
 import { LoadTwo } from "../Modals/Loading";
-import PreviewService from "../Modals/PreviewService";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import Cropper from "react-easy-crop";
+
 import {
   TextField,
   MenuItem,
   ThemeProvider,
   createTheme,
   Button,
+  Modal,
+  Box,
+  Typography,
+  Slider,
 } from "@mui/material";
 import EventCreated from "../Modals/eventcreated";
 import ServiceCreated from "../Modals/servicecreated";
@@ -21,6 +28,7 @@ import ServiceCreated from "../Modals/servicecreated";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Cover from "../Modals/ImagePreview/Cover";
+import getCroppedImg, { generateDownload } from "../helper/imageresize";
 
 // Theme for MUI --------------------------------------------------------------------
 export const theme = createTheme({
@@ -103,10 +111,11 @@ function Create(props) {
     setTags([...tags, value]);
     e.target.value = "";
   };
-  console.log(tags);
   const removeTag = (index) => {
     setTags(tags.filter((e, i) => i !== index));
   };
+
+  const [imagetocrop, setImageToCrop] = useState(null);
 
   // use effect to genrate slug and copy url-----------------------------------------------------------------
   useEffect(() => {
@@ -121,13 +130,22 @@ function Create(props) {
   // uploading file using file input --------------------------------------------------------------------------
   const handleChangeFileOne = (e) => {
     const file = e.target.files[0];
-    setPreviewSourceOne(file);
+    setZoom(1);
+    setCrop({ x: 0, y: 0 });
+    setCroppedArea(null);
+    if (e.target.files && e.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.addEventListener("load", () => {
+        setImageToCrop(reader.result);
+      });
+      setPreviewSourceOne(file);
+    }
   };
   const handleChangeFileTwo = (e) => {
     const file = e.target.files[0];
     setPreviewSourceTwo(file);
   };
-
   const data1 = new FormData();
   const data2 = new FormData();
   data1.append("file", previewSourceOne);
@@ -162,6 +180,7 @@ function Create(props) {
         try {
           var banner = await Uploadfile(data1); /// uplaoding banner and files on s3
           var doc = await UploadDocuments(data2);
+          tags.shift();
           if (banner.success && doc.success) {
             props.progress(75);
             const json = await addservice(
@@ -226,6 +245,36 @@ function Create(props) {
   // Change in values of input tags ---------------------------------------------------------------------
   const handleChange = (e) => {
     setdata({ ...data, [e.target.name]: e.target.value });
+  };
+
+  // IMAGE RESIZE
+  const [croppedArea, setCroppedArea] = useState(null);
+  const [crop, setCrop] = useState({
+    x: 0,
+    y: 0,
+  });
+  const imageref = useRef(null);
+
+  const [zoom, setZoom] = useState(1);
+
+  const onCropComplete = (croppedAreaPercentage, croppedAreaPixels) => {
+    setCroppedArea(croppedAreaPixels);
+  };
+  const openimageresizebar = () => {
+    setImagePreview((prev) => !prev);
+  };
+
+  const downloadcroppedimage = () => {
+    generateDownload(imagetocrop, croppedArea);
+  };
+  const savecroppedImage = async () => {
+    const img = await getCroppedImg(
+      imagetocrop,
+      croppedArea,
+      previewSourceOne?.name
+    );
+    setPreviewSourceOne(img);
+    setImagePreview(false);
   };
 
   return (
@@ -305,10 +354,26 @@ function Create(props) {
                 ""
               )} */}
 
+              {previewSourceOne ? (
+                <>
+                  {" "}
+                  <Button
+                    variant="outlined"
+                    onClick={openimageresizebar}
+                    className="imageresizeopenerbutton"
+                  >
+                    Preview Image and Resize
+                  </Button>
+                  <br />
+                </>
+              ) : (
+                ""
+              )}
+
               {paid !== "free" && (
                 <TextField
                   type="text"
-                  label="Tags (Write a tag and press Enter)"
+                  label="Tags"
                   onKeyDown={handleKeyDown}
                   name="stags"
                   id="stags"
@@ -319,11 +384,14 @@ function Create(props) {
               <div className="tag-container_workshop">
                 {tags?.map((tag, index) => {
                   return (
-                    <div className="tag" key={index}>
+                    <div
+                      className={index === 0 ? "tag lightag" : "tag"}
+                      key={index}
+                    >
                       <span>{tag}</span>
                       <i
                         class="fa-solid fa-circle-xmark"
-                        onClick={() => removeTag(index)}
+                        onClick={() => (index === 0 ? "" : removeTag(index))}
                       ></i>
                     </div>
                   );
@@ -406,7 +474,7 @@ function Create(props) {
               {paid === "free" && (
                 <TextField
                   type="text"
-                  label="Tags (Write a tag and press Enter)"
+                  label="Tags"
                   onKeyDown={handleKeyDown}
                   name="stags"
                   id="stags"
@@ -429,7 +497,88 @@ function Create(props) {
             ""
           )} */}
 
-          <label htmlFor="ldesc" className="editor_entry_labels">
+          {openimagePreview && previewSourceOne ? (
+            <Modal
+              open={openimagePreview}
+              onClose={() => setImagePreview(false)}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <div className="ultimatewrapper_imageprev">
+                <div className="container_imageresize">
+                  <div className="container-cropper">
+                    <>
+                      <div className="cropper">
+                        <Cropper
+                          image={imagetocrop}
+                          crop={crop}
+                          zoom={zoom}
+                          aspect={3 / 1}
+                          onCropChange={setCrop}
+                          onZoomChange={setZoom}
+                          onCropComplete={onCropComplete}
+                        />
+                      </div>
+                    </>
+                  </div>
+
+                  <div className="container-buttons">
+                    <div className="slider-imagecrop">
+                      <div>
+                        {" "}
+                        <AddIcon />
+                      </div>
+                      <div className="slider-imagecrop-wrap">
+                        <Slider
+                          min={1}
+                          max={3}
+                          step={0.1}
+                          value={zoom}
+                          onChange={(e, zoom) => setZoom(zoom)}
+                        />
+                      </div>
+                      <div>
+                        {" "}
+                        <RemoveIcon />
+                      </div>
+                    </div>
+                    <div className="button-preview">
+                      {" "}
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={savecroppedImage}
+                      >
+                        Save
+                      </Button>
+                      {/* <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={downloadcroppedimage}
+                      >
+                        Download
+                      </Button> */}
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        onClick={() => setImagePreview(false)}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Modal>
+          ) : (
+            ""
+          )}
+
+          <label
+            htmlFor="ldesc"
+            className="editor_entry_labels"
+            id="resizeimage"
+          >
             Detailed Service Description <small>*</small>
           </label>
           <CKEditor

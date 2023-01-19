@@ -299,3 +299,100 @@
   min-height: 120px;
   max-height: 300px;
 }
+
+
+/*** IMAGE RESIZE ****/
+
+
+.imageresize_container{
+  width: 100vw;
+  height: 100vh;
+}
+.closebutton_imageresize{
+  font-size: 30px;
+  position: absolute;
+  right: 20px;
+}
+
+.imageresize_cropper{
+  height: 85%;
+  max-height: 85%;
+}
+.imageresize_buttons{
+  height: 15%;
+  padding-bottom: 5vh;
+  margin: 20px;
+
+}
+.buttons_imageresize{
+  margin-right: 5vw;
+}
+.container_imageresize {
+  height: 90vh;
+  width: 62vw;
+  margin-right: 30vw;
+}
+
+.container-cropper {
+  height: 70%;
+}
+
+.cropper {
+  height: 100%;
+  position: relative;
+  border-radius: 20px;
+}
+
+.slider {
+  height: 10%;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  width: 60%;
+}
+
+.container-buttons {
+  height: 10%;
+  display: block;
+
+}
+
+.slider-imagecrop{
+  width: 100%;
+  display: flex;
+  padding-top: 2vh;
+  gap: -5vw;
+  justify-content: space-around;
+  background-color: rgb(216, 216, 216);
+}
+.ultimatewrapper_imageprev{
+  width: 62%;
+  height: 76.5%;
+  margin: 10vh auto;
+  border: 2px solid rgb(216, 216, 216);
+  border-radius:10px;
+  overflow: hidden;
+}
+.slider-imagecrop-wrap{
+  width: 60%;
+}
+
+.button-preview{
+  display: flex;
+    padding-top: 2vh;
+    padding-bottom: 3vh;
+    background-color: rgb(216, 216, 216);
+    align-items: center;
+    justify-content: center;
+    gap: 5vw;
+}
+
+.imageshower{
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.imaaaaaaaaa{
+  width: 900px;
+  height: 300px;
+}
