@@ -566,6 +566,10 @@ function Create(props) {
                         Cancel
                       </Button>
                     </div>
+                    <span className="warningspan_imagepreview">
+                      *Do not save if you want the full image to be covered in
+                      banner.
+                    </span>
                   </div>
                 </div>
               </div>

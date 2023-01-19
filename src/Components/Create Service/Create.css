@@ -352,7 +352,7 @@
 }
 
 .container-buttons {
-  height: 10%;
+  height: 12%;
   display: block;
 
 }
@@ -361,15 +361,15 @@
   width: 100%;
   display: flex;
   padding-top: 2vh;
-  gap: -5vw;
-  justify-content: space-around;
-  background-color: rgb(216, 216, 216);
+  gap: 2vw;
+  justify-content: center;
+  background-color: rgb(226, 226, 226);
 }
 .ultimatewrapper_imageprev{
   width: 62%;
-  height: 76.5%;
+  height: 79%;
   margin: 10vh auto;
-  border: 2px solid rgb(216, 216, 216);
+  border: 2px solid rgb(226, 226, 226);
   border-radius:10px;
   overflow: hidden;
 }
@@ -380,8 +380,8 @@
 .button-preview{
   display: flex;
     padding-top: 2vh;
-    padding-bottom: 3vh;
-    background-color: rgb(216, 216, 216);
+    padding-bottom: 1.5vh;
+    background-color: rgb(226, 226, 226);
     align-items: center;
     justify-content: center;
     gap: 5vw;
@@ -395,4 +395,12 @@
 .imaaaaaaaaa{
   width: 900px;
   height: 300px;
+}
+.warningspan_imagepreview{
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  width: 100%;
+      background-color: rgb(226, 226, 226);
+      padding-bottom: 2vh;
 }
