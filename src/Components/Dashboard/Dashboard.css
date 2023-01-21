@@ -8,6 +8,10 @@
     font-family: 'Roboto',sans-serif;
     margin-bottom: 4vw;
 }
+.dashboardWrapper{
+    display: flex;
+    gap: 10vw;
+}
 
 .dashboard a{
     text-decoration: none;
@@ -102,3 +106,45 @@
     padding-left: 15vw;
 }
 
+
+/*****INVITE CODE CSS**/
+
+/*****INVITE CODE CSS**/
+.filldetailsboxwrap {
+    width: 20vw;
+    height: 14vh;
+    background-color: rgba(240, 248, 255, 0.486);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 9vh;
+    gap: 20%;
+    padding: 50px;
+}
+
+.filldetailsboxwrap h2 {
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.filldetailsboxwrap span {
+    text-align: center;
+    font-size: 13px;
+}
+.codecopybox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20%;
+    background-color: rgba(85, 85, 85, 0.137);
+    min-width: 55%;
+    max-width: 100%;
+    padding: 5px 50px 5px 20px;
+}
+
+.codecopyiconbox:hover{
+    background-color: rgba(223, 255, 205, 0.527);
+    border-radius: 50%;
+}

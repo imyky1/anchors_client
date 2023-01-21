@@ -264,7 +264,6 @@ function Edit(props) {
   if (!check) {
     navigate("/");
   }
-  console.log(imagetocrop);
   return (
     <>
       {openLoading && <LoadTwo open={openLoading} />}
