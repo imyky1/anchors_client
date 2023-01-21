@@ -168,7 +168,7 @@ function Dashboard() {
   };
   useEffect(() => {
     wow();
-    //handler();
+    handler();
     getallsubs({
       date: dateRangefrom?.slice(8, 10) ? dateRangefrom?.slice(8, 10) : 20,
       month: dateRangefrom?.slice(5, 7) ? dateRangefrom?.slice(5, 7) : 11,
