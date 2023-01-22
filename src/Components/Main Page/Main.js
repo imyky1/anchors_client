@@ -3,9 +3,8 @@ import "./Main.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 
 // Import Swiper styles
 import "swiper/css";
@@ -27,8 +26,6 @@ function Main() {
 
   const { getallfb } = useContext(feedbackcontext);
 
-  
-
   const handleChange = (e) => {
     setPlatform(e.target.value);
   };
@@ -36,9 +33,9 @@ function Main() {
   const handleCheckEligibility = () => {
     mixpanel.track("Clicked Check Eligibility on Anchors Main Page");
     if (platform !== "Choose Platform" && parseInt(followers) > 0) {
-      mixpanel.track("Eligibility on Anchors Main Page",{
-        platform:platform,
-        followers:followers
+      mixpanel.track("Eligibility on Anchors Main Page", {
+        platform: platform,
+        followers: followers,
       });
       if (platform === "youtube") {
         if (parseInt(followers) >= 5000) {
@@ -82,16 +79,19 @@ function Main() {
 
   // Visited page mix panel
   useEffect(() => {
-    mixpanel.track("Visited Main Page")
-
-  }, [])
+    mixpanel.track("Visited Main Page");
+  }, []);
 
   return (
     <>
       <div className="main_creator_page">
         <div className="mainpage_header creator_login_header ">
           <div className="logo">
-            <LazyLoadImage effect="blur" src={require("../logo.png")} alt="Logo" />
+            <LazyLoadImage
+              effect="blur"
+              src={require("../logo.png")}
+              alt="Logo"
+            />
             <span>anchors</span>
             <p className="beta_tagname">Beta</p>
           </div>
@@ -391,10 +391,8 @@ function Main() {
           </section>
         </div>
       </div>
-      <Footer/>
+      <Footer />
       <ToastContainer />
-
-      
     </>
   );
 }

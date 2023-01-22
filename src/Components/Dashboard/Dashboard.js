@@ -5,11 +5,13 @@ import { linkedinContext } from "../../Context/LinkedinState";
 import ServiceContext from "../../Context/services/serviceContext";
 import { creatorContext } from "../../Context/CreatorState";
 import Moment from "moment";
-import { TextField } from "@mui/material";
-
+import { Box, Button, Modal, TextField, Typography } from "@mui/material";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Apexcharts from "./apexcharts";
 import { useMemo } from "react";
 import { SuperSEO } from "react-super-seo";
+import { host } from "../../config/config";
+import { toast } from "react-toastify";
 
 function Dashboard() {
   const { loginInfo, getStatus } = useContext(linkedinContext);
@@ -28,8 +30,47 @@ function Dashboard() {
     getuserorder,
     alluserorder,
   } = useContext(ServiceContext);
-  const { getAllCreatorInfo, basicNav } = useContext(creatorContext);
+  const { allCreatorInfo, getAllCreatorInfo, basicNav } =
+    useContext(creatorContext);
   const navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
+  const [inviteCode, setInviteCode] = useState();
+  const copyinvitecode = () => {
+    navigator.clipboard.writeText(inviteCode);
+    toast.info("Copied to clipboard", {
+      position: "top-left",
+      autoClose: 3000,
+    });
+  };
+  const generateInviteCode = async () => {
+    try {
+      const response = await fetch(`${host}/analytics/generateCode`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+      });
+      const json = await response.json();
+      if (json.success) {
+        setInviteCode(json.code);
+      } else {
+        //alert(json.error)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (basicNav?.inviteCode) {
+      setInviteCode(basicNav?.inviteCode);
+    } else {
+      generateInviteCode();
+    }
+  }, [basicNav]);
   const getfromdate = () => {
     let dateenddef = new Date();
     dateenddef.setDate(dateenddef.getDate() - 10);
@@ -191,38 +232,78 @@ function Dashboard() {
 
   return (
     <>
-      <div className="dashboard">
-        <div className="user_section">
-          <h1 className="dashboard_header1">
-            Welcome{" "}
-            {localStorage.getItem("isDev") === "true"
-              ? "Builders"
-              : loginInfo?.name
-              ? loginInfo?.name
-              : basicNav?.name}
-            ,
-          </h1>
-          <span>
-            {firstService ? (
-              <>
-                Its high time to take first step to serve your follower ,<br />
-                Start with first service
-              </>
-            ) : (
-              <>
-                Its high time to take your step to serve your follower ,<br />
-                Start by creating a new service
-              </>
-            )}
-          </span>
-          <Link to="/createservice">
-            <div className="add_event">
-              <i className="fa-solid fa-circle-plus fa-2x"></i>
-              <h2>
-                {firstService ? <>Create First Service</> : <>Create Service</>}
-              </h2>
+      <div className="dashboardWrapper">
+        <div className="dashboard">
+          <div className="user_section">
+            <h1 className="dashboard_header1">
+              Welcome{" "}
+              {localStorage.getItem("isDev") === "true"
+                ? "Builders"
+                : loginInfo?.name
+                ? loginInfo?.name
+                : basicNav?.name}
+              ,
+            </h1>
+            <div className="modalinvitecode">
+              <span>
+                {firstService ? (
+                  <>
+                    Its high time to take first step to serve your follower ,
+                    <br />
+                    Start with first service
+                  </>
+                ) : (
+                  <>
+                    Its high time to take your step to serve your follower ,
+                    <br />
+                    Start by creating a new service
+                  </>
+                )}
+              </span>
             </div>
-          </Link>
+            <Link to="/createservice">
+              <div className="add_event">
+                <i className="fa-solid fa-circle-plus fa-2x"></i>
+                <h2>
+                  {firstService ? (
+                    <>Create First Service</>
+                  ) : (
+                    <>Create Service</>
+                  )}
+                </h2>
+              </div>
+            </Link>
+          </div>
+        </div>
+        <div className="rightinvitedashboard">
+          {allCreatorInfo.dob ? (
+            <div className="filldetailsboxwrap">
+              <h1>Invite Code</h1>
+              <div className="codecopybox">
+                <div className="codecopyiconbox" onClick={copyinvitecode}>
+                  <ContentCopyIcon />
+                </div>
+                <div className="invitecodeinpopup">{inviteCode}</div>
+              </div>
+              <span>
+                You can share your invite code with other creators. This will
+                help them to join the platform sooner !
+              </span>
+            </div>
+          ) : (
+            <div className="invitecodepopupwrapper">
+              <div className="filldetailsboxwrap">
+                <h2>Fill your Personal Information to get your Inivite code</h2>
+                <Button
+                  variant="outlined"
+                  onClick={() => navigate("/creator_info")}
+                >
+                  Fill Here
+                </Button>
+                <span>You can share your invite code with other creators.</span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className="daterangeselect">

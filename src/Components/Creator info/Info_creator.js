@@ -310,7 +310,7 @@ function Info_creator(props) {
                 name="dob"
                 id="dob"
                 onChange={handleChange}
-                value={data.dob.slice(0, 10)}
+                value={data.dob?.slice(0, 10)}
               />
               <label htmlFor="linkedInLink" className="entry_labels">
                 LinkedIn Link <small>*</small>
