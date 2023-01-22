@@ -372,13 +372,14 @@ function Main() {
                         <div>
                           <p>{e?.desc}</p>
                           <div className="user_details_fb_main">
-                            {e?.userID.photo ===
-                            "https://media-exp1.licdn.com/dms/image/C5603AQHbuisFLZQv7w/profile-displayphoto-shrink_100_100/0/1597657855604?e=1673481600&v=beta&t=tMsAXmN2WayqLTDKFPl3ZuugC7vsoBXdNJ2KeK-lN88" ? (
-                              <LazyLoadImage src={PNGIMG} alt="" />
-                            ) : (
-                              <LazyLoadImage src={e?.userID?.photo} alt="" />
-                            )}
-
+                            <LazyLoadImage
+                              src={e?.userID?.photo}
+                              onError={({ currentTarget }) => {
+                                currentTarget.onerror = null; // prevents looping
+                                currentTarget.src = PNGIMG;
+                              }}
+                              alt="userimag"
+                            />
                             <span>
                               {e?.userID?.name ? e?.userID?.name : "unknown"}
                             </span>
