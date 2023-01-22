@@ -61,7 +61,19 @@ padding-top: 1.8rem;
 }
 
 
+.iconhover p{
+    display: none;
+}
 
+.iconhover:hover p{
+    display: block; 
+    position:absolute;
+    border-radius: 20px;
+    top: 15vh;
+    background-color: rgba(128, 128, 128, 0.801);
+    padding: 15px;
+    font-size: 13px;
+}
 
 
 

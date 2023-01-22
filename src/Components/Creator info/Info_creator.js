@@ -31,6 +31,8 @@ function Info_creator(props) {
     fbLink: "",
     teleLink: "",
     twitterLink: "",
+    dob: "",
+    topmateLink: "",
   });
 
   const data1 = new FormData();
@@ -49,7 +51,6 @@ function Info_creator(props) {
     setContent(allCreatorInfo?.aboutMe);
     // eslint-disable-next-line
   }, [getAllCreatorInfo]);
-
   // Auto resize of textare
   const textarea = document.querySelector("#about");
   textarea?.addEventListener("input", autoResize, false);
@@ -301,7 +302,16 @@ function Info_creator(props) {
                 }}
                 onChange={handleChangeFileOne}
               />
-
+              <label htmlFor="dob" className="entry_labels">
+                Date of Birth <small>*</small>
+              </label>
+              <input
+                type="date"
+                name="dob"
+                id="dob"
+                onChange={handleChange}
+                value={data.dob.slice(0, 10)}
+              />
               <label htmlFor="linkedInLink" className="entry_labels">
                 LinkedIn Link <small>*</small>
               </label>
@@ -353,6 +363,16 @@ function Info_creator(props) {
                 id="twitterLink"
                 onChange={handleChange}
                 value={data.twitterLink}
+              />
+              <label htmlFor="topmateLink" className="entry_labels">
+                TopMate Link
+              </label>
+              <input
+                type="url"
+                name="topmateLink"
+                id="topmateLink"
+                onChange={handleChange}
+                value={data.topmateLink}
               />
             </div>
           </div>

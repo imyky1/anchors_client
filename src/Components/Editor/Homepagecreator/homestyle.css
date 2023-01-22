@@ -1,0 +1,101 @@
+.creator_section_wrapper{
+    width: 100%;
+    height: 900px;
+    background-color: #FFFAF3;
+}
+.creator_section_content{
+    margin: 0 10%;
+    padding-top: 7vh;
+}
+.creator_section_title{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 5vh;
+}
+.creator_section_title h1{
+    font-family:"roboto";
+        font-size: 64px;
+        font-weight: 600;
+        line-height: 77px;
+        letter-spacing: 0em;
+        text-align: left;
+}
+.creator_section_title span{
+        font-family: "roboto";
+        padding-top: 1.6vh;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 30px;
+        letter-spacing: 0px;
+        text-align: center;
+}
+.creator_section_cardsection{
+    display: flex;
+    justify-content: center;
+    gap: 5vw;
+    position: relative;
+}
+.creator_section_cardsection_card1{
+    width: 316px;
+    border-radius: 23px;
+    height: 544px;
+}
+
+.creator_section_cardsection_card1 img{
+    width: 100%;
+        height: 100%;
+    object-fit: cover;
+    
+}
+
+.creator_section_imagetext{
+    position: absolute;
+    bottom: 0;
+    width: 316px;
+    display: flex;
+    align-items: center;
+    height: 120px;
+    border-radius: 23px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+}
+.creator_section_imagewrap{
+    display: flex;
+    width: 244px;
+    margin: 0 2vw;
+    margin-top: 1vh;
+    align-items: center;
+    justify-content: space-between;
+}
+.creator_section_imagetext_text span{
+    display: block;
+}
+.creator_section_imagetext_text span:first-of-type{
+    font-family: Roboto;
+        font-size: 21px;
+        font-weight: 700;
+        padding-bottom: 3px;
+        line-height: 24px;
+        letter-spacing: -0.5px;
+        text-align: left;
+        color: #FFFAF3;
+}
+.creator_section_imagetext_text span:last-of-type{
+    font-family: Roboto;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 22px;
+        letter-spacing: 0px;
+        text-align: left;
+        color: #D4D4D8;
+
+}
+.creator_section_icon{
+    padding: 8px 15px 5px 15px;
+    border: 2px solid rgba(255, 255, 255, 0.781);
+    border-radius: 20px;
+    background-color: rgba(128, 128, 128, 0.349);
+}
+
+
