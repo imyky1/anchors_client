@@ -666,7 +666,7 @@
 
 /**Document Preview Model**/
 .document_preivew_model {
- width: 100vw;
+    width: 100vw;
     height: 100vh;
     position: fixed;
         background-color: #a0a0a039;
@@ -697,7 +697,10 @@
         border-radius: 9px; 
          */
          position: relative;
-        
+         max-width: fit-content;
+         padding: 5px 20px 20px 20px;
+         border-radius: 20px;
+         background-color: #afc3d8;
 }
 
 
@@ -737,6 +740,7 @@
         cursor: pointer;
         position: absolute;
         right: 0;
+        margin-right: 20px;
             transform: translateY(35vh);
             z-index: 9999999;
     /* 
@@ -754,6 +758,17 @@
     border-radius: 3px 0 0 3px;
 }
 
+
+.close_button_previewpdf{
+    margin-left: 10px;
+    padding: 3px;
+    cursor: pointer;
+
+}
+
+
+
+
 .loadbar2_preview_popup{
     position: fixed;
         top: 7vh;
@@ -764,7 +779,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: transparent !important;
+}
+.loadbar2_preview_wrap{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
 }
 .loader_home_preview {
     width: 20%;
@@ -788,6 +810,44 @@
         z-index: 9999;
         
 
+}
+
+.pdfviewerpopup{
+    margin: 20% 10%;
+}
+
+
+@media screen and (max-width: 650px) {
+    .react-pdf__Page__canvas{
+        width: 95vw !important;
+        aspect-ratio: 9/16 !important;
+    }
+    .document_preivew_create_model{
+        padding-left: unset;
+        padding-right: unset;
+    }
+    .next{
+        margin-right: unset;
+        opacity: 0.5;
+    }
+    .prev{
+        opacity: 0.5;
+    }
+    .top_document_preivew{
+        padding-right: 10px;
+    }
+}
+@media screen and (max-width: 500px) {
+    .react-pdf__Page__canvas {
+                aspect-ratio: 9/15 !important;
+                max-height: 90vh;
+    }
+}
+@media screen and (max-width: 440px) {
+    .react-pdf__Page__canvas {
+                aspect-ratio: 9/14 !important;
+                max-height: 90vh;
+    }
 }
 
 

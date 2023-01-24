@@ -327,7 +327,7 @@ function Create(props) {
                 id="sbanner"
                 required
                 //label={!previewSourceOne?.name && "Banner Image"}
-                placeholder="Upload Image (Aspect ratio- 3:1)"
+                placeholder="Upload Image"
                 onFocus={(e) => {
                   e.target.type = "file";
                 }}

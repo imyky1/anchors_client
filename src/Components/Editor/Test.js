@@ -7,7 +7,7 @@ import { host } from "../../config/config";
 import "./teststyle.css";
 
 import "add-to-calendar-button/assets/css/atcb.css";
-import { FormHelperText } from "@mui/material";
+import { FormHelperText, Modal } from "@mui/material";
 import PreviewDocument from "../Modals/PreviewDoc";
 import Canvas from "./Canvas";
 
@@ -125,15 +125,20 @@ function Test() {
             })}} 
         <img src={url} alt="will come !!!" />;
       </div> */}
-      <Canvas
+      {/* <Canvas
         textToShow="This is testing sample text"
         width="1200"
         height="450"
         imgBackground="https://www.anchors.in:5000/api/file/1670005634078--himanshu.bf15583cd698b88970c3.jpg"
         imgBack="../backgroundimg.png"
-      />
+      /> */}
 
-      <a href="https://anchors-files.s3.ap-south-1.amazonaws.com/docs/1673505520670-Result_41621037.pdf" download="GFG">Click Me</a>
+      <a
+        href="https://anchors-files.s3.ap-south-1.amazonaws.com/docs/1673505520670-Result_41621037.pdf"
+        download="GFG"
+      >
+        Click Me
+      </a>
     </div>
   );
 }

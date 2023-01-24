@@ -12,7 +12,7 @@ import { feedbackcontext } from "../../Context/FeedbackState";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper";
 import Footer from "../Footer/Footer.js";
-
+import PNGIMG from "../Main Page/default_profile.png";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -51,7 +51,6 @@ function Profile(props) {
 
   let count = 0;
   let countworkshop = 0;
-
   useEffect(() => {
     const process = async () => {
       getcreatoridUsingSlug(slug).then((data) => {
@@ -406,8 +405,16 @@ function Profile(props) {
           <div className="profile_page_left">
             <div className="service_page_creator creator_box_profile">
               <img
-                src={basicCdata?.photo}
+                src={
+                  basicCreatorInfo?.profile
+                    ? basicCreatorInfo?.profile
+                    : basicCdata?.photo
+                }
                 alt="creator"
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = PNGIMG;
+                }}
                 className="service_page_profile_pic profile_pic_creator"
                 onClick={(e) => {
                   e.preventDefault();
@@ -421,7 +428,6 @@ function Profile(props) {
                   );
                 }}
               />
-
               <div className="serv_profile_data profile_data">
                 <span className="c_name creator_name">{basicCdata?.name}</span>
                 <span className="c_tagline creator_tagline">
@@ -577,7 +583,9 @@ function Profile(props) {
               <div className="about_details_c">
                 {document.querySelector(".about_details_c")
                   ? (document.querySelector(".about_details_c").innerHTML =
-                      basicCreatorInfo?.aboutMe)
+                      basicCreatorInfo?.aboutMe
+                        ? basicCreatorInfo?.aboutMe
+                        : "")
                   : ""}
               </div>
             </div>
@@ -593,51 +601,51 @@ function Profile(props) {
                       count++;
                       return (
                         <Link
-                            to={`/s/${e.slug}`}
-                            key={e._id}
-                            style={{ textDecoration: "none" }}
+                          to={`/s/${e.slug}`}
+                          key={e._id}
+                          style={{ textDecoration: "none" }}
+                        >
+                          <div
+                            className="other_service_items"
+                            onClick={() => handleServiceClick(e.slug)}
                           >
-                            <div
-                              className="other_service_items"
-                              onClick={() => handleServiceClick(e.slug)}
-                            >
-                              <section className="other_service_part_one">
-                                <img src={e?.simg} alt="" />
-                                <div>
-                                  <h3>{e?.sname}</h3>
-                                  <section className="other_service_tags">
-                                    <span>Document</span>
-                                    {e?.isPaid ? (
-                                      <span style={{ background: "#FFEED4" }}>
-                                        Paid
-                                      </span>
-                                    ) : (
-                                      <span>Free</span>
-                                    )}
-                                  </section>
-                                </div>
-                              </section>
-                              <section className="other_service_part_two">
-                                {e?.downloads > 50 && (
-                                  <span>
-                                    <i
-                                      className="fa-solid fa-fire fa-lg"
-                                      style={{ color: "#DA8181" }}
-                                    ></i>{" "}
-                                    &nbsp;{e?.downloads} users downloaded
-                                  </span>
-                                )}
-                                <button
-                                  onClick={() => {
-                                    navigate(`/s/${e?.slug}`);
-                                  }}
-                                >
-                                  Explore&nbsp;&nbsp;
-                                  <i class="fa-solid fa-arrow-right"></i>
-                                </button>
-                              </section>
-                            </div>
-                          </Link>
+                            <section className="other_service_part_one">
+                              <img src={e?.simg} alt="" />
+                              <div>
+                                <h3>{e?.sname}</h3>
+                                <section className="other_service_tags">
+                                  <span>Document</span>
+                                  {e?.isPaid ? (
+                                    <span style={{ background: "#FFEED4" }}>
+                                      Paid
+                                    </span>
+                                  ) : (
+                                    <span>Free</span>
+                                  )}
+                                </section>
+                              </div>
+                            </section>
+                            <section className="other_service_part_two">
+                              {e?.downloads > 50 && (
+                                <span>
+                                  <i
+                                    className="fa-solid fa-fire fa-lg"
+                                    style={{ color: "#DA8181" }}
+                                  ></i>{" "}
+                                  &nbsp;{e?.downloads} users downloaded
+                                </span>
+                              )}
+                              <button
+                                onClick={() => {
+                                  navigate(`/s/${e?.slug}`);
+                                }}
+                              >
+                                Explore&nbsp;&nbsp;
+                                <i class="fa-solid fa-arrow-right"></i>
+                              </button>
+                            </section>
+                          </div>
+                        </Link>
                       );
                     } else {
                       return "";
