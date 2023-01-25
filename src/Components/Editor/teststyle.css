@@ -86,3 +86,11 @@
     -webkit-transform: scale(1);
     transform: scale(1);
 }
+
+
+.videostreaming{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
