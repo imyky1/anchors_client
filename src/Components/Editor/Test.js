@@ -54,21 +54,6 @@ function Test() {
       `http://www.linkedin.com/shareArticle?mini=true&url=https://anchors.in/w/how-to-make-custom-linkedin-share-button&title=How%20to%20make%20custom%20linkedin%20share%20button&summary=some%20summary%20if%20you%20want&source=stackoverflow.com`
     );
   };
-  // useEffect(() => {
-  //   const getsignedurl = async () => {
-  //     try {
-  //       const response = await fetch(`${host}/api/file/getSignedVideourl`, {
-  //         method: "GET",
-  //       });
-  //       const json = await response.json();
-  //       setSignedUrl(json.signedurl);
-  //       return json;
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   getsignedurl();
-  // });
 
   // popup preview
   const previewopen = (e) => {
@@ -156,13 +141,6 @@ function Test() {
         >
           Click Me
         </a>
-      </div>
-
-      <div className="videostreaming">
-        <h2>This is video streaming ez!</h2>
-        <video width="1000px" height="600px" controls>
-          <source src="https://d2tnr5ylewtxw9.cloudfront.net/2023-01-18%2022-53-31.mp4?Expires=1674672701&Key-Pair-Id=K3065PMLWN1QK8&Signature=H~9itDgWSYYkvR2fHz9rIvuq0zxoucNyyZzITN6xlhek9SkSbIdkycLUxD1l2kD1~-uzEUTlVLRFSR5G3h9G9aBNxcEfgVw6uchAmM5IR0XQ2xJHOihkf5dxZdFOqR7-DTra8nm2WLx44rP5bULx~0frqxJOJfmTPmtGBguPcBLj0iCCbf~kc9E-6c30dibA0Kzp7STfuYiYKzRyCBZzKU1CbVmhKB5w~p7aCbrKrMOXgWa4weUzwtrnz0m9CNTaIdFrbpA64~7RXASOQgGnPSiQWHavUMkTQArmjUZM-TxLPpIDnFcXBVJ-aqVFmL-swnme-RKNOxz3dPxhmWd1yw__"></source>
-        </video>
       </div>
     </>
   );
