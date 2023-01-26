@@ -2,6 +2,9 @@ import { render } from "@testing-library/react";
 import { type } from "@testing-library/user-event/dist/type";
 import React, { useEffect, useState } from "react";
 import { OutTable, ExcelRenderer } from "react-excel-renderer";
+import { host } from "../../../config/config";
+import readXlsxFile from "read-excel-file";
+
 import "./excelview.css";
 
 const ExcelViewer = ({ url }) => {
@@ -13,21 +16,121 @@ const ExcelViewer = ({ url }) => {
         : "https://anchors-files.s3.ap-south-1.amazonaws.com/docs/1674668029771-dsasheet.xlsx"
     );
   }, []);
+  const [blob, setBlob] = useState(null);
+  const getBlobFromUrl = (myImageUrl) => {
+    return new Promise((resolve, reject) => {
+      let request = new XMLHttpRequest();
+      request.open("GET", myImageUrl, true);
+      request.setRequestHeader("Content-Type", "application/octet-stream");
+      request.responseType = "blob";
+      request.onload = () => {
+        var reader = new FileReader();
+        reader.readAsDataURL(request.response);
+        reader.onload = (e) => {
+          console.log(e.target.result);
+          const objUrl = window.URL.createObjectURL(
+            new Blob([e.target.result])
+          );
+          console.log(objUrl);
+          setBlob(e.target.result);
+          return objUrl;
+        };
+      };
+      request.send();
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener(
+      "keydown",
+      function (event) {
+        if (
+          event.keyCode === 80 &&
+          (event.ctrlKey || event.metaKey) &&
+          !event.altKey &&
+          (!event.shiftKey || window.chrome || window.opera)
+        ) {
+          event.preventDefault();
+          if (event.stopImmediatePropagation) {
+            event.stopImmediatePropagation();
+          } else {
+            event.stopPropagation();
+          }
+          return;
+        }
+      },
+      true
+    );
+  }, []);
 
   async function createFile() {
-    let response = await fetch(urlexcel);
-    let data = await response.blob();
-    let typeurl = urlexcel.split(".");
-    typeurl = typeurl.at(-1);
+    const response = await fetch(
+      `${host}/analytics/getfileurl`,
+
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+        body: JSON.stringify({
+          url: urlexcel,
+        }),
+      }
+    );
+    const rd = await response.json();
+
+    const byteCharacters = window.atob(rd.rd);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: "application/octet-stream" });
+    // console.log(data2);
+    // const data = data2.blob();
+    // const data = await fetch(
+    //   "https://anchors-files.s3.ap-south-1.amazonaws.com/docs/1674668029771-dsasheet.xlsx",
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/octet-stream",
+    //       "Access-Control-Allow-Origin": "*",
+    //       "Access-Control-Allow-Methods":
+    //         "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+    //       "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
+    //     },
+    //     // credentials: "include",
+    //   }
+    // ).then((res) => res.blob());
+    // const data = await getBlobFromUrl(urlexcel);
+    // console.log(data);
+    // const fe = await fetch(url);
+    // const data = await fe.blob();
+    // console.log(data);
+    // let typeurl = urlexcel.split(".");
+    // typeurl = typeurl.at(-1);
+    // let response = await fetch(
+    //   "https://anchors-files.s3.ap-south-1.amazonaws.com/docs/1674668029771-dsasheet.xlsx"
+    //   // {
+    //   //   mode: "no-cors",
+    //   //   headers: {
+    //   //     "Content-Type": "application/octet-stream",
+    //   //     "Access-Control-Allow-Origin": "*",
+    //   //     "Access-Control-Allow-Methods":
+    //   //       "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+    //   //     "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
+    //   //   },
+    //   // }
+    // );
+    // let data = await response.blob();
+    // console.log(data);
     let metadata = {
-      type:
-        typeurl === "xls"
-          ? "application/vnd.ms-excel"
-          : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     };
-    console.log(metadata);
-    console.log(metadata);
-    let file = new File([data], `file.${typeurl}`, metadata);
+    let file = new File([blob], `file.xlsx`, metadata);
+    console.log(file);
     renderFile(file);
   }
 

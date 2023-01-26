@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loader from "./Loader";
 import { Document, Page, pdfjs } from "react-pdf";
 import "./pdfviewer.css";
@@ -15,7 +15,28 @@ const PDFReader = () => {
     setNumPages(numPages);
     setIsLoading(false);
   }
-  console.log(window.innerWidth);
+  useEffect(() => {
+    window.addEventListener(
+      "keydown",
+      function (event) {
+        if (
+          event.keyCode === 80 &&
+          (event.ctrlKey || event.metaKey) &&
+          !event.altKey &&
+          (!event.shiftKey || window.chrome || window.opera)
+        ) {
+          event.preventDefault();
+          if (event.stopImmediatePropagation) {
+            event.stopImmediatePropagation();
+          } else {
+            event.stopPropagation();
+          }
+          return;
+        }
+      },
+      true
+    );
+  }, []);
 
   return (
     <div className="pdfviewer-container">
