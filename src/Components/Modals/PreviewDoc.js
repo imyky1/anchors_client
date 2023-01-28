@@ -72,7 +72,9 @@ function PreviewDocument({ open, onClose, url }) {
               onClick={() => changepageinc()}
             ></i>
             <div className="top_document_preivew">
-              <i className="fa-solid fa-xmark fa-2x" onClick={onClose}></i>
+              <span className="close_button_previewpdf">
+                <i className="fa-solid fa-xmark fa-2x" onClick={onClose}></i>
+              </span>
               <p>
                 Page {pageNumber} of {numPages}
               </p>
@@ -85,16 +87,18 @@ function PreviewDocument({ open, onClose, url }) {
             }}
             onLoadSuccess={onDocumentLoadSuccess}
             loading={
-              <div className="loadbar2_preview_popup">
-                <img
-                  src={require("../logo.png")}
-                  alt="..Loading"
-                  className="loader_home_preview"
-                />
+              <div className="loadbar2_preview_wrap">
+                <div className="loadbar2_preview_popup">
+                  <img
+                    src={require("../logo.png")}
+                    alt="..Loading"
+                    className="loader_home_preview"
+                  />
+                </div>
               </div>
             }
           >
-            <Page pageNumber={pageNumber} />
+            <Page pageNumber={pageNumber} devicePixelRatio={1} />
           </Document>
         </div>
       </div>

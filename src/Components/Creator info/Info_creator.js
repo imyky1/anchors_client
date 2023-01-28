@@ -12,9 +12,10 @@ import { SuperSEO } from "react-super-seo";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { MenuItem, TextField } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function Info_creator(props) {
-  const { allCreatorInfo, getAllCreatorInfo, setCreatorInfo } =
+  const { allCreatorInfo, getAllCreatorInfo, basicNav, setCreatorInfo } =
     useContext(creatorContext);
   const { Uploadfile } = useContext(ServiceContext);
   const [Content, setContent] = useState();
@@ -33,6 +34,7 @@ function Info_creator(props) {
     twitterLink: "",
     dob: "",
     topmateLink: "",
+    profile: "",
   });
 
   const data1 = new FormData();
@@ -42,7 +44,6 @@ function Info_creator(props) {
     getAllCreatorInfo();
     // eslint-disable-next-line
   }, []);
-
   useEffect(() => {
     setdata({
       ...data,
@@ -302,6 +303,15 @@ function Info_creator(props) {
                 }}
                 onChange={handleChangeFileOne}
               />
+              <a
+                className="showexistingimg"
+                href={data?.profile ? data?.profile : basicNav?.photo}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {" "}
+                Click here to view existing image
+              </a>
               <label htmlFor="dob" className="entry_labels">
                 Date of Birth <small>*</small>
               </label>

@@ -34,6 +34,9 @@ import Logout_Model_user from "./Components/Modals/Logout_Model_user";
 import UserDashboardState from "./Context/userdashbaord";
 import Redirect_servworkshop from "./Components/Redirect_servworkshop";
 import Signup from "./Components/Signup/Signup";
+import ExcelViewer from "./Components/Editor/excelviewer/ExcelViewer";
+import PDFReader from "./Components/Editor/pdfViewer/Components/PDFReader";
+import VideoDisplay from "./Components/Editor/VideoDisplay/VideoDisplay";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -159,6 +162,28 @@ function App() {
                         <Route path="/signup/creators" element={<Signup />} />
 
                         <Route path="/sitemapac" element={<Sitemap />}></Route>
+                        {/**EXCEL FILE VIEWING ROUTE : ) */}
+                        <Route
+                          path="/viewExcel"
+                          element={
+                            <ExcelViewer /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
+                            />
+                          }
+                        />
+                        <Route
+                          path="/viewPdf"
+                          element={
+                            <PDFReader /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
+                            />
+                          }
+                        />
+                        <Route
+                          path="/viewVideo"
+                          element={
+                            <VideoDisplay /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
+                            />
+                          }
+                        />
                       </Routes>
                     </UserDashboardState>
                   </FeedbackState>

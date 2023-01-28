@@ -270,7 +270,7 @@ const Dashboarduser = () => {
             <div
               key={i}
               className={`userdash-creator-img  ${
-                elem._id === showingspecific ? "desktop-view-userdash" : ""
+                elem?._id === showingspecific ? "desktop-view-userdash" : ""
               }`}
               onClick={() => {
                 handlecreatorpicclick(elem);
@@ -278,12 +278,12 @@ const Dashboarduser = () => {
             >
               <img
                 className={`creator-image-userdash ${
-                  elem._id === showingspecific ? "addshadow-userdash" : ""
+                  elem?._id === showingspecific ? "addshadow-userdash" : ""
                 }`}
-                src={elem.photo}
+                src={elem?.photo}
                 alt="creator"
               ></img>
-              <h5>{elem.name}</h5>
+              <h5>{elem?.name}</h5>
             </div>
           ))}
 
@@ -397,19 +397,19 @@ const Dashboarduser = () => {
                           </svg>
                         )}
 
-                        {handletiming(elem.startDate, elem.time)}
+                        {handletiming(elem?.startDate, elem?.time)}
                       </div>
                       <div
                         className={`documents-userdash-upper ${
-                          elem.isPaid ? "yellowpaid-userdash" : ""
+                          elem?.isPaid ? "yellowpaid-userdash" : ""
                         }`}
                       >
-                        <img src={elem.simg} alt="SERVICE"></img>
+                        <img src={elem?.simg} alt="SERVICE"></img>
                         <div className="userdash-title-tags">
-                          <h3>{elem.sname}</h3>
+                          <h3>{elem?.sname}</h3>
                           <div className="workshop-userdash-tags">
                             <h4>Event</h4>
-                            <h4>{elem.isPaid ? "Paid" : "Free"}</h4>
+                            <h4>{elem?.isPaid ? "Paid" : "Free"}</h4>
                           </div>
                         </div>
                       </div>
@@ -417,7 +417,7 @@ const Dashboarduser = () => {
                         <div className="documents-userdash-timewrap">
                           <div
                             className={`workshop-userdash-date ${
-                              handletiming(elem.startDate, elem.time) ===
+                              handletiming(elem?.startDate, elem?.time) ===
                               "Completed"
                                 ? "completed-workshop-userdash"
                                 : ""
@@ -433,15 +433,15 @@ const Dashboarduser = () => {
                               <path
                                 d="M0 18.125C0 19.1602 0.839844 20 1.875 20H15.625C16.6602 20 17.5 19.1602 17.5 18.125V7.5H0V18.125ZM12.5 10.4688C12.5 10.2109 12.7109 10 12.9688 10H14.5312C14.7891 10 15 10.2109 15 10.4688V12.0312C15 12.2891 14.7891 12.5 14.5312 12.5H12.9688C12.7109 12.5 12.5 12.2891 12.5 12.0312V10.4688ZM12.5 15.4688C12.5 15.2109 12.7109 15 12.9688 15H14.5312C14.7891 15 15 15.2109 15 15.4688V17.0312C15 17.2891 14.7891 17.5 14.5312 17.5H12.9688C12.7109 17.5 12.5 17.2891 12.5 17.0312V15.4688ZM7.5 10.4688C7.5 10.2109 7.71094 10 7.96875 10H9.53125C9.78906 10 10 10.2109 10 10.4688V12.0312C10 12.2891 9.78906 12.5 9.53125 12.5H7.96875C7.71094 12.5 7.5 12.2891 7.5 12.0312V10.4688ZM7.5 15.4688C7.5 15.2109 7.71094 15 7.96875 15H9.53125C9.78906 15 10 15.2109 10 15.4688V17.0312C10 17.2891 9.78906 17.5 9.53125 17.5H7.96875C7.71094 17.5 7.5 17.2891 7.5 17.0312V15.4688ZM2.5 10.4688C2.5 10.2109 2.71094 10 2.96875 10H4.53125C4.78906 10 5 10.2109 5 10.4688V12.0312C5 12.2891 4.78906 12.5 4.53125 12.5H2.96875C2.71094 12.5 2.5 12.2891 2.5 12.0312V10.4688ZM2.5 15.4688C2.5 15.2109 2.71094 15 2.96875 15H4.53125C4.78906 15 5 15.2109 5 15.4688V17.0312C5 17.2891 4.78906 17.5 4.53125 17.5H2.96875C2.71094 17.5 2.5 17.2891 2.5 17.0312V15.4688ZM15.625 2.5H13.75V0.625C13.75 0.28125 13.4688 0 13.125 0H11.875C11.5312 0 11.25 0.28125 11.25 0.625V2.5H6.25V0.625C6.25 0.28125 5.96875 0 5.625 0H4.375C4.03125 0 3.75 0.28125 3.75 0.625V2.5H1.875C0.839844 2.5 0 3.33984 0 4.375V6.25H17.5V4.375C17.5 3.33984 16.6602 2.5 15.625 2.5Z"
                                 fill={
-                                  handletiming(elem.startDate, elem.time) ===
+                                  handletiming(elem?.startDate, elem?.time) ===
                                   "Completed"
                                     ? "#6A6161"
                                     : "#FF574C"
                                 }
                               />
                             </svg>
-                            {new Date(elem.startDate).getDate()}{" "}
-                            {new Date(elem.startDate).toLocaleString(
+                            {new Date(elem?.startDate).getDate()}{" "}
+                            {new Date(elem?.startDate).toLocaleString(
                               "default",
                               {
                                 month: "short",
@@ -451,7 +451,7 @@ const Dashboarduser = () => {
                           </div>
                           <div
                             className={`workshop-userdash-date ${
-                              handletiming(elem.startDate, elem.time) ===
+                              handletiming(elem?.startDate, elem?.time) ===
                               "Completed"
                                 ? "completed-workshop-userdash"
                                 : ""
@@ -467,24 +467,24 @@ const Dashboarduser = () => {
                               <path
                                 d="M10 0C4.47581 0 0 4.47581 0 10C0 15.5242 4.47581 20 10 20C15.5242 20 20 15.5242 20 10C20 4.47581 15.5242 0 10 0ZM12.3024 14.1169L8.74597 11.5323C8.62097 11.4395 8.54839 11.2944 8.54839 11.1411V4.35484C8.54839 4.08871 8.76613 3.87097 9.03226 3.87097H10.9677C11.2339 3.87097 11.4516 4.08871 11.4516 4.35484V9.90726L14.0121 11.7702C14.2298 11.9274 14.2742 12.2298 14.1169 12.4476L12.9798 14.0121C12.8226 14.2258 12.5202 14.2742 12.3024 14.1169Z"
                                 fill={
-                                  handletiming(elem.startDate, elem.time) ===
+                                  handletiming(elem?.startDate, elem?.time) ===
                                   "Completed"
                                     ? "#6A6161"
                                     : "#FF574C"
                                 }
                               />
                             </svg>
-                            {`${elem.time.startTime} - ${elem.time.endTime}`}
+                            {`${elem?.time.startTime} - ${elem?.time.endTime}`}
                           </div>
                         </div>
 
-                        {handletiming(elem.startDate, elem.time) ===
+                        {handletiming(elem?.startDate, elem?.time) ===
                         "Completed" ? (
                           <div
                             className="workshop-userdash-review"
                             onClick={() => {
                               window.open(
-                                `/feedback?service=workshop&slug=${elem.slug}`
+                                `/feedback?service=workshop&slug=${elem?.slug}`
                               );
                             }}
                           >
@@ -507,7 +507,7 @@ const Dashboarduser = () => {
                           <div
                             className="workshop-userdash-download-button"
                             onClick={() => {
-                              window.open(`${elem.meetlink}`);
+                              window.open(`${elem?.meetlink}`);
                             }}
                           >
                             <svg
@@ -543,12 +543,12 @@ const Dashboarduser = () => {
                       <div
                         className="documents-userdash-upper"
                         onClick={() => {
-                          window.open(`/s/${elem.slug}`);
+                          window.open(`/s/${elem?.slug}`);
                         }}
                       >
-                        <img src={elem.simg} alt="SERVICE"></img>
+                        <img src={elem?.simg} alt="SERVICE"></img>
                         <div className="userdash-title-tags">
-                          <h3>{elem.sname}</h3>
+                          <h3>{elem?.sname}</h3>
                           <h4>Document</h4>
                         </div>
                       </div>
@@ -578,9 +578,9 @@ const Dashboarduser = () => {
                         <div
                           onClick={() =>
                             handledocumentdownload(
-                              elem.surl,
-                              elem.slug,
-                              elem.sname
+                              elem?.surl,
+                              elem?.slug,
+                              elem?.sname
                             )
                           }
                           className="documents-userdash-download-button"

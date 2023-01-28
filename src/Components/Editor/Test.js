@@ -7,7 +7,7 @@ import { host } from "../../config/config";
 import "./teststyle.css";
 
 import "add-to-calendar-button/assets/css/atcb.css";
-import { FormHelperText } from "@mui/material";
+import { FormHelperText, Modal } from "@mui/material";
 import PreviewDocument from "../Modals/PreviewDoc";
 import Canvas from "./Canvas";
 
@@ -48,7 +48,7 @@ function Test() {
       setImageLoading(0);
     }
   };
-
+  const [signedurl, setSignedUrl] = useState(null);
   const handlelinkedInshare = async () => {
     window.open(
       `http://www.linkedin.com/shareArticle?mini=true&url=https://anchors.in/w/how-to-make-custom-linkedin-share-button&title=How%20to%20make%20custom%20linkedin%20share%20button&summary=some%20summary%20if%20you%20want&source=stackoverflow.com`
@@ -60,59 +60,61 @@ function Test() {
     setShopPopup(true);
   };
   const [showpopup, setShopPopup] = useState(false);
+  console.log(signedurl);
   return (
-    <div className="test">
-      <PreviewDocument
-        open={showpopup}
-        onClose={() => {
-          setShopPopup(false);
-        }}
-      />
-      <button onClick={handleClick}>Login through Truecaller</button>
-      <div className="response">
-        <h1>{truecallervalue ? "something" : "nothing yet..."}</h1>
-        <div>{truecallervalue?.success}</div>
-        <h2>PHONE NO .. - {truecallervalue.userdata?.phoneNumbers}</h2>
-        <p>
-          NAME -{" "}
-          {truecallervalue.userdata?.name?.first +
-            " " +
-            truecallervalue.userdata?.name?.last}
-        </p>
-        <p>EMAIL - {truecallervalue.userdata?.onlineIdentities?.email}</p>
-      </div>
-      <div></div>
-      <div class="btn_wrap_share">
-        <span>Share</span>
-        <div class="container_buttons_share">
-          <i onClick={handlelinkedInshare} class="fab fa-linkedin"></i>
-          <i onClick={handlewhatsappshare} class="fab fa-whatsapp"></i>
+    <>
+      <div className="test">
+        <PreviewDocument
+          open={showpopup}
+          onClose={() => {
+            setShopPopup(false);
+          }}
+        />
+        <button onClick={handleClick}>Login through Truecaller</button>
+        <div className="response">
+          <h1>{truecallervalue ? "something" : "nothing yet..."}</h1>
+          <div>{truecallervalue?.success}</div>
+          <h2>PHONE NO .. - {truecallervalue.userdata?.phoneNumbers}</h2>
+          <p>
+            NAME -{" "}
+            {truecallervalue.userdata?.name?.first +
+              " " +
+              truecallervalue.userdata?.name?.last}
+          </p>
+          <p>EMAIL - {truecallervalue.userdata?.onlineIdentities?.email}</p>
         </div>
-      </div>
-      <div class="TN bzz aHS-YH">
-        <div class="qj qr"></div>
-        <div class="aio UKr6le">
-          <span class="nU false">
-            <a
-              href="https://meet.google.com/new?hs=180&amp;authuser=0"
-              target="_top"
-              class="J-Ke n0"
-              title="Start a meeting"
-              aria-label="Start a meeting"
-              draggable="false"
-            >
-              Start a meeting
-            </a>
-          </span>
+        <div></div>
+        <div class="btn_wrap_share">
+          <span>Share</span>
+          <div class="container_buttons_share">
+            <i onClick={handlelinkedInshare} class="fab fa-linkedin"></i>
+            <i onClick={handlewhatsappshare} class="fab fa-whatsapp"></i>
+          </div>
         </div>
-        <div className="nL aif"></div>
-      </div>
+        <div class="TN bzz aHS-YH">
+          <div class="qj qr"></div>
+          <div class="aio UKr6le">
+            <span class="nU false">
+              <a
+                href="https://meet.google.com/new?hs=180&amp;authuser=0"
+                target="_top"
+                class="J-Ke n0"
+                title="Start a meeting"
+                aria-label="Start a meeting"
+                draggable="false"
+              >
+                Start a meeting
+              </a>
+            </span>
+          </div>
+          <div className="nL aif"></div>
+        </div>
 
-      <div>
-        <button onClick={() => previewopen()}>Preview Document</button>
-      </div>
+        <div>
+          <button onClick={() => previewopen()}>Preview Document</button>
+        </div>
 
-      {/* <div className="aiImage">
+        {/* <div className="aiImage">
         <div>
           <input type="text" onChange={(e) => setTitle(e.target.value)}></input>
         </div>
@@ -125,16 +127,22 @@ function Test() {
             })}} 
         <img src={url} alt="will come !!!" />;
       </div> */}
-      <Canvas
+        {/* <Canvas
         textToShow="This is testing sample text"
         width="1200"
         height="450"
         imgBackground="https://www.anchors.in:5000/api/file/1670005634078--himanshu.bf15583cd698b88970c3.jpg"
         imgBack="../backgroundimg.png"
-      />
+      /> */}
 
-      <a href="https://anchors-files.s3.ap-south-1.amazonaws.com/docs/1673505520670-Result_41621037.pdf" download="GFG">Click Me</a>
-    </div>
+        <a
+          href="https://anchors-files.s3.ap-south-1.amazonaws.com/docs/1673505520670-Result_41621037.pdf"
+          download="GFG"
+        >
+          Click Me
+        </a>
+      </div>
+    </>
   );
 }
 
