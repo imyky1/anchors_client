@@ -1,78 +1,36 @@
-.waitlist_footer{
-    position: absolute;
-    margin: 0 !important;
-    bottom: 0;
-    background-color: rgb(173, 168, 168);
-    width: 100vw !important;
-    /* height: 10vh; */
-    color: rgb(48, 46, 46);
-    padding: 8px 20px;
-    display:flex;
-    flex-direction: row;
-}
-
-.waitlist_footer span{
-    margin-right: 30px;
-}
-
-.waitlist_footer a{
-    color:rgb(48, 46, 46);
-}
-
-
-.main_waitlist_page{
-    width: 70%;
-    margin: 17vh auto 8vh auto;
-    text-align: center;
+.wailist_header_01 {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 39px;
+    width: 60%;
+    margin: 0 auto;
+  }
+  
+  .wailist_para {
     display: flex;
+    align-items: flex-start;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.main_waitlist_page h1{
-    font-size: 2rem;
-}
-
-.main_waitlist_page h1 span{
-    color: red;
-}
-
-.main_waitlist_page p{
-    font-size: 1.7rem;
-    width: 50%;
-    margin: 20px 0;
-    font-weight: 500;
-    color: rgb(88, 85, 85);
-}
-.waitlist_form_button{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.waitlist_form_button button{
-    background-color: #FF0000;
-    border: transparent;
-    padding: 15px 25px 15px 25px;
-        font-size: 1.6rem;
-        color: #ffff;
-        font-weight: 700;
-        line-height: 30px;
-        letter-spacing: 0em;
-        text-align: center;
-        border-radius: 10px;
-        cursor: pointer;
-}
-.waitlist_form_button_a{
-    text-decoration: none;
-            color: #ffff;
-        
-}
-
-.waitlist_form_button h2{
-    padding-top: 20px;
-    font-size: 1.15rem;
-    font-weight: 300;
-}
+    width: 60%;
+    margin: 60px auto;
+  }
+  
+  .wailist_para p {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 161.02%;
+    margin-bottom: 40px;
+  }
+  
+  .wailist_para span {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: rgba(0, 0, 0, 0.6);
+  }
+  

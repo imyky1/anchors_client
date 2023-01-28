@@ -1,63 +1,52 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Waitlist.css";
-
-import { linkedinContext } from "../../Context/LinkedinState";
 import { SuperSEO } from "react-super-seo";
+import { createPopup } from '@typeform/embed'
+import '@typeform/embed/build/css/popup.css'
 
 function Waitlist() {
-  const { loginInfo } = useContext(linkedinContext);
   const navigate = useNavigate();
-  const handleonClick = () => {
-    navigate("https://izsxcwa0cfw.typeform.com/to/R9poKEJD");
-  };
+  const { toggle } = createPopup('qTCuPV1C')
+
+  const handleClick = () =>{
+    toggle()
+  }
 
   return (
     <>
-      <div className="waitlist">
-        <div className="creator_login_header">
-          <div className="logo">
-            <img src={require("../logo.png")} alt="Logo" />
-            <span>anchors</span>
-            <p className="beta_tagname">Beta</p>
+      <div className="signup_page">
+      <div className="left_signup_side">
+        <img
+          className="logo_signup_page"
+          src={require("../Main Page/Images/logo-beta.png")}
+          alt=""
+        />
+        <img
+          className="signup_img1"
+          src={require("../Signup/images/signup1.png")}
+          alt=""
+        />
+      </div>
+      <div className="right_signup_side">
+        <h1 className="wailist_header_01">
+          Hey, Anchor
+          <br />
+          Thanks for showing interest to become <span style={{color:"red"}}>Anchor</span>
+        </h1>
+        <div>
+          <div className="wailist_para">
+          <p> Please fill this form to get review of your profile and our team will get back to you if your profile get shortlisted to become anchor.</p>
+          <span>*By filling this form increases the chance to become anchor</span>
+          </div>
+          <div className="signup_buttons">
+            <button onClick={handleClick}>
+            Tell us about yourself
+            </button>
           </div>
         </div>
-
-        <div className="main_waitlist_page">
-          <h1 style={{ textAlign: "left" }}>Hey, {loginInfo.name}</h1>
-          <h1>
-            Thanks for showing interest to become <span>Anchor</span>
-          </h1>
-          <p>
-            Our Team will review your LinkedIn profile and inform you on the
-            email if your profile is shortlisted for Anchorite.
-          </p>
-        </div>
-
-        <div className="waitlist_form_button">
-          <a
-            className="waitlist_form_button_a"
-            href="https://izsxcwa0cfw.typeform.com/to/R9poKEJD"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <button> Let Us Know More About You</button>
-          </a>
-
-          <h2>This will increase your chance to become an Anchor</h2>
-        </div>
-
-        <div className="footer_service waitlist_footer">
-          <a
-            href="https://www.linkedin.com/company/beanchorite"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span>Follow us on LinkedIn</span>
-          </a>
-          <span>Facing any issue? email us - support@anchors.in</span>
-        </div>
       </div>
+    </div>
       <SuperSEO
         title="Anchors - Waitlist"
       />

@@ -310,7 +310,7 @@ function Info_creator(props) {
                 name="dob"
                 id="dob"
                 onChange={handleChange}
-                value={data.dob?.slice(0, 10)}
+                value={data?.dob?.slice(0, 10)}
               />
               <label htmlFor="linkedInLink" className="entry_labels">
                 LinkedIn Link <small>*</small>
@@ -332,7 +332,7 @@ function Info_creator(props) {
                 name="ytLink"
                 id="ytLink"
                 onChange={handleChange}
-                value={data.ytLink}
+                value={data?.ytLink}
               />
               <label htmlFor="instaLink" className="entry_labels">
                 Instagram Link
@@ -342,7 +342,7 @@ function Info_creator(props) {
                 name="instaLink"
                 id="instagram"
                 onChange={handleChange}
-                value={data.instaLink}
+                value={data?.instaLink}
               />
               <label htmlFor="teleLink" className="entry_labels">
                 Telegram Link
@@ -352,7 +352,7 @@ function Info_creator(props) {
                 name="teleLink"
                 id="teleLink"
                 onChange={handleChange}
-                value={data.teleLink}
+                value={data?.teleLink}
               />
               <label htmlFor="twitterLink" className="entry_labels">
                 Twitter Link
@@ -362,7 +362,7 @@ function Info_creator(props) {
                 name="twitterLink"
                 id="twitterLink"
                 onChange={handleChange}
-                value={data.twitterLink}
+                value={data?.twitterLink}
               />
               <label htmlFor="topmateLink" className="entry_labels">
                 TopMate Link
@@ -372,7 +372,7 @@ function Info_creator(props) {
                 name="topmateLink"
                 id="topmateLink"
                 onChange={handleChange}
-                value={data.topmateLink}
+                value={data?.topmateLink}
               />
             </div>
           </div>

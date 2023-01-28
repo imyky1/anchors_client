@@ -5,71 +5,25 @@ import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { BsLinkedin, BsInstagram, BsYoutube } from "react-icons/bs";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-import PNGIMG from "./default_profile.png";
-import { Autoplay, Pagination } from "swiper";
+import "swiper/css/navigation";
+import PNGIMG from "../default_user.png";
+import { Autoplay, Pagination, Navigation } from "swiper";
 import { useContext } from "react";
 import { feedbackcontext } from "../../Context/FeedbackState";
 import mixpanel from "mixpanel-browser";
 import Footer from "../Footer/Footer";
+import Modal1 from "../Modals/ModalType01/Modal1";
+import Modal2 from "../Modals/ModalType01/Modal2";
 
 function Main() {
   const [data, setData] = useState("");
   const navigate = useNavigate();
-  const [platform, setPlatform] = useState("Choose Platform");
-  const [followers, setFollowers] = useState();
-  const [showResult, setShowResult] = useState(false);
-  const [result, setResult] = useState(false);
-
   const { getallfb } = useContext(feedbackcontext);
-
-  const handleChange = (e) => {
-    setPlatform(e.target.value);
-  };
-
-  const handleCheckEligibility = () => {
-    mixpanel.track("Clicked Check Eligibility on Anchors Main Page");
-    if (platform !== "Choose Platform" && parseInt(followers) > 0) {
-      mixpanel.track("Eligibility on Anchors Main Page", {
-        platform: platform,
-        followers: followers,
-      });
-      if (platform === "youtube") {
-        if (parseInt(followers) >= 5000) {
-          setResult(true);
-        } else {
-          setResult(false);
-        }
-      } else if (platform === "insta") {
-        if (parseInt(followers) >= 10000) {
-          setResult(true);
-        } else {
-          setResult(false);
-        }
-      } else if (platform === "telegram") {
-        if (parseInt(followers) >= 2000) {
-          setResult(true);
-        } else {
-          setResult(false);
-        }
-      } else if (platform === "linkedin") {
-        if (parseInt(followers) >= 10000) {
-          setResult(true);
-        } else {
-          setResult(false);
-        }
-      }
-      setShowResult(true);
-    } else {
-      toast.info("Fill all the mandatory fields", {
-        position: "top-center",
-        autoClose: 3000,
-      });
-    }
-  };
 
   useEffect(() => {
     getallfb().then((e) => {
@@ -82,317 +36,561 @@ function Main() {
     mixpanel.track("Visited Main Page");
   }, []);
 
+  const [openModalSuccess, setOpenModalSuccess] = useState(false);
+  const [openModalFail, setOpenModalFail] = useState(false);
+  const [platform, setPlatform] = useState(0);
+  const [followers, setFollowers] = useState("");
+
+  const handleCheckEligibility = () => {
+    if (platform !== 0 && followers !== "") {
+      mixpanel.track("Clicked Check Eligibility on Main Page",{
+        platform : platform === 1 ? "Linkedin" : platform === 2 ? "Youtube" : platform === 3 ? "Telegram" : platform === 4 ? "Instagram" : "None",
+        followers 
+      });
+      switch (platform) {
+        case 1:
+          if (parseInt(followers) >= 10000) {
+            setOpenModalSuccess(true);
+          } else {
+            setOpenModalFail(true);
+          }
+          break;
+        case 2:
+          if (parseInt(followers) >= 5000) {
+            setOpenModalSuccess(true);
+          } else {
+            setOpenModalFail(true);
+          }
+          break;
+        case 3:
+          if (parseInt(followers) >= 2000) {
+            setOpenModalSuccess(true);
+          } else {
+            setOpenModalFail(true);
+          }
+          break;
+        case 4:
+          if (parseInt(followers) >= 10000) {
+            setOpenModalSuccess(true);
+          } else {
+            setOpenModalFail(true);
+          }
+          break;
+        default:
+          break;
+      }
+      
+    }
+  };
+
+  const handleStart = () => {
+    let link = document.createElement("a");
+    link.href = "#eligibility";
+    mixpanel.track("Clicked Start Now in hero section");
+    link.dispatchEvent(new MouseEvent("click"));
+  };
+
   return (
     <>
-      <div className="main_creator_page">
-        <div className="mainpage_header creator_login_header ">
-          <div className="logo">
-            <LazyLoadImage
-              effect="blur"
-              src={require("../logo.png")}
-              alt="Logo"
-            />
-            <span>anchors</span>
-            <p className="beta_tagname">Beta</p>
-          </div>
-          <Link
-            to={
-              localStorage.getItem("jwtToken")
-                ? "/dashboard"
-                : "/login/creators"
-            }
+      <ToastContainer />
+      <Modal1
+        open={openModalSuccess}
+        toClose={() => {
+          setOpenModalSuccess(false);
+          setPlatform(0);
+          setFollowers("");
+        }}
+      />
+      <Modal2
+        open={openModalFail}
+        toClose={() => {
+          setOpenModalFail(false);
+          setPlatform(0);
+          setFollowers("");
+        }}
+      />
+
+      <div className="mainLandingpage_body">
+        {/* Logo and header section --------------------------------------------- */}
+        <section className="mainPage_headers">
+          <img
+            className="logo_main_page"
+            src={require("./Images/logo-beta.png")}
+            alt=""
+          />
+          <button
+            className="login_creator_mainpage"
+            onClick={() => {
+              mixpanel.track("Clicked Creator's Login on Main Page");
+              localStorage.getItem("jwtToken") ? navigate("/dashboard") : navigate("/login/creators");
+            }}
           >
-            <button
-              className="waitlist"
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                border: "2px solid black",
-              }}
-            >
-              {localStorage.getItem("jwtToken") &&
-              localStorage.getItem("isUser") === ""
-                ? "My Account"
-                : "Login as Creator"}
-            </button>
-          </Link>
-        </div>
+            {localStorage.getItem("jwtToken") ? "My Account" : "Creator's Login"}
+          </button>
+        </section>
 
-        <div className="main_page_contents">
-          <section className="hero">
-            <div className="leftHero">
-              <h1>
-                Become <span className="stressWord">anchor</span>
-              </h1>
-              <p>
-                & Start Monetizing your
-                <br /> <b>Content</b>, <b>Skills</b>, <b>Expertise</b>
-                <br /> and help your audience to grow
-              </p>
-              <a href="#eligibility">
-                <button>Check Eligibility</button>
-              </a>
-            </div>
-            <div className="rightHero">
-              <img src={require("../main2.png")} alt="" />
-            </div>
-          </section>
-
-          <section className="whyanchors">
-            <div className="mainheaders1">
-              <h2>Why to be an anchor</h2>
-              <span>
-                Get access of full stack solution to monitise and help your
-                audience
+        {/* Hero Section --------------------------------------------------------------- */}
+        <section className="hero_mainpage">
+          <div className="left_hero_text">
+            <h1>
+              Become <span style={{ color: "#fc6262" }}>Anchor</span>
+            </h1>
+            <p>
+              Monetize your{" "}
+              <span style={{ color: "#ffffff" }}>
+                Content, skill, Expertise{" "}
               </span>
-            </div>
-            <div className="features">
-              <div>
-                <i class="fa-solid fa-dollar-sign fa-2x"></i>
-                <h2 className="main_headers2">Offer Free / Paid Services</h2>
-                <p>
-                  Offer paid service to your follower/audience ( content,
-                  workshop etc. )
-                </p>
-              </div>
-              <div>
-                <i class="fa-solid fa-chart-simple fa-2x"></i>
-                <h2 className="main_headers2">Detailed Analysis</h2>
-                <p>Detailed Analysis Report for Services and Audiences</p>
-              </div>
-              <div>
-                <i class="fa-solid fa-hand-holding-dollar fa-2x"></i>
-                <h2 className="main_headers2">Collect Payment</h2>
-                <p>Accept Payment directly from audience</p>
-              </div>
-              <div>
-                <i class="fa-regular fa-comment-dots fa-2x"></i>
-                <h2 className="main_headers2">Communication with audience</h2>
-                <p>
-                  Communicate wth your audience and let them know your next
-                  service
-                </p>
-              </div>
-              <div>
-                <i class="fa-regular fa-circle-question fa-2x"></i>
-                <h2 className="main_headers2">Know your audience demand</h2>
-                <p>
-                  Allow your audience to connect with you and let you know what
-                  they want
-                </p>
-              </div>
-              <div>
-                <i class="fa-solid fa-users-line fa-2x"></i>
-                <h2 className="main_headers2">Premium Community</h2>
-                <p>Become a part of Premium Creator Community</p>
-              </div>
-            </div>
-          </section>
+              and help your audience to grow.
+            </p>
 
-          <section className="featuredcreators">
-            <Swiper
-              pagination={{
-                dynamicBullets: true,
-              }}
-              //autoplay={{
-              //  delay: 2500,
-              //  disableOnInteraction: false,
-              //}}
-              loop={true}
-              modules={[Autoplay, Pagination]}
-              className="mySwiper"
-            >
-              {/* <SwiperSlide><div className="creatordetails">
-            <img
-              src="https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg"
-              alt=""
-            />
-            <div className="main_creator">
-              <h2>Himanshu Kumar</h2>
-              <span>78K+ Followers on LinkedIn</span>
-              <div className="social_main">
-                <i className="fa-brands fa-linkedin fa-xl"></i>
-                <i className="fa-brands fa-telegram fa-xl "></i>
-                <i className="fa-brands fa-instagram fa-xl "></i>
-                <i className="fa-brands fa-twitter fa-xl "></i>
-                <i className="fa-brands fa-facebook fa-xl "></i>
+            <button onClick={handleStart}>Start Now</button>
+          </div>
+          <img
+            src={require("./Images/hero_img.jpg")}
+            alt=""
+            className="hero_section_image"
+          />
+        </section>
+
+        {/* steps of anchors verification */}
+        <section className="steps_anchors_mainpage">
+          <h1 className="headers1_mainpage">Just a step ahead</h1>
+          <div>
+            <div className="steps">
+              <div>
+                <img src={require("./Images/stars.png")} alt="" />
+                <h1 className="headers2_mainpage">1</h1>
+                <p>Apply to be an anchor</p>
               </div>
-              <button>View Anchor Profile</button>
             </div>
-          </div></SwiperSlide> */}
-              <SwiperSlide>
-                <div className="creatordetails">
-                  <img src={require("../himanshu.jpg")} alt="" />
-                  <div className="main_creator">
-                    <h2>Himanshu Shekhar</h2>
-                    <span>47K+ Followers on LinkedIn</span>
-                    <div className="social_main">
-                      <a
-                        href="https://www.linkedin.com/in/himanshushekhar16/"
-                        target="_black"
-                        rel="no_referrer"
-                        style={{ color: "black" }}
-                      >
-                        <i className="fa-brands fa-linkedin fa-xl"></i>
-                      </a>
-                      <a
-                        href="https://www.instagram.com/himanshushekhar_official/"
-                        target="_black"
-                        rel="no_referrer"
-                        style={{ color: "black" }}
-                      >
-                        <i className="fa-brands fa-instagram fa-xl "></i>
-                      </a>
-                      <a
-                        href="https://mobile.twitter.com/hszone07"
-                        target="_black"
-                        rel="no_referrer"
-                        style={{ color: "black" }}
-                      >
-                        <i className="fa-brands fa-twitter fa-xl "></i>
-                      </a>
+            <div className="steps">
+              <div>
+                <img src={require("./Images/stars.png")} alt="" />
+                <h1 className="headers2_mainpage">2</h1>
+                <p>we will review your profile</p>
+              </div>
+            </div>
+            <div className="steps">
+              <div>
+                <img src={require("./Images/stars.png")} alt="" />
+                <h1 className="headers2_mainpage">3</h1>
+                <p>Hurray,proud to be an anchor</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* why to be an anchor */}
+        <section className="why_anchors_section">
+          <img src={require("./Images/main-4.png")} alt="" />
+          <div className="why_anchors_desc">
+            <h1 className="headers1_mainpage">
+              Why to be an <span style={{ color: "#fc6262" }}>anchor</span>
+            </h1>
+            <span className="text_mainpage1">
+              Get access of full stack solution to monetize and help your
+              audience
+            </span>
+            <div>
+              <div className="why_anchors_steps_boxes">
+                <i class="fa-solid fa-people-group fa-2x"></i>
+                <span>Exclusive Creator Community</span>
+                <p>
+                  anchors is only for exclusive creators from all social
+                  platforms.
+                </p>
+              </div>
+              <div className="why_anchors_steps_boxes">
+                <i class="fa-solid fa-chart-bar fa-2x"></i>
+                <span>Detailed Analysis </span>
+                <p>
+                  Get Completed analytics for service,profile audience and make
+                  decision accordingly.
+                </p>
+              </div>
+              <div className="why_anchors_steps_boxes">
+                <i class="fa-solid fa-circle-play fa-2x"></i>
+                <span>Offer Free/Paid Content</span>
+                <p>
+                  Complete control on your service whether you want to use
+                  free/paid content.
+                </p>
+              </div>
+              <div className="why_anchors_steps_boxes">
+                <i class="fa-solid fa-masks-theater fa-2x"></i>
+                <span>Know your Audience</span>
+                <p>
+                  anchors enable your audience to accept your query and send to
+                  you.
+                </p>
+              </div>
+            </div>
+            {/* <div>
+            <span className="text_mainpage1">
+              <i class="fa-solid fa-check"></i>Detailed Analysis Report
+            </span>
+            <span className="text_mainpage1">
+              <i class="fa-solid fa-check"></i>Offer workshops based on your
+              content
+            </span>
+            <span className="text_mainpage1">
+              <i class="fa-solid fa-check"></i>Accept payment directly from
+              audience.
+            </span>
+            <span className="text_mainpage1">
+              <i class="fa-solid fa-check"></i>Communicate with audience
+            </span>
+            <span className="text_mainpage1">
+              <i class="fa-solid fa-check"></i>Premium community access
+            </span>
+            <span className="text_mainpage1">
+              <i class="fa-solid fa-check"></i>Connect with audience to know
+              insights{" "}
+            </span>
+          </div> */}
+          </div>
+        </section>
+
+        {/* What can you upload facilities of anchors */}
+        <section className="facilities">
+          <h1 className="headers1_mainpage">What all you can upload </h1>
+          <span>
+            Anchors empower you to share curated content and expertise in
+            various formats to a targeted audience
+          </span>
+          <div className="facilities_boxes">
+            <div>
+              <i class="fa-solid fa-circle-play fa-xl"></i>
+              <span>Video</span>
+              <p>Recordings, Lecture, Concepts etc</p>
+            </div>
+            <div>
+              <i class="fa-regular fa-file-lines fa-xl"></i>
+              <span>Documents</span>
+              <p>Notes,Interview Questions concepts etc.</p>
+            </div>
+            <div>
+              <i class="fa-regular fa-file-excel fa-xl"></i>
+              <span>Excel Sheets</span>
+              <p>Curated Lists, Opportunity list etc.</p>
+            </div>
+            <div>
+              <i class="fa-regular fa-image fa-xl"></i>
+              <span>Image Assets</span>
+              <p>Wallpapers, Artworks,Graphics etc</p>
+            </div>
+          </div>
+        </section>
+
+        {/* join and eligibility section */}
+        <section className="eligibility_mainpage" id="eligibility">
+          <h1 className="headers1_mainpage">Join our team as an anchor</h1>
+          <p>
+            Unlocking the full potential of the creator economy through
+            boundless innovation and sustainable growth
+          </p>
+          <span>Choose a platform </span>
+          <div className="eligibility_check_section">
+            <section>
+              <span
+                className={platform === 1 && "active_platform"}
+                onClick={() => {
+                  setPlatform(1);
+                }}
+              >
+                <i class="fa-brands fa-linkedin-in fa-2x"></i>
+              </span>
+              <span
+                className={platform === 2 && "active_platform"}
+                onClick={() => {
+                  setPlatform(2);
+                }}
+              >
+                <i class="fa-brands fa-youtube fa-2x"></i>
+              </span>
+              <span
+                className={platform === 3 && "active_platform"}
+                onClick={() => {
+                  setPlatform(3);
+                }}
+              >
+                <i class="fa-brands fa-telegram fa-2x"></i>
+              </span>
+              <span
+                className={platform === 4 && "active_platform"}
+                onClick={() => {
+                  setPlatform(4);
+                }}
+              >
+                <i class="fa-brands fa-instagram fa-2x"></i>
+              </span>
+            </section>
+            <input
+              type="text"
+              placeholder="Number of followers"
+              value={followers}
+              onChange={(e) => {
+                setFollowers(e.target.value);
+              }}
+            />
+          </div>
+          <button onClick={handleCheckEligibility}>
+            {window.screen.width < 600
+              ? "Let’s Get Started"
+              : "Check Eligibility"}
+          </button>
+        </section>
+
+        {/* featured creators section */}
+        <section className="featured_creators" id="featured-creators">
+          <h1 className="headers1_mainpage">People who Trust us </h1>
+          <span>
+            Building Trust: The Key to Strong and Lasting Relationships
+          </span>
+          <div className="creator_section_cardsection">
+            {/* Different for mobile and pc ---------------------------------------------------------------------------------------- */}
+            {window.matchMedia("(max-width: 500px)").matches ? (
+              <Swiper
+                slidesPerView={
+                  window.matchMedia("(max-width: 500px)").matches ? 1 : 2
+                }
+                spaceBetween={
+                  window.matchMedia("(max-width: 500px)").matches ? 5 : 5
+                }
+                //autoplay={{
+                //  delay: 3000,
+                //  disableOnInteraction: false,
+                //}}
+                loop={
+                  window.matchMedia("(max-width: 500px)").matches ? true : false
+                }
+                //pagination={{
+                //  dynamicBullets: true,
+                //}}
+                navigation={{
+                  nextEl: "#next_slide_button",
+                  prevEl: "#prev_slide_button",
+                }}
+                modules={[Pagination, Navigation]}
+                className="mySwiper"
+              >
+                <SwiperSlide>
+                  <div
+                    className="creator_section_cardsection_card1"
+                    onClick={() => {
+                      mixpanel.track("Clicked trusted Creators on Main Page",{
+                        creator:"Himanshu Shekhar"
+                      });
+                      navigate("/c/himanshu-shekhar");
+                    }}
+                  >
+                    <img src={require("./Images/himanshu1.jpg")} alt="creator"></img>
+                    <div className="creator_section_imagetext">
+                      <div className="creator_section_imagewrap">
+                        <div className="creator_section_imagetext_text">
+                          <span>Himanshu Shekhar</span>
+                          <span>Linkedin 60K Followers</span>
+                        </div>
+                        <div
+                          className="creator_section_icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            mixpanel.track("Clicked Social Media of Creators on Main Page",{
+                              creator:"Himanshu Shekhar"
+                            });
+                            window.open(
+                              "https://www.linkedin.com/in/himanshushekhar16/"
+                            );
+                          }}
+                        >
+                          <BsLinkedin size={28} />
+                        </div>
+                      </div>
                     </div>
-                    <button
-                      onClick={() => {
-                        mixpanel.track(
-                          "Clicked Featured creators on Anchors Main Page",
-                          { creator: "Himanshu Shekhar" }
-                        );
-                        window.open("/c/himanshu-shekhar", "_blank");
-                      }}
-                    >
-                      View Anchor Profile
-                    </button>
+                  </div>{" "}
+                </SwiperSlide>
+                <SwiperSlide>
+                  <div
+                    className="creator_section_cardsection_card1"
+                    onClick={() => {
+                      mixpanel.track("Clicked trusted Creators on Main Page",{
+                        creator:"Himanshu Kumar"
+                      });
+                      navigate("/c/himanshu-kumar");
+                    }}
+                  >
+                    {" "}
+                    <img src={require("./Images/himanshu2.jpg")} alt="creator"></img>
+                    <div className="creator_section_imagetext">
+                      <div className="creator_section_imagewrap">
+                        <div className="creator_section_imagetext_text">
+                          <span>Himanshu Kumar</span>
+                          <span>Linkedin 94K Followers</span>
+                        </div>
+                        <div
+                          className="creator_section_icon"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            mixpanel.track("Clicked Social Media of Creators on Main Page",{
+                              creator:"Himanshu Kumar"
+                            });
+                            window.open(
+                              "https://www.linkedin.com/in/himanshukumarmahuri/"
+                            );
+                          }}
+                        >
+                          <BsInstagram size={28} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+                {/* <SwiperSlide>
+                <div className="creator_section_cardsection_card1">
+                  {" "}
+                  <img src={require("./Images/BG2.png")} alt="creator"></img>
+                  <div className="creator_section_imagetext">
+                    <div className="creator_section_imagewrap">
+                      <div className="creator_section_imagetext_text">
+                        <span>Courtney Henry</span>
+                        <span>Youtube 100K Followers</span>
+                      </div>
+                      <div className="creator_section_icon">
+                        <BsYoutube size={28} />
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </SwiperSlide>
-            </Swiper>
-          </section>
-
-          <section className="proceedwithanchors">
-            <div className="mainheaders1">
-              <h2>How do we proceed</h2>
-            </div>
-            <div className="proceed_steps">
-              <div>
-                <span>
-                  <i class="fa-solid fa-hands-clapping fa-2x"></i>
-                </span>
-                <p>Apply to be anchor</p>
-              </div>
-              <div>
-                <span>
-                  <i class="fa-solid fa-user-check fa-2x"></i>
-                </span>
-                <p>We will review your social Profile</p>
-              </div>
-              <div>
-                <span>
-                  <i class="fa-solid fa-handshake fa-2x"></i>
-                </span>
-                <p>Proud to be an anchor</p>
-              </div>
-            </div>
-          </section>
-
-          <section className="checkeligibility" id="eligibility">
-            <h1>Stand out and get a chance to be an anchor</h1>
-            <span>I am influencer/creator at</span>
-            <div className="input_eligibility">
-              <select value={platform} onChange={handleChange}>
-                <option default disabled>
-                  Choose Platform
-                </option>
-                <option value="linkedin">LinkedIn</option>
-                <option value="youtube">Youtube</option>
-                <option value="telegram">Telegram</option>
-                <option value="insta">Instagram</option>
-              </select>
-              <input
-                type="number"
-                placeholder="Number of Followers"
-                value={followers}
-                onChange={(e) => {
-                  setFollowers(e.target.value);
-                }}
-              />
-              <button onClick={handleCheckEligibility}>
-                Check Eligibility
+              </SwiperSlide> */}
+              </Swiper>
+            ) : (
+              <>
+                <div
+                  className="creator_section_cardsection_card1"
+                  onClick={() => {
+                    mixpanel.track("Clicked trusted Creators on Main Page",{
+                      creator:"Himanshu Shekhar"
+                    });
+                    navigate("/c/himanshu-shekhar");
+                  }}
+                >
+                  <img
+                    src={require("./Images/himanshu1.jpg")}
+                    alt="creator"
+                  ></img>
+                  <div className="creator_section_imagetext">
+                    <div className="creator_section_imagewrap">
+                      <div className="creator_section_imagetext_text">
+                        <span>Himanshu Shekhar</span>
+                        <span>Linkedin 60K Followers</span>
+                      </div>
+                      <div className="creator_section_icon">
+                        <BsLinkedin
+                          size={28}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            mixpanel.track("Clicked Social Media of Creators on Main Page",{
+                              creator:"Himanshu Shekhar"
+                            });
+                            window.open(
+                              "https://www.linkedin.com/in/himanshushekhar16/"
+                            );
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="creator_section_cardsection_card1"
+                  onClick={() => {
+                    mixpanel.track("Clicked trusted Creators on Main Page",{
+                      creator:"Himanshu Kumar"
+                    });
+                    navigate("/c/himanshu-kumar");
+                  }}
+                >
+                  <img
+                    src={require("./Images/himanshu2.jpg")}
+                    alt="creator"
+                  ></img>
+                  <div className="creator_section_imagetext">
+                    <div className="creator_section_imagewrap">
+                      <div className="creator_section_imagetext_text">
+                        <span>Himanshu Kumar</span>
+                        <span>Linkedin 94K Followers</span>
+                      </div>
+                      <div className="creator_section_icon">
+                        <BsLinkedin
+                          size={28}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            mixpanel.track("Clicked Social Media of Creators on Main Page",{
+                              creator:"Himanshu Kumar"
+                            });
+                            window.open(
+                              "https://www.linkedin.com/in/himanshukumarmahuri/"
+                            );
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+          {window.screen.width < 600 && (
+            <div className="nav_buttons">
+              <button id="prev_slide_button">
+                <i class="fa-solid fa-arrow-left fa-2x"></i>
+              </button>
+              <button id="next_slide_button">
+                <i class="fa-solid fa-arrow-right fa-2x"></i>
               </button>
             </div>
-            {showResult ? (
-              <div className="eligibilityresult">
-                {result ? (
-                  <>
-                    <span style={{ color: "#0DD70D" }}>
-                      Congratulation you are eligible to be an anchor
-                    </span>
-                    <button
-                      onClick={() => {
-                        navigate("/login/creators");
-                      }}
-                    >
-                      Apply to be anchor
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <span style={{ color: "#6A6161" }}>
-                      oops, seems like you are not matched criteria to be anchor
-                    </span>
-                    <button
-                      onClick={() => {
-                        window.location =
-                          "https://izsxcwa0cfw.typeform.com/to/R9poKEJD";
-                      }}
-                    >
-                      Join wishlist
-                    </button>
-                  </>
-                )}
-              </div>
-            ) : (
-              ""
-            )}
-          </section>
+          )}
+        </section>
 
-          <section className="walloflove">
-            <div className="mainheaders1">
-              <h2>Wall of love</h2>
-              <span>Love from audience to their anchor</span>
-            </div>
-            <div className="feedbacks_mainpage">
-              {data
-                ? data
-                    ?.filter((e1) => {
-                      return e1?.userID?.name;
-                    })
-                    .map((e, i) => {
-                      return (
+        {/* Feedback or wall of love section */}
+        <section className="wall_of_love">
+          <h1 className="headers1_mainpage">Wall of Love</h1>
+          <div>
+            {data
+              ? data
+                  ?.filter((e1) => {
+                    return e1?.userID?.name;
+                  })
+                  .map((e) => {
+                    return  <div className="feedback_box_mainpage" key={e?.userID}>
+                      <section>
+                      <LazyLoadImage
+                              src={e?.userID?.photo}
+                              onError={({ currentTarget }) => {
+                                currentTarget.onerror = null; // prevents looping
+                                currentTarget.src = PNGIMG;
+                              }}
+                              alt="userimag"
+                            />
                         <div>
-                          <p>{e?.desc}</p>
-                          <div className="user_details_fb_main">
-                            {e?.userID.photo ===
-                            "https://media-exp1.licdn.com/dms/image/C5603AQHbuisFLZQv7w/profile-displayphoto-shrink_100_100/0/1597657855604?e=1673481600&v=beta&t=tMsAXmN2WayqLTDKFPl3ZuugC7vsoBXdNJ2KeK-lN88" ? (
-                              <LazyLoadImage src={PNGIMG} alt="" />
-                            ) : (
-                              <LazyLoadImage src={e?.userID?.photo} alt="" />
-                            )}
-
-                            <span>
-                              {e?.userID?.name ? e?.userID?.name : "unknown"}
-                            </span>
-                          </div>
+                          <span className="user_name_mainpage">
+                          {e?.userID?.name.length > 13 ? e?.userID?.name.slice(0,13) + "..." : e?.userID?.name}
+                          </span>
+                          {/* <span className="user_email_mainpage">
+                            abc@gmail.com
+                          </span> */}
                         </div>
-                      );
-                    })
-                : ""}
-            </div>
-          </section>
-        </div>
+                      </section>
+                      <p>
+                      {e?.desc.length > 190 ? e?.desc.slice(0,190) + "..." : e?.desc}
+                      </p>
+                    </div>;
+                  })
+              : ""}
+          </div>
+        </section>
+        <Footer />
       </div>
-      <Footer />
-      <ToastContainer />
     </>
   );
 }

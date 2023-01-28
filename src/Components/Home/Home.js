@@ -20,6 +20,8 @@ import IndexCreator from "../Create Service/index";
 import Stats from "../Service Stats/Stats";
 import Details from "../User Detail Lists/Details";
 import PaymentsTab from "../Payments Tab/paymentab";
+import PersonalInfoModal from "../Modals/PersonalInfoModal";
+import { creatorContext } from "../../Context/CreatorState";
 
 function Home(props) {
   const navigate = useNavigate();
@@ -30,7 +32,9 @@ function Home(props) {
     creatorLinkedinLogin,
     creatorGoogleLogin,
   } = useContext(linkedinContext);
+  const { allCreatorInfo, getAllCreatorInfo } = useContext(creatorContext);
   const [createWorkshoppopup, constCreateWorkshoppopup] = useState(false);
+  const [personalInfoModalOpen, setpersonalInfoModalOpen] = useState(false);
 
   useEffect(() => {
     // for users only
@@ -49,6 +53,7 @@ function Home(props) {
       localStorage.getItem("from")
     ) {
       if (localStorage.getItem("jwtToken")) {
+        //getAllCreatorInfo().then((e) => {});
       } else if (localStorage.getItem("from") === "linkedin") {
         creatorLinkedinLogin();
       } else {
@@ -75,6 +80,26 @@ function Home(props) {
     // eslint-disable-next-line
   }, []);
 
+  //useEffect(() => {
+  //  if (allCreatorInfo) {
+  //    setTimeout(() => {
+  //      if (
+  //        !allCreatorInfo?.name ||
+  //        !allCreatorInfo?.phone ||
+  //        !allCreatorInfo?.tagLine ||
+  //        !allCreatorInfo?.dob ||
+  //        !allCreatorInfo?.aboutMe ||
+  //        !allCreatorInfo?.linkedInLink
+  //      ) {
+  //          setpersonalInfoModalOpen(true);
+  //        
+  //      } else {
+  //        setpersonalInfoModalOpen(false);
+  //      }
+  //    }, 5000);
+  //  }
+  //}, [allCreatorInfo]);
+
   return (
     <>
       {createWorkshoppopup ? (
@@ -83,7 +108,15 @@ function Home(props) {
         ""
       )}
       <ToastContainer />
+
+      {/* check after login */}
       {location.pathname === "/check" && <LoadOne />}
+
+      {/* check for personal info filled or not checking all the mandatory  */}
+      {/* {allCreatorInfo?.completedInfo !== "1"  && location.pathname !== "/creator_info" && (
+        <PersonalInfoModal open={personalInfoModalOpen} allCreatorInfo />
+      )} */}
+
       <div className="main_box">
         <Navbar />
         <div className="right_container">

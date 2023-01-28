@@ -293,7 +293,7 @@ function Dashboard() {
           ) : (
             <div className="invitecodepopupwrapper">
               <div className="filldetailsboxwrap">
-                <h2>Fill your Personal Information to get your Inivite code</h2>
+                <h2>Fill your Personal Information to get your Invite code</h2>
                 <Button
                   variant="outlined"
                   onClick={() => navigate("/creator_info")}

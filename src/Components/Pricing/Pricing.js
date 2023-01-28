@@ -5,6 +5,8 @@ import Footer from "../Footer/Footer.js";
 import mixpanel from "mixpanel-browser";
 import { toast, ToastContainer } from "react-toastify";
 import { SuperSEO } from "react-super-seo";
+import Modal2 from "../Modals/ModalType01/Modal2";
+import Modal1 from "../Modals/ModalType01/Modal1";
 
 function Pricing() {
   const navigate = useNavigate();
@@ -12,11 +14,9 @@ function Pricing() {
   const [result, setResult] = useState(false);
   const [platform, setPlatform] = useState("Choose Platform");
   const [followers, setFollowers] = useState();
+  const [openModalSuccess, setOpenModalSuccess] = useState(false);
+  const [openModalFail, setOpenModalFail] = useState(false);
 
-
-  const handleChange = (e) => {
-    setPlatform(e.target.value);
-  };
 
 
   // Visited page mix panel
@@ -27,48 +27,64 @@ function Pricing() {
   
 
   const handleCheckEligibility = () => {
-    mixpanel.track("Clicked Check Eligibility on Anchors Main Page");
-    if (platform !== "Choose Platform" && parseInt(followers) > 0) {
-      mixpanel.track("Eligibility on Anchors Pricing Page",{
-        platform:platform,
-        followers:followers
+    if (platform !== 0 && followers !== "") {
+      mixpanel.track("Clicked Check Eligibility on Pricing Page",{
+        platform : platform === 1 ? "Linkedin" : platform === 2 ? "Youtube" : platform === 3 ? "Telegram" : platform === 4 ? "Instagram" : "None",
+        followers 
       });
-      if (platform === "youtube") {
-        if (parseInt(followers) >= 5000) {
-          setResult(true);
-        } else {
-          setResult(false);
-        }
-      } else if (platform === "insta") {
-        if (parseInt(followers) >= 10000) {
-          setResult(true);
-        } else {
-          setResult(false);
-        }
-      } else if (platform === "telegram") {
-        if (parseInt(followers) >= 2000) {
-          setResult(true);
-        } else {
-          setResult(false);
-        }
-      } else if (platform === "linkedin") {
-        if (parseInt(followers) >= 10000) {
-          setResult(true);
-        } else {
-          setResult(false);
-        }
+      switch (platform) {
+        case 1:
+          if (parseInt(followers) >= 10000) {
+            setOpenModalSuccess(true);
+          } else {
+            setOpenModalFail(true);
+          }
+          break;
+        case 2:
+          if (parseInt(followers) >= 5000) {
+            setOpenModalSuccess(true);
+          } else {
+            setOpenModalFail(true);
+          }
+          break;
+        case 3:
+          if (parseInt(followers) >= 2000) {
+            setOpenModalSuccess(true);
+          } else {
+            setOpenModalFail(true);
+          }
+          break;
+        case 4:
+          if (parseInt(followers) >= 10000) {
+            setOpenModalSuccess(true);
+          } else {
+            setOpenModalFail(true);
+          }
+          break;
+        default:
+          break;
       }
-      setShowResult(true);
-    } else {
-      toast.info("Fill all the mandatory fields", {
-        position: "top-center",
-        autoClose: 3000,
-      });
     }
   };
 
   return (
     <>
+    <Modal1
+        open={openModalSuccess}
+        toClose={() => {
+          setOpenModalSuccess(false);
+          setPlatform(0);
+          setFollowers("");
+        }}
+      />
+      <Modal2
+        open={openModalFail}
+        toClose={() => {
+          setOpenModalFail(false);
+          setPlatform(0);
+          setFollowers("");
+        }}
+      />
       <div className="main_pricing_container">
         <div className="mainpage_header creator_login_header ">
           <Link to="/" style={{textDecoration:"none",color:"unset"}}>
@@ -158,66 +174,65 @@ function Pricing() {
             </div>
           </div>
 
-          <section className="checkeligibility eligibility_pricing"  id="eligibility">
-            <h1>Stand out and get a chance to be an anchor</h1>
-            <span>I am influencer/creator at</span>
-            <div className="input_eligibility">
-              <select value={platform} onChange={handleChange}>
-                <option default disabled>
-                  Choose Platform
-                </option>
-                <option value="linkedin">LinkedIn</option>
-                <option value="youtube">Youtube</option>
-                <option value="telegram">Telegram</option>
-                <option value="insta">Instagram</option>
-              </select>
-              <input
-                type="number"
-                placeholder="Number of Followers"
-                value={followers}
-                onChange={(e) => {
-                  setFollowers(e.target.value);
+         {/* join and eligibility section */}
+        <section className="eligibility_mainpage" id="eligibility" style={{color:"black"}}>
+          <h1 className="headers1_mainpage">Join our team as an anchor</h1>
+          <p style={{color:"black"}}>
+            Unlocking the full potential of the creator economy through
+            boundless innovation and sustainable growth
+          </p>
+          <span style={{color:"black"}}>Choose a platform </span>
+          <div className="eligibility_check_section">
+            <section>
+              <span
+                className={platform === 1 && "active_platform"}
+                onClick={() => {
+                  setPlatform(1);
                 }}
-              />
-              <button onClick={handleCheckEligibility}>
-                Check Eligibility
-              </button>
-            </div>
-            {showResult ? (
-              <div className="eligibilityresult">
-                {result ? (
-                  <>
-                    <span style={{ color: "#0DD70D" }}>
-                      Congratulation you are eligible to be an anchor
-                    </span>
-                    <button
-                      onClick={() => {
-                        navigate("/login/creators");
-                      }}
-                    >
-                      Apply to be anchor
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <span style={{ color: "#6A6161" }}>
-                      oops, seems like you are not matched criteria to be anchor
-                    </span>
-                    <button
-                      onClick={() => {
-                        window.location =
-                          "https://izsxcwa0cfw.typeform.com/to/R9poKEJD";
-                      }}
-                    >
-                      Join wishlist
-                    </button>
-                  </>
-                )}
-              </div>
-            ) : (
-              ""
-            )}
-          </section>
+              >
+                <i class="fa-brands fa-linkedin-in fa-2x"></i>
+              </span>
+              <span
+                className={platform === 2 && "active_platform"}
+                onClick={() => {
+                  setPlatform(2);
+                }}
+              >
+                <i class="fa-brands fa-youtube fa-2x"></i>
+              </span>
+              <span
+                className={platform === 3 && "active_platform"}
+                onClick={() => {
+                  setPlatform(3);
+                }}
+              >
+                <i class="fa-brands fa-telegram fa-2x"></i>
+              </span>
+              <span
+                className={platform === 4 && "active_platform"}
+                onClick={() => {
+                  setPlatform(4);
+                }}
+              >
+                <i class="fa-brands fa-instagram fa-2x"></i>
+              </span>
+            </section>
+            <input
+              type="text"
+              placeholder="Number of followers"
+              value={followers}
+              onChange={(e) => {
+                setFollowers(e.target.value);
+              }}
+              style={{color:"black"}}
+            />
+          </div>
+          <button onClick={handleCheckEligibility} style={{backgroundColor:"transparent"}}>
+            {window.screen.width < 600
+              ? "Let’s Get Started"
+              : "Check Eligibility"}
+          </button>
+        </section>
         </div>
       </div>
       <Footer />

@@ -664,6 +664,26 @@
 }
 
 
+/* text type modals */
+
+.modal_text_01{
+    font-size: 1.4rem;
+    font: "Roboto";
+    font-weight: 400;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* modal type */
+
+.modal_type_1{
+    width: 600px;
+    height: 284px;
+    margin-top: -8vh;
+}
+
+
+
 /**Document Preview Model**/
 .document_preivew_model {
  width: 100vw;

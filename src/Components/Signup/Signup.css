@@ -1,0 +1,113 @@
+.signup_page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  -webkit-user-select: none;
+}
+
+/* left signup side */
+
+.left_signup_side {
+  background: #232426;
+  width: 50%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo_signup_page {
+  width: 200px;
+  position: absolute;
+  top: 23px;
+  left: 35px;
+}
+
+.signup_img1 {
+  width: 426px;
+  margin-bottom: 29px;
+}
+
+/* right signup side */
+
+.right_signup_side {
+  width: 50%;
+  height: 100%;
+  background: #f7f4f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  /* padding-top: 60px; */
+  box-sizing: border-box;
+}
+
+.signup_header_01 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 48px;
+  color: #000000;
+}
+
+.signup_points {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 53%;
+  margin: auto;
+  margin-top: 15px;
+}
+
+.signup_points > section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.signup_points section img {
+  width: 56px;
+  height: 56px;
+  margin-right: 18px;
+}
+
+.signup_points section span {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 23px;
+}
+
+/* signup buttons */
+
+.signup_buttons {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+.signup_buttons button {
+  width: 430px;
+  height: 55px;
+  background: #212121;
+  border-radius: 6px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  color: #ffffff;
+  margin-bottom: 15px;
+  border: none;
+  cursor: pointer;
+}
+
+.signup_buttons button i{
+  margin-right: 10px;
+}

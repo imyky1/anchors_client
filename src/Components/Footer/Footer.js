@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Footer.css";
 import { Link, useNavigate } from "react-router-dom";
-import { Modal, Fade, Typography, Box, Backdrop } from "@mui/material";
+//import { Modal, Fade, Typography, Box, Backdrop } from "@mui/material";
 
 function Footer() {
   const navigate = useNavigate();
@@ -33,19 +33,16 @@ function Footer() {
     <>
       <div className="main_footer_section">
         <div>
+        {window.screen.width > 600 && <img className="logo_footer" src={require("../Main Page/Images/logo-beta.png")} alt="" />}
           <section className="upper_footer_section">
             <div className="anchors_details">
-              <span>
-                <img src={require("../logo.png")} alt="logo" />
-                anchors
-              </span>
-              <span>Start Monetizing your time</span>
+              <span>Monetize your <span style={{color:"rgba(255, 255, 255, 0.8)"}}>Content, skill, Expertise</span> and help your audience to grow.</span>
               <button
                 onClick={() => {
                   navigate("/login/creators");
                 }}
               >
-                Become Anchor <i class="fa-solid fa-arrow-right-long fa-l"></i>
+                Become an Anchor
               </button>
             </div>
             <div className="footer_support_menu">
@@ -53,9 +50,7 @@ function Footer() {
                 Pricing
               </Link>
 
-              <span onClick={handleOpen}>
-                Help & Support
-              </span>
+              <span onClick={handleOpen}>Help & Support</span>
 
               <Link to="/privacy-policy" target="_blank" rel="no_referrer">
                 Terms & Conditions
@@ -68,14 +63,19 @@ function Footer() {
                 Linkedin
               </a>
             </div>
+            {window.screen.width < 600 &&  <img className="logo_footer" src={require("../Main Page/Images/logo-beta.png")} alt="" />}
           </section>
-          <section className="lower_footer_section">
-            &#169; 2022 &nbsp;&#9679;&nbsp; anchors.in &nbsp;&#9679;&nbsp; MADE
-            IN INDIA
+          <section className="some_extra">
+          <i class="fa-brands fa-linkedin-in fa-xl" style={{color:"white",marginBottom:"15px"}}></i>
+          <span>Anchors.in All rights reserved</span>
+          {window.screen.width > 600 && <span style={{textDecoration:"underline",cursor:"pointer"}}>Terms & privacy</span>}
           </section>
         </div>
+        <section className="lower_footer_section">
+            2023 &#169; &nbsp; anchors.in &nbsp; Made in &nbsp; <img className="india_logo" src={require("./India-logo.png")} alt="India" />
+          </section>
       </div>
-      <Modal
+      {/* <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
@@ -96,7 +96,7 @@ function Footer() {
             </Typography>
           </Box>
         </Fade>
-      </Modal>
+      </Modal> */}
     </>
   );
 }
