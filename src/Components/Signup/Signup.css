@@ -108,6 +108,98 @@
   cursor: pointer;
 }
 
-.signup_buttons button i{
+.signup_buttons button i {
   margin-right: 10px;
+}
+
+@media screen and (max-width: 700px) {
+  .signup_page {
+    flex-direction: column;
+    height: max-content;
+    min-height: 100vh;
+    background-color: #232426;
+    justify-content: unset;
+  }
+
+  /* logo signup page ------------------- */
+  .logo_signup_page {
+    width: 150px;
+    top: 17px;
+    left: 15px;
+  }
+
+  /* image */
+  .signup_img1 {
+    width: 150px;
+    margin-bottom: 15px;
+  }
+
+  /* left side ----------------------------- */
+
+  .left_signup_side {
+    width: 90%;
+    height: unset;
+    padding-top: 54px;
+    position: unset;
+  }
+
+  /* right side ----------------------------- */
+
+  .right_signup_side {
+    width: 82%;
+    height: unset;
+    background: transparent;
+  }
+
+  .right_signup_side > div {
+    width: 100%;
+  }
+
+  /* signup headers *---------------------- */
+
+  .signup_header_01 {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 22px;
+    color: #ffffff;
+  }
+
+  /* signup points ---------------------------------- */
+
+  .signup_points {
+    width: 90%;
+    margin-top: 22px;
+  }
+
+  .signup_points > section {
+    justify-content: center;
+    margin-bottom: 25px;
+  }
+
+  .signup_points section span {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 144.52%;
+    color: rgba(255, 255, 255, 0.8);
+    width: 74%;
+  }
+
+  .signup_points section img {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* signup buttons -------------------------------------------- */
+
+  .signup_buttons button {
+    width: 250px;
+    height: 37px;
+    background: #f7f4f2;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 17px;
+    color: #000000;
+    margin-bottom: 19px;
+  }
 }

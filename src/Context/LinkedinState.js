@@ -127,12 +127,14 @@ const LinkedinState = (props) => {
     });
     const res = await response.json();
     if (res.success) {
-      const status = await getStatus(res.jwtToken);
-      if (status === 1) {
+      //const status = await getStatus(res.jwtToken);
+      if (res.status === 1) {
         localStorage.setItem("jwtToken", res.jwtToken);
         localStorage.setItem("c_id", res.slug);
         navigate("/dashboard");
       } else {
+        localStorage.removeItem("isUser")
+        localStorage.removeItem("from")
         navigate("/waitlist");
       }
     } else {
@@ -391,9 +393,9 @@ const LinkedinState = (props) => {
   // Route : GET user IP ADDRESS and location
   const userIp = async () => {
     const response = await fetch(
-      "https://api64.ipify.org/?format=json"
+      "https://api64.ipify.org/?format=json",
       //method:"GET",
-      //mode:"no-cors",
+      //{mode:"no-cors"}
       //headers: {
       //  Accept: "application/json",
       //  "Access-Control-Allow-Credentials": true

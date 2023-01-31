@@ -1,6 +1,8 @@
 import mixpanel from "mixpanel-browser";
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { SuperSEO } from "react-super-seo";
+import { host } from "../../config/config";
 import "./Signup.css";
 
 function Signup() {
@@ -11,16 +13,28 @@ function Signup() {
 
   }, [])
 
+  const handleGoogle = async () => {
+    localStorage.setItem("isUser", "");
+    localStorage.setItem("from", "google");
+    window.open(`${host}/google/auth`, "_self");
+  };
+
+  const handlelinkedin = async () => {
+    localStorage.setItem("isUser", "");
+    localStorage.setItem("from", "linkedin");
+    window.open(`${host}/login/auth/linkedin`, "_self");
+  };
+
 
   return (
     <>
     <div className="signup_page">
-      <div className="left_signup_side">
-        <img
+      <div className="left_signup_side"> 
+      <Link to="/" style={{textDecoration:"none",color:"unset"}}><img
           className="logo_signup_page"
           src={require("../Main Page/Images/logo-beta.png")}
           alt=""
-        />
+        /></Link>
         <img
           className="signup_img1"
           src={require("./images/signup1.png")}
@@ -54,10 +68,10 @@ function Signup() {
             </section>
           </div>
           <div className="signup_buttons">
-            <button>
+            <button onClick={handleGoogle}>
             <i class="fa-brands fa-google fa-m"></i> Continue with Google
             </button>
-            <button>
+            <button onClick={handlelinkedin}>
               <i class="fa-brands fa-linkedin-in fa-m"></i> Continue with LinkedIn
             </button>
           </div>

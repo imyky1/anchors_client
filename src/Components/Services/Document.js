@@ -20,6 +20,11 @@ function Document(props) {
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    console.log("f")
+  }, [services])
+  
+
   return (
     <>
       <div className="service_list_page">

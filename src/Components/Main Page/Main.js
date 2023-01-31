@@ -439,7 +439,7 @@ function Main() {
                             );
                           }}
                         >
-                          <BsInstagram size={28} />
+                          <BsLinkedin size={28} />
                         </div>
                       </div>
                     </div>

@@ -62,7 +62,12 @@ function View() {
 
   const handleClick = async (id,status)=>{
     await getjwt(id,status).then(()=>{
+      if(status === 1 ){
         window.open("/dashboard")    
+      }
+      else{
+        window.open("/waitlist")    
+      }
     })
   }
 

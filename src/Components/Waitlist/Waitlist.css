@@ -1,36 +1,70 @@
 .wailist_header_01 {
-    font-family: "Inter";
-    font-style: normal;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 39px;
+  width: 60%;
+  margin: 0 auto;
+}
+
+.wailist_para {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 60%;
+  margin: 60px auto;
+}
+
+.wailist_para p {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 161.02%;
+  margin-bottom: 40px;
+}
+
+.wailist_para span {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+@media screen and (max-width: 700px) {
+  .wailist_header_01 {
     font-weight: 600;
-    font-size: 32px;
-    line-height: 39px;
-    width: 60%;
-    margin: 0 auto;
+    font-size: 21px;
+    line-height: 22px;
+    color: #ffffff;
+    width: unset;
+    margin-top: 25px;
   }
-  
-  .wailist_para {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    width: 60%;
-    margin: 60px auto;
+
+  .wailist_para{
+    width: unset;
+    margin: 30px auto;
+    margin-bottom: 12px;
   }
-  
-  .wailist_para p {
-    font-family: "Inter";
-    font-style: normal;
+
+  .wailist_para p{
     font-weight: 400;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 161.02%;
-    margin-bottom: 40px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 90px;
   }
-  
-  .wailist_para span {
-    font-family: "Inter";
-    font-style: normal;
+
+  .wailist_para span{
     font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    color: rgba(0, 0, 0, 0.6);
+    font-size: 9px;
+    line-height: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    /* display: inline-block; */
+    width: 100%;
   }
-  
+}

@@ -38,7 +38,7 @@ function Home(props) {
 
   useEffect(() => {
     // for users only
-    if (localStorage.getItem("isUser") && localStorage.getItem("from")) {
+    if (localStorage.getItem("isUser")===true && localStorage.getItem("from")) {
       if (localStorage.getItem("from") === "linkedin") {
         loginlinkedinUser();
       } else {
@@ -102,11 +102,12 @@ function Home(props) {
 
   return (
     <>
-      {createWorkshoppopup ? (
+      {/* {createWorkshoppopup ? (
         <div className="popup_create_workshop_background"></div>
       ) : (
         ""
-      )}
+      )} */}
+
       <ToastContainer />
 
       {/* check after login */}
@@ -117,6 +118,9 @@ function Home(props) {
         <PersonalInfoModal open={personalInfoModalOpen} allCreatorInfo />
       )} */}
 
+      {/* Check if creator is loggined or not if not then passage should not be given ------------------------------- */}
+      
+      {localStorage.getItem("jwtToken") && localStorage.getItem("c_id") &&
       <div className="main_box">
         <Navbar />
         <div className="right_container">
@@ -178,7 +182,7 @@ function Home(props) {
             <Route path="/user_requests" element={<Requests />} />
           </Routes>
         </div>
-      </div>
+      </div>}
     </>
   );
 }

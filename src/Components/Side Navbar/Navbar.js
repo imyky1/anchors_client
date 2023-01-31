@@ -17,7 +17,6 @@ function Navbar() {
     // eslint-disable-next-line
   }, []);
 
-  console.log(allCreatorInfo);
   return (
     <div className="side_navbar">
       <Link
