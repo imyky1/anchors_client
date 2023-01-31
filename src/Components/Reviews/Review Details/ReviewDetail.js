@@ -43,9 +43,9 @@ function ReviewDetail(props) {
         </span>
         
         <span onClick={handleCheckClick}>
-          <label className="switch">
+          <label className="switch2">
             <input type="checkbox" id={`checkbox_review_${props.sno}`} />
-            <span className="slider round"></span>
+            <span className="slider2 round2"></span>
           </label>
         </span>
       </div>

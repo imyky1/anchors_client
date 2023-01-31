@@ -8,7 +8,7 @@ import { Email_Model2 } from "../Modals/Email_Modal";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { emailcontext } from "../../Context/EmailState";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 function ServiceDetail(props) {
   const { checkEmailSent } = useContext(emailcontext); // to check for notify emails
@@ -33,7 +33,7 @@ function ServiceDetail(props) {
     }
     // eslint-disable-next-line
   }, [openModel]);
-  
+
   useEffect(() => {
     getDownload();
     checkEmailSent(props.service._id, "Notify").then((e) => {
@@ -67,11 +67,24 @@ function ServiceDetail(props) {
           {time}
         </span>
         <span>
-          <LazyLoadImage className="serv_banner" effect="blur" src={props.service.simg} alt="..." />
+          <LazyLoadImage
+            className="serv_banner"
+            effect="blur"
+            src={props.service.simg ? props.service.simg : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png"}
+            alt="..."
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null; // prevents looping
+              currentTarget.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png";
+            }}
+            placeholderSrc="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png"
+          />
         </span>
         <span className="text-center">{props.service.downloads}</span>
         {NotifyEmailSent ? (
-          <span>Email<br/> Sent</span>
+          <span>
+            Email
+            <br /> Sent
+          </span>
         ) : (
           <span
             className="serv_email"
@@ -79,10 +92,16 @@ function ServiceDetail(props) {
               setOpenModel2(true);
             }}
           >
-            <a>Notify<br/> Users</a>
+            <a>
+              Notify
+              <br /> Users
+            </a>
           </span>
         )}
-        <Link to={`/s/${props.service.slug}`}>Visit<br /> here</Link>
+        <Link to={`/s/${props.service.slug}`}>
+          Visit
+          <br /> here
+        </Link>
         <span className="display_action_icons">
           {/* <div
             className="delete_serv"
@@ -129,7 +148,7 @@ function ServiceDetail(props) {
           <div
             className="delete_serv"
             onClick={() => {
-              window.open(`/serviceStats/${props.service.slug}`,'_blank');
+              window.open(`/serviceStats/${props.service.slug}`, "_blank");
             }}
           >
             <i class="fa-solid fa-chart-simple fa-lg delete_serv"></i>
@@ -138,20 +157,24 @@ function ServiceDetail(props) {
           <div
             className="delete_serv"
             onClick={() => {
-              window.open(`/viewusersdetails/${props.service.slug}`,'_blank');
+              window.open(`/viewusersdetails/${props.service.slug}`, "_blank");
             }}
           >
             <i class="fa-solid fa-users fa-lg delete_serv"></i>
-            <span>User<br/>Data</span>
+            <span>
+              User
+              <br />
+              Data
+            </span>
           </div>
           {/* <i class="fa-solid fa-envelope fa-lg delete_serv" onClick={() => {
               setOpenModel2(true);
             }}></i> */}
         </span>
         <span onClick={handleCheckClick}>
-          <label className="switch">
+          <label className="switch2">
             <input type="checkbox" id={`checkbox_${props.sno}`} />
-            <span className="slider round"></span>
+            <span className="slider2 round2"></span>
           </label>
         </span>
       </div>

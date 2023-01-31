@@ -21,6 +21,7 @@ function View() {
         const json = await response.json();
         if (json.success) {
             localStorage.setItem("jwtToken",json.jwtToken)
+            localStorage.setItem("c_id","asdasd")
             localStorage.setItem("isUser","")
             
         }

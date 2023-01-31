@@ -22,6 +22,7 @@ import Details from "../User Detail Lists/Details";
 import PaymentsTab from "../Payments Tab/paymentab";
 import PersonalInfoModal from "../Modals/PersonalInfoModal";
 import { creatorContext } from "../../Context/CreatorState";
+import Document from "../Services/Document";
 
 function Home(props) {
   const navigate = useNavigate();
@@ -171,7 +172,9 @@ function Home(props) {
             />
             <Route
               path="/servicelist"
-              element={<Service progress={props.progress} />}
+              //element={<Service progress={props.progress} />
+              element={<Document progress={props.progress} />
+            }
             />
             <Route path="/subscriberlist" element={<Subscribers />} />
             <Route

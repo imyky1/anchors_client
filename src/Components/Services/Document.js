@@ -4,29 +4,37 @@ import "./Service.css";
 import ServiceContext from "../../Context/services/serviceContext";
 import { LoadTwo } from "../Modals/Loading";
 import { Fragment } from "react";
+import { SuperSEO } from "react-super-seo";
 
 function Document(props) {
   const [openLoading, setOpenLoading] = useState(false);
   const context = useContext(ServiceContext);
   const { services, getallservices } = context;
+  const [revArray, setrevArray] = useState([]);
 
   let count = 0;
 
   useEffect(() => {
     setOpenLoading(true);
-    getallservices().then(() => {
+    getallservices().then(async () => {
       setOpenLoading(false);
     });
     // eslint-disable-next-line
   }, []);
 
+
   useEffect(() => {
-    console.log("f")
+    setrevArray(services?.res?.reverse())
+
   }, [services])
   
 
+
+
+
   return (
     <>
+      <h1 className="header01">Service details</h1>
       <div className="service_list_page">
         <div className="services_table_head">
           <span>S.No.</span>
@@ -45,8 +53,8 @@ function Document(props) {
 
       {openLoading && <LoadTwo open={openLoading} />}
       <div className="service_details_body">
-        {services.res?.length !== 0 ? (
-          services.res?.reverse()?.map((e, i) => {
+        {revArray?.length !== 0 ? (
+          revArray?.map((e, i) => {
             return (
               <Fragment key={i}>
                 {e.stype === 0 ? (
@@ -67,6 +75,8 @@ function Document(props) {
           <h1 className="no_services">No services to display</h1>
         )}
       </div>
+      <SuperSEO title="Anchors - Services" />
+
     </>
   );
 }

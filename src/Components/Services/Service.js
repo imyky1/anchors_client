@@ -36,7 +36,7 @@ function Service(props) {
         ) : (
           <Workshop progress={props.progress} />
         )} */}
-        <Document progress={props.progress} />
+        <Document progress={props.progress} on={true}/>
       </div>
       <SuperSEO title="Anchors - Services" />
     </>
