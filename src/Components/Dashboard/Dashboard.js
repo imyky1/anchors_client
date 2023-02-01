@@ -157,26 +157,30 @@ function Dashboard() {
     });
   };
   const wow = () => {
-    getuserorder({
-      date: dateRangefrom?.slice(8, 10) ? dateRangefrom?.slice(8, 10) : 20,
-      month: dateRangefrom?.slice(5, 7) ? dateRangefrom?.slice(5, 7) : 11,
-      year: dateRangefrom?.slice(0, 4) ? dateRangefrom?.slice(0, 4) : 2022,
-      enddate: dateRangeto?.slice(8, 10) ? dateRangeto?.slice(8, 10) : 31,
-      endmonth: dateRangeto?.slice(5, 7) ? dateRangeto?.slice(5, 7) : 11,
-      endyear: dateRangeto?.slice(0, 4) ? dateRangeto?.slice(0, 4) : 2022,
-    });
+    if (dateRangefrom?.slice(0, 10)) {
+      getuserorder({
+        date: dateRangefrom?.slice(8, 10),
+        month: dateRangefrom?.slice(5, 7),
+        year: dateRangefrom?.slice(0, 4),
+        enddate: dateRangeto?.slice(8, 10),
+        endmonth: dateRangeto?.slice(5, 7),
+        endyear: dateRangeto?.slice(0, 4),
+      });
+    }
   };
   useEffect(() => {
     wow();
     handler();
-    getallsubs({
-      date: dateRangefrom?.slice(8, 10) ? dateRangefrom?.slice(8, 10) : 20,
-      month: dateRangefrom?.slice(5, 7) ? dateRangefrom?.slice(5, 7) : 11,
-      year: dateRangefrom?.slice(0, 4) ? dateRangefrom?.slice(0, 4) : 2022,
-      enddate: dateRangeto?.slice(8, 10) ? dateRangeto?.slice(8, 10) : 31,
-      endmonth: dateRangeto?.slice(5, 7) ? dateRangeto?.slice(5, 7) : 11,
-      endyear: dateRangeto?.slice(0, 4) ? dateRangeto?.slice(0, 4) : 2022,
-    });
+    if (dateRangefrom?.slice(0, 10)) {
+      getallsubs({
+        date: dateRangefrom?.slice(8, 10),
+        month: dateRangefrom?.slice(5, 7),
+        year: dateRangefrom?.slice(0, 4),
+        enddate: dateRangeto?.slice(8, 10),
+        endmonth: dateRangeto?.slice(5, 7),
+        endyear: dateRangeto?.slice(0, 4),
+      });
+    }
   }, [dateRangefrom, dateRangeto, basicNav]);
 
   var temparr = [];

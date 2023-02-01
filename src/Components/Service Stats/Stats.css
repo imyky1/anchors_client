@@ -134,6 +134,17 @@
     margin-bottom: 10px;
     font-weight: 700;
 }
+.stats_bouncerate{
+    font-size: 2rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.stats_avgtime{
+    font-size: 2rem;
+        margin-bottom: 10px;
+        font-weight: 600;
+}
 
 .stats_texts_data{
     font-size: 1.4rem;

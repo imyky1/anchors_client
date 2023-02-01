@@ -461,7 +461,7 @@ const ServiceState = (props) => {
       //console.log("Some error Occured")
     }
   };
-  
+
   const getworkshopusingid = async (id) => {
     const response = await fetch(
       `${host}/api/workshop/getworkshopusingid/${id}`,
@@ -479,13 +479,16 @@ const ServiceState = (props) => {
 
   // get workshop slug from redirection copy url
   const getworkshopslugfromcpyid = async (id) => {
-    const response = await fetch(`${host}/api/workshop/getworkshopslugfromcpyid`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: id }),
-    });
+    const response = await fetch(
+      `${host}/api/workshop/getworkshopslugfromcpyid`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: id }),
+      }
+    );
     const json = await response.json();
     return json;
   };
@@ -544,8 +547,6 @@ const ServiceState = (props) => {
       //console.log("Some error Occured")
     }
   };
-
-
 
   return (
     <ServiceContext.Provider

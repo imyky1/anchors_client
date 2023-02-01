@@ -26,6 +26,30 @@ function Stats(props) {
     return useMemo(() => new URLSearchParams(search), [search]);
   }
   const query = useQuery();
+  // getting data from analytics(google) data from the db
+  const [bounceRate, setBounceRate] = useState(0);
+  const [avgTime, setAvgTime] = useState(0);
+
+  const getAnalyticsData = async () => {
+    console.log(serviceInfo?.slug);
+    let response = await fetch(`${host}/analytics/getdata`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
+      body: JSON.stringify({
+        slug: serviceInfo?.slug,
+      }),
+    });
+    response = await response.json();
+    console.log(response);
+    setBounceRate(response.result.bouncerate);
+    setAvgTime(response.result.avgTime);
+  };
+  useEffect(() => {
+    getAnalyticsData();
+  }, [serviceInfo?.slug]);
 
   useEffect(() => {
     props.progress(0);
@@ -97,8 +121,6 @@ function Stats(props) {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
-
           setMixpanelData({
             valueunique: data.response.uniquevisits,
             valuenotunique: data.response.Totalvisits,
@@ -227,10 +249,27 @@ function Stats(props) {
               </span>
               <span className="stats_texts_data2">Unique User visits</span>
             </div>
+
             {/* <div>
               <span className="stats_number">71 %</span>
               <span className="stats_texts_data2">Avg time spent on page</span>
             </div> */}
+          </section>
+          <section className="stats_02">
+            <div>
+              <span className="stats_bouncerate">
+                {bounceRate !== 0 ? bounceRate.toFixed(2) : "---"}
+              </span>
+              <span className="stats_texts_data2">Bounce Rate</span>
+            </div>
+            <div>
+              <span className="stats_avgtime">
+                {avgTime !== 0 ? `${avgTime.toFixed(2)} s` : "---"}
+              </span>
+              <span className="stats_texts_data2">
+                Average Time spent by user
+              </span>
+            </div>
           </section>
         </div>
       </div>
