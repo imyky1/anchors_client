@@ -1,0 +1,16 @@
+
+
+.main_home_page_container{
+    width: 100%;
+    display: flex;
+}
+
+.right_side_home_page{
+    /* background-color: red;
+    margin-left: 5px; */
+    width: 83%;
+}
+
+.remaining{
+    width: 100%;
+}

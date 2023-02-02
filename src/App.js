@@ -37,6 +37,7 @@ import Signup from "./Components/Signup/Signup";
 import ExcelViewer from "./Components/Editor/excelviewer/ExcelViewer";
 import PDFReader from "./Components/Editor/pdfViewer/Components/PDFReader";
 import VideoDisplay from "./Components/Editor/VideoDisplay/VideoDisplay";
+import HomeUI from "./Components/Editor/New UI/Home/Home";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -181,6 +182,13 @@ function App() {
                           path="/viewVideo"
                           element={
                             <VideoDisplay /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
+                            />
+                          }
+                        />
+                        <Route
+                          path="/newUi"
+                          element={
+                            <HomeUI /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
                             />
                           }
                         />

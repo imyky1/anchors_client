@@ -1,0 +1,66 @@
+.main_dashboard_conatiner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f8fa;
+  height: 91vh;
+}
+
+.main_dashboard_conatiner > div {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.text_01_dashboard {
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 38px;
+  color: #000000;
+  margin-bottom: 15px;
+}
+
+.text_02_dashboard {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 18px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 25px;
+  width: 75%;
+}
+
+.main_dashboard_conatiner > div > section {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.dashboard_options {
+  width: 373px;
+  height: 88px;
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.2);
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 18px;
+  color: #000000;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.dashboard_options:hover{
+    background: #000000;
+    color: #FFFFFF;
+}
