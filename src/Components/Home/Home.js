@@ -39,7 +39,7 @@ function Home(props) {
 
   useEffect(() => {
     // for users only
-    if (localStorage.getItem("isUser")===true && localStorage.getItem("from")) {
+    if (localStorage.getItem("isUser")==="true" && localStorage.getItem("from")) {
       if (localStorage.getItem("from") === "linkedin") {
         loginlinkedinUser();
       } else {
