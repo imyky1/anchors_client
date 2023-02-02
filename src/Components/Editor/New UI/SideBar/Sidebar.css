@@ -1,0 +1,192 @@
+/* sidebar main css ------------------- */
+
+.sidebar_main_box {
+  width: 268px;
+  background: #f7f7f8;
+  height: 100vh;
+  position: sticky;
+  left: 0;
+  top: 0;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* main part sidebar------------------------------ */
+
+.sidebar_main_box > div {
+  width: 85%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 25px;
+}
+
+/* upper section of creator --------------- */
+
+.sidebar_main_box > div > div {
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.sidebar_main_box > div > div > span {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #0083fe;
+  display: flex;
+  align-items: center;
+  margin-top: 23px;
+  cursor: pointer;
+  padding-left: 15px;
+}
+
+.sidebar_main_box > div > div > span img{
+    margin-right: 5px;
+}
+
+/* text styles sidebar ------------------------------------------------ */
+
+.text_sidebar_01 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+}
+
+.text_sidebar_02 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+/* creator profile sidebar------------------------------------ */
+
+.creator_sidebar_details {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* background-color: red; */
+}
+
+.creator_sidebar_details > img {
+  width: 60px;
+  height: 60px;
+  filter: drop-shadow(1px 3px 9px rgba(0, 0, 0, 0.15));
+  border-radius: 100px;
+  margin-right: 12px;
+}
+
+.creator_sidebar_details > div > div {
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.reviews_from_sidebar{
+    margin-left: 5px;
+}
+
+.reviews_from_sidebar:hover{
+    color: #0083FE;
+}
+
+/* sidebar navigation ------------------------------------------------------- */
+
+.sidebar_navigation {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 25px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 10px;
+}
+
+.sidebar_navigation > div {
+  width: 100%;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  border-radius: 8px;
+  box-sizing: border-box;
+  padding-left: 13px;
+}
+
+.sidebar_navigation > div:hover {
+  background: #e1e1e1;
+  color: #000000;
+}
+
+.sidebar_navigation > div img {
+  margin-right: 15px;
+  width: 24px;
+  height: 24px;
+}
+
+
+/* invite section sidebar -------------------------------------------------------- */
+
+.invite_sidebar {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 85%;
+  margin: auto;
+  position: absolute;
+  bottom: 8px;
+  left: 15px;
+}
+
+.invite_sidebar > h3 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+  text-transform: uppercase;
+}
+
+.invite_sidebar > span {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-top: 8px;
+}
+
+.invite_sidebar > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 9px;
+  margin-top: 12px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  color: rgba(0, 0, 0, 0.5);
+  padding-left: 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+}

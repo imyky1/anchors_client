@@ -1,0 +1,137 @@
+.creator_modal_outside_container {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+
+.creator_modal_info {
+  width: 280px;
+  height: 388px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 13px;
+  position: absolute;
+  right: 28px;
+  top: 70px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  -webkit-user-select: none;
+}
+
+/* profile section cretor info --------------------------------------------------------------------- */
+
+.profile_section_creator_info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 90%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 15px;
+  margin-top: 20px;
+}
+
+.profile_section_creator_info > img {
+  width: 48px;
+  height: 48px;
+  border-radius: 100px;
+  margin-bottom: 5px;
+}
+
+.profile_section_creator_info > span {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+  margin-bottom: 13px;
+}
+
+.profile_section_creator_info > div {
+  display: grid;
+  width: 90%;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 10px;
+  margin-bottom: 13px;
+}
+
+.profile_section_creator_info > div > span {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  color: rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.profile_section_creator_info > button {
+  width: 130px;
+  height: 32px;
+  background: #000000;
+  border-radius: 32px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.hover_span_modal_creatorinfo:hover{
+    color: #0083fe;
+    cursor: pointer;
+}
+
+/* options creator info side modal --------------------------------------- */
+
+.options_creator_profile_info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 90%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 11px;
+  margin-top: 17px;
+}
+
+.options_creator_profile_info > div {
+  width: 100%;
+  height: 32px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  padding: 6px 12px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+}
+
+.options_creator_profile_info > div:hover {
+  background: #e1e1e1;
+}
+
+/* logout option on creator info */
+
+.logout_button_modal {
+  color: #00000080;
+  width: 90%;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.logout_button_modal i {
+  cursor: pointer;
+}
