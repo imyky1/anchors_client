@@ -22,15 +22,9 @@ function Document(props) {
     // eslint-disable-next-line
   }, []);
 
-
   useEffect(() => {
-    setrevArray(services?.res?.reverse())
-
-  }, [services])
-  
-
-
-
+    setrevArray(services?.res?.reverse());
+  }, [services]);
 
   return (
     <>
@@ -76,7 +70,6 @@ function Document(props) {
         )}
       </div>
       <SuperSEO title="Anchors - Services" />
-
     </>
   );
 }
