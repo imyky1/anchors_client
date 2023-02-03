@@ -1,0 +1,131 @@
+.servicelist-wrapper {
+    width: 90%;
+    margin: 5vh 5% 3% 5%;
+}
+
+.servicelist-wrapper h1 {
+    margin-bottom: 12px;
+}
+
+
+.servicelist_wrap_span{
+font-weight: 400px;
+    color: #00000080;
+}
+
+.servicelist-categories {
+    display: flex;
+    gap: 2.5vw;
+    margin-top: 6vh;
+}
+
+.servicelist-catItem {
+    padding-bottom: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.servicelist-catItem:hover {
+    padding-bottom: 13px;
+    border-bottom: 2px solid black;
+    cursor: pointer;
+}
+.selectedlist{
+    padding-bottom: 13px;
+        border-bottom: 2px solid black;
+        cursor: pointer;
+}
+
+.servicelist-linebreak {
+    position: absolute;
+    margin-top: -1px;
+    border-top: 1px solid #00000033;
+    width: 75.5%;
+}
+
+.servicelist-table {
+    margin-top: 2vh;
+}
+
+.servicelistbannerimg {
+    width: 69px;
+    height: 47px;
+    border-radius: 10px;
+}
+
+.usericonservicelist {
+    padding-left: 6px;
+    margin-top: 3px;
+}
+
+.servicelist_icon {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 3px;
+    border-radius: 50%;
+}
+.servicelist_icon :hover{
+    cursor: pointer;
+}
+
+.iconalign{
+    justify-content: center;
+    transform: translateX(-10%);
+}
+.servicelist_getdate {
+    display: block;
+    color: black;
+}
+
+.MuiTableHead-root {
+    background-color: #0000001f;
+}
+
+
+
+
+.servicelist_optionspopup{
+    position: absolute;
+    right: 8vw;
+    z-index: 99;
+    border: 1px solid black;
+    border-radius: 10px;
+    display: none;
+    width: 200px;
+    background-color: #FFFFFF;
+    height: 180px;
+    flex-direction: column;
+    align-items: left;
+    justify-content: flex-start;
+}
+
+.servicelist_wrap{
+    margin: 5% 5%;
+    height: 100%;
+}
+
+.servicelist_popuptop{
+    height: 65%;
+    width: 100%;
+}
+.modaloptions_servicelist{
+    padding: 10px 0px 10px 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.modaloptions_servicelist:hover{
+    background-color: #00000034;
+}
+
+.servicelist_popupbottom{
+    width: 100%;
+}
+.servicelist_popupactive{
+    padding: 10px 0px 10px 5px;
+        cursor: pointer;
+        border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10%;
+}

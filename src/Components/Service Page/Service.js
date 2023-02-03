@@ -861,7 +861,7 @@ function Service(props) {
                 <span className="free_label">Free</span>
               )}
 
-              {!alreadyOrderPlaced && (     // if order is placed or not
+              {!alreadyOrderPlaced && ( // if order is placed or not
                 <button
                   className="download_service"
                   onClick={() => {
