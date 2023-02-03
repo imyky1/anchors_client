@@ -186,7 +186,7 @@ function App() {
                           }
                         />
                         <Route
-                          path="/newUi"
+                          path="/newUi/*"
                           element={
                             <HomeUI /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
                             />

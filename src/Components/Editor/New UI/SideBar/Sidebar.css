@@ -109,7 +109,7 @@
   padding-bottom: 10px;
 }
 
-.sidebar_navigation > div {
+.sidebar_navigation > a {
   width: 100%;
   height: 36px;
   display: flex;
@@ -125,14 +125,15 @@
   border-radius: 8px;
   box-sizing: border-box;
   padding-left: 13px;
+  text-decoration: none;
 }
 
-.sidebar_navigation > div:hover {
+.sidebar_navigation > a:hover {
   background: #e1e1e1;
   color: #000000;
 }
 
-.sidebar_navigation > div img {
+.sidebar_navigation > a img {
   margin-right: 15px;
   width: 24px;
   height: 24px;

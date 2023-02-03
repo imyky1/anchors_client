@@ -1,0 +1,196 @@
+/* placeholder */
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* container types ------------------------------ */
+.textfiled_container_01 {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.radiofilled_container_01 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* labels type ----------------------------------------- */
+.label_type_01 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+  margin-bottom: 6px;
+}
+
+.label_type_02 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-right: 10px;
+}
+
+/* input type --------------------------------------------- */
+.input_type_01 {
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  /* width: 465px; */
+  width: 100%;
+  height: 45px;
+  padding: 0 12px;
+  box-sizing: border-box;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #2c1e1e;
+}
+
+.input_type_01:focus {
+  outline: #2196f3 solid 1px;
+}
+
+.input_type_02 {
+  height: 120px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px dashed #000000;
+  border-radius: 13px;
+  cursor: pointer;
+}
+
+.input_type_02 > i {
+  color: #00000080;
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+
+.input_type_02 > span {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 15px;
+  color: #000000;
+  margin-bottom: 7px;
+}
+
+.input_type_02 > p {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* radio switch css ------------------------------- */
+
+/* 1st-------------------- */
+
+/* The switch - the box around the slider */
+.switch_type_01 {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 14px;
+}
+
+/* Hide default HTML checkbox */
+.switch_type_01 input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider_type_01 {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #b1b1b1;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider_type_01:before {
+  position: absolute;
+  content: "";
+  width: 20px;
+  height: 20px;
+  left: -1px;
+  bottom: -3px;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  background: #fafafa;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px rgba(0, 0, 0, 0.14), 0px 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+input:checked + .slider_type_01:before {
+  background-color: #000000;
+}
+
+input:checked + .slider_type_01 {
+  background-color: #232426a1;
+}
+
+input:focus + .slider_type_01 {
+  box-shadow: 0 0 1px #232426a1;
+}
+
+input:checked + .slider_type_01:before {
+  -webkit-transform: translateX(17px);
+  -ms-transform: translateX(17px);
+  transform: translateX(17px);
+}
+
+/* Rounded sliders */
+.slider_type_01.round_type_01 {
+  border-radius: 10px;
+}
+
+.slider_type_01.round_type_01:before {
+  border-radius: 50%;
+}
+
+/* Buttons csss ------------------------------------------ */
+
+.button_01_css {
+  width: 164px;
+  height: 36px;
+  background: #000000;
+  border-radius: 8px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+  cursor: pointer;
+}

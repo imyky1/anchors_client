@@ -1,6 +1,7 @@
 .servicelist-wrapper {
     width: 90%;
-    margin: 5vh 5% 3% 5%;
+    margin: 0 5% 3% 5%;
+    padding-top: 30px;
 }
 
 .servicelist-wrapper h1 {

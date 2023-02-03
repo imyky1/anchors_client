@@ -5,15 +5,16 @@ import Navbar from "../Navbar/Navbar";
 import ServiceDetailPage from "../ServiceDetail/ServiceList";
 import Sidebar from "../SideBar/Sidebar";
 import "./Home.css";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import Create from "../Create Services/Create";
 
 function Home() {
   const [openCreatorInfo, setopenCreatorInfo] = useState(false);
-  const [openPage, setOpenPage] = useState(0);
   const [progress, setProgress] = useState(0);
-  console.log(openPage);
+
   return (
     <div className="main_home_page_container">
-      <Sidebar openPage={openPage} setOpenPage={setOpenPage} />
+      <Sidebar />
       <div className="right_side_home_page">
         <Navbar
           ModalState={openCreatorInfo}
@@ -26,11 +27,28 @@ function Home() {
           }}
         />
         <div className="remaining">
-          {openPage === 0 ? (
+          <Routes>
+            {/* Dashboard Route ---------------------------------------------------- */}
+            <Route path="/dashboard" element={<Dashboard />} />
+
+
+            {/* Service List Route ---------------------------------------------------- */}
+            <Route
+              path="/mycontents"
+              element={<ServiceDetailPage progress={setProgress} />}
+            />
+
+            {/* Service List Route ---------------------------------------------------- */}
+            <Route
+              path="/createservice"
+              element={<Create progress={setProgress} />}
+            />
+          </Routes>
+          {/* {openPage === 0 ? (
             <Dashboard />
           ) : (
             <ServiceDetailPage progress={setProgress} />
-          )}
+          )} */}
         </div>
       </div>
     </div>

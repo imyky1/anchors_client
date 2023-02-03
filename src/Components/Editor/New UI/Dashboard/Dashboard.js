@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
 function Dashboard() {
+  const navigate = useNavigate()
+
   return (
     <div className="main_dashboard_conatiner">
       <div>
@@ -11,9 +14,9 @@ function Dashboard() {
           Questions & Videos
         </span>
         <section>
-            <div className="dashboard_options">Create PDF</div>
-            <div className="dashboard_options">Create Excelsheet</div>
-            <div className="dashboard_options">Upload Video</div>
+            <div onClick={()=>navigate("/newUi/createservice?type=pdf")} className="dashboard_options">Create PDF</div>
+            <div onClick={()=>navigate("/newUi/createservice?type=excel")} className="dashboard_options">Create Excelsheet</div>
+            <div onClick={()=>navigate("/newUi/createservice?type=video")} className="dashboard_options">Upload Video</div>
         </section>
       </div>
     </div>

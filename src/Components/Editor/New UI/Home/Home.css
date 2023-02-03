@@ -13,4 +13,6 @@
 
 .remaining{
     width: 100%;
+    background: #F8F8FA;
+    min-height: 91vh;
 }
