@@ -218,6 +218,7 @@ function Create(props) {
               placeholder="Max 500"
               name="smrp"
               id="smrp"
+              type="number"
               required={true}
               onChange={handleChange}
             />
@@ -258,6 +259,7 @@ function Create(props) {
               placeholder="Min 99"
               name="ssp"
               id="ssp"
+              type="number"
               required={true}
               onChange={handleChange}
             />
@@ -336,6 +338,7 @@ function Create(props) {
                     ? "Number of items"
                     : "Number of Pages"
                 }
+                type="number"
                 placeholder={
                   CreateType === "video" ? "48 Mins" : CreateType === "excel" ? "21" : ""
                 }

@@ -149,9 +149,6 @@ const FeedbackState = (props) => {
   const getRatingCreator = async (id) => {
     const response = await fetch(`${host}/api/feedback/rating/${id}`, {
       method: "GET",
-      headers: {
-        "jwt-token": localStorage.getItem("jwtToken"), // USER LOGIN
-      },
     });
     const json = await response.json();
     if (json.success) {

@@ -107,6 +107,7 @@ const CreatorState = (props) => {
     if (json.success) {
       setallCreatorInfo(json.res);
       setbasicNav(json.other);
+      return json.other._id     // for home page usage
     } else {
       //alert(json.error)
     }
@@ -290,6 +291,22 @@ const CreatorState = (props) => {
     }
   };
 
+  // get extra details for creator dashboard
+  const getCreatorExtraDetails = async () => {
+    const response = await fetch(`${host}/api/userdetails/creatorExtraInfo`, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
+        "jwt-token": localStorage.getItem("jwtToken"),
+      }
+    });
+    const json = await response.json();
+    return json
+  };
+
   return (
     <creatorContext.Provider
       value={{
@@ -318,6 +335,7 @@ const CreatorState = (props) => {
         getSubCounts,
         setsubsInfo,
         setCreatorInfo,
+        getCreatorExtraDetails
       }}
     >
       {props.children}

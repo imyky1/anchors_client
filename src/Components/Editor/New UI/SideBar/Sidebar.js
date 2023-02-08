@@ -12,7 +12,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 
-function Sidebar({userData}) {
+function Sidebar({userData,moreInfo}) {
   const localtion = useLocation()
   const navigate = useNavigate()
   
@@ -33,9 +33,9 @@ function Sidebar({userData}) {
               <p className="text_sidebar_01">{userData?.name}</p>
               <div className="text_sidebar_02">
                 <span>
-                  <i className="fa-solid fa-star"></i> 4.5
+                  <i className="fa-solid fa-star"></i> { moreInfo ? moreInfo?.Rating : "4.1"}
                 </span>
-                <span className="reviews_from_sidebar">99 Reviews</span>
+                <span className="reviews_from_sidebar" onClick={()=>{navigate("/newUi/reviews")}}>{ moreInfo ? moreInfo?.Reviews : "--"} Reviews</span>
               </div>
             </div>
           </section>

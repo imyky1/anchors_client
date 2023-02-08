@@ -6,6 +6,7 @@ import { creatorContext } from "../../../../Context/CreatorState";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { LoadTwo } from "../../../Modals/Loading";
 import {
+  Editor1,
   SocialFields,
   TextField1,
 } from "../Create Services/InputComponents/fields_Labels";
@@ -35,11 +36,13 @@ const EditProfile = (props) => {
   const data1 = new FormData();
   data1.append("file", previewSourceOne);
 
+
   useEffect(() => {
     getAllCreatorInfo();
     // eslint-disable-next-line
   }, []);
-  console.log(data);
+
+
   useEffect(() => {
     setdata({
       ...data,
@@ -48,27 +51,32 @@ const EditProfile = (props) => {
     setContent(allCreatorInfo?.aboutMe);
     // eslint-disable-next-line
   }, [getAllCreatorInfo]);
+
+
   const [openLoading, setOpenLoading] = useState(false);
   // Change in values of input tags
   const handleChange = (e) => {
-    console.log(e.target.name, e.target.value);
     setdata({ ...data, [e.target.name]: e.target.value });
   };
+
   function importData() {
     let input = document.createElement("input");
     input.type = "file";
     input.onchange = (_) => {
       // you can use this method to get file and perform respective operations
       let files = Array.from(input.files);
-      console.log(files);
       setPreviewSourceOne(files);
     };
     input.click();
   }
+
+
   const onSubmit = async (e) => {
     props.progress(0);
     setOpenLoading(true);
     e?.preventDefault();
+    if(data?.name && data?.phone?.length >= 10 &&  data?.dob)
+    {
     var profile = await Uploadfile(data1);
     const newData = { ...data, aboutMe: Content, profile: profile?.url };
     const success = setCreatorInfo(newData);
@@ -85,6 +93,14 @@ const EditProfile = (props) => {
         autoClose: 2000,
       });
     }
+  }
+  else{
+    setOpenLoading(false);
+    toast.info("Fill all the details properly",{
+      position:"top-center",
+      autoClose: 1500
+    })
+  }
 
     props.progress(100);
   };
@@ -99,7 +115,7 @@ const EditProfile = (props) => {
           <span>Update your personal informations here</span>
         </div>
         <div className="personalinfo_photosection">
-          <span>Profile Picture </span>
+          <span>Profile Picture <span style={{color:"red"}}>*</span> </span>
           <div className="personalinfo_photocontainer">
             <div className="personalinfo_photo">
               <img
@@ -119,19 +135,35 @@ const EditProfile = (props) => {
         </div>
         <div className="personalinfo_formwrap">
           <div className="perosnalinfo_leftform">
-            <div className="textfiled_container_01">
-              <span className="label_type_01">Full Name</span>
+            <TextField1
+              label="Full Name"
+              name="name"
+              id="name"
+              required={true}
+              value={data.name}
+              placeholder="Enter Name Here"
+              onChange={handleChange}
+            />
+            <TextField1
+              label="Tagline"
+              name="tagLine"
+              id="tagLine"
+              value={data.tagLine}
+              placeholder="Ex Product Manager"
+              onChange={handleChange}
+
+            />
+            {/* <div className="textfiled_container_01">
+              <span className="label_type_01"></span>
               <input
                 type="text"
                 className="input_type_01"
                 placeholder="Himanshu Kumar"
                 value={data.name}
-                name="name"
-                id="name"
                 onChange={handleChange}
               />
-            </div>
-            <div className="textfiled_container_01">
+            </div> */}
+            {/* <div className="textfiled_container_01">
               <span className="label_type_01">Tagline</span>
               <input
                 type="text"
@@ -142,10 +174,19 @@ const EditProfile = (props) => {
                 id="tagLine"
                 onChange={handleChange}
               />
-            </div>
+            </div> */}
           </div>
           <div className="perosnalinfo_rightform">
-            <div className="textfiled_container_01">
+            <TextField1
+              label="Contact Number"
+              name="phone"
+              id="phone"
+              required={true}
+              value={data.phone}
+              type="number"
+              onChange={handleChange}
+            />
+            {/* <div className="textfiled_container_01">
               <span className="label_type_01">Contact Number</span>
               <input
                 type="number"
@@ -156,8 +197,19 @@ const EditProfile = (props) => {
                 id="phone"
                 onChange={handleChange}
               />
-            </div>
-            <div className="textfiled_container_01">
+            </div> */}
+
+            <TextField1
+              label="Date Of Birth"
+              name="dob"
+                id="dob"
+              required={true}
+              type="Date"
+              value={data?.dob?.slice(0, 10)}
+              placeholder="dd/mm/yyyy"
+              onChange={handleChange}
+            />
+            {/* <div className="textfiled_container_01">
               <label className="label_type_01">Date Of Birth</label>
               <input
                 type="Date"
@@ -167,16 +219,18 @@ const EditProfile = (props) => {
                 id="dob"
                 onChange={handleChange}
               ></input>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="personalinfo_aboutme">
-          <span className="label_type_01">About Me</span>
-          {/* <textarea
-          type="text"
-          className="personalinfo_aboutmeinput"
-          id="aboutmefield"
-        /> */}
+        <Editor1
+                name="about"
+                label="About Me"
+                placeholder="Please describe yourself"
+                Content = {Content}
+                setContent = {(e)=>setContent(e)}
+              />
+          {/* <span className="label_type_01">About Me</span>
           <CKEditor
             editor={ClassicEditor}
             data={Content}
@@ -200,7 +254,7 @@ const EditProfile = (props) => {
               const data = editor.getData();
               setContent(data);
             }}
-          />
+          /> */}
         </div>
         <div className="personalinfo_linebreak"></div>
         <div className="personalinfo_socialwrap">

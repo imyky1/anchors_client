@@ -13,7 +13,7 @@ function fields_Labels1(props) {
         {props?.required && <span style={{ color: "red" }}>*</span>}
       </span>
       <input
-        type="text"
+        type={props?.type ? props?.type : "text"}
         className="input_type_01"
         placeholder={props.placeholder}
         value={props.value}

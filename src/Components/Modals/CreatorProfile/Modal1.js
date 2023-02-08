@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./Modal.css";
 
-function Modal1({ open, toClose,userData }) {
+function Modal1({ open, toClose,userData,moreInfo }) {
   const navigate = useNavigate();
   open &&
     document?.addEventListener("click", () => {
@@ -23,11 +23,11 @@ function Modal1({ open, toClose,userData }) {
         />
         <span>{userData?.name}</span>
         <div>
-          <span className="hover_span_modal_creatorinfo">99 Reviews</span>
+          <span className="hover_span_modal_creatorinfo" onClick={()=>{toClose();navigate("/newUi/reviews")}}>{ moreInfo ? moreInfo?.Reviews : "--"} Reviews</span>
           <span>
-            <i class="fa-solid fa-star"></i> 4.5
+            <i class="fa-solid fa-star"></i> { moreInfo ? moreInfo?.Rating : "4.1"}
           </span>
-          <span className="hover_span_modal_creatorinfo">8 Services</span>
+          <span className="hover_span_modal_creatorinfo" onClick={()=>{toClose();navigate("/newUi/mycontents")}}>{ moreInfo ? moreInfo?.Services : "--"} Services</span>
         </div>
         <button
           onClick={() => {
