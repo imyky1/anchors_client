@@ -91,7 +91,7 @@ function ServiceDetailPage(props) {
       setOpenModel(true);
     }
   };
-  console.log(changeStatus);
+
   return (
     <>
       <div className="servicelist-wrapper" onClick={() => removeOptionPopup()}>

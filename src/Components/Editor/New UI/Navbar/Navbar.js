@@ -1,7 +1,7 @@
 import React from "react";
 import "./Navbar.css";
 
-function Navbar({ChangeModalState,ModalState}) {
+function Navbar({ChangeModalState,ModalState,userData}) {
 
   // handles the openeing of the creator modal
   const handleModalOpening = (e) =>{
@@ -14,7 +14,7 @@ function Navbar({ChangeModalState,ModalState}) {
     <div className="navbar_outside_container">
       <img
         className="creators_navbar_image"
-        src="https://media.npr.org/assets/img/2022/11/08/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66.jpg"
+        src={userData?.photo}
         alt=""
         onClick={handleModalOpening}
       />

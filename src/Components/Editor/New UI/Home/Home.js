@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CreatorInfo from "../../../Modals/CreatorProfile/Modal1";
 import Dashboard from "../Dashboard/Dashboard";
 import Navbar from "../Navbar/Navbar";
@@ -8,21 +8,34 @@ import "./Home.css";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Create from "../Create Services/Create";
 import EditProfile from "../EditProfile/EditProfile";
+import { creatorContext } from "../../../../Context/CreatorState";
+import { ToastContainer } from "react-toastify";
 
 function Home() {
   const [openCreatorInfo, setopenCreatorInfo] = useState(false);
   const [progress, setProgress] = useState(0);
+  const { getAllCreatorInfo, allCreatorInfo, basicNav } =
+    useContext(creatorContext);
+
+  useEffect(() => {
+    getAllCreatorInfo();
+     // eslint-disable-next-line
+  }, [])
+
 
   return (
+    <>
     <div className="main_home_page_container">
-      <Sidebar />
+      <Sidebar userData={basicNav}/>
       <div className="right_side_home_page">
         <Navbar
           ModalState={openCreatorInfo}
           ChangeModalState={(e) => setopenCreatorInfo(e)}
+          userData={basicNav}
         />
         <CreatorInfo
           open={openCreatorInfo}
+          userData={basicNav}
           toClose={() => {
             setopenCreatorInfo(false);
           }}
@@ -56,6 +69,8 @@ function Home() {
         </div>
       </div>
     </div>
+    <ToastContainer/>
+    </>
   );
 }
 

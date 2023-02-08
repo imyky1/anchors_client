@@ -20,6 +20,7 @@
   align-items: center;
   flex-direction: column;
   -webkit-user-select: none;
+  z-index: 99;
 }
 
 /* profile section cretor info --------------------------------------------------------------------- */

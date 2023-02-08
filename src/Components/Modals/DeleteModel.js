@@ -26,7 +26,6 @@ function Delete_Model({ id, open, onClose, progress, status }) {
     window.location.reload();
   };
 
-  console.log(id, status);
   if (!open) {
     return null;
   }

@@ -1,0 +1,138 @@
+.serviceSuccess_outside_container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background-color: #00000080;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.serviceSuccess_container {
+  width: 480px;
+  height: 396px;
+  left: 444px;
+  top: 315px;
+  background: #ffffff;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 13px;
+  overflow: hidden;
+}
+
+.serviceSuccessModal_cross{
+    color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+
+.serviceSuccess_container > section {
+  height: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+}
+
+.serviceSuccess_container > section > button {
+  width: 206px;
+  height: 42px;
+  background: #000000;
+  border-radius: 13px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: #ffffff;
+
+  margin-top: 38px;
+  cursor: pointer;
+}
+
+.serviceSuccess_container > div {
+  background-color: #e6e6e7;
+  height: 122px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 30px;
+}
+
+.serviceSuccess_container > div > section {
+  display: flex;
+  align-items: center;
+}
+
+.serviceSuccess_container > div button {
+  width: 85px;
+  height: 31px;
+  background: #cdcdcd;
+  border-radius: 20px;
+  border: none;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #000000;
+  cursor: pointer;
+}
+
+/* texts designs ----------------------------------------- */
+
+.text_success_01_modal {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 36px;
+  color: #000000;
+  margin-bottom: 5px;
+}
+
+.text_success_02_modal {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.text_success_03_modal {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 10px;
+}
+
+.text_success_04_modal {
+  width: 302px;
+  height: 30px;
+  background: #ffffff;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 15px;
+  color: rgba(0, 0, 0, 0.8);
+  margin-right: 15px;
+  padding: 7px;
+  box-sizing: border-box;
+}

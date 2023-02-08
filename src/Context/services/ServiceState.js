@@ -246,6 +246,7 @@ const ServiceState = (props) => {
 
     if (json.success) {
       setSlugCount(json.count);
+      return json.count
     } else {
       console.log("Some error Occured");
     }

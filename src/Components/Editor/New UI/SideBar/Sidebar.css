@@ -109,7 +109,7 @@
   padding-bottom: 10px;
 }
 
-.sidebar_navigation > a {
+.sidebar_navigation_normal {
   width: 100%;
   height: 36px;
   display: flex;
@@ -129,7 +129,6 @@
 }
 
 .sidebar_navigation > a:hover {
-  background: #e1e1e1;
   color: #000000;
 }
 
@@ -137,6 +136,11 @@
   margin-right: 15px;
   width: 24px;
   height: 24px;
+}
+
+.sidebar_navigation_active{
+  background: #e1e1e1;
+  color: #000000;
 }
 
 
