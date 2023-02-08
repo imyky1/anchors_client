@@ -7,6 +7,7 @@ import Sidebar from "../SideBar/Sidebar";
 import "./Home.css";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Create from "../Create Services/Create";
+import EditProfile from "../EditProfile/EditProfile";
 
 function Home() {
   const [openCreatorInfo, setopenCreatorInfo] = useState(false);
@@ -31,7 +32,6 @@ function Home() {
             {/* Dashboard Route ---------------------------------------------------- */}
             <Route path="/dashboard" element={<Dashboard />} />
 
-
             {/* Service List Route ---------------------------------------------------- */}
             <Route
               path="/mycontents"
@@ -42,6 +42,10 @@ function Home() {
             <Route
               path="/createservice"
               element={<Create progress={setProgress} />}
+            />
+            <Route
+              path="/editprofile"
+              element={<EditProfile progress={setProgress} />}
             />
           </Routes>
           {/* {openPage === 0 ? (

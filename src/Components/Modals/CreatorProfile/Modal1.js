@@ -1,21 +1,22 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Modal.css";
 
-function Modal1({open,toClose}) {
+function Modal1({ open, toClose }) {
+  const navigate = useNavigate();
+  open &&
+    document?.addEventListener("click", () => {
+      toClose();
+    });
 
-    open && document?.addEventListener("click",()=>{
-        toClose()
-    })
-
-
-    if(!open){
-        return null
-    }
+  if (!open) {
+    return null;
+  }
 
   return (
     //<div className="creator_modal_outside_container">
-    <div className="creator_modal_info" onClick={(e)=>e?.stopPropagation()}>
-      <section className="profile_section_creator_info" >
+    <div className="creator_modal_info" onClick={(e) => e?.stopPropagation()}>
+      <section className="profile_section_creator_info">
         <img
           src="https://media.npr.org/assets/img/2022/11/08/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66.jpg"
           alt=""
@@ -28,7 +29,14 @@ function Modal1({open,toClose}) {
           </span>
           <span className="hover_span_modal_creatorinfo">8 Services</span>
         </div>
-        <button>Edit Profile</button>
+        <button
+          onClick={() => {
+            navigate("/newUi/editprofile");
+            toClose();
+          }}
+        >
+          Edit Profile
+        </button>
       </section>
 
       <section className="options_creator_profile_info">

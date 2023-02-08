@@ -20,6 +20,7 @@ import Option from "./Icons/Option.svg";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { Email_Model1, Email_Model2 } from "../../../Modals/Email_Modal";
+import { RadioField1 } from "../Create Services/InputComponents/fields_Labels";
 
 function ServiceDetailPage(props) {
   const [openLoading, setOpenLoading] = useState(false);
@@ -250,18 +251,24 @@ function ServiceDetailPage(props) {
                                 <div className="modaloptions_servicelist">
                                   User Reviews
                                 </div>
-                              </div>
-                              <div className="servicelist_popupbottom">
-                                <div className="servicelist_popupactive">
+                                <div className="modaloptions_servicelist_status">
                                   Active Status
                                   <span onClick={() => handleCheckClick(elem)}>
-                                    <label className="switch2">
-                                      <input
+                                    {/* <label className="switch2">
+                                       <input
                                         type="checkbox"
                                         id={`checkbox_${i + 1}`}
                                         checked={elem.status}
                                       />
                                       <span className="slider2 round2"></span>
+                                    </label> */}
+                                    <label className="switch_type_01">
+                                      <input
+                                        id={`checkbox_${i + 1}`}
+                                        type="checkbox"
+                                        checked={elem.status}
+                                      />
+                                      <span className="slider_type_01 round_type_01"></span>
                                     </label>
                                   </span>
                                 </div>

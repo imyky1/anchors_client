@@ -10,6 +10,7 @@ function fields_Labels1(props) {
         type="text"
         className="input_type_01"
         placeholder={props.placeholder}
+        value={props.value}
       />
     </div>
   );
@@ -47,6 +48,24 @@ function fields_Labels3(props) {
   );
 }
 
+function fields_Labels4(props) {
+  return (
+    // Normal type -1 text field used in create
+    <div className="textfiled_container_01">
+      <input
+        type="text"
+        className="input_type_01"
+        placeholder={props.placeholder}
+        value={props.value}
+        name={props.name}
+        id={props.id}
+        onChange={props.onChange}
+      />
+    </div>
+  );
+}
+
 export const TextField1 = fields_Labels1;
 export const UploadField1 = fields_Labels2;
 export const RadioField1 = fields_Labels3;
+export const SocialFields = fields_Labels4;
