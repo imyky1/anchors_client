@@ -1,0 +1,321 @@
+[33mcommit 05f5bb966c61931859be4681c57d31922aa7489e[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Wed Feb 8 13:53:30 2023 +0530
+
+    creator profile edit
+
+[33mcommit 1e78ea368708ad5bc9fce0d15552d30c442a47e9[m
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Sat Feb 4 03:59:41 2023 +0530
+
+    create service new ui developed
+
+[33mcommit 16bee9adb3061032f3b3de0ced4c5e3d9dec32a3[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Fri Feb 3 21:56:57 2023 +0530
+
+    my content added in newui in editor folder
+
+[33mcommit 3c1e1a052e4fa95ac1a8aeaf005ed510cd21269c[m
+Merge: a336a73 8c428c7
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Thu Feb 2 22:24:47 2023 +0530
+
+    Merge branch 'main' of https://github.com/ravi-anchors77022/anchors
+
+[33mcommit a336a733a40511f11c94c4f5809cec604d55d844[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Thu Feb 2 22:24:36 2023 +0530
+
+    merge
+
+[33mcommit 8c428c7d386e956051f66755a8b5a2860fea5bdd[m
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Thu Feb 2 21:48:49 2023 +0530
+
+    small changes
+
+[33mcommit 7c2f27f00e87633ce77121f0ca850a8461156889[m
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Thu Feb 2 21:34:32 2023 +0530
+
+    changes in new ui/dashboard
+
+[33mcommit 332008e6c93542d138879a3ce828a2a22f714565[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Wed Feb 1 17:30:18 2023 +0530
+
+    added bouncerate and avg time on service stats
+
+[33mcommit 9f7ff8c0b8fd30138bf15c472cf3a0669b73205e[m
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Wed Feb 1 00:24:31 2023 +0530
+
+    Some changes
+
+[33mcommit cad55b4cad17e64aa82d33b20a6a53e55d2a7b9b[m
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Tue Jan 31 21:57:41 2023 +0530
+
+    Some changes in ui for signup
+
+[33mcommit a7fdd6312d05d0a8c05928f2d753d164475b2f33[m
+Merge: 2cd7cf8 633ed59
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Sat Jan 28 17:54:17 2023 +0530
+
+    small changes
+
+[33mcommit 2cd7cf8454bd56fe09be71c450fde3c7a6d8dc89[m
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Sat Jan 28 17:19:08 2023 +0530
+
+    home page changes and signup
+
+[33mcommit 633ed591283faba2a54047d7590f29327cfaf454[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Thu Jan 26 15:57:21 2023 +0530
+
+    excel viewer fix + disabling ctrl-p
+
+[33mcommit 9f3994f0260f5e9680134398e8e2f2d370441846[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Thu Jan 26 02:41:16 2023 +0530
+
+    pdfviewer videoviewer
+
+[33mcommit 51d315869730e2e52c6878e62b55a0ee08085830[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Wed Jan 25 17:58:07 2023 +0530
+
+    aws added referer protection + signed url /test
+
+[33mcommit 6aedfe4ba687ca517c41af6de8051514dc09fd26[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Tue Jan 24 19:45:15 2023 +0530
+
+    C:/Program Files/Git/test ui for preview document
+
+[33mcommit 3eeaa2d67d72c36c57ffdae5fe4aff26f068da2a[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Sun Jan 22 17:56:19 2023 +0530
+
+    default picture only if no image
+
+[33mcommit 99f494d4f6275275bebcde12512801a72680fb7e[m
+Merge: 7bb0911 031a42a
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Sun Jan 22 17:39:33 2023 +0530
+
+    Merge branch 'main' of https://github.com/ravi-anchors77022/anchors
+
+[33mcommit 7bb091140676f70dcdc6b05a58fef6ff08d456ce[m
+Merge: 5dfd5cf df437b5
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Sun Jan 22 17:38:37 2023 +0530
+
+    some changes
+
+[33mcommit 031a42a3223b7db735e4e8ff5818fbf63592b83f[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Sun Jan 22 00:48:57 2023 +0530
+
+    dashboard added the invitecode part
+
+[33mcommit 010a4175bdd62f27a75cef3cf919e077e9d90c50[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Sun Jan 22 00:39:07 2023 +0530
+
+    added invite link functionality
+
+[33mcommit 8054677798a69324a7d6a8e18550597c7bfcaebf[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Fri Jan 20 00:20:30 2023 +0530
+
+    added image crop in edit service
+
+[33mcommit 54f98cfbe7d4fecfac9b724eeeef3a745abb8cad[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Thu Jan 19 19:04:51 2023 +0530
+
+    image preview ui
+
+[33mcommit b089e39e3d8a5ec8b78ec9a48678dc6f0f9f9fce[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Thu Jan 19 18:23:52 2023 +0530
+
+    service banner crop
+
+[33mcommit 5dfd5cf471fd70dd3b95f63294c83ffc40df4d5b[m
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Mon Jan 16 21:53:05 2023 +0530
+
+    main page changes - 1
+
+[33mcommit df437b5e0753ed9ae4a610e8c767c317375f7f1c[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Mon Jan 16 20:28:24 2023 +0530
+
+    homepageui component
+
+[33mcommit 8bb75c20550f8b0c67faf544fd72d48f0e39577f[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Mon Jan 16 15:29:14 2023 +0530
+
+    added tags comma separated with creator info addition
+
+[33mcommit 4abebc7fdb857e3768a7623ad3209ff824982229[m
+Merge: 733d699 6d0ac6d
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Mon Jan 16 14:32:57 2023 +0530
+
+    resolved merge
+
+[33mcommit 733d6993d0932b466997ee000a115d5f6dc016ab[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Mon Jan 16 14:24:35 2023 +0530
+
+    removed sdesc mandatory
+
+[33mcommit 6d0ac6d78d5d672afcb4d2712990f26a9c2c2c68[m
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Mon Jan 16 01:33:42 2023 +0530
+
+    banner images changes
+
+[33mcommit db2a8c678c597c7794f3e022fc44c427569e0ce3[m
+Merge: 94e9719 62e439d
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Sun Jan 15 12:39:52 2023 +0530
+
+    Merge branch 'main' of https://github.com/ravi-anchors77022/anchors
+
+[33mcommit 94e971988b78309071f622df9fb6ea3e914df3c5[m
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Sun Jan 15 12:39:18 2023 +0530
+
+    edit services
+
+[33mcommit 62e439d0458aaf08b77b45fb0d6a4c6ebfab95f6[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Sun Jan 15 12:15:32 2023 +0530
+
+    added payments tab for creators
+
+[33mcommit a41fc7ca09148c12ddeb780e315e01c3bc468798[m
+Merge: 88b3ea8 14e10a0
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Thu Jan 12 19:32:49 2023 +0530
+
+    Merge branch 'main' of https://github.com/ravi-anchors77022/anchors
+
+[33mcommit 88b3ea8ad769bf82def94bdd1d1274a9c681f53a[m
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Thu Jan 12 19:32:41 2023 +0530
+
+    some changes
+
+[33mcommit 14e10a07c6462e3579d2b68194829d25ee140fd3[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Thu Jan 12 16:11:39 2023 +0530
+
+    added editor in edit service
+
+[33mcommit 57684a56bd713de95d83d12971e8b98f1c184bb9[m
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Thu Jan 12 14:18:38 2023 +0530
+
+    changes for file upload in s3
+
+[33mcommit bbfbf2d5a11a188084caad538e9563c392a76353[m
+Merge: 6e55f64 e2cda62
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Thu Jan 12 00:25:11 2023 +0530
+
+    Merge branch 'main' of https://github.com/ravi-anchors77022/anchors
+
+[33mcommit 6e55f64a6810a2afcd93622f9907585a94fff318[m
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Thu Jan 12 00:25:04 2023 +0530
+
+    some changes
+
+[33mcommit e2cda62ec71ac715ec9d9774eab884c46b561588[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Wed Jan 11 23:25:09 2023 +0530
+
+    changes editor and fixed dashboard date
+
+[33mcommit ac26ea88f919dce7437078de28447528cc05d3d4[m
+Merge: ad4c1e9 fb099a5
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Wed Jan 11 22:12:10 2023 +0530
+
+    Merge branch 'main' of https://github.com/ravi-anchors77022/anchors
+
+[33mcommit ad4c1e911b7413676f3f2a4f2340f83e810ebfb8[m
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Wed Jan 11 22:12:02 2023 +0530
+
+    small changes beta
+
+[33mcommit f7996a4ed2e1f99a4c75b0a49262e207841709e5[m
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Wed Jan 11 21:17:54 2023 +0530
+
+    save changes
+
+[33mcommit fb099a57db6fed7298d0fdacae55b33824d852a1[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Wed Jan 11 19:43:08 2023 +0530
+
+    canvas bannar gen
+
+[33mcommit 0f610b4b7980f77751752bfec74d1db9688a016e[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Wed Jan 11 18:36:45 2023 +0530
+
+    removed workshop all features
+
+[33mcommit 30b16c6fd470e0c68d8a3c37fcb0526c40960212[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Fri Jan 6 22:12:10 2023 +0530
+
+    changes in popup for preview check developer/test
+
+[33mcommit e5efc81557b12ed9707b650c1cb07144a8290a07[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Fri Jan 6 22:11:33 2023 +0530
+
+    changes in popup for preview check developer/test
+
+[33mcommit bac50424915c91a28ba6de67df7c40c40c93d8a9[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Fri Jan 6 22:06:06 2023 +0530
+
+    document preview on developer/test
+
+[33mcommit 3a8d855be672244827c539afd459de34e24f0247[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Thu Jan 5 23:19:44 2023 +0530
+
+    fixed editor using Ckeditor5 now
+
+[33mcommit d2514f9066f37d6e2a4f85f0c3e61f187c1bb861[m
+Author: ggez <garvit510bhatia@gmail.com>
+Date:   Wed Jan 4 23:34:52 2023 +0530
+
+    api little fix
+
+[33mcommit e18453ff7aee7afe3dba2f08e0e95bf360d44635[m
+Merge: ced180f f173547
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Wed Jan 4 21:37:57 2023 +0530
+
+    Merge branch 'main' of https://github.com/ravi-anchors77022/anchors
+
+[33mcommit ced180f92df1003d57527100af8913eb75f1d7b1[m
+Author: SinghYuvraj0506 <singhyuvraj0506@gmail.com>
+Date:   Wed Jan 4 21:37:43 2023 +0530
+
+    some changes

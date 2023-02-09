@@ -248,7 +248,12 @@ function ServiceDetailPage(props) {
                                 >
                                   Notify Users
                                 </div>
-                                <div className="modaloptions_servicelist">
+                                <div
+                                  className="modaloptions_servicelist"
+                                  onClick={() => {
+                                    navigate(`/newUi/userReviews`);
+                                  }}
+                                >
                                   User Reviews
                                 </div>
                                 <div className="modaloptions_servicelist_status">
