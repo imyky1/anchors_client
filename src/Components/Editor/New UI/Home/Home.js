@@ -46,19 +46,22 @@ function Home() {
     // eslint-disable-next-line
   }, []);
 
+
   return (
     <>
       <div className="main_home_page_container">
-        <Sidebar userData={basicNav} moreInfo={{ ...creatorData, Rating }} />
+        <Sidebar userData={basicNav} moreInfo={{ ...creatorData, Rating }} alternateInfo={allCreatorInfo}/>
         <div className="right_side_home_page">
           <Navbar
             ModalState={openCreatorInfo}
             ChangeModalState={(e) => setopenCreatorInfo(e)}
             userData={basicNav}
+            alternateInfo={allCreatorInfo}
           />
           <CreatorInfo
             open={openCreatorInfo}
             userData={basicNav}
+            alternateInfo={allCreatorInfo}
             moreInfo={{ ...creatorData, Rating }}
             toClose={() => {
               setopenCreatorInfo(false);
@@ -85,7 +88,7 @@ function Home() {
                 element={<EditProfile progress={setProgress} />}
               />
               <Route
-                path="/userReviews"
+                path="/reviews"
                 element={<UserReviews progress={setProgress} />}
               />
               <Route
@@ -97,11 +100,7 @@ function Home() {
                 element={<ServiceStats progress={setProgress} />}
               />
             </Routes>
-            {/* {openPage === 0 ? (
-            <Dashboard />
-          ) : (
-            <ServiceDetailPage progress={setProgress} />
-          )} */}
+            
           </div>
         </div>
       </div>

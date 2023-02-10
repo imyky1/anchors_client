@@ -5,13 +5,15 @@
 }
 
 .servicelist-wrapper h1 {
-    margin-bottom: 12px;
+    margin-bottom: 5px;
+    -webkit-user-select: none;
 }
 
 
 .servicelist_wrap_span{
-font-weight: 400px;
+    font-weight: 400px;
     color: #00000080;
+    -webkit-user-select: none;
 }
 
 .servicelist-categories {
@@ -46,6 +48,7 @@ font-weight: 400px;
 
 .servicelist-table {
     margin-top: 2vh;
+    -webkit-user-select: none;
 }
 
 .servicelistbannerimg {

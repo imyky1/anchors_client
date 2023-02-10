@@ -13,6 +13,7 @@ import {
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { toast } from "react-toastify";
 import SuccessService from "../../../Modals/ServiceSuccess/Modal";
+import { LoadTwo } from "../../../Modals/Loading";
 
 function Create(props) {
   const navigate = useNavigate();
@@ -175,6 +176,8 @@ function Create(props) {
 
   return (
     <>
+    {openLoading && <LoadTwo open={openLoading} />}
+
     {showPopup && <SuccessService type={CreateType} link={data.CopyURL}/>}
     <div className="main_create_container">
       {/* Heading of the create section ------------------------ */}

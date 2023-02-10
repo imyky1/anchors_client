@@ -56,6 +56,7 @@ const EditProfile = (props) => {
     setdata({ ...data, [e.target.name]: e.target.value });
   };
   const [showimg, setShowimg] = useState(null);
+
   function importData() {
     let input = document.createElement("input");
     input.type = "file";
@@ -63,8 +64,7 @@ const EditProfile = (props) => {
       // you can use this method to get file and perform respective operations
       let files = Array.from(input.files);
       setShowimg(URL.createObjectURL(files[0]));
-
-      setPreviewSourceOne(files);
+      setPreviewSourceOne(files[0]);
     };
     input.click();
   }
@@ -73,8 +73,7 @@ const EditProfile = (props) => {
     props.progress(0);
     setOpenLoading(true);
     e?.preventDefault();
-    console.log(data?.phone);
-    if (data?.name && data?.phone?.length >= 10 && data?.dob) {
+    if (data?.name && data?.phone?.toString().length > 9 && data?.dob) {
       var profile = await Uploadfile(data1);
       const newData = { ...data, aboutMe: Content, profile: profile?.url };
       const success = setCreatorInfo(newData);
@@ -101,7 +100,7 @@ const EditProfile = (props) => {
 
     props.progress(100);
   };
-  console.log(showimg);
+
   return (
     <>
       <ToastContainer />
@@ -158,28 +157,7 @@ const EditProfile = (props) => {
               placeholder="Ex Product Manager"
               onChange={handleChange}
             />
-            {/* <div className="textfiled_container_01">
-              <span className="label_type_01"></span>
-              <input
-                type="text"
-                className="input_type_01"
-                placeholder="Himanshu Kumar"
-                value={data.name}
-                onChange={handleChange}
-              />
-            </div> */}
-            {/* <div className="textfiled_container_01">
-              <span className="label_type_01">Tagline</span>
-              <input
-                type="text"
-                className="input_type_01"
-                placeholder="Ex Product Manager"
-                value={data.tagLine}
-                name="tagLine"
-                id="tagLine"
-                onChange={handleChange}
-              />
-            </div> */}
+            
           </div>
           <div className="perosnalinfo_rightform">
             <TextField1
@@ -191,19 +169,7 @@ const EditProfile = (props) => {
               type="number"
               onChange={handleChange}
             />
-            {/* <div className="textfiled_container_01">
-              <span className="label_type_01">Contact Number</span>
-              <input
-                type="number"
-                className="input_type_01"
-                placeholder="+91-9988425785"
-                value={data.phone}
-                name="phone"
-                id="phone"
-                onChange={handleChange}
-              />
-            </div> */}
-
+            
             <TextField1
               label="Date Of Birth"
               name="dob"
@@ -214,17 +180,7 @@ const EditProfile = (props) => {
               placeholder="dd/mm/yyyy"
               onChange={handleChange}
             />
-            {/* <div className="textfiled_container_01">
-              <label className="label_type_01">Date Of Birth</label>
-              <input
-                type="Date"
-                className="input_type_01"
-                value={data?.dob?.slice(0, 10)}
-                name="dob"
-                id="dob"
-                onChange={handleChange}
-              ></input>
-            </div> */}
+            
           </div>
         </div>
         <div className="personalinfo_aboutme">
@@ -235,31 +191,7 @@ const EditProfile = (props) => {
             Content={Content}
             setContent={(e) => setContent(e)}
           />
-          {/* <span className="label_type_01">About Me</span>
-          <CKEditor
-            editor={ClassicEditor}
-            data={Content}
-            config={{
-              placeholder: "",
-              toolbar: [
-                "|",
-                "bold",
-                "italic",
-                "blockQuote",
-                "link",
-                "numberedList",
-                "bulletedList",
-                "imageUpload",
-                "|",
-                "undo",
-                "redo",
-              ],
-            }}
-            onChange={(event, editor) => {
-              const data = editor.getData();
-              setContent(data);
-            }}
-          /> */}
+          
         </div>
         <div className="personalinfo_linebreak"></div>
         <div className="personalinfo_socialwrap">

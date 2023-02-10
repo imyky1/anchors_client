@@ -3,6 +3,7 @@
     gap: 5vw;
     margin-top: 5vh;
     margin-bottom: 5vh;
+    -webkit-user-select: none;
 }
 
 .userreview_detail1{

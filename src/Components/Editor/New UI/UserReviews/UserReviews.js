@@ -10,6 +10,7 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { creatorContext } from "../../../../Context/CreatorState";
 import ShowReviewModel from "../../../Modals/ShowReviewModel";
+import { LoadTwo } from "../../../Modals/Loading";
 import "./UserReview.css";
 
 const UserReviews = () => {
@@ -42,6 +43,9 @@ const UserReviews = () => {
     }
   };
   return (
+    <>
+    {openLoading && <LoadTwo open={openLoading} />}
+
     <div className="servicelist-wrapper">
       <h1>User Reviews</h1>
       <span className="servicelist_wrap_span">
@@ -122,27 +126,27 @@ const UserReviews = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>S.No</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Service Name</TableCell>
-                <TableCell>Ratings</TableCell>
-                <TableCell>Review</TableCell>
-                <TableCell>Review Date</TableCell>
-                <TableCell>Display on Your Page</TableCell>
+                <TableCell align="center">S.No</TableCell>
+                <TableCell align="center">Name</TableCell>
+                <TableCell align="center">Service Name</TableCell>
+                <TableCell align="center">Ratings</TableCell>
+                <TableCell align="center">Review</TableCell>
+                <TableCell align="center">Review Date</TableCell>
+                <TableCell align="center">Display on Your Page</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {feedbacks?.map((elem, i) => {
                 return (
                   <>
-                    <TableRow>
-                      <TableCell>{i + 1}</TableCell>
-                      <TableCell>{elem.user.name}</TableCell>
-                      <TableCell>{elem.sname}</TableCell>
-                      <TableCell>{elem.rating}</TableCell>
-                      <TableCell>{elem.desc}</TableCell>
-                      <TableCell>{elem.date}</TableCell>
-                      <TableCell>
+                    <TableRow key={i}>
+                      <TableCell align="center">{i + 1}</TableCell>
+                      <TableCell align="center">{elem.user.name ? elem.user.name : "--"}</TableCell>
+                      <TableCell align="center">{elem.sname}</TableCell>
+                      <TableCell align="center">{elem.rating}</TableCell>
+                      <TableCell align="center">{elem.desc}</TableCell>
+                      <TableCell align="center">{elem.date}</TableCell>
+                      <TableCell align="center">
                         <span>
                           {/* <label className="switch2">
                                        <input
@@ -172,6 +176,7 @@ const UserReviews = () => {
         </TableContainer>
       </div>
     </div>
+    </>
   );
 };
 

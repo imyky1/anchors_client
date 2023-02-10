@@ -19,6 +19,7 @@ import ChartIcon from "./Icons/Chart-pie.svg";
 import Option from "./Icons/Option.svg";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { LoadTwo } from "../../../Modals/Loading";
 import { Email_Model1, Email_Model2 } from "../../../Modals/Email_Modal";
 import { RadioField1 } from "../Create Services/InputComponents/fields_Labels";
 
@@ -94,6 +95,8 @@ function ServiceDetailPage(props) {
 
   return (
     <>
+    {openLoading && <LoadTwo open={openLoading} />}
+
       <div className="servicelist-wrapper" onClick={() => removeOptionPopup()}>
         <h1>My Content</h1>
         <span className="servicelist_wrap_span">
@@ -111,23 +114,23 @@ function ServiceDetailPage(props) {
             <Table aria-aria-label="Services Table">
               <TableHead>
                 <TableRow>
-                  <TableCell>S.No</TableCell>
-                  <TableCell>Service Name</TableCell>
-                  <TableCell>Type</TableCell>
-                  <TableCell>Amount</TableCell>
-                  <TableCell>Uploaded On</TableCell>
-                  <TableCell>Banner</TableCell>
-                  <TableCell>Downloads</TableCell>
-                  <TableCell>Analysis</TableCell>
-                  <TableCell>Short Link</TableCell>
-                  <TableCell>Actions</TableCell>
+                  <TableCell align="center">S.No</TableCell>
+                  <TableCell align="center">Service Name</TableCell>
+                  <TableCell align="center">Type</TableCell>
+                  <TableCell align="center">Amount</TableCell>
+                  <TableCell align="center">Uploaded On</TableCell>
+                  <TableCell align="center">Banner</TableCell>
+                  <TableCell align="center">Downloads</TableCell>
+                  <TableCell align="center">Analysis</TableCell>
+                  <TableCell align="center">Short Link</TableCell>
+                  <TableCell align="center">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {revArray?.map((elem, i) => {
                   return (
                     <>
-                      <Delete_Modal
+                      <Delete_Modal 
                         id={currselected?._id}
                         status={changeStatus}
                         open={openModel}
@@ -150,24 +153,24 @@ function ServiceDetailPage(props) {
                         serviceBanner={currselected?.simg}
                       />
                       <TableRow>
-                        <TableCell>{i + 1}</TableCell>
-                        <TableCell>{elem.sname}</TableCell>
-                        <TableCell>{elem.isPaid ? "Paid" : "Free"}</TableCell>
-                        <TableCell>₹{elem.ssp}</TableCell>
-                        <TableCell>
+                        <TableCell align="center">{i + 1}</TableCell>
+                        <TableCell align="center">{elem.sname}</TableCell>
+                        <TableCell align="center">{elem.isPaid ? "Paid" : "Free"}</TableCell>
+                        <TableCell align="center">₹{elem.ssp}</TableCell>
+                        <TableCell align="center">
                           <span className="servicelist_getdate">
                             <div> {getDatelist(elem.date)}</div>
                             <div> {getDatelist2(elem.date)}</div>
                           </span>
                         </TableCell>
-                        <TableCell>
+                        <TableCell align="center">
                           <img
                             src={elem.simg}
                             className="servicelistbannerimg"
                             alt="service"
                           ></img>
                         </TableCell>
-                        <TableCell>
+                        <TableCell align="center">
                           <span
                             className="servicelist_icon"
                             onClick={() => {
@@ -183,12 +186,12 @@ function ServiceDetailPage(props) {
                             </span>
                           </span>
                         </TableCell>
-                        <TableCell>
+                        <TableCell align="center">
                           <span
                             className="servicelist_icon iconalign"
                             onClick={() => {
                               window.open(
-                                `/serviceStats/${elem.slug}`,
+                                `/newUi/serviceStats/${elem.slug}`,
                                 "_blank"
                               );
                             }}
@@ -196,7 +199,7 @@ function ServiceDetailPage(props) {
                             <img src={ChartIcon}></img>
                           </span>
                         </TableCell>
-                        <TableCell>
+                        <TableCell align="center">
                           <span
                             className="servicelist_icon iconalign"
                             onClick={() => {
@@ -217,7 +220,7 @@ function ServiceDetailPage(props) {
                             <img src={CopyIcon}></img>
                           </span>
                         </TableCell>
-                        <TableCell>
+                        <TableCell align="center">
                           <span
                             className="servicelist_icon iconalign"
                             onClick={() => openOptionsPopup(i + 1)}

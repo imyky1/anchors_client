@@ -53,14 +53,14 @@ const UserRequest = () => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M4.59375 3.20833C4.59375 1.62627 5.87627 0.34375 7.45833 0.34375H9.54167C11.1237 0.34375 12.4062 1.62627 12.4062 3.20833V5.29167C12.4062 5.72314 12.0565 6.07292 11.625 6.07292H5.375C4.94353 6.07292 4.59375 5.72314 4.59375 5.29167V3.20833ZM7.45833 1.90625C6.73921 1.90625 6.15625 2.48921 6.15625 3.20833V4.51042H10.8437V3.20833C10.8437 2.48921 10.2608 1.90625 9.54167 1.90625H7.45833Z"
                 fill="black"
               />
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M2.75722 3.13413C2.88891 3.071 3.03512 3.17149 3.03485 3.31753L3.03125 5.29167C3.03125 6.58609 4.08058 7.63542 5.375 7.63542H11.625C12.9194 7.63542 13.9687 6.58609 13.9687 5.29167V3.31694C13.9687 3.17106 14.1149 3.07084 14.2464 3.1339C15.4809 3.72572 16.3125 4.98623 16.3125 6.42235V17.3488C16.3125 19.1309 14.9851 20.6339 13.2167 20.8541C10.0843 21.2442 6.91567 21.2442 3.7833 20.8541C2.01491 20.6339 0.6875 19.1309 0.6875 17.3488V6.42235C0.6875 4.98642 1.52251 3.72605 2.75722 3.13413ZM11.625 10.5C12.0565 10.5 12.4062 10.8498 12.4062 11.2812C12.4062 11.7127 12.0565 12.0625 11.625 12.0625H5.375C4.94353 12.0625 4.59375 11.7127 4.59375 11.2812C4.59375 10.8498 4.94353 10.5 5.375 10.5H11.625ZM10.5833 13.625C11.0148 13.625 11.3646 13.9748 11.3646 14.4062C11.3646 14.8377 11.0148 15.1875 10.5833 15.1875H5.375C4.94353 15.1875 4.59375 14.8377 4.59375 14.4062C4.59375 13.9748 4.94353 13.625 5.375 13.625H10.5833Z"
                 fill="black"
               />
@@ -133,32 +133,31 @@ const UserRequest = () => {
       {openLoading && <LoadTwo open={openLoading} />}
 
       <div className="userrequest-table">
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} >
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>S.No</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Requested Resources</TableCell>
-                <TableCell>Ready to pay</TableCell>
+                <TableCell align="center">S.No</TableCell>
+                <TableCell align="center">Name</TableCell>
+                <TableCell align="center">Requested Resources</TableCell>
+                <TableCell align="center">Ready to pay</TableCell>
                 {/* <TableCell>Amount</TableCell> */}
-                <TableCell>Requested date</TableCell>
+                <TableCell align="center">Requested date</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {querries?.length !== 0
                 ? querries?.map((elem, i) => {
-                    console.log(elem);
                     return (
                       <>
-                        <TableRow>
-                          <TableCell>{i + 1}</TableCell>
-                          <TableCell>{elem.user.name}</TableCell>
-                          <TableCell>{elem.desc}</TableCell>
-                          <TableCell>
+                        <TableRow key={i}>
+                          <TableCell align="center">{i + 1}</TableCell>
+                          <TableCell align="center">{elem.user.name ? elem.user.name : "--"}</TableCell>
+                          <TableCell align="center">{elem.desc}</TableCell>
+                          <TableCell align="center">
                             {elem.willPay === true ? "Yes" : "No"}
                           </TableCell>
-                          <TableCell>
+                          <TableCell align="center">
                             {renderdate1(elem.date)}
                             <br></br>
                             {renderdate2(elem.date)}
