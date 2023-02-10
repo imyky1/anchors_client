@@ -12,6 +12,8 @@ import { creatorContext } from "../../../../Context/CreatorState";
 import { ToastContainer } from "react-toastify";
 import { feedbackcontext } from "../../../../Context/FeedbackState";
 import UserReviews from "../UserReviews/UserReviews";
+import UserRequest from "../userRequest/UserRequest";
+import ServiceStats from "../ServiceStats/ServiceStats";
 
 function Home() {
   const [openCreatorInfo, setopenCreatorInfo] = useState(false);
@@ -85,6 +87,14 @@ function Home() {
               <Route
                 path="/userReviews"
                 element={<UserReviews progress={setProgress} />}
+              />
+              <Route
+                path="/requests"
+                element={<UserRequest progress={setProgress} />}
+              />
+              <Route
+                path="/servicestats/:slug"
+                element={<ServiceStats progress={setProgress} />}
               />
             </Routes>
             {/* {openPage === 0 ? (
