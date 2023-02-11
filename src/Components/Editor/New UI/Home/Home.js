@@ -46,11 +46,14 @@ function Home() {
     // eslint-disable-next-line
   }, []);
 
-
   return (
     <>
       <div className="main_home_page_container">
-        <Sidebar userData={basicNav} moreInfo={{ ...creatorData, Rating }} alternateInfo={allCreatorInfo}/>
+        <Sidebar
+          userData={basicNav}
+          moreInfo={{ ...creatorData, Rating }}
+          alternateInfo={allCreatorInfo}
+        />
         <div className="right_side_home_page">
           <Navbar
             ModalState={openCreatorInfo}
@@ -99,8 +102,11 @@ function Home() {
                 path="/servicestats/:slug"
                 element={<ServiceStats progress={setProgress} />}
               />
+              <Route
+                path="/user_review"
+                element={<UserReviews progress={setProgress} />}
+              />
             </Routes>
-            
           </div>
         </div>
       </div>

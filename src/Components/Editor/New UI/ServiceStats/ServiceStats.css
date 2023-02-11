@@ -51,9 +51,8 @@
 .servicestat_statsbox{
     display: block;
     width: 20%;
-     background: linear-gradient(0deg, rgba(0, 0, 0, 0.068), rgba(0, 0, 0, 0.062)),
-            linear-gradient(0deg, #F6F7FC, #F6F7FC); 
-    height: 20vh;
+         background-color: #F6F7FC;
+    height: 220px;
     border-radius: 10px;
 }
 
