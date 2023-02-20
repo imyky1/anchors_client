@@ -95,7 +95,7 @@ function ServiceDetailPage(props) {
 
   return (
     <>
-    {openLoading && <LoadTwo open={openLoading} />}
+      {openLoading && <LoadTwo open={openLoading} />}
 
       <div className="servicelist-wrapper" onClick={() => removeOptionPopup()}>
         <h1>My Content</h1>
@@ -130,7 +130,7 @@ function ServiceDetailPage(props) {
                 {revArray?.map((elem, i) => {
                   return (
                     <>
-                      <Delete_Modal 
+                      <Delete_Modal
                         id={currselected?._id}
                         status={changeStatus}
                         open={openModel}
@@ -155,7 +155,9 @@ function ServiceDetailPage(props) {
                       <TableRow>
                         <TableCell align="center">{i + 1}</TableCell>
                         <TableCell align="center">{elem.sname}</TableCell>
-                        <TableCell align="center">{elem.isPaid ? "Paid" : "Free"}</TableCell>
+                        <TableCell align="center">
+                          {elem.isPaid ? "Paid" : "Free"}
+                        </TableCell>
                         <TableCell align="center">₹{elem.ssp}</TableCell>
                         <TableCell align="center">
                           <span className="servicelist_getdate">
@@ -254,7 +256,7 @@ function ServiceDetailPage(props) {
                                 <div
                                   className="modaloptions_servicelist"
                                   onClick={() => {
-                                    navigate(`/newUi/userReviews`);
+                                    navigate(`/newUi/user_review`);
                                   }}
                                 >
                                   User Reviews

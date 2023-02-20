@@ -53,7 +53,11 @@ function Home() {
   return (
     <>
       <div className="main_home_page_container">
-        <Sidebar userData={basicNav} moreInfo={{ ...creatorData, Rating }} alternateInfo={allCreatorInfo}/>
+        <Sidebar
+          userData={basicNav}
+          moreInfo={{ ...creatorData, Rating }}
+          alternateInfo={allCreatorInfo}
+        />
         <div className="right_side_home_page">
           <Navbar
             ModalState={openCreatorInfo}
@@ -73,6 +77,8 @@ function Home() {
             }}
           />
           <div className="remaining">
+
+            {/* if invite code does not exist then it should be created ------------------------------- */}
           {!basicNav?.inviteCode ? <Routes>
             <Route
               path="/*"
@@ -91,30 +97,28 @@ function Home() {
               element={<ServiceDetailPage progress={setProgress} />}
             />
 
-            {/* Service List Route ---------------------------------------------------- */}
-            <Route
-              path="/createservice"
-              element={<Create progress={setProgress} />}
-            />
-            <Route
-              path="/editprofile"
-              element={<EditProfile progress={setProgress} />}
-            />
-            <Route
-              path="/reviews"
-              element={<UserReviews progress={setProgress} />}
-            />
-            <Route
-              path="/requests"
-              element={<UserRequest progress={setProgress} />}
-            />
-            <Route
-              path="/servicestats/:slug"
-              element={<ServiceStats progress={setProgress} />}
-            />
-          </Routes>
-          }
-            
+              {/* Create service Route ---------------------------------------------------- */}
+              <Route
+                path="/createservice"
+                element={<Create progress={setProgress} />}
+              />
+              <Route
+                path="/editprofile"
+                element={<EditProfile progress={setProgress} />}
+              />
+              <Route
+                path="/reviews"
+                element={<UserReviews progress={setProgress} />}
+              />
+              <Route
+                path="/requests"
+                element={<UserRequest progress={setProgress} />}
+              />
+              <Route
+                path="/servicestats/:slug"
+                element={<ServiceStats progress={setProgress} />}
+              />
+            </Routes>}
           </div>
         </div>
       </div>

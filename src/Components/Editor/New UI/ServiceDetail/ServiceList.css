@@ -1,6 +1,6 @@
 .servicelist-wrapper {
     width: 90%;
-    margin: 0 5% 3% 5%;
+    padding: 0 5% 3% 5%;
     padding-top: 30px;
 }
 
@@ -112,11 +112,13 @@
 .servicelist_popuptop{
     height: 65%;
     width: 100%;
+
 }
 .modaloptions_servicelist{
     padding: 10px 0px 10px 5px;
     cursor: pointer;
     border-radius: 5px;
+    text-align: left;
 }
 .modaloptions_servicelist:hover{
     background-color: #00000034;

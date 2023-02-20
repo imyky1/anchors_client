@@ -39,7 +39,10 @@ function Home(props) {
 
   useEffect(() => {
     // for users only
-    if (localStorage.getItem("isUser")==="true" && localStorage.getItem("from")) {
+    if (
+      localStorage.getItem("isUser") === "true" &&
+      localStorage.getItem("from")
+    ) {
       if (localStorage.getItem("from") === "linkedin") {
         loginlinkedinUser();
       } else {
@@ -93,7 +96,7 @@ function Home(props) {
   //        !allCreatorInfo?.linkedInLink
   //      ) {
   //          setpersonalInfoModalOpen(true);
-  //        
+  //
   //      } else {
   //        setpersonalInfoModalOpen(false);
   //      }
@@ -120,72 +123,72 @@ function Home(props) {
       )} */}
 
       {/* Check if creator is loggined or not if not then passage should not be given ------------------------------- */}
-      
-      {localStorage.getItem("jwtToken") && localStorage.getItem("c_id") &&
-      <div className="main_box">
-        <Navbar />
-        <div className="right_container">
-          <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route
-              path="/creator_info"
-              element={<Info_creator progress={props.progress} />}
-            />
-            <Route
-              path="/createservice"
-              element={
-                <IndexCreator
-                  progress={props.progress}
-                  showpopup={createWorkshoppopup}
-                  setShowPopup={constCreateWorkshoppopup}
-                />
-              }
-            />
-            <Route
-              path="/editservice/:slug"
-              element={
-                <Edit
-                  progress={props.progress}
-                  showpopup={createWorkshoppopup}
-                  setShowPopup={constCreateWorkshoppopup}
-                />
-              }
-            />
-            {/**EDIT WORKSHOP ROUTE */}
-            <Route
-              path="/editworkshop/:slug"
-              element={<Editworkshop progress={props.progress} />}
-            />
-            {/**view stats of services ROUTE */}
-            <Route
-              path="/serviceStats/:slug"
-              element={<Stats progress={props.progress} />}
-            />
-            {/**view user details of services ROUTE */}
-            <Route
-              path="/viewusersdetails/:slug"
-              element={<Details progress={props.progress} />}
-            />
-            <Route
-              path="/paymentstab"
-              element={<PaymentsTab progress={props.progress} />}
-            />
-            <Route
-              path="/servicelist"
-              //element={<Service progress={props.progress} />
-              element={<Document progress={props.progress} />
-            }
-            />
-            <Route path="/subscriberlist" element={<Subscribers />} />
-            <Route
-              path="/user_reviews"
-              element={<Reviews />}
-              progress={props.progress}
-            />
-            <Route path="/user_requests" element={<Requests />} />
-          </Routes>
+
+      {localStorage.getItem("jwtToken") && localStorage.getItem("c_id") && (
+        <div className="main_box">
+          <Navbar />
+          <div className="right_container">
+            <Routes>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route
+                path="/creator_info"
+                element={<Info_creator progress={props.progress} />}
+              />
+              <Route
+                path="/createservice"
+                element={
+                  <IndexCreator
+                    progress={props.progress}
+                    showpopup={createWorkshoppopup}
+                    setShowPopup={constCreateWorkshoppopup}
+                  />
+                }
+              />
+              <Route
+                path="/editservice/:slug"
+                element={
+                  <Edit
+                    progress={props.progress}
+                    showpopup={createWorkshoppopup}
+                    setShowPopup={constCreateWorkshoppopup}
+                  />
+                }
+              />
+              {/**EDIT WORKSHOP ROUTE */}
+              <Route
+                path="/editworkshop/:slug"
+                element={<Editworkshop progress={props.progress} />}
+              />
+              {/**view stats of services ROUTE */}
+              <Route
+                path="/serviceStats/:slug"
+                element={<Stats progress={props.progress} />}
+              />
+              {/**view user details of services ROUTE */}
+              <Route
+                path="/viewusersdetails/:slug"
+                element={<Details progress={props.progress} />}
+              />
+              <Route
+                path="/paymentstab"
+                element={<PaymentsTab progress={props.progress} />}
+              />
+              <Route
+                path="/servicelist"
+                //element={<Service progress={props.progress} />
+                element={<Document progress={props.progress} />}
+              />
+              <Route path="/subscriberlist" element={<Subscribers />} />
+              <Route
+                path="/user_reviews"
+                element={<Reviews />}
+                progress={props.progress}
+              />
+              <Route path="/user_requests" element={<Requests />} />
+            </Routes>
+          </div>
         </div>
-      </div>}
+      )}
     </>
   );
 }
