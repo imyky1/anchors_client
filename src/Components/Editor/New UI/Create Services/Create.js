@@ -23,7 +23,7 @@ function Create(props) {
   const query = new URLSearchParams(search);
   const paramsType = query.get("type");
   const [CreateType, setCreateType] = useState(); // decides the type of document choosed in query
-  const [showPopup, setshowPopup] = useState(false); // decides the type of document choosed in query
+  const [showPopup, setshowPopup] = useState(false); // success popup
 
 
   const [paid, setpaid] = useState(); // decides the form acc to paid or free service type

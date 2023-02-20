@@ -43,9 +43,11 @@ function Dashboard() {
       autoClose: 3000,
     });
   };
+
+
   const generateInviteCode = async () => {
     try {
-      const response = await fetch(`${host}/analytics/generateCode`, {
+      const response = await fetch(`${host}/api/creator/generateCode`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -64,6 +66,9 @@ function Dashboard() {
       console.log(error);
     }
   };
+
+
+
   useEffect(() => {
     if (basicNav?.inviteCode) {
       setInviteCode(basicNav?.inviteCode);

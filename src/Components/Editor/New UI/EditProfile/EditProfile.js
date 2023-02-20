@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { creatorContext } from "../../../../Context/CreatorState";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { LoadTwo } from "../../../Modals/Loading";
+import SuccessService from "../../../Modals/ServiceSuccess/Modal";
 import {
   Editor1,
   SocialFields,
@@ -13,9 +14,10 @@ import {
 import "./EditProfile.css";
 
 const EditProfile = (props) => {
-  const { allCreatorInfo, getAllCreatorInfo, basicNav, setCreatorInfo } =
+  const { allCreatorInfo, getAllCreatorInfo, basicNav, setCreatorInfo,generateInviteCode } =
     useContext(creatorContext);
   const { Uploadfile } = useContext(ServiceContext);
+  const [showPopup, setshowPopup] = useState(false); // success popup
 
   const [data, setdata] = useState({
     name: "",
@@ -69,20 +71,24 @@ const EditProfile = (props) => {
     input.click();
   }
 
+
+
   const onSubmit = async (e) => {
     props.progress(0);
     setOpenLoading(true);
     e?.preventDefault();
-    if (data?.name && data?.phone?.toString().length > 9 && data?.dob) {
+    if (data?.name && data?.tagLine && data?.phone?.toString().length > 9 && data?.dob) {
       var profile = await Uploadfile(data1);
-      const newData = { ...data, aboutMe: Content, profile: profile?.url };
+      const newData = { ...data, aboutMe: Content, profile: previewSourceOne ? profile?.url : data?.profile ? data?.profile : basicNav?.photo };
       const success = setCreatorInfo(newData);
       if (success) {
         setOpenLoading(false);
-        toast.success("Changes Saved Successfully ", {
-          position: "top-center",
-          autoClose: 2000,
-        });
+        //toast.success("Changes Saved Successfully ", {
+        //  position: "top-center",
+        //  autoClose: 2000,
+        //});
+        !basicNav?.inviteCode && generateInviteCode()    // generates invite code it not exists otherwise 
+        setshowPopup(true)
       } else {
         setOpenLoading(false);
         toast.error("Changes Not Saved ", {
@@ -103,6 +109,7 @@ const EditProfile = (props) => {
 
   return (
     <>
+    {showPopup && <SuccessService type="Profile Information"/>}
       <ToastContainer />
       {openLoading && <LoadTwo open={openLoading} />}
       <div className="personalinfo_wrap">
@@ -153,6 +160,7 @@ const EditProfile = (props) => {
               label="Tagline"
               name="tagLine"
               id="tagLine"
+              required={true}
               value={data.tagLine}
               placeholder="Ex Product Manager"
               onChange={handleChange}
@@ -199,7 +207,7 @@ const EditProfile = (props) => {
           <div className="personalinfo_sociallinks">
             <span className="personalinfo_linkname">Linkedin Link</span>
             <SocialFields
-              placeholder="https://www.Linkedin.in/in_himanshu_91"
+              placeholder="https://www.linkedin.com/in/username"
               value={data.linkedInLink}
               name="linkedInLink"
               id="linkedIn"
@@ -225,7 +233,7 @@ const EditProfile = (props) => {
           <div className="personalinfo_sociallinks">
             <span className="personalinfo_linkname"> Instagram Link</span>
             <SocialFields
-              placeholder="https://www.Linkedin.in/in_himanshu_91"
+              placeholder="https://www.instagram.com/username"
               value={data.instaLink}
               name="instaLink"
               id="instagram"
@@ -251,7 +259,7 @@ const EditProfile = (props) => {
           <div className="personalinfo_sociallinks">
             <span className="personalinfo_linkname"> Telegram Link</span>
             <SocialFields
-              placeholder="https://www.Linkedin.in/in_himanshu_91"
+              placeholder="https://t.me/username"
               value={data.teleLink}
               name="teleLink"
               id="teleLink"
@@ -277,7 +285,7 @@ const EditProfile = (props) => {
           <div className="personalinfo_sociallinks">
             <span className="personalinfo_linkname"> Youtube Link</span>
             <SocialFields
-              placeholder="https://www.Linkedin.in/in_himanshu_91"
+              placeholder="https://www.youtube.com/@channelname"
               value={data.ytLink}
               name="ytLink"
               id="ytLink"
@@ -303,7 +311,7 @@ const EditProfile = (props) => {
           <div className="personalinfo_sociallinks">
             <span className="personalinfo_linkname"> TopMate Link</span>
             <SocialFields
-              placeholder="https://www.Linkedin.in/in_himanshu_91"
+              placeholder="https://topmate.io/username"
               value={data.topmateLink}
               name="topmateLink"
               id="topmateLink"
@@ -329,7 +337,7 @@ const EditProfile = (props) => {
           <div className="personalinfo_sociallinks">
             <span className="personalinfo_linkname"> Twitter Link</span>
             <SocialFields
-              placeholder="https://www.Linkedin.in/in_himanshu_91"
+              placeholder="https://twitter.com/username"
               value={data.twitterLink}
               name="twitterLink"
               id="twitterLink"
@@ -352,7 +360,7 @@ const EditProfile = (props) => {
               ""
             )}
           </div>
-        </div>
+        </div>  
         <div className="personalinfo_savebutton">
           <button onClick={onSubmit}>Save & Update</button>
         </div>

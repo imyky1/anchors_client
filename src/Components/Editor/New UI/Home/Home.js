@@ -15,6 +15,7 @@ import UserReviews from "../UserReviews/UserReviews";
 import UserRequest from "../userRequest/UserRequest";
 import ServiceStats from "../ServiceStats/ServiceStats";
 
+
 function Home() {
   const [openCreatorInfo, setopenCreatorInfo] = useState(false);
   const [Rating, setRating] = useState("");
@@ -47,6 +48,8 @@ function Home() {
   }, []);
 
 
+
+
   return (
     <>
       <div className="main_home_page_container">
@@ -58,6 +61,8 @@ function Home() {
             userData={basicNav}
             alternateInfo={allCreatorInfo}
           />
+
+
           <CreatorInfo
             open={openCreatorInfo}
             userData={basicNav}
@@ -68,38 +73,47 @@ function Home() {
             }}
           />
           <div className="remaining">
-            <Routes>
-              {/* Dashboard Route ---------------------------------------------------- */}
-              <Route path="/dashboard" element={<Dashboard />} />
+          {!basicNav?.inviteCode ? <Routes>
+            <Route
+              path="/*"
+              element={<EditProfile progress={setProgress} />}
+            />
+          </Routes> :
 
-              {/* Service List Route ---------------------------------------------------- */}
-              <Route
-                path="/mycontents"
-                element={<ServiceDetailPage progress={setProgress} />}
-              />
 
-              {/* Service List Route ---------------------------------------------------- */}
-              <Route
-                path="/createservice"
-                element={<Create progress={setProgress} />}
-              />
-              <Route
-                path="/editprofile"
-                element={<EditProfile progress={setProgress} />}
-              />
-              <Route
-                path="/reviews"
-                element={<UserReviews progress={setProgress} />}
-              />
-              <Route
-                path="/requests"
-                element={<UserRequest progress={setProgress} />}
-              />
-              <Route
-                path="/servicestats/:slug"
-                element={<ServiceStats progress={setProgress} />}
-              />
-            </Routes>
+          <Routes>
+            {/* Dashboard Route ---------------------------------------------------- */}
+            <Route path="/dashboard" element={<Dashboard />} />
+
+            {/* Service List Route ---------------------------------------------------- */}
+            <Route
+              path="/mycontents"
+              element={<ServiceDetailPage progress={setProgress} />}
+            />
+
+            {/* Service List Route ---------------------------------------------------- */}
+            <Route
+              path="/createservice"
+              element={<Create progress={setProgress} />}
+            />
+            <Route
+              path="/editprofile"
+              element={<EditProfile progress={setProgress} />}
+            />
+            <Route
+              path="/reviews"
+              element={<UserReviews progress={setProgress} />}
+            />
+            <Route
+              path="/requests"
+              element={<UserRequest progress={setProgress} />}
+            />
+            <Route
+              path="/servicestats/:slug"
+              element={<ServiceStats progress={setProgress} />}
+            />
+          </Routes>
+          }
             
           </div>
         </div>

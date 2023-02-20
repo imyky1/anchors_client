@@ -4,21 +4,40 @@ import { toast } from "react-toastify";
 import "./Modal.css";
 
 function Modal(props) {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <div className="serviceSuccess_outside_container">
       <div className="serviceSuccess_container">
-        <section>
-          <i class="fa-solid fa-xmark fa-lg serviceSuccessModal_cross" onClick={()=>{navigate("/newUi/dashboard")}}></i>
+        <section style={props.type === "Profile Information" ? {height:"90%"} : {}}>
+          <i
+            class="fa-solid fa-xmark fa-lg serviceSuccessModal_cross"
+            onClick={() => {
+              navigate("/newUi/dashboard");
+            }}
+          ></i>
+
+           <img src="https://i.gifer.com/7efs.gif" alt="" className="success_tick_gif" />
           <h1 className="text_success_01_modal">Congratulations</h1>
           <span className="text_success_02_modal">
-            {props.type === "excel" ? "Excel Sheet" : props.type === "video" ? "Video" : "Document"} Uploaded Successfully
+            {props.type === "Profile Information"         // profile info success modal-------------
+              ? "Profile Information Updated Successfully"
+              : (props.type === "excel"       // create service success modal -----------------
+                  ? "Excel Sheet"
+                  : props.type === "video"
+                  ? "Video"
+                  : "Document") + "Uploaded Successfully"}
           </span>
-          <button onClick={()=>{navigate("/newUi/mycontents")}}>Go to My Content</button>
+          <button
+            onClick={() => {
+              {props.type === "Profile Information" ? navigate("/newUi/dashboard") : navigate("/newUi/mycontents")};
+            }}
+          >
+            {props.type === "Profile Information" ? "Go to Dashboard" : "Go to My Content"}
+          </button>
         </section>
 
-        <div>
+        {props.type !== "Profile Information" && <div>
           <p className="text_success_03_modal">
             Shareable Link for your Audience
           </p>
@@ -26,10 +45,18 @@ function Modal(props) {
             <p className="text_success_04_modal">
               {`https://www.anchors.in/r/${props.link}`}
             </p>
-            <button onClick={()=>{ toast.success("Copied link successfully")
-                navigator.clipboard.writeText(`https://www.anchors.in/r/${props.link}`)}}>Copy Link</button>
+            <button
+              onClick={() => {
+                toast.success("Copied link successfully");
+                navigator.clipboard.writeText(
+                  `https://www.anchors.in/r/${props.link}`
+                );
+              }}
+            >
+              Copy Link
+            </button>
           </section>
-        </div>
+        </div>}
       </div>
     </div>
   );

@@ -80,7 +80,7 @@ function Modal1({ open, toClose, userData, moreInfo, alternateInfo }) {
         </div>
         <div
           onClick={() => {
-            window.open("pricing");
+            window.open("/pricing");
           }}
         >
           Pricing

@@ -50,6 +50,7 @@ const CreatorState = (props) => {
         }),
       }
     );
+    console.log(info)
     const json = await response.json();
     return json.success;
   };
@@ -303,6 +304,28 @@ const CreatorState = (props) => {
     return json;
   };
 
+
+  // genrate invite Code -------------------------------
+  const generateInviteCode = async () => {
+    try {
+      const response = await fetch(`${host}/api/creator/generateCode`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+      });
+      const json = await response.json();
+      return json
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
   return (
     <creatorContext.Provider
       value={{
@@ -332,6 +355,7 @@ const CreatorState = (props) => {
         setsubsInfo,
         setCreatorInfo,
         getCreatorExtraDetails,
+        generateInviteCode
       }}
     >
       {props.children}
