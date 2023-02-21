@@ -294,7 +294,7 @@ const CreatorState = (props) => {
 
   // get extra details for creator dashboard
   const getCreatorExtraDetails = async () => {
-    const response = await fetch(`${host}/api/userdetails/creatorExtraInfo`, {
+    const response = await fetch(`${host}/api/userdetails/creatorExtraInfoOfCreator`, {
       method: "GET",
       headers: {
         "jwt-token": localStorage.getItem("jwtToken"),

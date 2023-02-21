@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./Modal.css";
 
+// This modal is the modal for Warning of personal information of creator not filled
+
+
 function Modal1(props) {
   const navigate = useNavigate();
 

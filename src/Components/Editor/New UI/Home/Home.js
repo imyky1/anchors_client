@@ -14,6 +14,7 @@ import { feedbackcontext } from "../../../../Context/FeedbackState";
 import UserReviews from "../UserReviews/UserReviews";
 import UserRequest from "../userRequest/UserRequest";
 import ServiceStats from "../ServiceStats/ServiceStats";
+import Users from "../userList/Users";
 
 
 function Home() {
@@ -117,6 +118,10 @@ function Home() {
               <Route
                 path="/servicestats/:slug"
                 element={<ServiceStats progress={setProgress} />}
+              />
+              <Route
+                path="/viewUserDetails/:slug"
+                element={<Users progress={setProgress} />}
               />
             </Routes>}
           </div>

@@ -14,8 +14,13 @@ import {
 import "./EditProfile.css";
 
 const EditProfile = (props) => {
-  const { allCreatorInfo, getAllCreatorInfo, basicNav, setCreatorInfo,generateInviteCode } =
-    useContext(creatorContext);
+  const {
+    allCreatorInfo,
+    getAllCreatorInfo,
+    basicNav,
+    setCreatorInfo,
+    generateInviteCode,
+  } = useContext(creatorContext);
   const { Uploadfile } = useContext(ServiceContext);
   const [showPopup, setshowPopup] = useState(false); // success popup
 
@@ -71,24 +76,35 @@ const EditProfile = (props) => {
     input.click();
   }
 
-
-
   const onSubmit = async (e) => {
     props.progress(0);
     setOpenLoading(true);
     e?.preventDefault();
-    if (data?.name && data?.tagLine && data?.phone?.toString().length > 9 && data?.dob) {
+    if (
+      data?.name &&
+      data?.tagLine &&
+      data?.phone?.toString().length > 9 &&
+      data?.dob
+    ) {
       var profile = await Uploadfile(data1);
-      const newData = { ...data, aboutMe: Content, profile: previewSourceOne ? profile?.url : data?.profile ? data?.profile : basicNav?.photo };
+      const newData = {
+        ...data,
+        aboutMe: Content,
+        profile: previewSourceOne
+          ? profile?.url
+          : data?.profile
+          ? data?.profile
+          : basicNav?.photo,
+      };
       const success = setCreatorInfo(newData);
       if (success) {
-        setOpenLoading(false);
         //toast.success("Changes Saved Successfully ", {
         //  position: "top-center",
         //  autoClose: 2000,
         //});
-        !basicNav?.inviteCode && generateInviteCode()    // generates invite code it not exists otherwise 
-        setshowPopup(true)
+        !basicNav?.inviteCode && (await generateInviteCode()); // generates invite code it not exists otherwise
+        setOpenLoading(false);
+        setshowPopup(true);
       } else {
         setOpenLoading(false);
         toast.error("Changes Not Saved ", {
@@ -109,7 +125,7 @@ const EditProfile = (props) => {
 
   return (
     <>
-    {showPopup && <SuccessService type="Profile Information"/>}
+      {showPopup && <SuccessService type="Profile Information" />}
       <ToastContainer />
       {openLoading && <LoadTwo open={openLoading} />}
       <div className="personalinfo_wrap">
@@ -165,7 +181,6 @@ const EditProfile = (props) => {
               placeholder="Ex Product Manager"
               onChange={handleChange}
             />
-            
           </div>
           <div className="perosnalinfo_rightform">
             <TextField1
@@ -177,7 +192,7 @@ const EditProfile = (props) => {
               type="number"
               onChange={handleChange}
             />
-            
+
             <TextField1
               label="Date Of Birth"
               name="dob"
@@ -188,7 +203,6 @@ const EditProfile = (props) => {
               placeholder="dd/mm/yyyy"
               onChange={handleChange}
             />
-            
           </div>
         </div>
         <div className="personalinfo_aboutme">
@@ -199,7 +213,6 @@ const EditProfile = (props) => {
             Content={Content}
             setContent={(e) => setContent(e)}
           />
-          
         </div>
         <div className="personalinfo_linebreak"></div>
         <div className="personalinfo_socialwrap">
@@ -360,7 +373,7 @@ const EditProfile = (props) => {
               ""
             )}
           </div>
-        </div>  
+        </div>
         <div className="personalinfo_savebutton">
           <button onClick={onSubmit}>Save & Update</button>
         </div>

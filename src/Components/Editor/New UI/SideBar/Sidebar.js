@@ -62,18 +62,18 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
               <div>
                 <p className="text_sidebar_01">{userData?.name}</p>
                 <div className="text_sidebar_02">
-                  <span>
+                  {moreInfo?.Rating && <span>
                     <i className="fa-solid fa-star"></i>{" "}
-                    {moreInfo ? moreInfo?.Rating : "4.1"}
-                  </span>
-                  <span
+                    {moreInfo?.Rating}
+                  </span>}
+                  {moreInfo?.Reviews && <span
                     className="reviews_from_sidebar"
                     onClick={() => {
                       navigate("/newUi/reviews");
                     }}
                   >
-                    {moreInfo ? moreInfo?.Reviews : "--"} Reviews
-                  </span>
+                    {moreInfo?.Reviews} Reviews
+                  </span>}
                 </div>
               </div>
             </section>
@@ -134,7 +134,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
             <Link
               to="/newUi/stats"
               className={`${
-                localtion.pathname === "/newUi/stats" &&
+                (localtion.pathname === "/newUi/stats" || localtion.pathname.includes("/newUi/serviceStats")) &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
             >

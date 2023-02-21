@@ -22,11 +22,11 @@ import { useNavigate } from "react-router-dom";
 import { LoadTwo } from "../../../Modals/Loading";
 import { Email_Model1, Email_Model2 } from "../../../Modals/Email_Modal";
 import { RadioField1 } from "../Create Services/InputComponents/fields_Labels";
+import ChangeStatusModal from "../../../Modals/ServiceSuccess/Modal2";
 
 function ServiceDetailPage(props) {
   const [openLoading, setOpenLoading] = useState(false);
-  const context = useContext(ServiceContext);
-  const { services, getallservices } = context;
+  const { services, getallservices,deleteService } = useContext(ServiceContext);
   const [revArray, setrevArray] = useState([]);
   const [selected, setSelected] = useState(0);
   let count = 0;
@@ -74,28 +74,80 @@ function ServiceDetailPage(props) {
     }
   };
   const navigate = useNavigate();
-  const [openModel, setOpenModel] = useState(false);
-  const [openModel2, setOpenModel2] = useState(false);
-  const [changeStatus, setChangeStatus] = useState(1);
+  const [openModel, setOpenModel] = useState(false); // change status modal -----------
+  const [openModel2, setOpenModel2] = useState(false); // email modal -----------------------
+  const [changeStatus, setChangeStatus] = useState(1); // current status of changed element --------------
   const [NotifyEmailSent, setNotifyEmailSent] = useState(false);
-  const [currselected, setCurrSelected] = useState(null);
+  const [currselected, setCurrSelected] = useState(null); // selected options of a service --------------
 
-  const handleCheckClick = (elem) => {
+
+  const handleCheckClick = async (elem) => {
     setCurrSelected(elem);
+    removeOptionPopup()     // removes popup ------------------------------
+    props.progress(0);
     if (elem.status) {
-      // means now it is checked
+      // means now it is checked ------------
       setChangeStatus(0);
-      setOpenModel(true);
-    } else {
-      // means now it is unchecked
+      const success = await deleteService(elem._id, 0);       // changing status of the service
+      if (success) {
+        setOpenModel(true);
+        props.progress(100)
+        elem.status = false   // manually changing its value--------------
+      } else {
+        toast.error("Some error occured", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      }
+    } 
+    
+    else {
+      // means now it is unchecked-----------------
       setChangeStatus(1);
-      setOpenModel(true);
+      const success = await deleteService(elem._id, 1);
+      if (success) {
+        setOpenModel(true);
+        props.progress(100)
+        elem.status = true    // manually changing its value--------------
+      } else {
+        toast.error("Some error occured", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      }
     }
   };
 
   return (
     <>
       {openLoading && <LoadTwo open={openLoading} />}
+
+      {/* Change Status Modal ----------------------------------------- */}
+
+      {openModel && (
+        <ChangeStatusModal
+          toClose={() => {
+            setOpenModel(false);
+          }}
+          url={currselected?.copyURL}
+          ChangeStatusTo={changeStatus}
+        />
+      )}
+
+      {/* Send Email Modal ----------------------------------------------- */}
+      <Email_Model2
+        open={openModel2}
+        progress={props.progress}
+        onClose={() => {
+          setOpenModel2(false);
+        }}
+        creatorID={currselected?.c_id}
+        serviceID={currselected?._id}
+        serviceName={currselected?.sname}
+        serviceSlug={currselected?.slug}
+        serviceCopyURL={currselected?.copyURL}
+        serviceBanner={currselected?.simg}
+      />
 
       <div className="servicelist-wrapper" onClick={() => removeOptionPopup()}>
         <h1>My Content</h1>
@@ -130,28 +182,6 @@ function ServiceDetailPage(props) {
                 {revArray?.map((elem, i) => {
                   return (
                     <>
-                      <Delete_Modal
-                        id={currselected?._id}
-                        status={changeStatus}
-                        open={openModel}
-                        progress={props.progress}
-                        onClose={() => {
-                          setOpenModel(false);
-                        }}
-                      />
-                      <Email_Model2
-                        open={openModel2}
-                        progress={props.progress}
-                        onClose={() => {
-                          setOpenModel2(false);
-                        }}
-                        creatorID={currselected?.c_id}
-                        serviceID={currselected?._id}
-                        serviceName={currselected?.sname}
-                        serviceSlug={currselected?.slug}
-                        serviceCopyURL={currselected?.copyURL}
-                        serviceBanner={currselected?.simg}
-                      />
                       <TableRow>
                         <TableCell align="center">{i + 1}</TableCell>
                         <TableCell align="center">{elem.sname}</TableCell>
@@ -177,7 +207,7 @@ function ServiceDetailPage(props) {
                             className="servicelist_icon"
                             onClick={() => {
                               window.open(
-                                `/viewusersdetails/${elem.slug}`,
+                                `/newUi/viewUserDetails/${elem.slug}`,
                                 "_blank"
                               );
                             }}
@@ -264,14 +294,6 @@ function ServiceDetailPage(props) {
                                 <div className="modaloptions_servicelist_status">
                                   Active Status
                                   <span onClick={() => handleCheckClick(elem)}>
-                                    {/* <label className="switch2">
-                                       <input
-                                        type="checkbox"
-                                        id={`checkbox_${i + 1}`}
-                                        checked={elem.status}
-                                      />
-                                      <span className="slider2 round2"></span>
-                                    </label> */}
                                     <label className="switch_type_01">
                                       <input
                                         id={`checkbox_${i + 1}`}

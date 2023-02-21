@@ -13,6 +13,7 @@ import { SuperSEO } from "react-super-seo";
 
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { host } from "../../../../config/config";
+import { LoadTwo } from "../../../Modals/Loading";
 
 const ServiceStats = (props) => {
   const { slug } = useParams();
@@ -25,6 +26,8 @@ const ServiceStats = (props) => {
     workshopInfo,
   } = useContext(ServiceContext);
   const [serviceType, setServiceType] = useState();
+  const [approvedUser, setapprovedUser] = useState(false); // check if user searching is appropriate
+  const [openLoading, setopenLoading] = useState(false);
 
   // custom hook to get querries
   function useQuery() {
@@ -32,60 +35,10 @@ const ServiceStats = (props) => {
     return useMemo(() => new URLSearchParams(search), [search]);
   }
   const query = useQuery();
+
   // getting data from analytics(google) data from the db
   const [bounceRate, setBounceRate] = useState(0);
   const [avgTime, setAvgTime] = useState(0);
-
-  const getAnalyticsData = async () => {
-    console.log(serviceInfo?.slug);
-    let response = await fetch(`${host}/analytics/getdata`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "jwt-token": localStorage.getItem("jwtToken"),
-      },
-      body: JSON.stringify({
-        slug: serviceInfo?.slug,
-      }),
-    });
-    response = await response.json();
-    console.log(response);
-    setBounceRate(response.result.bouncerate);
-    setAvgTime(response.result.avgTime);
-  };
-  useEffect(() => {
-    getAnalyticsData();
-  }, [serviceInfo?.slug]);
-
-  useEffect(() => {
-    props.progress(0);
-    if (query.get("service") === "workshop") {
-      setServiceType("workshop");
-      getworkshopinfo(slug).then((e) => {
-        compareJWT(e[0]).then((e) => {
-          if (e) {
-            props.progress(100);
-          } else {
-            navigate("/servicelist");
-          }
-        });
-      });
-    } else {
-      setServiceType("download");
-      getserviceinfo(slug).then((e) => {
-        compareJWT(e[0]).then((e) => {
-          if (e) {
-            props.progress(100);
-          } else {
-            navigate("/servicelist");
-          }
-        });
-      });
-    }
-  }, []);
-  useEffect(() => {
-    handler();
-  }, [serviceInfo, workshopInfo]);
 
   const [mixpaneldata, setMixpanelData] = useState({
     valueunique: 0,
@@ -103,12 +56,60 @@ const ServiceStats = (props) => {
       ? Moment(serviceInfo?.date).format().split("T")[1].split("+")[0]
       : workshopInfo?.time?.startTime;
 
-  if (serviceType === "download" ? !serviceInfo : !workshopInfo) {
-    return navigate("/servicelist");
-  }
+  const getAnalyticsData = async () => {
+    let response = await fetch(`${host}/analytics/getdata`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
+      body: JSON.stringify({
+        slug: serviceInfo?.slug,
+      }),
+    });
+    response = await response.json();
+    setBounceRate(response.result.bouncerate);
+    setAvgTime(response.result.avgTime);
+  };
 
-  // mixpanel api
+  useEffect(() => {
+    setopenLoading(true);
+    getAnalyticsData().then(()=>{
+      setopenLoading(false);
+    })
+  }, [serviceInfo?.slug]);
 
+  // Checking if the user is only able to check its data not others-------------------
+  useEffect(() => {
+    props.progress(0);
+    if (query.get("service") === "workshop") {
+      setServiceType("workshop");
+      getworkshopinfo(slug).then((e) => {
+        compareJWT(e[0]).then((e) => {
+          if (e) {
+            setapprovedUser(true);
+            props.progress(100);
+          } else {
+            navigate("/newUi/mycontents");
+          }
+        });
+      });
+    } else {
+      setServiceType("download");
+      getserviceinfo(slug).then((e) => {
+        compareJWT(e[0]).then((e) => {
+          if (e) {
+            setapprovedUser(true);
+            props.progress(100);
+          } else {
+            navigate("/newUi/mycontents");
+          }
+        });
+      });
+    }
+  }, []);
+
+  // mixpanel api------------------------------
   const handler = async () => {
     if (serviceType === undefined) {
     } else {
@@ -135,114 +136,130 @@ const ServiceStats = (props) => {
     }
   };
 
+  useEffect(() => {
+    setopenLoading(true);
+    handler().then(()=>{
+      setopenLoading(false);
+    })
+  }, [serviceInfo, workshopInfo]);
+
   return (
-    <div className="servicestat_wrapper">
-      <div className="servicestat_heading">
-        <div className="servicestat_leftheading">
-          <h1>Event Detailed Analysis</h1>
-          <div className="servicestat_product">
-            <div className="servicestat_span1">Event Name:</div>
-            <span className="servicestat_span2">
-              {serviceType === "download"
-                ? serviceInfo?.sname
-                : workshopInfo?.sname}
-            </span>
-          </div>
-          <div className="servicestat_product">
-            <div className="servicestat_span1">Event Date:</div>
-            <span className="servicestat_span2"> {date + " " + time}</span>
-          </div>
-          <div className="servicestat_product">
-            <div className="servicestat_span1">Amount:</div>
-            <span className="servicestat_span2">
-              {serviceType === "download"
-                ? serviceInfo?.isPaid
-                  ? "Paid" + ` (₹ ${serviceInfo?.ssp})`
-                  : "Free"
-                : "₹ " + workshopInfo?.ssp}
-            </span>
-          </div>
-        </div>
-        <div className="servicestat_rightheading">
-          <button
-            className="servicestat_button"
-            onClick={() => {
-              serviceType === "download"
-                ? navigate(`/viewusersdetails/${slug}`)
-                : navigate(`/viewusersdetails/${slug}?service=workshop`);
-            }}
-          >
-            Check Registered Users
-          </button>
-        </div>
-      </div>
-      <div className="servicestat_breakline"></div>
-      <div className="servicestat_statsboxwrap">
-        <div className="servicestat_statsbox">
-          <div className="servicestat_boxpa">
-            <img src={ICON5} alt="c"></img>
-            <div className="servicestat_boxpa_div">
-              Total Users Registered For Event
+    <>
+      {(openLoading || !approvedUser) && <LoadTwo open={!approvedUser} />}
+
+      {approvedUser && (
+        <div className="servicestat_wrapper">
+          <div className="servicestat_heading">
+            <div className="servicestat_leftheading">
+              <h1>Event Detailed Analysis</h1>
+              <div className="servicestat_product">
+                <div className="servicestat_span1">Event Name:</div>
+                <span className="servicestat_span2">
+                  {serviceType === "download"
+                    ? serviceInfo?.sname
+                    : workshopInfo?.sname}
+                </span>
+              </div>
+              <div className="servicestat_product">
+                <div className="servicestat_span1">Event Date:</div>
+                <span className="servicestat_span2"> {date + " " + time}</span>
+              </div>
+              <div className="servicestat_product">
+                <div className="servicestat_span1">Amount:</div>
+                <span className="servicestat_span2">
+                  {serviceType === "download"
+                    ? serviceInfo?.isPaid
+                      ? "Paid" + ` (₹ ${serviceInfo?.ssp})`
+                      : "Free"
+                    : "₹ " + workshopInfo?.ssp}
+                </span>
+              </div>
             </div>
-            <h2>
-              {serviceType === "download"
-                ? serviceInfo?.downloads
-                : workshopInfo?.registrations}
-            </h2>
-          </div>
-        </div>
-        <div className="servicestat_statsbox">
-          <div className="servicestat_boxpa">
-            <img src={ICON1} alt="c"></img>
-            <div className="servicestat_boxpa_div">
-              Conversion Rate Registrations/Visits
+            <div className="servicestat_rightheading">
+              <button
+                className="servicestat_button"
+                onClick={() => {
+                  serviceType === "download"
+                    ? navigate(`/newUi/viewUserDetails/${slug}`)
+                    : navigate(
+                        `/newUi/viewUserDetails/${slug}?service=workshop`
+                      );
+                }}
+              >
+                Check Registered Users
+              </button>
             </div>
-            <h2>
-              {mixpaneldata?.valuenotunique !== 0
-                ? serviceType === "download"
-                  ? (
-                      (serviceInfo?.downloads * 100) /
-                      mixpaneldata?.valueunique
-                    ).toFixed(2)
-                  : (
-                      (workshopInfo?.registrations * 100) /
-                      mixpaneldata?.valueunique
-                    ).toFixed(2) + "%"
-                : "---"}
-            </h2>
+          </div>
+          <div className="servicestat_breakline"></div>
+          <div className="servicestat_statsboxwrap">
+            <div className="servicestat_statsbox">
+              <div className="servicestat_boxpa">
+                <img src={ICON5} alt="c"></img>
+                <div className="servicestat_boxpa_div">
+                  Total Users Registered For Event
+                </div>
+                <h2>
+                  {serviceType === "download"
+                    ? serviceInfo?.downloads
+                    : workshopInfo?.registrations}
+                </h2>
+              </div>
+            </div>
+            <div className="servicestat_statsbox">
+              <div className="servicestat_boxpa">
+                <img src={ICON1} alt="c"></img>
+                <div className="servicestat_boxpa_div">
+                  Conversion Rate Registrations/Visits
+                </div>
+                <h2>
+                  {mixpaneldata?.valuenotunique !== 0
+                    ? serviceType === "download"
+                      ? (
+                          (serviceInfo?.downloads * 100) /
+                          mixpaneldata?.valueunique
+                        ).toFixed(2) + " %"
+                      : (
+                          (workshopInfo?.registrations * 100) /
+                          mixpaneldata?.valueunique
+                        ).toFixed(2) + " %"
+                    : "---"}
+                </h2>
+              </div>
+            </div>
+            <div className="servicestat_statsbox">
+              <div className="servicestat_boxpa">
+                <img src={ICON2} alt="c"></img>
+                <div className="servicestat_boxpa_div">Event Page Visit</div>
+                <h2>
+                  {mixpaneldata?.valuenotunique !== 0
+                    ? mixpaneldata?.valuenotunique
+                    : "---"}
+                </h2>
+              </div>
+            </div>
+            <div className="servicestat_statsbox">
+              <div className="servicestat_boxpa">
+                <img src={ICON3} alt="c"></img>
+                <div className="servicestat_boxpa_div">Unique User Visit </div>
+                <h2>
+                  {mixpaneldata?.valueunique !== 0
+                    ? mixpaneldata?.valueunique
+                    : "---"}
+                </h2>
+              </div>
+            </div>
+
+            <div className="servicestat_statsbox">
+              <div className="servicestat_boxpa">
+                <img src={ICON4} alt="c"></img>
+                <div className="servicestat_boxpa_div">Average time Spent</div>
+                <h2> {avgTime !== 0 ? `${avgTime.toFixed(2)} s` : "---"}</h2>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="servicestat_statsbox">
-          <div className="servicestat_boxpa">
-            <img src={ICON2} alt="c"></img>
-            <div className="servicestat_boxpa_div">Event Page Visit</div>
-            <h2>
-              {mixpaneldata?.valuenotunique !== 0
-                ? mixpaneldata?.valuenotunique
-                : "---"}
-            </h2>
-          </div>
-        </div>
-        <div className="servicestat_statsbox">
-          <div className="servicestat_boxpa">
-            <img src={ICON3} alt="c"></img>
-            <div className="servicestat_boxpa_div">Unique User Visit </div>
-            <h2>
-              {mixpaneldata?.valueunique !== 0
-                ? mixpaneldata?.valueunique
-                : "---"}
-            </h2>
-          </div>
-        </div>
-        <div className="servicestat_statsbox">
-          <div className="servicestat_boxpa">
-            <img src={ICON4} alt="c"></img>
-            <div className="servicestat_boxpa_div">Average time Spent</div>
-            <h2> {avgTime !== 0 ? `${avgTime.toFixed(2)} s` : "---"}</h2>
-          </div>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

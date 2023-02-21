@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./Modal.css";
 
+// This modal is the modal for Success for creation of services and also success for edit profile
+
 function Modal(props) {
   const navigate = useNavigate();
 
@@ -26,11 +28,11 @@ function Modal(props) {
                   ? "Excel Sheet"
                   : props.type === "video"
                   ? "Video"
-                  : "Document") + "Uploaded Successfully"}
+                  : "Document") + " Uploaded Successfully"}
           </span>
           <button
             onClick={() => {
-              {props.type === "Profile Information" ? navigate("/newUi/dashboard") : navigate("/newUi/mycontents")};
+              {props.type === "Profile Information" ? window.open("/newUi/dashboard","_self") : navigate("/newUi/mycontents")};
             }}
           >
             {props.type === "Profile Information" ? "Go to Dashboard" : "Go to My Content"}
@@ -47,7 +49,7 @@ function Modal(props) {
             </p>
             <button
               onClick={() => {
-                toast.success("Copied link successfully");
+                toast.info("Copied link successfully");
                 navigator.clipboard.writeText(
                   `https://www.anchors.in/r/${props.link}`
                 );
