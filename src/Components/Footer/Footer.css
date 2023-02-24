@@ -1,208 +1,257 @@
 .main_footer_section {
-    width: 100vw;
-    height: max-content;
-    background-color: #232426;
-    box-sizing: border-box;
-    padding: 15px;
-    color: rgba(255, 255, 255, 0.753);
-    z-index: 9999999;
-  }
-  
+  width: 100vw;
+  height: max-content;
+  background-color: #232426;
+  box-sizing: border-box;
+  padding: 15px;
+  color: rgba(255, 255, 255, 0.753);
+  z-index: 9999999;
+}
+
+.main_footer_section > div {
+  width: 85%;
+  margin: auto;
+}
+
+.upper_footer_section {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 5px;
+  margin: 10px 0;
+  margin-bottom: 30px;
+}
+
+.anchors_details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-evenly;
+}
+
+.logo_footer {
+  width: 180px;
+  margin-right: 5px;
+}
+
+.anchors_details > span {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 40px;
+  width: 60%;
+}
+
+.anchors_details > button {
+  margin-top: 30px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: #ffffff;
+  background-color: #fc6262;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  border-radius: 12px;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.footer_support_menu {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  column-gap: 80px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.footer_support_menu span {
+  cursor: pointer;
+}
+
+.footer_support_menu a {
+  color: #ffffff;
+  margin-bottom: 15px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.footer_support_menu span {
+  color: #ffffff;
+  margin-bottom: 15px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.some_extra {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-top: 80px;
+}
+
+.some_extra span {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #ffffff;
+  margin: 2px 0;
+}
+
+.lower_footer_section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  margin: 10px 0;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15px;
+  padding-top: 15px;
+  color: #ffffff;
+  margin-left: -15px;
+}
+
+.india_logo {
+  width: 25px;
+}
+
+/* user side footer section ------------------------------------------------- */
+
+.footer_user_side_anchors {
+  width: 100%;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  margin-top: 70px;
+  -webkit-user-select: none;
+}
+
+.footer-section_logo_02 {
+  width: 196px;
+  height: 35px;
+  position: absolute;
+  left: 110px;
+}
+
+.lower_footer_section_02 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 15px;
+  color: #000000;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 550px) {
   .main_footer_section > div {
-    width: 85%;
-    margin: auto;
+    width: 90%;
   }
-  
+
   .upper_footer_section {
-    width: 100%;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    box-sizing: border-box;
-    padding: 5px;
-    margin: 10px 0;
-    margin-bottom: 30px;
-  }
-  
-  .anchors_details {
-    display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-evenly;
-  }
-  
-  .logo_footer {
-    width: 180px;
-    margin-right: 5px;
-  }
-  
-  .anchors_details > span {
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 40px;
-    width: 60%;
-  }
-  
-  .anchors_details > button {
-    margin-top: 30px;
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: #ffffff;
-    background-color: #fc6262;
-    display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    border-radius: 12px;
+    margin-bottom: 10px;
+  }
+
+  .anchors_details {
+    align-items: center;
+    padding-bottom: 15px;
+    width: 100%;
     border: none;
-    padding: 10px 20px;
-    cursor: pointer;
   }
-  
+
+  .anchors_details span {
+    font-size: 1.1rem;
+    text-align: center;
+    width: 100%;
+    margin-bottom: unset;
+  }
+
+  .anchors_details button {
+    font-size: 1rem;
+    width: 183px;
+    height: 48px;
+    border-radius: 6px;
+    padding: 10px;
+  }
+
   .footer_support_menu {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    column-gap: 80px;
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 24px;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 1.1rem;
+    grid-template-columns: repeat(1, 1fr);
   }
-  
-  .footer_support_menu span {
-    cursor: pointer;
-  }
-  
+
   .footer_support_menu a {
-    color: #ffffff;
-    margin-bottom: 15px;
-    cursor: pointer;
-    text-decoration: none;
+    margin-bottom: 12px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
   }
-  
+
   .footer_support_menu span {
-    color: #ffffff;
-    margin-bottom: 15px;
-    cursor: pointer;
-    text-decoration: none;
+    margin-bottom: 12px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
   }
-  
+
+  .lower_footer_section {
+    font-size: 0.8rem;
+    /* margin-bottom: 80px; */
+  }
+
+  .logo_footer {
+    margin-top: 40px;
+    margin-right: unset;
+    width: 136px;
+  }
+
   .some_extra {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    margin-top: 80px;
+    align-items: center;
+    margin-top: 60px;
   }
-  
-  .some_extra span {
-    font-family: "Inter";
-    font-style: normal;
+
+  /* user side footer --------------------------------------- */
+
+  .footer-section_logo_02 {
+    position: unset;
+    left: unset;
+    margin-bottom: 10px;
+    width: 196px;
+    height: 35px;
+  }
+
+  .footer_user_side_anchors {
+    flex-direction: column;
+    border: none;
+  }
+
+  .lower_footer_section_02 {
     font-weight: 400;
     font-size: 12px;
     line-height: 15px;
-    color: #ffffff;
-    margin: 2px 0;
   }
-  
-  .lower_footer_section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-    margin: 10px 0;
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 15px;
-    padding-top: 15px;
-    color: #ffffff;
-    margin-left: -15px;
-  }
-  
-  .india_logo {
-    width: 25px;
-  }
-  
-  @media (max-width: 550px) {
-    .main_footer_section > div {
-      width: 90%;
-    }
-  
-    .upper_footer_section {
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-  
-    .anchors_details {
-      align-items: center;
-      padding-bottom: 15px;
-      width: 100%;
-      border: none;
-    }
-  
-    .anchors_details span {
-      font-size: 1.1rem;
-      text-align: center;
-      width: 100%;
-      margin-bottom: unset;
-    }
-  
-    .anchors_details button {
-      font-size: 1rem;
-      width: 183px;
-      height: 48px;
-      border-radius: 6px;
-      padding: 10px;
-    }
-  
-  
-    .footer_support_menu {
-      align-items: center;
-      margin-top: 20px;
-      font-size: 1.1rem;
-      grid-template-columns: repeat(1,1fr);
-    }
-  
-    .footer_support_menu a {
-      margin-bottom: 12px;
-      text-align: center;
-      font-size: 1rem;
-      font-weight: 600;
-    }
-  
-    .footer_support_menu span {
-      margin-bottom: 12px;
-      text-align: center;
-      font-size: 1rem;
-      font-weight: 600;
-    }
-  
-    .lower_footer_section {
-      font-size: 0.8rem;
-      /* margin-bottom: 80px; */
-    }
-  
-    .logo_footer{
-      margin-top: 40px;
-      margin-right: unset;
-      width: 136px;
-    }
-  
-    .some_extra{
-      align-items: center;
-      margin-top: 60px;
-    }
-  
-  
-  }
-  
+}

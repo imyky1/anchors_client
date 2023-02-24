@@ -1,0 +1,554 @@
+.creator_profile_main_container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* header section profile -------------------------------------------------- */
+
+.top_header_creator_profile {
+  background-color: #232426;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 70px;
+  box-sizing: border-box;
+  justify-content: space-between;
+}
+
+.top_header_creator_profile > button {
+  width: 89px;
+  height: 27px;
+  border: 0.8px solid #ffffff;
+  border-radius: 38px;
+  background-color: transparent;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+  cursor: pointer;
+
+  margin-right: 47px;
+}
+
+/* text styles for creator_profile */
+
+.text_type_01_creator_profile {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 36px;
+  color: #000000;
+}
+
+.text_type_02_creator_profile {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.text_type_03_creator_profile {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: #000000;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.text_type_04_creator_profile {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+  color: rgba(0, 0, 0, 0.5);
+  width: 90%;
+  display: inline-block;
+}
+
+.text_type_05_creator_profile {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 36px;
+  color: #000000;
+}
+
+.text_type_06_creator_profile {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #000000;
+  margin: 12px 0;
+}
+
+.text_type_07_creator_profile {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 18px;
+}
+
+.text_type_08_creator_profile {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.text_type_08_creator_profile > img {
+  margin-right: 5px;
+}
+
+.text_type_09_creator_profile {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 178.52%;
+  color: #000000;
+}
+
+.text_type_10_creator_profile {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 178.52%;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* background color ----------------------------------------------- */
+
+.just_background_color_creator_profile {
+  height: 223px;
+  width: 100%;
+  background: #e1e5f2;
+  position: relative;
+}
+
+/* creator details section ----------------------------------------------------------------- */
+.creator_details_section {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: auto;
+  padding: 0 115px;
+  box-sizing: border-box;
+  position: absolute;
+  top: 162px;
+}
+
+.creator_details_section > div {
+  display: flex;
+  align-items: flex-start;
+}
+
+.creator_profile_in_section {
+  width: 188px;
+  height: 180px;
+  filter: drop-shadow(0px 6px 16px rgba(0, 0, 0, 0.1));
+  border-radius: 20px;
+}
+
+.creator_main_details_parts_01 {
+  margin-left: 15px;
+}
+
+.creator_main_details_parts_02 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 43px;
+  margin-top: 30px;
+}
+
+.creator_main_details_parts_02 > div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+}
+
+.creator_main_details_parts_02 svg {
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.request_resource_button_creator_profile {
+  width: 173px;
+  height: 37px;
+  background: #000000;
+  border-radius: 8px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+  cursor: pointer;
+  border: none;
+}
+
+/* Creator resources section ---------------------------------------------------------------------------- */
+
+.creator_resources_profile {
+  width: 85%;
+  margin-top: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.creator_resources_profile > div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+  row-gap: 30px;
+  margin-top: 40px;
+}
+
+.resources_boxes_creator_profile {
+  box-sizing: border-box;
+  width: 350px;
+  height: 243px;
+  border: 2px solid #000000;
+  box-shadow: 6px 6px 0px #000000;
+  border-radius: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.resources_background01_creator_profile {
+  background: #cae4f2;
+}
+
+.resources_background02_creator_profile {
+  background: #feefc7;
+}
+
+.resources_background03_creator_profile {
+  background: #fcddec;
+}
+
+.resources_boxes_creator_profile > section {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 85%;
+  margin-top: 10px;
+}
+
+.resources_boxes_creator_profile > section > div {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.resources_boxes_creator_profile > section button {
+  width: 125px;
+  height: 35px;
+  background: #000000;
+  border-radius: 11px;
+  border: none;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* User reviews section ---------------------------------------------------------------------------- */
+
+.user_reviews_creator_profile {
+  width: 85%;
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user_reviews_creator_profile > div {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 60px;
+  row-gap: 30px;
+  margin-top: 40px;
+}
+
+.user_review_boxes_creator_profile {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 253px;
+  height: 196px;
+  padding: 19px 28px;
+  box-sizing: border-box;
+  background: #e1e5f2;
+  border-radius: 15px;
+}
+
+.user_profile_review_box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.user_profile_review_box > section img {
+  margin-right: 6px;
+}
+
+.user_profile_review_box > img {
+  width: 60px;
+  height: 60px;
+  border-radius: 100px;
+  margin-right: 10px;
+}
+
+@media (max-width: 550px) {
+  .top_header_creator_profile {
+    background-color: #ffffff;
+    padding: 0px;
+    height: 55px;
+  }
+
+  .top_header_creator_profile > button {
+    width: 72px;
+    height: 36px;
+    background: #000000;
+    border: 0.5px solid #000000;
+    border-radius: 15px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    color: #ffffff;
+    margin-right: 12px;
+  }
+
+  /* text types ----------------------------- */
+  .text_type_01_creator_profile {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    margin-bottom: 3px;
+  }
+
+  .text_type_02_creator_profile {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+  }
+
+  .text_type_04_creator_profile {
+    width: 95%;
+    margin-top: 12px;
+  }
+
+  .text_type_05_creator_profile {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .text_type_06_creator_profile {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: left;
+    width: 90%;
+    margin-bottom: 0px;
+  }
+
+  .text_type_07_creator_profile {
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+    margin-bottom: 0;
+    margin-left: 5px;
+  }
+
+  .text_type_08_creator_profile {
+    margin-bottom: 2px;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+  }
+
+  .text_type_09_creator_profile {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .text_type_10_creator_profile {
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 178.52%;
+  }
+
+  /* creator profile ----------------------------- */
+
+  .just_background_color_creator_profile {
+    height: 121px;
+  }
+
+  .creator_details_section {
+    padding: 0px 12px;
+    top: 60px;
+  }
+
+  .creator_details_section > div {
+    flex-direction: column;
+  }
+
+  .creator_profile_in_section {
+    width: 101px;
+    height: 101px;
+    border-radius: 100px;
+    margin-bottom: 12px;
+  }
+
+  .creator_main_details_parts_01 {
+    margin-left: 0;
+  }
+
+  .creator_main_details_parts_02 {
+    position: absolute;
+    right: 1px;
+  }
+
+  .creator_main_details_parts_02 svg {
+    margin-right: 11px;
+    font-size: 24px;
+  }
+
+  .request_resource_button_creator_profile {
+    margin: auto;
+    width: 85%;
+    height: 40px;
+    margin-top: 15px;
+  }
+
+  /* creator resources ------------------------------------------ */
+
+  .creator_resources_profile {
+    margin-top: 290px;
+    width: 95%;
+    align-items: flex-start;
+    border-top: 0.5px solid rgba(0, 0, 0, 0.2);
+    padding-top: 30px;
+  }
+
+  .creator_resources_profile > div {
+    grid-template-columns: repeat(2, 1fr);
+    width: 95%;
+    margin: unset;
+    margin: auto;
+    gap: 15px;
+    row-gap: 45px;
+    margin-top: 38px;
+  }
+
+  .resources_boxes_creator_profile {
+    width: 159px;
+    height: 181px;
+    align-items: flex-start;
+    padding: 7px 6px;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  .icon_resources_creator_profile {
+    width: 16.17px;
+    height: 21.4px;
+  }
+
+  .resources_boxes_creator_profile > section {
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    bottom: 12px;
+    width: 95%;
+    margin-bottom: 12px;
+  }
+
+  .resources_boxes_creator_profile > section button {
+    background-color: transparent;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 140%;
+    color: #000000;
+    width: unset;
+    height: unset;
+    position: absolute;
+    right: 4px;
+    bottom: -16px;
+  }
+
+  /* user reviews ------------------------------------- */
+
+  .user_reviews_creator_profile {
+    width: 95%;
+    align-items: flex-start;
+    border-top: 0.5px solid rgba(0, 0, 0, 0.2);
+    padding-top: 30px;
+    margin-top: 92px;
+  }
+
+  .user_reviews_creator_profile > div {
+    grid-template-columns: repeat(1, 1fr);
+    width: 100%;
+  }
+
+  .user_review_boxes_creator_profile {
+    width: 90%;
+    margin: auto;
+    min-height: 123px;
+  }
+
+  .user_profile_review_box > img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .user_profile_review_box > section img {
+    width: 12px;
+    height: 12px;
+  }
+}
