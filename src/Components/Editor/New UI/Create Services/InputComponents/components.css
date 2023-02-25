@@ -80,6 +80,12 @@ margin-top: 10px;
   outline: #2196f3 solid 1px;
 }
 
+.verifiedComponent01{
+  position: absolute;
+  right: 13px;
+  top: 66%;
+}
+
 .input_type_02 {
   height: 120px;
   width: 100%;

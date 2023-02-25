@@ -9,3 +9,24 @@
   padding: 0;
   
 }
+
+/*  scroll bar css --------------------- */
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #d4d4d4; 
+  }
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #424345f7; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}

@@ -8,6 +8,27 @@
   margin: 0 auto;
 }
 
+.wailist_left_side {
+  flex-direction: column;
+}
+
+.waitlist_img1{
+  width: 300px;
+height: 300px;
+}
+
+.waitlist_extra_gyan01 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 39px;
+  text-align: center;
+  color: #ffffff;
+  width: 63%;
+  margin-top: 30px;
+}
+
 .wailist_para {
   display: flex;
   align-items: flex-start;
@@ -34,6 +55,39 @@
   color: rgba(0, 0, 0, 0.6);
 }
 
+
+.waitlist_form_area{
+  width: 80%;
+  height: 75%;
+  overflow: auto;
+  padding-right: 15px;
+  box-sizing: border-box;
+  margin-bottom: 25px;
+}
+
+.waitlist_form_area > div{
+  margin-bottom: 40px;
+}
+
+
+.waitlist_inviteCode_section{
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.waitlist_inviteCode_section > div{
+  width: 50%;
+}
+
+.waitlist_inviteCode_section > i{
+  position: relative;
+  bottom: 19px;
+  right: 40px;
+}
+
+
+
 @media screen and (max-width: 700px) {
   .wailist_header_01 {
     font-weight: 600;
@@ -44,13 +98,13 @@
     margin-top: 25px;
   }
 
-  .wailist_para{
+  .wailist_para {
     width: unset;
     margin: 30px auto;
     margin-bottom: 12px;
   }
 
-  .wailist_para p{
+  .wailist_para p {
     font-weight: 400;
     font-size: 14px;
     line-height: 161.02%;
@@ -58,7 +112,7 @@
     margin-bottom: 90px;
   }
 
-  .wailist_para span{
+  .wailist_para span {
     font-weight: 400;
     font-size: 9px;
     line-height: 10px;

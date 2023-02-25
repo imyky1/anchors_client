@@ -324,6 +324,27 @@ const CreatorState = (props) => {
     }
   };
 
+  // verify invite Code on Waitlist-------------------------------
+  const verifyInviteCode = async (code) => {
+    try {
+      const response = await fetch(`${host}/api/creator/verifyInviteCode`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+        body:JSON.stringify({
+          code
+        })
+      });
+      const json = await response.json();
+      return json
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
 
   return (
@@ -355,7 +376,8 @@ const CreatorState = (props) => {
         setsubsInfo,
         setCreatorInfo,
         getCreatorExtraDetails,
-        generateInviteCode
+        generateInviteCode,
+        verifyInviteCode
       }}
     >
       {props.children}

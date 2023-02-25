@@ -79,11 +79,15 @@ function Profile() {
       <div className="creator_profile_main_container">
         {/* Header of creator profile -------------------------------------------------------------------------------------------- */}
         <section className="top_header_creator_profile">
-          <img
+          {window.screen.width > 550 ? <img
             className="logo_main_page"
             src={require("../../../Main Page/Images/logo-beta.png")}
             alt=""
-          />
+          /> : <img
+          className="logo_main_page"
+          src={require("./anchors_logo.jpg")}
+          alt=""
+        />}
           <button>Signup</button>
         </section>
 

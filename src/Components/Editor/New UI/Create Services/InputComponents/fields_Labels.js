@@ -21,6 +21,7 @@ function fields_Labels1(props) {
         name={props.name}
         id={props.id}
       />
+      {props?.verifiedComp && <i className="fa-solid fa-square-check fa-xl verifiedComponent01"></i>}
     </div>
   );
 }

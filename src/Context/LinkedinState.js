@@ -28,13 +28,17 @@ const LinkedinState = (props) => {
         if (resJSON.success) {
           const login = resJSON.res;
           setloginInfo(login);
-          registerCreatorLogin(
-            login.id,
-            "",
-            login.name,
-            login.email,
-            login.photo
-          );
+          if (localStorage.getItem("authFor") === "signUp") {
+            registerCreatorLogin(
+              login.id,
+              "",
+              login.name,
+              login.email,
+              login.photo
+            );
+          } else {
+            LoginCreator(login.id, "", login.name, login.email, login.photo);
+          }
         } else {
           toast.error("Login Failed! Please Try Again", {
             position: "top-center",
@@ -69,13 +73,17 @@ const LinkedinState = (props) => {
         if (resJson.success) {
           const login = resJson.res;
           setloginInfo(login);
-          registerCreatorLogin(
-            "",
-            login.id,
-            login.name,
-            login.email,
-            login.photo
-          );
+          if (localStorage.getItem("authFor") === "signUp") {
+            registerCreatorLogin(
+              "",
+              login.id,
+              login.name,
+              login.email,
+              login.photo
+            );
+          } else {
+            LoginCreator("", login.id, login.name, login.email, login.photo);
+          }
         } else {
           toast.error("Login Failed! Please Try Again", {
             position: "top-center",
@@ -93,6 +101,7 @@ const LinkedinState = (props) => {
       });
   };
 
+  // Creator signup function --------------------------------------------------
   const registerCreatorLogin = async (
     linkedinID,
     googleID,
@@ -100,49 +109,128 @@ const LinkedinState = (props) => {
     email,
     photo
   ) => {
-    const userdata = await userIp();
-    let slugurl = name.split(" ").join("-");
-    const count = await getslugcountcreator(slugurl.toLowerCase());
-    let slugurl2 =
-      count === 0
-        ? slugurl.toLowerCase()
-        : slugurl.toLowerCase().concat("--", `${count}`);
+    try {
+      const userdata = await userIp();
+      let slugurl = name.split(" ").join("-");
+      const count = await getslugcountcreator(slugurl.toLowerCase());
+      let slugurl2 =
+        count === 0
+          ? slugurl.toLowerCase()
+          : slugurl.toLowerCase().concat("--", `${count}`);
 
-    const response = await fetch(`${host}/api/creator/newCreator`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Credentials": true,
-      },
-      body: JSON.stringify({
-        linkedinID,
-        googleID,
-        name,
-        email,
-        photo,
-        slug: slugurl2,
-        location:userdata
-      }),
-    });
-    const res = await response.json();
-    if (res.success) {
-      //const status = await getStatus(res.jwtToken);
-      if (res.status === 1) {
-        localStorage.setItem("jwtToken", res.jwtToken);
-        localStorage.setItem("c_id", res.slug);
-        navigate("/dashboard");
+      const response = await fetch(`${host}/api/creator/newCreator`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+        body: JSON.stringify({
+          linkedinID,
+          googleID,
+          name,
+          email,
+          photo,
+          slug: slugurl2,
+          location: userdata,
+        }),
+      });
+      const res = await response.json();
+      if (res.success) {
+        //const status = await getStatus(res.jwtToken);
+        if (res.status === 1) {
+          localStorage.setItem("jwtToken", res.jwtToken);
+          localStorage.setItem("c_id", res.slug);
+          navigate("/dashboard");
+        } else {
+          localStorage.removeItem("isUser");
+          localStorage.removeItem("from");
+          navigate("/waitlist");
+        }
+      } else if (!res.success && res.already) {
+        // creator already registeredd----
+        // account is not created------------
+        toast.info("Account already exists. Please login with the same", {
+          position: "top-center",
+          autoClose: 2500,
+        });
+        setTimeout(() => {
+          navigate("/login/creators");
+        }, 2500);
       } else {
-        localStorage.removeItem("isUser")
-        localStorage.removeItem("from")
-        navigate("/waitlist");
+        toast.error("Signup Failed! Please Try Again", {
+          position: "top-center",
+          autoClose: 1500,
+        });
+        setTimeout(() => {
+          navigate("/signup/creators");
+        }, 1500);
       }
-    } else {
-      toast.error("Login Failed! Please Try Again", {
+    } catch (error) {
+      console.error(error);
+      toast.info("Some error occured, Check for help on Main Page", {
         position: "top-center",
         autoClose: 1500,
       });
-      navigate("/login/creators");
+    }
+  };
+
+  // Creator login function -------------------------------------------------
+  const LoginCreator = async (linkedinID, googleID, name, email, photo) => {
+    try {
+      const userdata = await userIp();
+      const response = await fetch(`${host}/api/creator/loginCreator`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+        body: JSON.stringify({
+          linkedinID,
+          googleID,
+          name,
+          email,
+          photo,
+          location: userdata,
+        }),
+      });
+      const res = await response.json();
+      if (res.success) {
+        //const status = await getStatus(res.jwtToken);
+        if (res.status === 1) {
+          localStorage.setItem("jwtToken", res.jwtToken);
+          localStorage.setItem("c_id", res.slug);
+          navigate("/dashboard");
+        } else {
+          localStorage.removeItem("isUser");
+          localStorage.removeItem("from");
+          navigate("/waitlist");
+        }
+      } else if (!res.success && !res.already) {
+        // account is not created------------
+        toast.error("No such account exists. First create one", {
+          position: "top-center",
+          autoClose: 2500,
+        });
+        setTimeout(() => {
+          navigate("/signup/creators");
+        }, 2500);
+      } else {
+        toast.error("Login Failed! Please Try Again", {
+          position: "top-center",
+          autoClose: 1500,
+        });
+        setTimeout(() => {
+          navigate("/login/creators");
+        }, 1500);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.info("Some error occured, Check for help on Main Page", {
+        position: "top-center",
+        autoClose: 1500,
+      });
     }
   };
 
@@ -393,7 +481,7 @@ const LinkedinState = (props) => {
   // Route : GET user IP ADDRESS and location
   const userIp = async () => {
     const response = await fetch(
-      "https://api64.ipify.org/?format=json",
+      "https://api64.ipify.org/?format=json"
       //method:"GET",
       //{mode:"no-cors"}
       //headers: {

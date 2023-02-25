@@ -3,7 +3,7 @@ import "./components.css"
 
 function buttons1(props) {
   return (
-    <button className="button_01_css" onClick={props.onClick}>
+    <button className="button_01_css" style={props?.height && {height:props?.height}} onClick={props.onClick}>
         {props.text}
     </button>
   )

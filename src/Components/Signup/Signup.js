@@ -16,12 +16,14 @@ function Signup() {
   const handleGoogle = async () => {
     localStorage.setItem("isUser", "");
     localStorage.setItem("from", "google");
+    localStorage.setItem("authFor","signUp")
     window.open(`${host}/google/auth`, "_self");
   };
 
   const handlelinkedin = async () => {
     localStorage.setItem("isUser", "");
     localStorage.setItem("from", "linkedin");
+    localStorage.setItem("authFor","signUp")
     window.open(`${host}/login/auth/linkedin`, "_self");
   };
 
