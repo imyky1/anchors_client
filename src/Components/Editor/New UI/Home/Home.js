@@ -15,7 +15,7 @@ import UserReviews from "../UserReviews/UserReviews";
 import UserRequest from "../userRequest/UserRequest";
 import ServiceStats from "../ServiceStats/ServiceStats";
 import Users from "../userList/Users";
-
+import PaymentSummary from "../Payment Summary/paymentSummary";
 
 function Home() {
   const [openCreatorInfo, setopenCreatorInfo] = useState(false);
@@ -48,9 +48,6 @@ function Home() {
     // eslint-disable-next-line
   }, []);
 
-
-
-
   return (
     <>
       <div className="main_home_page_container">
@@ -67,7 +64,6 @@ function Home() {
             alternateInfo={allCreatorInfo}
           />
 
-
           <CreatorInfo
             open={openCreatorInfo}
             userData={basicNav}
@@ -78,52 +74,56 @@ function Home() {
             }}
           />
           <div className="remaining">
-
             {/* if invite code does not exist then it should be created ------------------------------- */}
-          {!basicNav?.inviteCode ? <Routes>
-            <Route
-              path="/*"
-              element={<EditProfile progress={setProgress} />}
-            />
-          </Routes> :
+            {!basicNav?.inviteCode ? (
+              <Routes>
+                <Route
+                  path="/*"
+                  element={<EditProfile progress={setProgress} />}
+                />
+              </Routes>
+            ) : (
+              <Routes>
+                {/* Dashboard Route ---------------------------------------------------- */}
+                <Route path="/dashboard" element={<Dashboard />} />
 
+                {/* Service List Route ---------------------------------------------------- */}
+                <Route
+                  path="/mycontents"
+                  element={<ServiceDetailPage progress={setProgress} />}
+                />
 
-          <Routes>
-            {/* Dashboard Route ---------------------------------------------------- */}
-            <Route path="/dashboard" element={<Dashboard />} />
-
-            {/* Service List Route ---------------------------------------------------- */}
-            <Route
-              path="/mycontents"
-              element={<ServiceDetailPage progress={setProgress} />}
-            />
-
-              {/* Create service Route ---------------------------------------------------- */}
-              <Route
-                path="/createservice"
-                element={<Create progress={setProgress} />}
-              />
-              <Route
-                path="/editprofile"
-                element={<EditProfile progress={setProgress} />}
-              />
-              <Route
-                path="/reviews"
-                element={<UserReviews progress={setProgress} />}
-              />
-              <Route
-                path="/requests"
-                element={<UserRequest progress={setProgress} />}
-              />
-              <Route
-                path="/servicestats/:slug"
-                element={<ServiceStats progress={setProgress} />}
-              />
-              <Route
-                path="/viewUserDetails/:slug"
-                element={<Users progress={setProgress} />}
-              />
-            </Routes>}
+                {/* Create service Route ---------------------------------------------------- */}
+                <Route
+                  path="/createservice"
+                  element={<Create progress={setProgress} />}
+                />
+                <Route
+                  path="/editprofile"
+                  element={<EditProfile progress={setProgress} />}
+                />
+                <Route
+                  path="/reviews"
+                  element={<UserReviews progress={setProgress} />}
+                />
+                <Route
+                  path="/requests"
+                  element={<UserRequest progress={setProgress} />}
+                />
+                <Route
+                  path="/servicestats/:slug"
+                  element={<ServiceStats progress={setProgress} />}
+                />
+                <Route
+                  path="/paymentSummary"
+                  element={<PaymentSummary progress={setProgress} />}
+                />
+                <Route
+                  path="/viewUserDetails/:slug"
+                  element={<Users progress={setProgress} />}
+                />
+              </Routes>
+            )}
           </div>
         </div>
       </div>
