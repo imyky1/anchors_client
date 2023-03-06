@@ -171,7 +171,7 @@ function Create(props) {
 
   // check is the query parameter is changed----------------------------------------
   if (!["pdf", "excel", "video"].includes(CreateType)) {
-    return navigate("/newUi/dashboard");
+    return navigate("/dashboard");
   }
 
   return (

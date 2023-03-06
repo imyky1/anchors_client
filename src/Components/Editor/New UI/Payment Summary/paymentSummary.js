@@ -18,8 +18,10 @@ import ShowReviewModel from "../../../Modals/ShowReviewModel";
 import "./paymentSummary.css";
 import { host } from "../../../../config/config";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const PaymentSummary = () => {
+  const navigate = useNavigate()
   const [openLoading, setopenLoading] = useState(false);
   const [uorders, setUorders] = useState([]);
   const [totalearning, setTotalEarning] = useState(0);
@@ -39,7 +41,6 @@ const PaymentSummary = () => {
       },
     });
     const json = await response.json();
-    console.log(json);
     setUorders(json.uorders);
     set_service_data(json.sorders);
     if (json.success) {
@@ -49,11 +50,15 @@ const PaymentSummary = () => {
       //console.log(json.error)
     }
   };
+
+
   const calculateTotalearning = () => {
     uorders.map((el) => {
       return setTotalEarning((prev) => prev + el.amount);
     });
   };
+
+
   const createtablerecords = () => {
     const counts = {};
     uorders.map(function (x) {
@@ -73,14 +78,23 @@ const PaymentSummary = () => {
 
     setTableValues(counts);
   };
-  console.log(tablevalues);
+
+
   useEffect(() => {
-    gettotalearning();
+    setopenLoading(true)
+    gettotalearning().then(()=>{
+      setopenLoading(false)
+    })
   }, []);
+
+
   useEffect(() => {
     calculateTotalearning();
-    createtablerecords();
+    createtablerecords()?.then(()=>{
+    })
   }, [uorders]);
+
+
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -104,8 +118,13 @@ const PaymentSummary = () => {
   const style = { fontSize: "1.2em", paddingTop: "4.5px", paddingLeft: "10px" };
 
   return (
+    <>
+    {openLoading && <LoadTwo open={openLoading} />}
     <div className="servicelist-wrapper">
-      <h1>Payment Summary</h1>
+      <section className="headers_section_paymentInfo">
+      <h1 className="text_type01_payment_info">Payment Summary</h1>
+      <button onClick={()=>{navigate("/paymentInfo")}}>Payment Details</button>
+      </section>
       <div className="usereview_details">
         <div className="userreview_detail1">
           <div className="userreview_detail_svg">
@@ -232,6 +251,7 @@ const PaymentSummary = () => {
         </TableContainer>
       </div>
     </div>
+    </>
   );
 };
 

@@ -24,6 +24,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
     }
   };
 
+
   return (
     <>
       {showPopup && <ProfileInfoWarn toClose={()=>{setshowPopup(false)}} />}
@@ -62,14 +63,14 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
               <div>
                 <p className="text_sidebar_01">{userData?.name}</p>
                 <div className="text_sidebar_02">
-                  {moreInfo?.Rating && <span>
+                  {moreInfo?.Rating !== 0 && <span>
                     <i className="fa-solid fa-star"></i>{" "}
                     {moreInfo?.Rating}
                   </span>}
-                  {moreInfo?.Reviews && <span
+                  {moreInfo?.Reviews !== 0 && <span
                     className="reviews_from_sidebar"
                     onClick={() => {
-                      navigate("/newUi/reviews");
+                      navigate("/reviews");
                     }}
                   >
                     {moreInfo?.Reviews} Reviews
@@ -91,10 +92,10 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
             onClick={handleClickNotFilledInviteCode}
           >
             <Link
-              to="/newUi/dashboard"
+              to="/dashboard"
               className={`${
-                (localtion.pathname === "/newUi/dashboard" ||
-                  localtion.pathname === "/newUi/createservice") &&
+                (localtion.pathname === "/dashboard" ||
+                  localtion.pathname === "/createservice") &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
             >
@@ -102,9 +103,9 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
               Dashboard
             </Link>
             <Link
-              to="/newUi/mycontents"
+              to="/mycontents"
               className={`${
-                localtion.pathname === "/newUi/mycontents" &&
+                localtion.pathname === "/mycontents" &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
             >
@@ -112,9 +113,9 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
               My Content
             </Link>
             <Link
-              to="/newUi/payments"
+              to="/paymentInfo"
               className={`${
-                localtion.pathname === "/newUi/payments" &&
+                (localtion.pathname === "/paymentInfo" || localtion.pathname === "/paymentSummary") &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
             >
@@ -122,9 +123,9 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
               Payment
             </Link>
             <Link
-              to="/newUi/requests"
+              to="/requests"
               className={`${
-                localtion.pathname === "/newUi/requests" &&
+                localtion.pathname === "/requests" &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
             >
@@ -132,9 +133,9 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
               Requests
             </Link>
             <Link
-              to="/newUi/stats"
+              to="/stats"
               className={`${
-                (localtion.pathname === "/newUi/stats" || localtion.pathname.includes("/newUi/serviceStats")) &&
+                (localtion.pathname === "/stats" || localtion.pathname.includes("/serviceStats")) &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
             >

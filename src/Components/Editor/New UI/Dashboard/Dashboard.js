@@ -14,9 +14,9 @@ function Dashboard() {
           Questions & Videos
         </span>
         <section>
-            <div onClick={()=>navigate("/newUi/createservice?type=pdf")} className="dashboard_options">Create PDF</div>
-            <div onClick={()=>navigate("/newUi/createservice?type=excel")} className="dashboard_options">Create Excelsheet</div>
-            <div onClick={()=>navigate("/newUi/createservice?type=video")} className="dashboard_options">Upload Video</div>
+            <div onClick={()=>navigate("/createservice?type=pdf")} className="dashboard_options">Create PDF</div>
+            <div onClick={()=>navigate("/createservice?type=excel")} className="dashboard_options">Create Excelsheet</div>
+            <div onClick={()=>navigate("/createservice?type=video")} className="dashboard_options">Upload Video</div>
         </section>
       </div>
     </div>

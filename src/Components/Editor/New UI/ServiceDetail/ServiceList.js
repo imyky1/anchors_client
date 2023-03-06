@@ -150,7 +150,7 @@ function ServiceDetailPage(props) {
       />
 
       <div className="servicelist-wrapper" onClick={() => removeOptionPopup()}>
-        <h1>My Content</h1>
+        <h1 className="headers_section_paymentInfo" >My Content</h1>
         <span className="servicelist_wrap_span">
           Manage your all contents and services
         </span>
@@ -207,7 +207,7 @@ function ServiceDetailPage(props) {
                             className="servicelist_icon"
                             onClick={() => {
                               window.open(
-                                `/newUi/viewUserDetails/${elem.slug}`,
+                                `/viewUserDetails/${elem.slug}`,
                                 "_blank"
                               );
                             }}
@@ -223,7 +223,7 @@ function ServiceDetailPage(props) {
                             className="servicelist_icon iconalign"
                             onClick={() => {
                               window.open(
-                                `/newUi/serviceStats/${elem.slug}`,
+                                `/serviceStats/${elem.slug}`,
                                 "_blank"
                               );
                             }}
@@ -286,7 +286,7 @@ function ServiceDetailPage(props) {
                                 <div
                                   className="modaloptions_servicelist"
                                   onClick={() => {
-                                    navigate(`/newUi/user_review`);
+                                    navigate(`/user_review`);
                                   }}
                                 >
                                   User Reviews

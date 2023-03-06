@@ -48,7 +48,7 @@ function Users(props) {
             setapprovedUser(true);
             props.progress(100);
           } else {
-            navigate("/newUi/mycontents");
+            navigate("/mycontents");
           }
         });
       });
@@ -60,7 +60,7 @@ function Users(props) {
             setapprovedUser(true);
             props.progress(100);
           } else {
-            navigate("/newUi/mycontents");
+            navigate("/mycontents");
           }
         });
       });
@@ -121,8 +121,8 @@ function Users(props) {
                 className="servicestat_button"
                 onClick={() => {
                   serviceType === "download"
-                    ? navigate(`/newUi/servicestats/${slug}`)
-                    : navigate(`/newUi/servicestats/${slug}?service=workshop`);
+                    ? navigate(`/servicestats/${slug}`)
+                    : navigate(`/servicestats/${slug}?service=workshop`);
                 }}
               >
                 Event Detailed Analysis

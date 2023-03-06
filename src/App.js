@@ -39,6 +39,7 @@ import PDFReader from "./Components/Editor/pdfViewer/Components/PDFReader";
 import VideoDisplay from "./Components/Editor/VideoDisplay/VideoDisplay";
 import HomeUI from "./Components/Editor/New UI/Home/Home";
 import NewProfile from "./Components/Editor/New UI/Creator Profile/Profile";
+import TellUsMore from "./Components/Waitlist/TellUsMore";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -65,11 +66,17 @@ function App() {
                     <UserDashboardState>
                       <LoadingBar color="#f11946" progress={progress} />
                       <Routes>
+
+                        {/* Home route to creator dashboard ------------------------------------------------ */}
                         <Route
                           path="*"
-                          element={<Home progress={changeprogress} />}
+                          element={<HomeUI progress={changeprogress} />}
                         ></Route>
 
+
+
+
+                        {/* User dashboard routes ---------------------------------------------------------- */}
                         <Route
                           path="/"
                           element={
@@ -81,6 +88,12 @@ function App() {
                             )
                           }
                         ></Route>
+
+
+
+
+
+                        {/* Creator profile routes and service reoutes --------------------------------------------------- */}
                         <Route
                           exact
                           path="/c/:slug"
@@ -95,12 +108,22 @@ function App() {
                           element={<Workshop progress={changeprogress} />}
                         ></Route>
 
+
+
+
+                          {/* Anchors details routes ------------------------------------------------------- */}
                         <Route
                           path="/privacy-policy"
                           element={<Privacy />}
                         ></Route>
                         <Route path="/pricing" element={<Pricing />}></Route>
                         <Route path="/waitlist" element={<Waitlist />}></Route>
+                        <Route path="/tellUsMore" element={<TellUsMore />}></Route>
+
+
+
+
+                        {/* Redirection routes ---------------------------------------------------------------------- */}
                         <Route
                           path="/r/:id"
                           element={<Redirect_serv />}
@@ -109,6 +132,11 @@ function App() {
                           path="/rw/:id"
                           element={<Redirect_servworkshop />}
                         ></Route>
+
+
+
+
+                        {/* Developer routes --------------------------------------------------------------- */}
                         <Route
                           path="/developer/count"
                           element={<UserCount />}
@@ -125,6 +153,10 @@ function App() {
                           path="/developer/test"
                           element={<Test />}
                         ></Route>
+
+
+
+                        {/* User feedback routes ----------------------------------------------------------- */}
                         <Route
                           path="/feedback"
                           element={<Feedback progress={changeprogress} />}
@@ -135,6 +167,12 @@ function App() {
                             <WorkshopFeedback progress={changeprogress} />
                           }
                         ></Route>
+
+
+
+
+
+                        {/* Logout routes ---------------------------------------------------------------------------- */}
                         {localStorage.getItem("jwtToken") && (
                           <Route
                             path="/logout"
@@ -153,6 +191,11 @@ function App() {
                             element={<Dashboarduser progress={progress} />}
                           />
                         )}
+
+
+
+
+                        {/* Login and Signup for creators -------------------------------------- */}
                         <Route path="/login">
                           <Route
                             path="creators"
@@ -163,7 +206,16 @@ function App() {
                         </Route>
                         <Route path="/signup/creators" element={<Signup />} />
 
+
+
+
+
+                        {/* Sitemap route -------------------------------------------------------------- */}
                         <Route path="/sitemapac" element={<Sitemap />}></Route>
+
+
+
+
 
                         {/* Testing routes --------------------------------------------------------------- */}
                         {/**EXCEL FILE VIEWING ROUTE : ) */}
@@ -185,13 +237,6 @@ function App() {
                           path="/viewVideo"
                           element={
                             <VideoDisplay /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
-                            />
-                          }
-                        />
-                        <Route
-                          path="/newUi/*"
-                          element={
-                            <HomeUI 
                             />
                           }
                         />

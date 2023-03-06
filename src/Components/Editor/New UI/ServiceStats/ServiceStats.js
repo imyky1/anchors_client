@@ -90,7 +90,7 @@ const ServiceStats = (props) => {
             setapprovedUser(true);
             props.progress(100);
           } else {
-            navigate("/newUi/mycontents");
+            navigate("/mycontents");
           }
         });
       });
@@ -102,7 +102,7 @@ const ServiceStats = (props) => {
             setapprovedUser(true);
             props.progress(100);
           } else {
-            navigate("/newUi/mycontents");
+            navigate("/mycontents");
           }
         });
       });
@@ -180,9 +180,9 @@ const ServiceStats = (props) => {
                 className="servicestat_button"
                 onClick={() => {
                   serviceType === "download"
-                    ? navigate(`/newUi/viewUserDetails/${slug}`)
+                    ? navigate(`/viewUserDetails/${slug}`)
                     : navigate(
-                        `/newUi/viewUserDetails/${slug}?service=workshop`
+                        `/viewUserDetails/${slug}?service=workshop`
                       );
                 }}
               >

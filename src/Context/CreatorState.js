@@ -50,7 +50,6 @@ const CreatorState = (props) => {
         }),
       }
     );
-    console.log(info)
     const json = await response.json();
     return json.success;
   };
@@ -132,6 +131,23 @@ const CreatorState = (props) => {
       //console.log(json.error)
     }
   };
+
+
+  // update status of a creator
+  const updateStatus = async () => {
+    const response = await fetch(`${host}/api/creator/updateStatusProfile`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
+    });
+    const json = await response.json();
+    return json
+  };
+
 
   // FETCH ALL SUBSCRIBERS
 
@@ -347,6 +363,60 @@ const CreatorState = (props) => {
 
 
 
+  // fill tell us more form-------------------------------
+  const fillTellUsMoreForm = async (inviteCode,contactNumber,platform,followers,socialLink,knownFrom,) => {
+    try {
+      const response = await fetch(`${host}/api/tellUsMore/fillTellUsMoreForm`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token":localStorage.getItem("jwtToken")
+        },
+        body:JSON.stringify({
+          inviteCode,
+          contactNumber,
+          platform,
+          followers,
+          socialLink,
+          knownFrom,
+          status:1,
+          updatedOn:Date.now()
+        })
+      });
+      const json = await response.json();
+      return json
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // get tell us more form Data-------------------------------
+  const getTellUsMoreFormData = async (inviteCode,contactNumber,platform,followers,socialLink,knownFrom,) => {
+    try {
+      const response = await fetch(`${host}/api/tellUsMore/getTellUsMoreFormData`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token":localStorage.getItem("jwtToken")
+        }
+      });
+      const json = await response.json();
+      return json
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
+
+
+
   return (
     <creatorContext.Provider
       value={{
@@ -377,7 +447,10 @@ const CreatorState = (props) => {
         setCreatorInfo,
         getCreatorExtraDetails,
         generateInviteCode,
-        verifyInviteCode
+        verifyInviteCode,
+        fillTellUsMoreForm,
+        getTellUsMoreFormData,
+        updateStatus
       }}
     >
       {props.children}

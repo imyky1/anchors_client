@@ -31,7 +31,7 @@ function Modal2(props) {
           {/* <button
             onClick={() => {
               props.toClose();
-              navigate("/newUi/editprofile");
+              navigate("/editprofile");
             }}
           >
             Update Personal Information

@@ -3,6 +3,8 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import "./Modal.css"
 
+// success from eligibility -----------------------------------------
+
 function Modal1({open,toClose}) {
     const navigate = useNavigate()
 

@@ -137,16 +137,10 @@ const LinkedinState = (props) => {
       });
       const res = await response.json();
       if (res.success) {
-        //const status = await getStatus(res.jwtToken);
-        if (res.status === 1) {
-          localStorage.setItem("jwtToken", res.jwtToken);
-          localStorage.setItem("c_id", res.slug);
-          navigate("/dashboard");
-        } else {
-          localStorage.removeItem("isUser");
-          localStorage.removeItem("from");
-          navigate("/waitlist");
-        }
+        localStorage.setItem("jwtToken", res.jwtToken);
+        localStorage.setItem("c_id", res.slug);
+        navigate("/tellUsMore");
+
       } else if (!res.success && res.already) {
         // creator already registeredd----
         // account is not created------------
@@ -172,6 +166,9 @@ const LinkedinState = (props) => {
         position: "top-center",
         autoClose: 1500,
       });
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
     }
   };
 

@@ -41,7 +41,7 @@ function Modal1({ open, toClose, userData, moreInfo, alternateInfo }) {
             className="hover_span_modal_creatorinfo"
             onClick={() => {
               toClose();
-              navigate("/newUi/reviews");
+              navigate("/reviews");
             }}
           >
             {moreInfo ? moreInfo?.Reviews : "--"} Reviews
@@ -54,7 +54,7 @@ function Modal1({ open, toClose, userData, moreInfo, alternateInfo }) {
             className="hover_span_modal_creatorinfo"
             onClick={() => {
               toClose();
-              navigate("/newUi/mycontents");
+              navigate("/mycontents");
             }}
           >
             {moreInfo ? moreInfo?.Services : "--"} Services
@@ -62,7 +62,7 @@ function Modal1({ open, toClose, userData, moreInfo, alternateInfo }) {
         </div>
         <button
           onClick={() => {
-            navigate("/newUi/editprofile");
+            navigate("/editprofile");
             toClose();
           }}
         >

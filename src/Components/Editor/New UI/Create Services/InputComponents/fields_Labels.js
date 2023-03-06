@@ -2,6 +2,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import React, { useState } from "react";
 import "./components.css";
+import { useEffect } from "react";
 
 // text field -------------------------
 function fields_Labels1(props) {
@@ -32,14 +33,14 @@ function EditorText01(props) {
     // Normal type -1 text field used in create
     <div className="textfiled_container_01">
       <span className="label_type_01">
-        {props.label}{" "}
+        {props?.label}{" "}
         {props?.required && <span style={{ color: "red" }}>*</span>}
       </span>
       <CKEditor
         editor={ClassicEditor}
-        data={props?.Content}
+        data={props?.Content ? props?.Content : ""}
         config={{
-          placeholder: props.placeholder,
+          placeholder: props?.placeholder,
           toolbar: [
             "|",
             "bold",
@@ -63,6 +64,7 @@ function EditorText01(props) {
     </div>
   );
 }
+
 
 // upload field - id is required
 function UploadField01(props) {
@@ -184,10 +186,16 @@ function Dropdown01(props) {
   const [OpenDropDown, setOpenDropDown] = useState(false)
   const [dropValue, setdropValue] = useState("")
 
-
   OpenDropDown && document.addEventListener("click",()=>{
     setOpenDropDown(false)
   })
+
+  useEffect(() => {
+    if(props?.defaultValue){
+      setdropValue(props?.defaultValue)
+    }
+  }, [props?.defaultValue])
+  
 
   return (
     // Normal type -1 text field used in create

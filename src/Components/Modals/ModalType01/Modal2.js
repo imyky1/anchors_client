@@ -5,13 +5,17 @@ import '@typeform/embed/build/css/popup.css'
 import mixpanel from "mixpanel-browser";
 import { useNavigate } from "react-router-dom";
 
+
+// failure modal from eligibility -------------------------------------------------------
+
+
 function Modal2({ open, toClose }) {
   //const { toggle } = createPopup('qTCuPV1C')
   const navigate = useNavigate()
 
   const handleClick = () =>{
     mixpanel.track("Join Waitlist clicked on Failed Modal from Main Page");
-    navigate("/waitlist?anchorsWaitlistForm=true")
+    navigate("/signup/creators")
     toClose()
   }
 

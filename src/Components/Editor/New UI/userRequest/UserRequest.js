@@ -38,7 +38,7 @@ const UserRequest = () => {
 
   return (
     <div className="servicelist-wrapper">
-      <h1>Requested Resources from users</h1>
+      <h1 className="text_type01_payment_info">Requested Resources from users</h1>
       <span className="servicelist_wrap_span">
         Get your detailed user requests here.
       </span>

@@ -5,6 +5,12 @@
 }
 
 .servicelist-wrapper h1 {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 36px;
+    color: #000000;
     margin-bottom: 5px;
     -webkit-user-select: none;
 }

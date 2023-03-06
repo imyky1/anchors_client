@@ -86,7 +86,7 @@ const EditProfile = (props) => {
       data?.phone?.toString().length > 9 &&
       data?.dob
     ) {
-      var profile = await Uploadfile(data1);
+      var profile = previewSourceOne && await Uploadfile(data1);
       const newData = {
         ...data,
         aboutMe: Content,
@@ -102,7 +102,9 @@ const EditProfile = (props) => {
         //  position: "top-center",
         //  autoClose: 2000,
         //});
-        !basicNav?.inviteCode && (await generateInviteCode()); // generates invite code it not exists otherwise
+        setTimeout(async () => {
+          await generateInviteCode(); // generates invite code it not exists otherwise
+        }, 1500);
         setOpenLoading(false);
         setshowPopup(true);
       } else {
@@ -221,12 +223,12 @@ const EditProfile = (props) => {
             <span className="personalinfo_linkname">Linkedin Link</span>
             <SocialFields
               placeholder="https://www.linkedin.com/in/username"
-              value={data.linkedInLink}
+              value={data?.linkedInLink}
               name="linkedInLink"
               id="linkedIn"
               onChange={handleChange}
             />
-            {allCreatorInfo.linkedInLink ? (
+            {allCreatorInfo?.linkedInLink ? (
               <svg
                 width="18"
                 height="14"
@@ -247,12 +249,12 @@ const EditProfile = (props) => {
             <span className="personalinfo_linkname"> Instagram Link</span>
             <SocialFields
               placeholder="https://www.instagram.com/username"
-              value={data.instaLink}
+              value={data?.instaLink}
               name="instaLink"
               id="instagram"
               onChange={handleChange}
             />
-            {allCreatorInfo.instaLink ? (
+            {allCreatorInfo?.instaLink ? (
               <svg
                 width="18"
                 height="14"
@@ -273,12 +275,12 @@ const EditProfile = (props) => {
             <span className="personalinfo_linkname"> Telegram Link</span>
             <SocialFields
               placeholder="https://t.me/username"
-              value={data.teleLink}
+              value={data?.teleLink}
               name="teleLink"
               id="teleLink"
               onChange={handleChange}
             />
-            {allCreatorInfo.teleLink ? (
+            {allCreatorInfo?.teleLink ? (
               <svg
                 width="18"
                 height="14"
@@ -299,12 +301,12 @@ const EditProfile = (props) => {
             <span className="personalinfo_linkname"> Youtube Link</span>
             <SocialFields
               placeholder="https://www.youtube.com/@channelname"
-              value={data.ytLink}
+              value={data?.ytLink}
               name="ytLink"
               id="ytLink"
               onChange={handleChange}
             />
-            {allCreatorInfo.ytLink ? (
+            {allCreatorInfo?.ytLink ? (
               <svg
                 width="18"
                 height="14"
@@ -325,12 +327,12 @@ const EditProfile = (props) => {
             <span className="personalinfo_linkname"> TopMate Link</span>
             <SocialFields
               placeholder="https://topmate.io/username"
-              value={data.topmateLink}
+              value={data?.topmateLink}
               name="topmateLink"
               id="topmateLink"
               onChange={handleChange}
             />
-            {allCreatorInfo.topmateLink ? (
+            {allCreatorInfo?.topmateLink ? (
               <svg
                 width="18"
                 height="14"
@@ -351,12 +353,12 @@ const EditProfile = (props) => {
             <span className="personalinfo_linkname"> Twitter Link</span>
             <SocialFields
               placeholder="https://twitter.com/username"
-              value={data.twitterLink}
+              value={data?.twitterLink}
               name="twitterLink"
               id="twitterLink"
               onChange={handleChange}
             />
-            {allCreatorInfo.twitterLink ? (
+            {allCreatorInfo?.twitterLink ? (
               <svg
                 width="18"
                 height="14"

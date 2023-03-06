@@ -13,9 +13,9 @@ function Modal(props) {
       <div className="serviceSuccess_container">
         <section style={props.type === "Profile Information" ? {height:"90%"} : {}}>
           <i
-            class="fa-solid fa-xmark fa-lg serviceSuccessModal_cross"
+            className="fa-solid fa-xmark fa-lg serviceSuccessModal_cross"
             onClick={() => {
-              navigate("/newUi/dashboard");
+              window.open("/dashboard","_self")
             }}
           ></i>
 
@@ -32,7 +32,7 @@ function Modal(props) {
           </span>
           <button
             onClick={() => {
-              {props.type === "Profile Information" ? window.open("/newUi/dashboard","_self") : navigate("/newUi/mycontents")};
+              {props.type === "Profile Information" ? window.open("/dashboard","_self") : navigate("/mycontents")};
             }}
           >
             {props.type === "Profile Information" ? "Go to Dashboard" : "Go to My Content"}
