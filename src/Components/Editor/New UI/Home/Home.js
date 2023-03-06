@@ -42,6 +42,11 @@ function Home(props) {
   } = useContext(linkedinContext);
   const { getRatingCreator } = useContext(feedbackcontext);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  
+
   // useeffct to give direction to the flow to users + creator + developers
   useEffect(() => {
     // for users only

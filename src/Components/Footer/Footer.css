@@ -67,7 +67,7 @@
 
 .footer_support_menu {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 20px;
   column-gap: 80px;
   font-family: "Inter";
@@ -231,7 +231,7 @@
 
   .some_extra {
     align-items: center;
-    margin-top: 60px;
+    margin-top: 40px;
   }
 
   /* user side footer --------------------------------------- */

@@ -326,7 +326,7 @@ function Main() {
               </span>
             </section>
             <input
-              type="text"
+              type="number"
               placeholder="Number of followers"
               value={followers}
               onChange={(e) => {

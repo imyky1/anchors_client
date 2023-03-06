@@ -63,18 +63,18 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
               <div>
                 <p className="text_sidebar_01">{userData?.name}</p>
                 <div className="text_sidebar_02">
-                  {moreInfo?.Rating !== 0 && <span>
+                  {moreInfo?.Rating !== 0 && <span style={{marginRight:"12px"}}>
                     <i className="fa-solid fa-star"></i>{" "}
                     {moreInfo?.Rating}
                   </span>}
-                  {moreInfo?.Reviews !== 0 && <span
+                  <span
                     className="reviews_from_sidebar"
                     onClick={() => {
                       navigate("/reviews");
                     }}
                   >
                     {moreInfo?.Reviews} Reviews
-                  </span>}
+                  </span>
                 </div>
               </div>
             </section>

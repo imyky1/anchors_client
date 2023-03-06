@@ -9,7 +9,7 @@ import GiftIcon from "./icons/Icongift.svg";
 import FlashIcon from "./icons/Iconflash.svg";
 import StarIcon from "./icons/Iconstar.svg";
 import Footer2 from "../../../Footer/Footer2";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { creatorContext } from "../../../../Context/CreatorState";
 import { feedbackcontext } from "../../../../Context/FeedbackState";
 import ServiceContext from "../../../../Context/services/serviceContext";
@@ -21,6 +21,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 function Profile() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const location = useLocation()
 
   // contexts -------------------------------------------------------------------------
   const { services, getallservicesusingid, workshops, getallworkshopsusingid } =
@@ -35,7 +36,7 @@ function Profile() {
   //Scroll to top automatically ---------------------------------------------
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [location]);
 
   // Main Data of creator and all its services ---------------------------------------------------
   useEffect(() => {

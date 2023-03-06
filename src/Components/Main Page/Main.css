@@ -6,9 +6,6 @@
 
 
 
-
-
-
 /* New ui css landing page -------------------------------------------------------------------- */
 
 
@@ -405,9 +402,8 @@ button {
   font-style: normal;
   font-weight: 300;
   font-size: 18px;
-  line-height: 178.52%;
   color: rgba(255, 255, 255, 0.5);
-  padding: 10px 5px;
+  /* padding: 10px 5px; */
   text-align: center;
   box-sizing: border-box;
 }
@@ -415,6 +411,12 @@ button {
 .eligibility_check_section input:focus {
   outline: none;
 }
+
+.eligibility_check_section input::placeholder{
+  color: rgba(255, 255, 255, 0.5);
+  padding-bottom: 2px;
+}
+
 
 .eligibility_check_section input:focus::placeholder {
   color: transparent;

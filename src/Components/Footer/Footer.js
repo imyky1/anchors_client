@@ -50,23 +50,23 @@ function Footer() {
                 Pricing
               </Link>
 
-              <span onClick={handleOpen}>Help & Support</span>
+              {/* <span onClick={handleOpen}>Help & Support</span> */}
 
               <Link to="/privacy-policy" target="_blank" rel="no_referrer">
                 Terms & Conditions
               </Link>
-              <a
+              {/* <a
                 href="https://www.linkedin.com/company/beanchorite/"
                 target="_blank"
                 rel="no_referrer"
               >
                 Linkedin
-              </a>
+              </a> */}
             </div>
             {window.screen.width < 600 &&  <img className="logo_footer" src={require("../Main Page/Images/logo-beta.png")} alt="" />}
           </section>
           <section className="some_extra">
-          <i class="fa-brands fa-linkedin-in fa-xl" style={{color:"white",marginBottom:"15px"}}></i>
+          <i class="fa-brands fa-linkedin-in fa-xl" style={{cursor:"pointer",color:"white",marginBottom:"15px"}} onClick={()=>{window.open("https://www.linkedin.com/company/beanchorite/")}}></i>
           <span>Anchors.in All rights reserved</span>
           {window.screen.width > 600 && <span style={{textDecoration:"underline",cursor:"pointer"}}>Terms & privacy</span>}
           </section>
@@ -75,28 +75,7 @@ function Footer() {
             2023 &#169; &nbsp; anchors.in &nbsp; Made in &nbsp; <img className="india_logo" src={require("./India-logo.png")} alt="India" />
           </section>
       </div>
-      {/* <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <Box sx={style}>
-            <Typography id="transition-modal-title" variant="h6" component="h2">
-              Team Anchors
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                Facing any issue? email us - <b>support@anchors.in</b>, our team will surely get in touch with you as soon as possible.
-            </Typography>
-          </Box>
-        </Fade>
-      </Modal> */}
+      
     </>
   );
 }

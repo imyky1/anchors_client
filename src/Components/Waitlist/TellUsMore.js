@@ -254,11 +254,11 @@ function TellUsMore() {
 
             <TextField1
               label="Your Contact Number"
-              placeholder="9999999999"
+              placeholder="Enter WhatsApp Number for faster communication"
               name="contactNumber"
               id="contactNumber"
               type="number"
-              value={formData?.contactNumber}
+              value={formData?.contactNumber !== 0 && formData?.contactNumber}
               required={true}
               onChange={handleChange}
             />
@@ -279,11 +279,11 @@ function TellUsMore() {
             />
             <TextField1
               label="How many audience do you have? "
-              placeholder="50000"
+              placeholder="Number of followers"
               name="followers"
               id="followers"
               type="number"
-              value={formData?.followers}
+              value={formData?.followers !== 0 && formData?.followers}
               required={true}
               onChange={handleChange}
             />
@@ -302,9 +302,7 @@ function TellUsMore() {
               required={true}
               defaultValue={formData?.knownFrom}
               value={[
-                "from friends or Relatives",
-                "from our social platforms",
-                "from other anchor's social platform",
+                "Friends", "Creator", "Social Media Platforms", "Google", "Other"
               ]}
               selectedValue={(e) => {
                 setformData({ ...formData, knownFrom: e });

@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./Components/Home/Home";
 import ServiceState from "./Context/services/ServiceState";
 import Creators_login from "./Components/Login/Creators/Login2";
@@ -44,9 +44,6 @@ import TellUsMore from "./Components/Waitlist/TellUsMore";
 mixpanel.init(mixPanelToken, { debug: true });
 
 function App() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   const [progress, setprogress] = useState(0);
 

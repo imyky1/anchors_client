@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./ServiceList.css";
 import ServiceContext from "../../../../Context/services/serviceContext";
-import { Fragment } from "react";
 import { SuperSEO } from "react-super-seo";
 import {
   Table,
@@ -12,7 +11,6 @@ import {
   TableCell,
   Paper,
 } from "@mui/material";
-import Delete_Modal from "../../../Modals/DeleteModel";
 import UserIcon from "./Icons/User.svg";
 import CopyIcon from "./Icons/Copy.svg";
 import ChartIcon from "./Icons/Chart-pie.svg";
@@ -20,8 +18,7 @@ import Option from "./Icons/Option.svg";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { LoadTwo } from "../../../Modals/Loading";
-import { Email_Model1, Email_Model2 } from "../../../Modals/Email_Modal";
-import { RadioField1 } from "../Create Services/InputComponents/fields_Labels";
+import { Email_Model2 } from "../../../Modals/Email_Modal";
 import ChangeStatusModal from "../../../Modals/ServiceSuccess/Modal2";
 
 function ServiceDetailPage(props) {
@@ -29,19 +26,33 @@ function ServiceDetailPage(props) {
   const { services, getallservices,deleteService } = useContext(ServiceContext);
   const [revArray, setrevArray] = useState([]);
   const [selected, setSelected] = useState(0);
-  let count = 0;
 
   useEffect(() => {
     setOpenLoading(true);
     getallservices().then(async () => {
+      setSelected("all")
       setOpenLoading(false);
     });
     // eslint-disable-next-line
   }, []);
 
+  // no need of reversing the array of serices it is inverted from backend
   useEffect(() => {
-    setrevArray(services?.res?.reverse());
-  }, [services]);
+    setOpenLoading(true)
+    let list = services?.res
+    if(selected === "pdf"){
+      setrevArray(list?.filter(e=>{return e?.stype === 0}));
+    }else if(selected === "excel"){
+      setrevArray(list?.filter(e=>{return e?.stype === 1}));
+    }
+    else if(selected === "video"){
+      setrevArray(list?.filter(e=>{return e?.stype === 2}));
+
+    }else{
+      setrevArray(list);
+    }
+    setOpenLoading(false)
+  }, [services,selected]);
 
   const [OpenOption, setOpenOption] = useState(0);
 
@@ -73,6 +84,7 @@ function ServiceDetailPage(props) {
       setOpenOption(0);
     }
   };
+
   const navigate = useNavigate();
   const [openModel, setOpenModel] = useState(false); // change status modal -----------
   const [openModel2, setOpenModel2] = useState(false); // email modal -----------------------
@@ -116,7 +128,9 @@ function ServiceDetailPage(props) {
         });
       }
     }
-  };
+  }
+
+
 
   return (
     <>
@@ -155,10 +169,10 @@ function ServiceDetailPage(props) {
           Manage your all contents and services
         </span>
         <div className="servicelist-categories">
-          <div className="servicelist-catItem selectedlist">All</div>
-          <div className="servicelist-catItem">PDF</div>
-          <div className="servicelist-catItem">Excel Sheets</div>
-          <div className="servicelist-catItem">Videos</div>
+          <div className={`servicelist-catItem ${selected === "all" && "selectedlist"}`} onClick={()=>setSelected("all")}>All ({services?.typeDetails?.Document + services?.typeDetails?.Excel + services?.typeDetails?.Video})</div>
+          <div className={`servicelist-catItem ${selected === "pdf" && "selectedlist"}`} onClick={()=>setSelected("pdf")}>PDF ({services?.typeDetails?.Document})</div>
+          <div className={`servicelist-catItem ${selected === "excel" && "selectedlist"}`} onClick={()=>setSelected("excel")}>Excel Sheets ({services?.typeDetails?.Excel})</div>
+          <div className={`servicelist-catItem ${selected === "video" && "selectedlist"}`} onClick={()=>setSelected("video")}>Videos ({services?.typeDetails?.Video})</div>
         </div>
         <div className="servicelist-linebreak"></div>
         <div className="servicelist-table">

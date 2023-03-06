@@ -11,3 +11,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Chrome, Safari, Edge, Opera to remove up down arrow from input number */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
