@@ -12,6 +12,22 @@ import {
   TextField1,
 } from "../Create Services/InputComponents/fields_Labels";
 import "./EditProfile.css";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import Cropper from "react-easy-crop";
+
+import {
+  TextField,
+  MenuItem,
+  ThemeProvider,
+  createTheme,
+  Button,
+  Modal,
+  Box,
+  Typography,
+  Slider,
+} from "@mui/material";
+import getCroppedImg, { generateDownload } from "../../../helper/imageresize";
 
 const EditProfile = (props) => {
   const {
@@ -20,7 +36,7 @@ const EditProfile = (props) => {
     basicNav,
     setCreatorInfo,
     generateInviteCode,
-    getTellUsMoreFormData
+    getTellUsMoreFormData,
   } = useContext(creatorContext);
   const { Uploadfile } = useContext(ServiceContext);
   const [showPopup, setshowPopup] = useState(false); // success popup
@@ -41,15 +57,19 @@ const EditProfile = (props) => {
   });
   const [Content, setContent] = useState();
   const [previewSourceOne, setPreviewSourceOne] = useState(""); // saves the data of file selected in the form
+  //Image preview and resize opening model
+  const [openimagePreview, setImagePreview] = useState(false);
+  const [imagetocrop, setImageToCrop] = useState(null);
+
   const data1 = new FormData();
   data1.append("file", previewSourceOne);
 
   useEffect(() => {
-    getTellUsMoreFormData().then((e)=>{
-      if(e?.success){
-        setdata({...data,phone:e?.form?.contactNumber})
+    getTellUsMoreFormData().then((e) => {
+      if (e?.success) {
+        setdata({ ...data, phone: e?.form?.contactNumber });
       }
-    })
+    });
     getAllCreatorInfo();
     // eslint-disable-next-line
   }, []);
@@ -63,13 +83,41 @@ const EditProfile = (props) => {
     // eslint-disable-next-line
   }, [getAllCreatorInfo]);
 
-  
   const [openLoading, setOpenLoading] = useState(false);
 
   // Change in values of input tags
   const handleChange = (e) => {
     setdata({ ...data, [e.target.name]: e.target.value });
+  };
 
+  // IMAGE RESIZE
+  const [croppedArea, setCroppedArea] = useState(null);
+  const [crop, setCrop] = useState({
+    x: 0,
+    y: 0,
+  });
+
+  const [zoom, setZoom] = useState(1);
+
+  const onCropComplete = (croppedAreaPercentage, croppedAreaPixels) => {
+    setCroppedArea(croppedAreaPixels);
+  };
+  const openimageresizebar = () => {
+    setImagePreview((prev) => !prev);
+  };
+
+  const downloadcroppedimage = () => {
+    generateDownload(imagetocrop, croppedArea);
+  };
+  const savecroppedImage = async () => {
+    const img = await getCroppedImg(
+      imagetocrop,
+      croppedArea,
+      previewSourceOne?.name
+    );
+    setPreviewSourceOne(img);
+    setImagePreview(false);
+    setShowimg(URL.createObjectURL(img));
   };
 
   const [showimg, setShowimg] = useState(null);
@@ -82,6 +130,18 @@ const EditProfile = (props) => {
       let files = Array.from(input.files);
       setShowimg(URL.createObjectURL(files[0]));
       setPreviewSourceOne(files[0]);
+      const file = files[0];
+      setZoom(1);
+      setCrop({ x: 0, y: 0 });
+      setCroppedArea(null);
+      if (files[0]) {
+        const reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        reader.addEventListener("load", () => {
+          setImageToCrop(reader.result);
+        });
+        setPreviewSourceOne(file);
+      }
     };
     input.click();
   }
@@ -96,7 +156,7 @@ const EditProfile = (props) => {
       data?.phone?.toString().length > 9 &&
       data?.dob
     ) {
-      var profile = previewSourceOne && await Uploadfile(data1);
+      var profile = previewSourceOne && (await Uploadfile(data1));
       const newData = {
         ...data,
         aboutMe: Content,
@@ -134,7 +194,6 @@ const EditProfile = (props) => {
 
     props.progress(100);
   };
-
 
   return (
     <>
@@ -176,6 +235,21 @@ const EditProfile = (props) => {
               >
                 Upload Image
               </button>
+              {previewSourceOne ? (
+                <>
+                  {" "}
+                  <Button
+                    variant="outlined"
+                    onClick={openimageresizebar}
+                    className="imageresizeopenerbutton"
+                  >
+                    Preview Image and Resize
+                  </Button>
+                  <br />
+                </>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
@@ -396,6 +470,87 @@ const EditProfile = (props) => {
           <button onClick={onSubmit}>Save & Update</button>
         </div>
       </div>
+      {openimagePreview && previewSourceOne ? (
+        <Modal
+          open={openimagePreview}
+          onClose={() => setImagePreview(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <div className="ultimatewrapper_imageprev">
+            <div className="container_imageresize">
+              <div className="container-cropper">
+                <>
+                  <div className="cropper">
+                    <Cropper
+                      image={imagetocrop}
+                      crop={crop}
+                      zoom={zoom}
+                      aspect={1 / 1}
+                      cropShape="round"
+                      onCropChange={setCrop}
+                      onZoomChange={setZoom}
+                      onCropComplete={onCropComplete}
+                    />
+                  </div>
+                </>
+              </div>
+
+              <div className="container-buttons">
+                <div className="slider-imagecrop">
+                  <div>
+                    {" "}
+                    <AddIcon />
+                  </div>
+                  <div className="slider-imagecrop-wrap">
+                    <Slider
+                      min={1}
+                      max={3}
+                      step={0.1}
+                      value={zoom}
+                      onChange={(e, zoom) => setZoom(zoom)}
+                    />
+                  </div>
+                  <div>
+                    {" "}
+                    <RemoveIcon />
+                  </div>
+                </div>
+                <div className="button-preview">
+                  {" "}
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={savecroppedImage}
+                  >
+                    Save
+                  </Button>
+                  {/* <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={downloadcroppedimage}
+                      >
+                        Download
+                      </Button> */}
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => setImagePreview(false)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+                <span className="warningspan_imagepreview">
+                  *Do not save if you want the full image to be covered in
+                  banner.
+                </span>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      ) : (
+        ""
+      )}
     </>
   );
 };

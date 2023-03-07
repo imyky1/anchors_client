@@ -30,7 +30,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Cover from "../Modals/ImagePreview/Cover";
 import getCroppedImg, { generateDownload } from "../helper/imageresize";
 
-// Theme for MUI --------------------------------------------------------------------
+// Theme for MUI ------------------------------------------------------------------
 export const theme = createTheme({
   components: {
     MuiFormLabel: {
@@ -253,7 +253,6 @@ function Create(props) {
     x: 0,
     y: 0,
   });
-  const imageref = useRef(null);
 
   const [zoom, setZoom] = useState(1);
 
