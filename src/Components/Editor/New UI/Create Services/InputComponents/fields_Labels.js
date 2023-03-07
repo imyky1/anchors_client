@@ -22,7 +22,9 @@ function fields_Labels1(props) {
         name={props.name}
         id={props.id}
       />
-      {props?.verifiedComp && <i className="fa-solid fa-square-check fa-xl verifiedComponent01"></i>}
+      {props?.verifiedComp && (
+        <i className="fa-solid fa-square-check fa-xl verifiedComponent01"></i>
+      )}
     </div>
   );
 }
@@ -65,7 +67,6 @@ function EditorText01(props) {
   );
 }
 
-
 // upload field - id is required
 function UploadField01(props) {
   const [fileName, setfileName] = useState();
@@ -73,6 +74,9 @@ function UploadField01(props) {
   const handleChange = (e) => {
     setfileName(e.target.files[0].name);
     props.onChange(e.target.files[0]);
+    if (props.onChangeFunction) {
+      props.onChangeFunction(e);
+    }
   };
 
   return (
@@ -114,7 +118,6 @@ function fields_Labels3(props) {
     </div>
   );
 }
-
 
 // social fields --------------------------------------------
 function fields_Labels4(props) {
@@ -183,28 +186,38 @@ function Tags01(props) {
 // dropdown section ---------------------------------------
 
 function Dropdown01(props) {
-  const [OpenDropDown, setOpenDropDown] = useState(false)
-  const [dropValue, setdropValue] = useState("")
+  const [OpenDropDown, setOpenDropDown] = useState(false);
+  const [dropValue, setdropValue] = useState("");
 
-  OpenDropDown && document.addEventListener("click",()=>{
-    setOpenDropDown(false)
-  })
+  OpenDropDown &&
+    document.addEventListener("click", () => {
+      setOpenDropDown(false);
+    });
 
   useEffect(() => {
-    if(props?.defaultValue){
-      setdropValue(props?.defaultValue)
+    if (props?.defaultValue) {
+      setdropValue(props?.defaultValue);
     }
-  }, [props?.defaultValue])
-  
+  }, [props?.defaultValue]);
 
   return (
     // Normal type -1 text field used in create
-    <div className="textfiled_container_01" onClick={(e)=>{e.stopPropagation()}}>
+    <div
+      className="textfiled_container_01"
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
       <span className="label_type_01">
         {props.label}{" "}
         {props?.required && <span style={{ color: "red" }}>*</span>}
       </span>
-      <div className="dropdown_input_01" onClick={()=>{setOpenDropDown(!OpenDropDown)}}>
+      <div
+        className="dropdown_input_01"
+        onClick={() => {
+          setOpenDropDown(!OpenDropDown);
+        }}
+      >
         <input
           type="text"
           className="input_type_01"
@@ -216,11 +229,24 @@ function Dropdown01(props) {
         />
         <i class="fa-solid fa-caret-down"></i>
       </div>
-      {OpenDropDown && <div className="dropdown_menu_options">
-        {props?.value.map((e,i)=>{
-          return <span key={i} onClick={()=>{setdropValue(e); setOpenDropDown(false); props.selectedValue(e)}}>{e}</span>
-        })}
-      </div>}
+      {OpenDropDown && (
+        <div className="dropdown_menu_options">
+          {props?.value.map((e, i) => {
+            return (
+              <span
+                key={i}
+                onClick={() => {
+                  setdropValue(e);
+                  setOpenDropDown(false);
+                  props.selectedValue(e);
+                }}
+              >
+                {e}
+              </span>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
