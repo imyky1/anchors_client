@@ -24,6 +24,7 @@ function TellUsMore() {
         }
     })
   }, []);
+  
 
   const [verifiedCode, setVerifiedCode] = useState(false);
   const [formData, setformData] = useState({
@@ -204,6 +205,8 @@ function TellUsMore() {
       });
     }
   };
+
+  
 
   if(!localStorage.getItem("jwtToken") || !localStorage.getItem("c_id")){
     window.open("/","_self")

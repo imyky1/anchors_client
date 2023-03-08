@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Home from "./Components/Home/Home";
 import ServiceState from "./Context/services/ServiceState";
 import Creators_login from "./Components/Login/Creators/Login2";
@@ -44,7 +49,6 @@ import TellUsMore from "./Components/Waitlist/TellUsMore";
 mixpanel.init(mixPanelToken, { debug: true });
 
 function App() {
-
   const [progress, setprogress] = useState(0);
 
   const changeprogress = (progress) => {
@@ -63,15 +67,11 @@ function App() {
                     <UserDashboardState>
                       <LoadingBar color="#f11946" progress={progress} />
                       <Routes>
-
                         {/* Home route to creator dashboard ------------------------------------------------ */}
                         <Route
                           path="*"
                           element={<HomeUI progress={changeprogress} />}
                         ></Route>
-
-
-
 
                         {/* User dashboard routes ---------------------------------------------------------- */}
                         <Route
@@ -85,10 +85,6 @@ function App() {
                             )
                           }
                         ></Route>
-
-
-
-
 
                         {/* Creator profile routes and service reoutes --------------------------------------------------- */}
                         <Route
@@ -105,20 +101,26 @@ function App() {
                           element={<Workshop progress={changeprogress} />}
                         ></Route>
 
-
-
-
-                          {/* Anchors details routes ------------------------------------------------------- */}
+                        {/* Anchors details routes ------------------------------------------------------- */}
                         <Route
                           path="/privacy-policy"
                           element={<Privacy />}
                         ></Route>
                         <Route path="/pricing" element={<Pricing />}></Route>
-                        <Route path="/waitlist" element={<Waitlist />}></Route>
-                        <Route path="/tellUsMore" element={<TellUsMore />}></Route>
 
-
-
+                        {localStorage.getItem("jwtToken") &&
+                          localStorage.getItem("c_id") && (
+                            <>
+                              <Route
+                                path="/waitlist"
+                                element={<Waitlist />}
+                              ></Route>
+                              <Route
+                                path="/tellUsMore"
+                                element={<TellUsMore />}
+                              ></Route>
+                            </>
+                          )}
 
                         {/* Redirection routes ---------------------------------------------------------------------- */}
                         <Route
@@ -129,9 +131,6 @@ function App() {
                           path="/rw/:id"
                           element={<Redirect_servworkshop />}
                         ></Route>
-
-
-
 
                         {/* Developer routes --------------------------------------------------------------- */}
                         <Route
@@ -151,8 +150,6 @@ function App() {
                           element={<Test />}
                         ></Route>
 
-
-
                         {/* User feedback routes ----------------------------------------------------------- */}
                         <Route
                           path="/feedback"
@@ -164,10 +161,6 @@ function App() {
                             <WorkshopFeedback progress={changeprogress} />
                           }
                         ></Route>
-
-
-
-
 
                         {/* Logout routes ---------------------------------------------------------------------------- */}
                         {localStorage.getItem("jwtToken") && (
@@ -189,9 +182,6 @@ function App() {
                           />
                         )}
 
-
-
-
                         {/* Login and Signup for creators -------------------------------------- */}
                         <Route path="/login">
                           <Route
@@ -203,16 +193,8 @@ function App() {
                         </Route>
                         <Route path="/signup/creators" element={<Signup />} />
 
-
-
-
-
                         {/* Sitemap route -------------------------------------------------------------- */}
                         <Route path="/sitemapac" element={<Sitemap />}></Route>
-
-
-
-
 
                         {/* Testing routes --------------------------------------------------------------- */}
                         {/**EXCEL FILE VIEWING ROUTE : ) */}
@@ -239,10 +221,7 @@ function App() {
                         />
                         <Route
                           path="/newprofile/:slug"
-                          element={
-                            <NewProfile 
-                            />
-                          }
+                          element={<NewProfile />}
                         />
                       </Routes>
                     </UserDashboardState>

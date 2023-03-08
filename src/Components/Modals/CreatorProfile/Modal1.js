@@ -5,6 +5,7 @@ import "./Modal.css";
 
 function Modal1({ open, toClose, userData, moreInfo, alternateInfo }) {
   const navigate = useNavigate();
+
   open &&
     document?.addEventListener("click", () => {
       toClose();
@@ -16,7 +17,7 @@ function Modal1({ open, toClose, userData, moreInfo, alternateInfo }) {
 
   return (
     //<div className="creator_modal_outside_container">
-    <div className="creator_modal_info" onClick={(e) => e?.stopPropagation()}>
+    <div className="creator_modal_info" onClick={(e) => e?.stopPropagation()} style={!moreInfo ? {height:"300px"} : {}}>
       <section className="profile_section_creator_info">
         <LazyLoadImage
           effect="blur"
@@ -36,6 +37,9 @@ function Modal1({ open, toClose, userData, moreInfo, alternateInfo }) {
           }}
         />
         <span>{userData?.name}</span>
+
+        {/* Means is the user is wailtist user or verified user ----------------------------- */}
+        {moreInfo && <>         
         <div>
           <span
             className="hover_span_modal_creatorinfo"
@@ -67,17 +71,17 @@ function Modal1({ open, toClose, userData, moreInfo, alternateInfo }) {
           }}
         >
           Edit Profile
-        </button>
+        </button></>}
       </section>
 
       <section className="options_creator_profile_info">
-        <div
+        {moreInfo && <div
           onClick={() => {
             window.open(`/c/${userData?.slug}`);
           }}
         >
           View Public Profile
-        </div>
+        </div>}
         <div
           onClick={() => {
             window.open("/pricing");

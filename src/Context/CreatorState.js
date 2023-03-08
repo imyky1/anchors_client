@@ -413,6 +413,24 @@ const CreatorState = (props) => {
   };
 
 
+  // get waitlist Number-------------------------------
+  const getWaitlistNumber = async () => {
+    try {
+      const response = await fetch(`${host}/api/tellUsMore/getWailtistNumber`, {
+        method: "GET",
+        headers: {
+          "jwt-token":localStorage.getItem("jwtToken")
+        }
+      });
+      const json = await response.json();
+      return json
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
 
 
 
@@ -450,7 +468,8 @@ const CreatorState = (props) => {
         verifyInviteCode,
         fillTellUsMoreForm,
         getTellUsMoreFormData,
-        updateStatus
+        updateStatus,
+        getWaitlistNumber
       }}
     >
       {props.children}

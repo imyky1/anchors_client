@@ -1,4 +1,7 @@
 
+
+
+
 .pricing_section{
     display: flex;
     flex-direction: column;
@@ -7,7 +10,15 @@
     margin-top: 30px;
 }
 
-
+.pricing_header_section{
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 10px 0;
+    padding-right: 40px;
+}
 
 .pricing_container_one{
     display: flex;
