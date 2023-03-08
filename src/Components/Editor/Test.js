@@ -127,13 +127,14 @@ function Test() {
             })}} 
         <img src={url} alt="will come !!!" />;
       </div> */}
-        {/* <Canvas
-        textToShow="This is testing sample text"
-        width="1200"
-        height="450"
-        imgBackground="https://www.anchors.in:5000/api/file/1670005634078--himanshu.bf15583cd698b88970c3.jpg"
-        imgBack="../backgroundimg.png"
-      /> */}
+        <Canvas
+          textToShow="List of Top 10 YouTube Channel for Coding"
+          width="1200"
+          height="450"
+          imgBackground="https://www.anchors.in:5000/api/file/1670005634078--himanshu.bf15583cd698b88970c3.jpg"
+          imgBack="../backgroundimg.png"
+          creator_name="HIMANSHU SHEKHAR"
+        />
 
         <a
           href="https://anchors-files.s3.ap-south-1.amazonaws.com/docs/1673505520670-Result_41621037.pdf"
