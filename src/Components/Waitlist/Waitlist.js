@@ -7,10 +7,12 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import logo from "../Main Page/Images/logo-beta.png";
 import CreatorInfo from "../Modals/CreatorProfile/Modal1";
 import { creatorContext } from "../../Context/CreatorState";
+import HelpModal from "../Modals/ModalType01/HelpModal";
 
 function Waitlist() {
   const navigate = useNavigate();
   const [openCreatorModal, setOpenCreatorModal] = useState(false);
+  const [openHelpModal, setOpenHelpModal] = useState(false);
   const [wNum, setWNum] = useState(null);
   const { getAllCreatorInfo, allCreatorInfo, basicNav, getWaitlistNumber } =
     useContext(creatorContext);
@@ -52,12 +54,15 @@ function Waitlist() {
       <ToastContainer />
       <CreatorInfo
         open={openCreatorModal}
+        openHelp = {()=>{setOpenHelpModal(true)}}
         toClose={() => {
           setOpenCreatorModal(false);
         }}
         userData={basicNav}
         alternateInfo={allCreatorInfo}
       />
+
+      <HelpModal open={openHelpModal} toClose={()=>{setOpenHelpModal(false)}}/>
 
       <div className="waitlist_wrapper">
         {/* Waitlist navbar ----------------------------------------------------------------------- */}
@@ -101,7 +106,7 @@ function Waitlist() {
             Congratulations! You're on the waitlist. We'll notify you as soon as
             a spot opens up. Thanks for your patience and interest
           </p>
-          <span className="waitlist_header03">
+          <span className="waitlist_header03" onClick={()=>{window.open("https://bit.ly/anchors-invite-code")}}>
             Skip Waitlist by Invite Code
           </span>
         </section>

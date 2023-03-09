@@ -139,7 +139,7 @@ const LinkedinState = (props) => {
       if (res.success) {
         localStorage.setItem("jwtToken", res.jwtToken);
         localStorage.setItem("c_id", res.slug);
-        navigate("/tellUsMore");
+        window.open("/tellUsMore","_self");
 
       } else if (!res.success && res.already) {
         // creator already registeredd----

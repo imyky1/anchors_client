@@ -20,11 +20,13 @@ import PaymentInfo from "../Payment Information/PaymentInfo";
 import { LoadOne } from "../../../Modals/Loading";
 import { linkedinContext } from "../../../../Context/LinkedinState";
 import Waitlist from "../../../Waitlist/Waitlist";
+import HelpModal from "../../../Modals/ModalType01/HelpModal";
 
 function Home(props) {
   const location = useLocation();
   const navigate = useNavigate();
   const [openCreatorInfo, setopenCreatorInfo] = useState(false);
+  const [openHelpModal, setOpenHelpModal] = useState(false)
   const [Rating, setRating] = useState("");
   const [creatorData, setcreatorData] = useState({ Reviews: "", Services: "" });
   const {
@@ -120,7 +122,7 @@ function Home(props) {
 
 
       {localStorage.getItem("jwtToken") &&
-        localStorage.getItem("c_id") &&
+        localStorage.getItem("c_id") && basicNav?.name &&
         // checking for the status and hence removing all other routes-------------
         (basicNav?.status === 0 ? (
           <Waitlist />
@@ -131,6 +133,8 @@ function Home(props) {
               moreInfo={{ ...creatorData, Rating }}
               alternateInfo={allCreatorInfo}
             />
+            <HelpModal open={openHelpModal} toClose={()=>{setOpenHelpModal(false)}}/>
+
             <div className="right_side_home_page">
               <Navbar
                 ModalState={openCreatorInfo}
@@ -143,6 +147,7 @@ function Home(props) {
                 open={openCreatorInfo}
                 userData={basicNav}
                 alternateInfo={allCreatorInfo}
+                openHelp={()=>{setOpenHelpModal(true)}}
                 moreInfo={{ ...creatorData, Rating }}
                 toClose={() => {
                   setopenCreatorInfo(false);

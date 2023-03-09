@@ -364,7 +364,7 @@ const CreatorState = (props) => {
 
 
   // fill tell us more form-------------------------------
-  const fillTellUsMoreForm = async (inviteCode,contactNumber,platform,followers,socialLink,knownFrom,) => {
+  const fillTellUsMoreForm = async (inviteCode,contactNumber,platform,followers,socialLink,knownFrom) => {
     try {
       const response = await fetch(`${host}/api/tellUsMore/fillTellUsMoreForm`, {
         method: "POST",
@@ -382,7 +382,7 @@ const CreatorState = (props) => {
           socialLink,
           knownFrom,
           status:1,
-          updatedOn:Date.now()
+          updatedOn:Date.now(),
         })
       });
       const json = await response.json();
@@ -393,7 +393,7 @@ const CreatorState = (props) => {
   };
 
   // get tell us more form Data-------------------------------
-  const getTellUsMoreFormData = async (inviteCode,contactNumber,platform,followers,socialLink,knownFrom,) => {
+  const getTellUsMoreFormData = async () => {
     try {
       const response = await fetch(`${host}/api/tellUsMore/getTellUsMoreFormData`, {
         method: "GET",
