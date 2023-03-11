@@ -113,7 +113,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
               My Content
             </Link>
             <Link
-              to="/paymentInfo"
+              to="/paymentSummary"
               className={`${
                 (localtion.pathname === "/paymentInfo" || localtion.pathname === "/paymentSummary") &&
                 "sidebar_navigation_active"

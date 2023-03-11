@@ -11,6 +11,7 @@ function fields_Labels1(props) {
     <div className="textfiled_container_01">
       <span className="label_type_01">
         {props.label}{" "}
+        {props?.anchorLink && <a href={props?.anchorLink?.url} target="_blank" rel="noreferrer" style={{textDecoration:"underLine"}}>{props?.anchorLink?.text}</a>}
         {props?.required && <span style={{ color: "red" }}>*</span>}
       </span>
       <input

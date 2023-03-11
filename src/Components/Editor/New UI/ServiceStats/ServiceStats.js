@@ -14,6 +14,7 @@ import { SuperSEO } from "react-super-seo";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { host } from "../../../../config/config";
 import { LoadTwo } from "../../../Modals/Loading";
+import { toast, ToastContainer } from "react-toastify";
 
 const ServiceStats = (props) => {
   const { slug } = useParams();
@@ -137,14 +138,28 @@ const ServiceStats = (props) => {
   };
 
   useEffect(() => {
-    setopenLoading(true);
-    handler().then(()=>{
-      setopenLoading(false);
-    })
+    const process = async () =>{
+      await handler()
+    }
+
+    toast.promise(
+      process,
+      {
+        pending: "Please Wait..",
+        error: "Try Again by reloading the page!",
+      },
+      {
+        position: "top-center",
+        autoClose: 2000,
+      }
+    );
+
+    process()
   }, [serviceInfo, workshopInfo]);
 
   return (
     <>
+     <ToastContainer/>
       {(openLoading || !approvedUser) && <LoadTwo open={!approvedUser} />}
 
       {approvedUser && (

@@ -15,15 +15,25 @@ import { creatorContext } from "../../Context/CreatorState";
 function TellUsMore() {
   const navigate = useNavigate();
   const { verifyInviteCode, fillTellUsMoreForm,getTellUsMoreFormData,updateStatus } = useContext(creatorContext);
+  const [formAlreadyFilled, setFormAlreadyFilled] = useState(false)
 
    
   useEffect(() => {
     getTellUsMoreFormData().then((e)=>{
-        if(e?.success){
+        if(e?.success && e?.already){
             setformData(e?.form)
+            setFormAlreadyFilled(true)
+            toast.info("You have already filled the form",{
+              position:"top-center",
+              autoClose:2000
+            })
+            setTimeout(() => {
+              navigate("/dashboard")
+            }, 2000);
         }
     })
   }, []);
+  
 
   const [verifiedCode, setVerifiedCode] = useState(false);
   const [formData, setformData] = useState({
@@ -109,11 +119,11 @@ function TellUsMore() {
                   updateStatus()
                   toast.success("Hey anchor, Welcome to anchors platform",{
                     position:"top-center",
-                    autoClose:1500
+                    autoClose:3500
                   })
                   setTimeout(() => {
                     navigate("/dashboard")
-                  }, 1500);
+                  }, 3500);
                 }
                 else{
                     navigate("/waitlist")
@@ -124,11 +134,11 @@ function TellUsMore() {
                    updateStatus()
                   toast.success("Hey anchor, Welcome to anchors platform",{
                     position:"top-center",
-                    autoClose:1500
+                    autoClose:3500
                   })
                   setTimeout(() => {
                     navigate("/dashboard")
-                  }, 1500);
+                  }, 3500);
                 }
                 else{
                     navigate("/waitlist")
@@ -139,11 +149,11 @@ function TellUsMore() {
                    updateStatus()
                   toast.success("Hey anchor, Welcome to anchors platform",{
                     position:"top-center",
-                    autoClose:1500
+                    autoClose:3500
                   })
                   setTimeout(() => {
                     navigate("/dashboard")
-                  }, 1500);
+                  }, 3500);
                 }
                 else{
                     navigate("/waitlist")
@@ -154,11 +164,11 @@ function TellUsMore() {
                    updateStatus()
                   toast.success("Hey anchor, Welcome to anchors platform",{
                     position:"top-center",
-                    autoClose:1500
+                    autoClose:3500
                   })
                   setTimeout(() => {
                     navigate("/dashboard")
-                  }, 1500);
+                  }, 3500);
                 }
                 else{
                     navigate("/waitlist")
@@ -169,11 +179,11 @@ function TellUsMore() {
                    updateStatus()
                   toast.success("Hey anchor, Welcome to anchors platform",{
                     position:"top-center",
-                    autoClose:1500
+                    autoClose:3500
                   })
                   setTimeout(() => {
                     navigate("/dashboard")
-                  }, 1500);
+                  }, 3500);
                 }
                 else{
                     navigate("/waitlist")
@@ -204,6 +214,8 @@ function TellUsMore() {
       });
     }
   };
+
+  
 
   if(!localStorage.getItem("jwtToken") || !localStorage.getItem("c_id")){
     window.open("/","_self")
@@ -239,6 +251,7 @@ function TellUsMore() {
               <TextField1
                 label="Do you have Invite Code?"
                 name="inviteCode"
+                anchorLink = {{text : "(know more)" , url:"https://bit.ly/anchors-invite-code"}}
                 id="inviteCode"
                 placeholder="Enter Invite Code"
                 onChange={handleChange}
@@ -309,9 +322,9 @@ function TellUsMore() {
               }}
             />
           </div>
-          <div className="signup_buttons">
+          {!formAlreadyFilled &&  <div className="signup_buttons">
             <button onClick={handleSubmit}>Submit</button>
-          </div>
+          </div>}
         </div>
       </div>
       <SuperSEO title="Anchors - Tell us More" />

@@ -85,9 +85,9 @@
   cursor: pointer;
 }
 
-.hover_span_modal_creatorinfo:hover{
-    color: #0083fe;
-    cursor: pointer;
+.hover_span_modal_creatorinfo:hover {
+  color: #0083fe;
+  cursor: pointer;
 }
 
 /* options creator info side modal --------------------------------------- */
@@ -135,11 +135,11 @@
 
 .logout_button_modal i {
   cursor: pointer;
-  transition:transform 0.3s ease-in-out;
-  
+  transition: transform 0.3s ease-in-out;
 }
 
-.logout_button_modal i:hover{
-  color:black;
+.logout_button_modal i:hover {
+  color: black;
   transform: scale(1.05);
 }
+

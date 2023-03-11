@@ -139,7 +139,7 @@ const LinkedinState = (props) => {
       if (res.success) {
         localStorage.setItem("jwtToken", res.jwtToken);
         localStorage.setItem("c_id", res.slug);
-        navigate("/tellUsMore");
+        window.open("/tellUsMore","_self");
 
       } else if (!res.success && res.already) {
         // creator already registeredd----
@@ -195,13 +195,11 @@ const LinkedinState = (props) => {
       const res = await response.json();
       if (res.success) {
         //const status = await getStatus(res.jwtToken);
+        localStorage.setItem("jwtToken", res.jwtToken);
+        localStorage.setItem("c_id", res.slug);
         if (res.status === 1) {
-          localStorage.setItem("jwtToken", res.jwtToken);
-          localStorage.setItem("c_id", res.slug);
           navigate("/dashboard");
         } else {
-          localStorage.removeItem("isUser");
-          localStorage.removeItem("from");
           navigate("/waitlist");
         }
       } else if (!res.success && !res.already) {

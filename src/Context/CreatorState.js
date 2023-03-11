@@ -364,7 +364,7 @@ const CreatorState = (props) => {
 
 
   // fill tell us more form-------------------------------
-  const fillTellUsMoreForm = async (inviteCode,contactNumber,platform,followers,socialLink,knownFrom,) => {
+  const fillTellUsMoreForm = async (inviteCode,contactNumber,platform,followers,socialLink,knownFrom) => {
     try {
       const response = await fetch(`${host}/api/tellUsMore/fillTellUsMoreForm`, {
         method: "POST",
@@ -382,7 +382,7 @@ const CreatorState = (props) => {
           socialLink,
           knownFrom,
           status:1,
-          updatedOn:Date.now()
+          updatedOn:Date.now(),
         })
       });
       const json = await response.json();
@@ -393,7 +393,7 @@ const CreatorState = (props) => {
   };
 
   // get tell us more form Data-------------------------------
-  const getTellUsMoreFormData = async (inviteCode,contactNumber,platform,followers,socialLink,knownFrom,) => {
+  const getTellUsMoreFormData = async () => {
     try {
       const response = await fetch(`${host}/api/tellUsMore/getTellUsMoreFormData`, {
         method: "GET",
@@ -401,6 +401,24 @@ const CreatorState = (props) => {
           Accept: "application/json",
           "Content-Type": "application/json",
           "Access-Control-Allow-Credentials": true,
+          "jwt-token":localStorage.getItem("jwtToken")
+        }
+      });
+      const json = await response.json();
+      return json
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  // get waitlist Number-------------------------------
+  const getWaitlistNumber = async () => {
+    try {
+      const response = await fetch(`${host}/api/tellUsMore/getWailtistNumber`, {
+        method: "GET",
+        headers: {
           "jwt-token":localStorage.getItem("jwtToken")
         }
       });
@@ -450,7 +468,8 @@ const CreatorState = (props) => {
         verifyInviteCode,
         fillTellUsMoreForm,
         getTellUsMoreFormData,
-        updateStatus
+        updateStatus,
+        getWaitlistNumber
       }}
     >
       {props.children}

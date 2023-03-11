@@ -86,36 +86,27 @@ function Pricing() {
         }}
       />
       <div className="main_pricing_container">
-        <div className="mainpage_header creator_login_header ">
+        <div className="pricing_header_section ">
           <Link to="/" style={{textDecoration:"none",color:"unset"}}>
           <div className="logo" >
             <img src={require("../logo.png")} alt="Logo" />
             <span>anchors</span>
             <p className="beta_tagname">Beta</p>
           </div></Link>
-          <Link
-            to={
-              localStorage.getItem("jwtToken")
-                ? "/dashboard"
-                : "/login/creators"
-            }
+
+          <button
+            className="login_creator_mainpage"
+            style={{backgroundColor:"#3c3a3a"}}
+            onClick={() => {
+              mixpanel.track("Clicked Creator's Login on Main Page");
+              localStorage.getItem("jwtToken") ? navigate("/dashboard") : navigate("/login/creators");
+            }}
           >
-            <button
-              className="waitlist"
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                border: "2px solid black",
-              }}
-            >
-              {localStorage.getItem("jwtToken") &&
-              localStorage.getItem("isUser") === ""
-                ? "My Account"
-                : "Login as Creator"}
-            </button>
-          </Link>
+            {localStorage.getItem("jwtToken") ? "My Account" : "Creator's Login"}
+          </button>
         </div>
 
+      
         <div className="pricing_section">
           <div className="pricing_container_one">
             <span>Our pricing is</span>

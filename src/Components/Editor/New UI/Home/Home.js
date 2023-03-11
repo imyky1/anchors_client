@@ -18,15 +18,16 @@ import Users from "../userList/Users";
 import PaymentSummary from "../Payment Summary/paymentSummary";
 import PaymentInfo from "../Payment Information/PaymentInfo";
 import { LoadOne } from "../../../Modals/Loading";
-import Status0Popup from "../../../Modals/ServiceSuccess/Modal1"
 import { linkedinContext } from "../../../../Context/LinkedinState";
+import Waitlist from "../../../Waitlist/Waitlist";
+import HelpModal from "../../../Modals/ModalType01/HelpModal";
 
 function Home(props) {
   const location = useLocation();
   const navigate = useNavigate();
   const [openCreatorInfo, setopenCreatorInfo] = useState(false);
+  const [openHelpModal, setOpenHelpModal] = useState(false)
   const [Rating, setRating] = useState("");
-  const [showPopup, setshowPopup] = useState(false)
   const [creatorData, setcreatorData] = useState({ Reviews: "", Services: "" });
   const {
     getAllCreatorInfo,
@@ -45,7 +46,6 @@ function Home(props) {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
-  
 
   // useeffct to give direction to the flow to users + creator + developers
   useEffect(() => {
@@ -56,10 +56,8 @@ function Home(props) {
     ) {
       if (localStorage.getItem("jwtToken")) {
         navigate(`${localStorage.getItem("url")}`);
-
       } else if (localStorage.getItem("from") === "linkedin") {
         loginlinkedinUser();
-
       } else {
         usergooglelogin();
       }
@@ -99,44 +97,23 @@ function Home(props) {
   }, []);
 
   useEffect(() => {
-      if ((localStorage.getItem("jwtToken") && localStorage.getItem("c_id"))) {
-        getCreatorExtraDetails().then((e) => {
-          setcreatorData({
-            ...creatorData,
-            Reviews: e?.data?.reviews,
-            Services: e?.data?.services,
-          });
+    if (localStorage.getItem("jwtToken") && localStorage.getItem("c_id")) {
+      getCreatorExtraDetails().then((e) => {
+        setcreatorData({
+          ...creatorData,
+          Reviews: e?.data?.reviews,
+          Services: e?.data?.services,
         });
-  
-        getAllCreatorInfo().then((e) => {
-          getRatingCreator(e).then((e1) => {
-            setRating(e1);
-          });
+      });
+
+      getAllCreatorInfo().then((e) => {
+        getRatingCreator(e).then((e1) => {
+          setRating(e1);
         });
-      }
+      });
+    }
     // eslint-disable-next-line
   }, [localStorage.getItem("jwtToken")]);
-
-
-  // checks if the status of the creator is zero
-  useEffect(() => {
-    if(basicNav?.status === 0){       // logout the person then give him message
-      localStorage.removeItem("jwtToken")
-      localStorage.removeItem("c_id")
-      localStorage.removeItem("isUser")
-      toast.info("You cannot access the platform, Check for help on Main Page",{
-        position:"top-center",
-        autoClose:5000
-      })
-      setTimeout(() => {
-        navigate("/")
-      }, 5000);
-    }
-
-  }, [basicNav])
-  
-
-  
 
   return (
     <>
@@ -144,93 +121,100 @@ function Home(props) {
       {location.pathname === "/check" && <LoadOne />}
 
 
-      {localStorage.getItem("jwtToken") && localStorage.getItem("c_id") && (
-        <div className="main_home_page_container">
-          <Sidebar
-            userData={basicNav}
-            moreInfo={{ ...creatorData, Rating }}
-            alternateInfo={allCreatorInfo}
-          />
-          <div className="right_side_home_page">
-            <Navbar
-              ModalState={openCreatorInfo}
-              ChangeModalState={(e) => setopenCreatorInfo(e)}
+      {localStorage.getItem("jwtToken") &&
+        localStorage.getItem("c_id") && basicNav?.name &&
+        // checking for the status and hence removing all other routes-------------
+        (basicNav?.status === 0 ? (
+          <Waitlist />
+        ) : (
+          <div className="main_home_page_container">
+            <Sidebar
               userData={basicNav}
-              alternateInfo={allCreatorInfo}
-            />
-
-            <CreatorInfo
-              open={openCreatorInfo}
-              userData={basicNav}
-              alternateInfo={allCreatorInfo}
               moreInfo={{ ...creatorData, Rating }}
-              toClose={() => {
-                setopenCreatorInfo(false);
-              }}
+              alternateInfo={allCreatorInfo}
             />
-            <div className="remaining">
-              {/* if invite code does not exist then it should be created ------------------------------- */}
-              {!basicNav?.inviteCode ? (
-                <Routes>
-                  <Route
-                    path="/*"
-                    element={<EditProfile progress={props.progress} />}
-                  />
-                </Routes>
-              ) : (
-                <Routes>
-                  {/* Dashboard Route ---------------------------------------------------- */}
-                  <Route path="/dashboard" element={<Dashboard />} />
+            <HelpModal open={openHelpModal} toClose={()=>{setOpenHelpModal(false)}}/>
 
-                  {/* Service List Route ---------------------------------------------------- */}
-                  <Route
-                    path="/mycontents"
-                    element={<ServiceDetailPage progress={props.progress} />}
-                  />
+            <div className="right_side_home_page">
+              <Navbar
+                ModalState={openCreatorInfo}
+                ChangeModalState={(e) => setopenCreatorInfo(e)}
+                userData={basicNav}
+                alternateInfo={allCreatorInfo}
+              />
 
-                  {/* Create service Route ---------------------------------------------------- */}
-                  <Route
-                    path="/createservice"
-                    element={<Create progress={props.progress} />}
-                  />
-                  <Route
-                    path="/editprofile"
-                    element={<EditProfile progress={props.progress} />}
-                  />
-                  <Route
-                    path="/reviews"
-                    element={<UserReviews progress={props.progress} />}
-                  />
-                  <Route
-                    path="/requests"
-                    element={<UserRequest progress={props.progress} />}
-                  />
-                  <Route
-                    path="/servicestats/:slug"
-                    element={<ServiceStats progress={props.progress} />}
-                  />
-                  <Route
-                    path="/paymentSummary"
-                    element={<PaymentSummary progress={props.progress} />}
-                  />
-                  <Route
-                    path="/paymentInfo"
-                    element={<PaymentInfo progress={props.progress} />}
-                  />
-                  <Route
-                    path="/viewUserDetails/:slug"
-                    element={<Users progress={props.progress} />}
-                  />
-                  
-                  {/* exception  Route for false input ---------------------------------------------------- */}
-                  <Route path="/*" element={<Dashboard />} />
-                  
-                </Routes>
-              )}
+              <CreatorInfo
+                open={openCreatorInfo}
+                userData={basicNav}
+                alternateInfo={allCreatorInfo}
+                openHelp={()=>{setOpenHelpModal(true)}}
+                moreInfo={{ ...creatorData, Rating }}
+                toClose={() => {
+                  setopenCreatorInfo(false);
+                }}
+              />
+              <div className="remaining">
+                {/* if invite code does not exist then it should be created ------------------------------- */}
+                {!basicNav?.inviteCode ? (
+                  <Routes>
+                    <Route
+                      path="/*"
+                      element={<EditProfile progress={props.progress} />}
+                    />
+                  </Routes>
+                ) : (
+                  <Routes>
+                    {/* Dashboard Route ---------------------------------------------------- */}
+                    <Route path="/dashboard" element={<Dashboard />} />
+
+                    {/* Service List Route ---------------------------------------------------- */}
+                    <Route
+                      path="/mycontents"
+                      element={<ServiceDetailPage progress={props.progress} />}
+                    />
+
+                    {/* Create service Route ---------------------------------------------------- */}
+                    <Route
+                      path="/createservice"
+                      element={<Create progress={props.progress} />}
+                    />
+                    <Route
+                      path="/editprofile"
+                      element={<EditProfile progress={props.progress} />}
+                    />
+                    <Route
+                      path="/reviews"
+                      element={<UserReviews progress={props.progress} />}
+                    />
+                    <Route
+                      path="/requests"
+                      element={<UserRequest progress={props.progress} />}
+                    />
+                    <Route
+                      path="/servicestats/:slug"
+                      element={<ServiceStats progress={props.progress} />}
+                    />
+                    <Route
+                      path="/paymentSummary"
+                      element={<PaymentSummary progress={props.progress} />}
+                    />
+                    <Route
+                      path="/paymentInfo"
+                      element={<PaymentInfo progress={props.progress} />}
+                    />
+                    <Route
+                      path="/viewUserDetails/:slug"
+                      element={<Users progress={props.progress} />}
+                    />
+
+                    {/* exception  Route for false input ---------------------------------------------------- */}
+                    <Route path="/*" element={<Dashboard />} />
+                  </Routes>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        ))}
       <ToastContainer />
     </>
   );

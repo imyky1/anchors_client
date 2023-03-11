@@ -29,7 +29,7 @@ function ServiceDetailPage(props) {
 
   useEffect(() => {
     setOpenLoading(true);
-    getallservices().then(async () => {
+    getallservices().then(() => {
       setSelected("all")
       setOpenLoading(false);
     });
@@ -38,7 +38,6 @@ function ServiceDetailPage(props) {
 
   // no need of reversing the array of serices it is inverted from backend
   useEffect(() => {
-    setOpenLoading(true)
     let list = services?.res
     if(selected === "pdf"){
       setrevArray(list?.filter(e=>{return e?.stype === 0}));
@@ -51,7 +50,6 @@ function ServiceDetailPage(props) {
     }else{
       setrevArray(list);
     }
-    setOpenLoading(false)
   }, [services,selected]);
 
   const [OpenOption, setOpenOption] = useState(0);
@@ -129,7 +127,6 @@ function ServiceDetailPage(props) {
       }
     }
   }
-
 
 
   return (
