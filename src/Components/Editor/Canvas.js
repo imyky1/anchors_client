@@ -66,15 +66,17 @@ class Canvas extends Component {
     // ctx.fillStyle = "blue";
     // ctx.fillRect(0, 0, this.canvas.current.width, this.canvas.current.height);
     var colors = [
-      "#a18cd1",
-      "#fbc2eb",
-      "#ff8177",
-      "#b12a5b",
-      "#84fab0",
-      "#8fd3f4",
-      "#a1c4fd",
-      "#c2e9fb",
+      "rgba(225, 0, 71, 0)",
+      "rgba(147, 0, 0, 1)",
+      "rgba(117, 36, 53, 1)",
+      "rgba(225, 0, 71, 0)",
+      "rgba(121, 40, 54, 1)",
+      "rgba(225, 0, 71, 0)",
+      "rgba(35, 36, 38, 1)",
+      "rgba(225, 0, 71, 0)",
     ];
+    console.log(this.props.textToShow, "txt");
+
     //chose a number between 0 and 7
     var randomNumber = Math.floor(Math.random() * colors.length);
     var randomNumber2;
@@ -82,6 +84,7 @@ class Canvas extends Component {
     if (randomNumber < 7) {
       randomNumber2 = randomNumber + 1;
     } else if (randomNumber === 7) {
+      console.log("seven");
       randomNumber2 = randomNumber - 1;
     }
 

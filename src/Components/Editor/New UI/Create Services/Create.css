@@ -63,6 +63,9 @@
   width: 47%;
 }
 
+.min-heightfield{
+  min-height: 37px;
+}
 .left_section_form > div {
   margin-bottom: 30px;
 }
@@ -123,4 +126,20 @@
     align-items: center;
     justify-content: center;
     margin: 40px 0;
+}
+
+
+.ultimatewrapper_defaultbanner{
+    width: 90%;
+    height: 59%;
+    margin: 10vh auto;
+    border: 2px solid rgb(226, 226, 226);
+    border-radius: 10px;
+    overflow: hidden;
+  
+}
+.container_defaultbanner{
+      height: 85vh;
+        width: 92vw;
+        margin-right: 30vw;
 }

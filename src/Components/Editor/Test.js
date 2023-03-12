@@ -9,7 +9,7 @@ import "./teststyle.css";
 import "add-to-calendar-button/assets/css/atcb.css";
 import { FormHelperText, Modal } from "@mui/material";
 import PreviewDocument from "../Modals/PreviewDoc";
-import Canvas from "./Canvas";
+import Canvas from "./New UI/Create Services/Canvas";
 
 function Test() {
   const { truecallerlogin, truecallervalue } = useContext(linkedinContext);
