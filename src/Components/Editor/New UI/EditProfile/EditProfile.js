@@ -43,7 +43,6 @@ const EditProfile = (props) => {
 
   const [data, setdata] = useState({
     name: "",
-    phone: 0,
     tagLine: "",
     linkedInLink: "",
     ytLink: "",
@@ -65,11 +64,11 @@ const EditProfile = (props) => {
   data1.append("file", previewSourceOne);
 
   useEffect(() => {
-    getTellUsMoreFormData().then((e) => {
-      if (e?.success) {
-        setdata({ ...data, phone: e?.form?.contactNumber });
-      }
-    });
+    // getTellUsMoreFormData().then((e) => {
+    //   if (e?.success) {
+    //     setdata({ ...data, phone: e?.form?.contactNumber });
+    //   }
+    // });
     getAllCreatorInfo();
     // eslint-disable-next-line
   }, []);
@@ -80,6 +79,7 @@ const EditProfile = (props) => {
       ...allCreatorInfo,
     });
     setContent(allCreatorInfo?.aboutMe);
+    setPhone(allCreatorInfo?.phone);
     // eslint-disable-next-line
   }, [getAllCreatorInfo]);
 
@@ -88,6 +88,11 @@ const EditProfile = (props) => {
   // Change in values of input tags
   const handleChange = (e) => {
     setdata({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const changephone = (e) => {
+    console.log(e);
+    setPhone(e.target.value);
   };
 
   // IMAGE RESIZE
@@ -121,6 +126,7 @@ const EditProfile = (props) => {
   };
 
   const [showimg, setShowimg] = useState(null);
+  const [phone, setPhone] = useState(0);
 
   function importData() {
     let input = document.createElement("input");
@@ -145,17 +151,19 @@ const EditProfile = (props) => {
     };
     input.click();
   }
-
   const onSubmit = async (e) => {
+    let phone_number = phone;
+    let sample_number = phone;
+    console.log(phone_number);
     props.progress(0);
     setOpenLoading(true);
-    e?.preventDefault();
-    if (
-      data?.name &&
-      data?.tagLine &&
-      data?.phone?.toString().length > 9 &&
-      data?.dob
-    ) {
+    e.preventDefault();
+    sample_number = sample_number.toString();
+    sample_number = sample_number.length;
+
+    console.log(sample_number);
+    if (data?.name && data?.tagLine && data?.dob && sample_number === 10) {
+      console.log(phone, "ww");
       var profile = previewSourceOne && (await Uploadfile(data1));
       const newData = {
         ...data,
@@ -165,6 +173,7 @@ const EditProfile = (props) => {
           : data?.profile
           ? data?.profile
           : basicNav?.photo,
+        phone: phone_number,
       };
       const success = setCreatorInfo(newData);
       if (success) {
@@ -280,9 +289,9 @@ const EditProfile = (props) => {
               name="phone"
               id="phone"
               required={true}
-              value={data.phone}
+              value={phone}
               type="number"
-              onChange={handleChange}
+              onChange={changephone}
             />
 
             <TextField1
