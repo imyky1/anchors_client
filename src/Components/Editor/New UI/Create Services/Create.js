@@ -31,6 +31,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Cropper from "react-easy-crop";
+import { SuperSEO } from "react-super-seo";
 
 function Create(props) {
   const navigate = useNavigate();
@@ -527,6 +528,7 @@ function Create(props) {
       ) : (
         ""
       )}
+      <SuperSEO title="Anchors - Create Service" />
     </>
   );
 }

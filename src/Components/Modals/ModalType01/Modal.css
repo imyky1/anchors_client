@@ -99,7 +99,9 @@
   width: 100%;
   height: 100%;
   background-color: rgb(205 201 201 / 38%);
-  position: absolute;
+  position: fixed;
+  left: 0;
+  top: 0;
   z-index: 999;
   display: flex;
   align-items:center ;
@@ -195,5 +197,24 @@
     width: 131px;
   height: 48px;
   font-size: 16px;
+  }
+
+  /* help modal css */
+
+  .help_inside_container{
+    width: 80%;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    font-size: 15px;
+    line-height: 19px;
+  }
+  
+  .help_inside_container > span{
+    font-size: 16px;
+  }
+  
+  .header_help01{
+    font-size: 24px;
+    line-height: 30px;
   }
 }

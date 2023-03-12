@@ -19,11 +19,13 @@ import mixpanel from "mixpanel-browser";
 import Footer from "../Footer/Footer";
 import Modal1 from "../Modals/ModalType01/Modal1";
 import Modal2 from "../Modals/ModalType01/Modal2";
+import HelpModal from "../Modals/ModalType01/HelpModal";
 
 function Main() {
   const [data, setData] = useState("");
   const navigate = useNavigate();
   const { getallfb } = useContext(feedbackcontext);
+  const [openHelpModal, setopenHelpModal] = useState(false)
 
   useEffect(() => {
     getallfb().then((e) => {
@@ -93,6 +95,7 @@ function Main() {
   return (
     <>
       <ToastContainer />
+      <HelpModal open={openHelpModal} toClose={()=>{setopenHelpModal(false)}}/>
       <Modal1
         open={openModalSuccess}
         toClose={() => {
@@ -136,14 +139,16 @@ function Main() {
               Become <span style={{ color: "#fc6262" }}>Anchor</span>
             </h1>
             <p>
-              Monetize your{" "}
+            An INVITE ONLY community for creators to monetize your {" "}
               <span style={{ color: "#ffffff" }}>
-                Content, skill, Expertise{" "}
+                Content, skill{" "}
+              </span> & {" "}
+              <span style={{ color: "#ffffff" }}>
+                expertise.
               </span>
-              and help your audience to grow.
             </p>
 
-            <button onClick={handleStart}>Start Now</button>
+            <button onClick={handleStart}>I want to Join</button>
           </div>
           <img
             src={require("./Images/hero_img.jpg")}
@@ -154,27 +159,27 @@ function Main() {
 
         {/* steps of anchors verification */}
         <section className="steps_anchors_mainpage">
-          <h1 className="headers1_mainpage">Just a step ahead</h1>
+          <h1 className="headers1_mainpage">Few Clicks Away</h1>
           <div>
             <div className="steps">
               <div>
                 <img src={require("./Images/stars.png")} alt="" />
                 <h1 className="headers2_mainpage">1</h1>
-                <p>Apply to be an anchor</p>
+                <p>Check Eligibility</p>
               </div>
             </div>
             <div className="steps">
               <div>
                 <img src={require("./Images/stars.png")} alt="" />
                 <h1 className="headers2_mainpage">2</h1>
-                <p>we will review your profile</p>
+                <p>Apply to be an Anchor</p>
               </div>
             </div>
             <div className="steps">
               <div>
                 <img src={require("./Images/stars.png")} alt="" />
                 <h1 className="headers2_mainpage">3</h1>
-                <p>Hurray,proud to be an anchor</p>
+                <p>Unlock the gates to EXCLUSIVITY</p>
               </div>
             </div>
           </div>
@@ -185,111 +190,83 @@ function Main() {
           <img src={require("./Images/main-4.png")} alt="" />
           <div className="why_anchors_desc">
             <h1 className="headers1_mainpage">
-              Why to be an <span style={{ color: "#fc6262" }}>anchor</span>
+            Why am I <span style={{ color: "#fc6262" }}>here?</span>
             </h1>
             <span className="text_mainpage1">
-              Get access of full stack solution to monetize and help your
-              audience
+            To avail the benefits of a helpful, like-minded yet diverse community! 
             </span>
             <div>
               <div className="why_anchors_steps_boxes">
                 <i class="fa-solid fa-people-group fa-2x"></i>
-                <span>Exclusive Creator Community</span>
+                <span>An All-Access Pass</span>
                 <p>
-                  anchors is only for exclusive creators from all social
-                  platforms.
+                anchors is an EXCLUSIVE creator community from across platforms brought together to achieve greatness.
                 </p>
               </div>
               <div className="why_anchors_steps_boxes">
                 <i class="fa-solid fa-chart-bar fa-2x"></i>
-                <span>Detailed Analysis </span>
+                <span>Crunched Numbers & Data</span>
                 <p>
-                  Get Completed analytics for service,profile audience and make
-                  decision accordingly.
+                A detailed analysis of all things important to streamline & amplify your growth.
                 </p>
               </div>
               <div className="why_anchors_steps_boxes">
                 <i class="fa-solid fa-circle-play fa-2x"></i>
-                <span>Offer Free/Paid Content</span>
+                <span>Complete Autonomy!</span>
                 <p>
-                  Complete control on your service whether you want to use
-                  free/paid content.
+                Want to charge for some content but share the rest for free? You're free to make your decisions.
                 </p>
               </div>
               <div className="why_anchors_steps_boxes">
                 <i class="fa-solid fa-masks-theater fa-2x"></i>
-                <span>Know your Audience</span>
+                <span>Meaningful Interactions</span>
                 <p>
-                  anchors enable your audience to accept your query and send to
-                  you.
+                Let your followers tell you they love you and for what. A simple, clean way to steer your growth.
                 </p>
               </div>
             </div>
-            {/* <div>
-            <span className="text_mainpage1">
-              <i class="fa-solid fa-check"></i>Detailed Analysis Report
-            </span>
-            <span className="text_mainpage1">
-              <i class="fa-solid fa-check"></i>Offer workshops based on your
-              content
-            </span>
-            <span className="text_mainpage1">
-              <i class="fa-solid fa-check"></i>Accept payment directly from
-              audience.
-            </span>
-            <span className="text_mainpage1">
-              <i class="fa-solid fa-check"></i>Communicate with audience
-            </span>
-            <span className="text_mainpage1">
-              <i class="fa-solid fa-check"></i>Premium community access
-            </span>
-            <span className="text_mainpage1">
-              <i class="fa-solid fa-check"></i>Connect with audience to know
-              insights{" "}
-            </span>
-          </div> */}
+            
           </div>
         </section>
 
         {/* What can you upload facilities of anchors */}
         <section className="facilities">
-          <h1 className="headers1_mainpage">What all you can upload </h1>
+          <h1 className="headers1_mainpage">What all can I do?</h1>
           <span>
-            Anchors empower you to share curated content and expertise in
-            various formats to a targeted audience
+          Empower yourself by sharing content in your choice of format.
           </span>
           <div className="facilities_boxes">
             <div>
               <i class="fa-solid fa-circle-play fa-xl"></i>
               <span>Video</span>
-              <p>Recordings, Lecture, Concepts etc</p>
+              <p>Add a personal touch with Interview Q&A's, How-to Tutorials, Lectures etc. to engage your audience</p>
             </div>
             <div>
               <i class="fa-regular fa-file-lines fa-xl"></i>
               <span>Documents</span>
-              <p>Notes,Interview Questions concepts etc.</p>
+              <p>Express yourself and share concepts, tricks and tips and many more things via any document format</p>
             </div>
             <div>
               <i class="fa-regular fa-file-excel fa-xl"></i>
               <span>Excel Sheets</span>
-              <p>Curated Lists, Opportunity list etc.</p>
+              <p>From curated lists to opportunity lists, you can upload whatever you want via simple (or complex) Excel sheets</p>
             </div>
             <div>
               <i class="fa-regular fa-image fa-xl"></i>
               <span>Image Assets</span>
-              <p>Wallpapers, Artworks,Graphics etc</p>
+              <p>Artworks, Wallpapers & other graphics are indispensible. Upload photos that hook your audience</p>
             </div>
           </div>
         </section>
 
         {/* join and eligibility section */}
         <section className="eligibility_mainpage" id="eligibility">
-          <h1 className="headers1_mainpage">Join our team as an anchor</h1>
+          <h1 className="headers1_mainpage">Do you have what it takes?</h1>
           <p>
-            Unlocking the full potential of the creator economy through
-            boundless innovation and sustainable growth
+          To unlock your full potential in a community exclusively for you! 
+          {/* through boundless innovation and sustainable growth */}
           </p>
-          <span>Choose a platform </span>
+          <span>Choose a platform - Put your best foot forward</span>
           <div className="eligibility_check_section">
             <section>
               <span
@@ -335,17 +312,15 @@ function Main() {
             />
           </div>
           <button onClick={handleCheckEligibility}>
-            {window.screen.width < 600
-              ? "Let’s Get Started"
-              : "Check Eligibility"}
+             Check Eligibility
           </button>
         </section>
 
         {/* featured creators section */}
         <section className="featured_creators" id="featured-creators">
-          <h1 className="headers1_mainpage">People who Trust us </h1>
+          <h1 className="headers1_mainpage">Where's the trust?  </h1>
           <span>
-            Building Trust: The Key to Strong and Lasting Relationships
+          Creators that came, that saw, that loved
           </span>
           <div className="creator_section_cardsection">
             {/* Different for mobile and pc ---------------------------------------------------------------------------------------- */}
@@ -389,7 +364,7 @@ function Main() {
                       <div className="creator_section_imagewrap">
                         <div className="creator_section_imagetext_text">
                           <span>Himanshu Shekhar</span>
-                          <span>Linkedin 60K Followers</span>
+                          <span>Linkedin 65K Followers</span>
                         </div>
                         <div
                           className="creator_section_icon"
@@ -425,7 +400,7 @@ function Main() {
                       <div className="creator_section_imagewrap">
                         <div className="creator_section_imagetext_text">
                           <span>Himanshu Kumar</span>
-                          <span>Linkedin 94K Followers</span>
+                          <span>Linkedin 111K Followers</span>
                         </div>
                         <div
                           className="creator_section_icon"
@@ -482,7 +457,7 @@ function Main() {
                     <div className="creator_section_imagewrap">
                       <div className="creator_section_imagetext_text">
                         <span>Himanshu Shekhar</span>
-                        <span>Linkedin 60K Followers</span>
+                        <span>Linkedin 65K Followers</span>
                       </div>
                       <div className="creator_section_icon">
                         <BsLinkedin
@@ -518,7 +493,7 @@ function Main() {
                     <div className="creator_section_imagewrap">
                       <div className="creator_section_imagetext_text">
                         <span>Himanshu Kumar</span>
-                        <span>Linkedin 94K Followers</span>
+                        <span>Linkedin 111K Followers</span>
                       </div>
                       <div className="creator_section_icon">
                         <BsLinkedin
@@ -554,7 +529,7 @@ function Main() {
 
         {/* Feedback or wall of love section */}
         <section className="wall_of_love">
-          <h1 className="headers1_mainpage">Wall of Love</h1>
+          <h1 className="headers1_mainpage">Nothing beats Audience Reviews</h1>
           <div>
             {data
               ? data
@@ -589,8 +564,9 @@ function Main() {
               : ""}
           </div>
         </section>
-        <Footer />
+        <Footer openHelp={()=>{setopenHelpModal(true)}}/>
       </div>
+        
     </>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { SuperSEO } from "react-super-seo";
 import { toast } from "react-toastify";
 import { paymentContext } from "../../../../Context/PaymentState";
 import { LoadTwo } from "../../../Modals/Loading";
@@ -111,6 +112,7 @@ function PaymentInfo() {
           <Button1 text="Save and Publish" onClick={handleSubmit} />
         </section>
       </div>
+      <SuperSEO title="Anchors - Payment Details" />
     </>
   );
 }

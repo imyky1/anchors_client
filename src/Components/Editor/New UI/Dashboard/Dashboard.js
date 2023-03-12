@@ -1,11 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { SuperSEO } from "react-super-seo";
 import "./Dashboard.css";
 
 function Dashboard() {
   const navigate = useNavigate()
 
   return (
+    <>
     <div className="main_dashboard_conatiner">
       <div>
         <h2 className="text_01_dashboard">Welcome to anchors</h2>
@@ -20,6 +22,8 @@ function Dashboard() {
         </section>
       </div>
     </div>
+    <SuperSEO title="Anchors - Dashboard" />
+    </>
   );
 }
 

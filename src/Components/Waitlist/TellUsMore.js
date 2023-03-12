@@ -2,8 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Waitlist.css";
 import { SuperSEO } from "react-super-seo";
-import { createPopup } from "@typeform/embed";
-import "@typeform/embed/build/css/popup.css";
 import {
   Dropdown1,
   TextField1,
@@ -240,8 +238,7 @@ function TellUsMore() {
             alt=""
           />
           <p className="waitlist_extra_gyan01">
-            <br /> Filling this information increase chances to get access of
-            anchors platform
+            <br /> This information is necessary to verify your profile and maintain the exclusivity that is promised to you / Help us maintain the exclusivity you're looking for by telling us a little about you
           </p>
         </div>
 
@@ -249,24 +246,24 @@ function TellUsMore() {
           <div className="waitlist_form_area">
             <div className="waitlist_inviteCode_section">
               <TextField1
-                label="Do you have Invite Code?"
+                label="Have an INVITE CODE?"
                 name="inviteCode"
                 anchorLink = {{text : "(know more)" , url:"https://bit.ly/anchors-invite-code"}}
                 id="inviteCode"
-                placeholder="Enter Invite Code"
+                placeholder="Enter your Invite Code"
                 onChange={handleChange}
                 value={formData?.inviteCode}
                 verifiedComp={verifiedCode}
               />
               <Button1
-                text={!verifiedCode ? "Check Invite Code" : "Verified"}
+                text={!verifiedCode ? "Confirm my CODE" : "Verified"}
                 height="45px"
                 onClick={!verifiedCode ? VerifyCode : undefined}
               />
             </div>
 
             <TextField1
-              label="Your Contact Number"
+              label="How do we reach you?"
               placeholder="Enter WhatsApp Number for faster communication"
               name="contactNumber"
               id="contactNumber"
@@ -276,8 +273,8 @@ function TellUsMore() {
               onChange={handleChange}
             />
             <Dropdown1
-              label="On which platforms do you have a presence as a creator or influencer?"
-              placeholder="Please Select Platform"
+              label="Which platform marks your strongest presence as a Creator or an Influencer?"
+              placeholder="Select one"
               value={[
                 "LinkedIn",
                 "Youtube",
@@ -291,8 +288,8 @@ function TellUsMore() {
               }}
             />
             <TextField1
-              label="How many audience do you have? "
-              placeholder="Number of followers"
+              label="What's your size of audience? "
+              placeholder=" Enter number of followers (nearest integer)"
               name="followers"
               id="followers"
               type="number"
@@ -302,7 +299,7 @@ function TellUsMore() {
             />
 
             <TextField1
-              label="Can you send us your social profile link?"
+              label="Link your profile here "
               name="socialLink"
               id="socialLink"
               value={formData?.socialLink}
@@ -311,7 +308,7 @@ function TellUsMore() {
             />
 
             <Dropdown1
-              label="So, last question, how did you hear about us?"
+              label="Where did you hear about us? (Yes, we're narcissistic)"
               required={true}
               defaultValue={formData?.knownFrom}
               value={[

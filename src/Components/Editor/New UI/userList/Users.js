@@ -13,6 +13,7 @@ import ServiceContext from "../../../../Context/services/serviceContext";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { creatorContext } from "../../../../Context/CreatorState";
 import { LoadTwo } from "../../../Modals/Loading";
+import { SuperSEO } from "react-super-seo";
 
 function Users(props) {
   const { slug } = useParams();
@@ -180,6 +181,7 @@ function Users(props) {
           </div>
         </div>
       )}
+      <SuperSEO title="Anchors - User Downloads" />
     </>
   );
 }

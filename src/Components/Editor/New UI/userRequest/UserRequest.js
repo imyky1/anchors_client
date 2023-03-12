@@ -8,6 +8,8 @@ import {
   TableRow,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
+import { SuperSEO } from "react-super-seo";
+import { toast } from "react-toastify";
 import { creatorContext } from "../../../../Context/CreatorState";
 import { LoadTwo } from "../../../Modals/Loading";
 import ShowReviewModel from "../../../Modals/ShowReviewModel";
@@ -17,14 +19,28 @@ const UserRequest = () => {
   const { getUserQueries, RequestsStats } = useContext(creatorContext);
   const [querries, setQuerries] = useState();
   const [openLoading, setopenLoading] = useState(false);
+  const [dummyData, setdummyData] = useState(false);
 
   useEffect(() => {
     setopenLoading(true);
     getUserQueries().then((e) => {
-      setQuerries(e);
+      setQuerries(e[0]);
+      setdummyData(e[1])
       setopenLoading(false);
     });
   }, []);
+
+  // notification of the dummy data--------------------------------
+  useEffect(() => {
+    if(dummyData){
+      toast.info("The data shown is Dummy Data, which will give you a brief hint of how your data will be represented",{
+        autoClose:5000
+      })
+    }
+
+  }, [dummyData])
+  
+
 
   const renderdate1 = (date) => {
     const splity = date.split(",");
@@ -37,6 +53,7 @@ const UserRequest = () => {
   };
 
   return (
+    <>
     <div className="servicelist-wrapper">
       <h1 className="text_type01_payment_info">Requested Resources from users</h1>
       <span className="servicelist_wrap_span">
@@ -172,6 +189,9 @@ const UserRequest = () => {
         </TableContainer>
       </div>
     </div>
+    <SuperSEO title="Anchors - User requests" />
+    </>
+
   );
 };
 

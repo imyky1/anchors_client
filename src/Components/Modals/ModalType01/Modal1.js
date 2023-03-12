@@ -20,10 +20,10 @@ function Modal1({open,toClose}) {
                 <img src={require("./Location.png")} alt="" />
             </section>
             <section className="right_side_modal">
-                <h1 className='modal_header_01'>Congratulations !</h1>
-                <p>Fantastic news, you've reached a notable number of followers</p>
-                <br/>
-                <p>Ready to unlock the full potential of the creator economy</p>
+                <h1 className='modal_header_01'>Hooray!</h1>
+                <p>You want us? We want you too!</p>
+                <p>Looks like you have seen struggle and come out ahead. Welcome home!</p>
+                <p>Together, we will unleash the beast of your utmost potential.</p>
                 <br/>
                 <button className='button_modal_01' onClick={()=>{
                     mixpanel.track("Apply Now clicked on Success Modal from Main Page");

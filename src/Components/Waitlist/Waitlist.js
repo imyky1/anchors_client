@@ -103,11 +103,10 @@ function Waitlist() {
           <h1 className="wailtist_number_header">{wNum}</h1>
           <h2 className="waitlist_header01">Waitlist Number</h2>
           <p className="waitlist_header02">
-            Congratulations! You're on the waitlist. We'll notify you as soon as
-            a spot opens up. Thanks for your patience and interest
+          Cheers! You're successfully added to our waitlist. We'll notify you as soon as a spot opens up. Hang on!
           </p>
           <span className="waitlist_header03" onClick={()=>{window.open("https://bit.ly/anchors-invite-code")}}>
-            Skip Waitlist by Invite Code
+          Skip the Waitlist. I have an INVITE CODE.
           </span>
         </section>
       </div>

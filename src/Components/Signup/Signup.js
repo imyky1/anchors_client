@@ -44,28 +44,25 @@ function Signup() {
         />
       </div>
       <div className="right_signup_side">
-        <h1 className="signup_header_01">Great you are one step ahead</h1>
+        <h1 className="signup_header_01">Kudos! You're already a cut above the rest.</h1>
         <div>
           <div className="signup_points">
             <section>
               <img src={require("./images/img1.png")} alt="" />
               <span>
-                Anchors is for exclusive creator only, and every creator has to
-                cross benchmark to be on anchor.
+              <b>anchors</b> is for EXCLUSIVE creators only. To join, there's an eligibility criteria everyone has to qualify
               </span>
             </section>
             <section>
               <img src={require("./images/img2.png")} alt="" />
               <span>
-                We prefer to Signup with invite code to ,this make process
-                faster to get approved to be an anchor.
+              Signing up using an INVITE CODE is preferred - it's faster & easier when someone vouches for you
               </span>
             </section>
             <section>
               <img src={require("./images/img3.png")} alt="" />
               <span>
-                Ask existing creator/anchor to share their invite code to join
-                anchors or you have to wait for waitlist.
+              Ask existing anchors to share their Invite Code to avoid joining the waitlist. 
               </span>
             </section>
           </div>

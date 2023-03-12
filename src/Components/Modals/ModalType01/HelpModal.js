@@ -22,12 +22,8 @@ function HelpModal({ open, toClose }) {
         onClick={(e) => e?.stopPropagation()}
       >
         <h1 className="header_help01">Need Help? Contact Us!</h1>
-        If you're having trouble navigating our site or have any questions,
-        we're here to help. Please don't hesitate to reach out to us at
-        <span>info@anchors.in</span>
-        <br /> <br /> Thank you for choosing Anchors. We appreciate your
-        business and are committed to providing you with the best possible
-        experience on our site.
+        If you're feeling frustrated or confused navigating our site or have any questions, we're here to help. Please don't hesitate to reach out to us at <span>info@anchors.in</span>
+        <br /> <br /> Thank you for choosing Anchors. We're thrilled to have you onboard and are committed to providing you with the best possible experience on our site.
       </div>
     </div>
   );

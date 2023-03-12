@@ -49,9 +49,10 @@
   font-family: "Inter";
   font-style: normal;
   font-weight: 600;
-  font-size: 40px;
+  font-size: 32px;
   line-height: 48px;
   color: #000000;
+  text-align: center;
 }
 
 .signup_points {
@@ -60,7 +61,7 @@
   flex-direction: column;
   width: 53%;
   margin: auto;
-  margin-top: 15px;
+  margin-top: 20px;
 }
 
 .signup_points > section {

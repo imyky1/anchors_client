@@ -141,9 +141,9 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
-  margin-top: 70px;
+  /* background-color: rgb(241 241 242); */
   -webkit-user-select: none;
+  padding-top: 15px;
 }
 
 .footer-section_logo_02 {

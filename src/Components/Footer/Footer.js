@@ -1,33 +1,13 @@
 import React, { useState } from "react";
 import "./Footer.css";
 import { Link, useNavigate } from "react-router-dom";
+import mixpanel from "mixpanel-browser";
 //import { Modal, Fade, Typography, Box, Backdrop } from "@mui/material";
 
-function Footer() {
+function Footer(props) {
   const navigate = useNavigate();
-  // Modal style
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 300,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
-  //if (
-  //  localStorage.getItem("jwtToken") &&
-  //  localStorage.getItem("isUser") === ""
-  //) {
-  //  return null;
-  //}
 
   return (
     <>
@@ -46,15 +26,16 @@ function Footer() {
               </button>
             </div>
             <div className="footer_support_menu">
-              <Link to="/pricing" target="_blank" rel="no_referrer">
+              <Link to="/pricing" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked Pricing in footer from Landing Page")}}>
                 Pricing
               </Link>
 
-              {/* <span onClick={handleOpen}>Help & Support</span> */}
+              <span onClick={(e)=>{e?.stopPropagation(); mixpanel.track("Clicked on Help in Landing Page");
+                 props.openHelp()}}>Help & Support</span>
 
-              <Link to="/privacy-policy" target="_blank" rel="no_referrer">
+              {/* <Link to="/privacy-policy" target="_blank" rel="no_referrer">
                 Terms & Conditions
-              </Link>
+              </Link> */}
               {/* <a
                 href="https://www.linkedin.com/company/beanchorite/"
                 target="_blank"

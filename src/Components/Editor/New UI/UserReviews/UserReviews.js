@@ -12,6 +12,8 @@ import { creatorContext } from "../../../../Context/CreatorState";
 import ShowReviewModel from "../../../Modals/ShowReviewModel";
 import { LoadTwo } from "../../../Modals/Loading";
 import "./UserReview.css";
+import { SuperSEO } from "react-super-seo";
+import { toast } from "react-toastify";
 
 const UserReviews = () => {
   const [openModel, setOpenModel] = useState(false);
@@ -20,14 +22,27 @@ const UserReviews = () => {
   const { getAllFeedbacks, FeedbackStats } = useContext(creatorContext);
   const [feedbacks, setfeedbacks] = useState();
   const [selected, setSELECTED] = useState(null);
+  const [dummyData, setdummyData] = useState(false);
 
   useEffect(() => {
     setOpenLoading(true);
     getAllFeedbacks().then((e) => {
-      setfeedbacks(e);
+      setfeedbacks(e[0]);
+      setdummyData(e[1]);
       setOpenLoading(false);
     });
   }, []);
+
+  // notification of the dummy data--------------------------------
+  useEffect(() => {
+    if(dummyData){
+      toast.info("The data shown is Dummy Data, which will give you a brief hint of how your data will be represented",{
+        autoClose:5000
+      })
+    }
+
+  }, [dummyData])
+
 
   const handleCheckClick = (elem) => {
     setSELECTED(elem);
@@ -161,7 +176,7 @@ const UserReviews = () => {
                               id={`checkbox_${i + 1}`}
                               type="checkbox"
                               checked={elem.status}
-                              onChange={() => handleCheckClick(elem)}
+                              onChange={() => !dummyData && handleCheckClick(elem)}
                             />
                             <span className="slider_type_01 round_type_01"></span>
                           </label>
@@ -176,6 +191,7 @@ const UserReviews = () => {
         </TableContainer>
       </div>
     </div>
+    <SuperSEO title="Anchors - User reviews" />
     </>
   );
 };
