@@ -9,12 +9,20 @@ import "./excelview.css";
 
 const ExcelViewer = ({ url }) => {
   const [urlexcel, setUrl] = useState(null);
+  const [serviceTitle, setServiceTitle] = useState(null);
   useEffect(() => {
-    setUrl(
-      url
-        ? url
-        : "https://anchors-files.s3.ap-south-1.amazonaws.com/docs/1674668029771-dsasheet.xlsx"
-    );
+    if (sessionStorage.getItem("stitle")) {
+      setServiceTitle(sessionStorage.getItem("stitle"));
+    }
+    if (sessionStorage.getItem("link")) {
+      setUrl(sessionStorage.getItem("link"));
+    } else {
+      setUrl(
+        url
+          ? url
+          : "https://anchors-files.s3.ap-south-1.amazonaws.com/docs/1674668029771-dsasheet.xlsx"
+      );
+    }
   }, []);
   const [blob, setBlob] = useState(null);
   const getBlobFromUrl = (myImageUrl) => {
@@ -158,7 +166,7 @@ const ExcelViewer = ({ url }) => {
 
   return (
     <div className="excel-viewer-container">
-      <h2>SERVICE TITLE</h2>
+      {serviceTitle ? <h2>{serviceTitle}</h2> : ""}
       {dataLoaded ? (
         <OutTable
           data={rows}

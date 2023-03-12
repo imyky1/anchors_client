@@ -75,6 +75,7 @@ class Canvas extends Component {
       "rgba(35, 36, 38, 1)",
       "rgba(225, 0, 71, 0)",
     ];
+    console.log(this.props.textToShow, "txt");
 
     //chose a number between 0 and 7
     var randomNumber = Math.floor(Math.random() * colors.length);

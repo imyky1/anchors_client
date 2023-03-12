@@ -85,7 +85,9 @@ const ServiceState = (props) => {
     stype,
     isPaid,
     smrp,
-    ssp
+    ssp,
+    allowPreview,
+    noOfPage
   ) => {
     const response = await fetch(`${host}/api/services/createservice`, {
       method: "POST",
@@ -108,6 +110,8 @@ const ServiceState = (props) => {
         isPaid: isPaid,
         smrp: smrp,
         ssp: ssp,
+        allowPreview: allowPreview,
+        previewPage: noOfPage,
       }),
     });
     const json = await response.json();
@@ -246,7 +250,7 @@ const ServiceState = (props) => {
 
     if (json.success) {
       setSlugCount(json.count);
-      return json.count
+      return json.count;
     } else {
       console.log("Some error Occured");
     }

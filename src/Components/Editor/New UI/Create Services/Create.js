@@ -32,6 +32,8 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Cropper from "react-easy-crop";
 import { SuperSEO } from "react-super-seo";
+import Canvas from "./Canvas";
+import { creatorContext } from "../../../../Context/CreatorState";
 
 function Create(props) {
   const navigate = useNavigate();
@@ -50,6 +52,19 @@ function Create(props) {
   // state for image cropping
   const [imagetocrop, setImageToCrop] = useState(null);
   const [openimagePreview, setImagePreview] = useState(false);
+
+  // getting creator info
+  const { getAllCreatorInfo, basicNav, allCreatorInfo } =
+    useContext(creatorContext);
+  useEffect(() => {
+    getAllCreatorInfo();
+    // eslint-disable-next-line
+  }, []);
+  console.log(allCreatorInfo);
+  // default banner
+  const [defaultbanner, setDefaultBanner] = useState(false);
+  // const [defaultBannerPreview, setDefaultBannerPreview] = useState(false);
+  const [defaultBannerUrl, setURLBANNER] = useState(null);
 
   // service Context --------------------------------------------------
   const {
@@ -71,9 +86,20 @@ function Create(props) {
   const [Tags, setTags] = useState([]);
   const [Content, setContent] = useState();
   const [BannerImage, setBannerImage] = useState();
+
+  // allow preview variables
+  const [allowPreview, setAllowPreview] = useState(false);
+  const [noOfPage, setNoOfPages] = useState(0);
   const [ServiceDoc, setServiceDoc] = useState();
+  const [showdefaultselect, setShowDefaultSelect] = useState(true);
+  const DefaultCanvas = useRef(null);
 
   const handleChangeFileBanner = (e) => {
+    if (defaultbanner) {
+      setDefaultBanner(false);
+    }
+    setShowDefaultSelect(false);
+
     const file = e.target.files[0];
     setZoom(1);
     setCrop({ x: 0, y: 0 });
@@ -114,6 +140,31 @@ function Create(props) {
       }
     });
   };
+  function dataURItoBlob(dataURI) {
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+    var byteString = atob(dataURI.split(",")[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+
+    // write the bytes of the string to an ArrayBuffer
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    //Old Code
+    //write the ArrayBuffer to a blob, and you're done
+    //var bb = new BlobBuilder();
+    //bb.append(ab);
+    //return bb.getBlob(mimeString);
+
+    //New Code
+    return new Blob([ab], { type: mimeString });
+  }
+  const [textToShow, setTextToShow] = useState("");
 
   // Image cropping
   // IMAGE RESIZE
@@ -148,8 +199,12 @@ function Create(props) {
 
   // changes handling in input field ---------------------------------
   const handleChange = (e) => {
+    if (e.target.name === "sname") {
+      setTextToShow(e.target.value);
+    }
     setdata({ ...data, [e.target.name]: e.target.value });
   };
+  console.log(data);
 
   // responsible for generating slug and copyURL
   const process = () => {
@@ -158,6 +213,7 @@ function Create(props) {
     //getslugcount(slug.toLowerCase());  // checks if similar slug already exists -----
     return slug;
   };
+  const [generateBanner, setGenerateBanner] = useState(false);
 
   useEffect(() => {
     generateCopyURL();
@@ -169,10 +225,34 @@ function Create(props) {
     let SlugCount = await getslugcount(slug.toLowerCase());
     setOpenLoading(true); // true on loader
     props.progress(0);
-    if (data.sname.length > 3 && BannerImage && ServiceDoc && paid) {
+    if (
+      data.sname.length > 3 &&
+      ServiceDoc &&
+      paid &&
+      (BannerImage || defaultbanner)
+    ) {
       if (Content?.length > 10) {
         try {
-          var banner = await Uploadfile(data1); /// uplaoding banner and files on s3
+          var banner;
+          if (defaultbanner) {
+            setGenerateBanner(true);
+            let temp = defaultBannerUrl.toString();
+            if (!temp) {
+              setTimeout(async () => {}, 500);
+            }
+
+            const data3 = new FormData();
+            console.log(defaultBannerUrl);
+            var blob = dataURItoBlob(defaultBannerUrl);
+            data3.append("file", blob, `${Date.now()}.png`);
+            console.log(data3);
+            banner = await Uploadfile(data3);
+          } else {
+            console.log(data1);
+            banner = await Uploadfile(data1); /// uplaoding banner and files on s3
+          }
+          console.log(banner);
+
           var doc = await UploadDocuments(data2);
           if (banner.success && doc.success) {
             props.progress(75);
@@ -190,7 +270,9 @@ function Create(props) {
               CreateType === "excel" ? 1 : CreateType === "video" ? 2 : 0, // type for pdf is 0 and excel is 1 and video is 2
               paid === "Free" ? false : true,
               paid === "Free" ? 0 : data.smrp,
-              paid === "Free" ? 0 : data.ssp
+              paid === "Free" ? 0 : data.ssp,
+              allowPreview,
+              allowPreview ? noOfPage : 0
             );
             if (json.success) {
               //setservData(json.res);
@@ -317,7 +399,36 @@ function Create(props) {
             ) : (
               ""
             )}
-            <RadioField1 label="Use Default Image" id="asdas" />
+            {showdefaultselect ? (
+              <div className="radiofiled_container_01 min-heightfield">
+                <span className="label_type_02">Use Default Image </span>
+                <label className="switch_type_01">
+                  <input
+                    type="checkbox"
+                    onChange={(e) =>
+                      e.target.checked
+                        ? setDefaultBanner(true)
+                        : setDefaultBanner(false)
+                    }
+                  />
+                  <span className="slider_type_01 round_type_01"></span>
+                </label>
+                {/* {defaultbanner ? (
+                <Button
+                  variant="outlined"
+                  onClick={setDefaultBannerPreview}
+                  className="imageresizeopenerbutton"
+                  style={{ marginLeft: "25px" }}
+                >
+                  Preview Default Banner
+                </Button>
+              ) : (
+                ""
+              )} */}
+              </div>
+            ) : (
+              ""
+            )}
             <Editor1
               label="Describe about Service"
               placeholder="Please describe about your service briefly"
@@ -413,8 +524,8 @@ function Create(props) {
                   setContent={(e) => setdata({ ...data, sdesc: e })}
                 />
               </div>
-
               {/* right section -------------------------- */}
+              {console.log(allowPreview)}
               <div className="right_section_form">
                 <TextField1
                   label={
@@ -432,11 +543,14 @@ function Create(props) {
                       ? "21"
                       : ""
                   }
+                  onChange={(e) => setNoOfPages(e.target.value)}
                 />
+                {console.log(noOfPage)}
                 <RadioField1
                   label={
                     CreateType === "video" ? "Allow Download" : "Allow Preview"
                   }
+                  onChange={setAllowPreview}
                   id="asdas"
                 />
               </div>
@@ -529,6 +643,39 @@ function Create(props) {
         ""
       )}
       <SuperSEO title="Anchors - Create Service" />
+      {/* {console.log(textToShow, "xx")}
+      {generateBanner ? (
+        <Canvas
+          textToShow={textToShow}
+          width="1200"
+          height="450"
+          imgBackground={allCreatorInfo.profile}
+          creator_name={basicNav.name}
+          setURL={setURLBANNER}
+        />
+      ) : (
+        ""
+      )} */}
+      {/* <Modal
+        open={defaultBannerPreview}
+        onClose={() => setDefaultBannerPreview(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <div className="ultimatewrapper_defaultbanner">
+          <div className="container_defaultbanner">
+            <Canvas
+              textToShow={data.sname}
+              width="1200"
+              height="450"
+              imgBackground="https://www.anchors.in:5000/api/file/1670005634078--himanshu.bf15583cd698b88970c3.jpg"
+              imgBack="../backgroundimg.png"
+              creator_name="HIMANSHU SHEKHAR"
+              setURL={setURLBANNER}
+            />
+          </div>
+        </div>
+      </Modal> */}
     </>
   );
 }

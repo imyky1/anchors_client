@@ -11,7 +11,16 @@ function fields_Labels1(props) {
     <div className="textfiled_container_01">
       <span className="label_type_01">
         {props.label}{" "}
-        {props?.anchorLink && <a href={props?.anchorLink?.url} target="_blank" rel="noreferrer" style={{textDecoration:"underLine"}}>{props?.anchorLink?.text}</a>}
+        {props?.anchorLink && (
+          <a
+            href={props?.anchorLink?.url}
+            target="_blank"
+            rel="noreferrer"
+            style={{ textDecoration: "underLine" }}
+          >
+            {props?.anchorLink?.text}
+          </a>
+        )}
         {props?.required && <span style={{ color: "red" }}>*</span>}
       </span>
       <input
@@ -113,7 +122,14 @@ function fields_Labels3(props) {
         {props?.required && <span style={{ color: "red" }}>*</span>}
       </span>
       <label className="switch_type_01">
-        <input type="checkbox" />
+        {props.onChange ? (
+          <input
+            type="checkbox"
+            onChange={(event) => props.onChange(event.target.checked)}
+          />
+        ) : (
+          <input type="checkbox" />
+        )}
         <span className="slider_type_01 round_type_01"></span>
       </label>
     </div>

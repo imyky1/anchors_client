@@ -326,8 +326,9 @@ function Service(props) {
     oReq.send();
   };
 
-  const download_service = async () => {
-    //const ext = serviceInfo.surl?.split(".").at(-1);
+  const download_service = async (e) => {
+    e.preventDefault();
+    const ext = serviceInfo.surl?.split(".").at(-1);
     if (localStorage.getItem("jwtToken")) {
       if (serviceInfo?.isPaid) {
         checkfororder(
@@ -353,19 +354,33 @@ function Service(props) {
             //    creator: basicCdata?.slug,
             //  });
             //} else {
-            let link = document.createElement("a");
-            link.href = serviceInfo.surl;
-            //link.target = "_blank";
-            link.download = serviceInfo?.sname;
-            link.dispatchEvent(new MouseEvent("click"));
-            //}
-            setOpenModelDownload(true);
-            toast.info(
-              "Check the Downloads in few seconds, if file not found raise an issue at ravi@anchors.in",
-              {
-                position: "top-center",
-              }
-            );
+            // if (ext === "xls" || "xlsx") {
+            //   console.log(ext);
+            //   setPaymentProcessing(false);
+            //   return;
+            // }
+            if (ext === "pdf") {
+              console.log("wow");
+              sessionStorage.setItem("link", serviceInfo.surl);
+              window.open("/viewPdf");
+              setPaymentProcessing(false);
+              return;
+            } else {
+              let link = document.createElement("a");
+              link.href = serviceInfo.surl;
+              //link.target = "_blank";
+              link.download = serviceInfo?.sname;
+              link.dispatchEvent(new MouseEvent("click"));
+              //}
+              setOpenModelDownload(true);
+              toast.info(
+                "Check the Downloads in few seconds, if file not found raise an issue at ravi@anchors.in",
+                {
+                  position: "top-center",
+                }
+              );
+            }
+
             mixpanel.track("Downloaded Paid Service for more than once", {
               service: slug,
               user: UserDetails ? UserDetails : "",
@@ -388,6 +403,22 @@ function Service(props) {
           localStorage.getItem("isUser") === "true" ? "user" : "creator"
         );
         if (success) {
+          console.log(ext);
+          // if (ext === "xls") {
+          //   console.log(ext);
+          //   setPaymentProcessing(false);
+          //   return;
+          // } else if (ext === "xlsx") {
+          //   console.log(ext);
+          //   setPaymentProcessing(false);
+          //   return;
+          // } else
+          if (ext === "pdf") {
+            sessionStorage.setItem("link", serviceInfo.surl);
+            window.open("/viewPdf");
+            setPaymentProcessing(false);
+            return;
+          }
           setOpenModelDownload(true);
           //if (ext === "pdf") {
           //  downloadFile("pdf");
@@ -647,9 +678,12 @@ function Service(props) {
               </div>
               {serviceInfo?.tags?.length !== 0 && serviceInfo.tags && (
                 <div className="tags_section">
-                  <span>{serviceInfo?.tags[0]}</span>
-                  <span>{serviceInfo?.tags[1]}</span>
-                  <span>{serviceInfo?.tags[2]}</span>
+                  {serviceInfo?.tags?.map((elem, i) => {
+                    if (i > 4) {
+                      return;
+                    }
+                    return <span>{elem}</span>;
+                  })}
                 </div>
               )}
             </div>
@@ -850,9 +884,11 @@ function Service(props) {
                     <span className="main_ssp">₹{serviceInfo?.ssp} </span>
                     <span>
                       (-
-                      {((serviceInfo?.smrp - serviceInfo?.ssp) /
-                        serviceInfo?.smrp) *
-                        100}
+                      {(
+                        ((serviceInfo?.smrp - serviceInfo?.ssp) /
+                          serviceInfo?.smrp) *
+                        100
+                      ).toFixed(0)}
                       %)
                     </span>
                   </div>
@@ -860,13 +896,22 @@ function Service(props) {
               ) : (
                 <span className="free_label">Free</span>
               )}
-
+              <button
+                className="download_service"
+                onClick={download_service}
+                style={
+                  paymentProcessing
+                    ? { backgroundColor: "grey", border: "2px solid grey" }
+                    : {}
+                }
+              >
+                {paymentProcessing ? <>Processing</> : <>Download Here</>}
+              </button>
+              {/* 
               {!alreadyOrderPlaced && ( // if order is placed or not
                 <button
                   className="download_service"
-                  onClick={() => {
-                    download_service();
-                  }}
+                  onClick={download_service}
                   style={
                     paymentProcessing
                       ? { backgroundColor: "grey", border: "2px solid grey" }
@@ -886,13 +931,17 @@ function Service(props) {
                 >
                   Go to Dashboard
                 </button>
-              )}
+              )} */}
             </div>
           </div>
 
           <div className="service_page_creator">
             <img
-              src={basicCdata?.photo}
+              src={
+                basicCreatorInfo?.profile
+                  ? basicCreatorInfo?.profile
+                  : basicCdata?.photo
+              }
               alt="creator"
               className="service_page_profile_pic"
               onClick={(e) => {
