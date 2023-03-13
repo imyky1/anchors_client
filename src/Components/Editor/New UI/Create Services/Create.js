@@ -122,6 +122,7 @@ function Create(props) {
   // check for the type of the service that needs to be created
   useEffect(() => {
     setCreateType(paramsType);
+    sessionStorage.removeItem("canvas");
   }, [paramsType]);
 
   // genrating copy url string -----------------------------------------------
@@ -236,61 +237,116 @@ function Create(props) {
           var banner;
           if (defaultbanner) {
             setGenerateBanner(true);
-            let temp = defaultBannerUrl.toString();
-            if (!temp) {
-              setTimeout(async () => {}, 500);
-            }
 
-            const data3 = new FormData();
-            console.log(defaultBannerUrl);
-            var blob = dataURItoBlob(defaultBannerUrl);
-            data3.append("file", blob, `${Date.now()}.png`);
-            console.log(data3);
-            banner = await Uploadfile(data3);
+            setTimeout(async () => {
+              let canvasImage = sessionStorage.getItem("canvas");
+              console.log(canvasImage);
+              // this can be used to download any image from webpage to local disk
+              let xhr = new XMLHttpRequest();
+              xhr.responseType = "blob";
+              xhr.onload = function () {
+                let a = document.createElement("a");
+                a.href = window.URL.createObjectURL(xhr.response);
+                a.download = "image_name.png";
+                a.style.display = "none";
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+              };
+              xhr.open("GET", canvasImage); // This is to download the canvas Image
+              xhr.send();
+              const data3 = new FormData();
+
+              var blob = dataURItoBlob(canvasImage);
+              data3.append("file", blob, `${Date.now()}.png`);
+              console.log(data3);
+              banner = await Uploadfile(data3);
+              var doc = await UploadDocuments(data2);
+              let json;
+
+              if (banner.success && doc.success) {
+                props.progress(75);
+                json = await addservice(
+                  data.sname,
+                  data.sdesc,
+                  Content,
+                  SlugCount === 0
+                    ? slug.toLowerCase()
+                    : slug.toLowerCase().concat("--", `${SlugCount}`),
+                  data.CopyURL,
+                  banner?.url,
+                  doc?.result?.Location,
+                  Tags,
+                  CreateType === "excel" ? 1 : CreateType === "video" ? 2 : 0, // type for pdf is 0 and excel is 1 and video is 2
+                  paid === "Free" ? false : true,
+                  paid === "Free" ? 0 : data.smrp,
+                  paid === "Free" ? 0 : data.ssp,
+                  allowPreview,
+                  allowPreview ? noOfPage : 0
+                );
+                if (json.success) {
+                  //setservData(json.res);
+                  setOpenLoading(false);
+                  setshowPopup(true);
+                } else {
+                  setOpenLoading(false);
+                  toast.error(`Service Not Created Please Try Again`, {
+                    position: "top-center",
+                    autoClose: 2000,
+                  });
+                }
+              } else {
+                setOpenLoading(false);
+                toast.error(`Facing issues while uploading files and images`, {
+                  position: "top-center",
+                  autoClose: 2000,
+                });
+              }
+            }, 1000);
           } else {
             console.log(data1);
             banner = await Uploadfile(data1); /// uplaoding banner and files on s3
-          }
-          console.log(banner);
+            var doc = await UploadDocuments(data2);
+            let json;
 
-          var doc = await UploadDocuments(data2);
-          if (banner.success && doc.success) {
-            props.progress(75);
-            const json = await addservice(
-              data.sname,
-              data.sdesc,
-              Content,
-              SlugCount === 0
-                ? slug.toLowerCase()
-                : slug.toLowerCase().concat("--", `${SlugCount}`),
-              data.CopyURL,
-              banner?.url,
-              doc?.result?.Location,
-              Tags,
-              CreateType === "excel" ? 1 : CreateType === "video" ? 2 : 0, // type for pdf is 0 and excel is 1 and video is 2
-              paid === "Free" ? false : true,
-              paid === "Free" ? 0 : data.smrp,
-              paid === "Free" ? 0 : data.ssp,
-              allowPreview,
-              allowPreview ? noOfPage : 0
-            );
-            if (json.success) {
-              //setservData(json.res);
-              setOpenLoading(false);
-              setshowPopup(true);
+            if (banner.success && doc.success) {
+              props.progress(75);
+              json = await addservice(
+                data.sname,
+                data.sdesc,
+                Content,
+                SlugCount === 0
+                  ? slug.toLowerCase()
+                  : slug.toLowerCase().concat("--", `${SlugCount}`),
+                data.CopyURL,
+                banner?.url,
+                doc?.result?.Location,
+                Tags,
+                CreateType === "excel" ? 1 : CreateType === "video" ? 2 : 0, // type for pdf is 0 and excel is 1 and video is 2
+                paid === "Free" ? false : true,
+                paid === "Free" ? 0 : data.smrp,
+                paid === "Free" ? 0 : data.ssp,
+                allowPreview,
+                allowPreview ? noOfPage : 0
+              );
+              if (json.success) {
+                //setservData(json.res);
+                setOpenLoading(false);
+                setshowPopup(true);
+              } else {
+                setOpenLoading(false);
+                toast.error(`Service Not Created Please Try Again`, {
+                  position: "top-center",
+                  autoClose: 2000,
+                });
+              }
             } else {
               setOpenLoading(false);
-              toast.error(`Service Not Created Please Try Again`, {
+              toast.error(`Facing issues while uploading files and images`, {
                 position: "top-center",
                 autoClose: 2000,
               });
             }
-          } else {
-            setOpenLoading(false);
-            toast.error(`Facing issues while uploading files and images`, {
-              position: "top-center",
-              autoClose: 2000,
-            });
           }
         } catch (error) {
           setOpenLoading(false);
@@ -643,7 +699,6 @@ function Create(props) {
         ""
       )}
       <SuperSEO title="Anchors - Create Service" />
-      {/* {console.log(textToShow, "xx")}
       {generateBanner ? (
         <Canvas
           textToShow={textToShow}
@@ -655,7 +710,7 @@ function Create(props) {
         />
       ) : (
         ""
-      )} */}
+      )}
       {/* <Modal
         open={defaultBannerPreview}
         onClose={() => setDefaultBannerPreview(false)}
