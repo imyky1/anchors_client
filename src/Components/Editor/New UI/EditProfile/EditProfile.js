@@ -28,6 +28,7 @@ import {
   Slider,
 } from "@mui/material";
 import getCroppedImg, { generateDownload } from "../../../helper/imageresize";
+import { SuperSEO } from "react-super-seo";
 
 const EditProfile = (props) => {
   const {
@@ -560,6 +561,7 @@ const EditProfile = (props) => {
       ) : (
         ""
       )}
+      <SuperSEO title="Anchors - Edit Profile" />
     </>
   );
 };

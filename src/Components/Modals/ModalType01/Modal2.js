@@ -35,12 +35,14 @@ function Modal2({ open, toClose }) {
           <img src={require("./illust-2.png")} alt="" />
         </section>
         <section className="right_side_modal">
-          <h1 className="modal_header_01">oops !</h1>
+          <h1 className="modal_header_01">Shucks!</h1>
           <p>
-            Thank you for your interest, you are currently not eligible for now
-            but you can join the waitlist to be notified if you hit the
-            subscriber or followers limit, you will be notified.{" "}
+          Keep ploughing on. You're on the right path and very soon you will be able to join us!.{" "}
           </p>
+          <p>
+          See you soon!{" "}
+          </p>
+          <br />
           <br />
           <button className="button_modal_01" onClick={handleClick}>
             Join waitlist

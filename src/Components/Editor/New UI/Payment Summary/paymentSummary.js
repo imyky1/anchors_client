@@ -19,6 +19,7 @@ import "./paymentSummary.css";
 import { host } from "../../../../config/config";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { SuperSEO } from "react-super-seo";
 
 const PaymentSummary = () => {
   const navigate = useNavigate()
@@ -251,6 +252,7 @@ const PaymentSummary = () => {
         </TableContainer>
       </div>
     </div>
+    <SuperSEO title="Anchors - Payment Summary" />
     </>
   );
 };

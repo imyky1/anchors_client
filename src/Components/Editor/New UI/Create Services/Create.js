@@ -31,6 +31,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Cropper from "react-easy-crop";
+import { SuperSEO } from "react-super-seo";
 import Canvas from "./Canvas";
 import { creatorContext } from "../../../../Context/CreatorState";
 
@@ -641,6 +642,7 @@ function Create(props) {
       ) : (
         ""
       )}
+      <SuperSEO title="Anchors - Create Service" />
       {/* {console.log(textToShow, "xx")}
       {generateBanner ? (
         <Canvas

@@ -274,6 +274,7 @@ const ServiceStats = (props) => {
           </div>
         </div>
       )}
+      <SuperSEO title="Anchors - Service Statistics" />
     </>
   );
 };

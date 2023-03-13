@@ -90,7 +90,7 @@ function App() {
                         <Route
                           exact
                           path="/c/:slug"
-                          element={<Profile progress={changeprogress} />}
+                          element={<NewProfile progress={changeprogress} />}
                         ></Route>
                         <Route
                           path="/s/:slug"
@@ -219,10 +219,10 @@ function App() {
                             />
                           }
                         />
-                        <Route
+                        {/* <Route
                           path="/newprofile/:slug"
                           element={<NewProfile />}
-                        />
+                        /> */}
                       </Routes>
                     </UserDashboardState>
                   </FeedbackState>

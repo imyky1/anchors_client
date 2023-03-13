@@ -26,15 +26,27 @@ function ServiceDetailPage(props) {
   const { services, getallservices,deleteService } = useContext(ServiceContext);
   const [revArray, setrevArray] = useState([]);
   const [selected, setSelected] = useState(0);
+  const [dummyData, setdummyData] = useState(false);
 
   useEffect(() => {
     setOpenLoading(true);
     getallservices().then(() => {
       setSelected("all")
+      setdummyData(services?.dummy)
       setOpenLoading(false);
     });
     // eslint-disable-next-line
   }, []);
+
+  // notification of the dummy data--------------------------------
+  useEffect(() => {
+    if(dummyData){
+      toast.info("The data shown is Dummy Data, which will give you a brief hint of how your data will be represented",{
+        autoClose:5000
+      })
+    }
+
+  }, [dummyData])
 
   // no need of reversing the array of serices it is inverted from backend
   useEffect(() => {
@@ -217,7 +229,7 @@ function ServiceDetailPage(props) {
                           <span
                             className="servicelist_icon"
                             onClick={() => {
-                              window.open(
+                              !dummyData && window.open(
                                 `/viewUserDetails/${elem.slug}`,
                                 "_blank"
                               );
@@ -233,7 +245,7 @@ function ServiceDetailPage(props) {
                           <span
                             className="servicelist_icon iconalign"
                             onClick={() => {
-                              window.open(
+                              !dummyData && window.open(
                                 `/serviceStats/${elem.slug}`,
                                 "_blank"
                               );
@@ -266,7 +278,7 @@ function ServiceDetailPage(props) {
                         <TableCell align="center">
                           <span
                             className="servicelist_icon iconalign"
-                            onClick={() => openOptionsPopup(i + 1)}
+                            onClick={() => !dummyData && openOptionsPopup(i + 1)}
                           >
                             <img src={Option}></img>
                           </span>
@@ -285,7 +297,7 @@ function ServiceDetailPage(props) {
                                 >
                                   Edit Service
                                 </div>
-                                <div
+                                {/* <div
                                   className="modaloptions_servicelist"
                                   onClick={() => {
                                     setCurrSelected(elem);
@@ -293,7 +305,7 @@ function ServiceDetailPage(props) {
                                   }}
                                 >
                                   Notify Users
-                                </div>
+                                </div> */}
                                 <div
                                   className="modaloptions_servicelist"
                                   onClick={() => {
