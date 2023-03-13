@@ -518,7 +518,7 @@ function Create(props) {
                 <Editor1
                   name="sdesc"
                   label="Describe about Service"
-                  placeholder="Please describe about your service briefly"
+                  placeholder="Guidelines to use it"
                   Content={data.sdesc}
                   setContent={(e) => setdata({ ...data, sdesc: e })}
                 />

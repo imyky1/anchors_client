@@ -151,8 +151,8 @@ const EditProfile = (props) => {
     };
     input.click();
   }
+  let phone_number = phone;
   const onSubmit = async (e) => {
-    let phone_number = phone;
     let sample_number = phone;
     console.log(phone_number);
     props.progress(0);
