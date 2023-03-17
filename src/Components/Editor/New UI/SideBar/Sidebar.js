@@ -132,7 +132,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
               <img src={svg4} alt="" />
               Requests
             </Link>
-            <Link
+            {/* <Link
               to="/stats"
               className={`${
                 (localtion.pathname === "/stats" || localtion.pathname.includes("/serviceStats")) &&
@@ -141,7 +141,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
             >
               <img src={svg5} alt="" />
               Statistics
-            </Link>
+            </Link> */}
           </section>
         </div>
 

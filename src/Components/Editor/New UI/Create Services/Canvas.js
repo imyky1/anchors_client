@@ -1,4 +1,4 @@
-import { PNGStream } from "canvas";
+// import { PNGStream } from "canvas";
 import React, { Component } from "react";
 
 class Canvas extends Component {
