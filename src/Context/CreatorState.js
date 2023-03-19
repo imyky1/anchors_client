@@ -66,11 +66,11 @@ const CreatorState = (props) => {
       },
     });
     const json = await response.json();
-    if (json.success) {
-      setbasicCreatorInfo(json.res);
-      setbasicCdata(json.other);
+    if (json?.success) {
+      setbasicCreatorInfo(json?.res);
+      setbasicCdata(json?.other);
     } else {
-      console.error(json.error);
+      console.error(json?.error);
     }
   };
 
@@ -84,9 +84,9 @@ const CreatorState = (props) => {
       },
     });
     const json = await response.json();
-    if (json.success) {
-      await getBasicCreatorInfo(json.res._id);
-      return json.res._id;
+    if (json?.success) {
+      await getBasicCreatorInfo(json?.res._id);
+      return json?.res._id;
     } else {
       //alert(json.error)
     }
@@ -104,10 +104,10 @@ const CreatorState = (props) => {
       },
     });
     const json = await response.json();
-    if (json.success) {
-      setallCreatorInfo(json.res);
-      setbasicNav(json.other);
-      return json.other._id; // for home page usage
+    if (json?.success) {
+      setallCreatorInfo(json?.res);
+      setbasicNav(json?.other);
+      return json?.other._id; // for home page usage
     } else {
       //alert(json.error)
     }

@@ -61,7 +61,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
                 }}
               />
               <div>
-                <p className="text_sidebar_01">{userData?.name}</p>
+                <p className="text_sidebar_01">{alternateInfo?.name ?? userData?.name}</p>
                 <div className="text_sidebar_02">
                   {moreInfo?.Rating !== 0 && <span style={{marginRight:"12px"}}>
                     <i className="fa-solid fa-star"></i>{" "}
@@ -132,7 +132,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
               <img src={svg4} alt="" />
               Requests
             </Link>
-            <Link
+            {/* <Link
               to="/stats"
               className={`${
                 (localtion.pathname === "/stats" || localtion.pathname.includes("/serviceStats")) &&
@@ -141,7 +141,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
             >
               <img src={svg5} alt="" />
               Statistics
-            </Link>
+            </Link> */}
           </section>
         </div>
 

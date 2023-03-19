@@ -92,7 +92,6 @@ const EditProfile = (props) => {
   };
 
   const changephone = (e) => {
-    console.log(e);
     setPhone(e.target.value);
   };
 
@@ -155,16 +154,13 @@ const EditProfile = (props) => {
   let phone_number = phone;
   const onSubmit = async (e) => {
     let sample_number = phone;
-    console.log(phone_number);
     props.progress(0);
     setOpenLoading(true);
     e.preventDefault();
     sample_number = sample_number.toString();
     sample_number = sample_number.length;
 
-    console.log(sample_number);
     if (data?.name && data?.tagLine && data?.dob && sample_number === 10) {
-      console.log(phone, "ww");
       var profile = previewSourceOne && (await Uploadfile(data1));
       const newData = {
         ...data,

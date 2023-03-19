@@ -9,11 +9,18 @@ import {
 import { Button1 } from "../Editor/New UI/Create Services/InputComponents/buttons";
 import { toast, ToastContainer } from "react-toastify";
 import { creatorContext } from "../../Context/CreatorState";
+import mixpanel from "mixpanel-browser"
 
 function TellUsMore() {
   const navigate = useNavigate();
   const { verifyInviteCode, fillTellUsMoreForm,getTellUsMoreFormData,updateStatus } = useContext(creatorContext);
   const [formAlreadyFilled, setFormAlreadyFilled] = useState(false)
+
+
+  // Visited page mix panel
+  useEffect(() => {
+    mixpanel.track("Visited Tell us more Page");
+  }, []);
 
    
   useEffect(() => {

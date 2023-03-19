@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { LoadTwo } from "../../../Modals/Loading";
 import { Email_Model2 } from "../../../Modals/Email_Modal";
 import ChangeStatusModal from "../../../Modals/ServiceSuccess/Modal2";
+import { Button1 } from "../Create Services/InputComponents/buttons";
 
 function ServiceDetailPage(props) {
   const [openLoading, setOpenLoading] = useState(false);
@@ -384,6 +385,12 @@ function ServiceDetailPage(props) {
             </Table>
           </TableContainer>
         </div>
+
+        {dummyData && <div className="cta_dummy_data">
+        <span>this is dummy data , start creating your first service for your data</span>
+        <Button1 text="Create your First Service" width="268px" onClick={()=>{navigate("/dashboard")}}/>
+      </div>}
+
       </div>
       <ToastContainer />
 
