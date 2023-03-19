@@ -23,7 +23,8 @@ import ChangeStatusModal from "../../../Modals/ServiceSuccess/Modal2";
 
 function ServiceDetailPage(props) {
   const [openLoading, setOpenLoading] = useState(false);
-  const { services, getallservices,deleteService } = useContext(ServiceContext);
+  const { services, getallservices, deleteService } =
+    useContext(ServiceContext);
   const [revArray, setrevArray] = useState([]);
   const [selected, setSelected] = useState(0);
   const [dummyData, setdummyData] = useState(false);
@@ -31,8 +32,8 @@ function ServiceDetailPage(props) {
   useEffect(() => {
     setOpenLoading(true);
     getallservices().then(() => {
-      setSelected("all")
-      setdummyData(services?.dummy)
+      setSelected("all");
+      setdummyData(services?.dummy);
       setOpenLoading(false);
     });
     // eslint-disable-next-line
@@ -40,29 +41,41 @@ function ServiceDetailPage(props) {
 
   // notification of the dummy data--------------------------------
   useEffect(() => {
-    if(dummyData){
-      toast.info("The data shown is Dummy Data, which will give you a brief hint of how your data will be represented",{
-        autoClose:5000
-      })
+    if (dummyData) {
+      toast.info(
+        "The data shown is Dummy Data, which will give you a brief hint of how your data will be represented",
+        {
+          autoClose: 5000,
+        }
+      );
     }
-
-  }, [dummyData])
+  }, [dummyData]);
 
   // no need of reversing the array of serices it is inverted from backend
   useEffect(() => {
-    let list = services?.res
-    if(selected === "pdf"){
-      setrevArray(list?.filter(e=>{return e?.stype === 0}));
-    }else if(selected === "excel"){
-      setrevArray(list?.filter(e=>{return e?.stype === 1}));
-    }
-    else if(selected === "video"){
-      setrevArray(list?.filter(e=>{return e?.stype === 2}));
-
-    }else{
+    let list = services?.res;
+    if (selected === "pdf") {
+      setrevArray(
+        list?.filter((e) => {
+          return e?.stype === 0;
+        })
+      );
+    } else if (selected === "excel") {
+      setrevArray(
+        list?.filter((e) => {
+          return e?.stype === 1;
+        })
+      );
+    } else if (selected === "video") {
+      setrevArray(
+        list?.filter((e) => {
+          return e?.stype === 2;
+        })
+      );
+    } else {
       setrevArray(list);
     }
-  }, [services,selected]);
+  }, [services, selected]);
 
   const [OpenOption, setOpenOption] = useState(0);
 
@@ -102,35 +115,32 @@ function ServiceDetailPage(props) {
   const [NotifyEmailSent, setNotifyEmailSent] = useState(false);
   const [currselected, setCurrSelected] = useState(null); // selected options of a service --------------
 
-
   const handleCheckClick = async (elem) => {
     setCurrSelected(elem);
-    removeOptionPopup()     // removes popup ------------------------------
+    removeOptionPopup(); // removes popup ------------------------------
     props.progress(0);
     if (elem.status) {
       // means now it is checked ------------
       setChangeStatus(0);
-      const success = await deleteService(elem._id, 0);       // changing status of the service
+      const success = await deleteService(elem._id, 0); // changing status of the service
       if (success) {
         setOpenModel(true);
-        props.progress(100)
-        elem.status = false   // manually changing its value--------------
+        props.progress(100);
+        elem.status = false; // manually changing its value--------------
       } else {
         toast.error("Some error occured", {
           position: "top-center",
           autoClose: 2000,
         });
       }
-    } 
-    
-    else {
+    } else {
       // means now it is unchecked-----------------
       setChangeStatus(1);
       const success = await deleteService(elem._id, 1);
       if (success) {
         setOpenModel(true);
-        props.progress(100)
-        elem.status = true    // manually changing its value--------------
+        props.progress(100);
+        elem.status = true; // manually changing its value--------------
       } else {
         toast.error("Some error occured", {
           position: "top-center",
@@ -138,8 +148,7 @@ function ServiceDetailPage(props) {
         });
       }
     }
-  }
-
+  };
 
   return (
     <>
@@ -173,15 +182,47 @@ function ServiceDetailPage(props) {
       />
 
       <div className="servicelist-wrapper" onClick={() => removeOptionPopup()}>
-        <h1 className="headers_section_paymentInfo" >My Content</h1>
+        <h1 className="headers_section_paymentInfo">My Content</h1>
         <span className="servicelist_wrap_span">
           Manage your all contents and services
         </span>
         <div className="servicelist-categories">
-          <div className={`servicelist-catItem ${selected === "all" && "selectedlist"}`} onClick={()=>setSelected("all")}>All ({services?.typeDetails?.Document + services?.typeDetails?.Excel + services?.typeDetails?.Video})</div>
-          <div className={`servicelist-catItem ${selected === "pdf" && "selectedlist"}`} onClick={()=>setSelected("pdf")}>PDF ({services?.typeDetails?.Document})</div>
-          <div className={`servicelist-catItem ${selected === "excel" && "selectedlist"}`} onClick={()=>setSelected("excel")}>Excel Sheets ({services?.typeDetails?.Excel})</div>
-          <div className={`servicelist-catItem ${selected === "video" && "selectedlist"}`} onClick={()=>setSelected("video")}>Videos ({services?.typeDetails?.Video})</div>
+          <div
+            className={`servicelist-catItem ${
+              selected === "all" && "selectedlist"
+            }`}
+            onClick={() => setSelected("all")}
+          >
+            All (
+            {services?.typeDetails?.Document +
+              services?.typeDetails?.Excel +
+              services?.typeDetails?.Video}
+            )
+          </div>
+          <div
+            className={`servicelist-catItem ${
+              selected === "pdf" && "selectedlist"
+            }`}
+            onClick={() => setSelected("pdf")}
+          >
+            PDF ({services?.typeDetails?.Document})
+          </div>
+          <div
+            className={`servicelist-catItem ${
+              selected === "excel" && "selectedlist"
+            }`}
+            onClick={() => setSelected("excel")}
+          >
+            Excel Sheets ({services?.typeDetails?.Excel})
+          </div>
+          <div
+            className={`servicelist-catItem ${
+              selected === "video" && "selectedlist"
+            }`}
+            onClick={() => setSelected("video")}
+          >
+            Videos ({services?.typeDetails?.Video})
+          </div>
         </div>
         <div className="servicelist-linebreak"></div>
         <div className="servicelist-table">
@@ -229,10 +270,11 @@ function ServiceDetailPage(props) {
                           <span
                             className="servicelist_icon"
                             onClick={() => {
-                              !dummyData && window.open(
-                                `/viewUserDetails/${elem.slug}`,
-                                "_blank"
-                              );
+                              !dummyData &&
+                                window.open(
+                                  `/viewUserDetails/${elem.slug}`,
+                                  "_blank"
+                                );
                             }}
                           >
                             <img src={UserIcon}></img>
@@ -245,10 +287,11 @@ function ServiceDetailPage(props) {
                           <span
                             className="servicelist_icon iconalign"
                             onClick={() => {
-                              !dummyData && window.open(
-                                `/serviceStats/${elem.slug}`,
-                                "_blank"
-                              );
+                              !dummyData &&
+                                window.open(
+                                  `/serviceStats/${elem.slug}`,
+                                  "_blank"
+                                );
                             }}
                           >
                             <img src={ChartIcon}></img>
@@ -278,7 +321,9 @@ function ServiceDetailPage(props) {
                         <TableCell align="center">
                           <span
                             className="servicelist_icon iconalign"
-                            onClick={() => !dummyData && openOptionsPopup(i + 1)}
+                            onClick={() =>
+                              !dummyData && openOptionsPopup(i + 1)
+                            }
                           >
                             <img src={Option}></img>
                           </span>
@@ -309,7 +354,7 @@ function ServiceDetailPage(props) {
                                 <div
                                   className="modaloptions_servicelist"
                                   onClick={() => {
-                                    navigate(`/user_review`);
+                                    navigate(`/reviews`);
                                   }}
                                 >
                                   User Reviews

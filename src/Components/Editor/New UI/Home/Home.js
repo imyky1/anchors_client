@@ -21,12 +21,13 @@ import { LoadOne } from "../../../Modals/Loading";
 import { linkedinContext } from "../../../../Context/LinkedinState";
 import Waitlist from "../../../Waitlist/Waitlist";
 import HelpModal from "../../../Modals/ModalType01/HelpModal";
+import Edit from "../../../Edit Service/Edit";
 
 function Home(props) {
   const location = useLocation();
   const navigate = useNavigate();
   const [openCreatorInfo, setopenCreatorInfo] = useState(false);
-  const [openHelpModal, setOpenHelpModal] = useState(false)
+  const [openHelpModal, setOpenHelpModal] = useState(false);
   const [Rating, setRating] = useState("");
   const [creatorData, setcreatorData] = useState({ Reviews: "", Services: "" });
   const {
@@ -120,9 +121,9 @@ function Home(props) {
       {/* at /check the loader comes into role */}
       {location.pathname === "/check" && <LoadOne />}
 
-
       {localStorage.getItem("jwtToken") &&
-        localStorage.getItem("c_id") && basicNav?.name &&
+        localStorage.getItem("c_id") &&
+        basicNav?.name &&
         // checking for the status and hence removing all other routes-------------
         (basicNav?.status === 0 ? (
           <Waitlist />
@@ -133,7 +134,12 @@ function Home(props) {
               moreInfo={{ ...creatorData, Rating }}
               alternateInfo={allCreatorInfo}
             />
-            <HelpModal open={openHelpModal} toClose={()=>{setOpenHelpModal(false)}}/>
+            <HelpModal
+              open={openHelpModal}
+              toClose={() => {
+                setOpenHelpModal(false);
+              }}
+            />
 
             <div className="right_side_home_page">
               <Navbar
@@ -147,7 +153,9 @@ function Home(props) {
                 open={openCreatorInfo}
                 userData={basicNav}
                 alternateInfo={allCreatorInfo}
-                openHelp={()=>{setOpenHelpModal(true)}}
+                openHelp={() => {
+                  setOpenHelpModal(true);
+                }}
                 moreInfo={{ ...creatorData, Rating }}
                 toClose={() => {
                   setopenCreatorInfo(false);
@@ -172,7 +180,6 @@ function Home(props) {
                       path="/mycontents"
                       element={<ServiceDetailPage progress={props.progress} />}
                     />
-
                     {/* Create service Route ---------------------------------------------------- */}
                     <Route
                       path="/createservice"

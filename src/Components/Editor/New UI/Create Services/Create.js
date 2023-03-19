@@ -399,11 +399,11 @@ function Create(props) {
           </h1>
           <p className="create_text_02">
             {CreateType === "pdf"
-              ? "You can upload notes, Interview Questions, English Vocabulary etc."
+              ? "Express yourself and share concepts, tricks and tips and many more things via any document format."
               : CreateType === "excel"
-              ? "You can upload notes, Interview Questions, English Vocabulary etc."
+              ? "From curated lists to opportunity lists, you can upload whatever you want via simple (or complex) Excel sheets"
               : CreateType === "video"
-              ? "You can upload Videos and share with audience to access"
+              ? "Add a personal touch with Interview Q&A's, How-to Tutorials, Lectures etc. to engage your audience"
               : ""}
           </p>
         </section>
