@@ -14,8 +14,11 @@ import { LoadTwo } from "../../../Modals/Loading";
 import "./UserReview.css";
 import { SuperSEO } from "react-super-seo";
 import { toast } from "react-toastify";
+import { Button1 } from "../Create Services/InputComponents/buttons";
+import { useNavigate } from "react-router-dom";
 
 const UserReviews = () => {
+  const navigate = useNavigate()
   const [openModel, setOpenModel] = useState(false);
   const [changeStatus, setChangeStatus] = useState(1);
   const [openLoading, setOpenLoading] = useState(false);
@@ -33,17 +36,7 @@ const UserReviews = () => {
     });
   }, []);
 
-  // notification of the dummy data--------------------------------
-  useEffect(() => {
-    if(dummyData){
-      toast.info("The data shown is Dummy Data, which will give you a brief hint of how your data will be represented",{
-        autoClose:5000
-      })
-    }
-
-  }, [dummyData])
-
-
+  
   const handleCheckClick = (elem) => {
     setSELECTED(elem);
     if (!elem.status) {
@@ -190,6 +183,14 @@ const UserReviews = () => {
           </Table>
         </TableContainer>
       </div>
+
+
+      {dummyData && <div className="cta_dummy_data">
+        <span>this is dummy data , start creating your first service for your data</span>
+        <Button1 text="Create your First Service" width="268px" onClick={()=>{navigate("/dashboard")}}/>
+      </div>}
+
+
     </div>
     <SuperSEO title="Anchors - User reviews" />
     </>

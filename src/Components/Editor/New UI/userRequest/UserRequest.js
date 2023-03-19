@@ -8,14 +8,15 @@ import {
   TableRow,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { SuperSEO } from "react-super-seo";
-import { toast } from "react-toastify";
 import { creatorContext } from "../../../../Context/CreatorState";
 import { LoadTwo } from "../../../Modals/Loading";
-import ShowReviewModel from "../../../Modals/ShowReviewModel";
+import { Button1 } from "../Create Services/InputComponents/buttons";
 import "./UserRequest.css";
 
 const UserRequest = () => {
+  const navigate = useNavigate()
   const { getUserQueries, RequestsStats } = useContext(creatorContext);
   const [querries, setQuerries] = useState();
   const [openLoading, setopenLoading] = useState(false);
@@ -30,16 +31,6 @@ const UserRequest = () => {
     });
   }, []);
 
-  // notification of the dummy data--------------------------------
-  useEffect(() => {
-    if(dummyData){
-      toast.info("The data shown is Dummy Data, which will give you a brief hint of how your data will be represented",{
-        autoClose:5000
-      })
-    }
-
-  }, [dummyData])
-  
 
 
   const renderdate1 = (date) => {
@@ -188,6 +179,13 @@ const UserRequest = () => {
           </Table>
         </TableContainer>
       </div>
+
+      {dummyData && <div className="cta_dummy_data">
+        <span>this is dummy data , start creating your first service for your data</span>
+        <Button1 text="Create your First Service" width="268px" onClick={()=>{navigate("/dashboard")}}/>
+      </div>}
+
+
     </div>
     <SuperSEO title="Anchors - User requests" />
     </>

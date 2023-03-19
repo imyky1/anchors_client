@@ -20,6 +20,7 @@ import { host } from "../../../../config/config";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { SuperSEO } from "react-super-seo";
+import { Button1 } from "../Create Services/InputComponents/buttons";
 
 const PaymentSummary = () => {
   const navigate = useNavigate()
@@ -30,8 +31,10 @@ const PaymentSummary = () => {
   const [withdrawal, setWithdrawal] = useState(0);
   const [sort, setSort] = useState(0);
   const [service_data, set_service_data] = useState([]);
+  const [dummyData, setDummyData] = useState(false)
 
   const gettotalearning = async () => {
+
     const response = await fetch(`${host}/payments/totalearning`, {
       method: "GET",
       headers: {
@@ -44,8 +47,8 @@ const PaymentSummary = () => {
     const json = await response.json();
     setUorders(json.uorders);
     set_service_data(json.sorders);
+    setDummyData(json.dummy)
     if (json.success) {
-      console.log(json);
       return json;
     } else {
       //console.log(json.error)
@@ -251,6 +254,12 @@ const PaymentSummary = () => {
           </Table>
         </TableContainer>
       </div>
+
+      {dummyData && <div className="cta_dummy_data">
+        <span>this is dummy data , start creating your first service for your data</span>
+        <Button1 text="Create your First Service" width="268px" onClick={()=>{navigate("/dashboard")}}/>
+      </div>}
+
     </div>
     <SuperSEO title="Anchors - Payment Summary" />
     </>

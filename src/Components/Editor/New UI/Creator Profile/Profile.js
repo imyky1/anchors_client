@@ -25,6 +25,7 @@ import { SuperSEO } from "react-super-seo";
 import mixpanel from "mixpanel-browser";
 import User_login from "../../../Login/Users/User_login";
 import Hamburger from "hamburger-react";
+import Request_Modal from "../../../Modals/Request_Modal";
 
 function Profile() {
   const { slug } = useParams();
@@ -38,6 +39,7 @@ function Profile() {
   });
   const [UserDetails, setUserDetails] = useState();
   const [openModel, setOpenModel] = useState(false);
+  const [openModelRequest, setOpenModelRequest] = useState(false);
   const [openUserMenu, setOpenUserMenu] = useState(false);
 
   // contexts -------------------------------------------------------------------------
@@ -45,7 +47,7 @@ function Profile() {
     useContext(ServiceContext);
   const { getcreatoridUsingSlug, basicCreatorInfo, basicCdata } =
     useContext(creatorContext);
-  const { getallfeedback, feedbacks, createRequest } =
+  const { getallfeedback, feedbacks } =
     useContext(feedbackcontext);
   const { addSubscriber, checkSubscriber, getUserDetails } =
     useContext(userContext);
@@ -121,6 +123,16 @@ function Profile() {
   return (
     <>
       <ToastContainer />
+      <Request_Modal
+          open={openModelRequest}
+          onClose={() => {
+            setOpenModelRequest(false);
+          }}
+          id={basicCdata?._id}
+          cname={basicCreatorInfo?.name}
+          UserDetails={UserDetails ? UserDetails : ""}
+        />
+
       <User_login
         open={openModel}
         onClose={() => {
@@ -213,7 +225,7 @@ function Profile() {
               />
               <div className="creator_main_details_parts_01">
                 <h1 className="text_type_01_creator_profile">
-                  {basicCdata?.name}
+                  {basicCreatorInfo?.name ?? basicCdata?.name}
                 </h1>
                 <span className="text_type_02_creator_profile">
                   Content Creator @anchors
@@ -235,7 +247,7 @@ function Profile() {
                 </span>
               </div>
               {window.screen.width < 550 && (
-                <button className="request_resource_button_creator_profile">
+                <button className="request_resource_button_creator_profile" onClick={()=>{setOpenModelRequest(true)}}>
                   Request Resources
                 </button>
               )}
@@ -280,7 +292,7 @@ function Profile() {
                 )}
               </div>
               {window.screen.width > 550 && (
-                <button className="request_resource_button_creator_profile">
+                <button className="request_resource_button_creator_profile" onClick={()=>{setOpenModelRequest(true)}}>
                   Request Resources
                 </button>
               )}
