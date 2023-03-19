@@ -8,6 +8,7 @@ import logo from "../Main Page/Images/logo-beta.png";
 import CreatorInfo from "../Modals/CreatorProfile/Modal1";
 import { creatorContext } from "../../Context/CreatorState";
 import HelpModal from "../Modals/ModalType01/HelpModal";
+import mixpanel from "mixpanel-browser";
 
 function Waitlist() {
   const navigate = useNavigate();
@@ -16,6 +17,13 @@ function Waitlist() {
   const [wNum, setWNum] = useState(null);
   const { getAllCreatorInfo, allCreatorInfo, basicNav, getWaitlistNumber } =
     useContext(creatorContext);
+
+
+  // Visited page mix panel
+  useEffect(() => {
+    mixpanel.track("Visited Waitlist Page");
+  }, []);
+
 
 
   // responsible for getting the page data -----------------------------------
