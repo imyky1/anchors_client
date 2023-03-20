@@ -227,7 +227,7 @@ const CreatorState = (props) => {
   };
 
   // get all feebacks on creator id
-  const getAllFeedbacks = async (id) => {
+  const getAllFeedbacks = async () => {
     const response = await fetch(`${host}/api/query/getFeedbacks`, {
       method: "GET",
       headers: {

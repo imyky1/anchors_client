@@ -22,6 +22,7 @@ import { linkedinContext } from "../../../../Context/LinkedinState";
 import Waitlist from "../../../Waitlist/Waitlist";
 import HelpModal from "../../../Modals/ModalType01/HelpModal";
 import Edit from "../../../Edit Service/Edit";
+import EditService from "../Edit Services/EditService";
 
 function Home(props) {
   const location = useLocation();
@@ -190,7 +191,15 @@ function Home(props) {
                       element={<EditProfile progress={props.progress} />}
                     />
                     <Route
+                      path="/editservice/:slug/:servicetype"
+                      element={<EditService progress={props.progress} />}
+                    />
+                    <Route
                       path="/reviews"
+                      element={<UserReviews progress={props.progress} />}
+                    />
+                    <Route
+                      path="/servicereviews/:slug"
                       element={<UserReviews progress={props.progress} />}
                     />
                     <Route

@@ -18,14 +18,8 @@ import { LoadTwo } from "../../../Modals/Loading";
 // imports for image cropping
 import getCroppedImg, { generateDownload } from "../../../helper/imageresize";
 import {
-  TextField,
-  MenuItem,
-  ThemeProvider,
-  createTheme,
   Button,
   Modal,
-  Box,
-  Typography,
   Slider,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -60,7 +54,6 @@ function Create(props) {
     getAllCreatorInfo();
     // eslint-disable-next-line
   }, []);
-  console.log(allCreatorInfo);
   // default banner
   const [defaultbanner, setDefaultBanner] = useState(false);
   // const [defaultBannerPreview, setDefaultBannerPreview] = useState(false);
@@ -205,7 +198,6 @@ function Create(props) {
     }
     setdata({ ...data, [e.target.name]: e.target.value });
   };
-  console.log(data);
 
   // responsible for generating slug and copyURL
   const process = () => {
@@ -304,7 +296,6 @@ function Create(props) {
               }
             }, 1000);
           } else {
-            console.log(data1);
             banner = await Uploadfile(data1); /// uplaoding banner and files on s3
             var doc = await UploadDocuments(data2);
             let json;
@@ -581,7 +572,6 @@ function Create(props) {
                 />
               </div>
               {/* right section -------------------------- */}
-              {console.log(allowPreview)}
               <div className="right_section_form">
                 <TextField1
                   label={
@@ -601,7 +591,6 @@ function Create(props) {
                   }
                   onChange={(e) => setNoOfPages(e.target.value)}
                 />
-                {console.log(noOfPage)}
                 <RadioField1
                   label={
                     CreateType === "video" ? "Allow Download" : "Allow Preview"

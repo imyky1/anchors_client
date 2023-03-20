@@ -48,7 +48,9 @@ const ServiceState = (props) => {
         ssp: data.ssp,
         simg: data.simg,
         surl: data.surl,
-        tags: data.tags,
+        tags: data.Tags,
+        allowPreview : data.allowPreview,
+        previewPage : data.noOfPage
       }),
     });
     const json = await response.json();
@@ -526,7 +528,7 @@ const ServiceState = (props) => {
     }
   };
 
-  // get all subscribers
+  // get all order
   const getuserorder = async ({
     date,
     month,
@@ -551,6 +553,23 @@ const ServiceState = (props) => {
     } else {
       //console.log("Some error Occured")
     }
+  };
+
+
+  // get all service feedbacks or reviews 
+  const getfeedbacksfromslug = async (slug) => {
+    const response = await fetch(
+      `${host}/api/query/getFeedbacks/${slug}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+      }
+    );
+    const json = await response.json();
+    return json
   };
 
   return (
@@ -591,6 +610,7 @@ const ServiceState = (props) => {
         getworkshopusingid,
         getallworkshopsusingid,
         getallsubs,
+        getfeedbacksfromslug
       }}
     >
       {" "}

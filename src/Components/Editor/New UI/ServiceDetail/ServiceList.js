@@ -338,7 +338,7 @@ function ServiceDetailPage(props) {
                                 <div
                                   className="modaloptions_servicelist"
                                   onClick={() => {
-                                    navigate(`/editservice/${elem.slug}`);
+                                    navigate(`/editservice/${elem.slug}/${elem?.stype === 2 ? "video" : elem?.stype === 1 ? "excel" : "pdf"}`);
                                   }}
                                 >
                                   Edit Service
@@ -355,7 +355,7 @@ function ServiceDetailPage(props) {
                                 <div
                                   className="modaloptions_servicelist"
                                   onClick={() => {
-                                    navigate(`/reviews`);
+                                    navigate(`/servicereviews/${elem?.slug}`);
                                   }}
                                 >
                                   User Reviews

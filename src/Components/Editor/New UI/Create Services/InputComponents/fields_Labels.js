@@ -125,6 +125,7 @@ function fields_Labels3(props) {
         {props.onChange ? (
           <input
             type="checkbox"
+            checked={props?.value}
             onChange={(event) => props.onChange(event.target.checked)}
           />
         ) : (
@@ -181,7 +182,7 @@ function Tags01(props) {
         {props?.required && <span style={{ color: "red" }}>*</span>}
       </span>
       <div className="tags01_box">
-        {props?.tags.map((e, i) => {
+        {props?.tags?.map((e, i) => {
           return (
             <span key={i}>
               {e} <i class="fa-solid fa-xmark" onClick={() => removeTag(i)}></i>
