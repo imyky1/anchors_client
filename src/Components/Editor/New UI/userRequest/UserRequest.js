@@ -46,9 +46,9 @@ const UserRequest = () => {
   return (
     <>
     <div className="servicelist-wrapper">
-      <h1 className="text_type01_payment_info">Requested Resources from users</h1>
+      <h1 className="text_type01_payment_info">Audience Requests</h1>
       <span className="servicelist_wrap_span">
-        Get your detailed user requests here.
+        Quick glimpse of what your audience wants from you
       </span>
       <div className="usereview_details">
         <div className="userreview_detail1">
@@ -147,7 +147,7 @@ const UserRequest = () => {
               <TableRow>
                 <TableCell align="center">S.No</TableCell>
                 <TableCell align="center">Name</TableCell>
-                <TableCell align="center">Requested Resources</TableCell>
+                <TableCell align="center">Resources Requested</TableCell>
                 <TableCell align="center">Ready to pay</TableCell>
                 {/* <TableCell>Amount</TableCell> */}
                 <TableCell align="center">Requested date</TableCell>

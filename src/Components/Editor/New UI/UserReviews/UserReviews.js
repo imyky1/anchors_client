@@ -77,7 +77,7 @@ const UserReviews = () => {
       {openLoading && <LoadTwo open={openLoading} />}
 
       <div className="servicelist-wrapper">
-        <h1>User Reviews</h1>
+        <h1>Audience Reviews</h1>
         <span className="servicelist_wrap_span">
           Get your detailed user reviews here.
         </span>

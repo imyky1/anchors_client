@@ -147,8 +147,8 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
 
         {userData?.inviteCode && (
           <section className="invite_sidebar">
-            <h3>invite</h3>
-            <span>Copy & Send to friends for Faster approval</span>
+            <h3>INVITE CODE</h3>
+            <span>Share & avail EXCLUSIVE benefits!*<br/>-limited time offer</span>
             <div
               onClick={() => {
                 toast.info("Invite Code Copied Successfully", {

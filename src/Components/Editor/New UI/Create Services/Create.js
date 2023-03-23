@@ -379,22 +379,22 @@ function Create(props) {
         {/* Heading of the create section ------------------------ */}
         <section className="heading_create_box">
           <h1 className="create_text_01">
-            Create{" "}
+            What is your{" "}
             {CreateType === "pdf"
               ? "PDF"
               : CreateType === "excel"
-              ? "Excel sheet"
+              ? "Excel Sheet"
               : CreateType === "video"
               ? "Video"
-              : ""}
+              : ""}{" "} about?
           </h1>
           <p className="create_text_02">
             {CreateType === "pdf"
-              ? "Express yourself and share concepts, tricks and tips and many more things via any document format."
+              ? "You can upload helpful study material, interview questions, food recipes etc."
               : CreateType === "excel"
-              ? "From curated lists to opportunity lists, you can upload whatever you want via simple (or complex) Excel sheets"
+              ? "You can upload helpful study material, interview questions prep, list of companies hiring, etc"
               : CreateType === "video"
-              ? "Add a personal touch with Interview Q&A's, How-to Tutorials, Lectures etc. to engage your audience"
+              ? "You can upload gorgeous art, DIY tutorials, Fashion Ideas etc."
               : ""}
           </p>
         </section>
@@ -404,7 +404,7 @@ function Create(props) {
           {/* left side---------------------------------------------------------------------------- */}
           <div className="left_section_form">
             <TextField1
-              label="Service Title"
+              label="Title of Service"
               name="sname"
               id="sname"
               required={true}
@@ -477,9 +477,21 @@ function Create(props) {
               ""
             )}
             <Editor1
-              label="Describe about Service"
-              placeholder="Please describe about your service briefly"
-              info="This will help audience to download"
+              label={`Describe your ${CreateType === "pdf"
+              ? "Document"
+              : CreateType === "excel"
+              ? "Sheet"
+              : CreateType === "video"
+              ? "Video"
+              : ""}`}
+              placeholder={`Caption your ${CreateType === "pdf"
+              ? "Document"
+              : CreateType === "excel"
+              ? "Sheet"
+              : CreateType === "video"
+              ? "Video"
+              : ""}`}
+              info="A brief description gives your audience some context"
               Content={Content}
               required={true}
               setContent={(e) => setContent(e)}
@@ -489,7 +501,7 @@ function Create(props) {
           {/* right side----------------- ---------------------------------------------------------------------------*/}
           <div className="right_section_form">
             <Dropdown1
-              label="Service Type "
+              label="Is it paid/free?"
               placeholder="Choose a service type"
               value={["Free", "Paid"]}
               required={true}
@@ -509,7 +521,13 @@ function Create(props) {
               />
             )}
             <UploadField1
-              label="Upload Document"
+              label={`Upload your ${CreateType === "pdf"
+              ? "Document"
+              : CreateType === "excel"
+              ? "Sheet"
+              : CreateType === "video"
+              ? "Video"
+              : ""}`}
               id="asd1515"
               required={true}
               onChange={setServiceDoc}
@@ -534,9 +552,9 @@ function Create(props) {
             />
             <section style={{ marginTop: "47px" }}></section>
             <Tags1
-              label="Enter Tags"
-              placeholder="Press enter to add tags"
-              info="This will help in recommendation"
+              label="Add Relevant Tags"
+              placeholder="Press Enter to add tags"
+              info="This will help in easy search and recommendation"
               tags={Tags}
               setTags={setTags}
             />
@@ -552,21 +570,27 @@ function Create(props) {
                 setAdvanced(!advanced);
               }}
             >
-              Advanced customize &nbsp;<i className="fa-solid fa-plus "></i>
+              Advanced Customizations &nbsp;<i className="fa-solid fa-plus "></i>
             </span>
           </section>
         )}
 
         {advanced && (
           <section className="advanced_custom_mode_create">
-            <span className="create_text_03">Advanced customize</span>
+            <span className="create_text_03">Advanced Customizations</span>
             <section>
               {/* left section -------------------------- */}
               <div className="left_section_form">
                 <Editor1
                   name="sdesc"
-                  label="Describe about Service"
-                  placeholder="Guidelines to use it"
+                  label={`Describe your ${CreateType === "pdf"
+                  ? "Document"
+                  : CreateType === "excel"
+                  ? "Sheet"
+                  : CreateType === "video"
+                  ? "Video"
+                  : ""}`}
+                  placeholder="Mention guidelines how your content can be useful for your audience"
                   Content={data.sdesc}
                   setContent={(e) => setdata({ ...data, sdesc: e })}
                 />
@@ -584,7 +608,7 @@ function Create(props) {
                   type="number"
                   placeholder={
                     CreateType === "video"
-                      ? "48 Mins"
+                      ? "in minutes"
                       : CreateType === "excel"
                       ? "21"
                       : ""

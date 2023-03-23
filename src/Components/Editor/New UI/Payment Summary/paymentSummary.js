@@ -126,8 +126,8 @@ const PaymentSummary = () => {
     {openLoading && <LoadTwo open={openLoading} />}
     <div className="servicelist-wrapper">
       <section className="headers_section_paymentInfo">
-      <h1 className="text_type01_payment_info">Payment Summary</h1>
-      <button onClick={()=>{navigate("/paymentInfo")}}>Payment Details</button>
+      <h1 className="text_type01_payment_info">Earnings Summary</h1>
+      <button onClick={()=>{navigate("/paymentInfo")}}>Account Details</button>
       </section>
       <div className="usereview_details">
         <div className="userreview_detail1">
@@ -145,7 +145,7 @@ const PaymentSummary = () => {
           </div>
           <div className="userreview_detailedno">
             <h3>₹ {withdrawal}</h3>
-            <span>Withdrawal</span>
+            <span>Amount Withdrawn</span>
           </div>
         </div>
         <div className="userreview_detail1">
@@ -154,7 +154,7 @@ const PaymentSummary = () => {
           </div>
           <div className="userreview_detailedno">
             <h3>₹ {totalearning - (totalearning * 1) / 100 - withdrawal}</h3>
-            <span>Available</span>
+            <span>Balance Amount</span>
           </div>
         </div>
       </div>

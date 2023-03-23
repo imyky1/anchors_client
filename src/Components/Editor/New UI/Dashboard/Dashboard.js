@@ -10,15 +10,14 @@ function Dashboard() {
     <>
     <div className="main_dashboard_conatiner">
       <div>
-        <h2 className="text_01_dashboard">Welcome to anchors</h2>
+        <h2 className="text_01_dashboard">Welcome! Everything you need to NAIL IT is here!</h2>
         <span className="text_02_dashboard">
-          you can upload Excel sheets, Important Document, Notes, Interview
-          Questions & Videos
+        Upload interview prep documents, food recipes and inspiring videos here - in the format of your choice
         </span>
         <section>
-            <div onClick={()=>navigate("/createservice?type=pdf")} className="dashboard_options">Create PDF</div>
-            <div onClick={()=>navigate("/createservice?type=excel")} className="dashboard_options">Create Excelsheet</div>
-            <div onClick={()=>navigate("/createservice?type=video")} className="dashboard_options">Upload Video</div>
+            <div onClick={()=>navigate("/createservice?type=pdf")} className="dashboard_options">Share a PDF</div>
+            <div onClick={()=>navigate("/createservice?type=excel")} className="dashboard_options">Share an Excel</div>
+            <div onClick={()=>navigate("/createservice?type=video")} className="dashboard_options">Share a Video</div>
         </section>
       </div>
     </div>

@@ -185,7 +185,7 @@ function ServiceDetailPage(props) {
       <div className="servicelist-wrapper" onClick={() => removeOptionPopup()}>
         <h1 className="headers_section_paymentInfo">My Content</h1>
         <span className="servicelist_wrap_span">
-          Manage your all contents and services
+        Access and Manage your Content & Services
         </span>
         <div className="servicelist-categories">
           <div

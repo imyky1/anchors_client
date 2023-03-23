@@ -69,13 +69,13 @@ function PaymentInfo() {
       {openLoading && <LoadTwo open={openLoading} />}
       <div className="payment_info_main_container">
         <section className="headers_section_paymentInfo">
-          <h1 className="text_type01_payment_info">Payment Details</h1>
+          <h1 className="text_type01_payment_info">Account Details</h1>
           <button
             onClick={() => {
               navigate("/paymentSummary");
             }}
           >
-            Payment Summary
+            Earnings Summary
           </button>
         </section>
 
