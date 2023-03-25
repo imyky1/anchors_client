@@ -113,6 +113,7 @@ function Create(props) {
   useEffect(() => {
     setCreateType(paramsType);
     sessionStorage.removeItem("canvas");
+    sessionStorage.removeItem("gradColor");
   }, [paramsType]);
 
   // genrating copy url string -----------------------------------------------
