@@ -107,7 +107,7 @@ class Canvas extends Component {
     ctx.fill();
     ctx.fillStyle = "#000";
 
-    let creator_name = `BY - ${this.props.creator_name}`;
+    let creator_name = `By - ${this.props.creator_name}`;
     let wrappedTextName = await wrapText(ctx, creator_name, 105, 395, 340, 50);
     wrappedTextName.forEach(async (item, i) => {
       if (i > 0) {
