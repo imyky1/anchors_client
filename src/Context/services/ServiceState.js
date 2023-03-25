@@ -49,8 +49,8 @@ const ServiceState = (props) => {
         simg: data.simg,
         surl: data.surl,
         tags: data.Tags,
-        allowPreview : data.allowPreview,
-        previewPage : data.noOfPage
+        allowPreview: data.allowPreview,
+        previewPage: data.noOfPage,
       }),
     });
     const json = await response.json();
@@ -89,8 +89,10 @@ const ServiceState = (props) => {
     smrp,
     ssp,
     allowPreview,
-    noOfPage
+    noOfPage,
+    guidelines
   ) => {
+    console.log(guidelines);
     const response = await fetch(`${host}/api/services/createservice`, {
       method: "POST",
       headers: {
@@ -114,6 +116,7 @@ const ServiceState = (props) => {
         ssp: ssp,
         allowPreview: allowPreview,
         previewPage: noOfPage,
+        guidelines: guidelines,
       }),
     });
     const json = await response.json();
@@ -555,21 +558,17 @@ const ServiceState = (props) => {
     }
   };
 
-
-  // get all service feedbacks or reviews 
+  // get all service feedbacks or reviews
   const getfeedbacksfromslug = async (slug) => {
-    const response = await fetch(
-      `${host}/api/query/getFeedbacks/${slug}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "jwt-token": localStorage.getItem("jwtToken"),
-        },
-      }
-    );
+    const response = await fetch(`${host}/api/query/getFeedbacks/${slug}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
+    });
     const json = await response.json();
-    return json
+    return json;
   };
 
   return (
@@ -610,7 +609,7 @@ const ServiceState = (props) => {
         getworkshopusingid,
         getallworkshopsusingid,
         getallsubs,
-        getfeedbacksfromslug
+        getfeedbacksfromslug,
       }}
     >
       {" "}
