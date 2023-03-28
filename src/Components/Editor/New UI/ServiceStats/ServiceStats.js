@@ -69,15 +69,21 @@ const ServiceStats = (props) => {
       }),
     });
     response = await response.json();
-    setBounceRate(response.result.bouncerate);
-    setAvgTime(response.result.avgTime);
+    console.log(response);
+    if (response.result) {
+      setBounceRate(response?.result?.bouncerate);
+      setAvgTime(response?.result?.avgTime);
+    }
   };
-
   useEffect(() => {
     setopenLoading(true);
-    getAnalyticsData().then(()=>{
-      setopenLoading(false);
-    })
+    console.log(serviceInfo.slug);
+    if (serviceInfo.slug) {
+      console.log("www");
+      getAnalyticsData().then(() => {
+        setopenLoading(false);
+      });
+    }
   }, [serviceInfo?.slug]);
 
   // Checking if the user is only able to check its data not others-------------------
@@ -129,18 +135,19 @@ const ServiceStats = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
           setMixpanelData({
-            valueunique: data.response.uniquevisits,
-            valuenotunique: data.response.Totalvisits,
+            valueunique: data?.response?.uniquevisits,
+            valuenotunique: data?.response?.Totalvisits,
           });
         });
     }
   };
 
   useEffect(() => {
-    const process = async () =>{
-      await handler()
-    }
+    const process = async () => {
+      await handler();
+    };
 
     toast.promise(
       process,
@@ -154,12 +161,12 @@ const ServiceStats = (props) => {
       }
     );
 
-    process()
+    process();
   }, [serviceInfo, workshopInfo]);
 
   return (
     <>
-     <ToastContainer/>
+      <ToastContainer />
       {(openLoading || !approvedUser) && <LoadTwo open={!approvedUser} />}
 
       {approvedUser && (
@@ -196,9 +203,7 @@ const ServiceStats = (props) => {
                 onClick={() => {
                   serviceType === "download"
                     ? navigate(`/viewUserDetails/${slug}`)
-                    : navigate(
-                        `/viewUserDetails/${slug}?service=workshop`
-                      );
+                    : navigate(`/viewUserDetails/${slug}?service=workshop`);
                 }}
               >
                 Check Registered Users

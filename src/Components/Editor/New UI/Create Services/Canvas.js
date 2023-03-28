@@ -1,5 +1,6 @@
 // import { PNGStream } from "canvas";
 import React, { Component } from "react";
+import DEFAULTLOGO from "../Images and svgs/android-chrome-192x192.png";
 
 class Canvas extends Component {
   constructor(props) {
@@ -98,7 +99,7 @@ class Canvas extends Component {
     //diagonal
     gradient(colors[randomNumber], colors[randomNumber2], this.canvas.current);
     ctx.fillRect(0, 0, this.canvas.current.width, this.canvas.current.height);
-    ctx.font = "600 25px Roboto";
+    ctx.font = "600 35px Roboto";
     ctx.strokeStyle = "#fff";
     await ctx.roundRect(60, 350, 410, 65, 50);
     await ctx.stroke();
@@ -106,15 +107,8 @@ class Canvas extends Component {
     ctx.fill();
     ctx.fillStyle = "#000";
 
-    let creator_name = `BY - ${this.props.creator_name}`;
-    let wrappedTextName = await wrapText(
-      ctx,
-      creator_name,
-      105,
-      389.5,
-      340,
-      50
-    );
+    let creator_name = `By - ${this.props.creator_name}`;
+    let wrappedTextName = await wrapText(ctx, creator_name, 105, 395, 340, 50);
     wrappedTextName.forEach(async (item, i) => {
       if (i > 0) {
         return;
@@ -149,19 +143,36 @@ class Canvas extends Component {
       }
       await ctx.fillText(item[0], item[1], item[2]);
     });
-    const img2 = new Image();
-    img2.crossOrigin = "anonymous";
-    img2.src = `${this.props.imgBackground}`;
-    await img2.decode();
-    ctx.beginPath();
-    ctx.arc(1100, 310, 270, 0, 2 * Math.PI);
-    ctx.closePath();
-    ctx.clip();
-    ctx.drawImage(img2, 800, 35, 500, 500);
-    ctx.closePath();
+    try {
+      const img2 = new Image();
+      img2.crossOrigin = "anonymous";
+      img2.src = `${this.props.imgBackground}`;
+      await img2.decode();
+      ctx.beginPath();
+      ctx.arc(1100, 310, 270, 0, 2 * Math.PI);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(img2, 800, 35, 500, 500);
+      ctx.closePath();
+    } catch (error) {
+      console.log(error);
+      try {
+        const img2 = new Image();
+        img2.crossOrigin = "anonymous";
+        img2.src = DEFAULTLOGO;
+        await img2.decode();
+        ctx.beginPath();
+        ctx.arc(1100, 310, 270, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(img2, 890, 170, 200, 200);
+        ctx.closePath();
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
     let canvasImage = this.canvas.current.toDataURL("image/png");
-    console.log(canvasImage);
     sessionStorage.setItem("canvas", canvasImage);
     this.props.setURL(canvasImage);
   }

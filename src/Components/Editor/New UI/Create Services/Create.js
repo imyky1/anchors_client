@@ -17,11 +17,7 @@ import { LoadTwo } from "../../../Modals/Loading";
 
 // imports for image cropping
 import getCroppedImg, { generateDownload } from "../../../helper/imageresize";
-import {
-  Button,
-  Modal,
-  Slider,
-} from "@mui/material";
+import { Button, Modal, Slider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Cropper from "react-easy-crop";
@@ -75,6 +71,7 @@ function Create(props) {
     smrp: 0,
     ssp: 0,
     CopyURL: "",
+    guidelines: "",
   });
   const [Tags, setTags] = useState([]);
   const [Content, setContent] = useState();
@@ -116,6 +113,7 @@ function Create(props) {
   useEffect(() => {
     setCreateType(paramsType);
     sessionStorage.removeItem("canvas");
+    sessionStorage.removeItem("gradColor");
   }, [paramsType]);
 
   // genrating copy url string -----------------------------------------------
@@ -232,21 +230,20 @@ function Create(props) {
 
             setTimeout(async () => {
               let canvasImage = sessionStorage.getItem("canvas");
-              console.log(canvasImage);
               // this can be used to download any image from webpage to local disk
-              let xhr = new XMLHttpRequest();
-              xhr.responseType = "blob";
-              xhr.onload = function () {
-                let a = document.createElement("a");
-                a.href = window.URL.createObjectURL(xhr.response);
-                a.download = "image_name.png";
-                a.style.display = "none";
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-              };
-              xhr.open("GET", canvasImage); // This is to download the canvas Image
-              xhr.send();
+              // let xhr = new XMLHttpRequest();
+              // xhr.responseType = "blob";
+              // xhr.onload = function () {
+              //   let a = document.createElement("a");
+              //   a.href = window.URL.createObjectURL(xhr.response);
+              //   a.download = "image_name.png";
+              //   a.style.display = "none";
+              //   document.body.appendChild(a);
+              //   a.click();
+              //   a.remove();
+              // };
+              // xhr.open("GET", canvasImage); // This is to download the canvas Image
+              // xhr.send();
               const data3 = new FormData();
 
               var blob = dataURItoBlob(canvasImage);
@@ -274,7 +271,8 @@ function Create(props) {
                   paid === "Free" ? 0 : data.smrp,
                   paid === "Free" ? 0 : data.ssp,
                   allowPreview,
-                  allowPreview ? noOfPage : 0
+                  allowPreview ? noOfPage : 0,
+                  data.guidelines
                 );
                 if (json.success) {
                   //setservData(json.res);
@@ -318,7 +316,8 @@ function Create(props) {
                 paid === "Free" ? 0 : data.smrp,
                 paid === "Free" ? 0 : data.ssp,
                 allowPreview,
-                allowPreview ? noOfPage : 0
+                allowPreview ? noOfPage : 0,
+                data.guidelines
               );
               if (json.success) {
                 //setservData(json.res);
@@ -386,7 +385,8 @@ function Create(props) {
               ? "Excel Sheet"
               : CreateType === "video"
               ? "Video"
-              : ""}{" "} about?
+              : ""}{" "}
+            about?
           </h1>
           <p className="create_text_02">
             {CreateType === "pdf"
@@ -477,20 +477,24 @@ function Create(props) {
               ""
             )}
             <Editor1
-              label={`Describe your ${CreateType === "pdf"
-              ? "Document"
-              : CreateType === "excel"
-              ? "Sheet"
-              : CreateType === "video"
-              ? "Video"
-              : ""}`}
-              placeholder={`Caption your ${CreateType === "pdf"
-              ? "Document"
-              : CreateType === "excel"
-              ? "Sheet"
-              : CreateType === "video"
-              ? "Video"
-              : ""}`}
+              label={`Describe your ${
+                CreateType === "pdf"
+                  ? "Document"
+                  : CreateType === "excel"
+                  ? "Sheet"
+                  : CreateType === "video"
+                  ? "Video"
+                  : ""
+              }`}
+              placeholder={`Caption your ${
+                CreateType === "pdf"
+                  ? "Document"
+                  : CreateType === "excel"
+                  ? "Sheet"
+                  : CreateType === "video"
+                  ? "Video"
+                  : ""
+              }`}
               info="A brief description gives your audience some context"
               Content={Content}
               required={true}
@@ -521,13 +525,15 @@ function Create(props) {
               />
             )}
             <UploadField1
-              label={`Upload your ${CreateType === "pdf"
-              ? "Document"
-              : CreateType === "excel"
-              ? "Sheet"
-              : CreateType === "video"
-              ? "Video"
-              : ""}`}
+              label={`Upload your ${
+                CreateType === "pdf"
+                  ? "Document"
+                  : CreateType === "excel"
+                  ? "Sheet"
+                  : CreateType === "video"
+                  ? "Video"
+                  : ""
+              }`}
               id="asd1515"
               required={true}
               onChange={setServiceDoc}
@@ -570,7 +576,8 @@ function Create(props) {
                 setAdvanced(!advanced);
               }}
             >
-              Advanced Customizations &nbsp;<i className="fa-solid fa-plus "></i>
+              Advanced Customizations &nbsp;
+              <i className="fa-solid fa-plus "></i>
             </span>
           </section>
         )}
@@ -583,16 +590,18 @@ function Create(props) {
               <div className="left_section_form">
                 <Editor1
                   name="sdesc"
-                  label={`Describe your ${CreateType === "pdf"
-                  ? "Document"
-                  : CreateType === "excel"
-                  ? "Sheet"
-                  : CreateType === "video"
-                  ? "Video"
-                  : ""}`}
+                  label={`Describe your ${
+                    CreateType === "pdf"
+                      ? "Document"
+                      : CreateType === "excel"
+                      ? "Sheet"
+                      : CreateType === "video"
+                      ? "Video"
+                      : ""
+                  }`}
                   placeholder="Mention guidelines how your content can be useful for your audience"
                   Content={data.sdesc}
-                  setContent={(e) => setdata({ ...data, sdesc: e })}
+                  setContent={(e) => setdata({ ...data, guidelines: e })}
                 />
               </div>
               {/* right section -------------------------- */}
