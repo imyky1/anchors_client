@@ -10,12 +10,15 @@ import { Button1 } from "../Editor/New UI/Create Services/InputComponents/button
 import { toast, ToastContainer } from "react-toastify";
 import { creatorContext } from "../../Context/CreatorState";
 import mixpanel from "mixpanel-browser"
+import SignupModal from "../Modals/ModalType01/SignupModal";
+import Confetti from 'react-confetti'
+import InviteModal from "../Modals/ModalType01/InviteModal";
 
 function TellUsMore() {
   const navigate = useNavigate();
   const { verifyInviteCode, fillTellUsMoreForm,getTellUsMoreFormData,updateStatus } = useContext(creatorContext);
   const [formAlreadyFilled, setFormAlreadyFilled] = useState(false)
-
+  const [formPassed, setFormPassed] = useState(false)
 
   // Visited page mix panel
   useEffect(() => {
@@ -41,6 +44,7 @@ function TellUsMore() {
   
 
   const [verifiedCode, setVerifiedCode] = useState(false);
+  const [verifiedCodeModal, setVerifiedCodeModal] = useState(false);
   const [formData, setformData] = useState({
     inviteCode: "",
     contactNumber: 0,
@@ -56,6 +60,7 @@ function TellUsMore() {
       if (e?.success) {
         if (e?.verified) {
           setVerifiedCode(true);
+          setVerifiedCodeModal(true)
         } else {
           toast.error("Use a correct invite Code", {
             position: "top-center",
@@ -95,6 +100,7 @@ function TellUsMore() {
   };
 
   const handleSubmit = async () => {
+    try {
     if (
       formData.contactNumber?.toString().length > 1 &&
       formData.platform !== "" &&
@@ -113,22 +119,13 @@ function TellUsMore() {
           formData?.knownFrom
         ).then((e) => {
           if (e?.success) {
-            toast.success("Form submitted successfully",{
-                position:"top-center",
-                autoClose:1500
-            });
 
             switch (formData?.platform) {
               case "LinkedIn":
                 if (parseInt(formData?.followers) > 10000 && verifiedCode) {
-                  updateStatus()
-                  toast.success("Hey anchor, Welcome to anchors platform",{
-                    position:"top-center",
-                    autoClose:3500
+                  updateStatus().then((e)=>{
+                    setFormPassed(true)
                   })
-                  setTimeout(() => {
-                    navigate("/dashboard")
-                  }, 3500);
                 }
                 else{
                     navigate("/waitlist")
@@ -136,14 +133,9 @@ function TellUsMore() {
                 break;
               case "Youtube":
                 if (parseInt(formData?.followers) > 10000 && verifiedCode) {
-                   updateStatus()
-                  toast.success("Hey anchor, Welcome to anchors platform",{
-                    position:"top-center",
-                    autoClose:3500
-                  })
-                  setTimeout(() => {
-                    navigate("/dashboard")
-                  }, 3500);
+                   updateStatus().then((e)=>{
+                     setFormPassed(true)
+                    })
                 }
                 else{
                     navigate("/waitlist")
@@ -151,14 +143,9 @@ function TellUsMore() {
                 break;
               case "Instagram":
                 if (parseInt(formData?.followers) > 10000 && verifiedCode) {
-                   updateStatus()
-                  toast.success("Hey anchor, Welcome to anchors platform",{
-                    position:"top-center",
-                    autoClose:3500
-                  })
-                  setTimeout(() => {
-                    navigate("/dashboard")
-                  }, 3500);
+                   updateStatus().then((e)=>{
+                     setFormPassed(true)
+                    })
                 }
                 else{
                     navigate("/waitlist")
@@ -166,14 +153,9 @@ function TellUsMore() {
                 break;
               case "Telegram":
                 if (parseInt(formData?.followers) > 5000 && verifiedCode) {
-                   updateStatus()
-                  toast.success("Hey anchor, Welcome to anchors platform",{
-                    position:"top-center",
-                    autoClose:3500
-                  })
-                  setTimeout(() => {
-                    navigate("/dashboard")
-                  }, 3500);
+                   updateStatus().then((e)=>{
+                     setFormPassed(true)
+                    })
                 }
                 else{
                     navigate("/waitlist")
@@ -181,14 +163,9 @@ function TellUsMore() {
                 break;
               case "Facebook":
                 if (parseInt(formData?.followers) > 5000 && verifiedCode) {
-                   updateStatus()
-                  toast.success("Hey anchor, Welcome to anchors platform",{
-                    position:"top-center",
-                    autoClose:3500
-                  })
-                  setTimeout(() => {
-                    navigate("/dashboard")
-                  }, 3500);
+                   updateStatus().then((e)=>{
+                     setFormPassed(true)
+                    })
                 }
                 else{
                     navigate("/waitlist")
@@ -218,6 +195,12 @@ function TellUsMore() {
         autoClose: 2500,
       });
     }
+  } catch (error) {
+      toast.error("Some error occured! Please try again or ask for help",{
+        position:"top-center",
+        autoClose:3000
+      })
+  }
   };
 
   
@@ -230,6 +213,12 @@ function TellUsMore() {
   return (
     <>
       <ToastContainer />
+      {verifiedCodeModal && <InviteModal toClose={()=>setVerifiedCodeModal(false)}/>}
+      {formPassed && <><SignupModal/>
+      <Confetti
+      width={window.screen.width}
+      height={window.screen.height}
+    /></>}
       <div className="signup_page">
         <div className="left_signup_side wailist_left_side">
           <Link to="/" style={{ textDecoration: "none", color: "unset" }}>

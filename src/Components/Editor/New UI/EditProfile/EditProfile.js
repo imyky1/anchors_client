@@ -55,6 +55,7 @@ const EditProfile = (props) => {
     topmateLink: "",
     profile: "",
   });
+  const [phone, setPhone] = useState(0);
   const [Content, setContent] = useState();
   const [previewSourceOne, setPreviewSourceOne] = useState(""); // saves the data of file selected in the form
   //Image preview and resize opening model
@@ -65,11 +66,11 @@ const EditProfile = (props) => {
   data1.append("file", previewSourceOne);
 
   useEffect(() => {
-    // getTellUsMoreFormData().then((e) => {
-    //   if (e?.success) {
-    //     setdata({ ...data, phone: e?.form?.contactNumber });
-    //   }
-    // });
+     getTellUsMoreFormData().then((e) => {
+       if (e?.success) {
+         setPhone(e?.form?.contactNumber);
+       }
+     });
     getAllCreatorInfo();
     // eslint-disable-next-line
   }, []);
@@ -126,7 +127,7 @@ const EditProfile = (props) => {
   };
 
   const [showimg, setShowimg] = useState(null);
-  const [phone, setPhone] = useState(0);
+
 
   function importData() {
     let input = document.createElement("input");
