@@ -44,6 +44,7 @@ import PDFReader from "./Components/Editor/pdfViewer/Components/PDFReader";
 import VideoDisplay from "./Components/Editor/VideoDisplay/VideoDisplay";
 import HomeUI from "./Components/Editor/New UI/Home/Home";
 import NewProfile from "./Components/Editor/New UI/Creator Profile/Profile";
+import NewService from "./Components/Editor/New UI/Service Page/Service";
 import TellUsMore from "./Components/Waitlist/TellUsMore";
 
 mixpanel.init(mixPanelToken, { debug: true });
@@ -219,10 +220,10 @@ function App() {
                             />
                           }
                         />
-                        {/* <Route
-                          path="/newprofile/:slug"
-                          element={<NewProfile />}
-                        /> */}
+                        <Route
+                          path="/newservice/:slug"
+                          element={<NewService />}
+                        />
                       </Routes>
                     </UserDashboardState>
                   </FeedbackState>
