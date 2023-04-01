@@ -20,6 +20,9 @@ import { creatorContext } from "../../../../Context/CreatorState";
 import { SuperSEO } from "react-super-seo";
 import { feedbackcontext } from "../../../../Context/FeedbackState";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { ToastContainer, toast } from "react-toastify";
+import { paymentContext } from "../../../../Context/PaymentState";
+import { userContext } from "../../../../Context/UserState";
 
 function Service() {
   const location = useLocation();
@@ -27,9 +30,14 @@ function Service() {
   const { slug } = useParams();
 
   // States used --------------------
-  const [openModel, setOpenModel] = useState(false);
-  const [openUserMenu, setOpenUserMenu] = useState(false);
-  const [openCTANav, setOpenCTANav] = useState(false)
+  const [openModel, setOpenModel] = useState(false); // controlls user login modal
+  const [openUserMenu, setOpenUserMenu] = useState(false); // ham and down arrow menu in navbar
+  const [openCTANav, setOpenCTANav] = useState(false); // desktop bottom bar controller
+  const [UserDetails, setUserDetails] = useState();       // stores the user data
+  const [paymentProcessing, setPaymentProcessing] = useState(false); // if payment is processig
+  const [openModelDownload, setOpenModelDownload] = useState(false); // for the thanks model after download
+  const [alreadyOrderPlaced, setAlreadyOrderPlaced] = useState(false); // already user order placed or not
+
   // states -----------------------------------------
   const [showMore, setShowMore] = useState({
     resources: false,
@@ -43,24 +51,26 @@ function Service() {
     useContext(creatorContext);
   const { checkFBlatest, getallfeedback, feedbacks } =
     useContext(feedbackcontext);
+  const { createRazorpayClientSecret, razorpay_key, checkfororder } =
+    useContext(paymentContext);
+  const { userPlaceOrder, checkSubscriber, getUserDetails } =
+    useContext(userContext);
 
   //Scroll to top automatically ---------------------------------------------
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
 
-  // to open the CTA in desktop page
+  // to open the CTA in desktop page while scrolling
   const handleScroll = () => {
-    let doc = document.querySelector(".download_button_service_page")
-    if(window.scrollY > doc?.clientHeight){
-      setOpenCTANav(true)
+    let doc = document.querySelector(".download_button_service_page");
+    if (window.scrollY > doc?.clientHeight) {
+      setOpenCTANav(true);
+    } else {
+      setOpenCTANav(false);
     }
-    else{
-      setOpenCTANav(false)
-    }
+  };
 
-  }
-  
   document.addEventListener("scroll", handleScroll);
 
   // getting the service data
@@ -71,7 +81,7 @@ function Service() {
       getallfeedback(id[0]); // getting the user reviews
       getallservicesusingid(id[0]); // getting the more resources
     });
-  }, [slug]);
+  }, []);
 
   // filling some data in the page------------------
   useEffect(() => {
@@ -86,10 +96,168 @@ function Service() {
     }
   }, [serviceInfo]);
 
+  // getting user data,feedbacks and many function to run on user login ----------------
+  useEffect(() => {
+    if (
+      localStorage.getItem("jwtToken") &&
+      localStorage.getItem("isUser") === "true"
+    ) {
+      // checks if order is already placed or not
+      serviceInfo &&
+        checkfororder(
+          serviceInfo?._id,
+          localStorage.getItem("isUser") === "true" ? "user" : "creator"
+        ).then((e) => {
+          setAlreadyOrderPlaced(e);
+        });
+
+      // get user details for mixpanel
+      getUserDetails().then((e) => {
+        if (e.success) {
+          setUserDetails(e?.user);
+        }
+      });
+    }
+  }, [localStorage.getItem("jwtToken"), serviceInfo]);
+
+
   // Used functions----------------------------------------------------------------
 
   const userlogout = () => {
     navigate("/logout");
+  };
+
+  const orderPlacingThroughRazorpay = async () => {
+    const order = await createRazorpayClientSecret(serviceInfo?.ssp);
+    const key = await razorpay_key();
+
+    var options = {
+      key, // Enter the Key ID generated from the Dashboard
+      amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency: "INR",
+      name: "anchors", //your business name
+      description: `Payment for Buying - ${serviceInfo?.sname}`,
+      image: require("./logo.png"),
+      order_id: order?.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      callback_url: "https://eneqd3r9zrjok.x.pipedream.net/",
+      prefill: {
+        name: UserDetails?.name, //your customer's name
+        email: UserDetails?.email
+      },
+      notes: {
+        address: "https://www.anchors.in",
+      },
+      modal: {
+        ondismiss: function () {
+          toast.info(
+            "It is a paid service, for using it you have to pay the one time payment",
+            {
+              position: "top-center",
+              autoClose: 5000,
+            }
+          );
+        },
+      },
+      notify: {
+        sms: true,
+        email: true,
+      },
+      theme: {
+        color: "#040102",
+      },
+    };
+    var razor = new window.Razorpay(options);
+    razor.open();
+  };
+
+  const downloadService = async (e) => {
+    e?.preventDefault();
+    const ext = serviceInfo.surl?.split(".").at(-1);
+    if (localStorage.getItem("jwtToken")) {
+      if (serviceInfo?.isPaid) {
+        checkfororder(
+          serviceInfo?._id,
+          localStorage.getItem("isUser") === "true" ? "user" : "creator"
+        ).then((e) => {
+          if (e) {
+            // user already paid for the order
+            // previewing the pdf as popup ----------------------------
+            if (ext === "pdf") {
+              sessionStorage.setItem("link", serviceInfo.surl);
+              window.open("/viewPdf");
+              setPaymentProcessing(false);
+            } else {
+              // downloading the rest files extensions------------------------------
+              let link = document.createElement("a");
+              link.href = serviceInfo.surl;
+              //link.target = "_blank";
+              link.download = serviceInfo?.sname;
+              link.dispatchEvent(new MouseEvent("click"));
+            }
+            setOpenModelDownload(true);
+
+            mixpanel.track("Downloaded Paid Service for more than once", {
+              service: slug,
+              //user: UserDetails ? UserDetails : "",
+              amount: serviceInfo?.ssp,
+              creator: basicCdata?.slug,
+            });
+          } else {
+            console.log("Calling razorpay");
+            //orderPlacingThroughRazorpay();
+          }
+        });
+      } else {
+        setPaymentProcessing(true);
+        const success = await userPlaceOrder(
+          serviceInfo.ssp,
+          1,
+          serviceInfo._id,
+          basicCreatorInfo.creatorID,
+          0,
+          0,
+          localStorage.getItem("isUser") === "true" ? "user" : "creator"
+        );
+        if (success) {
+          // previewing the pdf as popup ----------------------------
+          if (ext === "pdf") {
+            sessionStorage.setItem("link", serviceInfo.surl);
+            window.open("/viewPdf");
+            setPaymentProcessing(false);
+          } else {
+            // downloading the rest files------------------------------
+            let link = document.createElement("a");
+            link.href = serviceInfo.surl;
+            link.download = serviceInfo?.sname;
+            //link.target = "_blank";
+            link.dispatchEvent(new MouseEvent("click"));
+          }
+
+          setOpenModelDownload(true);
+          mixpanel.track("Downloaded Service", {
+            service: slug,
+            //user: UserDetails ? UserDetails : "",
+            creator: basicCdata?.slug,
+          });
+        } else {
+          toast.error(
+            "Order not Placed Due to some error, Please try again!!!",
+            {
+              position: "top-center",
+              autoClose: 3000,
+            }
+          );
+        }
+        setPaymentProcessing(false);
+      }
+    } else {
+      mixpanel.track("Clicked Download Service Without Login", {
+        service: slug,
+        //user: UserDetails ? UserDetails : "",
+        creator: basicCdata?.slug,
+      });
+      return setOpenModel(true);
+    }
   };
 
   return (
@@ -201,28 +369,32 @@ function Service() {
               </div>
 
               {/* creator profile for mobile ---------------------------- */}
-              {window.screen.width < 600 && <div>
-                <h2 className="service_details_text_type02">Service By</h2>
-                <section className="creator_profile_in_mobile">                
-                <div
-                  className="creator_profile_service_page"
-                  onClick={() => {
-                    navigate(`/c/${basicCdata?.slug}`);
-                  }}
-                >
-                  <img src={basicCreatorInfo?.profile} alt="" />
-                  <div>
-                    <span className="service_details_text_type11">
-                      {basicCreatorInfo?.name}
-                    </span>
-                    <p className="service_details_text_type12">
-                      {basicCreatorInfo?.tagLine?.length > 70
-                        ? basicCreatorInfo?.tagLine?.slice(0, 70) + "..."
-                        : basicCreatorInfo?.tagLine}
-                    </p>
-                  </div>
-                </div>
-                <span className="service_details_text_type12" style={{backgroundColor:"white",padding:"3px 5px"}}>
+              {window.screen.width < 600 && (
+                <div>
+                  <h2 className="service_details_text_type02">Service By</h2>
+                  <section className="creator_profile_in_mobile">
+                    <div
+                      className="creator_profile_service_page"
+                      onClick={() => {
+                        navigate(`/c/${basicCdata?.slug}`);
+                      }}
+                    >
+                      <img src={basicCreatorInfo?.profile} alt="" />
+                      <div>
+                        <span className="service_details_text_type11">
+                          {basicCreatorInfo?.name}
+                        </span>
+                        <p className="service_details_text_type12">
+                          {basicCreatorInfo?.tagLine?.length > 70
+                            ? basicCreatorInfo?.tagLine?.slice(0, 70) + "..."
+                            : basicCreatorInfo?.tagLine}
+                        </p>
+                      </div>
+                    </div>
+                    <span
+                      className="service_details_text_type12"
+                      style={{ backgroundColor: "white", padding: "3px 5px" }}
+                    >
                       <AiFillStar
                         color="#FFC300"
                         size={15}
@@ -230,8 +402,9 @@ function Service() {
                       />{" "}
                       4.5 (122)
                     </span>
-                </section>
-              </div>}
+                  </section>
+                </div>
+              )}
 
               <div>
                 <h2 className="service_details_text_type02">
@@ -308,14 +481,24 @@ function Service() {
                     </span>
                   ) : (
                     <span className="free_price_secription_service_page">
-                      Free
+                      FREE
                     </span>
                   )}
                 </div>
 
                 <div>
-                  <button className="download_button_service_page">
-                    Get Access
+                  <button
+                    className="download_button_service_page"
+                    onClick={() => {
+                      alreadyOrderPlaced ? navigate("/") : downloadService();
+                    }}
+                    disabled={paymentProcessing}
+                  >
+                    {alreadyOrderPlaced
+                      ? "Go to Dashboard"
+                      : paymentProcessing
+                      ? "Processing"
+                      : "Get Access"}
                   </button>
                 </div>
 
@@ -481,7 +664,7 @@ function Service() {
                             : { background: "#FFFFFF" }
                         }
                         onClick={() => {
-                          navigate(`/newservice/${e?.slug}`);
+                          window.open(`/newservice/${e?.slug}`, "_self");
                         }}
                       >
                         <div style={{ display: "flex" }}>
@@ -544,60 +727,91 @@ function Service() {
           )}
         </section>
 
-
-
-      {/* Floating or fixed CTA button + details */}
-          {window.screen.width < 600 ? <section className="cta_service_details_mobile">
-            <span className="service_details_text_type13">
-              Live Preview
-            </span>
+        {/* Floating or fixed CTA button + details */}
+        {window.screen.width < 600 ? (
+          <section className="cta_service_details_mobile">
+            <span className="service_details_text_type13">Live Preview</span>
 
             <div>
               <p>
                 {serviceInfo?.isPaid && <span>{serviceInfo?.smrp}</span>}
-              {serviceInfo?.isPaid ? "₹" + serviceInfo?.ssp : "Free"}
+                {serviceInfo?.isPaid ? "₹" + serviceInfo?.ssp : "Free"}
               </p>
-              <span>Get Access</span>
+              <span
+                onClick={() => {
+                  alreadyOrderPlaced ? navigate("/") : downloadService();
+                }}
+                disabled={paymentProcessing}
+              >
+                {alreadyOrderPlaced
+                  ? "Go to Dashboard"
+                  : paymentProcessing
+                  ? "Processing"
+                  : "Get Access"}
+              </span>
             </div>
-          </section> :
+          </section>
+        ) : (
+          openCTANav && (
+            <section className="cta_service_details_desktop">
+              <div>
+                <span className="service_details_text_type14">
+                  {serviceInfo?.sname}
+                </span>
+                <p className="service_details_text_type15">
+                  Document | By&nbsp;
+                  <span
+                    style={{ textTransform: "upperCase", letterSpacing: "3px" }}
+                  >
+                    {basicCreatorInfo?.name}
+                  </span>{" "}
+                  &nbsp;&nbsp; <b>4.2</b> &nbsp;
+                  <AiFillStar />
+                </p>
+              </div>
 
-          openCTANav && <section className="cta_service_details_desktop">
-            <div>
-              <span className="service_details_text_type14">{serviceInfo?.sname}</span>
-              <p className="service_details_text_type15">Document | By&nbsp;<span style={{textTransform:"upperCase",letterSpacing:"3px"}}>{basicCreatorInfo?.name}</span> &nbsp;&nbsp; <b>4.2</b> &nbsp;<AiFillStar/></p>
-            </div>
-            
-            <div>
-            {serviceInfo?.isPaid ? (
-                    <span className="price_description_Service_page">
-                      <div>
-                        <span className="service_details_text_type08">
-                          ₹ {serviceInfo?.ssp}
-                        </span>
-                        {parseInt(serviceInfo?.ssp) !==
-                          parseInt(serviceInfo?.smrp) && (
-                          <span className="service_details_text_type09">
-                            ₹ {serviceInfo?.smrp}
-                          </span>
-                        )}
-                      </div>
+              <div>
+                {serviceInfo?.isPaid ? (
+                  <span className="price_description_Service_page">
+                    <div>
+                      <span className="service_details_text_type08">
+                        ₹ {serviceInfo?.ssp}
+                      </span>
                       {parseInt(serviceInfo?.ssp) !==
                         parseInt(serviceInfo?.smrp) && (
-                        <span className="service_details_text_type10">
-                          Discounted Price
+                        <span className="service_details_text_type09">
+                          ₹ {serviceInfo?.smrp}
                         </span>
                       )}
-                    </span>
-                  ) : (
-                    <span className="free_price_secription_service_page">
-                      Free
-                    </span>
-                  )}
-                  <button>Get Access</button>
-            </div>
-
-          </section>}
-        
+                    </div>
+                    {parseInt(serviceInfo?.ssp) !==
+                      parseInt(serviceInfo?.smrp) && (
+                      <span className="service_details_text_type10">
+                        Discounted Price
+                      </span>
+                    )}
+                  </span>
+                ) : (
+                  <span className="free_price_secription_service_page">
+                    FREE
+                  </span>
+                )}
+                <button
+                  onClick={() => {
+                    alreadyOrderPlaced ? navigate("/") : downloadService();
+                  }}
+                  disabled={paymentProcessing}
+                >
+                  {alreadyOrderPlaced
+                    ? "Go to Dashboard"
+                    : paymentProcessing
+                    ? "Processing"
+                    : "Get Access"}
+                </button>
+              </div>
+            </section>
+          )
+        )}
       </div>
 
       <Footer2 />
@@ -625,6 +839,7 @@ function Service() {
           },
         }}
       />
+      <ToastContainer/>
     </>
   );
 }

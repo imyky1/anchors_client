@@ -16,6 +16,7 @@ const PaymentState = (props) => {
           Accept: "application/json",
           "Content-Type": "application/json",
           "Access-Control-Allow-Credentials": true,
+          "jwt-token": localStorage.getItem("jwtToken"),
         },
         body: JSON.stringify({ amount: parseInt(amount) * 100 }),
       });
@@ -34,13 +35,17 @@ const PaymentState = (props) => {
 
   // used to get razor pay api
   const razorpay_key = async () => {
-    const res = await fetch(`${host}/api/payment/get_razorpay_key`, {
+    const res = await fetch(`${host}/api/payment/getRazorpayKey`, {
       method: "GET",
+      headers: {
+      "jwt-token": localStorage.getItem("jwtToken"),
+      }
     });
-    return res.key;
+    const json = await res.json()
+    return json.key;
   };
 
-  const checkfororder = async (serviceID) => {
+  const checkfororder = async (serviceID,userType) => {
     try {
       const response = await fetch(`${host}/api/payment/checkOrderPlaced`, {
         method: "POST",
@@ -50,7 +55,7 @@ const PaymentState = (props) => {
           "Access-Control-Allow-Credentials": true,
           "jwt-token": localStorage.getItem("jwtToken"),
         },
-        body: JSON.stringify({ serviceID: serviceID }),
+        body: JSON.stringify({ serviceID , userType }),
       });
       const json = await response.json();
       return json.success;

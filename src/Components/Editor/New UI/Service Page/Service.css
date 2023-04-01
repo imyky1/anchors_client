@@ -455,7 +455,7 @@
   align-items: center;
   padding: 10px 20px;
   gap: 10px;
-  width: 130px;
+  /* width: 130px; */
   height: 48px;
   background: #000000;
   border-radius: 5px;
