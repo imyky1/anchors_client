@@ -38,14 +38,14 @@ const PaymentState = (props) => {
     const res = await fetch(`${host}/api/payment/getRazorpayKey`, {
       method: "GET",
       headers: {
-      "jwt-token": localStorage.getItem("jwtToken"),
-      }
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
     });
-    const json = await res.json()
+    const json = await res.json();
     return json.key;
   };
 
-  const checkfororder = async (serviceID,userType) => {
+  const checkfororder = async (serviceID, userType) => {
     try {
       const response = await fetch(`${host}/api/payment/checkOrderPlaced`, {
         method: "POST",
@@ -55,15 +55,16 @@ const PaymentState = (props) => {
           "Access-Control-Allow-Credentials": true,
           "jwt-token": localStorage.getItem("jwtToken"),
         },
-        body: JSON.stringify({ serviceID , userType }),
+        body: JSON.stringify({ serviceID, userType }),
       });
       const json = await response.json();
       return json.success;
     } catch (error) {}
   };
 
+
   // update or create the payment informations ---------------------
-  const fillPaymentinformation = async (name,acNumber,ifsc) => {
+  const fillPaymentinformation = async (name, acNumber, ifsc) => {
     try {
       const response = await fetch(`${host}/payments/fillPaymentInfo`, {
         method: "POST",
@@ -77,19 +78,19 @@ const PaymentState = (props) => {
           name,
           acNumber,
           ifsc,
-          updatedOn:Date.now(),
+          updatedOn: Date.now(),
           status: 1,
         }),
       });
       const json = await response.json();
       return json;
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
   // fetch payment informations ---------------------
-  const fetchPaymentinformation = async (name,acNumber,ifsc) => {
+  const fetchPaymentinformation = async (name, acNumber, ifsc) => {
     try {
       const response = await fetch(`${host}/payments/fetchPaymentDetails`, {
         method: "GET",
@@ -98,18 +99,24 @@ const PaymentState = (props) => {
           "Content-Type": "application/json",
           "Access-Control-Allow-Credentials": true,
           "jwt-token": localStorage.getItem("jwtToken"),
-        }
+        },
       });
       const json = await response.json();
       return json;
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
   return (
     <paymentContext.Provider
-      value={{ createRazorpayClientSecret, razorpay_key, checkfororder,fetchPaymentinformation,fillPaymentinformation }}
+      value={{
+        createRazorpayClientSecret,
+        razorpay_key,
+        checkfororder,
+        fetchPaymentinformation,
+        fillPaymentinformation,
+      }}
     >
       {props.children}
     </paymentContext.Provider>

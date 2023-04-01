@@ -23,6 +23,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ToastContainer, toast } from "react-toastify";
 import { paymentContext } from "../../../../Context/PaymentState";
 import { userContext } from "../../../../Context/UserState";
+import { host } from "../../../../config/config";
 
 function Service() {
   const location = useLocation();
@@ -33,7 +34,7 @@ function Service() {
   const [openModel, setOpenModel] = useState(false); // controlls user login modal
   const [openUserMenu, setOpenUserMenu] = useState(false); // ham and down arrow menu in navbar
   const [openCTANav, setOpenCTANav] = useState(false); // desktop bottom bar controller
-  const [UserDetails, setUserDetails] = useState();       // stores the user data
+  const [UserDetails, setUserDetails] = useState(); // stores the user data
   const [paymentProcessing, setPaymentProcessing] = useState(false); // if payment is processig
   const [openModelDownload, setOpenModelDownload] = useState(false); // for the thanks model after download
   const [alreadyOrderPlaced, setAlreadyOrderPlaced] = useState(false); // already user order placed or not
@@ -53,8 +54,12 @@ function Service() {
     useContext(feedbackcontext);
   const { createRazorpayClientSecret, razorpay_key, checkfororder } =
     useContext(paymentContext);
-  const { userPlaceOrder, checkSubscriber, getUserDetails } =
-    useContext(userContext);
+  const {
+    userPlaceOrder,
+    checkSubscriber,
+    getUserDetails,
+    verifyPaymentsinBackend,
+  } = useContext(userContext);
 
   //Scroll to top automatically ---------------------------------------------
   useEffect(() => {
@@ -120,7 +125,6 @@ function Service() {
     }
   }, [localStorage.getItem("jwtToken"), serviceInfo]);
 
-
   // Used functions----------------------------------------------------------------
 
   const userlogout = () => {
@@ -139,10 +143,45 @@ function Service() {
       description: `Payment for Buying - ${serviceInfo?.sname}`,
       image: require("./logo.png"),
       order_id: order?.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      callback_url: "https://eneqd3r9zrjok.x.pipedream.net/",
+      //callback_url: `${host}/api/payment/paymentVerification`,
+      handler: async function (res) {
+        const result = await verifyPaymentsinBackend(
+          res.razorpay_payment_id,
+          res.razorpay_order_id,
+          res.razorpay_signature,
+          order.amount / 100,
+          1,
+          serviceInfo?._id,
+          basicCreatorInfo.creatorID,
+          1,
+          0,
+          localStorage.getItem("isUser") === "true" ? "user" : "creator"
+        );
+        
+        // controlling the edges casses now ----------------
+        if(result?.success && result?.orderPlaced && result?.paymentRecieved){
+          toast.success("Thanks for downloading the service",{
+            position:"top-center",
+            autoClose:3000
+          })
+        }
+        else if(result?.success && !result?.orderPlaced && result?.paymentRecieved){
+          toast.info("Something wrong happened, we recieved your payment, Contact us at info@anchors.in",{
+            position:"top-center",
+            autoClose:5000
+          })
+        }
+        else{
+          toast.info("Your order was not placed. Please try again!!. If money got deducted then please reach us at info@anchors.in",{
+            position:"top-center",
+            autoClose:5000
+          })
+        }
+      },
+
       prefill: {
         name: UserDetails?.name, //your customer's name
-        email: UserDetails?.email
+        email: UserDetails?.email,
       },
       notes: {
         address: "https://www.anchors.in",
@@ -167,6 +206,9 @@ function Service() {
       },
     };
     var razor = new window.Razorpay(options);
+    razor.on("payment.failed", () => {
+      console.log("payment failed");
+    });
     razor.open();
   };
 
@@ -204,7 +246,7 @@ function Service() {
             });
           } else {
             console.log("Calling razorpay");
-            //orderPlacingThroughRazorpay();
+            orderPlacingThroughRazorpay();
           }
         });
       } else {
@@ -839,7 +881,7 @@ function Service() {
           },
         }}
       />
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 }
