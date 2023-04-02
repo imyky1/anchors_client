@@ -955,7 +955,9 @@ function Service(props) {
             />
 
             <div className="serv_profile_data">
-              <span className="c_name">{basicCreatorInfo?.name ?? basicCdata?.name}</span>
+              <span className="c_name">
+                {basicCreatorInfo?.name ?? basicCdata?.name}
+              </span>
               <span className="c_tagline">{basicCreatorInfo?.tagLine}</span>
               <section>
                 {basicCreatorInfo?.linkedInLink && (
