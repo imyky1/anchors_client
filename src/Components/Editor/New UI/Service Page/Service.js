@@ -78,6 +78,13 @@ function Service() {
 
   document.addEventListener("scroll", handleScroll);
 
+  const previewService = () => {
+    console.log(serviceInfo);
+    sessionStorage.setItem("link", serviceInfo.surl);
+    sessionStorage.setItem("pages", serviceInfo.previewPage);
+    window.open("/viewPdfPreview");
+  };
+
   // getting the service data
   useEffect(() => {
     getserviceinfo(slug).then((id) => {
@@ -157,25 +164,33 @@ function Service() {
           0,
           localStorage.getItem("isUser") === "true" ? "user" : "creator"
         );
-        
+
         // controlling the edges casses now ----------------
-        if(result?.success && result?.orderPlaced && result?.paymentRecieved){
-          toast.success("Thanks for downloading the service",{
-            position:"top-center",
-            autoClose:3000
-          })
-        }
-        else if(result?.success && !result?.orderPlaced && result?.paymentRecieved){
-          toast.info("Something wrong happened, we recieved your payment, Contact us at info@anchors.in",{
-            position:"top-center",
-            autoClose:5000
-          })
-        }
-        else{
-          toast.info("Your order was not placed. Please try again!!. If money got deducted then please reach us at info@anchors.in",{
-            position:"top-center",
-            autoClose:5000
-          })
+        if (result?.success && result?.orderPlaced && result?.paymentRecieved) {
+          toast.success("Thanks for downloading the service", {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        } else if (
+          result?.success &&
+          !result?.orderPlaced &&
+          result?.paymentRecieved
+        ) {
+          toast.info(
+            "Something wrong happened, we recieved your payment, Contact us at info@anchors.in",
+            {
+              position: "top-center",
+              autoClose: 5000,
+            }
+          );
+        } else {
+          toast.info(
+            "Your order was not placed. Please try again!!. If money got deducted then please reach us at info@anchors.in",
+            {
+              position: "top-center",
+              autoClose: 5000,
+            }
+          );
         }
       },
 
@@ -557,7 +572,10 @@ function Service() {
                     Download or live preview this document and get the access to
                     explore more{" "}
                   </p>
-                  <span className="service_details_text_type07">
+                  <span
+                    className="service_details_text_type07"
+                    onClick={previewService}
+                  >
                     Preview Now
                   </span>
                 </div>

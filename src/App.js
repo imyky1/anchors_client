@@ -46,6 +46,7 @@ import HomeUI from "./Components/Editor/New UI/Home/Home";
 import NewProfile from "./Components/Editor/New UI/Creator Profile/Profile";
 import NewService from "./Components/Editor/New UI/Service Page/Service";
 import TellUsMore from "./Components/Waitlist/TellUsMore";
+import PDFReaderPreview from "./Components/Editor/pdfViewer/pdfViewerPreview/Components/PDFReader";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -210,6 +211,13 @@ function App() {
                           path="/viewPdf"
                           element={
                             <PDFReader /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
+                            />
+                          }
+                        />
+                        <Route
+                          path="/viewPdfPreview"
+                          element={
+                            <PDFReaderPreview /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
                             />
                           }
                         />
