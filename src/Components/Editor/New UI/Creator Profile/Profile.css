@@ -415,7 +415,7 @@
   margin-right: 10px;
 }
 
-@media (max-width: 550px) {
+@media (max-width: 600px) {
   .top_header_creator_profile {
     background-color: #ffffff;
     padding: 0px;

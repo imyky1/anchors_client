@@ -55,6 +55,62 @@ const UserState = (props) => {
   //    }
   //}
 
+  //Used to verify if payments took place or not-------------
+  const verifyPaymentsinBackend = async (
+    razorpay_payment_id,
+    razorpay_order_id,
+    razorpay_signature,
+    amount,
+    status,
+    serviceid,
+    creatorId,
+    paidUser,
+    orderType,
+    orderFrom
+  ) => {
+    try {
+      const response = await fetch(`${host}/api/payment/paymentVerification`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+        body: JSON.stringify({
+          razorpay_payment_id,
+          razorpay_order_id,
+          razorpay_signature,
+        }),
+      });
+      const json = await response.json();
+
+      if (json.success && json.verified) {
+        // i.e payment has been verified now user order placing
+        const success = await userPlaceOrder(
+          amount,
+          status,
+          serviceid,
+          creatorId,
+          paidUser,
+          orderType,
+          orderFrom,
+          razorpay_payment_id,
+          razorpay_order_id,
+          razorpay_signature
+        );
+        if (success) {
+          return { success: true, orderPlaced: true, paymentRecieved: true };
+        } else {
+          return { success: true, orderPlaced: false, paymentRecieved: true };
+        }
+      } else {
+        return { success: true, orderPlaced: false, paymentRecieved: false };
+      }
+    } catch (error) {
+      console.error("Some error occured");
+    }
+  };
+
   // ROUTE 3 : USER ORDER
   const userPlaceOrder = async (
     amount,
@@ -66,7 +122,7 @@ const UserState = (props) => {
     orderFrom,
     razorpayPaymentId,
     razorpayOrderId,
-    razorpaySignature,
+    razorpaySignature
   ) => {
     const response = await fetch(
       `${host}/api/user/service/neworder/${serviceid}`,
@@ -85,7 +141,7 @@ const UserState = (props) => {
           razorpayPaymentId,
           razorpayOrderId,
           razorpaySignature,
-          orderFrom : orderFrom ? orderFrom : "user",
+          orderFrom: orderFrom ? orderFrom : "user",
         }),
       }
     );
@@ -167,7 +223,7 @@ const UserState = (props) => {
   };
 
   // check if userorder already exists or not
-  const checkUserOrderPlaced = async (id,orderFrom) => {
+  const checkUserOrderPlaced = async (id, orderFrom) => {
     // USER LOGIN IS REQUIRED
     const response = await fetch(`${host}/api/user/checkUserOrder/${id}`, {
       method: "POST",
@@ -177,9 +233,9 @@ const UserState = (props) => {
         "Access-Control-Allow-Credentials": true,
         "jwt-token": localStorage.getItem("jwtToken"),
       },
-      body:JSON.stringify({
-        orderFrom : orderFrom ? orderFrom : "user",
-      })
+      body: JSON.stringify({
+        orderFrom: orderFrom ? orderFrom : "user",
+      }),
     });
     const json = await response.json();
     return json.success;
@@ -191,6 +247,7 @@ const UserState = (props) => {
         lastUser,
         checkSubscriber,
         userPlaceOrder,
+        verifyPaymentsinBackend,
         addSubscriber,
         getUserDetails,
         checkUserOrderPlaced,
