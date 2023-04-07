@@ -80,7 +80,6 @@ function Service(props) {
     window.scrollTo(0, 0);
   }, [location]);
 
-
   // to open the CTA in desktop page while scrolling
   useEffect(() => {
     const handleScroll = () => {
@@ -109,9 +108,10 @@ function Service(props) {
   useEffect(() => {
     setLoader(true);
     getserviceinfo(slug).then((id) => {
-      if(!id[0]){         // handles any ireegular slug
-        navigate("/")
-        return null
+      if (!id[0]) {
+        // handles any ireegular slug
+        navigate("/");
+        return null;
       }
       // getting service data
       getBasicCreatorInfo(id[0]); // getting the creator's data
@@ -721,7 +721,7 @@ function Service(props) {
                     Download or live preview this document and get the access to
                     explore more{" "}
                   </p>
-                  {serviceInfo.previewPage ? (
+                  {serviceInfo.previewPage && serviceInfo.allowPreview ? (
                     serviceInfo.previewPage > 0 ? (
                       <span
                         className="service_details_text_type07"
@@ -975,12 +975,20 @@ function Service(props) {
         {/* Floating or fixed CTA button + details */}
         {window.screen.width < 600 ? (
           <section className="cta_service_details_mobile">
-            <span
-              className="service_details_text_type13"
-              onClick={previewService}
-            >
-              Live Preview
-            </span>
+            {serviceInfo.previewPage && serviceInfo.allowPreview ? (
+              serviceInfo.previewPage > 0 ? (
+                <span
+                  className="service_details_text_type07"
+                  onClick={previewService}
+                >
+                  Preview Now
+                </span>
+              ) : (
+                ""
+              )
+            ) : (
+              ""
+            )}
 
             <div>
               <p>
