@@ -572,12 +572,20 @@ function Service() {
                     Download or live preview this document and get the access to
                     explore more{" "}
                   </p>
-                  <span
-                    className="service_details_text_type07"
-                    onClick={previewService}
-                  >
-                    Preview Now
-                  </span>
+                  {serviceInfo.previewPage ? (
+                    serviceInfo.previewPage > 0 ? (
+                      <span
+                        className="service_details_text_type07"
+                        onClick={previewService}
+                      >
+                        Preview Now
+                      </span>
+                    ) : (
+                      ""
+                    )
+                  ) : (
+                    ""
+                  )}
                 </div>
 
                 <div
