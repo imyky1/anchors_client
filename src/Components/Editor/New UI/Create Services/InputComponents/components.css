@@ -291,6 +291,7 @@ input:checked + .slider_type_01:before {
   line-height: 17px;
   color: #ffffff;
   cursor: pointer;
+  border: none;
 }
 
 /* tags section --------------------------------------------------- */

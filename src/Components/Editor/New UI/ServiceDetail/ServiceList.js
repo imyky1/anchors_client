@@ -249,7 +249,7 @@ function ServiceDetailPage(props) {
                     <>
                       <TableRow>
                         <TableCell align="center">{i + 1}</TableCell>
-                        <TableCell align="center">{elem.sname}</TableCell>
+                        <TableCell align="center" onClick={()=>{window.open(`/s/${elem?.slug}`)}} style={{cursor:"pointer"}} onMouseOver={(e)=>{e.target.style.color = "blue"}} onMouseOut={(e)=>{e.target.style.color = "black"}}>{elem.sname}</TableCell>
                         <TableCell align="center">
                           {elem.isPaid ? "Paid" : "Free"}
                         </TableCell>

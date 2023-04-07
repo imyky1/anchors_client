@@ -21,5 +21,17 @@ function LoadingOne( {open}){
   )
 }
 
+// For user side pages
+function LoadingTwo( {open}){
+  return(
+    <div className="loadbar3">
+        <img src={require("../logo.png")} alt="..Loading" className='loader_home load2' />
+    </div>
+  )
+}
+
+
+
 export const LoadOne = Loading;
 export const LoadTwo = LoadingOne;
+export const LoadThree = LoadingTwo;

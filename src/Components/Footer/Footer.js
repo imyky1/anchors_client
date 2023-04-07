@@ -49,7 +49,7 @@ function Footer(props) {
           <section className="some_extra">
           <i class="fa-brands fa-linkedin-in fa-xl" style={{cursor:"pointer",color:"white",marginBottom:"15px"}} onClick={()=>{window.open("https://www.linkedin.com/company/beanchorite/")}}></i>
           <span>Anchors.in All rights reserved</span>
-          {window.screen.width > 600 && <span style={{textDecoration:"underline",cursor:"pointer"}}>Terms & privacy</span>}
+          {window.screen.width > 600 && <span style={{textDecoration:"underline",cursor:"pointer"}} onClick={()=>{window.open("/privacy-policy")}}>Terms & privacy</span>}
           </section>
         </div>
         <section className="lower_footer_section">
