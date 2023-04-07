@@ -1,5 +1,4 @@
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
+
 import React, { useContext, useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { creatorContext } from "../../../../Context/CreatorState";
@@ -17,14 +16,8 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import Cropper from "react-easy-crop";
 
 import {
-  TextField,
-  MenuItem,
-  ThemeProvider,
-  createTheme,
   Button,
   Modal,
-  Box,
-  Typography,
   Slider,
 } from "@mui/material";
 import getCroppedImg, { generateDownload } from "../../../helper/imageresize";
@@ -80,10 +73,14 @@ const EditProfile = (props) => {
       ...data,
       ...allCreatorInfo,
     });
+    setdata({
+      ...data,
+      name:basicNav?.name,
+    });
     setContent(allCreatorInfo?.aboutMe);
     setPhone(allCreatorInfo?.phone);
     // eslint-disable-next-line
-  }, [getAllCreatorInfo]);
+  }, [allCreatorInfo]);
 
   const [openLoading, setOpenLoading] = useState(false);
 
@@ -152,14 +149,14 @@ const EditProfile = (props) => {
     };
     input.click();
   }
-  let phone_number = phone;
+
   const onSubmit = async (e) => {
     let sample_number = phone;
     props.progress(0);
     setOpenLoading(true);
     e.preventDefault();
-    sample_number = sample_number.toString();
-    sample_number = sample_number.length;
+    sample_number = sample_number?.toString();
+    sample_number = sample_number?.length;
 
     if (data?.name && data?.tagLine && data?.dob && sample_number === 10) {
       var profile = previewSourceOne && (await Uploadfile(data1));
@@ -171,7 +168,7 @@ const EditProfile = (props) => {
           : data?.profile
           ? data?.profile
           : basicNav?.photo,
-        phone: phone_number,
+        phone: phone,
       };
       const success = setCreatorInfo(newData);
       if (success) {

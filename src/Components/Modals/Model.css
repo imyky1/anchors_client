@@ -213,6 +213,19 @@
     background: transparent !important;
 }
 
+.loadbar3{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent !important;
+}
+
 .load2{
     width: 2rem !important;
 }

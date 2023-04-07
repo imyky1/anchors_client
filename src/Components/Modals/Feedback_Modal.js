@@ -53,13 +53,6 @@ function Feedback_Modal({
     progress(100);
   };
 
-  useEffect(() => {
-    mixpanel.track("Feedback Model Count", {
-      user: UserDetails,
-      feedback_service: slug,
-    });
-  }, []);
-
   const handleChange = (e) => {
     setfeedback({ ...feedback, comment: e.target.value });
   };

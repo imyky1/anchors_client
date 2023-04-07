@@ -96,7 +96,7 @@ function App() {
                         ></Route>
                         <Route
                           path="/s/:slug"
-                          element={<Service progress={changeprogress} />}
+                          element={<NewService progress={changeprogress} />}
                         ></Route>
                         <Route
                           path="/w/:slug"

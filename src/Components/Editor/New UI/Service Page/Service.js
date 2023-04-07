@@ -24,8 +24,11 @@ import { ToastContainer, toast } from "react-toastify";
 import { paymentContext } from "../../../../Context/PaymentState";
 import { userContext } from "../../../../Context/UserState";
 import { host } from "../../../../config/config";
+import { LoadThree } from "../../../Modals/Loading";
+import FeedbackModal from "../../../Modals/Feedback_Modal";
+import Thanks from "../../../Modals/Thanks";
 
-function Service() {
+function Service(props) {
   const location = useLocation();
   const navigate = useNavigate();
   const { slug } = useParams();
@@ -38,16 +41,27 @@ function Service() {
   const [paymentProcessing, setPaymentProcessing] = useState(false); // if payment is processig
   const [openModelDownload, setOpenModelDownload] = useState(false); // for the thanks model after download
   const [alreadyOrderPlaced, setAlreadyOrderPlaced] = useState(false); // already user order placed or not
-
-  // states -----------------------------------------
+  const [loader, setLoader] = useState(false); // loader states
+  const [fbModalDetails, setFbModalDetails] = useState({
+    open: false,
+    service: {},
+    stype: "",
+  }); // feedback modal details opening and details ----
   const [showMore, setShowMore] = useState({
+    // more review and resources ------
     resources: false,
     reviews: false,
   });
 
   // contexts --------------------------
-  const { serviceInfo, getserviceinfo, services, getallservicesusingid } =
-    useContext(ServiceContext);
+  const {
+    serviceInfo,
+    getserviceinfo,
+    services,
+    getallservicesusingid,
+    getserviceusingid,
+    getworkshopusingid,
+  } = useContext(ServiceContext);
   const { basicCdata, getBasicCreatorInfo, basicCreatorInfo } =
     useContext(creatorContext);
   const { checkFBlatest, getallfeedback, feedbacks } =
@@ -66,33 +80,57 @@ function Service() {
     window.scrollTo(0, 0);
   }, [location]);
 
-  // to open the CTA in desktop page while scrolling
-  const handleScroll = () => {
-    let doc = document.querySelector(".download_button_service_page");
-    if (window.scrollY > doc?.clientHeight) {
-      setOpenCTANav(true);
-    } else {
-      setOpenCTANav(false);
-    }
-  };
 
-  document.addEventListener("scroll", handleScroll);
+  // to open the CTA in desktop page while scrolling
+  useEffect(() => {
+    const handleScroll = () => {
+      let doc = document.querySelector(".download_button_service_page");
+      if (window.scrollY > doc?.clientHeight) {
+        setOpenCTANav(true);
+      } else {
+        setOpenCTANav(false);
+      }
+    };
+
+    document.addEventListener("scroll", handleScroll);
+
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, [window.scroll]);
 
   const previewService = () => {
-    console.log(serviceInfo);
     sessionStorage.setItem("link", serviceInfo.surl);
     sessionStorage.setItem("pages", serviceInfo.previewPage);
     window.open("/viewPdfPreview");
   };
 
-  // getting the service data
+  // getting the service data ----------
   useEffect(() => {
+    setLoader(true);
     getserviceinfo(slug).then((id) => {
+      if(!id[0]){         // handles any ireegular slug
+        navigate("/")
+        return null
+      }
       // getting service data
       getBasicCreatorInfo(id[0]); // getting the creator's data
       getallfeedback(id[0]); // getting the user reviews
       getallservicesusingid(id[0]); // getting the more resources
+      setLoader(false);
     });
+
+    mixpanel.track("Page Visit", {
+      user: UserDetails ? UserDetails : "",
+      creator: basicCdata?.slug,
+    });
+
+    // restricts the movement of a user
+    if (!localStorage.getItem("isUser") === "true") {
+      localStorage.removeItem("url");
+    } else {
+      localStorage.setItem("url", location.pathname);
+    }
   }, []);
 
   // filling some data in the page------------------
@@ -114,6 +152,7 @@ function Service() {
       localStorage.getItem("jwtToken") &&
       localStorage.getItem("isUser") === "true"
     ) {
+      setLoader(true);
       // checks if order is already placed or not
       serviceInfo &&
         checkfororder(
@@ -128,6 +167,35 @@ function Service() {
         if (e.success) {
           setUserDetails(e?.user);
         }
+        setLoader(false);
+      });
+
+      // get the feedback latest -----------
+      checkFBlatest().then((fb) => {
+        if (fb.success) {
+          // for serviec feedbacks ----------------
+          if (fb.res.serviceID) {
+            getserviceusingid(fb.res.serviceID).then((service) => {
+              setFbModalDetails({
+                open: true,
+                service: service,
+                stype: "download",
+              });
+              //alert(`Send Feedback for "${service.sname}"`)
+            });
+          }
+
+          // for workshop feedback -------------------
+          // } else {
+          //   getworkshopusingid(fb.res.workshopID).then((service) => {
+          //     setFbModalDetails({open:true,service:service,stype:"download"})
+          //     setFBService(service);
+          //     setFBserviceType("workshop");
+          //     setOpenModelFB(true);
+          //     //alert(`Send Feedback for "${service.sname}"`)
+          //   });
+          // }
+        }
       });
     }
   }, [localStorage.getItem("jwtToken"), serviceInfo]);
@@ -136,6 +204,14 @@ function Service() {
 
   const userlogout = () => {
     navigate("/logout");
+  };
+
+  const handleLogoClick = () => {
+    mixpanel.track("Creator Page from LOGO", {
+      creator: basicCdata?.slug,
+      user: UserDetails ? UserDetails : "",
+    });
+    navigate(`/c/${basicCdata?.slug}`);
   };
 
   const orderPlacingThroughRazorpay = async () => {
@@ -167,23 +243,36 @@ function Service() {
 
         // controlling the edges casses now ----------------
         if (result?.success && result?.orderPlaced && result?.paymentRecieved) {
+          mixpanel.track("Paid Order placed Successfully", {
+            user: UserDetails?.email,
+            slug: serviceInfo?.slug,
+          });
           toast.success("Thanks for downloading the service", {
             position: "top-center",
             autoClose: 3000,
           });
+          setOpenModelDownload(true);
         } else if (
           result?.success &&
           !result?.orderPlaced &&
           result?.paymentRecieved
         ) {
+          mixpanel.track("Problem!!!, Order not placed but money deducted", {
+            user: UserDetails?.email,
+            slug: serviceInfo?.slug,
+          });
           toast.info(
-            "Something wrong happened, we recieved your payment, Contact us at info@anchors.in",
+            "Something wrong happened, If money got deducted then please reach us at info@anchors.in",
             {
               position: "top-center",
               autoClose: 5000,
             }
           );
         } else {
+          mixpanel.track("Paid Order not placed", {
+            user: UserDetails?.email,
+            slug: serviceInfo?.slug,
+          });
           toast.info(
             "Your order was not placed. Please try again!!. If money got deducted then please reach us at info@anchors.in",
             {
@@ -222,7 +311,17 @@ function Service() {
     };
     var razor = new window.Razorpay(options);
     razor.on("payment.failed", () => {
-      console.log("payment failed");
+      mixpanel.track("Problem!!!, Paid Order failed", {
+        user: UserDetails?.email,
+        slug: serviceInfo?.slug,
+      });
+      toast.info(
+        "Payment Failed, if amount got deducted inform us at info@anchors.in",
+        {
+          position: "top-center",
+          autoClose: 5000,
+        }
+      );
     });
     razor.open();
   };
@@ -260,7 +359,6 @@ function Service() {
               creator: basicCdata?.slug,
             });
           } else {
-            console.log("Calling razorpay");
             orderPlacingThroughRazorpay();
           }
         });
@@ -317,13 +415,54 @@ function Service() {
     }
   };
 
+  // handling the status 0 of services ------------------
+  if (serviceInfo?.status === 0 || basicCdata?.status === 0) {
+    navigate("/");
+    return null;
+  }
+
+  if (!slug) {
+    navigate("/");
+    return null;
+  }
+
   return (
     <>
+      {loader && <LoadThree open={loader} />}
       <UserLogin
         open={openModel}
         onClose={() => {
           setOpenModel(false);
         }}
+      />
+
+      {/* Feedback Modal -------------------- */}
+      <FeedbackModal
+        open={fbModalDetails?.open}
+        onClose={() => {
+          setFbModalDetails({ ...fbModalDetails, open: false });
+        }}
+        name={fbModalDetails?.service?.sname}
+        slug={fbModalDetails?.service?.slug}
+        progress={props.progress}
+        serviceType
+        id={fbModalDetails?.service?._id}
+        UserDetails={UserDetails ? UserDetails : ""}
+      />
+
+      {/* Thanks Modal popup ------------------------- */}
+      <Thanks
+        open={openModelDownload}
+        onClose={() => {
+          setPaymentProcessing(false);
+          setOpenModelDownload(false);
+        }}
+        copyURL={serviceInfo?.copyURL}
+        slug={serviceInfo?.slug}
+        name={serviceInfo?.sname}
+        stype={0}
+        control
+        c_id={basicCdata?._id}
       />
 
       <div className="service_page_main_wrapper">
@@ -334,12 +473,14 @@ function Service() {
               className="logo_main_page"
               src={require("../../../Main Page/Images/logo-beta.png")}
               alt=""
+              onClick={handleLogoClick}
             />
           ) : (
             <img
               className="logo_main_page"
               src={require("./anchors_logo.jpg")}
               alt=""
+              onClick={handleLogoClick}
             />
           )}
           {localStorage.getItem("isUser") !== "" &&
@@ -433,6 +574,14 @@ function Service() {
                     <div
                       className="creator_profile_service_page"
                       onClick={() => {
+                        mixpanel.track(
+                          "Clicked Creators profile on service page",
+                          {
+                            service: slug,
+                            user: UserDetails ? UserDetails : "",
+                            creator: basicCdata?.slug,
+                          }
+                        );
                         navigate(`/c/${basicCdata?.slug}`);
                       }}
                     >
@@ -583,6 +732,11 @@ function Service() {
                 <div
                   className="creator_profile_service_page"
                   onClick={() => {
+                    mixpanel.track("Clicked Creators profile on service page", {
+                      service: slug,
+                      user: UserDetails ? UserDetails : "",
+                      creator: basicCdata?.slug,
+                    });
                     navigate(`/c/${basicCdata?.slug}`);
                   }}
                 >
@@ -688,58 +842,94 @@ function Service() {
           {/* creator resources ------------------ */}
           {services?.res?.filter((e) => {
             return e?.status === 1 && e?.slug !== slug;
-          })?.length !== 0 && (
-            <div className="creator_resources_service_page">
-              <section>
-                <span className="service_details_text_type02">
-                  More Services
-                </span>
-                <img
-                  src={GotoArrow}
-                  alt=""
-                  onClick={() => {
-                    navigate(`/c/${basicCdata?.slug}#resources`);
-                  }}
-                />
-              </section>
-              <div>
-                {services.res
-                  ?.filter((e1) => {
-                    return e1.status === 1 && e1.slug !== slug;
-                  })
-                  ?.slice(0, 3)
-                  ?.map((e) => {
-                    return (
-                      <div
-                        className={`resources_boxes_creator_profile`}
-                        key={e._id}
-                        style={
-                          window?.screen.width > 600
-                            ? {
-                                background: "#FFFFFF",
-                                border: "2px solid #000000",
-                                boxShadow: "6px 6px 0px #000000",
-                                borderRadius: "16px",
-                              }
-                            : { background: "#FFFFFF" }
+          })?.length !== 0 &&
+            localStorage.getItem("jwtToken") && (
+              <div className="creator_resources_service_page">
+                <section>
+                  <span className="service_details_text_type02">
+                    More Services
+                  </span>
+                  <img
+                    src={GotoArrow}
+                    alt=""
+                    onClick={() => {
+                      mixpanel.track(
+                        "Creator Page from Service Page explore arrow",
+                        {
+                          email: "",
+                          user: UserDetails ? UserDetails : "",
+                          creatorID: basicCdata?.slug,
                         }
-                        onClick={() => {
-                          window.open(`/newservice/${e?.slug}`, "_self");
-                        }}
-                      >
-                        <div style={{ display: "flex" }}>
-                          <img
-                            src={
-                              e?.stype === 1
-                                ? SheetIcon
-                                : e?.stype === 2
-                                ? VideoIcon
-                                : DocsIcon
-                            }
-                            alt=""
-                            className="icon_resources_creator_profile"
-                          />{" "}
-                          {window.screen.width < 550 && (
+                      );
+                      navigate(`/c/${basicCdata?.slug}#resources`);
+                    }}
+                  />
+                </section>
+                <div>
+                  {services.res
+                    ?.filter((e1) => {
+                      return e1.status === 1 && e1.slug !== slug;
+                    })
+                    .sort((a, b) => {
+                      return b?.downloads - a?.downloads;
+                    })
+                    ?.sort((a, b) => {
+                      return b?.smrp - a?.smrp;
+                    })
+                    ?.slice(0, 3)
+                    ?.map((e) => {
+                      return (
+                        <div
+                          className={`resources_boxes_creator_profile`}
+                          key={e._id}
+                          style={
+                            window?.screen.width > 600
+                              ? {
+                                  background: "#FFFFFF",
+                                  border: "2px solid #000000",
+                                  boxShadow: "6px 6px 0px #000000",
+                                  borderRadius: "16px",
+                                }
+                              : { background: "#FFFFFF" }
+                          }
+                          onClick={() => {
+                            mixpanel.track(
+                              "Extra Services Clicked after login",
+                              {
+                                creator: basicCdata?.slug,
+                                user: UserDetails ? UserDetails : "",
+                                serviceClicked: e?.slug,
+                              }
+                            );
+                            window.open(`/s/${e?.slug}`, "_self");
+                          }}
+                        >
+                          <div style={{ display: "flex" }}>
+                            <img
+                              src={
+                                e?.stype === 1
+                                  ? SheetIcon
+                                  : e?.stype === 2
+                                  ? VideoIcon
+                                  : DocsIcon
+                              }
+                              alt=""
+                              className="icon_resources_creator_profile"
+                            />{" "}
+                            {window.screen.width < 550 && (
+                              <span className="text_type_07_creator_profile">
+                                {e?.stype === 1
+                                  ? "Excel Sheet"
+                                  : e?.stype === 2
+                                  ? "Video"
+                                  : "Document"}
+                              </span>
+                            )}{" "}
+                          </div>
+                          <p className="text_type_06_creator_profile">
+                            {e?.sname}
+                          </p>
+                          {window.screen.width > 550 && (
                             <span className="text_type_07_creator_profile">
                               {e?.stype === 1
                                 ? "Excel Sheet"
@@ -747,50 +937,42 @@ function Service() {
                                 ? "Video"
                                 : "Document"}
                             </span>
-                          )}{" "}
+                          )}
+                          <section>
+                            <div className="extra_resource_info">
+                              <span className="text_type_08_creator_profile">
+                                <img src={FlashIcon} alt="" />{" "}
+                                {e?.downloads ? e?.downloads : 40} Downloads
+                              </span>
+                              <span className="text_type_08_creator_profile">
+                                <img src={GiftIcon} alt="" />{" "}
+                                {e?.isPaid ? "Paid" : "Free"}
+                              </span>
+                            </div>
+                            <button>
+                              Explore{" "}
+                              {window.screen.width < 550 && (
+                                <i class="fa-solid fa-arrow-right"></i>
+                              )}
+                            </button>
+                          </section>
                         </div>
-                        <p className="text_type_06_creator_profile">
-                          {e?.sname}
-                        </p>
-                        {window.screen.width > 550 && (
-                          <span className="text_type_07_creator_profile">
-                            {e?.stype === 1
-                              ? "Excel Sheet"
-                              : e?.stype === 2
-                              ? "Video"
-                              : "Document"}
-                          </span>
-                        )}
-                        <section>
-                          <div className="extra_resource_info">
-                            <span className="text_type_08_creator_profile">
-                              <img src={FlashIcon} alt="" />{" "}
-                              {e?.downloads ? e?.downloads : 40} Downloads
-                            </span>
-                            <span className="text_type_08_creator_profile">
-                              <img src={GiftIcon} alt="" />{" "}
-                              {e?.isPaid ? "Paid" : "Free"}
-                            </span>
-                          </div>
-                          <button>
-                            Explore{" "}
-                            {window.screen.width < 550 && (
-                              <i class="fa-solid fa-arrow-right"></i>
-                            )}
-                          </button>
-                        </section>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </section>
 
         {/* Floating or fixed CTA button + details */}
         {window.screen.width < 600 ? (
           <section className="cta_service_details_mobile">
-            <span className="service_details_text_type13">Live Preview</span>
+            <span
+              className="service_details_text_type13"
+              onClick={previewService}
+            >
+              Live Preview
+            </span>
 
             <div>
               <p>

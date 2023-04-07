@@ -1,127 +1,165 @@
-.user_model {
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600&display=swap");
+
+.userModalWrapper {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 99999;
-  width: 100vw;
-  height: 100vh;
-  display: grid;
-  background-color: rgba(255, 255, 255, 0.505);
-}
-
-.user_model_box {
-  margin: 15vh auto;
-  height: 70vh;
-  width: 31vw;
-}
-
-.user_model_box > img {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 0px;
-}
-
-.usermodel_question {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.user_model_box span:first-child {
-  font-size: 1.8rem;
-  color: black;
-}
-
-.user_model_button {
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  z-index: 9999;
+  justify-content: center;
+  background-color: rgba(45, 45, 45, 0.188);
 }
 
-.user_model_button button {
-  width: 90%;
-  margin: auto;
-  font-weight: bold;
-  /* padding: 16px 0; */
-  height: 60px;
-}
+.userModalBox {
+  width: 420px;
+  height: 500px;
 
-.user_model_button button i {
-  margin-right: 15px;
-}
+  background: #f1f1f2;
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 
-.user_model_button button:first-child {
-  margin-bottom: 30px;
-  /* background-color: #0077b5; */
-  color: #0077b5;
-  /* color: white; */
-  border: 2px solid #0077b5;
-}
-
-.user_model_button button:nth-child(2) {
-  color: rgb(65, 63, 63);
-  background-color: white;
-  border: 1px solid black;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  position: relative;
 }
 
-.user_model_button button img {
-  margin-right: 35px;
-  margin-top: 1px;
-  width: 30px;
-  height: 30px;
+.userModalCross {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #0000004d;
+  font-size: 22px;
+  cursor: pointer;
 }
 
-.terms_conditions {
-  font-size: 1.2rem;
-  width: 80%;
+.userModalBox > section {
   text-align: center;
 }
 
-.terms_conditions span {
-  font-size: 1.2rem !important;
-  color: blue !important;
-  text-decoration: underline;
+.logo_user_modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Sora", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 35px;
+  color: #000000;
+  margin-bottom: 15px;
 }
 
-@media (max-width: 500px) {
-  .user_model_box {
-    width: 80vw;
-    height: 70vh;
-    margin-left: 10vw;
+.logo_user_modal > img {
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+}
+
+.userModal_text_02 {
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.userModal_text_02 > span {
+  font-size: 18px;
+  margin-left: 8px;
+}
+
+.userModal_text_03 {
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 148%;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+  width: 50%;
+}
+
+.userModal_text_04 {
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 148%;
+  text-align: center;
+  color: #000000;
+  margin: 20px 0;
+}
+
+.userModalbuttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.userModalbuttons > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  gap: 10px;
+  width: 280px;
+  height: 38px;
+  background-color: #242529;
+  border-radius: 28px;
+  border: none;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.userModalbuttons > button svg {
+  font-size: 17px;
+}
+
+.userModal_text_05 {
+  font-family: "Sora";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 10px;
+  line-height: 148%;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.3);
+  width: 70%;
+  margin: 10px 0;
+  position: absolute;
+  bottom: 10px;
+}
+
+.userModal_text_05 > span {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .userModalWrapper{
+    background-color: #00000066;
   }
 
-  .user_model_box img {
-    width: 5rem;
-    height: 5rem;
-  }
-
-  .usermodel_question {
-    font-size: 1.3rem;
-  }
-
-  .user_model_button button {
-    width: 98%;
-    font-size: 1.1rem;
-    height: 45px;
-  }
-
-  .terms_conditions {
-    font-size: 1rem;
-    width: 90%;
-  }
-
-  .terms_conditions span {
-    font-size: 1rem !important;
-  }
-
-  .user_model_button button img {
-    width: 22px;
-    height: 22px;
-  }
-  .user_model_box > img {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 0px;
+  .userModalBox {
+    width: 360px;
+    height: 480px;
   }
 }
