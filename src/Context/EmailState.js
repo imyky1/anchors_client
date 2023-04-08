@@ -95,8 +95,30 @@ const sendBulkEmailFromBackend = async(serviceID,recievers, sname, cname, servic
   return json.success
 }
 
+
+
+const sendEmailForOrderPayments = async(sname,userEmail,amount,paymentId,date,time)=>{
+  const d = new Date()
+  const response = await fetch(`${host}/api/email/sendEmailfromZohoForPayments`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
+      },
+      body:JSON.stringify({
+        sname,userEmail,amount,paymentId,date:d.toLocaleDateString(),time:d.toLocaleTimeString()
+      })
+})
+  const json = await response.json()
+  return json.success
+}
+
+
+
+
   return (
-    <emailcontext.Provider value={{ saveEmailData,sendEmail,checkEmailSent,sendBulkEmailFromBackend }}>
+    <emailcontext.Provider value={{ saveEmailData,sendEmail,checkEmailSent,sendBulkEmailFromBackend,sendEmailForOrderPayments}}>
       {props.children}
     </emailcontext.Provider>
   );

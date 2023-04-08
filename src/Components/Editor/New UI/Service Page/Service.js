@@ -27,6 +27,7 @@ import { host } from "../../../../config/config";
 import { LoadThree } from "../../../Modals/Loading";
 import FeedbackModal from "../../../Modals/Feedback_Modal";
 import Thanks from "../../../Modals/Thanks";
+import { emailcontext } from "../../../../Context/EmailState";
 
 function Service(props) {
   const location = useLocation();
@@ -74,6 +75,7 @@ function Service(props) {
     getUserDetails,
     verifyPaymentsinBackend,
   } = useContext(userContext);
+  const {sendEmailForOrderPayments} = useContext(emailcontext)
 
   //Scroll to top automatically ---------------------------------------------
   useEffect(() => {
@@ -257,6 +259,8 @@ function Service(props) {
           !result?.orderPlaced &&
           result?.paymentRecieved
         ) {
+          // sending the payment fail email at info@anchors.in
+          sendEmailForOrderPayments(serviceInfo?.sname,UserDetails?.email,order.amount/100,res.razorpay_payment_id)
           mixpanel.track("Problem!!!, Order not placed but money deducted", {
             user: UserDetails?.email,
             slug: serviceInfo?.slug,
@@ -310,15 +314,16 @@ function Service(props) {
       },
     };
     var razor = new window.Razorpay(options);
-    razor.on("payment.failed", () => {
+    razor.on("payment.failed", (e) => {
       mixpanel.track("Problem!!!, Paid Order failed", {
         user: UserDetails?.email,
         slug: serviceInfo?.slug,
       });
+      // sending the payment fail email at info@anchors.in
+      sendEmailForOrderPayments(serviceInfo?.sname,UserDetails?.email,order.amount/100,e?.error?.metadata?.payment_id)
       toast.info(
         "Payment Failed, if amount got deducted inform us at info@anchors.in",
         {
-          position: "top-center",
           autoClose: 5000,
         }
       );
