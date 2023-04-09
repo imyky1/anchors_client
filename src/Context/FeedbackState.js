@@ -154,7 +154,7 @@ const FeedbackState = (props) => {
     if (json.success) {
       return json.rating;
     } else {
-      return 4.1;
+      return 5.0;
     }
   };
 

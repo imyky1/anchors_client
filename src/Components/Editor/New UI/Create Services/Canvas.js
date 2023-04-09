@@ -8,7 +8,9 @@ class Canvas extends Component {
     this.canvas = React.createRef();
     this.image = React.createRef();
     this.imageback = React.createRef();
+    console.log(this.props)
   }
+
   async componentDidMount() {
     function gradient(color0, color2, canvas) {
       let fillColor = ctx.createLinearGradient(

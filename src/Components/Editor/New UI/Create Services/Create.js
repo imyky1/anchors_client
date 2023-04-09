@@ -51,7 +51,7 @@ function Create(props) {
     // eslint-disable-next-line
   }, []);
   // default banner
-  const [defaultbanner, setDefaultBanner] = useState(false);
+  const [defaultbanner, setDefaultBanner] = useState(false);      // decides wheter to user checked the default banner-----
   // const [defaultBannerPreview, setDefaultBannerPreview] = useState(false);
   const [defaultBannerUrl, setURLBANNER] = useState(null);
 
@@ -80,8 +80,8 @@ function Create(props) {
   // allow preview variables
   const [allowPreview, setAllowPreview] = useState(false);
   const [noOfPage, setNoOfPages] = useState(0);
-  const [ServiceDoc, setServiceDoc] = useState();
-  const [showdefaultselect, setShowDefaultSelect] = useState(true);
+  const [ServiceDoc, setServiceDoc] = useState(); 
+  const [showdefaultselect, setShowDefaultSelect] = useState(true);  // decides when we need to show the Default banner checkbox 
   const DefaultCanvas = useRef(null);
 
   const handleChangeFileBanner = (e) => {
@@ -204,7 +204,7 @@ function Create(props) {
     //getslugcount(slug.toLowerCase());  // checks if similar slug already exists -----
     return slug;
   };
-  const [generateBanner, setGenerateBanner] = useState(false);
+  const [generateBanner, setGenerateBanner] = useState(false);      // decide wheter we need to genrate the banner using th canvas while submmiting the form.
 
   useEffect(() => {
     generateCopyURL();
@@ -726,8 +726,8 @@ function Create(props) {
           textToShow={textToShow}
           width="1200"
           height="450"
-          imgBackground={allCreatorInfo.profile}
-          creator_name={basicNav.name}
+          imgBackground={allCreatorInfo?.profile}
+          creator_name={basicNav?.name}
           setURL={setURLBANNER}
         />
       ) : (

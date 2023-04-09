@@ -104,11 +104,11 @@
 }
 
 .service_details_text_type09 {
-  font-family: "Inter";
+  ont-family: "Inter";
   font-style: normal;
   font-weight: 600;
-  font-size: 8px;
-  line-height: 10px;
+  font-size: 12px;
+  line-height: 15px;
   display: flex;
   align-items: center;
   text-decoration-line: line-through;
@@ -119,8 +119,10 @@
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  font-size: 8px;
-  line-height: 10px;
+  font-size: 10px;
+  line-height: 12px;
+  display: flex;
+  align-items: center;
   color: rgba(0, 0, 0, 0.6);
 }
 
@@ -287,7 +289,7 @@
 
 .price_description_Service_page > div {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .free_price_secription_service_page {
@@ -409,7 +411,7 @@
 }
 
 .cta_service_details_mobile > div > span {
-  width: 89px;
+  min-width: 89px;
   height: 27px;
   left: 61px;
   top: 10px;
@@ -422,6 +424,7 @@
   font-weight: 600;
   font-size: 12px;
   line-height: 15px;
+  padding: 0 3px;
 }
 
 /* cta on desktop ------------------------- */
@@ -471,25 +474,22 @@
   cursor: pointer;
 }
 
-.extra_space_in_last{
+.extra_space_in_last {
   height: 91px;
   width: 100%;
 }
 
-
-@keyframes fadeInCTA{
-  0%{
+@keyframes fadeInCTA {
+  0% {
     opacity: 0;
     transform: translateY(50%);
   }
 
-  100%{
+  100% {
     opacity: 1;
     transform: translateY(0%);
   }
-
 }
-
 
 @media (max-width: 600px) {
   .service_page_main_wrapper {
@@ -541,6 +541,39 @@
     width: unset;
     max-width: 80%;
     min-width: 20%;
+  }
+
+  .service_details_text_type16 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 3px;
+    gap: 4px;
+    min-width: 85px;
+    height: 28px;
+    background: #ffffff;
+    border: 0.5px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: rgba(0, 0, 0, 0.8);
+    box-sizing: border-box;
+  }
+
+  .free_price_secription_service_page {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    color: #00c168;
   }
 
   .left_side_service_details {

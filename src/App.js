@@ -47,6 +47,7 @@ import NewProfile from "./Components/Editor/New UI/Creator Profile/Profile";
 import NewService from "./Components/Editor/New UI/Service Page/Service";
 import TellUsMore from "./Components/Waitlist/TellUsMore";
 import PDFReaderPreview from "./Components/Editor/pdfViewer/pdfViewerPreview/Components/PDFReader";
+import Seo from "./Utils/Seo";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -59,6 +60,9 @@ function App() {
 
   return (
     <Router>
+      {/* React helmet for SEO --------------- */}
+      <Seo/>
+
       <LinkedinState>
         <ServiceState>
           <CreatorState>
