@@ -4,6 +4,9 @@ import { atcb_action, atcb_init } from "add-to-calendar-button";
 import { InlineShareButtons } from "sharethis-reactjs";
 import { host } from "../../config/config";
 
+import { useLinkedIn } from "react-linkedin-login-oauth2";
+// You can use provided image shipped by this package or using your own
+import linkedin from "react-linkedin-login-oauth2/assets/linkedin.png";
 import "./teststyle.css";
 
 import "add-to-calendar-button/assets/css/atcb.css";
@@ -28,6 +31,50 @@ function Test() {
       "height=50"
     );
   };
+
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    // Extract the authorization code from the URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const authorizationCode = urlParams.get("code");
+
+    // Fetch access token from LinkedIn using the authorization code
+    const fetchAccessToken = async () => {
+      try {
+        const response = await fetch(
+          `${host}/login/api/linkedin/access-token`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ code: authorizationCode }),
+          }
+        );
+        const data = await response.json();
+        console.log(data);
+        const accessToken = data.access_token;
+
+        // Fetch user data from LinkedIn using the access token
+        const response2 = await fetch("https://api.linkedin.com/v2/me", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        const userData = await response2.json();
+        console.log(userData);
+        setUserData(userData);
+      } catch (error) {
+        console.error("Error fetching LinkedIn data:", error);
+      }
+    };
+
+    // Call the fetchAccessToken function if authorization code is available
+    if (authorizationCode) {
+      fetchAccessToken();
+    }
+  }, []);
   const generateImage = async () => {
     if (title.length < 5) {
       alert("title small than 5 bruh");
@@ -59,12 +106,46 @@ function Test() {
   const previewopen = (e) => {
     setShopPopup(true);
   };
+
+  const { linkedInLogin } = useLinkedIn({
+    clientId: "77dzwxk6dvh9ts",
+    redirectUri: `http://localhost:3000/developer/test`,
+    onSuccess: (code) => {
+      console.log(code);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
   const [showpopup, setShopPopup] = useState(false);
   console.log(signedurl);
   return (
     <>
       <div className="test">
-        <PreviewDocument
+        <div>
+          <img
+            onClick={linkedInLogin}
+            src={linkedin}
+            alt="Sign in with Linked In"
+            style={{ maxWidth: "180px", cursor: "pointer" }}
+          />
+        </div>
+        <div>
+          {userData ? (
+            <div>
+              <h1>LinkedIn Data</h1>
+              <p>
+                Name: {userData.firstName} {userData.lastName}
+              </p>
+              <p>Email: {userData.emailAddress}</p>
+              {/* Render other retrieved data from LinkedIn */}
+            </div>
+          ) : (
+            <p>Loading LinkedIn data...</p>
+          )}
+        </div>
+        {/* <PreviewDocument
           open={showpopup}
           onClose={() => {
             setShopPopup(false);
@@ -112,7 +193,7 @@ function Test() {
 
         <div>
           <button onClick={() => previewopen()}>Preview Document</button>
-        </div>
+        </div> */}
 
         {/* <div className="aiImage">
         <div>
@@ -127,7 +208,7 @@ function Test() {
             })}} 
         <img src={url} alt="will come !!!" />;
       </div> */}
-        <Canvas
+        {/* <Canvas
           textToShow="List of Top 10 YouTube Channel for Coding"
           width="1200"
           height="450"
@@ -141,7 +222,7 @@ function Test() {
           download="GFG"
         >
           Click Me
-        </a>
+        </a> */}
       </div>
     </>
   );
