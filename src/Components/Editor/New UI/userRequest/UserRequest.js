@@ -14,23 +14,26 @@ import { creatorContext } from "../../../../Context/CreatorState";
 import { LoadTwo } from "../../../Modals/Loading";
 import { Button1 } from "../Create Services/InputComponents/buttons";
 import "./UserRequest.css";
+import { AiOutlinePlus } from "react-icons/ai";
+import { ToastContainer, toast } from "react-toastify";
 
-const UserRequest = () => {
+const UserRequest = ({creatorSlug}) => {
   const navigate = useNavigate()
   const { getUserQueries, RequestsStats } = useContext(creatorContext);
   const [querries, setQuerries] = useState();
   const [openLoading, setopenLoading] = useState(false);
   const [dummyData, setdummyData] = useState(false);
+  const [firstService, setfirstService] = useState(true);      // wheather a creator has its first service or not  ------ true means firstservice is present
 
   useEffect(() => {
     setopenLoading(true);
     getUserQueries().then((e) => {
       setQuerries(e[0]);
       setdummyData(e[1])
+      setfirstService(e[2])
       setopenLoading(false);
     });
   }, []);
-
 
 
   const renderdate1 = (date) => {
@@ -42,6 +45,14 @@ const UserRequest = () => {
     const splity = date.split(",");
     return splity[1];
   };
+
+  const handleCopyLink = () =>{
+    navigator.clipboard.writeText(`https:www.anchors.in/c/${creatorSlug}`)
+    toast.info("Copied link successfully",{
+      position:"top-center",
+      autoClose:2000
+    })
+  }
 
   return (
     <>
@@ -181,13 +192,14 @@ const UserRequest = () => {
       </div>
 
       {dummyData && <div className="cta_dummy_data">
-        <span>this is dummy data , start creating your first service for your data</span>
-        <Button1 text="Create your First Service" width="268px" onClick={()=>{navigate("/dashboard")}}/>
+      <span>{firstService ? `This is sample data, Share your profile page with your audience to get requests ` :`This is sample data , start creating your first service for your data`}</span>
+        <Button1 text={firstService ? `Copy Profile Page Link` :`Create your First Service` } icon={!firstService && <AiOutlinePlus size={18} width={30}/>} width="268px" onClick={()=>{firstService ? handleCopyLink() : navigate("/dashboard")}}/>
       </div>}
 
 
     </div>
     <SuperSEO title="Anchors - User requests" />
+    <ToastContainer/>
     </>
 
   );

@@ -11,7 +11,7 @@ import SheetIcon from "./icons/Iconsheet.svg";
 import VideoIcon from "./icons/Iconvideo.svg";
 import GiftIcon from "./icons/Icongift.svg";
 import FlashIcon from "./icons/Iconflash.svg";
-import StarIcon from "./icons/Iconstar.svg";
+
 import Footer2 from "../../../Footer/Footer2";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { creatorContext } from "../../../../Context/CreatorState";
@@ -19,15 +19,13 @@ import { feedbackcontext } from "../../../../Context/FeedbackState";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { userContext } from "../../../../Context/UserState";
 import { toast, ToastContainer } from "react-toastify";
-import PNGIMG from "../../../Main Page/default_profile.png";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { SuperSEO } from "react-super-seo";
 import mixpanel from "mixpanel-browser";
 import User_login from "../../../Login/Users/User_login";
-import Hamburger from "hamburger-react";
 import Request_Modal from "../../../Modals/Request_Modal";
-import { Helmet } from "react-helmet";
 import Seo from "../../../../Utils/Seo";
+import { AiFillStar } from "react-icons/ai";
+import NavbarUser from "../../../Layouts/Navbar User/Navbar";
 
 function Profile() {
   const { slug } = useParams();
@@ -40,9 +38,7 @@ function Profile() {
     reviews: false,
   });
   const [UserDetails, setUserDetails] = useState();
-  const [openModel, setOpenModel] = useState(false);
   const [openModelRequest, setOpenModelRequest] = useState(false);
-  const [openUserMenu, setOpenUserMenu] = useState(false);
 
   // contexts -------------------------------------------------------------------------
   const { services, getallservicesusingid, workshops, getallworkshopsusingid } =
@@ -112,6 +108,14 @@ function Profile() {
     navigate("/logout");
   };
 
+  const handleLogoClick = () => {
+    mixpanel.track("User Dashboard from LOGO", {
+      user: UserDetails ? UserDetails : "",
+    });
+    navigate(`/`);
+  };
+
+
   // checks for a status 0 creator
   if (basicCdata.status === 0) return alert("The Creator doesn't exist");
 
@@ -128,92 +132,9 @@ function Profile() {
         UserDetails={UserDetails ? UserDetails : ""}
       />
 
-      <User_login
-        open={openModel}
-        onClose={() => {
-          setOpenModel(false);
-        }}
-      />
-
       <div className="creator_profile_main_container">
         {/* Header of creator profile -------------------------------------------------------------------------------------------- */}
-        <section className="top_header_creator_profile">
-          {window.screen.width > 550 ? (
-            <img
-              className="logo_main_page"
-              src={require("../../../Main Page/Images/logo-beta.png")}
-              alt=""
-            />
-          ) : (
-            <img
-              className="logo_main_page"
-              src={require("./anchors_logo.jpg")}
-              alt=""
-            />
-          )}
-          {localStorage.getItem("isUser") !== "" &&
-            (!localStorage.getItem("jwtToken") ? (
-              <button
-                onClick={() => {
-                  mixpanel.track(
-                    "Clicked Login button on creators profile page",
-                    {
-                      creator: slug,
-                    }
-                  );
-                  setOpenModel(true);
-                }}
-              >
-                Signup
-              </button>
-            ) : (
-              <span>
-                {localStorage.getItem("user")?.slice(0, 12) ===
-                localStorage.getItem("user")
-                  ? localStorage.getItem("user")
-                  : localStorage.getItem("user")?.slice(0, 12) + ".."}
-                &nbsp;
-                {window.screen.width > 700 ? (
-                  <i
-                    className="fa-solid fa-caret-down"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      setOpenUserMenu(!openUserMenu);
-                    }}
-                  ></i>
-                ) : (
-                  <Hamburger
-                    className="hamburger-react"
-                    size={20}
-                    onToggle={(toggled) => {
-                      if (toggled) {
-                        setOpenUserMenu(true);
-                      } else {
-                        setOpenUserMenu(false);
-                        // close a menu
-                      }
-                    }}
-                  />
-                )}
-                {window.screen.width > 700
-                  ? openUserMenu && (
-                      <button
-                        className="logout_button_header"
-                        onClick={userlogout}
-                      >
-                        Logout
-                      </button>
-                    )
-                  : openUserMenu && (
-                      <ul className="hamburger_menu_profile">
-                        <li className="hamburger_item" onClick={userlogout}>
-                          Logout
-                        </li>
-                      </ul>
-                    )}
-              </span>
-            ))}
-        </section>
+        <NavbarUser UserDetails={UserDetails} slug={basicCdata?.slug}/>
 
         {/* just for background and profile section----------------------------------- */}
         <section className="just_background_color_creator_profile">
@@ -331,7 +252,7 @@ function Profile() {
               marginTop:
                 window.screen.width > 550
                   ? document.querySelector(".creator_main_details_parts_01")
-                      ?.clientHeight
+                      ?.clientHeight + 50
                   : document.querySelector(".creator_main_details_parts_01")
                       ?.clientHeight + 150,
             }}
@@ -472,15 +393,16 @@ function Profile() {
                           {Array(e2?.rating)
                             .fill("a")
                             ?.map((e, i) => {
-                              return <img src={StarIcon} alt="" key={i} />;
+                              return <AiFillStar color="rgb(249 198 0)" key={i} />
+                              // return <img src={StarIcon} alt="" key={i} />;
                             })}
                         </div>
                       </section>
                     </div>
 
                     <p className="text_type_10_creator_profile">
-                      {e2?.desc.length > 100
-                        ? e2?.desc?.slice(0, 100) + "..."
+                      {e2?.desc.length > 82
+                        ? e2?.desc?.slice(0, 82) + "..."
                         : e2?.desc}
                     </p>
                   </div>

@@ -1,5 +1,5 @@
 import React, { useRef, useState,useCallback,useEffect } from "react";
-import { host } from "../../config/config";
+import { host, jwtTokenDeveloper } from "../../config/config";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 import "./Login.css"
@@ -64,7 +64,7 @@ function Login() {
   const handleSubmitOTP = async (e) => {
     e.preventDefault();
     console.log("sent")
-    const response = await fetch(`${host}/api/email/sendMsg?message=Hello Anchorite&number=8692006538&subject=Anchors`, {
+    const response = await fetch(`${host}/api/email/sendMsg?message=Login&number=6267941318&subject=Anchors`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -85,7 +85,7 @@ function Login() {
     let code = cookies?.ccoondfe
 
     if(data.otp === (parseInt(code)/562002).toString()){
-      localStorage.setItem("jwtTokenD", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjM3MGUwMmZlOWRmNjBjNTY5OGIwMGQzIn0sImlhdCI6MTY3MDI2NDMwNX0.s9J2ny1S3Pz47R8DC058kYZW-RZxXj7rsYHPzzALp6M");
+      localStorage.setItem("jwtTokenD",jwtTokenDeveloper);
       localStorage.setItem("isDev", true);
       navigate("/developer/admin");
     } else {

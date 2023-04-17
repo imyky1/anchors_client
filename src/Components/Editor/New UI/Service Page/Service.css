@@ -164,7 +164,7 @@
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
-  line-height: 29px;
+  line-height: 33px;
   color: #000000;
 }
 
@@ -198,7 +198,7 @@
 }
 
 .left_side_service_details > div {
-  margin-bottom: 38px;
+  margin-bottom: 34px;
 }
 
 /* upper tags div */
@@ -216,6 +216,7 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
+  text-transform: uppercase;
 }
 
 .tags_service_details > span {
@@ -226,6 +227,10 @@
 
 .tags_service_details > span > img {
   margin-right: 10px;
+}
+
+.tags_service_page02{
+  margin-bottom: 54px !important;
 }
 
 .service_page_read_info {
@@ -322,7 +327,7 @@
 /* Creator reviews ------------------------- */
 
 .user_reviews_service_page {
-  margin: 40px 0;
+  /* margin: 20px 0; */
 }
 
 .user_reviews_service_page > div {
@@ -338,13 +343,13 @@
 .creator_resources_service_page {
   margin: 40px 0;
   margin-top: 70px;
-  width: 98%;
+  width: 100%;
 }
 
 .creator_resources_service_page > section {
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 98%;
   justify-content: space-between;
 }
 
@@ -436,9 +441,11 @@
   border-radius: 15px 15px 0px 0px;
   position: fixed;
   bottom: 0;
+  left: 0;
   z-index: 999;
   box-sizing: border-box;
-  padding: 0 10%;
+  padding: 0 7%;
+  padding-right: 9%;
 
   display: flex;
   align-items: center;
@@ -478,6 +485,9 @@
   height: 91px;
   width: 100%;
 }
+
+
+
 
 @keyframes fadeInCTA {
   0% {

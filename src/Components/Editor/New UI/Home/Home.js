@@ -196,15 +196,15 @@ function Home(props) {
                     />
                     <Route
                       path="/reviews"
-                      element={<UserReviews progress={props.progress} />}
+                      element={<UserReviews progress={props.progress} creatorSlug={basicNav?.slug}/>}
                     />
                     <Route
                       path="/servicereviews/:slug"
-                      element={<UserReviews progress={props.progress} />}
+                      element={<UserReviews progress={props.progress} creatorSlug={basicNav?.slug}/>}
                     />
                     <Route
                       path="/requests"
-                      element={<UserRequest progress={props.progress} />}
+                      element={<UserRequest progress={props.progress} creatorSlug={basicNav?.slug}/>}
                     />
                     <Route
                       path="/servicestats/:slug"

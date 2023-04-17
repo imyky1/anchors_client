@@ -240,7 +240,7 @@ const CreatorState = (props) => {
     const json = await response.json();
     if (json.success) {
       setFeedbackStats(json.stats); // total review count for dashboard
-      return [json?.res,json?.dummy];
+      return [json?.res,json?.dummy,json?.firstService];
     } else {
       //alert(json.error)
     }
@@ -279,7 +279,7 @@ const CreatorState = (props) => {
     const json = await response.json();
     if (json.success) {
       setRequestsStats(json.stats); // total requests count for dashboard
-      return [json?.res,json?.dummy];
+      return [json?.res,json?.dummy,json?.firstService];
     } else {
       //  toastify error
     }

@@ -1,0 +1,32 @@
+.navbar_creator_wrapper01 {
+  width: 100%;
+  background: #101010;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 120px;
+  box-sizing: border-box;
+}
+
+.navbar_creator_wrapper01 > img {
+  width: 196px;
+  height: 35px;
+}
+
+.navbar_creator_wrapper01 > button {
+  min-width: 80px;
+  padding: 0 15px;
+  height: 30px;
+  border: 0.8px solid #ffffff;
+  border-radius: 38px;
+  background-color: transparent;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+  cursor: pointer;
+}

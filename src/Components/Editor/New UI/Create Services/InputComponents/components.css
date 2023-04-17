@@ -292,6 +292,10 @@ input:checked + .slider_type_01:before {
   color: #ffffff;
   cursor: pointer;
   border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 /* tags section --------------------------------------------------- */
