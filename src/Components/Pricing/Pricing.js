@@ -45,17 +45,17 @@ const FAQDetails = [
   {
     question: "Who can use Anchors?",
     answer:
-      "Anchors is a SaaS-based company that offers services for creators to sell their digital products such as PDFs, Excel sheets, and video tutorials, and generate revenue by selling them.",
+      "Anchors can be used by anyone who wants to sell their digital products online and generate revenue from them. It is especially useful for creators, educators, and professionals who want to monetize their knowledge and expertise.",
   },
   {
     question: "How does Anchors help me generate revenue?",
     answer:
-      "Anchors is a SaaS-based company that offers services for creators to sell their digital products such as PDFs, Excel sheets, and video tutorials, and generate revenue by selling them.",
+      "Anchors provides a platform for creators to sell their digital products and earn revenue from them. Creators can set their own prices for their products.",
   },
   {
     question: "How do I get Started with Anchors?",
     answer:
-      "Anchors is a SaaS-based company that offers services for creators to sell their digital products such as PDFs, Excel sheets, and video tutorials, and generate revenue by selling them.",
+      "Creators can sign up for an account on the Anchors website, upload their digital products, and start selling them immediately. The process is quick and easy, and Anchors provides resources and support to help creators get started",
   },
 ];
 
@@ -89,7 +89,20 @@ const CardDesign = ({ data }) => {
         })}
       </div>
 
-      {data?.button && <button onClick={()=>{mixpanel.track("Clicked Join now on Pricing page")}}><a href="#eligibility" style={{color:"unset",textDecoration:"none"}}>{data?.button}</a></button>}
+      {data?.button && (
+        <button
+          onClick={() => {
+            mixpanel.track("Clicked Join now on Pricing page");
+          }}
+        >
+          <a
+            href="#eligibility"
+            style={{ color: "unset", textDecoration: "none" }}
+          >
+            {data?.button}
+          </a>
+        </button>
+      )}
     </div>
   );
 };
@@ -240,23 +253,27 @@ const EligibiltySection = () => {
 };
 
 const FAQs = ({ data }) => {
-
   return (
     <div className="faq_pricing_wrapper">
       <h1 className="faq_pricing_text01">Frequently Asked Question</h1>
       <span className="faq_pricing_text02">Get all your answers</span>
 
       <div class="tabs">
-        {data?.map((e,i)=>{
-          return <div class="tab" key={e?.question}>
-          <input type="checkbox" id={`chck${i+1}`} className="checkbox_accordian" style={{display:"none"}}/>
-          <label class="tab-label" htmlFor={`chck${i+1}`}>
-            {e?.question}
-          </label>
-          <div class="tab-content">
-            {e?.answer}
-          </div>
-        </div>
+        {data?.map((e, i) => {
+          return (
+            <div class="tab" key={e?.question}>
+              <input
+                type="checkbox"
+                id={`chck${i + 1}`}
+                className="checkbox_accordian"
+                style={{ display: "none" }}
+              />
+              <label class="tab-label" htmlFor={`chck${i + 1}`}>
+                {e?.question}
+              </label>
+              <div class="tab-content">{e?.answer}</div>
+            </div>
+          );
         })}
       </div>
     </div>
@@ -295,7 +312,7 @@ function Pricing() {
         </section>
 
         <section>
-          <FAQs data={FAQDetails}/>
+          <FAQs data={FAQDetails} />
         </section>
       </div>
 

@@ -73,10 +73,14 @@ const EditProfile = (props) => {
       ...data,
       ...allCreatorInfo,
     });
-    setdata({
-      ...data,
-      name:basicNav?.name,
-    });
+
+    if(!allCreatorInfo?.name){
+      setdata({
+        ...data,
+        name:basicNav?.name,
+      });
+    }
+    
     setContent(allCreatorInfo?.aboutMe);
     setPhone(allCreatorInfo?.phone);
     // eslint-disable-next-line
@@ -198,6 +202,7 @@ const EditProfile = (props) => {
 
     props.progress(100);
   };
+
 
   return (
     <>
