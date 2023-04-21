@@ -1,51 +1,87 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import mixpanel from "mixpanel-browser";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { feedbackcontext } from "../../Context/FeedbackState";
 
-function Request_Modal({
-  open,
-  onClose,
-  slug,
-  progress,
-  id,
-  cname,
-  UserDetails,
-}) 
-{
-    const {createRequest} = useContext(feedbackcontext)
+function Request_Modal({ open, onClose, slug, id, cname, UserDetails }) {
+  const { createRequest } = useContext(feedbackcontext);
   const [requestQuery, setRequestQuery] = useState("");
-  const [amount, setAmount] = useState();
+  const [amount, setAmount] = useState(null);
 
+  const amountSetter = (item) => {
+    document.getElementById("99").style.border = "1px solid #00000069";
+    document.getElementById("300").style.border = "1px solid #00000069";
+    document.getElementById("custom").style.border = "1px solid #00000069";
+
+    document.getElementById("amount").style.display = "none";
+
+    if (item === 1) {
+      setAmount(99);
+      document.getElementById("99").style.border = "1px solid black";
+    } else if (item === 2) {
+      setAmount(300);
+      document.getElementById("300").style.border = "1px solid black";
+    } else {
+      setAmount(0);
+      document.getElementById("custom").style.border = "1px solid black";
+      document.getElementById("amount").style.display = "flex";
+    }
+  };
   const handleSubmit = (e) => {
-    progress(0)
     e.preventDefault();
-    //const doc1 = document.querySelectorAll(".checkbox_modal_yesno");
-    //let v1 = doc1[0].checked;
-    //let v2 = doc1[1].checked;
-    //if (requestQuery !== "" && (v1 || v2)) {
+
+    if (requestQuery.length < 5) {
+      toast.error("Please provide message for your request!", {
+        position: "top-center",
+        autoClose: 2500,
+      });
+      return;
+    }
+    if (amount === null || isNaN(amount)) {
+      toast.error("Please provide amount!", {
+        position: "top-center",
+        autoClose: 2500,
+      });
+      return;
+    }
+    if (amount > 100000) {
+      toast.error("Maximum amount cannot exceed 100000!", {
+        position: "top-center",
+        autoClose: 2500,
+      });
+      return;
+    }
+
     if (requestQuery !== "") {
       createRequest(
         id,
         requestQuery,
         //v1 ? true : false,
-        (amount === 0 || !amount) ? false : true, 
+        amount === 0 || !amount ? false : true,
         amount ? amount : 0
       ).then((e) => {
-        if (e.success) {
+        console.log(e);
+        if (e.error === "This action requires the user to login") {
+          toast.error("Please login to proceed!", {
+            position: "top-center",
+            autoClose: 2500,
+          });
+          setRequestQuery("");
+          onClose();
+        } else if (e.success) {
           toast.success("Request Captured Successfully", {
             position: "top-center",
             autoClose: 2500,
           });
           setRequestQuery("");
-          onClose()
+          onClose();
         } else if (e.already) {
           toast.info("You had already passed a request to the creator", {
             position: "top-center",
             autoClose: 2500,
           });
-          onClose()
+          onClose();
         } else {
           toast.error("Some error occured, try again after some time!!", {
             position: "top-center",
@@ -59,7 +95,6 @@ function Request_Modal({
         autoClose: 2500,
       });
     }
-    progress(100)
   };
 
   if (!open) {
@@ -67,69 +102,98 @@ function Request_Modal({
   }
 
   return (
-    <div className="logout_model_logout">
+    <div
+      className="main-req-resource-cover"
+      onClick={() => {
+        mixpanel.track("Request Resource Model Close", {
+          user: UserDetails,
+          service: slug,
+        });
+        onClose();
+      }}
+    >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="fb_modal_main_box model_main_box "
+        className="request-resources-modal-container"
       >
-        <i
-          className="fa-solid fa-xmark fa-xl"
-          onClick={() => {
-            mixpanel.track("Request Resource Model Close", {
-              user: UserDetails,
-              service: slug,
-            });
-            onClose();
-          }}
-        ></i>
-        <span className="fb_span_one model_question request_model_span">Request New Resources</span>
-        <span className="fb_span_two">Let {cname} know what you want in the next document/workshop.</span>
-        <textarea
-          type="text"
-          className="request_model_box "
-          placeholder="Ex: Please share resources for DSA.."
-          value={requestQuery}
-          onChange={(e) => setRequestQuery(e.target.value)}
-        />
-        <span className="fb_span_two">How much will you pay for the document/workshop (in INR)?</span>
-        <div className="fb_span_two">
-          <input type="number" name="amount" id="amount" value={amount} onChange={(e)=>{setAmount(parseInt(e.target.value))}} placeholder="Ex. 99" />
-          {/* <span>
-            <input
-              type="checkbox"
-              name="yes"
-              id="yesvalue"
-              className="checkbox_modal_yesno"
-              onClick={() => {
-                document.querySelectorAll(
-                  ".checkbox_modal_yesno"
-                )[1].checked = false;
-              }}
-            />
-            <label htmlFor="yesvalue">Yes</label>
-          </span>
-          <span>
-            <input
-              type="checkbox"
-              name="yes"
-              id="novalue"
-              className="checkbox_modal_yesno"
-              onClick={() => {
-                document.querySelectorAll(
-                  ".checkbox_modal_yesno"
-                )[0].checked = false;
-              }}
-            />
-            <label htmlFor="novalue">No</label>
-          </span> */}
+        <div className="req-resource-popup-cancel">
+          {" "}
+          <i
+            className="fa-solid fa-xmark fa-xl"
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              mixpanel.track("Request Resource Model Close", {
+                user: UserDetails,
+                service: slug,
+              });
+              onClose();
+            }}
+          ></i>
         </div>
-        <div className="model_buttons request_model_button">
-          <button
-            className="fb_model_button model_button "
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
+
+        <div className="req-res-body-wrap">
+          <span className="req-res-header">Request Resources</span>
+          <span className="req-res-body-first">
+            Send your request to {cname.split(" ")[0]} and let him know your
+            service
+          </span>
+          <span className="req-res-body-second">Your Message</span>
+          <textarea
+            type="text"
+            placeholder="Write Your message here "
+            value={requestQuery}
+            onChange={(e) => setRequestQuery(e.target.value)}
+          />
+          <span className="req-res-text-amount" id="amountChooseText">
+            Choose an amount
+          </span>
+          <div className="req-res-body-select-amount" id="amountSelector">
+            <span
+              className="req-res-amount-select"
+              id="99"
+              onClick={() => amountSetter(1)}
+            >
+              ₹ 99
+            </span>
+            <span
+              className="req-res-amount-select"
+              id="300"
+              onClick={() => amountSetter(2)}
+            >
+              ₹ 300
+            </span>
+            <span
+              className="req-res-amount-select"
+              id="custom"
+              onClick={() => amountSetter(3)}
+            >
+              Custom
+            </span>
+            <br />
+            <br />
+            <div
+              id="amount"
+              className="req-res-input-amount"
+              style={{ display: "none" }}
+            >
+              {" "}
+              <input
+                type="number"
+                name="amount"
+                value={amount}
+                className="req-res-input"
+                onChange={(e) => {
+                  setAmount(parseInt(e.target.value));
+                }}
+                placeholder="Ex. 99"
+              />
+            </div>
+          </div>
+          <div className="req-res-submit-btn-container">
+            <button className="req-res-submit-btn" onClick={handleSubmit}>
+              Send Request
+            </button>
+          </div>
         </div>
       </div>
     </div>

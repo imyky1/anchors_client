@@ -115,7 +115,6 @@ function Profile() {
     navigate(`/`);
   };
 
-
   // checks for a status 0 creator
   if (basicCdata.status === 0) return alert("The Creator doesn't exist");
 
@@ -134,7 +133,7 @@ function Profile() {
 
       <div className="creator_profile_main_container">
         {/* Header of creator profile -------------------------------------------------------------------------------------------- */}
-        <NavbarUser UserDetails={UserDetails} slug={basicCdata?.slug}/>
+        <NavbarUser UserDetails={UserDetails} slug={basicCdata?.slug} />
 
         {/* just for background and profile section----------------------------------- */}
         <section className="just_background_color_creator_profile">
@@ -393,7 +392,9 @@ function Profile() {
                           {Array(e2?.rating)
                             .fill("a")
                             ?.map((e, i) => {
-                              return <AiFillStar color="rgb(249 198 0)" key={i} />
+                              return (
+                                <AiFillStar color="rgb(249 198 0)" key={i} />
+                              );
                               // return <img src={StarIcon} alt="" key={i} />;
                             })}
                         </div>
