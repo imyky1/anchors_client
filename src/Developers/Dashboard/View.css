@@ -56,20 +56,26 @@
     line-height: 30px;
 }
 
+.approval_sections{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 25px;
+}
+
 .accessible{
     background-color: rgb(95, 231, 95);
     font-size: 1.1rem;
-    border-radius: 25px;
-    padding: 2px 6px;
-    margin-top: 20px;
+    border-radius: 5px;
+    padding: 4px 10px;
 }
 
 .naccessible{
     background-color: rgb(234, 118, 118);
     font-size: 1.1rem;
-    border-radius: 25px;
-    padding: 2px 6px;
-    margin-top: 20px;
+    border-radius: 5px;
+    padding: 4px 10px;
 }
 
 
@@ -88,3 +94,140 @@
 
 
 
+/* Slider csss button ---------------- */
+
+/* The switchDev - the box around the slider */
+.switchDev {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switchDev input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .sliderDev {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #b50606;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .sliderDev:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .sliderDev {
+    background-color: #028914;
+  }
+  
+  input:focus + .sliderDev {
+    box-shadow: 0 0 1px #028914;
+  }
+  
+  input:checked + .sliderDev:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .sliderDev.roundDev {
+    border-radius: 34px;
+  }
+  
+  .sliderDev.roundDev:before {
+    border-radius: 50%;
+  }
+
+
+
+
+
+  /* Otp modal ------------------------------------------ */
+
+
+  .developer_Modal_outside_wrapper{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(102, 99, 99, 0.503);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+  }
+
+
+  .developer_modal_container{
+    width: 400px;
+    height: 300px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 27px;
+    background-color: white;
+    position: relative;
+  }
+
+  .developer_modal_container > svg{
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .developer_modal_container > span{
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+  }
+
+  .developer_modal_container > input{
+    border: none;
+    border-bottom: 1px solid black;
+    width: 60%;
+    text-align: center;
+    font-size: 1.4rem;
+    padding: 2px;
+  }
+
+  .developer_modal_container > input:focus{
+    outline: none;
+  }
+
+  .developer_modal_container > button{
+    font-size: 1.2rem;
+    background-color: rgb(0, 0, 0);
+    color: rgb(251, 251, 251);
+    font-weight: 800;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+  }

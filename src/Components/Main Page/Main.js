@@ -19,13 +19,12 @@ import mixpanel from "mixpanel-browser";
 import Footer from "../Footer/Footer";
 import Modal1 from "../Modals/ModalType01/Modal1";
 import Modal2 from "../Modals/ModalType01/Modal2";
-import HelpModal from "../Modals/ModalType01/HelpModal";
+
 
 function Main() {
   const [data, setData] = useState("");
   const navigate = useNavigate();
   const { getallfb } = useContext(feedbackcontext);
-  const [openHelpModal, setopenHelpModal] = useState(false)
 
   useEffect(() => {
     getallfb().then((e) => {
@@ -95,7 +94,6 @@ function Main() {
   return (
     <>
       <ToastContainer />
-      <HelpModal open={openHelpModal} toClose={()=>{setopenHelpModal(false)}}/>
       <Modal1
         open={openModalSuccess}
         toClose={() => {
@@ -564,7 +562,7 @@ function Main() {
               : ""}
           </div>
         </section>
-        <Footer openHelp={()=>{setopenHelpModal(true)}}/>
+        <Footer/>
       </div>
         
     </>

@@ -1,0 +1,75 @@
+/* header section profile -------------------------------------------------- */
+
+.top_header_creator_profile {
+    background-color: #232426;
+    height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 70px;
+    box-sizing: border-box;
+    position: relative;
+    justify-content: space-between;
+    -webkit-user-select: none;
+  }
+  
+  .top_header_creator_profile > button {
+    width: 89px;
+    height: 27px;
+    border: 0.8px solid #ffffff;
+    border-radius: 38px;
+    background-color: transparent;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #ffffff;
+    cursor: pointer;
+  
+    margin-right: 47px;
+  }
+  
+  .top_header_creator_profile > span {
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .logout_button_header {
+    cursor: pointer;
+    background-color: white;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    position: absolute;
+    right: 60px;
+    bottom: -50px;
+    z-index: 999;
+    box-shadow: 0px 0px 5px 5px #6d6a6a2e;
+  }
+  
+  .hamburger_menu_profile {
+    position: absolute;
+    /* bottom: -20px; */
+    z-index: 999;
+    background: #2d2d2d;
+    width: 100%;
+    color: white;
+    left: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 41px;
+    top: 100%;
+    list-style: none;
+    font-size: 18px;
+    text-align: center;
+  }
+  
+  .hamburger_menu_profile > li {
+    width: 100%;
+  }

@@ -1,4 +1,3 @@
-import Hamburger from "hamburger-react";
 import mixpanel from "mixpanel-browser";
 import React, { useContext, useEffect, useState } from "react";
 import "./Service.css";
@@ -17,19 +16,17 @@ import GiftIcon from "./icons/Icongift.svg";
 import FlashIcon from "./icons/Iconflash.svg";
 import GotoArrow from "./icons/goto.svg";
 import { creatorContext } from "../../../../Context/CreatorState";
-import { SuperSEO } from "react-super-seo";
-import { Helmet } from "react-helmet";
 import { feedbackcontext } from "../../../../Context/FeedbackState";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ToastContainer, toast } from "react-toastify";
 import { paymentContext } from "../../../../Context/PaymentState";
 import { userContext } from "../../../../Context/UserState";
-import { host } from "../../../../config/config";
 import { LoadThree } from "../../../Modals/Loading";
 import FeedbackModal from "../../../Modals/Feedback_Modal";
 import Thanks from "../../../Modals/Thanks";
 import { emailcontext } from "../../../../Context/EmailState";
 import Seo from "../../../../Utils/Seo";
+import NavbarUser from "../../../Layouts/Navbar User/Navbar";
 
 function Service(props) {
   const location = useLocation();
@@ -37,8 +34,7 @@ function Service(props) {
   const { slug } = useParams();
 
   // States used --------------------
-  const [openModel, setOpenModel] = useState(false); // controlls user login modal
-  const [openUserMenu, setOpenUserMenu] = useState(false); // ham and down arrow menu in navbar
+  const [openModel, setOpenModel] = useState(false)
   const [openCTANav, setOpenCTANav] = useState(false); // desktop bottom bar controller
   const [UserDetails, setUserDetails] = useState(); // stores the user data
   const [paymentProcessing, setPaymentProcessing] = useState(false); // if payment is processig
@@ -210,18 +206,6 @@ function Service(props) {
   }, [localStorage.getItem("jwtToken"), serviceInfo]);
 
   // Used functions----------------------------------------------------------------
-
-  const userlogout = () => {
-    navigate("/logout");
-  };
-
-  const handleLogoClick = () => {
-    mixpanel.track("Creator Page from LOGO", {
-      creator: basicCdata?.slug,
-      user: UserDetails ? UserDetails : "",
-    });
-    navigate(`/c/${basicCdata?.slug}`);
-  };
 
   const orderPlacingThroughRazorpay = async () => {
     const order = await createRazorpayClientSecret(serviceInfo?.ssp);
@@ -451,12 +435,6 @@ function Service(props) {
   return (
     <>
       {loader && <LoadThree open={loader} />}
-      <UserLogin
-        open={openModel}
-        onClose={() => {
-          setOpenModel(false);
-        }}
-      />
 
       {/* Feedback Modal -------------------- */}
       <FeedbackModal
@@ -489,82 +467,7 @@ function Service(props) {
 
       <div className="service_page_main_wrapper">
         {/* Header of creator profile as well as service page-------------------------------------------------------------------------------------------- */}
-        <section className="top_header_creator_profile">
-          {window.screen.width > 550 ? (
-            <img
-              className="logo_main_page"
-              src={require("../../../Main Page/Images/logo-beta.png")}
-              alt=""
-              onClick={handleLogoClick}
-            />
-          ) : (
-            <img
-              className="logo_main_page"
-              src={require("./anchors_logo.jpg")}
-              alt=""
-              onClick={handleLogoClick}
-            />
-          )}
-          {localStorage.getItem("isUser") !== "" &&
-            (!localStorage.getItem("jwtToken") ? (
-              <button
-                onClick={() => {
-                  mixpanel.track("Clicked Login button on service page", {
-                    service: slug,
-                  });
-                  setOpenModel(true);
-                }}
-              >
-                Signup
-              </button>
-            ) : (
-              <span>
-                {localStorage.getItem("user")?.slice(0, 12) ===
-                localStorage.getItem("user")
-                  ? localStorage.getItem("user")
-                  : localStorage.getItem("user")?.slice(0, 12) + ".."}
-                &nbsp;
-                {window.screen.width > 700 ? (
-                  <i
-                    className="fa-solid fa-caret-down"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      setOpenUserMenu(!openUserMenu);
-                    }}
-                  ></i>
-                ) : (
-                  <Hamburger
-                    className="hamburger-react"
-                    size={20}
-                    onToggle={(toggled) => {
-                      if (toggled) {
-                        setOpenUserMenu(true);
-                      } else {
-                        setOpenUserMenu(false);
-                        // close a menu
-                      }
-                    }}
-                  />
-                )}
-                {window.screen.width > 700
-                  ? openUserMenu && (
-                      <button
-                        className="logout_button_header"
-                        onClick={userlogout}
-                      >
-                        Logout
-                      </button>
-                    )
-                  : openUserMenu && (
-                      <ul className="hamburger_menu_profile">
-                        <li className="hamburger_item" onClick={userlogout}>
-                          Logout
-                        </li>
-                      </ul>
-                    )}
-              </span>
-            ))}
-        </section>
+        <NavbarUser UserDetails={UserDetails} slug={basicCdata?.slug} open={openModel} close={()=>{setOpenModel(false)}}/>
 
         {/* Remaining service Page details */}
         <section className="service_page_alldata">
@@ -671,8 +574,6 @@ function Service(props) {
                 </div>
               )}
 
-              <br />
-              {window.screen.width > 600 && <br />}
               <div className="tags_service_page02">
                 {serviceInfo?.tags?.map((e, i) => {
                   if (i > 4) {
@@ -741,7 +642,7 @@ function Service(props) {
 
                 <div
                   style={{
-                    borderBottom: "0.3px dashed #000000",
+                    borderBottom: "0.3px dashed rgba(0, 0, 0, 0.5)",
                     paddingBottom: "20px",
                   }}
                 >
@@ -854,15 +755,16 @@ function Service(props) {
                             {Array(e2?.rating)
                               .fill("a")
                               ?.map((e, i) => {
-                                return <img src={StarIcon} alt="" key={i} />;
+                                return <AiFillStar color="rgb(249 198 0)" key={i} />
+                                // return <img src={StarIcon} alt="" key={i} />;
                               })}
                           </div>
                         </section>
                       </div>
 
                       <p className="text_type_10_creator_profile">
-                        {e2?.desc.length > 100
-                          ? e2?.desc?.slice(0, 100) + "..."
+                        {e2?.desc.length > 82
+                          ? e2?.desc?.slice(0, 82) + "..."
                           : e2?.desc}
                       </p>
                     </div>
@@ -971,7 +873,7 @@ function Service(props) {
                             )}{" "}
                           </div>
                           <p className="text_type_06_creator_profile">
-                            {e?.sname}
+                            {e?.sname.length > 29 ? e?.sname.slice(0,29) + "..." : e?.sname}
                           </p>
                           {window.screen.width > 550 && (
                             <span className="text_type_07_creator_profile">
@@ -1116,7 +1018,6 @@ function Service(props) {
       <div className="extra_space_in_last"></div>
 
 
-      
 
       {/* SEO friendly changes ----------------- */}
       <Seo title={serviceInfo?.sname} description={serviceInfo?.ldesc} imgUrl={serviceInfo?.simg}/>

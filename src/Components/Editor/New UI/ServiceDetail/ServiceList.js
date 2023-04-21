@@ -21,6 +21,7 @@ import { LoadTwo } from "../../../Modals/Loading";
 import { Email_Model2 } from "../../../Modals/Email_Modal";
 import ChangeStatusModal from "../../../Modals/ServiceSuccess/Modal2";
 import { Button1 } from "../Create Services/InputComponents/buttons";
+import {AiOutlinePlus} from "react-icons/ai"
 
 function ServiceDetailPage(props) {
   const [openLoading, setOpenLoading] = useState(false);
@@ -34,26 +35,15 @@ function ServiceDetailPage(props) {
     setOpenLoading(true);
     getallservices().then(() => {
       setSelected("all");
-      setdummyData(services?.dummy);
       setOpenLoading(false);
     });
     // eslint-disable-next-line
   }, []);
 
-  // notification of the dummy data--------------------------------
-  useEffect(() => {
-    if (dummyData) {
-      toast.info(
-        "The data shown is Dummy Data, which will give you a brief hint of how your data will be represented",
-        {
-          autoClose: 5000,
-        }
-      );
-    }
-  }, [dummyData]);
 
   // no need of reversing the array of serices it is inverted from backend
   useEffect(() => {
+    setdummyData(services?.dummy)
     let list = services?.res;
     if (selected === "pdf") {
       setrevArray(
@@ -387,8 +377,8 @@ function ServiceDetailPage(props) {
         </div>
 
         {dummyData && <div className="cta_dummy_data">
-        <span>this is dummy data , start creating your first service for your data</span>
-        <Button1 text="Create your First Service" width="268px" onClick={()=>{navigate("/dashboard")}}/>
+        <span>This is sample data , start creating your first service for your data</span>
+        <Button1 text="Create your First Service" icon={<AiOutlinePlus size={18} width={30}/>} width="268px" onClick={()=>{navigate("/dashboard")}}/>
       </div>}
 
       </div>

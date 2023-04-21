@@ -382,18 +382,15 @@ button {
 }
 
 .eligibility_check_section > section span:hover {
-  background: rgba(255, 74, 74, 0.75);
+  background: #FF0000;
 }
 
 .active_platform {
-  background: rgba(255, 74, 74, 0.75);
-}
-
-.eligibility_check_section i {
+  background: #FF0000;
 }
 
 .eligibility_check_section input {
-  border: 1px solid #787b82;
+  border: 1px solid #ffffff;
   border-radius: 10px;
   background-color: transparent;
   width: 218px;
@@ -402,7 +399,7 @@ button {
   font-style: normal;
   font-weight: 300;
   font-size: 18px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgb(255, 255, 255);
   /* padding: 10px 5px; */
   text-align: center;
   box-sizing: border-box;
@@ -413,7 +410,7 @@ button {
 }
 
 .eligibility_check_section input::placeholder{
-  color: rgba(255, 255, 255, 0.5);
+  color: rgb(255, 255, 255);
   padding-bottom: 2px;
 }
 

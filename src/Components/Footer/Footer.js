@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import "./Footer.css";
 import { Link, useNavigate } from "react-router-dom";
 import mixpanel from "mixpanel-browser";
+import HelpModal from "../Modals/ModalType01/HelpModal";
 //import { Modal, Fade, Typography, Box, Backdrop } from "@mui/material";
 
-function Footer(props) {
+function Footer() {
   const navigate = useNavigate();
-
+  const [openHelpModal, setopenHelpModal] = useState(false)
 
 
   return (
     <>
+    <HelpModal open={openHelpModal} toClose={()=>{setopenHelpModal(false)}}/>
       <div className="main_footer_section">
         <div>
         {window.screen.width > 600 && <img className="logo_footer" src={require("../Main Page/Images/logo-beta.png")} alt="" />}
@@ -26,12 +28,12 @@ function Footer(props) {
               </button>
             </div>
             <div className="footer_support_menu">
-              <Link to="/pricing" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked Pricing in footer from Landing Page")}}>
+              {window.location.pathname !== "/pricing" && <Link to="/pricing" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked Pricing in footer from Landing Page")}}>
                 Pricing
-              </Link>
+              </Link>}
 
               <span onClick={(e)=>{e?.stopPropagation(); mixpanel.track("Clicked on Help in Landing Page");
-                 props.openHelp()}}>Help & Support</span>
+                 setopenHelpModal(true)}}>Help & Support</span>
 
               {/* <Link to="/privacy-policy" target="_blank" rel="no_referrer">
                 Terms & Conditions

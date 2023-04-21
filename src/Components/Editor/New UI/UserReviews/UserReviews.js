@@ -13,12 +13,13 @@ import ShowReviewModel from "../../../Modals/ShowReviewModel";
 import { LoadTwo } from "../../../Modals/Loading";
 import "./UserReview.css";
 import { SuperSEO } from "react-super-seo";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { Button1 } from "../Create Services/InputComponents/buttons";
 import { useNavigate, useParams } from "react-router-dom";
 import ServiceContext from "../../../../Context/services/serviceContext";
+import { AiOutlinePlus } from "react-icons/ai";
 
-const UserReviews = () => {
+const UserReviews = ({creatorSlug}) => {
   const navigate = useNavigate();
   const { slug } = useParams();
 
@@ -32,11 +33,12 @@ const UserReviews = () => {
   const [selected, setSELECTED] = useState(null);
   const [dummyData, setdummyData] = useState(false);
   const [noData, setnoData] = useState(false);
+  const [firstService, setfirstService] = useState(true);      // wheather a creator has its first service or not  ------ true means firstservice is present
 
   useEffect(() => {
     setOpenLoading(true);
-    setnoData(false)
-    setfeedbackStats()
+    setnoData(false);
+    setfeedbackStats();
     if (slug) {
       getfeedbacksfromslug(slug).then((e) => {
         if (e?.success) {
@@ -54,6 +56,7 @@ const UserReviews = () => {
       getAllFeedbacks().then((e) => {
         setfeedbacks(e[0]);
         setdummyData(e[1]);
+        setfirstService(e[2])
         setOpenLoading(false);
       });
     }
@@ -72,6 +75,16 @@ const UserReviews = () => {
       setOpenModel(true);
     }
   };
+
+  const handleCopyLink = () =>{
+    navigator.clipboard.writeText(`https:www.anchors.in/c/${creatorSlug}`)
+    toast.info("Copied link successfully",{
+      position:"top-center",
+      autoClose:2000
+    })
+  }
+
+
   return (
     <>
       {openLoading && <LoadTwo open={openLoading} />}
@@ -217,24 +230,15 @@ const UserReviews = () => {
           </TableContainer>
         </div>
 
-
         {dummyData && (
           <div className="cta_dummy_data">
-            <span>
-              this is dummy data , start creating your first service for your
-              data
-            </span>
-            <Button1
-              text="Create your First Service"
-              width="268px"
-              onClick={() => {
-                navigate("/dashboard");
-              }}
-            />
-          </div>
+            <span>{firstService ? `This is sample data, Share your profile page with your audience to get reviews ` :`This is sample data , start creating your first service for your data`}</span>
+        <Button1 text={firstService ? `Copy Profile Page Link` :`Create your First Service` } icon={!firstService && <AiOutlinePlus size={18} width={30}/>} width="268px" onClick={()=>{firstService ? handleCopyLink() : navigate("/dashboard")}}/>
+      </div>
         )}
       </div>
       <SuperSEO title="Anchors - User reviews" />
+      <ToastContainer/>
     </>
   );
 };

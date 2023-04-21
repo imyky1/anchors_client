@@ -1,304 +1,413 @@
 
 
-
-
-.pricing_section{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    margin-top: 30px;
+/* New Pricing css --------------------------------------- */
+.main_pricing_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  row-gap: 120px;
+  background-color: #232426;
+  padding: 30px 0;
+  padding-bottom: 100px;
 }
 
-.pricing_header_section{
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    padding: 10px 0;
-    padding-right: 40px;
+.pricingIntroContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
 }
 
-.pricing_container_one{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    margin-bottom: 30px;
-    padding: 0 30px;
+.main_pricing_wrapper > section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
 }
 
-.pricing_container_one span{
-    font-size: 1.3rem;
-    margin-bottom: 35px;
+/* Texts ------------ */
+.text01_pricing_box {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 44px;
+  line-height: 53px;
+  color: #ffffff;
 }
 
-.pricing_container_one h1{
-    font-size: 2.2rem;
-    margin-bottom: 35px;
+.text02_pricing_box {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: rgba(255, 255, 255, 0.5);
 }
 
-.pricing_container_one section{
-    width: 110%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 35px;
+.pricing_design01 {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background: #18181b;
+  border-radius: 6px;
+  width: 294px;
+  height: 48px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
 }
 
-.pricing_container_one h2{
-    font-size: 1.5rem;
+.pricing_design01 span:first-child {
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 13px;
 }
 
-.pricing_container_one section button{
-    background-color: rgb(162, 240, 162);
-    color: #4d4d4d;
-    border-radius: 30px;
-    border: none;
-    padding: 13px 30px;
-    font-size: 1.3rem;
-    font-weight: 550;
+/* Card design css ---------------------------- */
+
+.cardDesign_pricing {
+  box-sizing: border-box;
+  width: 356px;
+  height: 507px;
+  background: #18181b;
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 30px;
+  padding-top: 34px;
+  position: relative;
+  gap: 23px;
 }
 
-.pricing_container_one button i{
-    color: red;
-    margin-right: 5px;
+.cardDesign_pricing > section {
+  border-bottom: 1px solid #27272a;
+  height: 138px;
+  display: flex;
+  padding: 8px 0;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
-
-.pricing_container_two{
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    background-color: #3c3a3a;
-    color: rgba(255, 255, 255, 0.864);
-    margin-bottom: 30px;
-    padding: 50px 0;
-    border-radius: 7px;
-    width: 80%;
-    box-sizing: border-box;
+.cardDesignPricingText01 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #71717a;
 }
 
-.pricing_container_two > div:first-child{
-    border-right: 1px solid rgba(255, 255, 255, 0.518);
-    width: 50%;
-    padding-left: 15px;
-    box-sizing: border-box;
+.cardDesignPricingText03 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 36px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  display: inline;
 }
 
-.pricing_container_two >div li{
-    list-style: none;
-    font-size: 1.4rem;
-    line-height: 58px;
-    letter-spacing: 1px;
-    font-weight: lighter;
+.cardDesignPricingText04 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 64px;
+  line-height: 77px;
+  display: flex;
+  align-items: center;
+  text-align: right;
+  color: #ffffff;
+  display: inline;
 }
 
-.pricing_container_two > div li i{
-    margin-right: 12px;
-    color: rgb(255, 255, 255);
+.cardDesignPricingText05 {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  margin-top: 10px;
 }
 
-.pricing_container_two > div:nth-child(2){
-    /* margin: 0 12vw; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 48%;
+.points_section_pricing_card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
 }
 
+.cardDesign_pricing > button {
+  width: 161px;
+  height: 36px;
+  background: #f5051b;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  bottom: 30px;
 
-.pricing_header1{
-    font-size: 6rem;
-    color: white;
-    font-weight: bold;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffff;
 }
 
+.cardDesignPricingText02 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffff;
 
-.pricing_container_three{
-    background-color: black;
-    color: rgba(255, 255, 255, 0.864);
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    margin-bottom: 50px;
-    padding: 80px 0;
-    border-radius: 7px;
-    width: 80%;
-    box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
+/* Eligibility ---------------------- */
 
-.pricing_container_three h3{
-    font-size: 2rem;
-    margin-top: 15px;
+.eligibilty_pricing i {
+  color: white;
 }
 
+/* FAQ section --------------------------------- */
 
-.pricing_container_three > div:first-child{
-    border-right: 1px solid rgba(255, 255, 255, 0.518);
-    width: 50%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+.faq_pricing_wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
 }
 
-.pricing_container_three > div:first-child > div{
-    text-align: center;
-    margin-bottom: 25px;
+.faq_pricing_text01 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 50px;
+  line-height: 61px;
+  color: #ffffff;
 }
 
+.faq_pricing_text02 {
+  font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 147.52%;
+text-align: center;
+color: rgba(255, 255, 255, 0.8);
 
-.pricing_container_three > div:nth-child(2){
-    width: 48%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
-.pricing_container_three button{
-    background-color: red;
-    border: none;
-    font-size: 1.5rem;
-    padding: 22px 80px;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
+/* Accordion styles */
+.tabs {
+  overflow: hidden;
+  width: 554px;
+  margin-top: 20px;
+  -webkit-user-select: none;
 }
 
-
-.pricing_container_three button i{
-    margin-left: 13px;
+.tab {
+  width: 100%;
+  color: white;
+  overflow: hidden;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+.tab-label {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em;
+  background: #18181b;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  color: #ffffff;
+  /* Icon */
 }
 
-.eligibility_pricing{
-    margin-bottom: 120px;
+.tab-label::after {
+  content: "+";
+  width: 1.2em;
+  height: 1.2em;
+  text-align: center;
+  transition: all 0.5s ease-in-out;
+}
+.tab-content {
+  /* max-height: 0; */
+  padding: 0 1em;
+  background: #18181b;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  color: rgba(255, 255, 255, 0.5);
+  display: none;
+  transition: all 0.5s ease-in-out;
 }
 
+.checkbox_accordian:checked + .tab-label {
+  background: #18181b;
+}
+.checkbox_accordian:checked + .tab-label::after {
+  content: "-";
+}
+.checkbox_accordian:checked ~ .tab-content {
+  /* max-height: 100vh; */
+  animation: accord 0.4s ease-in-out;
+  display: block;
+  padding: 1em;
+}
+
+@keyframes accord {
+  0% {
+    opacity: 0.3;
+    transform: translateY(-13%);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(-7%);
+  }
+  75% {
+    opacity: 0.9;
+    transform: translateY(-3%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
 
 @media (max-width: 750px) {
+  .pricing_container_two {
+    flex-direction: column-reverse;
+    padding: 30px 0;
+  }
 
-    .pricing_container_two{
-        flex-direction: column-reverse;
-        padding: 30px 0;
-    }
+  .pricing_container_two > div:first-child {
+    width: 90%;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.518);
+  }
 
-    .pricing_container_two > div:first-child{
-        width: 90%;
-        border: none;
-        border-top: 1px solid rgba(255, 255, 255, 0.518);
-    }
+  .pricing_container_two li {
+    font-size: 1rem;
+  }
 
+  .pricing_container_two > div:nth-child(2) {
+    flex-direction: row;
+    margin-bottom: 30px;
+    width: 70%;
+    margin: auto;
+    justify-content: space-evenly;
+  }
 
-    .pricing_container_two li{
-        font-size: 1rem;
-    }
+  .pricing_container_three {
+    flex-direction: column;
+    padding: 40px 0;
+  }
 
-    .pricing_container_two > div:nth-child(2){
-        flex-direction: row;
-        margin-bottom: 30px;
-        width: 70%;
-        margin: auto;
-        justify-content: space-evenly;
-    }
+  .pricing_container_three > div:first-child {
+    width: 80%;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.518);
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+  }
 
+  .pricing_container_three > div:nth-child(2) {
+    width: 80%;
+  }
 
-    .pricing_container_three {
-        flex-direction: column;
-        padding: 40px 0;
-    }
+  .pricing_container_three button {
+    padding: 15px 50px;
+    font-size: 1.3rem;
+  }
 
-    .pricing_container_three > div:first-child{
-        width: 80%;
-        border: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.518);
-        padding-bottom: 20px;
-        margin-bottom: 40px;
-    }
+  .pricing_container_three > div:first-child > div {
+    display: flex;
+    align-items: center;
+  }
 
-    .pricing_container_three > div:nth-child(2){
-        width: 80%;
-    }
-
-    .pricing_container_three button{
-        padding: 15px 50px;
-        font-size: 1.3rem;
-    }
-
-    .pricing_container_three > div:first-child > div{
-        display: flex;
-        align-items: center;
-     }
-
-     .pricing_container_three h3{
-        text-align: center;
-        font-size: 1.6rem;
-     }
-
-     
-
-    
+  .pricing_container_three h3 {
+    text-align: center;
+    font-size: 1.6rem;
+  }
 }
 
 @media (max-width: 530px) {
+  .pricing_container_one section {
+    flex-direction: column;
+    margin-bottom: 25px;
+  }
 
-    .pricing_container_one section{
-        flex-direction: column;
-        margin-bottom: 25px;
-    }
+  .pricing_container_one section button {
+    margin-bottom: 20px;
+    width: 70%;
+    font-size: 1.2rem;
+  }
 
-    .pricing_container_one section button{
-        margin-bottom: 20px;
-        width: 70%;
-        font-size: 1.2rem;
-    }
+  .pricing_container_one span {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+  }
 
-    .pricing_container_one span{
-        font-size: 1.1rem;
-        margin-bottom: 25px;
-    }
+  .pricing_container_one h2 {
+    text-align: center;
+    font-size: 1.3rem;
+  }
 
-    .pricing_container_one h2{
-        text-align: center;
-        font-size: 1.3rem;
-    }
+  .pricing_container_one h1 {
+    text-align: center;
+    font-size: 1.7rem;
+    margin-bottom: 25px;
+  }
 
-    .pricing_container_one h1{
-        text-align: center;
-        font-size: 1.7rem;
-        margin-bottom: 25px;
-    }
+  .pricing_container_two {
+    width: 90%;
+  }
 
-    .pricing_container_two{
-        width: 90%;
-    }
+  .pricing_container_three {
+    width: 90%;
+  }
 
-    .pricing_container_three{
-        width: 90%;
-    }
-    
-    .pricing_container_two > div:first-child{
-        width: 90%;
-        margin-top: 20px;
-    }
+  .pricing_container_two > div:first-child {
+    width: 90%;
+    margin-top: 20px;
+  }
 
-    .pricing_container_two > div li{
-        font-size: 1.2rem;
-       
-    }
+  .pricing_container_two > div li {
+    font-size: 1.2rem;
+  }
 
-    .pricing_header1{
-        font-size: 5rem;
-        margin-right: 10px;
-    }
+  .pricing_header1 {
+    font-size: 5rem;
+    margin-right: 10px;
+  }
 
-    .pricing_container_three button{
-        padding: 15px 35px;
-        font-size: 1.2rem;
-    }
-
+  .pricing_container_three button {
+    padding: 15px 35px;
+    font-size: 1.2rem;
+  }
 }
-
-
-
