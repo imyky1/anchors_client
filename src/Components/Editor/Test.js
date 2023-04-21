@@ -55,16 +55,8 @@ function Test() {
         const data = await response.json();
         console.log(data);
         const accessToken = data.access_token;
-
-        // Fetch user data from LinkedIn using the access token
-        const response2 = await fetch("https://api.linkedin.com/v2/me", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        const userData = await response2.json();
-        console.log(userData);
-        setUserData(userData);
+        console.log(data.userData);
+        setUserData(data.userData);
       } catch (error) {
         console.error("Error fetching LinkedIn data:", error);
       }
