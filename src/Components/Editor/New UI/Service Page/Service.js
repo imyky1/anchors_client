@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import UserLogin from "../../../Login/Users/User_login";
 import Footer2 from "../../../Footer/Footer2";
 import { AiFillStar } from "react-icons/ai";
+import { BsArrowUpCircleFill } from "react-icons/bs";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import fire from "./icons/fire.svg";
 import doc from "./icons/doc.svg";
@@ -34,7 +35,7 @@ function Service(props) {
   const { slug } = useParams();
 
   // States used --------------------
-  const [openModel, setOpenModel] = useState(false)
+  const [openModel, setOpenModel] = useState(false);
   const [openCTANav, setOpenCTANav] = useState(false); // desktop bottom bar controller
   const [UserDetails, setUserDetails] = useState(); // stores the user data
   const [paymentProcessing, setPaymentProcessing] = useState(false); // if payment is processig
@@ -84,7 +85,11 @@ function Service(props) {
   // to open the CTA in desktop page while scrolling
   useEffect(() => {
     const handleScroll = () => {
-      let doc = document.querySelector(".download_button_service_page");
+      let doc =
+        window.screen.width < 600
+          ? document.querySelector(".creator_profile_in_mobile")
+          : document.querySelector(".download_button_service_page");
+
       if (window.scrollY > doc?.clientHeight) {
         setOpenCTANav(true);
       } else {
@@ -467,7 +472,14 @@ function Service(props) {
 
       <div className="service_page_main_wrapper">
         {/* Header of creator profile as well as service page-------------------------------------------------------------------------------------------- */}
-        <NavbarUser UserDetails={UserDetails} slug={basicCdata?.slug} open={openModel} close={()=>{setOpenModel(false)}}/>
+        <NavbarUser
+          UserDetails={UserDetails}
+          slug={basicCdata?.slug}
+          open={openModel}
+          close={() => {
+            setOpenModel(false);
+          }}
+        />
 
         {/* Remaining service Page details */}
         <section className="service_page_alldata">
@@ -755,7 +767,9 @@ function Service(props) {
                             {Array(e2?.rating)
                               .fill("a")
                               ?.map((e, i) => {
-                                return <AiFillStar color="rgb(249 198 0)" key={i} />
+                                return (
+                                  <AiFillStar color="rgb(249 198 0)" key={i} />
+                                );
                                 // return <img src={StarIcon} alt="" key={i} />;
                               })}
                           </div>
@@ -832,9 +846,9 @@ function Service(props) {
                           style={
                             window?.screen.width > 600
                               ? {
-                                background: "#FFFFFF",
-                                border: "0.5px solid #000000",
-                                borderRadius: "16px",
+                                  background: "#FFFFFF",
+                                  border: "0.5px solid #000000",
+                                  borderRadius: "16px",
                                 }
                               : { background: "#FFFFFF" }
                           }
@@ -873,7 +887,9 @@ function Service(props) {
                             )}{" "}
                           </div>
                           <p className="text_type_06_creator_profile">
-                            {e?.sname.length > 29 ? e?.sname.slice(0,29) + "..." : e?.sname}
+                            {e?.sname.length > 29
+                              ? e?.sname.slice(0, 29) + "..."
+                              : e?.sname}
                           </p>
                           {window.screen.width > 550 && (
                             <span className="text_type_07_creator_profile">
@@ -910,9 +926,29 @@ function Service(props) {
             )}
         </section>
 
+        {/* Back to top arrow -------------------------------- */}
+        {openCTANav && (
+          <section
+            className="back_to_top"
+            onClick={() => {
+              window.scrollTo(0, 0);
+            }}
+          >
+            <BsArrowUpCircleFill />
+            <span>Back to top</span>
+          </section>
+        )}
+
         {/* Floating or fixed CTA button + details */}
         {window.screen.width < 600 ? (
-          <section className="cta_service_details_mobile" style={serviceInfo?.allowPreview && serviceInfo?.previewPage ? {} : {padding:"0 10px"}}>
+          <section
+            className="cta_service_details_mobile"
+            style={
+              serviceInfo?.allowPreview && serviceInfo?.previewPage
+                ? {}
+                : { padding: "0 10px" }
+            }
+          >
             {/* Checking if allow preview is possible */}
             {serviceInfo.allowPreview ? (
               serviceInfo.previewPage > 0 ? (
@@ -934,13 +970,39 @@ function Service(props) {
                 alreadyOrderPlaced ? navigate("/") : downloadService();
               }}
               disabled={paymentProcessing}
-              style={serviceInfo?.allowPreview && serviceInfo?.previewPage ? {} : {width:"100%",justifyContent:"space-between",padding:"0 20px"}}
+              style={
+                serviceInfo?.allowPreview && serviceInfo?.previewPage
+                  ? {}
+                  : {
+                      width: "100%",
+                      justifyContent: "space-between",
+                      padding: "0 20px",
+                    }
+              }
             >
-              <p style={serviceInfo?.allowPreview && serviceInfo?.previewPage ? {} : {display:"flex",alignItems:"center",gap:"5px"}}>
+              <p
+                style={
+                  serviceInfo?.allowPreview && serviceInfo?.previewPage
+                    ? {}
+                    : { display: "flex", alignItems: "center", gap: "5px" }
+                }
+              >
                 {serviceInfo?.isPaid && <span>{serviceInfo?.smrp}</span>}
-                {serviceInfo?.isPaid ? "₹" + serviceInfo?.ssp : serviceInfo?.allowPreview && serviceInfo?.previewPage ? "Free" : <p className="free_price_secription_service_page">FREE</p>}
+                {serviceInfo?.isPaid ? (
+                  "₹" + serviceInfo?.ssp
+                ) : serviceInfo?.allowPreview && serviceInfo?.previewPage ? (
+                  "Free"
+                ) : (
+                  <p className="free_price_secription_service_page">FREE</p>
+                )}
               </p>
-              <span style={serviceInfo?.allowPreview && serviceInfo?.previewPage ? {} : {background: "unset" ,color: "#FFFFFF"}}>
+              <span
+                style={
+                  serviceInfo?.allowPreview && serviceInfo?.previewPage
+                    ? {}
+                    : { background: "unset", color: "#FFFFFF" }
+                }
+              >
                 {alreadyOrderPlaced
                   ? "Go to Dashboard"
                   : paymentProcessing
@@ -991,7 +1053,10 @@ function Service(props) {
                     )}
                   </span>
                 ) : (
-                  <span className="free_price_secription_service_page" style={{color:"black"}}>
+                  <span
+                    className="free_price_secription_service_page"
+                    style={{ color: "black" }}
+                  >
                     FREE
                   </span>
                 )}
@@ -1017,10 +1082,12 @@ function Service(props) {
 
       <div className="extra_space_in_last"></div>
 
-
-
       {/* SEO friendly changes ----------------- */}
-      <Seo title={serviceInfo?.sname} description={serviceInfo?.ldesc} imgUrl={serviceInfo?.simg}/>
+      <Seo
+        title={serviceInfo?.sname}
+        description={serviceInfo?.ldesc}
+        imgUrl={serviceInfo?.simg}
+      />
       <ToastContainer />
     </>
   );

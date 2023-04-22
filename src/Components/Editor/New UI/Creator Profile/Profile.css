@@ -346,30 +346,6 @@
 }
 
 @media (max-width: 600px) {
-  .top_header_creator_profile {
-    background-color: #ffffff;
-    padding: 0px;
-    height: 55px;
-  }
-
-  .top_header_creator_profile > button {
-    width: 72px;
-    height: 36px;
-    background: #000000;
-    border: 0.5px solid #000000;
-    border-radius: 15px;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 15px;
-    color: #ffffff;
-    margin-right: 12px;
-  }
-
-  .top_header_creator_profile > span {
-    color: black;
-    display: flex;
-    align-items: center;
-  }
 
   /* text types ----------------------------- */
   .text_type_01_creator_profile {
