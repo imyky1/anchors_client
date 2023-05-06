@@ -77,6 +77,14 @@
     color: lightgray;
 }
 
+.react-pdf__Page{
+    margin-bottom: 15px;
+}
+
+/* react pdf viwer */
+.rpv-toolbar__right{
+    display: none;
+}
 
 @media screen and (max-width:650px) {
     .marginleftrightpdf{
@@ -85,5 +93,14 @@
     }
     .control-panel{
         width: 100%;
+    }
+
+    .pdf-container {
+        width: 100%;
+        height: auto;
+      }
+
+    .react-pdf__Page__canvas{
+        margin: auto;
     }
 }

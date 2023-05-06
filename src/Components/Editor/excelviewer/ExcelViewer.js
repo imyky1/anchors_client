@@ -6,6 +6,7 @@ import { host } from "../../../config/config";
 //import readXlsxFile from "read-excel-file";
 
 import "./excelview.css";
+import { LoadThree } from "../../Modals/Loading";
 
 const ExcelViewer = ({ url }) => {
   const [urlexcel, setUrl] = useState(null);
@@ -181,4 +182,58 @@ const ExcelViewer = ({ url }) => {
   );
 };
 
-export default ExcelViewer;
+const Excel2 = () => {
+  const [data, setData] = useState([]);
+
+  function fetchExcelFile(url) {
+    return fetch(url)
+      .then((response) => response.blob())
+      .then(async (blob) => {
+        return new File([blob], "example.xlsx", {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        return null;
+      });
+  }
+
+
+  useEffect(() => {
+    fetchExcelFile(
+      sessionStorage.getItem("link")
+    )
+      .then((e) => {
+        ExcelRenderer(e, (err, resp) => {
+          if(err){
+            console.log(err);
+          }
+          else{
+            setData({
+              cols: resp.cols,
+              rows: resp.rows
+            });
+          }
+        });
+      })
+  }, []);
+
+  return (
+    <>
+      {data?.rows ? (
+        <OutTable
+          data={data?.rows}
+          columns={data?.cols}
+          tableClassName="ExcelTable2007"
+          tableHeaderRowClass="heading"
+        />
+      ) :
+      <LoadThree/>
+      }
+
+    </>
+  );
+};
+
+export default Excel2;

@@ -430,6 +430,29 @@ const CreatorState = (props) => {
     }
   };
 
+  const createCreatorFeedback = async (totalRating,questionRating,comment) =>{
+    try {
+      const response = await fetch(`${host}/api/creator/feedback/createFeedback`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token":localStorage.getItem("jwtToken")
+        },
+        body:JSON.stringify({
+          totalRating,questionRating,comment
+        })
+      })
+
+      const json = await response.json()
+      return json.success
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
 
 
@@ -469,7 +492,8 @@ const CreatorState = (props) => {
         fillTellUsMoreForm,
         getTellUsMoreFormData,
         updateStatus,
-        getWaitlistNumber
+        getWaitlistNumber,
+        createCreatorFeedback
       }}
     >
       {props.children}

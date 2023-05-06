@@ -23,12 +23,17 @@ import Waitlist from "../../../Waitlist/Waitlist";
 import HelpModal from "../../../Modals/ModalType01/HelpModal";
 import Edit from "../../../Edit Service/Edit";
 import EditService from "../Edit Services/EditService";
+import CreatorFeedback from "../../../Modals/CreatorProfile/CreatorFeedback";
+import DefaultBanner from "../../../Modals/Default Banner/DefaultBanner";
 
 function Home(props) {
   const location = useLocation();
   const navigate = useNavigate();
   const [openCreatorInfo, setopenCreatorInfo] = useState(false);
   const [openHelpModal, setOpenHelpModal] = useState(false);
+  const [openCreatorFbModal, setOpenCreatorFbModal] = useState(false);
+  const [openDefaultBannerModal, setOpenDefaultBannerModal] = useState(false);
+  const [dataDefaultBanner, setDataDefaultBanner] = useState({fillingData:{},finalFormData:{}});
   const [Rating, setRating] = useState("");
   const [creatorData, setcreatorData] = useState({ Reviews: "", Services: "" });
   const {
@@ -142,6 +147,23 @@ function Home(props) {
               }}
             />
 
+            <CreatorFeedback
+              open={openCreatorFbModal}
+              toClose={() => {
+                setOpenCreatorFbModal(false);
+              }}
+            />
+
+            {/* Default Banner modal controlled through craete service -------- */}
+            <DefaultBanner
+              open={openDefaultBannerModal}
+              onClose={() => {
+                setOpenDefaultBannerModal(false);
+              }}
+              dataToRender={dataDefaultBanner?.fillingData}
+              setFinalData = {(e)=>{setDataDefaultBanner({...dataDefaultBanner,finalFormData:e})}}
+            />
+
             <div className="right_side_home_page">
               <Navbar
                 ModalState={openCreatorInfo}
@@ -154,6 +176,9 @@ function Home(props) {
                 open={openCreatorInfo}
                 userData={basicNav}
                 alternateInfo={allCreatorInfo}
+                openFb={() => {
+                  setOpenCreatorFbModal(true);
+                }}
                 openHelp={() => {
                   setOpenHelpModal(true);
                 }}
@@ -162,6 +187,7 @@ function Home(props) {
                   setopenCreatorInfo(false);
                 }}
               />
+
               <div className="remaining">
                 {/* if invite code does not exist then it should be created ------------------------------- */}
                 {!basicNav?.inviteCode ? (
@@ -184,7 +210,17 @@ function Home(props) {
                     {/* Create service Route ---------------------------------------------------- */}
                     <Route
                       path="/createservice"
-                      element={<Create progress={props.progress} />}
+                      element={
+                        <Create
+                          progress={props.progress}
+                          openDefaultBanner={() => {
+                            setOpenDefaultBannerModal(true);
+                          }}
+                          setDefaultBannerData={(e) => setDataDefaultBanner({...dataDefaultBanner,fillingData:e})}
+                          FinalDefaultBannerFormData={dataDefaultBanner?.finalFormData}
+                          cname={allCreatorInfo?.name}
+                        />
+                      }
                     />
                     <Route
                       path="/editprofile"
@@ -196,15 +232,30 @@ function Home(props) {
                     />
                     <Route
                       path="/reviews"
-                      element={<UserReviews progress={props.progress} creatorSlug={basicNav?.slug}/>}
+                      element={
+                        <UserReviews
+                          progress={props.progress}
+                          creatorSlug={basicNav?.slug}
+                        />
+                      }
                     />
                     <Route
                       path="/servicereviews/:slug"
-                      element={<UserReviews progress={props.progress} creatorSlug={basicNav?.slug}/>}
+                      element={
+                        <UserReviews
+                          progress={props.progress}
+                          creatorSlug={basicNav?.slug}
+                        />
+                      }
                     />
                     <Route
                       path="/requests"
-                      element={<UserRequest progress={props.progress} creatorSlug={basicNav?.slug}/>}
+                      element={
+                        <UserRequest
+                          progress={props.progress}
+                          creatorSlug={basicNav?.slug}
+                        />
+                      }
                     />
                     <Route
                       path="/servicestats/:slug"

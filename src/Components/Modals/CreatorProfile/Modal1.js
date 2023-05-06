@@ -3,7 +3,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
 import "./Modal.css";
 
-function Modal1({ open, toClose, userData, moreInfo, alternateInfo,openHelp }) {
+function Modal1({ open, toClose, userData, moreInfo, alternateInfo,openHelp,openFb }) {
   const navigate = useNavigate();
 
   open &&
@@ -91,6 +91,11 @@ function Modal1({ open, toClose, userData, moreInfo, alternateInfo,openHelp }) {
               View Public Profile
             </div>
           )}
+          <div
+            onClick={()=>{openFb();toClose()}}
+          >
+            Feedback Form
+          </div>
           <div
             onClick={() => {
               window.open("/pricing");

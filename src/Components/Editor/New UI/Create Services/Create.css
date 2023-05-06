@@ -61,6 +61,7 @@
   align-items: flex-start;
   flex-direction: column;
   width: 47%;
+  gap: 15px;
 }
 
 .min-heightfield{
@@ -75,6 +76,7 @@
   align-items: flex-start;
   flex-direction: column;
   width: 47%;
+  gap: 15px;
 }
 
 .right_section_form > div {

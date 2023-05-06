@@ -4,21 +4,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 @import url("https://fonts.cdnfonts.com/css/clash-display");
 
-
-
 /* New ui css landing page -------------------------------------------------------------------- */
-
 
 html {
   scroll-behavior: smooth;
 }
 
-button {
-  -webkit-tap-highlight-color: transparent;
-}
-
 .mainLandingpage_body {
-  background-color: #232426;
+  background-color: #101010;
   /* width: 100vw; */
   overflow-x: hidden;
   box-sizing: border-box;
@@ -35,13 +28,15 @@ button {
   justify-content: space-between;
   margin: auto;
   width: 93vw;
+  padding: 0 22px;
   padding-top: 20px;
   position: fixed;
   top: 0px;
   left: 35px;
-  background: #232426;
+  background: #101010;
   z-index: 99;
   padding-bottom: 12px;
+  box-sizing: border-box;
 }
 
 .logo_main_page {
@@ -63,13 +58,18 @@ button {
   cursor: pointer;
 }
 
+.login_creator_mainpage:hover{
+  background-color: red;
+  border: 1px solid red;
+}
+
 /* hero section ------------------------------------------------------------------------------------------- */
 
 .hero_mainpage {
   display: flex;
   align-items: center;
   width: 92vw;
-  margin: 180px auto;
+  margin: 215px auto;
   justify-content: space-between;
 }
 
@@ -88,29 +88,33 @@ button {
   font-family: "Inter";
   font-style: normal;
   font-weight: 800;
-  font-size: 57px;
-  margin-bottom: -12px;
+  font-size: 50px;
+  line-height: 61px;
+  /* margin-bottom: -12px; */
 }
 
 .left_hero_text p {
   font-family: "Inter";
   font-style: normal;
-  font-weight: 400;
-  font-size: 30px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgb(255, 255, 255);
   width: 600px;
   margin: 22px 0;
+  margin-bottom: 25px;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 155.02%;
 }
 
 .left_hero_text button {
-  background: #404245;
+  background: #ffffff;
+  border: 0.7px solid #505050;
+  border-radius: 8px;
   cursor: pointer;
   padding: 7px 15px;
-  border: 0.7px solid #505050;
-  border-radius: 13px;
-  color: #fc6262;
-  font-weight: 500;
-  font-size: 23px;
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 31px;
+  color: #ff0000;
   margin-top: 15px;
 }
 
@@ -126,6 +130,7 @@ button {
   font-weight: 800;
   font-size: 55px;
   margin-bottom: 15px;
+  color: white;
 }
 
 .headers2_mainpage {
@@ -144,7 +149,7 @@ button {
   line-height: 178.52%;
   display: inline-block;
   width: 76%;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgb(255, 255, 255);
 }
 
 /* steps anchors page =================================================================================*/
@@ -175,7 +180,7 @@ button {
 .steps > div {
   width: 279px;
   height: 300px;
-  background: rgba(57, 58, 61, 0.5);
+  background: #1e1e1e;
   border-radius: 160px 160px 0px 0px;
   position: relative;
   left: 20px;
@@ -211,13 +216,13 @@ button {
   align-items: center;
   justify-content: space-between;
   margin: 180px auto;
-  width: 85vw;
+  width: 95vw;
   margin-bottom: 200px;
 }
 
-.why_anchors_section img {
-  width: 460px;
-  height: 370px;
+.why_anchors_section > img {
+  width: 666px;
+  height: 537px;
 }
 
 .why_anchors_desc {
@@ -238,8 +243,9 @@ button {
   align-items: flex-start;
 }
 
-.why_anchors_desc > div i {
-  color: #ffffffcc;
+.why_anchors_desc > div img {
+  width: 48px;
+  height: 48px;
   margin-bottom: 15px;
 }
 
@@ -288,21 +294,25 @@ button {
 .facilities_boxes {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
-  row-gap: 30px;
+  gap: 60px;
 }
 
 .facilities_boxes > div {
-  background: rgba(57, 58, 61, 0.5);
+  background: rgba(30, 30, 30, 0.5);
   border: 0.5px solid rgba(253, 253, 253, 0.5);
   border-radius: 9px;
   padding: 12px;
-  height: 186px;
+  height: 160px;
   width: 295px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.facilities_boxes > div img {
+  width: 24px;
+  height: 25px;
 }
 
 .facilities_boxes > div span {
@@ -324,7 +334,7 @@ button {
   line-height: 161.02%;
   text-align: center;
   color: rgba(255, 255, 255, 0.8);
-  width: 92%;
+  width: 99%;
   margin-top: 13px;
   margin-bottom: unset;
 }
@@ -347,7 +357,7 @@ button {
   line-height: 147.52%;
   text-align: center;
   color: rgba(255, 255, 255, 0.8);
-  width: 50%;
+  width: 75%;
 }
 
 .eligibility_mainpage > span {
@@ -379,14 +389,15 @@ button {
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  color: white;
 }
 
 .eligibility_check_section > section span:hover {
-  background: #FF0000;
+  background: #ff0000;
 }
 
 .active_platform {
-  background: #FF0000;
+  background: #ff0000;
 }
 
 .eligibility_check_section input {
@@ -409,28 +420,27 @@ button {
   outline: none;
 }
 
-.eligibility_check_section input::placeholder{
+.eligibility_check_section input::placeholder {
   color: rgb(255, 255, 255);
   padding-bottom: 2px;
 }
-
 
 .eligibility_check_section input:focus::placeholder {
   color: transparent;
 }
 
 .eligibility_mainpage button {
-  width: 243px;
-  height: 57px;
-  background: #404245;
+  width: 253px;
+  height: 51px;
+  background: #ffffff;
   border: 0.7px solid #505050;
-  border-radius: 13px;
+  border-radius: 8px;
   font-family: "Inter";
   font-style: normal;
   font-weight: 500;
-  font-size: 24px;
-  line-height: 29px;
-  color: #fc6262;
+  font-size: 26px;
+  line-height: 31px;
+  color: #ff0000;
   margin-top: 22px;
   cursor: pointer;
 }
@@ -574,16 +584,16 @@ button {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   margin-top: 40px;
-  row-gap: -30px;
   width: 85vw;
-  column-gap: 2%;
+  column-gap: 3%;
+  row-gap: 40px;
 }
 
 .feedback_box_mainpage {
-  width: 250px;
+  width: 243px;
   min-width: 50%;
-  height: 220px;
-  background: rgba(57, 58, 61, 0.5);
+  height: 205px;
+  background: #171717;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -593,9 +603,9 @@ button {
   margin: 0 auto;
 }
 
-.feedback_box_mainpage:nth-child(2n) {
+/* .feedback_box_mainpage:nth-child(2n) {
   margin-top: 40px;
-}
+} */
 
 .feedback_box_mainpage > section {
   display: flex;
@@ -652,12 +662,18 @@ button {
   }
 
   .login_creator_mainpage {
-    font-size: 14px;
+    width: 114px;
+    height: 23px;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 15px;
+    padding: unset;
   }
 
   .mainPage_headers {
     left: 0px;
     width: 100vw;
+    padding: 22px 10px;
   }
 
   /* hero section */
@@ -673,20 +689,30 @@ button {
   }
 
   .left_hero_text h1 {
-    font-size: 2.5rem;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
   }
 
   .left_hero_text p {
-    font-size: 1.4rem;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 155.02%;
     text-align: center;
-    margin: 25px 0;
+    margin: 16px 0;
     width: 90%;
   }
 
   .left_hero_text button {
-    background: #404245;
+    /* background: #404245; */
+    width: 138px;
+    height: 40px;
     border-radius: 6px;
-    font-size: 1.4rem;
+    padding: unset;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
   }
 
   .hero_section_image {
@@ -697,9 +723,11 @@ button {
   /* header texts */
 
   .headers1_mainpage {
-    font-size: 2.5rem;
+    font-size: 24px;
+    line-height: 29px;
     text-align: center;
     width: 100%;
+    color: white;
   }
 
   .headers2_mainpage {
@@ -712,6 +740,11 @@ button {
   }
 
   /* steps section ----------------------------------------------------------------- */
+
+  .steps_anchors_mainpage{
+    margin-bottom: 115px;
+  }
+
 
   .steps_anchors_mainpage > div {
     flex-direction: column;
@@ -749,7 +782,7 @@ button {
     margin-top: -50px;
   }
 
-  .why_anchors_section img {
+  .why_anchors_section > img {
     display: none;
   }
 
@@ -764,19 +797,29 @@ button {
     margin-top: 60px;
   }
 
+  .why_anchors_desc > div img {
+    width: 22px;
+    height: 22px;
+  }
+
   .why_anchors_steps_boxes {
     align-items: center;
     margin-bottom: 40px;
   }
 
   .why_anchors_steps_boxes span {
-    font-size: 1.2rem;
-    margin-top: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    margin-top: 8px;
   }
 
   .why_anchors_steps_boxes p {
     text-align: center;
-    width: 85%;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    width: 60%;
   }
 
   /* facilities  */
@@ -792,9 +835,15 @@ button {
   .facilities_boxes {
     grid-template-columns: repeat(1, 1fr);
     margin-top: 35px;
+    gap: 22px;
   }
 
   /* eligibility */
+
+  .eligibility_mainpage{
+    /* padding-top: 10p; */
+    margin: 120px 0;
+  }
 
   .eligibility_mainpage > p {
     width: 90%;
@@ -803,6 +852,7 @@ button {
 
   .eligibility_mainpage > span {
     font-size: 16px;
+    text-align: center;
   }
 
   .eligibility_check_section {
@@ -816,21 +866,31 @@ button {
     align-items: center;
     width: 137%;
     justify-content: space-evenly;
+    gap: 8px;
   }
 
   .eligibility_check_section > section span {
     margin-right: unset;
+    color: white;
     font-size: 20px;
     padding: 8px 12px;
   }
 
+  .eligibility_check_section > section span i{
+    font-size: 31px;
+  }
+
   .eligibility_mainpage button {
-    background: #404245;
+    /* background: #404245; */
     border-radius: 6px;
     font-size: 20px;
   }
 
   /* featured creators ---------------------------------------------------------------------------------------*/
+
+  .featured_creators{
+    margin-top: 125px;
+  }
 
   .featured_creators > span {
     color: rgba(255, 255, 255, 0.6);
@@ -841,6 +901,7 @@ button {
 
   .nav_buttons {
     width: 35%;
+    margin-top: 36px;
   }
 
   .creator_section_cardsection {
@@ -856,6 +917,7 @@ button {
   .wall_of_love > div {
     grid-template-columns: repeat(1, 1fr);
     width: unset;
+    row-gap: unset;
   }
 
   .feedback_box_mainpage {
@@ -868,7 +930,6 @@ button {
 
   .wall_of_love {
     margin-bottom: 40px;
-    margin-top: 110px;
+    margin-top: 115px;
   }
 }
-

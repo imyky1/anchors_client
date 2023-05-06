@@ -25,6 +25,13 @@
   justify-content: center;
 }
 
+.upload_default_wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
 /* labels type ----------------------------------------- */
 .label_type_01 {
   font-family: "Inter";

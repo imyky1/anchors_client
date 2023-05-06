@@ -26,36 +26,48 @@ const PricingCard1 = {
 
 const PricingCard2 = {
   title: { text: "10%", subtext: "of Revenue" },
-  title2: "All the Exclusive Features to boost your Services.",
+  title2: "No charges till you don't start earning",
   points: [
-    "Unlimited Free/Paid Services",
-    "Collect Payment",
-    "Premium Templates",
-    "Performance Detailed Analysis",
-    "Communicate with your Audience",
+    "Unlock new opportunities",
+    "Maximize your income potential",
+    "Dynamic Community",
+    "Good insights on your resources",
+    "Hassle free Payouts",
   ],
 };
 
 const FAQDetails = [
   {
-    question: "What is Anchors? ",
+    question: "Is anchors a free platform?",
     answer:
-      "Anchors is a SaaS-based company that offers services for creators to sell their digital products such as PDFs, Excel sheets, and video tutorials, and generate revenue by selling them.",
+      "There is no charge to join anchors. It however is also an exclusive community aimed at fostering a community of creators and encouraging monetisation of the hard work that goes into their creations. There is a tiny percentage we charge if anchors has enabled you to earn from your content.",
   },
   {
-    question: "Who can use Anchors?",
+    question: "What do the charges look like?",
     answer:
-      "Anchors can be used by anyone who wants to sell their digital products online and generate revenue from them. It is especially useful for creators, educators, and professionals who want to monetize their knowledge and expertise.",
+      "We’ve kept it squarely simple – From whatever revenue you make, a 10% fixed percent will go to anchors to keep enabling more creators like you to earn and grow. (This percentage can reduce from time to time based on offers going on)",
   },
   {
-    question: "How does Anchors help me generate revenue?",
+    question:
+      "When can I withdraw the money? Is there a minimum limit for payment withdrawal?",
     answer:
-      "Anchors provides a platform for creators to sell their digital products and earn revenue from them. Creators can set their own prices for their products.",
+      "Your money is safely stored in your anchors account and you may withdraw the money whenever you want. To make a payment withdrawal, you only need a minimum of Rs. 100 in your account.",
   },
   {
-    question: "How do I get Started with Anchors?",
+    question: "What happens if I don't make any money on anchors?",
     answer:
-      "Creators can sign up for an account on the Anchors website, upload their digital products, and start selling them immediately. The process is quick and easy, and Anchors provides resources and support to help creators get started",
+      "If you don't make any money on anchors, there’s nothing that you need to pay us. As a free platform, you can continue to market your content on anchors. You may also take our help to grow and expand your audience.",
+  },
+  {
+    question: "How does anchors ensure the security of my payment information?",
+    answer:
+      "Razorpay is our trusted payment gateway partner which ensures all your payments and related information is secure and completely safe.",
+  },
+  {
+    question:
+      "Where do I reach out if I have more questions or need help with my account?",
+    answer:
+      "You may e-mail us at info@anchors.in for any assistance and we’ll promptly get back to you within 24 hours.",
   },
 ];
 
@@ -79,9 +91,9 @@ const CardDesign = ({ data }) => {
       </section>
 
       <div className="points_section_pricing_card">
-        {data?.points?.map((e) => {
+        {data?.points?.map((e, i) => {
           return (
-            <p className="cardDesignPricingText02">
+            <p className="cardDesignPricingText02" key={i}>
               <BsFillCheckCircleFill color="#71717A" />
               {e}
             </p>
@@ -182,96 +194,95 @@ const EligibiltySection = () => {
         }}
       />
 
-      <section
-        className="eligibility_mainpage"
-        id="eligibility"
-        style={{ margin: "unset", padding: "unset" }}
-      >
-        <h1
-          className="headers1_mainpage"
-          style={{ color: "white", fontSize: "50px" }}
-        >
-          Do you have what it takes ?
-        </h1>
-        <p>
-          Unlocking the full potential of the creator economy through boundless
-          innovation and sustainable growth
-        </p>
-        <span style={{ color: "#FFFFFF" }}>Choose a platform </span>
-        <div className="eligibility_check_section eligibilty_pricing">
-          <section>
-            <span
-              className={platform === 1 && "active_platform"}
-              onClick={() => {
-                setPlatform(1);
+      <section className="eligibility_mainpage" id="eligibility" style={{margin:"unset"}}>
+          <h1 className="headers1_mainpage">Do you have what it takes?</h1>
+          <p>
+            To unlock your full potential in a community exclusively for you!
+            {/* through boundless innovation and sustainable growth */}
+          </p>
+          <span>Choose a platform - Put your best foot forward</span>
+          <div className="eligibility_check_section">
+            <section>
+              <span
+                className={platform === 1 && "active_platform"}
+                onClick={() => {
+                  setPlatform(1);
+                }}
+              >
+                <i class="fa-brands fa-linkedin-in fa-2x"></i>
+              </span>
+              <span
+                className={platform === 2 && "active_platform"}
+                onClick={() => {
+                  setPlatform(2);
+                }}
+              >
+                <i class="fa-brands fa-youtube fa-2x"></i>
+              </span>
+              <span
+                className={platform === 3 && "active_platform"}
+                onClick={() => {
+                  setPlatform(3);
+                }}
+              >
+                <i class="fa-brands fa-telegram fa-2x"></i>
+              </span>
+              <span
+                className={platform === 4 && "active_platform"}
+                onClick={() => {
+                  setPlatform(4);
+                }}
+              >
+                <i class="fa-brands fa-instagram fa-2x"></i>
+              </span>
+            </section>
+            <input
+              type="number"
+              placeholder="Number of followers"
+              value={followers}
+              onChange={(e) => {
+                setFollowers(e.target.value);
               }}
-            >
-              <i className="fa-brands fa-linkedin-in fa-2x"></i>
-            </span>
-            <span
-              className={platform === 2 && "active_platform"}
-              onClick={() => {
-                setPlatform(2);
-              }}
-            >
-              <i className="fa-brands fa-youtube fa-2x"></i>
-            </span>
-            <span
-              className={platform === 3 && "active_platform"}
-              onClick={() => {
-                setPlatform(3);
-              }}
-            >
-              <i className="fa-brands fa-telegram fa-2x"></i>
-            </span>
-            <span
-              className={platform === 4 && "active_platform"}
-              onClick={() => {
-                setPlatform(4);
-              }}
-            >
-              <i className="fa-brands fa-instagram fa-2x"></i>
-            </span>
-          </section>
-          <input
-            type="text"
-            placeholder="Number of followers"
-            value={followers}
-            onChange={(e) => {
-              setFollowers(e.target.value);
-            }}
-          />
-        </div>
-        <button onClick={handleCheckEligibility}>
-          {window.screen.width < 600
-            ? "Let’s Get Started"
-            : "Check Eligibility"}
-        </button>
-      </section>
+            />
+          </div>
+          <button onClick={handleCheckEligibility}>Check Eligibility</button>
+        </section>
     </>
   );
 };
 
+
 const FAQs = ({ data }) => {
+  const handleClick = (e) => {
+    let accordionItemHeader = document.getElementById(e.target.id);
+    accordionItemHeader.classList.toggle("active");
+    const accordionItemBody = accordionItemHeader.nextElementSibling;
+    if (accordionItemHeader.classList.contains("active")) {
+      accordionItemBody.style.maxHeight = accordionItemBody.scrollHeight + "px";
+    } else {
+      accordionItemBody.style.maxHeight = 0;
+    }
+  };
+
   return (
     <div className="faq_pricing_wrapper">
       <h1 className="faq_pricing_text01">Frequently Asked Question</h1>
       <span className="faq_pricing_text02">Get all your answers</span>
-
-      <div class="tabs">
+      <div className="accordion">
         {data?.map((e, i) => {
           return (
-            <div class="tab" key={e?.question}>
-              <input
-                type="checkbox"
-                id={`chck${i + 1}`}
-                className="checkbox_accordian"
-                style={{ display: "none" }}
-              />
-              <label class="tab-label" htmlFor={`chck${i + 1}`}>
+            <div className="accordion-item" key={i}>
+              <div
+                className="accordion-item-header"
+                onClick={handleClick}
+                id={`FAQ${i}`}
+              >
                 {e?.question}
-              </label>
-              <div class="tab-content">{e?.answer}</div>
+              </div>
+              <div className="accordion-item-body">
+                <div className="accordion-item-body-content">{e?.answer}</div>
+              </div>
+              {/* <!-- /.accordion-item-body --> */}
             </div>
           );
         })}
@@ -294,8 +305,21 @@ function Pricing() {
         <div className="pricingIntroContainer">
           <h1 className="text01_pricing_box">Pricing</h1>
           <span className="text02_pricing_box">
-            Our Pricing is as simple as pie, We only charge when you make Money{" "}
+            Focus on creating great content while we take care of the pricing
+            details
           </span>
+          <button
+            onClick={() => {
+              mixpanel.track("Clicked Join now on Pricing page");
+            }}
+          >
+            <a
+              href="#eligibility"
+              style={{ color: "unset", textDecoration: "none" }}
+            >
+              Join Now
+            </a>
+          </button>
           <div className="pricing_design01">
             <span>No Monthly Cost </span>
             <span>No Cost Setup</span>
@@ -303,7 +327,7 @@ function Pricing() {
         </div>
 
         <section>
-          <CardDesign data={PricingCard1} />
+          {/* <CardDesign data={PricingCard1} /> */}
           <CardDesign data={PricingCard2} />
         </section>
 

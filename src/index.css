@@ -11,6 +11,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* Chrome, Safari, Edge, Opera to remove up down arrow from input number */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

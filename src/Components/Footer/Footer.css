@@ -1,7 +1,7 @@
 .main_footer_section {
   width: 100vw;
   height: max-content;
-  background-color: #232426;
+  background-color: #101010;
   box-sizing: border-box;
   padding: 15px;
   color: rgba(255, 255, 255, 0.753);
@@ -41,9 +41,9 @@
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
-  line-height: 24px;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 40px;
+  line-height: 30px;
+  color: rgb(255, 255, 255);
+  margin-bottom: 20px;
   width: 60%;
 }
 
@@ -55,7 +55,7 @@
   font-size: 20px;
   line-height: 24px;
   color: #ffffff;
-  background-color: #fc6262;
+  background-color: #ff0000;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -141,7 +141,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  background: #F1F1F2;
+  background: #f1f1f2;
   border-top: 1px solid rgba(0, 0, 0, 0.2);
   -webkit-user-select: none;
   padding-top: 8px;
@@ -192,10 +192,14 @@
 
   .anchors_details button {
     font-size: 1rem;
-    width: 183px;
+    width: unset;
     height: 48px;
     border-radius: 6px;
     padding: 10px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    color: #ffffff;
   }
 
   .footer_support_menu {

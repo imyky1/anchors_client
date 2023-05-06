@@ -1,0 +1,81 @@
+
+
+.default_previewer_wrapper{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(65, 62, 62, 0.29);
+    position: fixed;
+    border-radius: 8px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.default_previewer_wrapper > div{
+    width: 80%;
+    height: 55%;
+    min-width: 1100px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.default_options_sections{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* background-color: red; */
+    width: 98%;
+}
+
+.default_options_sections > div{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.normal_color_option_default_banner{
+    padding: 2px;
+    box-sizing: border-box;
+    border: 2px solid white;
+    width: 38px;
+    height: 38px;
+    border-radius: 100px;
+}
+
+.default_options_sections > div > span > span{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 100px;
+    cursor: pointer;
+}
+
+.active_color_option_default_banner{
+    border: 2px solid red;
+}
+
+.default_options_sections > section{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.default_options_sections > section button{
+    padding: 8px 15px;
+    border-radius: 5px;
+    background-color: black;
+    border: none;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.default_options_sections > section button:hover{
+    background-color: red;
+}

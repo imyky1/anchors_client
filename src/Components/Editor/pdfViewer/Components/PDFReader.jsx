@@ -3,7 +3,19 @@ import Loader from "./Loader";
 import { Document, Page, pdfjs } from "react-pdf";
 import "./pdfviewer.css";
 import ControlPanel from "./ControlPanel";
+// Pdf reader 2 css -------
+import { Worker } from "@react-pdf-viewer/core";
+import { Viewer } from '@react-pdf-viewer/core';
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+
+// Import styles
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+
+// Import the styles
+import '@react-pdf-viewer/core/lib/styles/index.css';
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
 
 const PDFReader = () => {
   const [url, setUrl] = useState(null);
@@ -55,12 +67,22 @@ const PDFReader = () => {
             setPageNumber={setPageNumber}
             file={`${url}`}
           />
-          <Document file={`${url}`} onLoadSuccess={onDocumentLoadSuccess}>
-            <Page
+          <Document file={`${url}`} onLoadSuccess={onDocumentLoadSuccess} className="pdf-container">
+          {Array.from(new Array(numPages), (e, index) => {
+              return <Page key={e} onTouchStart={(e) => {
+                e.preventDefault();
+                e.target.style.transform = 'scale(2)';
+              }}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                e.target.style.transform = 'scale(1)';
+              }} pageNumber={index + 1} scale={scale} devicePixelRatio={window.innerWidth < 500 ? 0.87 : 1}/>;
+            })}
+            {/* <Page
               pageNumber={pageNumber}
               scale={scale}
               devicePixelRatio={window.innerWidth < 500 ? 0.87 : 1}
-            />
+            /> */}
           </Document>
         </section>
       ) : (
@@ -70,4 +92,17 @@ const PDFReader = () => {
   );
 };
 
-export default PDFReader;
+const PDFReader2 = () =>{
+  const defaultLayoutPluginInstance = defaultLayoutPlugin({
+    mobile:true
+  });
+  return (
+    <>
+      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+      <Viewer fileUrl={sessionStorage.getItem("link")} plugins={[defaultLayoutPluginInstance]} />
+      </Worker>
+    </>
+  );
+}
+
+export default PDFReader2;

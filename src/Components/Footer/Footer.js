@@ -7,6 +7,7 @@ import HelpModal from "../Modals/ModalType01/HelpModal";
 
 function Footer() {
   const navigate = useNavigate();
+
   const [openHelpModal, setopenHelpModal] = useState(false)
 
 
@@ -18,13 +19,14 @@ function Footer() {
         {window.screen.width > 600 && <img className="logo_footer" src={require("../Main Page/Images/logo-beta.png")} alt="" />}
           <section className="upper_footer_section">
             <div className="anchors_details">
-              <span>Monetize your <span style={{color:"rgba(255, 255, 255, 0.8)"}}>Content, skill, Expertise</span> and help your audience to grow.</span>
+              {/* <span>Monetize your <span style={{color: "rgb(255 255 255)",fontWeight: "600"}}>Content, skill, Expertise</span> and help your audience to grow.</span> */}
+              <span>An Exclusive Platform for the Creators' Community</span>
               <button
                 onClick={() => {
                   navigate("/login/creators");
                 }}
               >
-                Become an Anchor
+               Join Exclusive Community
               </button>
             </div>
             <div className="footer_support_menu">
@@ -49,7 +51,7 @@ function Footer() {
             {window.screen.width < 600 &&  <img className="logo_footer" src={require("../Main Page/Images/logo-beta.png")} alt="" />}
           </section>
           <section className="some_extra">
-          <i class="fa-brands fa-linkedin-in fa-xl" style={{cursor:"pointer",color:"white",marginBottom:"15px"}} onClick={()=>{window.open("https://www.linkedin.com/company/beanchorite/")}}></i>
+          <i className="fa-brands fa-linkedin-in fa-xl" style={{cursor:"pointer",color:"white",marginBottom:"15px"}} onClick={()=>{window.open("https://www.linkedin.com/company/beanchorite/")}}></i>
           <span>Anchors.in All rights reserved</span>
           {window.screen.width > 600 && <span style={{textDecoration:"underline",cursor:"pointer"}} onClick={()=>{window.open("/privacy-policy")}}>Terms & privacy</span>}
           </section>

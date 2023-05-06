@@ -48,6 +48,7 @@ import NewService from "./Components/Editor/New UI/Service Page/Service";
 import TellUsMore from "./Components/Waitlist/TellUsMore";
 import PDFReaderPreview from "./Components/Editor/pdfViewer/pdfViewerPreview/Components/PDFReader";
 import Seo from "./Utils/Seo";
+import UserDashboard from "./Components/User Dashboard/UserDashboard";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -85,7 +86,7 @@ function App() {
                           element={
                             localStorage.getItem("jwtToken") &&
                             localStorage.getItem("isUser") === "true" ? (
-                              <Dashboarduser progress={progress} />
+                              <UserDashboard progress={changeprogress} />
                             ) : (
                               <Main />
                             )
@@ -184,7 +185,7 @@ function App() {
                         {localStorage.getItem("jwtToken") && (
                           <Route
                             path="/user/dashboard"
-                            element={<Dashboarduser progress={progress} />}
+                            element={<UserDashboard progress={changeprogress} />}
                           />
                         )}
 
@@ -232,10 +233,10 @@ function App() {
                             />
                           }
                         />
-                        <Route
-                          path="/newservice/:slug"
-                          element={<NewService />}
-                        />
+                        {/* <Route
+                          path="/newdashboard"
+                          element={<UserDashboard />}
+                        /> */}
                       </Routes>
                     </UserDashboardState>
                   </FeedbackState>

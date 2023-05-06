@@ -112,6 +112,58 @@ function UploadField01(props) {
   );
 }
 
+// upload file with default options
+function UploadField02(props) {
+  const [fileName, setfileName] = useState();
+
+  const handleChange = (e) => {
+    setfileName(e.target.files[0].name);
+    props.onChange(e.target.files[0]);
+    if (props.onChangeFunction) {
+      props.onChangeFunction(e);
+    }
+  };
+
+  return (
+    // Normal type -1 text field used in create
+    <div className="textfiled_container_01">
+      <div className="upload_default_wrapper">
+        <span className="label_type_01">
+          {props.label}{" "}
+          {props?.required && <span style={{ color: "red" }}>*</span>}
+        </span>
+
+        {/* Radio button ---------- */}
+        <div className="radiofiled_container_01">
+          <span className="label_type_02">{props.defaultRadioLabel} </span>
+          <label className="switch_type_01">
+            <input
+              type="checkbox"
+              onChange={(event) =>
+                props.defaultRadioOnChange(event)
+              }
+            />
+            <span className="slider_type_01 round_type_01"></span>
+          </label>
+        </div>
+      </div>
+
+      <input
+        type="file"
+        id={props.id}
+        style={{ display: "none" }}
+        onChange={handleChange}
+        accept={props.FileType}
+      />
+      <label htmlFor={props.id} className="input_type_02">
+        <i className="fa-solid fa-plus fa-xl"></i>
+        <span>Browse</span>
+        <p>{fileName ? fileName : props.info}</p>
+      </label>
+    </div>
+  );
+}
+
 // checkbox radio field --------------------------------------------------------------------
 function fields_Labels3(props) {
   return (
@@ -272,6 +324,7 @@ function Dropdown01(props) {
 export const TextField1 = fields_Labels1;
 export const Editor1 = EditorText01;
 export const UploadField1 = UploadField01;
+export const UploadField2 = UploadField02;
 export const RadioField1 = fields_Labels3;
 export const SocialFields = fields_Labels4;
 export const Tags1 = Tags01;

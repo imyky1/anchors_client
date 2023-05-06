@@ -94,3 +94,28 @@
     align-items: center;
     height: 100vh;
 }
+
+
+.preview_div_section{
+    position: relative;
+    width: max-content;
+}
+
+
+.lock_section_preview{
+    position: absolute;
+    bottom: 0px;
+    background-color: #aba8a8bc;
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.lock_section_preview > img{
+    width: 100px;
+}
+

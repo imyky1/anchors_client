@@ -9,6 +9,7 @@ import {
   Tags1,
   TextField1,
   UploadField1,
+  UploadField2,
 } from "./InputComponents/fields_Labels";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { toast } from "react-toastify";
@@ -22,10 +23,9 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Cropper from "react-easy-crop";
 import { SuperSEO } from "react-super-seo";
-import Canvas from "./Canvas";
-import { creatorContext } from "../../../../Context/CreatorState";
 
-function Create(props) {
+
+function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefaultBannerFormData}) {
   const navigate = useNavigate();
 
   // for checking the type of service we need to create --------------------------------------
@@ -43,17 +43,9 @@ function Create(props) {
   const [imagetocrop, setImageToCrop] = useState(null);
   const [openimagePreview, setImagePreview] = useState(false);
 
-  // getting creator info
-  const { getAllCreatorInfo, basicNav, allCreatorInfo } =
-    useContext(creatorContext);
-  useEffect(() => {
-    getAllCreatorInfo();
-    // eslint-disable-next-line
-  }, []);
+
   // default banner
   const [defaultbanner, setDefaultBanner] = useState(false);      // decides wheter to user checked the default banner-----
-  // const [defaultBannerPreview, setDefaultBannerPreview] = useState(false);
-  const [defaultBannerUrl, setURLBANNER] = useState(null);
 
   // service Context --------------------------------------------------
   const {
@@ -81,14 +73,11 @@ function Create(props) {
   const [allowPreview, setAllowPreview] = useState(false);
   const [noOfPage, setNoOfPages] = useState(0);
   const [ServiceDoc, setServiceDoc] = useState(); 
-  const [showdefaultselect, setShowDefaultSelect] = useState(true);  // decides when we need to show the Default banner checkbox 
-  const DefaultCanvas = useRef(null);
 
   const handleChangeFileBanner = (e) => {
     if (defaultbanner) {
       setDefaultBanner(false);
     }
-    setShowDefaultSelect(false);
 
     const file = e.target.files[0];
     setZoom(1);
@@ -112,8 +101,6 @@ function Create(props) {
   // check for the type of the service that needs to be created
   useEffect(() => {
     setCreateType(paramsType);
-    sessionStorage.removeItem("canvas");
-    sessionStorage.removeItem("gradColor");
   }, [paramsType]);
 
   // genrating copy url string -----------------------------------------------
@@ -132,31 +119,7 @@ function Create(props) {
       }
     });
   };
-  function dataURItoBlob(dataURI) {
-    // convert base64 to raw binary data held in a string
-    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
-    var byteString = atob(dataURI.split(",")[1]);
 
-    // separate out the mime component
-    var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-
-    // write the bytes of the string to an ArrayBuffer
-    var ab = new ArrayBuffer(byteString.length);
-    var ia = new Uint8Array(ab);
-    for (var i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-
-    //Old Code
-    //write the ArrayBuffer to a blob, and you're done
-    //var bb = new BlobBuilder();
-    //bb.append(ab);
-    //return bb.getBlob(mimeString);
-
-    //New Code
-    return new Blob([ab], { type: mimeString });
-  }
-  const [textToShow, setTextToShow] = useState("");
 
   // Image cropping
   // IMAGE RESIZE
@@ -165,20 +128,18 @@ function Create(props) {
     x: 0,
     y: 0,
   });
-  const imageref = useRef(null);
 
   const [zoom, setZoom] = useState(1);
 
   const onCropComplete = (croppedAreaPercentage, croppedAreaPixels) => {
     setCroppedArea(croppedAreaPixels);
   };
-  const openimageresizebar = () => {
-    setImagePreview((prev) => !prev);
-  };
+
 
   const downloadcroppedimage = () => {
     generateDownload(imagetocrop, croppedArea);
   };
+
   const savecroppedImage = async () => {
     const img = await getCroppedImg(
       imagetocrop,
@@ -191,11 +152,9 @@ function Create(props) {
 
   // changes handling in input field ---------------------------------
   const handleChange = (e) => {
-    if (e.target.name === "sname") {
-      setTextToShow(e.target.value);
-    }
     setdata({ ...data, [e.target.name]: e.target.value });
   };
+
 
   // responsible for generating slug and copyURL
   const process = () => {
@@ -204,18 +163,18 @@ function Create(props) {
     //getslugcount(slug.toLowerCase());  // checks if similar slug already exists -----
     return slug;
   };
-  const [generateBanner, setGenerateBanner] = useState(false);      // decide wheter we need to genrate the banner using th canvas while submmiting the form.
 
   useEffect(() => {
     generateCopyURL();
   }, [data.sname]);
+
 
   // form submission ----------------------------------------------------------
   const onSubmit = async () => {
     let slug = process();
     let SlugCount = await getslugcount(slug.toLowerCase());
     setOpenLoading(true); // true on loader
-    props.progress(0);
+    progress(0);
     if (
       data.sname.length > 3 &&
       ServiceDoc &&
@@ -226,81 +185,24 @@ function Create(props) {
         try {
           var banner;
           if (defaultbanner) {
-            setGenerateBanner(true);
-
-            setTimeout(async () => {
-              let canvasImage = sessionStorage.getItem("canvas");
-              // this can be used to download any image from webpage to local disk
-              // let xhr = new XMLHttpRequest();
-              // xhr.responseType = "blob";
-              // xhr.onload = function () {
-              //   let a = document.createElement("a");
-              //   a.href = window.URL.createObjectURL(xhr.response);
-              //   a.download = "image_name.png";
-              //   a.style.display = "none";
-              //   document.body.appendChild(a);
-              //   a.click();
-              //   a.remove();
-              // };
-              // xhr.open("GET", canvasImage); // This is to download the canvas Image
-              // xhr.send();
-              const data3 = new FormData();
-
-              var blob = dataURItoBlob(canvasImage);
-              data3.append("file", blob, `${Date.now()}.png`);
-              console.log(data3);
-              banner = await Uploadfile(data3);
-              var doc = await UploadDocuments(data2);
-              let json;
-
-              if (banner.success && doc.success) {
-                props.progress(75);
-                json = await addservice(
-                  data.sname,
-                  data.sdesc,
-                  Content,
-                  SlugCount === 0
-                    ? slug.toLowerCase()
-                    : slug.toLowerCase().concat("--", `${SlugCount}`),
-                  data.CopyURL,
-                  banner?.url,
-                  doc?.result?.Location,
-                  Tags,
-                  CreateType === "excel" ? 1 : CreateType === "video" ? 2 : 0, // type for pdf is 0 and excel is 1 and video is 2
-                  paid === "Free" ? false : true,
-                  paid === "Free" ? 0 : data.smrp,
-                  paid === "Free" ? 0 : data.ssp,
-                  allowPreview,
-                  allowPreview ? noOfPage : 0,
-                  data.guidelines
-                );
-                if (json.success) {
-                  //setservData(json.res);
-                  setOpenLoading(false);
-                  setshowPopup(true);
-                } else {
-                  setOpenLoading(false);
-                  toast.error(`Service Not Created Please Try Again`, {
-                    position: "top-center",
-                    autoClose: 2000,
-                  });
-                }
-              } else {
-                setOpenLoading(false);
-                toast.error(`Facing issues while uploading files and images`, {
-                  position: "top-center",
-                  autoClose: 2000,
-                });
-              }
-            }, 1000);
+            if(FinalDefaultBannerFormData instanceof FormData){
+              banner = await Uploadfile(FinalDefaultBannerFormData)
+            }
+            else{
+              toast.info(`Save the default banner design from the Edit Option`, {
+                position: "top-center",
+                autoClose: 2500,
+              });
+              setOpenLoading(false)
+              return null;
+            }
           } else {
             banner = await Uploadfile(data1); /// uplaoding banner and files on s3
+          }
             var doc = await UploadDocuments(data2);
-            let json;
-
-            if (banner.success && doc.success) {
-              props.progress(75);
-              json = await addservice(
+            if (banner?.success && doc?.success) {
+              progress(75);
+              let json = await addservice(
                 data.sname,
                 data.sdesc,
                 Content,
@@ -337,7 +239,6 @@ function Create(props) {
                 autoClose: 2000,
               });
             }
-          }
         } catch (error) {
           setOpenLoading(false);
           console.log(error);
@@ -361,8 +262,18 @@ function Create(props) {
       });
     }
 
-    props.progress(100);
+    progress(100);
   };
+
+
+
+  //Edit control of default banner button ------------
+  const EditOptionDefaultBanner = () =>{
+    setDefaultBannerData({sname:data?.sname,cname:cname,type:CreateType})
+    openDefaultBanner()
+  }
+
+
 
   // check is the query parameter is changed----------------------------------------
   if (!["pdf", "excel", "video"].includes(CreateType)) {
@@ -374,6 +285,7 @@ function Create(props) {
       {openLoading && <LoadTwo open={openLoading} />}
 
       {showPopup && <SuccessService type={CreateType} link={data.CopyURL} />}
+
       <div className="main_create_container">
         {/* Heading of the create section ------------------------ */}
         <section className="heading_create_box">
@@ -422,7 +334,7 @@ function Create(props) {
                 onChange={handleChange}
               />
             )}
-            <UploadField1
+            <UploadField2
               label="Upload Banner Image"
               id="asdas"
               info="File Size Limit 15 MB Formats - jpg,png"
@@ -430,52 +342,29 @@ function Create(props) {
               required={true}
               onChange={setBannerImage}
               onChangeFunction={handleChangeFileBanner}
+              defaultRadioLabel = "Use Default Image"
+              defaultRadioOnChange={(e) => {
+                e.target.checked
+                  ? setDefaultBanner(true)
+                  : setDefaultBanner(false)
+              }}
             />
-            {BannerImage ? (
+            {(BannerImage || defaultbanner) ? (
               <>
                 {" "}
                 <Button
                   variant="outlined"
-                  onClick={openimageresizebar}
+                  onClick={()=>{defaultbanner ? EditOptionDefaultBanner() : setImagePreview((prev) => !prev)}}
                   className="imageresizeopenerbutton"
                 >
-                  Preview Image and Resize
+                  {defaultbanner ? "Edit default Banner" : "Preview Image and Resize"}
                 </Button>
                 <br />
               </>
             ) : (
               ""
             )}
-            {showdefaultselect ? (
-              <div className="radiofiled_container_01 min-heightfield">
-                <span className="label_type_02">Use Default Image </span>
-                <label className="switch_type_01">
-                  <input
-                    type="checkbox"
-                    onChange={(e) =>
-                      e.target.checked
-                        ? setDefaultBanner(true)
-                        : setDefaultBanner(false)
-                    }
-                  />
-                  <span className="slider_type_01 round_type_01"></span>
-                </label>
-                {/* {defaultbanner ? (
-                <Button
-                  variant="outlined"
-                  onClick={setDefaultBannerPreview}
-                  className="imageresizeopenerbutton"
-                  style={{ marginLeft: "25px" }}
-                >
-                  Preview Default Banner
-                </Button>
-              ) : (
-                ""
-              )} */}
-              </div>
-            ) : (
-              ""
-            )}
+            
             <Editor1
               label={`Describe your ${
                 CreateType === "pdf"
@@ -556,7 +445,6 @@ function Create(props) {
                   : ""
               }
             />
-            <section style={{ marginTop: "47px" }}></section>
             <Tags1
               label="Add Relevant Tags"
               placeholder="Press Enter to add tags"
@@ -721,38 +609,6 @@ function Create(props) {
         ""
       )}
       <SuperSEO title="Anchors - Create Service" />
-      {generateBanner ? (
-        <Canvas
-          textToShow={textToShow}
-          width="1200"
-          height="450"
-          imgBackground={allCreatorInfo?.profile}
-          creator_name={basicNav?.name}
-          setURL={setURLBANNER}
-        />
-      ) : (
-        ""
-      )}
-      {/* <Modal
-        open={defaultBannerPreview}
-        onClose={() => setDefaultBannerPreview(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <div className="ultimatewrapper_defaultbanner">
-          <div className="container_defaultbanner">
-            <Canvas
-              textToShow={data.sname}
-              width="1200"
-              height="450"
-              imgBackground="https://www.anchors.in:5000/api/file/1670005634078--himanshu.bf15583cd698b88970c3.jpg"
-              imgBack="../backgroundimg.png"
-              creator_name="HIMANSHU SHEKHAR"
-              setURL={setURLBANNER}
-            />
-          </div>
-        </div>
-      </Modal> */}
     </>
   );
 }

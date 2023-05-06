@@ -10,9 +10,9 @@ function Request_Modal({ open, onClose, slug, id, cname, UserDetails }) {
   const [amount, setAmount] = useState(null);
 
   const amountSetter = (item) => {
-    document.getElementById("99").style.border = "1px solid #00000069";
-    document.getElementById("300").style.border = "1px solid #00000069";
-    document.getElementById("custom").style.border = "1px solid #00000069";
+    document.getElementById("99").style.border = "0.3px solid rgba(0, 0, 0, 0.5)";
+    document.getElementById("300").style.border = "0.3px solid rgba(0, 0, 0, 0.5)";
+    document.getElementById("custom").style.border = "0.3px solid rgba(0, 0, 0, 0.5)";
 
     document.getElementById("amount").style.display = "none";
 
