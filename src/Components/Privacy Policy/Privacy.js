@@ -1,98 +1,185 @@
 import mixpanel from "mixpanel-browser";
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { SuperSEO } from "react-super-seo";
 import "./Privacy.css";
 
-
 function Privacy() {
-
   // Visited page mix panel
   useEffect(() => {
-    mixpanel.track("Visited Privacy Policy")
-
-  }, [])
+    mixpanel.track("Visited Privacy Policy");
+  }, []);
 
   return (
     <>
       <div className="mainpage_header creator_login_header ">
-          <div className="logo">
-            <img src={require("../logo.png")} alt="Logo" />
-            <span>anchors</span>
-            <p className="beta_tagname">Beta</p>
-          </div>
+        <div className="logo">
+          <img src={require("../logo.png")} alt="Logo" />
+          <span>anchors</span>
+          <p className="beta_tagname">Beta</p>
         </div>
+      </div>
       <div className="privacy_policy">
         <h1>Privacy Policy</h1>
         <section>
-          This Privacy Policy describes how your personal information is
-          collected, used, and shared when you visit or make a purchase from &nbsp;
-           <a href="http://www.anchors.in" target="_blank"  rel="noreferrer">https://www.anchors.in</a>&nbsp;  (the “Site”).
-          <h2>PERSONAL INFORMATION WE COLLECT</h2>
-          When you visit the Site, we automatically collect certain information
-          about your device, including information about your web browser, IP
-          address, time zone, and some of the cookies that are installed on your
-          device. Additionally, as you browse the Site, we collect information
-          about the individual web pages or products that you view, what
-          websites or search terms referred you to the Site, and information
-          about how you interact with the Site. We refer to this
-          automatically-collected information as “Device Information.” When we
-          talk about “Personal Information” in this Privacy Policy, we are
-          talking both about Device Information and Order Information.
-          <h2>HOW DO WE USE YOUR PERSONAL INFORMATION</h2>
-          We use the Order Information that we collect generally to fulfill any
-          orders placed through the Site (including processing your payment
-          information, arranging for shipping, and providing you with invoices
-          and/or order confirmations). Additionally, we use this Order
-          Information to: Communicate with you; Screen our orders for potential
-          risk or fraud; and When in line with the preferences you have shared
-          with us, provide you with information or advertising relating to our
-          products or services. We use the Device Information that we collect to
-          help us screen for potential risk and fraud (in particular, your IP
-          address), and more generally to improve and optimize our Site (for
-          example, by generating analytics about how our customers browse and
-          interact with the Site, and to assess the success of our marketing and
-          advertising campaigns).
-          <h2>SHARING YOUR PERSONAL INFORMATION</h2>
-          We share your Personal Information with third parties to help us use
-          your Personal Information, as described above. For example, We use
-          Google Analytics to help us understand how our customers use the site
-          Finally, we may also share your Personal Information to comply with
-          applicable laws and regulations, to respond to a subpoena, search
-          warrant or other lawful request for information we receive, or to
-          otherwise protect our rights.
-          <h2>DON NOT TRACK</h2>
-          Please note that we do not alter our Site’s data collection and use
-          practices when we see a Do Not Track signal from your browser.
-          <h2>YOUR RIGHTS</h2>
-          If you are a European resident, you have the right to access personal
-          information we hold about you and to ask that your personal
-          information be corrected, updated, or deleted. If you would like to
-          exercise this right, please contact us through the contact information
-          below. Additionally, if you are a European resident we note that we
-          are processing your information in order to fulfill contracts we might
-          have with you (for example if you make an order through the Site), or
-          otherwise to pursue our legitimate business interests listed above.
-          Additionally, please note that your information will be transferred
-          outside of Europe, including to Canada and the United States.
-          <h2>DATA RETENTION</h2>
-          When you place an order through the Site, we will maintain your Order
-          Information for our records unless and until you ask us to delete this
-          information.
-          <h2>MINORS</h2>
-          The Site is not intended for individuals under the age of 13.
-          <h2>CHANGES</h2>
-          We may update this privacy policy from time to time in order to
-          reflect, for example, changes to our practices or for other
-          operational, legal or regulatory reasons.
-          <h2>CONTACT US</h2>
-          For more information about our privacy practices, if you have
-          questions, or if you would like to make a complaint, please contact us
-          by e-mail at support@anchors.in.
+          This Privacy Policy describes how anchors ("we," "us," or "our")
+          collects, uses, and discloses personal information when you use our
+          website, services, and platform (collectively, the "Platform"). By
+          accessing or using the Platform, you agree to the terms of this
+          Privacy Policy.
+          <h2>1. Information We Collect:</h2>
+          <ul>
+            <li>
+              <b>Personal Information:</b> When you create an account on
+              anchors, we may collect personal information such as your name,
+              email address, and contact details.
+            </li>
+            <li>
+              <b>Usage Information:</b> We collect information about your
+              interactions with the Platform, such as your IP address, device
+              information, and browsing activities.
+            </li>
+            <li>
+              <b>Cookies and Similar Technologies:</b> We may use cookies and
+              similar technologies to enhance your experience and collect
+              information about your usage of the Platform.
+            </li>
+          </ul>
+          <h2>2. Use of Information:</h2>
+          <ul>
+            <li>
+              We use the collected information to provide, maintain, and improve
+              the Platform's functionality and personalize your experience.
+            </li>
+            <li>
+              We may use your information to communicate with you, respond to
+              your inquiries, and provide customer support.
+            </li>
+            <li>
+              We may use aggregated and anonymized data for analytical purposes,
+              including understanding user preferences and trends.
+            </li>
+          </ul>
+          <h2>3. Information Sharing:</h2>
+          <ul>
+            <li>
+              We may share your personal information with trusted third-party
+              service providers who assist us in operating and maintaining the
+              Platform.
+            </li>
+            <li>
+              We may share your information in response to a legal obligation,
+              to protect our rights or the rights of others, or in the event of
+              a corporate transaction.
+            </li>
+            <li>
+              We do not sell, rent, or lease your personal information to third
+              parties for their marketing purposes.
+            </li>
+          </ul>
+          <h2>4. Data Security:</h2>
+          <ul>
+            <li>
+              We take reasonable measures to protect your personal information
+              from unauthorized access, disclosure, alteration, or destruction.
+            </li>
+            <li>
+              However, no method of transmission over the internet or electronic
+              storage is 100% secure, and we cannot guarantee absolute security.
+            </li>
+          </ul>
+          <h2>5. Children's Privacy:</h2>
+          <ul>
+            <li>
+              The Platform is not intended for children under the age of 13. We
+              do not knowingly collect personal information from children. If
+              you believe we have inadvertently collected information from a
+              child, please contact us.
+            </li>
+          </ul>
+          <h2>6. Third-Party Links and Services:</h2>
+          <ul>
+            <li>
+              The Platform may contain links to third-party websites or
+              services. We are not responsible for the privacy practices or
+              content of such third parties. We encourage you to review their
+              privacy policies.
+            </li>
+          </ul>
+          <h2>7. Account Information:</h2>
+          <ul>
+            <li>
+              When you create an account on anchors, we may collect additional
+              information such as your username, password, and profile picture.
+            </li>
+
+            <li>
+              This information is used to authenticate your account and
+              personalize your experience on the Platform.
+            </li>
+          </ul>
+          <h2>8. Payment Information:</h2>
+          <ul>
+            <li>
+              If you choose to monetize your content on anchors, we may collect
+              payment information such as your bank account details or PayPal
+              email address.
+            </li>
+            <li>
+              This information is securely processed and used solely for the
+              purpose of facilitating payments to you.
+            </li>
+          </ul>
+          <h2>9. User-generated Content:</h2>
+          <ul>
+            <li>
+              Any content you upload, publish, or share on anchors, including
+              text, images, videos, or other media, may be stored on our
+              servers.
+            </li>
+            <li>
+              We do not claim ownership of your content, but we may use it to
+              provide and improve our services, as outlined in the Terms of
+              Service.
+            </li>
+          </ul>
+          <h2>10. Communication Preferences:</h2>
+          <ul>
+            <li>
+              We may send you promotional emails, newsletters, or notifications
+              regarding your account and Platform updates.
+            </li>
+            <li>
+              You can manage your communication preferences through your account
+              settings or by following the unsubscribe instructions provided in
+              the emails.
+            </li>
+          </ul>
+          <h2>11. Data Retention:</h2>
+          <ul>
+            <li>
+              We retain your personal information for as long as necessary to
+              fulfill the purposes outlined in this privacy policy unless a
+              longer retention period is required or permitted by law.
+            </li>
+          </ul>
+          <h2>12. International Data Transfers:</h2>
+          <ul>
+            <li>
+              If you access anchors from outside the country where our servers
+              are located, your personal information may be transferred and
+              processed in other countries.
+            </li>
+          </ul>
+
+          <br/>
+          <br/>
+          By accessing and using the anchors Platform, you acknowledge that you
+          have read and understood this Privacy Policy and agree to the
+          collection, use, and disclosure of your personal information as
+          described herein.
         </section>
       </div>
-      <SuperSEO
-        title="Anchors - Terms & Conditions"
-      />
+      <SuperSEO title="Anchors - Privacy Policy" />
     </>
   );
 }

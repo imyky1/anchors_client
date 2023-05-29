@@ -49,6 +49,7 @@ import TellUsMore from "./Components/Waitlist/TellUsMore";
 import PDFReaderPreview from "./Components/Editor/pdfViewer/pdfViewerPreview/Components/PDFReader";
 import Seo from "./Utils/Seo";
 import UserDashboard from "./Components/User Dashboard/UserDashboard";
+import TermsOfUse from "./Components/Privacy Policy/TermsOfUse";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -109,6 +110,10 @@ function App() {
                         <Route
                           path="/privacy-policy"
                           element={<Privacy />}
+                        ></Route>
+                        <Route
+                          path="/terms-of-use"
+                          element={<TermsOfUse />}
                         ></Route>
                         <Route path="/pricing" element={<Pricing />}></Route>
                         {/* Redirection routes ---------------------------------------------------------------------- */}

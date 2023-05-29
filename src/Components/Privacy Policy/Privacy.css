@@ -1,6 +1,6 @@
 .privacy_policy{
     font-size: 1.1rem;
-    width: 60%;
+    width: 80%;
     margin: 40px auto;
 }
 
@@ -17,4 +17,20 @@
     margin-bottom: 12px;
     font-size: 1.3rem;
     color: rgb(84, 81, 81);
+}
+
+.privacy_policy ul{
+    width: 85%;
+    margin: auto;
+}
+
+.privacy_policy li{
+    margin-bottom: 15px;
+}
+
+@media screen and (max-width: 600px) {
+    
+    .privacy_policy{
+        width: 95%;
+    }
 }
