@@ -50,11 +50,11 @@ const ServiceState = (props) => {
         surl: data.surl,
         tags: data.Tags,
         allowPreview: data.allowPreview,
-        previewPage: data.noOfPage,
+        noOfPages: data.noOfPage,
       }),
     });
     const json = await response.json();
-    return json.success;
+    return json;
   };
 
   //  2. Getting all the services for the respective creator
@@ -80,7 +80,6 @@ const ServiceState = (props) => {
     sdesc,
     ldesc,
     slug,
-    copyURL,
     simg,
     surl,
     tags,
@@ -106,7 +105,6 @@ const ServiceState = (props) => {
         sdesc: sdesc,
         ldesc: ldesc,
         slug: slug,
-        copyURL: copyURL,
         tags: tags,
         simg: simg,
         surl: surl,
@@ -115,7 +113,7 @@ const ServiceState = (props) => {
         smrp: smrp,
         ssp: ssp,
         allowPreview: allowPreview,
-        previewPage: noOfPage,
+        noOfPages: noOfPage,
         guidelines: guidelines,
       }),
     });

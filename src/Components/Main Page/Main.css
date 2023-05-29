@@ -20,48 +20,6 @@ html {
   -webkit-user-select: none;
 }
 
-/* logo on main page ----------------------------------------------------------------------------- */
-
-.mainPage_headers {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: auto;
-  width: 93vw;
-  padding: 0 22px;
-  padding-top: 20px;
-  position: fixed;
-  top: 0px;
-  left: 35px;
-  background: #101010;
-  z-index: 99;
-  padding-bottom: 12px;
-  box-sizing: border-box;
-}
-
-.logo_main_page {
-  width: 200px;
-  cursor: pointer;
-}
-
-.login_creator_mainpage {
-  background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 38px;
-  font-family: "Inter", sans-serif;
-  color: #ffffff;
-  padding: 8px 25px;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 18px;
-  line-height: 24px;
-  cursor: pointer;
-}
-
-.login_creator_mainpage:hover{
-  background-color: red;
-  border: 1px solid red;
-}
 
 /* hero section ------------------------------------------------------------------------------------------- */
 
@@ -69,8 +27,8 @@ html {
   display: flex;
   align-items: center;
   width: 92vw;
-  margin: 215px auto;
-  justify-content: space-between;
+  margin: 30vh auto;
+  justify-content: center;
 }
 
 .hero_section_image {
@@ -79,43 +37,101 @@ html {
 }
 
 .left_hero_text {
-  align-items: flex-start;
+  align-items: center;
   display: flex;
   flex-direction: column;
+  gap: 6px;
 }
 
-.left_hero_text h1 {
+.left_hero_text > div {
+  position: relative;
+}
+
+.left_hero_text > div > img {
+  position: absolute;
+  left: -35px;
+  top: -14px;
+}
+
+.left_hero_text > div > h1 {
   font-family: "Inter";
   font-style: normal;
   font-weight: 800;
   font-size: 50px;
   line-height: 61px;
-  /* margin-bottom: -12px; */
+  /* identical to box height */
+
+  background: linear-gradient(
+    90deg,
+    #75a4ff -6.71%,
+    #ffffff 39.13%,
+    #fd1010 93.59%
+  );
+  background-size: 200% auto;
+
+  color: #000;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 4s linear infinite;
+}
+@keyframes shine {
+  0% {
+    background-position: 0% center;
+  }
+
+  60% {
+    background-position: 100% center;
+  }
+
+  100% {
+    background-position: 0% center;
+  }
 }
 
 .left_hero_text p {
   font-family: "Inter";
   font-style: normal;
-  color: rgb(255, 255, 255);
-  width: 600px;
-  margin: 22px 0;
-  margin-bottom: 25px;
-  font-weight: 400;
-  font-size: 26px;
+  font-weight: 300;
+  font-size: 34px;
   line-height: 155.02%;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.left_hero_text > section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 25px 0;
+  gap: 17px;
+}
+
+.left_hero_text > section > span {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  text-align: center;
+  width: 345px;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .left_hero_text button {
+  width: 110px;
+  height: 42px;
   background: #ffffff;
   border: 0.7px solid #505050;
-  border-radius: 8px;
+  border-radius: 29px;
   cursor: pointer;
-  padding: 7px 15px;
-  font-weight: 700;
-  font-size: 26px;
-  line-height: 31px;
-  color: #ff0000;
-  margin-top: 15px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
 }
 
 .left_hero_text button:focus {
@@ -128,7 +144,7 @@ html {
   font-family: "Inter";
   font-style: normal;
   font-weight: 800;
-  font-size: 55px;
+  font-size: 50px;
   margin-bottom: 15px;
   color: white;
 }
@@ -145,11 +161,11 @@ html {
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 178.52%;
+  font-size: 24px;
+  line-height: 150%;
   display: inline-block;
   width: 76%;
-  color: rgb(255, 255, 255);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* steps anchors page =================================================================================*/
@@ -202,7 +218,7 @@ html {
   font-family: "Inter";
   font-style: normal;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 22px;
   line-height: 145.02%;
   text-align: center;
   width: 64%;
@@ -253,8 +269,8 @@ html {
   font-family: "Inter";
   font-style: normal;
   font-weight: 600;
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 20px;
+  line-height: 24px;
   color: #ffffff;
 }
 
@@ -262,9 +278,9 @@ html {
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
+  font-weight: 400;
   font-size: 16px;
-  width: 80%;
-  line-height: 19px;
+  line-height: 150%;
   color: rgba(255, 255, 255, 0.5);
   margin-top: 15px;
 }
@@ -282,7 +298,7 @@ html {
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 161.02%;
   text-align: center;
   color: rgba(255, 255, 255, 0.8);
@@ -311,15 +327,15 @@ html {
 }
 
 .facilities_boxes > div img {
-  width: 24px;
-  height: 25px;
+  width: 33.68px;
+  height: 30px;
 }
 
 .facilities_boxes > div span {
   font-family: "Inter";
   font-style: normal;
-  font-weight: 700;
-  font-size: 18px;
+  font-weight: 600;
+  font-size: 20px;
   line-height: 161.02%;
   text-align: center;
   color: rgba(255, 255, 255, 0.8);
@@ -330,7 +346,7 @@ html {
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 161.02%;
   text-align: center;
   color: rgba(255, 255, 255, 0.8);
@@ -354,7 +370,7 @@ html {
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
-  line-height: 147.52%;
+  line-height: 150%;
   text-align: center;
   color: rgba(255, 255, 255, 0.8);
   width: 75%;
@@ -364,9 +380,9 @@ html {
   font-family: "Inter";
   font-style: normal;
   font-weight: 300;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 178.52%;
-  color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
   margin-top: 25px;
 }
 
@@ -430,19 +446,68 @@ html {
 }
 
 .eligibility_mainpage button {
-  width: 253px;
-  height: 51px;
-  background: #ffffff;
-  border: 0.7px solid #505050;
-  border-radius: 8px;
+  padding: 0 20px;
+  height: 44px;
+  background: #ff0000;
+  border: none;
+  border-radius: 6px;
   font-family: "Inter";
   font-style: normal;
-  font-weight: 500;
-  font-size: 26px;
-  line-height: 31px;
-  color: #ff0000;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #ffffff;
   margin-top: 22px;
   cursor: pointer;
+}
+
+/* Connect with us -------------------- */
+
+.connect_with_us_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80vw;
+  margin: 180px auto;
+  gap: 20px;
+}
+
+.connect_with_us_wrapper > img {
+  height: 347px;
+}
+
+.connect_with_us_wrapper > div {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 50px;
+  max-width: 50%;
+}
+
+.connect_with_us_wrapper > div > p {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 147.52%;
+  color: #ffffff;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.connect_with_us_wrapper > div > button {
+  padding: 0 20px;
+  height: 44px;
+  background: #ff0000;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #ffffff;
 }
 
 /* People who trust us --------------------------------------------------------- */
@@ -464,7 +529,7 @@ html {
   display: flex;
   align-items: center;
   text-align: center;
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 25px;
   margin-top: 20px;
 }
@@ -569,6 +634,12 @@ html {
   cursor: pointer;
 }
 
+/* Faq main page ---------- */
+
+.main_page_faq {
+  margin-bottom: 120px;
+}
+
 /* Wall fo love section */
 
 .wall_of_love {
@@ -654,33 +725,12 @@ html {
 }
 
 @media screen and (max-width: 600px) {
-  /* logo and headers */
-
-  .logo_main_page {
-    width: 150px;
-    margin-left: 15px;
-  }
-
-  .login_creator_mainpage {
-    width: 114px;
-    height: 23px;
-    font-weight: 300;
-    font-size: 12px;
-    line-height: 15px;
-    padding: unset;
-  }
-
-  .mainPage_headers {
-    left: 0px;
-    width: 100vw;
-    padding: 22px 10px;
-  }
 
   /* hero section */
 
   .hero_mainpage {
     flex-direction: column;
-    margin: 127px auto;
+    margin: 20vh auto;
   }
 
   .left_hero_text {
@@ -688,7 +738,13 @@ html {
     margin-bottom: 50px;
   }
 
-  .left_hero_text h1 {
+  .left_hero_text > div > img {
+    width: 23px;
+    left: -19px;
+    top: -9px;
+  }
+
+  .left_hero_text > div > h1 {
     font-weight: 800;
     font-size: 24px;
     line-height: 29px;
@@ -696,23 +752,36 @@ html {
   }
 
   .left_hero_text p {
-    font-weight: 400;
+    font-weight: 300;
     font-size: 16px;
     line-height: 155.02%;
     text-align: center;
-    margin: 16px 0;
-    width: 90%;
+    /* margin: 16px 0; */
+    width: 268px;
+  }
+
+  .left_hero_text > section > img {
+    width: 186px;
+    height: 38.08px;
+  }
+
+  .left_hero_text > section > span {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 150%;
+    width: 232px;
   }
 
   .left_hero_text button {
-    /* background: #404245; */
-    width: 138px;
+    width: 110px;
     height: 40px;
-    border-radius: 6px;
-    padding: unset;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 24px;
+    background: #ffffff;
+    border: 0.7px solid #505050;
+    border-radius: 29px;
+
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
   }
 
   .hero_section_image {
@@ -726,8 +795,10 @@ html {
     font-size: 24px;
     line-height: 29px;
     text-align: center;
-    width: 100%;
+    width: 80%;
     color: white;
+    margin: 0 auto;
+    margin-bottom: 25px;
   }
 
   .headers2_mainpage {
@@ -741,10 +812,9 @@ html {
 
   /* steps section ----------------------------------------------------------------- */
 
-  .steps_anchors_mainpage{
+  .steps_anchors_mainpage {
     margin-bottom: 115px;
   }
-
 
   .steps_anchors_mainpage > div {
     flex-direction: column;
@@ -762,6 +832,7 @@ html {
     height: 195px;
     left: 20px;
     top: 21px;
+    gap: 10px;
   }
 
   .steps > div img {
@@ -819,7 +890,7 @@ html {
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
-    width: 60%;
+    width: 52%;
   }
 
   /* facilities  */
@@ -834,34 +905,68 @@ html {
 
   .facilities_boxes {
     grid-template-columns: repeat(1, 1fr);
-    margin-top: 35px;
+    margin-top: 45px;
     gap: 22px;
+  }
+
+  .facilities_boxes > div {
+    width: 285px;
+    height: 161px;
+    background: rgba(57, 58, 61, 0.5);
+  }
+
+  .facilities_boxes > div img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .facilities_boxes > div span {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 161.02%;
+  }
+  .facilities_boxes > div p {
+    width: 90%;
   }
 
   /* eligibility */
 
-  .eligibility_mainpage{
+  .eligibility_mainpage {
     /* padding-top: 10p; */
     margin: 120px 0;
   }
 
   .eligibility_mainpage > p {
-    width: 90%;
-    font-size: 16px;
+    width: 80%;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 147.52%;
+    margin-top: 25px;
   }
 
   .eligibility_mainpage > span {
-    font-size: 16px;
-    text-align: center;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 178.52%;
+    margin-bottom: 13px;
   }
 
   .eligibility_check_section {
     flex-direction: column;
+    margin: 16px 0;
+  }
+
+  .eligibility_check_section input {
+    width: 181px;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 178.52%;
+    height: 39px;
   }
 
   .eligibility_check_section > section {
     margin-right: unset;
-    margin-bottom: 40px;
+    margin-bottom: 25px;
     display: flex;
     align-items: center;
     width: 137%;
@@ -876,31 +981,81 @@ html {
     padding: 8px 12px;
   }
 
-  .eligibility_check_section > section span i{
-    font-size: 31px;
+  .eligibility_check_section > section span i {
+    font-size: 29px;
   }
 
   .eligibility_mainpage button {
-    /* background: #404245; */
-    border-radius: 6px;
-    font-size: 20px;
+    width: 170px;
+    height: 40px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+  }
+
+  /* Connect with us ------------------------- */
+
+  .connect_with_us_wrapper {
+    width: 95vw;
+    flex-direction: column;
+    margin: 120px auto;
+  }
+
+  .connect_with_us_wrapper > img {
+    width: 271px;
+    height: 241px;
+  }
+
+  .connect_with_us_wrapper > div {
+    align-items: center;
+    width: 95%;
+    gap: 27px;
+    max-width: unset;
+  }
+
+  .connect_with_us_wrapper > div > h2 {
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+  }
+
+  .connect_with_us_wrapper > div > p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 147.52%;
+    text-align: center;
+  }
+
+  .connect_with_us_wrapper > div > button {
+    width: 153px;
+    height: 40px;
+
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
   }
 
   /* featured creators ---------------------------------------------------------------------------------------*/
 
-  .featured_creators{
+  .featured_creators {
     margin-top: 125px;
   }
 
   .featured_creators > span {
     color: rgba(255, 255, 255, 0.6);
     text-align: center;
-    font-size: 18px;
     margin-top: 10px;
+    width: 330px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 121.52%;
+    justify-content: center;
   }
 
   .nav_buttons {
-    width: 35%;
+    width: 32%;
     margin-top: 36px;
   }
 
@@ -910,6 +1065,46 @@ html {
 
   .creator_section_cardsection_card1 {
     margin: auto;
+    width: 209.7px;
+    height: 361px;
+  }
+
+  .creator_section_imagetext {
+    width: 209.7px;
+    height: 80px;
+  }
+
+  .creator_section_imagetext_text span:first-of-type {
+    font-weight: 600;
+    font-size: 11.9449px;
+    line-height: 16px;
+  }
+
+  .creator_section_imagetext_text span:last-of-type {
+    font-weight: 400;
+    font-size: 9.29051px;
+    line-height: 15px;
+  }
+
+  .creator_section_icon {
+    width: 38.49px;
+    border-radius: 12.6085px;
+    height: 36.86px;
+  }
+
+  .creator_section_icon > svg {
+    width: 19.73px;
+    height: 19.91px;
+  }
+
+  .nav_buttons button {
+    width: 52px;
+    height: 34px;
+    border-radius: 25px;
+  }
+
+  .nav_buttons button i {
+    font-size: 18px;
   }
 
   /* walls of love */
@@ -922,6 +1117,9 @@ html {
 
   .feedback_box_mainpage {
     margin-bottom: 40px;
+    width: 246px;
+    background: #2e2f31;
+    height: 189px;
   }
 
   .feedback_box_mainpage:nth-child(2n) {
@@ -931,5 +1129,11 @@ html {
   .wall_of_love {
     margin-bottom: 40px;
     margin-top: 115px;
+  }
+
+  .user_name_mainpage {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 178.52%;
   }
 }

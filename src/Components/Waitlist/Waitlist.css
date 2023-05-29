@@ -13,7 +13,7 @@
   align-items: center;
   width: 100%;
   box-sizing: border-box;
-  padding: 10px 30px;
+  padding: 10px 60px;
 }
 
 .logo_waitlist {
@@ -26,86 +26,589 @@
 
 .wailtist_main_section {
   width: 100%;
-  height: 80%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  gap: 100px;
+  background-color: #101010;
+  padding: 50px 0;
 }
 
-/* text types waitlist ---------------------------------------------- */
+/* Hero section wailtist ---------- */
+
+.wailtist_hero_section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  color: #ffffff;
+  gap: 20px;
+}
 
 .wailtist_number_header {
+  width: 152px;
+  height: 128px;
+  background: #18181b;
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   font-family: "Inter";
   font-style: normal;
   font-weight: 700;
-  font-size: 100px;
-  line-height: 121px;
-  color: #ffffff;
+  font-size: 50px;
+  line-height: 61px;
+  color: #ff0000;
 }
 
-.waitlist_header01 {
+.wailtist_hero_section > h2 {
   font-family: "Inter";
   font-style: normal;
-  font-weight: 400;
-  font-size: 29px;
-  line-height: 35px;
-  color: #ffffff;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
 }
 
-.waitlist_header02 {
+.wailtist_hero_section > p {
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
-  line-height: 26px;
+  line-height: 150%;
   text-align: center;
-  color: #ffffff;
-  margin: 27px 0;
-  width: 40%;
+  width: 35%;
 }
 
-.waitlist_header03 {
+.wailtist_hero_section > div {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.wailtist_hero_section > div span {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  left: 153px;
+  background: #464646;
+  border: 2px solid #101010;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
-  line-height: 29px;
-  text-decoration-line: underline;
-  color: #ffffff;
-  cursor: pointer;
-  margin-top: 15px;
+  font-size: 12px;
+  line-height: 140%;
 }
 
-.waitlist_header03:hover{
-  color: rgb(170, 170, 255);
+.wailtist_hero_section > span {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  margin-top: -10px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
 }
 
+/* waitlist_middle_details_section css */
 
+.waitlist_middle_details_section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 60px 0;
+}
 
-
-
-/* Tell us more css --------------------------------------------------------------- */
-
-.wailist_left_side {
+.waitlist_middle_details_section > div {
+  display: flex;
+  align-items: flex-start;
   flex-direction: column;
+  width: 60%;
+  gap: 13px;
 }
 
-.waitlist_img1 {
-  width: 300px;
-  height: 300px;
-}
-
-.waitlist_extra_gyan01 {
+.waitlist_middle_details_section > div > h1 {
   font-family: "Inter";
   font-style: normal;
   font-weight: 600;
-  font-size: 22px;
-  line-height: 39px;
+  font-size: 30px;
+  line-height: 140%;
+  color: #ffffff;
+}
+
+.waitlist_middle_details_section > div > p {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 150%;
+  color: #ffffff;
+  width: 60%;
+}
+
+.waitlist_buttontype {
+  height: 40px;
+  min-width: 160px;
+  background: #ff0000;
+  border-radius: 6px;
+  padding: 0 10px;
+  border: none;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.waitlist_middle_details_section > section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 80px;
+}
+
+.creator_display_data_wailtist {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 3px;
+  cursor: pointer;
+}
+
+.creator_display_data_wailtist > div {
+  width: 119.18px;
+  height: 119.29px;
+  background: #d9d9d9;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.creator_display_data_wailtist > div > img {
+  width: 113.18px;
+  height: 113.29px;
+  border-radius: 100px;
+}
+
+.creator_display_data_wailtist > p {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
   text-align: center;
   color: #ffffff;
-  width: 63%;
-  margin-top: 30px;
+}
+
+.creator_display_data_wailtist > span {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 150%;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Faq wailtist --------------- */
+
+.faq_wailtist_header {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 140%;
+  color: #ffffff;
+}
+
+/* Wailtist invite code --------- */
+.waitlist_invite_section {
+  width: 830px;
+  height: 275px;
+  background: #18181b;
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  gap: 13px;
+}
+
+.waitlist_invite_section > img {
+  margin-bottom: -15px;
+}
+
+.waitlist_invite_section > h1 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 36px;
+  color: #ffffff;
+}
+
+.waitlist_invite_section > section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.waitlist_invite_section > section > input {
+  width: 332px;
+  height: 40px;
+  background: #101010;
+  border: 0.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #7a7a7a;
+  text-transform: uppercase;
+  padding: 0 13px;
+  box-sizing: border-box;
+}
+
+.waitlist_invite_section > section > input:focus {
+  outline: none;
+}
+
+.waitlist_invite_section > div {
+  width: 60%;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 150%;
+  color: #ffffff;
+}
+
+/* text types waitlist ---------------------------------------------- */
+
+/* Tell us more css --------------------------------------------------------------- */
+
+/* Intro tell us more */
+.intro_tellUsMore {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  gap: 19px;
+  width: 70%;
+  margin: auto;
+}
+
+.intro_tellUsMore > h1 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  color: #000000;
+}
+
+.intro_tellUsMore > p {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 161.02%;
+  color: rgba(0, 0, 0, 0.8);
+  width: 85%;
+  /* margin-bottom: 100px; */
+}
+
+.intro_tellUsMore > span {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: rgba(0, 0, 0, 0.6);
+  /* margin-bottom: -30px; */
+}
+
+.intro_tellUsMore > button {
+  width: 430px;
+  height: 55px;
+  background: #212121;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  color: #ffffff;
+}
+
+/* Form css ---------------- */
+
+.tellUsMore_form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  gap: 15px;
+  position: relative;
+  padding: 100px 0;
+  box-sizing: border-box;
+}
+
+.tellUsMore_form > svg {
+  position: absolute;
+  top: 20px;
+  left: 25px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.tellUsMore_form > div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 60%;
+  width: 100%;
+  margin-top: 70px;
+}
+
+.tellUsMore_form > h1 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: #000000;
+}
+
+.tellUsMore_form > p {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  /* identical to box height */
+  text-align: center;
+  letter-spacing: 0.14em;
+  color: #777777;
+}
+
+.tellUsMore_form > span {
+  width: 48px;
+  height: 48px;
+  background: #212121;
+  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.043);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  bottom: 100px;
+  cursor: pointer;
+}
+
+.form_fields_tellusmore {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 6px;
+  width: max-content;
+  margin: auto;
+  justify-content: center;
+}
+
+.form_fields_tellusmore > label {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+  max-width: 310px;
+}
+
+.input_section_tellUsMore {
+  display: flex;
+  align-items: center;
+}
+
+.form_fields_tellusmore > label > span {
+  color: #00000073;
+  font-size: 14px;
+}
+
+.input_form_tellUsMore {
+  box-sizing: border-box;
+  padding: 0 15px;
+  width: 325px;
+  height: 48px;
+  background: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 11px;
+  box-shadow: 0px 5px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+}
+
+.placeholder_Number_tellUsMore {
+  position: absolute;
+  left: 11px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+}
+
+.input_form_tellUsMore:focus {
+  outline: none;
+}
+
+.form_fields_tellusmore > input:focus {
+  outline: none;
+}
+
+.verify_tellusmore {
+  width: 88px;
+  height: 40px;
+  background: #212121;
+  border-radius: 6px;
+  border: none;
+  margin-left: 15px;
+  cursor: pointer;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+}
+
+.wrong_code_tellUsMore {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  width: 100%;
+}
+
+.wrong_code_tellUsMore > span {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 10px;
+  line-height: 12px;
+  color: #f5051b;
+}
+
+.wrong_code_tellUsMore > p {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 15px;
+  text-decoration-line: underline;
+  color: #000000;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.Dropdown_input_wrapper_tellUsMore {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.Dropdown_input_wrapper_tellUsMore > svg {
+  position: absolute;
+  right: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.dropdown_tellUsMore {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.normal_span_dropdown_tell_us_more {
+  width: 100%;
+  height: 40px;
+  background: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 11px;
+  box-sizing: border-box;
+  padding-left: 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  color: #000000;
+}
+
+.normal_span_dropdown_tell_us_more:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+.active_span_dropdown_tell_us_more {
+  background: #000000;
+  color: #ffffff;
+}
+
+.tellUsMore_submitbutton {
+  width: 96px;
+  height: 40px;
+  background: #212121;
+  border-radius: 6px;
+  border: none;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+  cursor: pointer;
+
+  position: absolute;
+  bottom: 100px;
 }
 
 .waitlist_form_area {
@@ -137,5 +640,235 @@
   right: 40px;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 600px) {
+
+  .waitlist_navbar{
+    padding: 15px 13px;
+  }
+
+  .logo_waitlist{
+    width: 150px;
+    height: unset;
+  }
+
+  .creators_navbar_image{
+    right: 20px !important;
+  }
+
+  /* Waitlist hero css ---------------------------- */
+
+  .wailtist_number_header {
+    width: 103px;
+    height: 79px;
+
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 48px;
+  }
+
+  .wailtist_main_section {
+    gap: 25px;
+  }
+
+  .wailtist_hero_section > h2 {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .wailtist_hero_section > p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+    width: 85%;
+  }
+
+  .wailtist_hero_section > div img {
+    width: 128px;
+    height: 32px;
+  }
+
+  .wailtist_hero_section > div span {
+    left: 118px;
+    width: 32px;
+    height: 32px;
+
+    font-weight: 400;
+    font-size: 9px;
+    line-height: 140%;
+  }
+
+  /* Waitlist middle section ---------- */
+
+  .waitlist_middle_details_section {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .waitlist_middle_details_section > div {
+    align-items: center;
+    width: 100%;
+  }
+
+  .waitlist_middle_details_section > h1 {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 140%;
+  }
+
+  .waitlist_middle_details_section > div p {
+    width: 85%;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 150%;
+  }
+
+  .waitlist_middle_details_section > section {
+    gap: 30px;
+  }
+
+  .creator_display_data_wailtist > div {
+    width: 78.79px;
+    height: 78.86px;
+  }
+
+  .creator_display_data_wailtist > div img {
+    width: 72.79px;
+    height: 72.86px;
+  }
+
+  .waitlist_invite_section {
+    width: 90%;
+    height: 226px;
+    gap: 23px;
+  }
+
+  .waitlist_invite_section > h1 {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .waitlist_invite_section > section{
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  /* faq */
+
+  .faq_wailtist_header {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 140%;
+  }
+
+  .tellUsMoreMobilePage {
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background-color: #f7f4f2;
+  }
+
+  .right_tellUSmore {
+    height: 91vh;
+    width: 100%;
+  }
+
+  /* INtro seection ------------------- */
+
+  .intro_tellUsMore {
+    width: 85%;
+    gap: 60px;
+    height: 85vh;
+  }
+
+  .intro_tellUsMore > h1 {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 140%;
+    color: #000000;
+  }
+
+  .intro_tellUsMore > p {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 150%;
+    width: 90%;
+  }
+
+  .intro_tellUsMore > button {
+    width: 272px;
+    height: 40px;
+  }
+
+  .intro_tellUsMore > span {
+    font-weight: 400;
+    font-size: 8px;
+    line-height: 10px;
+    margin-top: -55px;
+  }
+
+  /* form */
+
+  .tellUsMore_form {
+    padding: 100px 18px;
+  }
+
+  .tellUsMore_form > h1 {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  .tellUsMore_form > p {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .tellUsMore_form > svg {
+    top: 42px;
+    left: 19px;
+  }
+
+  .tellUsMore_form > div {
+    margin-top: 40px;
+  }
+
+  .form_fields_tellusmore {
+    align-items: center;
+  }
+
+  .input_section_tellUsMore {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .wrong_code_tellUsMore {
+    flex-direction: column-reverse;
+    gap: 15px;
+    margin-top: 40px;
+  }
+
+  .tellUsMore_form > span {
+    bottom: 0;
+  }
+
+  .tellUsMore_submitbutton {
+    bottom: 0;
+    width: 201px;
+    height: 40px;
+  }
+
+  .normal_span_dropdown_tell_us_more {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+  }
 }

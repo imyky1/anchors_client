@@ -2,14 +2,12 @@ import mixpanel from "mixpanel-browser";
 import React, { useContext, useEffect, useState } from "react";
 import "./Service.css";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import UserLogin from "../../../Login/Users/User_login";
 import Footer2 from "../../../Footer/Footer2";
 import { AiFillStar } from "react-icons/ai";
 import { BsArrowUpCircleFill } from "react-icons/bs";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import fire from "./icons/fire.svg";
 import doc from "./icons/doc.svg";
-import StarIcon from "./icons/star.svg";
 import DocsIcon from "./icons/Icondocs.svg";
 import SheetIcon from "./icons/Iconsheet.svg";
 import VideoIcon from "./icons/Iconvideo.svg";
@@ -102,6 +100,8 @@ function Service(props) {
     return () => {
       document.removeEventListener("scroll", handleScroll);
     };
+
+    // eslint-disable-next-line
   }, [window.scroll]);
 
   const previewService = () => {
@@ -141,6 +141,7 @@ function Service(props) {
     } else {
       localStorage.setItem("url", location.pathname);
     }
+    // eslint-disable-next-line
   }, []);
 
   // filling some data in the page------------------
@@ -154,6 +155,7 @@ function Service(props) {
       document.querySelectorAll("#short_desc_service_page")[0].innerHTML =
         serviceInfo?.sdesc;
     }
+    // eslint-disable-next-line
   }, [serviceInfo]);
 
   // getting user data,feedbacks and many function to run on user login ----------------
@@ -208,6 +210,7 @@ function Service(props) {
         }
       });
     }
+    // eslint-disable-next-line
   }, [localStorage.getItem("jwtToken"), serviceInfo]);
 
   // Used functions----------------------------------------------------------------
@@ -338,6 +341,7 @@ function Service(props) {
   };
 
   const downloadService = async (e) => {
+    mixpanel.track("Get Access")
     e?.preventDefault();
     const ext = serviceInfo.surl?.split(".").at(-1);
     if (localStorage.getItem("jwtToken")) {
@@ -425,6 +429,12 @@ function Service(props) {
       return setOpenModel(true);
     }
   };
+
+
+  const goToDashboardClick = () =>{
+    navigate("/")
+    mixpanel.track("Go to dashboard")
+  }
 
   // handling the status 0 of services ------------------
   if (serviceInfo?.status === 0 || basicCdata?.status === 0) {
@@ -640,7 +650,7 @@ function Service(props) {
                   <button
                     className="download_button_service_page"
                     onClick={() => {
-                      alreadyOrderPlaced ? navigate("/") : downloadService();
+                      alreadyOrderPlaced ? goToDashboardClick() : downloadService();
                     }}
                     disabled={paymentProcessing}
                   >
@@ -665,7 +675,9 @@ function Service(props) {
                     Download or live preview this document and get the access to
                     explore more{" "}
                   </p>
-                  {serviceInfo.allowPreview ? (
+
+                  {/* Preview Now for desktop ----------- */}
+                  {/* {serviceInfo.allowPreview ? (
                     serviceInfo.previewPage > 0 ? (
                       <span
                         className="service_details_text_type07"
@@ -678,7 +690,8 @@ function Service(props) {
                     )
                   ) : (
                     ""
-                  )}
+                  )} */}
+
                 </div>
 
                 <div
@@ -944,13 +957,14 @@ function Service(props) {
           <section
             className="cta_service_details_mobile"
             style={
-              serviceInfo?.allowPreview && serviceInfo?.previewPage
-                ? {}
-                : { padding: "0 10px" }
+              // serviceInfo?.allowPreview && serviceInfo?.previewPage
+              //   ? {}
+              //   : 
+                { padding: "0 10px" }
             }
           >
-            {/* Checking if allow preview is possible */}
-            {serviceInfo.allowPreview ? (
+            {/* Checking if allow preview is possible in mobile --------------------*/}
+            {/* {serviceInfo.allowPreview ? (
               serviceInfo.previewPage > 0 ? (
                 <span
                   className="service_details_text_type07"
@@ -963,17 +977,18 @@ function Service(props) {
               )
             ) : (
               ""
-            )}
+            )} */}
 
             <div
               onClick={() => {
-                alreadyOrderPlaced ? navigate("/") : downloadService();
+                alreadyOrderPlaced ? goToDashboardClick() : downloadService();
               }}
               disabled={paymentProcessing}
               style={
-                serviceInfo?.allowPreview && serviceInfo?.previewPage
-                  ? {}
-                  : {
+                // serviceInfo?.allowPreview && serviceInfo?.previewPage
+                //   ? {}
+                //   : 
+                  {
                       width: "100%",
                       justifyContent: "space-between",
                       padding: "0 20px",
@@ -982,25 +997,29 @@ function Service(props) {
             >
               <p
                 style={
-                  serviceInfo?.allowPreview && serviceInfo?.previewPage
-                    ? {}
-                    : { display: "flex", alignItems: "center", gap: "5px" }
+                  // serviceInfo?.allowPreview && serviceInfo?.previewPage
+                  //   ? {}
+                  //   : 
+                    { display: "flex", alignItems: "center", gap: "5px" }
                 }
               >
                 {serviceInfo?.isPaid && <span>{serviceInfo?.smrp}</span>}
                 {serviceInfo?.isPaid ? (
                   "₹" + serviceInfo?.ssp
-                ) : serviceInfo?.allowPreview && serviceInfo?.previewPage ? (
-                  "Free"
-                ) : (
+                ) : 
+                // serviceInfo?.allowPreview && serviceInfo?.previewPage ? (
+                //   "Free"
+                // ) : 
+                (
                   <p className="free_price_secription_service_page">FREE</p>
                 )}
               </p>
               <span
                 style={
-                  serviceInfo?.allowPreview && serviceInfo?.previewPage
-                    ? {}
-                    : { background: "unset", color: "#FFFFFF" }
+                  // serviceInfo?.allowPreview && serviceInfo?.previewPage
+                  //   ? {}
+                  //   : 
+                    { background: "unset", color: "#FFFFFF" }
                 }
               >
                 {alreadyOrderPlaced
@@ -1062,7 +1081,7 @@ function Service(props) {
                 )}
                 <button
                   onClick={() => {
-                    alreadyOrderPlaced ? navigate("/") : downloadService();
+                    alreadyOrderPlaced ? goToDashboardClick() : downloadService();
                   }}
                   disabled={paymentProcessing}
                 >

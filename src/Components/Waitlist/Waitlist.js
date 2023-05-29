@@ -9,27 +9,341 @@ import CreatorInfo from "../Modals/CreatorProfile/Modal1";
 import { creatorContext } from "../../Context/CreatorState";
 import HelpModal from "../Modals/ModalType01/HelpModal";
 import mixpanel from "mixpanel-browser";
+import { Footer3 } from "../Footer/Footer2";
+import himanshu from "../../Utils/Images/himanshuk.png";
+import SignupModal from "../Modals/ModalType01/SignupModal";
+import Confetti from "react-confetti";
+
+const FAQDetails = [
+  {
+    question: "What is invite code ?",
+    answer:
+      "An invite code is a unique access key that allows creators to join anchors, an exclusive platform for premium creators community",
+  },
+  {
+    question: "How to use invite code ?",
+    answer:
+      "To use an invite code, simply enter it in the invite code box above.",
+  },
+  {
+    question: "How to get ahead in the waitlist queue ?",
+    answer:
+      "To increase your chances of moving up in the waitlist queue, engage with the anchors creators and ask for invite code from them.",
+  },
+  {
+    question: "How to get invite code ?",
+    answer:
+      "You can ask for the code & get it from the creators already registered on anchors",
+  },
+];
+
+const CreatorsWaitlist = [
+  {
+    cimg: "https://www.anchors.in:5000/api/file/1670005634078--himanshu.bf15583cd698b88970c3.jpg",
+    cname: "Himanshu Shekhar",
+    tag: "68K Followers",
+    link: "https://www.linkedin.com/in/himanshushekhar16/",
+  },
+  {
+    cimg: himanshu,
+    cname: "Himanshu Kumar",
+    tag: "130K Followers",
+    link: "https://www.linkedin.com/in/himanshukumarmahuri/",
+  },
+];
+
+const WaitlistHero = ({ wNumber }) => {
+  return (
+    <div className="wailtist_hero_section">
+      <section className="wailtist_number_header">{wNumber}</section>
+      <h2>Congratulations!</h2>
+      <p>
+        You have successfully joined our waitlist. We'll let you know as soon as
+        a spot opens up and you can claim your spot.
+      </p>
+      <div>
+        <img src={require("../../Utils/Images/creatorCombined.png")} alt="" />
+        {wNumber && <span>+{wNumber - 5}</span>}
+      </div>
+      {wNumber && <span>{`${wNumber - 1} Creators Ahead`}</span>}
+    </div>
+  );
+};
+
+const WaitlistMiddleSection = () => {
+  return (
+    <div className="waitlist_middle_details_section">
+      <div>
+        <h1>Don't wait any Longer! </h1>
+        <p>
+          Accelerate your waitlist journey with an exclusive invite code.
+          Connect with our creators to get it . Why wait when you can jump
+          ahead?
+        </p>
+        {/* <button className="waitlist_buttontype"><a href="#inviteCodeAccess" style={{textDecoration:"none",color:"unset"}}>Get Invite Access</a></button> */}
+      </div>
+
+      <section>
+        {CreatorsWaitlist?.map((e) => {
+          return (
+            <div
+              className="creator_display_data_wailtist"
+              key={e?.cname}
+              onClick={() => {
+                window.open(e?.link);
+              }}
+            >
+              <div>
+                <img src={e?.cimg} alt="" />
+              </div>
+              <p>{e?.cname}</p>
+              <span>{e?.tag}</span>
+            </div>
+          );
+        })}
+      </section>
+    </div>
+  );
+};
+
+const WailtistInviteCodeSection = () => {
+  const [inviteCode, setInviteCode] = useState();
+  const [allreadyFilled, setAllreadyFilled] = useState(false);
+  const [codeApplied, setCodeApplied] = useState(false);
+  const [formPassed, setFormPassed] = useState(false)
+  const [formData, setFormData] = useState({ platform: "", followers: 0 });
+
+  const {
+    verifyInviteCode,
+    UpdateCodeInTellUsMoreForm,
+    getTellUsMoreFormData,
+    updateStatus,
+  } = useContext(creatorContext);
+
+  const handleChange = (e) => {
+    setInviteCode(e.target.value);
+  };
+  
+
+  const VerifyCode = () => {
+    if (inviteCode?.length > 0) {
+      let process = verifyInviteCode(inviteCode).then((e) => {
+        if (e?.success) {
+          if (e?.verified) {
+            UpdateCodeInTellUsMoreForm(inviteCode.toUpperCase()).then((e) => {
+              if (e) {
+                setCodeApplied(true);
+                const result = CheckUpdation()
+                if(result){
+                  window.scrollTo(0,0)
+                  updateStatus()
+                  setFormPassed(true)
+                }
+              } else {
+                toast.info("Couldn't update the Code, Please Try Again!!", {
+                  position: "top-center",
+                  autoClose: 2500,
+                });
+              }
+            });
+          } else {
+            toast.error("Incorrect Code Used, Try Again!!", {
+              position: "top-center",
+              autoClose: 2000,
+            });
+          }
+        } else {
+          toast.error("Some error occured while checking, Try again", {
+            position: "top-center",
+            autoClose: 1500,
+          });
+        }
+      });
+
+      toast.promise(
+        process,
+        {
+          pending: "Please Wait..",
+          error: "Try Again by reloading the page!",
+        },
+        {
+          position: "top-center",
+          autoClose: 2000,
+        }
+      );
+    }
+  };
+
+  const CheckUpdation = () => {
+    switch (formData?.platform) {
+      case "LinkedIn":
+        if (parseInt(formData?.followers) > 10000) {
+          return true
+        } else {
+          return false
+        }
+        
+      case "Youtube":
+        if (parseInt(formData?.followers) > 10000) {
+          return true
+        } else {
+          return false
+        }
+        
+      case "Instagram":
+        if (parseInt(formData?.followers) > 10000) {
+          return true
+        } else {
+          return false
+        }
+        
+      case "Telegram":
+        if (parseInt(formData?.followers) > 5000) {
+          return true
+        } else {
+          return false
+        }
+        
+      case "Facebook":
+        if (parseInt(formData?.followers) > 5000) {
+          return true
+        } else {
+          return false
+        }
+        
+
+      default:
+        return false
+        
+    }
+  };
+
+  useEffect(() => {
+    getTellUsMoreFormData().then((e) => {
+      setFormData({platform:e?.form?.platform,followers:e?.form?.followers})
+      if (e?.form?.inviteCode.length > 0) {
+        setInviteCode(e?.form?.inviteCode);
+        setAllreadyFilled(true);
+      }
+    });
+  }, []);
+
+  return (
+    <>
+      {formPassed && (
+        <>
+          <SignupModal />
+          <Confetti width={window.screen.width} height={window.screen.height} />
+        </>
+      )}
+
+      <div className="waitlist_invite_section" id="inviteCodeAccess">
+        {window.screen.width > 600 && <img src={require("../../Utils/Images/rocketicon.png")} alt="" />}
+        <h1>Do you have the Invite Code</h1>
+        <section>
+          <input
+            type="text"
+            onChange={handleChange}
+            disabled={allreadyFilled || codeApplied}
+            value={inviteCode}
+            onKeyDown={(e)=>{if(e?.key === "Enter"){VerifyCode()}}}
+          />
+          <button
+            className="waitlist_buttontype"
+            style={
+              allreadyFilled
+                ? { background: "#7B7B7B" }
+                : codeApplied
+                ? { background: "#58D96E" }
+                : {}
+            }
+            onClick={VerifyCode}
+            disabled={allreadyFilled || codeApplied}
+          >
+            {allreadyFilled
+              ? "Code Applied"
+              : codeApplied
+              ? "Code Applied"
+              : "Enter"}
+          </button>
+        </section>
+        <div>Invite Code help you to jump the Queue</div>
+      </div>
+    </>
+  );
+};
+
+const WaitlistFAQs = ({ data }) => {
+  const handleClick = (e) => {
+    let accordionItemHeader = document.getElementById(e.target.id);
+    accordionItemHeader.classList.toggle("active");
+    const accordionItemBody = accordionItemHeader.nextElementSibling;
+    if (accordionItemHeader.classList.contains("active")) {
+      accordionItemBody.style.maxHeight = accordionItemBody.scrollHeight + "px";
+    } else {
+      accordionItemBody.style.maxHeight = 0;
+    }
+  };
+
+  return (
+    <div className="faq_pricing_wrapper">
+      <h1 className="faq_wailtist_header">Frequently Asked Question</h1>
+      <div className="accordion">
+        {data?.map((e, i) => {
+          return (
+            <div className="accordion-item" key={i}>
+              <div
+                className="accordion-item-header"
+                onClick={handleClick}
+                id={`FAQ${i}`}
+              >
+                {e?.question}
+              </div>
+              <div className="accordion-item-body">
+                <div className="accordion-item-body-content">{e?.answer}</div>
+              </div>
+              {/* <!-- /.accordion-item-body --> */}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 function Waitlist() {
   const navigate = useNavigate();
   const [openCreatorModal, setOpenCreatorModal] = useState(false);
   const [openHelpModal, setOpenHelpModal] = useState(false);
   const [wNum, setWNum] = useState(null);
-  const { getAllCreatorInfo, allCreatorInfo, basicNav, getWaitlistNumber } =
-    useContext(creatorContext);
-
+  const {
+    getAllCreatorInfo,
+    allCreatorInfo,
+    basicNav,
+    getWaitlistNumber,
+    getTellUsMoreFormData,
+  } = useContext(creatorContext);
 
   // Visited page mix panel
   useEffect(() => {
     mixpanel.track("Visited Waitlist Page");
   }, []);
 
-
-
   // responsible for getting the page data -----------------------------------
   useEffect(() => {
     const process = async () => {
       await getAllCreatorInfo();
+      getTellUsMoreFormData().then((e) => {
+        if (e?.success && !e?.already) {
+          toast.info("Please fill the tell us more form", {
+            position: "top-center",
+            autoClose: 2000,
+          });
+          setTimeout(() => {
+            navigate("/tellusmore");
+          }, 2000);
+        }
+      });
       let e = await getWaitlistNumber();
       setWNum(e?.wNumber);
     };
@@ -49,20 +363,21 @@ function Waitlist() {
     process();
   }, []);
 
-
   // redirection ------------------------------------------
-  if(basicNav?.status !== 0){       // logout the person then give him message
-    navigate("/")
-    return null
+  if (basicNav?.status !== 0) {
+    // logout the person then give him message
+    navigate("/");
+    return null;
   }
-  
 
   return (
     <>
       <ToastContainer />
       <CreatorInfo
         open={openCreatorModal}
-        openHelp = {()=>{setOpenHelpModal(true)}}
+        openHelp={() => {
+          setOpenHelpModal(true);
+        }}
         toClose={() => {
           setOpenCreatorModal(false);
         }}
@@ -70,7 +385,12 @@ function Waitlist() {
         alternateInfo={allCreatorInfo}
       />
 
-      <HelpModal open={openHelpModal} toClose={()=>{setOpenHelpModal(false)}}/>
+      <HelpModal
+        open={openHelpModal}
+        toClose={() => {
+          setOpenHelpModal(false);
+        }}
+      />
 
       <div className="waitlist_wrapper">
         {/* Waitlist navbar ----------------------------------------------------------------------- */}
@@ -108,16 +428,14 @@ function Waitlist() {
 
         {/* Wailtist main Deatisl section ------------------------------------------------------ */}
         <section className="wailtist_main_section">
-          <h1 className="wailtist_number_header">{wNum}</h1>
-          <h2 className="waitlist_header01">Waitlist Number</h2>
-          <p className="waitlist_header02">
-          Cheers! You're successfully added to our waitlist. We'll notify you as soon as a spot opens up. Hang on!
-          </p>
-          <span className="waitlist_header03" onClick={()=>{window.open("https://bit.ly/anchors-invite-code")}}>
-          Skip the Waitlist. I have an INVITE CODE.
-          </span>
+          <WaitlistHero wNumber={wNum} />
+          <WaitlistMiddleSection />
+          <WailtistInviteCodeSection />
+          <WaitlistFAQs data={FAQDetails} />
         </section>
+        <Footer3 />
       </div>
+
       <SuperSEO title="Anchors - Waitlist" />
     </>
   );

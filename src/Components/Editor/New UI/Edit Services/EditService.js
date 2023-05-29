@@ -14,6 +14,7 @@ import {
   Tags1,
   TextField1,
   UploadField1,
+  UploadField2,
 } from "../Create Services/InputComponents/fields_Labels";
 import SuccessService from "../../../Modals/ServiceSuccess/Modal";
 import getCroppedImg, { generateDownload } from "../../../helper/imageresize";
@@ -22,10 +23,9 @@ import { Button1 } from "../Create Services/InputComponents/buttons";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { toast } from "react-toastify";
 
-function EditService(props) {
+function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefaultBannerFormData}) {
   const navigate = useNavigate();
   const { slug, servicetype } = useParams();
-  const [showPopup, setshowPopup] = useState(false); // success popup
 
   // Contexts -----------------
   const {
@@ -54,8 +54,6 @@ function EditService(props) {
   const [Content, setContent] = useState();
   const [BannerImage, setBannerImage] = useState();
 
-  const [textToShow, setTextToShow] = useState("");
-
   // state for image cropping
   const [imagetocrop, setImageToCrop] = useState(null);
   const [openimagePreview, setImagePreview] = useState(false);
@@ -64,13 +62,9 @@ function EditService(props) {
   const [allowPreview, setAllowPreview] = useState(false);
   const [noOfPage, setNoOfPages] = useState(0);
   const [ServiceDoc, setServiceDoc] = useState();
-  const [showdefaultselect, setShowDefaultSelect] = useState(true); // show the default preview banner or not
-  const DefaultCanvas = useRef(null);
 
   // default banner
   const [defaultbanner, setDefaultBanner] = useState(false);
-  // const [defaultBannerPreview, setDefaultBannerPreview] = useState(false);
-  const [defaultBannerUrl, setURLBANNER] = useState(null);
 
   // form data for uploads -----
   const data1 = new FormData();
@@ -85,20 +79,14 @@ function EditService(props) {
     x: 0,
     y: 0,
   });
-  const imageref = useRef(null);
 
   const [zoom, setZoom] = useState(1);
 
   const onCropComplete = (croppedAreaPercentage, croppedAreaPixels) => {
     setCroppedArea(croppedAreaPixels);
   };
-  const openimageresizebar = () => {
-    setImagePreview((prev) => !prev);
-  };
 
-  const downloadcroppedimage = () => {
-    generateDownload(imagetocrop, croppedArea);
-  };
+
   const savecroppedImage = async () => {
     const img = await getCroppedImg(
       imagetocrop,
@@ -111,9 +99,6 @@ function EditService(props) {
 
   // changes handling in input field ---------------------------------
   const handleChange = (e) => {
-    if (e.target.name === "sname") {
-      setTextToShow(e.target.value);
-    }
     setdata({ ...data, [e.target.name]: e.target.value });
   };
 
@@ -122,8 +107,6 @@ function EditService(props) {
     if (defaultbanner) {
       setDefaultBanner(false);
     }
-    setShowDefaultSelect(false);
-
     const file = e.target.files[0];
     setZoom(1);
     setCrop({ x: 0, y: 0 });
@@ -138,17 +121,38 @@ function EditService(props) {
     }
   };
 
+   //Edit control of default banner button ------------
+   const EditOptionDefaultBanner = () =>{
+    setDefaultBannerData({sname:data?.sname,cname:cname,type:servicetype})
+    openDefaultBanner()
+  }
+
   // On submit func-----------------
 
   const onSubmit = async (e) => {
-    props.progress(0);
+    progress(0);
     setOpenLoading(true);
     e?.preventDefault();
     if (data.sname.length > 3 && Content.length > 10) {
       try {
-        if (BannerImage) {
+        var banner;
+        if (BannerImage || defaultbanner) {
           // to check if the creator has uploaded banner image o upload
-          var banner = await Uploadfile(data1);
+          if (defaultbanner) {
+            if(FinalDefaultBannerFormData instanceof FormData){
+              banner = await Uploadfile(FinalDefaultBannerFormData)
+            }
+            else{
+              toast.info(`Save the default banner design from the Edit Option`, {
+                position: "top-center",
+                autoClose: 2500,
+              });
+              setOpenLoading(false)
+              return null;
+            }
+          } else {
+            banner = await Uploadfile(data1); /// uplaoding banner and files on s3
+          }
         } else {
           banner = { url: serviceInfo?.simg };
         }
@@ -168,10 +172,10 @@ function EditService(props) {
           smrp: paid === "Free" ? 0 : data.smrp,
           ssp: paid === "Free" ? 0 : data.ssp,
           allowPreview,
-          noOfPage : allowPreview ? noOfPage : 0
+          noOfPage
         };
         updateService(serviceInfo?._id, newData).then((e) => {
-          if (e) {
+          if (e?.success) {
             toast.success("Service Edited Succesfully", {
               position: "top-center",
               autoClose: 1500,
@@ -201,7 +205,7 @@ function EditService(props) {
       });
     }
     setOpenLoading(false);
-    props.progress(100);
+    progress(100);
   };
 
   // useffect get details of the service from slug -------------------------------------------
@@ -225,9 +229,10 @@ function EditService(props) {
     });
     setTags(serviceInfo?.tags);
     setContent(serviceInfo?.ldesc);
+    setNoOfPages(serviceInfo?.noOfPages)
+
     if(serviceInfo?.allowPreview){
         setAllowPreview(serviceInfo?.allowPreview)
-        setNoOfPages(serviceInfo?.previewPage)
     }
     if (serviceInfo?.isPaid) {
       setpaid("Paid");
@@ -240,7 +245,7 @@ function EditService(props) {
     <>
       {openLoading && <LoadTwo open={openLoading} />}
 
-      {showPopup && <SuccessService type={servicetype} link={data.CopyURL} />}
+      {/* {showPopup && <SuccessService type={servicetype} link={data.CopyURL} />} */}
       <div className="main_create_container">
         {/* Heading of the create section ------------------------ */}
         <section className="heading_create_box">
@@ -290,64 +295,42 @@ function EditService(props) {
                 onChange={handleChange}
               />
             )}
-            <UploadField1
+             <UploadField2
               label="Upload Banner Image"
               id="asdas"
               info="File Size Limit 15 MB Formats - jpg,png"
               FileType=".jpg,.png,.jpeg"
               required={true}
               onChange={setBannerImage}
+              disabled = {defaultbanner}
               onChangeFunction={handleChangeFileBanner}
+              defaultRadioLabel = "Use Default Image"
+              defaultRadioOnChange={(e) => {
+                e.target.checked
+                  ? setDefaultBanner(true)
+                  : setDefaultBanner(false)
+              }}
             />
-            <a href={serviceInfo?.simg} target="_blank">
+            <span className="preview_edit_service" onClick={()=>{window.open(serviceInfo?.simg)}} >
               Preview Banner
-            </a>
+            </span>
 
-            {BannerImage ? (
+            {(BannerImage || defaultbanner) ? (
               <>
                 {" "}
                 <Button
                   variant="outlined"
-                  onClick={openimageresizebar}
+                  onClick={()=>{defaultbanner ? EditOptionDefaultBanner() : setImagePreview((prev) => !prev)}}
                   className="imageresizeopenerbutton"
                 >
-                  Preview Image and Resize
+                  {defaultbanner ? "Edit default Banner" : "Preview Image and Resize"}
                 </Button>
                 <br />
               </>
             ) : (
               ""
             )}
-            {showdefaultselect ? (
-              <div className="radiofiled_container_01 min-heightfield">
-                <span className="label_type_02">Use Default Image </span>
-                <label className="switch_type_01">
-                  <input
-                    type="checkbox"
-                    onChange={(e) =>
-                      e.target.checked
-                        ? setDefaultBanner(true)
-                        : setDefaultBanner(false)
-                    }
-                  />
-                  <span className="slider_type_01 round_type_01"></span>
-                </label>
-                {/* {defaultbanner ? (
-              <Button
-                variant="outlined"
-                onClick={setDefaultBannerPreview}
-                className="imageresizeopenerbutton"
-                style={{ marginLeft: "25px" }}
-              >
-                Preview Default Banner
-              </Button>
-            ) : (
-              ""
-            )} */}
-              </div>
-            ) : (
-              ""
-            )}
+            
             <Editor1
               label="Describe about Service"
               placeholder="Please describe about your service briefly"
@@ -406,10 +389,10 @@ function EditService(props) {
                   : ""
               }
             />
-            <a href={serviceInfo?.surl} target="_blank">
-              Preview Document
-            </a>
-            <section style={{ marginTop: "47px" }}></section>
+            <span className="preview_edit_service" onClick={()=>{window.open(serviceInfo?.stype === 1 ? "/viewExcel" : "/viewPdf"); sessionStorage.setItem("link", serviceInfo?.surl);}}>
+              {`Preview ${servicetype === "excel" ? "Excel Sheet" : "Document"}`}
+            </span>
+
             <Tags1
               label="Enter Tags"
               placeholder="Press enter to add tags"
@@ -469,14 +452,15 @@ function EditService(props) {
                   onChange={(e) => setNoOfPages(e.target.value)}
                   value={noOfPage}
                 />
-                <RadioField1
+
+                {/* <RadioField1
                   label={
                     servicetype === "video" ? "Allow Download" : "Allow Preview"
                   }
                   onChange={setAllowPreview}
                   value={allowPreview}
                   id="asdas"
-                />
+                /> */}
               </div>
             </section>
           </section>
@@ -566,39 +550,7 @@ function EditService(props) {
       ) : (
         ""
       )}
-      <SuperSEO title="Anchors - Create Service" />
-      {/* {generateBanner ? (
-        <Canvas
-          textToShow={textToShow}
-          width="1200"
-          height="450"
-          imgBackground={allCreatorInfo.profile}
-          creator_name={basicNav.name}
-          setURL={setURLBANNER}
-        />
-      ) : (
-        ""
-      )} */}
-      {/* <Modal
-      open={defaultBannerPreview}
-      onClose={() => setDefaultBannerPreview(false)}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <div className="ultimatewrapper_defaultbanner">
-        <div className="container_defaultbanner">
-          <Canvas
-            textToShow={data.sname}
-            width="1200"
-            height="450"
-            imgBackground="https://www.anchors.in:5000/api/file/1670005634078--himanshu.bf15583cd698b88970c3.jpg"
-            imgBack="../backgroundimg.png"
-            creator_name="HIMANSHU SHEKHAR"
-            setURL={setURLBANNER}
-          />
-        </div>
-      </div>
-    </Modal> */}
+      <SuperSEO title="Anchors - Edit Service" />
     </>
   );
 }

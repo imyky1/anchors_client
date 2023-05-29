@@ -304,27 +304,27 @@ function Service(props) {
     document.body.appendChild(script);
   };
 
-  const downloadFile = (type) => {
-    let oReq = new XMLHttpRequest();
-    let URLToPDF = serviceInfo?.surl;
-    oReq.open("GET", URLToPDF, true);
-    oReq.setRequestHeader(
-      "Access-Control-Allow-Origin",
-      "https://www.anchors.in"
-    );
-    oReq.setRequestHeader("Access-Control-Allow-Methods", "GET");
+  // const downloadFile = (type) => {
+  //   let oReq = new XMLHttpRequest();
+  //   let URLToPDF = serviceInfo?.surl;
+  //   oReq.open("GET", URLToPDF, true);
+  //   oReq.setRequestHeader(
+  //     "Access-Control-Allow-Origin",
+  //     "https://www.anchors.in"
+  //   );
+  //   oReq.setRequestHeader("Access-Control-Allow-Methods", "GET");
 
-    oReq.responseType = "blob";
+  //   oReq.responseType = "blob";
 
-    oReq.onload = function () {
-      let file = new Blob([oReq.response], {
-        type: `application/${type}`,
-      });
+  //   oReq.onload = function () {
+  //     let file = new Blob([oReq.response], {
+  //       type: `application/${type}`,
+  //     });
 
-      saveAs(file, `${serviceInfo?.sname}.${type}`);
-    };
-    oReq.send();
-  };
+  //     saveAs(file, `${serviceInfo?.sname}.${type}`);
+  //   };
+  //   oReq.send();
+  // };
 
   const download_service = async (e) => {
     e.preventDefault();
@@ -337,32 +337,14 @@ function Service(props) {
         ).then((e) => {
           // user already paid for the order
           if (e) {
-            //if (ext === "pdf") {
-            //  downloadFile("pdf");
-            //  mixpanel.track("Downloaded paid pdf again", {
-            //    service: slug,
-            //    user: UserDetails ? UserDetails : "",
-            //    amount: serviceInfo?.ssp,
-            //    creator: basicCdata?.slug,
-            //  });
-            //} else if (ext === "mp4") {
-            //  downloadFile("mp4");
-            //  mixpanel.track("Downloaded paid pdf again", {
-            //    service: slug,
-            //    user: UserDetails ? UserDetails : "",
-            //    amount: serviceInfo?.ssp,
-            //    creator: basicCdata?.slug,
-            //  });
-            //} else {
-            // if (ext === "xls" || "xlsx") {
-            //   console.log(ext);
-            //   setPaymentProcessing(false);
-            //   return;
-            // }
             if (ext === "pdf") {
-              console.log("wow");
               sessionStorage.setItem("link", serviceInfo.surl);
               window.open("/viewPdf");
+              setPaymentProcessing(false);
+              return;
+            } else if (ext === "xls" || "xlsx") {
+              sessionStorage.setItem("link", serviceInfo.surl);
+              window.open("/viewExcel");
               setPaymentProcessing(false);
               return;
             } else {

@@ -598,4 +598,12 @@ function PDF3() {
   );
 }
 
-export default Test3;
+function VideoCheck(){
+  return(
+    <video controls>
+      <source src="https://check-555.s3.ap-south-1.amazonaws.com/2023-01-18+22-53-31.mp4" type="video/mp4" />
+    </video>
+  )
+}
+
+export default VideoCheck;

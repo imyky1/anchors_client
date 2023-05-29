@@ -148,7 +148,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
         {userData?.inviteCode && (
           <section className="invite_sidebar">
             <h3>INVITE CODE</h3>
-            <span>Share & avail EXCLUSIVE benefits!*<br/>-limited time offer</span>
+            <span>Share & avail EXCLUSIVE <a href="https://go.anchors.in/invite-code-benefit" target="_blank" style={{color:"unset"}}>benefits</a>!*<br/>-limited time offer</span>
             <div
               onClick={() => {
                 toast.info("Invite Code Copied Successfully", {

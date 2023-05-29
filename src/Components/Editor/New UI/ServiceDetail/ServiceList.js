@@ -21,7 +21,7 @@ import { LoadTwo } from "../../../Modals/Loading";
 import { Email_Model2 } from "../../../Modals/Email_Modal";
 import ChangeStatusModal from "../../../Modals/ServiceSuccess/Modal2";
 import { Button1 } from "../Create Services/InputComponents/buttons";
-import {AiOutlinePlus} from "react-icons/ai"
+import { AiOutlinePlus } from "react-icons/ai";
 
 function ServiceDetailPage(props) {
   const [openLoading, setOpenLoading] = useState(false);
@@ -40,10 +40,9 @@ function ServiceDetailPage(props) {
     // eslint-disable-next-line
   }, []);
 
-
   // no need of reversing the array of serices it is inverted from backend
   useEffect(() => {
-    setdummyData(services?.dummy)
+    setdummyData(services?.dummy);
     let list = services?.res;
     if (selected === "pdf") {
       setrevArray(
@@ -175,7 +174,7 @@ function ServiceDetailPage(props) {
       <div className="servicelist-wrapper" onClick={() => removeOptionPopup()}>
         <h1 className="headers_section_paymentInfo">My Content</h1>
         <span className="servicelist_wrap_span">
-        Access and Manage your Content & Services
+          Access and Manage your Content & Services
         </span>
         <div className="servicelist-categories">
           <div
@@ -239,7 +238,21 @@ function ServiceDetailPage(props) {
                     <>
                       <TableRow>
                         <TableCell align="center">{i + 1}</TableCell>
-                        <TableCell align="center" onClick={()=>{window.open(`/s/${elem?.slug}`)}} style={{cursor:"pointer"}} onMouseOver={(e)=>{e.target.style.color = "blue"}} onMouseOut={(e)=>{e.target.style.color = "black"}}>{elem.sname}</TableCell>
+                        <TableCell
+                          align="center"
+                          onClick={() => {
+                            window.open(`/s/${elem?.slug}`);
+                          }}
+                          style={{ cursor: "pointer" }}
+                          onMouseOver={(e) => {
+                            e.target.style.color = "blue";
+                          }}
+                          onMouseOut={(e) => {
+                            e.target.style.color = "black";
+                          }}
+                        >
+                          {elem.sname}
+                        </TableCell>
                         <TableCell align="center">
                           {elem.isPaid ? "Paid" : "Free"}
                         </TableCell>
@@ -261,7 +274,7 @@ function ServiceDetailPage(props) {
                           <span
                             className="servicelist_icon"
                             onClick={() => {
-                              !dummyData &&
+                              !dummyData && elem.downloads !== 0 &&
                                 window.open(
                                   `/viewUserDetails/${elem.slug}`,
                                   "_blank"
@@ -293,9 +306,11 @@ function ServiceDetailPage(props) {
                             className="servicelist_icon iconalign"
                             onClick={() => {
                               elem.copyURL
-                                ? navigator.clipboard.writeText(
-                                    `https://www.anchors.in/r/${elem.copyURL}`
-                                  )
+                                ? elem.copyURL.length > 7
+                                  ? navigator.clipboard.writeText(elem.copyURL)
+                                  : navigator.clipboard.writeText(
+                                      `https://www.anchors.in/r/${elem.copyURL}`
+                                    )
                                 : navigator.clipboard.writeText(
                                     `https://www.anchors.in/s/${elem.slug}`
                                   );
@@ -328,7 +343,15 @@ function ServiceDetailPage(props) {
                                 <div
                                   className="modaloptions_servicelist"
                                   onClick={() => {
-                                    navigate(`/editservice/${elem.slug}/${elem?.stype === 2 ? "video" : elem?.stype === 1 ? "excel" : "pdf"}`);
+                                    navigate(
+                                      `/editservice/${elem.slug}/${
+                                        elem?.stype === 2
+                                          ? "video"
+                                          : elem?.stype === 1
+                                          ? "excel"
+                                          : "pdf"
+                                      }`
+                                    );
                                   }}
                                 >
                                   Edit Service
@@ -376,11 +399,22 @@ function ServiceDetailPage(props) {
           </TableContainer>
         </div>
 
-        {dummyData && <div className="cta_dummy_data">
-        <span>This is sample data , start creating your first service for your data</span>
-        <Button1 text="Create your First Service" icon={<AiOutlinePlus size={18} width={30}/>} width="268px" onClick={()=>{navigate("/dashboard")}}/>
-      </div>}
-
+        {dummyData && (
+          <div className="cta_dummy_data">
+            <span>
+              This is sample data , start creating your first service for your
+              data
+            </span>
+            <Button1
+              text="Create your First Service"
+              icon={<AiOutlinePlus size={18} width={30} />}
+              width="268px"
+              onClick={() => {
+                navigate("/dashboard");
+              }}
+            />
+          </div>
+        )}
       </div>
       <ToastContainer />
 

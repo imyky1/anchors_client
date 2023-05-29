@@ -111,9 +111,9 @@ function Users(props) {
         <div className="servicelist-wrapper">
           <div className="servicestat_heading">
             <div className="servicestat_leftheading">
-              <h1 style={{margin:"5px"}}>List of Users Registered </h1>
+              <h1 style={{margin:"5px"}}>List of users</h1>
               <span className="servicelist_wrap_span">
-                Get your detailed Registered Users here.
+              Access a list of users who have used this service
               </span>
             </div>
 
@@ -126,7 +126,7 @@ function Users(props) {
                     : navigate(`/servicestats/${slug}?service=workshop`);
                 }}
               >
-                Event Detailed Analysis
+                Check detailed Analysis
               </button>
             </div>
           </div>

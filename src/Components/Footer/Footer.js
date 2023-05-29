@@ -20,7 +20,7 @@ function Footer() {
           <section className="upper_footer_section">
             <div className="anchors_details">
               {/* <span>Monetize your <span style={{color: "rgb(255 255 255)",fontWeight: "600"}}>Content, skill, Expertise</span> and help your audience to grow.</span> */}
-              <span>An Exclusive Platform for the Creators' Community</span>
+              <span>An invite-only exclusive platform  for premium creators</span>
               <button
                 onClick={() => {
                   navigate("/login/creators");

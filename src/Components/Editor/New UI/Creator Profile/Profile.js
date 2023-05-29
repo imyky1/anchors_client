@@ -104,16 +104,6 @@ function Profile() {
 
   // Used functions----------------------------------------
 
-  const userlogout = () => {
-    navigate("/logout");
-  };
-
-  const handleLogoClick = () => {
-    mixpanel.track("User Dashboard from LOGO", {
-      user: UserDetails ? UserDetails : "",
-    });
-    navigate(`/`);
-  };
 
   // checks for a status 0 creator
   if (basicCdata.status === 0) return alert("The Creator doesn't exist");
@@ -179,6 +169,7 @@ function Profile() {
                 <button
                   className="request_resource_button_creator_profile"
                   onClick={() => {
+                    mixpanel.track("Request Resources")
                     setOpenModelRequest(true);
                   }}
                 >
@@ -192,6 +183,7 @@ function Profile() {
                 {basicCreatorInfo?.teleLink && (
                   <FaTelegramPlane
                     onClick={() => {
+                      mixpanel.track("Telegram redirect")
                       window.open(basicCreatorInfo?.teleLink);
                     }}
                   />
@@ -199,6 +191,7 @@ function Profile() {
                 {basicCreatorInfo?.linkedInLink && (
                   <FaLinkedinIn
                     onClick={() => {
+                      mixpanel.track("Linkedin redirect")
                       window.open(basicCreatorInfo?.linkedInLink);
                     }}
                   />
@@ -206,6 +199,7 @@ function Profile() {
                 {basicCreatorInfo?.instaLink && (
                   <AiFillInstagram
                     onClick={() => {
+                      mixpanel.track("Instagram redirect")
                       window.open(basicCreatorInfo?.instaLink);
                     }}
                   />
@@ -213,6 +207,7 @@ function Profile() {
                 {basicCreatorInfo?.ytLink && (
                   <AiFillYoutube
                     onClick={() => {
+                      mixpanel.track("Youtube redirect")
                       window.open(basicCreatorInfo?.ytLink);
                     }}
                   />
@@ -220,6 +215,7 @@ function Profile() {
                 {basicCreatorInfo?.twitterLink && (
                   <AiOutlineTwitter
                     onClick={() => {
+                      mixpanel.track("Twitter redirect")
                       window.open(basicCreatorInfo?.twitterLink);
                     }}
                   />
@@ -229,6 +225,7 @@ function Profile() {
                 <button
                   className="request_resource_button_creator_profile"
                   onClick={() => {
+                    mixpanel.track("Request Resources")
                     setOpenModelRequest(true);
                   }}
                 >
@@ -279,6 +276,7 @@ function Profile() {
                     }`}
                     key={e._id}
                     onClick={() => {
+                      mixpanel.track("Explore resources")
                       navigate(`/s/${e?.slug}`);
                     }}
                   >
@@ -342,6 +340,7 @@ function Profile() {
               <section className="More_or_less_section">
                 <span
                   onClick={() => {
+                    mixpanel.track("More resources")
                     setShowMore({
                       ...showMore,
                       resources: !showMore.resources,
@@ -415,6 +414,7 @@ function Profile() {
               <section className="More_or_less_section">
                 <span
                   onClick={() => {
+                    mixpanel.track("More reviews")
                     setShowMore({ ...showMore, reviews: !showMore.reviews });
                   }}
                 >

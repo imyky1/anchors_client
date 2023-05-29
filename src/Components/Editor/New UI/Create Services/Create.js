@@ -33,7 +33,7 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
   const query = new URLSearchParams(search);
   const paramsType = query.get("type");
   const [CreateType, setCreateType] = useState(); // decides the type of document choosed in query
-  const [showPopup, setshowPopup] = useState(false); // success popup
+  const [showPopup, setshowPopup] = useState({open:false,link:""}); // success popup data
 
   const [paid, setpaid] = useState(); // decides the form acc to paid or free service type
   const [advanced, setAdvanced] = useState(false); // sets the advanced customize settings
@@ -62,9 +62,9 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
     sdesc: "",
     smrp: 0,
     ssp: 0,
-    CopyURL: "",
     guidelines: "",
   });
+
   const [Tags, setTags] = useState([]);
   const [Content, setContent] = useState();
   const [BannerImage, setBannerImage] = useState();
@@ -104,21 +104,21 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
   }, [paramsType]);
 
   // genrating copy url string -----------------------------------------------
-  const generateCopyURL = async () => {
-    var result = "";
-    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    var charactersLength = characters.length;
-    for (var i = 0; i < 2; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    checkCpyUrl(result).then((check) => {
-      if (check) {
-        setdata({ ...data, CopyURL: result });
-      } else {
-        generateCopyURL();
-      }
-    });
-  };
+  // const generateCopyURL = async () => {
+  //   var result = "";
+  //   var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  //   var charactersLength = characters.length;
+  //   for (var i = 0; i < 2; i++) {
+  //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  //   }
+  //   checkCpyUrl(result).then((check) => {
+  //     if (check) {
+  //       setdata({ ...data, CopyURL: result });
+  //     } else {
+  //       generateCopyURL();
+  //     }
+  //   });
+  // };
 
 
   // Image cropping
@@ -136,10 +136,6 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
   };
 
 
-  const downloadcroppedimage = () => {
-    generateDownload(imagetocrop, croppedArea);
-  };
-
   const savecroppedImage = async () => {
     const img = await getCroppedImg(
       imagetocrop,
@@ -156,18 +152,13 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
   };
 
 
-  // responsible for generating slug and copyURL
+  // responsible for generating slug
   const process = () => {
-    //generateCopyURL();
     let slug = data.sname.split(" ").join("-"); // creates the slug from the name
     //getslugcount(slug.toLowerCase());  // checks if similar slug already exists -----
     return slug;
   };
-
-  useEffect(() => {
-    generateCopyURL();
-  }, [data.sname]);
-
+  
 
   // form submission ----------------------------------------------------------
   const onSubmit = async () => {
@@ -209,7 +200,6 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
                 SlugCount === 0
                   ? slug.toLowerCase()
                   : slug.toLowerCase().concat("--", `${SlugCount}`),
-                data.CopyURL,
                 banner?.url,
                 doc?.result?.Location,
                 Tags,
@@ -218,13 +208,13 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
                 paid === "Free" ? 0 : data.smrp,
                 paid === "Free" ? 0 : data.ssp,
                 allowPreview,
-                allowPreview ? noOfPage : 0,
+                noOfPage,
                 data.guidelines
               );
-              if (json.success) {
+              if (json?.success) {
                 //setservData(json.res);
                 setOpenLoading(false);
-                setshowPopup(true);
+                setshowPopup({open:true,link:json?.shortLink});
               } else {
                 setOpenLoading(false);
                 toast.error(`Service Not Created Please Try Again`, {
@@ -284,7 +274,7 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
     <>
       {openLoading && <LoadTwo open={openLoading} />}
 
-      {showPopup && <SuccessService type={CreateType} link={data.CopyURL} />}
+      {showPopup?.open && <SuccessService type={CreateType} link={showPopup?.link} />}
 
       <div className="main_create_container">
         {/* Heading of the create section ------------------------ */}
@@ -341,6 +331,7 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
               FileType=".jpg,.png,.jpeg"
               required={true}
               onChange={setBannerImage}
+              disabled = {defaultbanner}
               onChangeFunction={handleChangeFileBanner}
               defaultRadioLabel = "Use Default Image"
               defaultRadioOnChange={(e) => {
@@ -512,13 +503,16 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
                   }
                   onChange={(e) => setNoOfPages(e.target.value)}
                 />
-                <RadioField1
+
+                {/* Allow preview section ------------------------------- */}
+                {/* <RadioField1
                   label={
                     CreateType === "video" ? "Allow Download" : "Allow Preview"
                   }
                   onChange={setAllowPreview}
                   id="asdas"
-                />
+                /> */}
+                
               </div>
             </section>
           </section>
@@ -575,27 +569,12 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
                 </div>
                 <div className="button-preview">
                   {" "}
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={savecroppedImage}
-                  >
+                  <button onClick={savecroppedImage}>
                     Save
-                  </Button>
-                  {/* <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={downloadcroppedimage}
-                      >
-                        Download
-                      </Button> */}
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    onClick={() => setImagePreview(false)}
-                  >
+                  </button>
+                  <button onClick={() => setImagePreview(false)}>
                     Cancel
-                  </Button>
+                  </button>
                 </div>
                 <span className="warningspan_imagepreview">
                   *Do not save if you want the full image to be covered in

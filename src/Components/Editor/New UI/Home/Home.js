@@ -25,6 +25,7 @@ import Edit from "../../../Edit Service/Edit";
 import EditService from "../Edit Services/EditService";
 import CreatorFeedback from "../../../Modals/CreatorProfile/CreatorFeedback";
 import DefaultBanner from "../../../Modals/Default Banner/DefaultBanner";
+import TellUsMore from "../../../Waitlist/TellUsMore";
 
 function Home(props) {
   const location = useLocation();
@@ -33,7 +34,10 @@ function Home(props) {
   const [openHelpModal, setOpenHelpModal] = useState(false);
   const [openCreatorFbModal, setOpenCreatorFbModal] = useState(false);
   const [openDefaultBannerModal, setOpenDefaultBannerModal] = useState(false);
-  const [dataDefaultBanner, setDataDefaultBanner] = useState({fillingData:{},finalFormData:{}});
+  const [dataDefaultBanner, setDataDefaultBanner] = useState({
+    fillingData: {},
+    finalFormData: {},
+  });
   const [Rating, setRating] = useState("");
   const [creatorData, setcreatorData] = useState({ Reviews: "", Services: "" });
   const {
@@ -132,7 +136,10 @@ function Home(props) {
         basicNav?.name &&
         // checking for the status and hence removing all other routes-------------
         (basicNav?.status === 0 ? (
-          <Waitlist />
+          <Routes>
+            <Route path="/*" element={<Waitlist />}></Route>
+            <Route path="/tellUsMore" element={<TellUsMore />}></Route>
+          </Routes>
         ) : (
           <div className="main_home_page_container">
             <Sidebar
@@ -161,7 +168,12 @@ function Home(props) {
                 setOpenDefaultBannerModal(false);
               }}
               dataToRender={dataDefaultBanner?.fillingData}
-              setFinalData = {(e)=>{setDataDefaultBanner({...dataDefaultBanner,finalFormData:e})}}
+              setFinalData={(e) => {
+                setDataDefaultBanner({
+                  ...dataDefaultBanner,
+                  finalFormData: e,
+                });
+              }}
             />
 
             <div className="right_side_home_page">
@@ -216,8 +228,15 @@ function Home(props) {
                           openDefaultBanner={() => {
                             setOpenDefaultBannerModal(true);
                           }}
-                          setDefaultBannerData={(e) => setDataDefaultBanner({...dataDefaultBanner,fillingData:e})}
-                          FinalDefaultBannerFormData={dataDefaultBanner?.finalFormData}
+                          setDefaultBannerData={(e) =>
+                            setDataDefaultBanner({
+                              ...dataDefaultBanner,
+                              fillingData: e,
+                            })
+                          }
+                          FinalDefaultBannerFormData={
+                            dataDefaultBanner?.finalFormData
+                          }
                           cname={allCreatorInfo?.name}
                         />
                       }
@@ -228,7 +247,24 @@ function Home(props) {
                     />
                     <Route
                       path="/editservice/:slug/:servicetype"
-                      element={<EditService progress={props.progress} />}
+                      element={
+                        <EditService
+                          progress={props.progress}
+                          openDefaultBanner={() => {
+                            setOpenDefaultBannerModal(true);
+                          }}
+                          setDefaultBannerData={(e) =>
+                            setDataDefaultBanner({
+                              ...dataDefaultBanner,
+                              fillingData: e,
+                            })
+                          }
+                          FinalDefaultBannerFormData={
+                            dataDefaultBanner?.finalFormData
+                          }
+                          cname={allCreatorInfo?.name}
+                        />
+                      }
                     />
                     <Route
                       path="/reviews"

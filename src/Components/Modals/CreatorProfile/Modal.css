@@ -162,14 +162,22 @@
 .creator_fb_box-container {
   width: 540px;
   height: 758px;
+  max-height: 95vh;
+  overflow-y: auto;
   background: #ffffff;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.1);
   border-radius: 13px;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
   position: relative;
   animation: popoutModal2 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  padding: 15px 0;
+  box-sizing: border-box;
+}
+
+.creator_fb_box-container::-webkit-scrollbar{
+  display: none;
 }
 
 /* popoutModal animation is in the feedback user modal css */
@@ -300,7 +308,7 @@
 }
 
 .optional_comments_questions_fb {
-  width: 90%;
+  width: 93%;
   display: flex;
   align-items: center;
   justify-content: space-between;

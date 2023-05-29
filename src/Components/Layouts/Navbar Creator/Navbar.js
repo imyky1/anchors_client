@@ -3,7 +3,7 @@ import "./Navbar.css";
 import mixpanel from "mixpanel-browser";
 import { useNavigate } from "react-router-dom";
 
-function Navbar() {
+function Navbar({noAccount = false}) {
   const navigate = useNavigate();
 
   // Functions --------------------
@@ -21,16 +21,16 @@ function Navbar() {
             onClick={handleLogoClick}
           />
 
-        <button
+       {!noAccount && <button
           onClick={() => {
-            mixpanel.track("Clicked Creator's Login on Pricing Page");
+            mixpanel.track("Clicked Creator's Login on Navbar");
             localStorage.getItem("jwtToken") && localStorage.getItem("isUser") === ""
-              ? navigate("/dashboard")
-              : localStorage.getItem("jwtToken") && localStorage.getItem("isUser") !== "" ? navigate(localStorage.getItem("url")) : navigate("/login/creators")
+              ? window.open("/dashboard","_self")
+              : localStorage.getItem("jwtToken") && localStorage.getItem("isUser") !== "" ? window.open(localStorage.getItem("url"),"_self") : window.open("/login/creators","_self")
           }}
         >
-          {localStorage.getItem("jwtToken") ? "My Account" : "Login"}
-        </button>
+          {localStorage.getItem("jwtToken") ? "My Account" : "Creator's Login"}
+        </button>}
       </section>
     </>
   );

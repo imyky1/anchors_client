@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./Modal.css";
+import { FaUnlockAlt } from "react-icons/fa";
 
 // This modal is the successfull signup modal on tell us more page
 
@@ -10,32 +11,21 @@ function SignupModal(props) {
 
   return (
     <div className="serviceSuccess_outside_container">
-      <div className="serviceSuccess_container">
-        <section
+      <div className="signupsuccessModal_wrapper">
+        <FaUnlockAlt />
+
+        <h1>Welcome to Anchors</h1>
+        <p>
+          Congratulations on successfully submitting your form! We are thrilled
+          to inform you that you are now eligible to enter the dashboard.
+        </p>
+        <button
+          onClick={() => {
+            window.open("/dashboard","_self");
+          }}
         >
-
-          <img
-            src="https://i.gifer.com/7efs.gif"
-            alt=""
-            className="success_tick_gif"
-          />
-
-          <h1 className="text_success_01_modal">Woohoo!</h1>
-          <br/>
-          <span className="text_success_02_modal">
-            You've unlocked the gates to greatness! You sure are something.
-            <br />
-            <br />
-            Let's see what awaits you on the other side.
-          </span>
-          <button
-            onClick={() => {
-              navigate("/dashboard");
-            }}
-          >
-            Go to Dashboard
-          </button>
-        </section>
+          Go to Dashboard
+        </button>
       </div>
     </div>
   );

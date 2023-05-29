@@ -45,13 +45,13 @@ function Modal(props) {
           </p>
           <section>
             <p className="text_success_04_modal">
-              {`https://www.anchors.in/r/${props.link}`}
+              {props?.link}
             </p>
             <button
               onClick={() => {
                 toast.info("Copied link successfully");
                 navigator.clipboard.writeText(
-                  `https://www.anchors.in/r/${props.link}`
+                  props?.link
                 );
               }}
             >

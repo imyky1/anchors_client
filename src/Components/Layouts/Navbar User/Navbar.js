@@ -33,6 +33,7 @@ function Navbar({ slug, open, close }) {
   };
 
   const userlogout = () => {
+    mixpanel.track("Logout")
     navigate("/logout");
   };
 
@@ -179,6 +180,7 @@ function Navbar({ slug, open, close }) {
           >
             <span
               onClick={() => {
+                mixpanel.track("Visit Dashboard")
                 navigate("/");
               }}
             >
@@ -194,7 +196,8 @@ function Navbar({ slug, open, close }) {
           <div>
             <span
               onClick={() => {
-                navigate("/newdashboard");
+                mixpanel.track("Visit Dashboard")
+                navigate("/");
               }}
             >
               Dashboard

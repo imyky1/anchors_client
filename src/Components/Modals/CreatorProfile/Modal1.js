@@ -20,7 +20,7 @@ function Modal1({ open, toClose, userData, moreInfo, alternateInfo,openHelp,open
       <div
         className="creator_modal_info"
         onClick={(e) => e?.stopPropagation()}
-        style={!moreInfo ? { height: "300px" } : {}}
+        style={!moreInfo ? { height: "290px" } : {}}
       >
         <section className="profile_section_creator_info">
           <LazyLoadImage
@@ -91,11 +91,11 @@ function Modal1({ open, toClose, userData, moreInfo, alternateInfo,openHelp,open
               View Public Profile
             </div>
           )}
-          <div
+          {moreInfo && <div
             onClick={()=>{openFb();toClose()}}
           >
             Feedback Form
-          </div>
+          </div>}
           <div
             onClick={() => {
               window.open("/pricing");
@@ -103,13 +103,14 @@ function Modal1({ open, toClose, userData, moreInfo, alternateInfo,openHelp,open
           >
             Pricing
           </div>
-          <div onClick={openHelp}>Help</div>
+          {/* <div onClick={openHelp}>Help</div> */}
+          <div onClick={()=>{window.open("https://api.whatsapp.com/send?phone=918692006538&text=Hey,%20I%20would%20like%20to%20connect%20with%20anchors%20Team")}}>Help</div>
         </section>
 
         <div
           className="logout_button_modal"
           onClick={() => {
-            navigate("/logout");
+            window.open("/logout","_self");
           }}
         >
           <i className="fa-solid fa-right-from-bracket fa-lg"></i>

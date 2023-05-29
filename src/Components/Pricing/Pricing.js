@@ -26,49 +26,51 @@ const PricingCard1 = {
 
 const PricingCard2 = {
   title: { text: "10%", subtext: "of Revenue" },
-  title2: "No charges till you don't start earning",
+  //title2: "No charges till you don't start earning",
   points: [
-    "Unlock new opportunities",
-    "Maximize your income potential",
-    "Dynamic Community",
-    "Good insights on your resources",
-    "Hassle free Payouts",
+    "Offer Free/Paid Services",
+    "Detailed Analysis",
+    "Hassle Free Payouts",
+    "Exclusive community Access",
+    "Creator Guide Access",
+    "Recommendations for conversation",
+    "Quick Response Support",
+    "Exclusive Session Access",
   ],
 };
 
 const FAQDetails = [
   {
-    question: "Is anchors a free platform?",
+    question: "Why don't you charge a monthly platform fee?",
     answer:
-      "There is no charge to join anchors. It however is also an exclusive community aimed at fostering a community of creators and encouraging monetisation of the hard work that goes into their creations. There is a tiny percentage we charge if anchors has enabled you to earn from your content.",
+      "At anchors, we believe in simplicity. We want to make it easy for creators to use our platform without worrying about recurring fees. We only charge a fee if you earn money from our platform. It's as simple as that."
   },
   {
-    question: "What do the charges look like?",
+    question: "What is Quick Response team Access?",
     answer:
-      "We’ve kept it squarely simple – From whatever revenue you make, a 10% fixed percent will go to anchors to keep enabling more creators like you to earn and grow. (This percentage can reduce from time to time based on offers going on)",
+      "Our Quick Response support team is dedicated to resolving your queries promptly. You can expect a response within 1 hour. Access to this team is available through your dashboard."
   },
   {
-    question:
-      "When can I withdraw the money? Is there a minimum limit for payment withdrawal?",
+    question: "Can I join this platform for free?",
     answer:
-      "Your money is safely stored in your anchors account and you may withdraw the money whenever you want. To make a payment withdrawal, you only need a minimum of Rs. 100 in your account.",
-  },
-  {
-    question: "What happens if I don't make any money on anchors?",
-    answer:
-      "If you don't make any money on anchors, there’s nothing that you need to pay us. As a free platform, you can continue to market your content on anchors. You may also take our help to grow and expand your audience.",
-  },
-  {
-    question: "How does anchors ensure the security of my payment information?",
-    answer:
-      "Razorpay is our trusted payment gateway partner which ensures all your payments and related information is secure and completely safe.",
+      "Absolutely! Joining our platform is completely free. There are no hidden charges or fees to join, and we also do not charge a monthly fee."
   },
   {
     question:
-      "Where do I reach out if I have more questions or need help with my account?",
+      "If I share free content, do I still need to pay?",
     answer:
-      "You may e-mail us at info@anchors.in for any assistance and we’ll promptly get back to you within 24 hours.",
+      "No, you do not need to pay if you are providing only free services. anchors is here to support creators, whether they offer free or paid content."
   },
+  {
+    question: "How is anchors different from other platforms?",
+    answer:
+      "anchors isn't just another tool or SaaS platform. We are a creator's home, offering everything they need to unlock their full potential. Our mission is to constantly raise the bar, setting new standards in the creator economy and delivering the best experience possible. We're committed to competing with ourselves, continuously improving to empower creators and help them reach new heights."
+  },
+  {
+    question: "Why is there an eligibility criteria to join the platform?",
+    answer:
+      "anchors is an exclusive platform for premium creators. By maintaining exclusivity, we ensure a high-quality community that fosters growth and unlocks the full potential of the creator economy."
+  }
 ];
 
 const CardDesign = ({ data }) => {
@@ -194,63 +196,66 @@ const EligibiltySection = () => {
         }}
       />
 
-      <section className="eligibility_mainpage" id="eligibility" style={{margin:"unset"}}>
-          <h1 className="headers1_mainpage">Do you have what it takes?</h1>
-          <p>
-            To unlock your full potential in a community exclusively for you!
-            {/* through boundless innovation and sustainable growth */}
-          </p>
-          <span>Choose a platform - Put your best foot forward</span>
-          <div className="eligibility_check_section">
-            <section>
-              <span
-                className={platform === 1 && "active_platform"}
-                onClick={() => {
-                  setPlatform(1);
-                }}
-              >
-                <i class="fa-brands fa-linkedin-in fa-2x"></i>
-              </span>
-              <span
-                className={platform === 2 && "active_platform"}
-                onClick={() => {
-                  setPlatform(2);
-                }}
-              >
-                <i class="fa-brands fa-youtube fa-2x"></i>
-              </span>
-              <span
-                className={platform === 3 && "active_platform"}
-                onClick={() => {
-                  setPlatform(3);
-                }}
-              >
-                <i class="fa-brands fa-telegram fa-2x"></i>
-              </span>
-              <span
-                className={platform === 4 && "active_platform"}
-                onClick={() => {
-                  setPlatform(4);
-                }}
-              >
-                <i class="fa-brands fa-instagram fa-2x"></i>
-              </span>
-            </section>
-            <input
-              type="number"
-              placeholder="Number of followers"
-              value={followers}
-              onChange={(e) => {
-                setFollowers(e.target.value);
+      <section
+        className="eligibility_pricingpage"
+        id="eligibility"
+        style={{ margin: "unset" }}
+      >
+        <h1 className="headers1_pricing">Do you have what it takes?</h1>
+        <p>
+          To unlock your full potential in a community exclusively for you!
+          {/* through boundless innovation and sustainable growth */}
+        </p>
+        <span>Choose a platform - Put your best foot forward</span>
+        <div className="eligibility_check_section">
+          <section>
+            <span
+              className={platform === 1 && "active_platform"}
+              onClick={() => {
+                setPlatform(1);
               }}
-            />
-          </div>
-          <button onClick={handleCheckEligibility}>Check Eligibility</button>
-        </section>
+            >
+              <i class="fa-brands fa-linkedin-in fa-2x"></i>
+            </span>
+            <span
+              className={platform === 2 && "active_platform"}
+              onClick={() => {
+                setPlatform(2);
+              }}
+            >
+              <i class="fa-brands fa-youtube fa-2x"></i>
+            </span>
+            <span
+              className={platform === 3 && "active_platform"}
+              onClick={() => {
+                setPlatform(3);
+              }}
+            >
+              <i class="fa-brands fa-telegram fa-2x"></i>
+            </span>
+            <span
+              className={platform === 4 && "active_platform"}
+              onClick={() => {
+                setPlatform(4);
+              }}
+            >
+              <i class="fa-brands fa-instagram fa-2x"></i>
+            </span>
+          </section>
+          <input
+            type="number"
+            placeholder="Number of followers"
+            value={followers}
+            onChange={(e) => {
+              setFollowers(e.target.value);
+            }}
+          />
+        </div>
+        <button onClick={handleCheckEligibility}>Check Eligibility</button>
+      </section>
     </>
   );
 };
-
 
 const FAQs = ({ data }) => {
   const handleClick = (e) => {
@@ -267,7 +272,6 @@ const FAQs = ({ data }) => {
   return (
     <div className="faq_pricing_wrapper">
       <h1 className="faq_pricing_text01">Frequently Asked Question</h1>
-      <span className="faq_pricing_text02">Get all your answers</span>
       <div className="accordion">
         {data?.map((e, i) => {
           return (
@@ -303,27 +307,16 @@ function Pricing() {
 
       <div className="main_pricing_wrapper">
         <div className="pricingIntroContainer">
-          <h1 className="text01_pricing_box">Pricing</h1>
-          <span className="text02_pricing_box">
-            Focus on creating great content while we take care of the pricing
-            details
-          </span>
-          <button
-            onClick={() => {
-              mixpanel.track("Clicked Join now on Pricing page");
-            }}
-          >
-            <a
-              href="#eligibility"
-              style={{ color: "unset", textDecoration: "none" }}
-            >
-              Join Now
-            </a>
-          </button>
+          <h1 className="text01_pricing_box">Our Pricing</h1>
+          <span className="text02_pricing_box">Simple & Transparent</span>
           <div className="pricing_design01">
-            <span>No Monthly Cost </span>
-            <span>No Cost Setup</span>
+          No Monthly fees
           </div>
+          <p>
+            We believe in keeping things simple. As a creator, you won't have to
+            worry about any monthly fees. You can use our platform without any
+            recurring costs.
+          </p>
         </div>
 
         <section>

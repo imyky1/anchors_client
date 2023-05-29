@@ -107,7 +107,7 @@ const CreatorState = (props) => {
     if (json?.success) {
       setallCreatorInfo(json?.res);
       setbasicNav(json?.other);
-      return json?.other._id; // for home page usage
+      return json?.other?._id; // for home page usage
     } else {
       //alert(json.error)
     }
@@ -391,6 +391,27 @@ const CreatorState = (props) => {
       console.log(error);
     }
   };
+  // update tell us more form invite code-------------------------------
+  const UpdateCodeInTellUsMoreForm = async (inviteCode) => {
+    try {
+      const response = await fetch(`${host}/api/tellUsMore/updateInviteCodeInTellUsMore`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token":localStorage.getItem("jwtToken")
+        },
+        body:JSON.stringify({
+          code : inviteCode
+        })
+      });
+      const json = await response.json();
+      return json.success
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // get tell us more form Data-------------------------------
   const getTellUsMoreFormData = async () => {
@@ -493,7 +514,8 @@ const CreatorState = (props) => {
         getTellUsMoreFormData,
         updateStatus,
         getWaitlistNumber,
-        createCreatorFeedback
+        createCreatorFeedback,
+        UpdateCodeInTellUsMoreForm
       }}
     >
       {props.children}

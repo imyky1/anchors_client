@@ -20,13 +20,15 @@ function ShowReviewModel({ id, open, onClose, status }) {
         autoClose: 2000,
       });
     }
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
   };
 
   if (!open) {
     return null;
   }
-  console.log(id);
+
   return (
     <>
       <div onClick={onClose} className="model_delete">

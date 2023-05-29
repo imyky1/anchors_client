@@ -151,21 +151,21 @@ function Request_Modal({ open, onClose, slug, id, cname, UserDetails }) {
             <span
               className="req-res-amount-select"
               id="99"
-              onClick={() => amountSetter(1)}
+              onClick={() => {mixpanel.track("Select Amount"); amountSetter(1)}}
             >
               ₹ 99
             </span>
             <span
               className="req-res-amount-select"
               id="300"
-              onClick={() => amountSetter(2)}
+              onClick={() => {mixpanel.track("Select Amount"); amountSetter(2)}}
             >
               ₹ 300
             </span>
             <span
               className="req-res-amount-select"
               id="custom"
-              onClick={() => amountSetter(3)}
+              onClick={() => {mixpanel.track("Select custom price"); amountSetter(3)}}
             >
               Custom
             </span>

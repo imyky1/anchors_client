@@ -62,7 +62,7 @@ function App() {
   return (
     <Router>
       {/* React helmet for SEO --------------- */}
-      <Seo/>
+      <Seo />
 
       <LinkedinState>
         <ServiceState>
@@ -74,12 +74,6 @@ function App() {
                     <UserDashboardState>
                       <LoadingBar color="#f11946" progress={progress} />
                       <Routes>
-                        {/* Home route to creator dashboard ------------------------------------------------ */}
-                        <Route
-                          path="*"
-                          element={<HomeUI progress={changeprogress} />}
-                        ></Route>
-
                         {/* User dashboard routes ---------------------------------------------------------- */}
                         <Route
                           path="/"
@@ -92,7 +86,11 @@ function App() {
                             )
                           }
                         ></Route>
-
+                        {/* Home route to creator dashboard ------------------------------------------------ */}
+                        <Route
+                          path="*"
+                          element={<HomeUI progress={changeprogress} />}
+                        ></Route>
                         {/* Creator profile routes and service reoutes --------------------------------------------------- */}
                         <Route
                           exact
@@ -107,28 +105,12 @@ function App() {
                           path="/w/:slug"
                           element={<Workshop progress={changeprogress} />}
                         ></Route>
-
                         {/* Anchors details routes ------------------------------------------------------- */}
                         <Route
                           path="/privacy-policy"
                           element={<Privacy />}
                         ></Route>
                         <Route path="/pricing" element={<Pricing />}></Route>
-
-                        {localStorage.getItem("jwtToken") &&
-                          localStorage.getItem("c_id") && (
-                            <>
-                              <Route
-                                path="/waitlist"
-                                element={<Waitlist />}
-                              ></Route>
-                              <Route
-                                path="/tellUsMore"
-                                element={<TellUsMore />}
-                              ></Route>
-                            </>
-                          )}
-
                         {/* Redirection routes ---------------------------------------------------------------------- */}
                         <Route
                           path="/r/:id"
@@ -138,7 +120,6 @@ function App() {
                           path="/rw/:id"
                           element={<Redirect_servworkshop />}
                         ></Route>
-
                         {/* Developer routes --------------------------------------------------------------- */}
                         <Route
                           path="/developer/count"
@@ -156,7 +137,6 @@ function App() {
                           path="/developer/test"
                           element={<Test />}
                         ></Route>
-
                         {/* User feedback routes ----------------------------------------------------------- */}
                         <Route
                           path="/feedback"
@@ -168,14 +148,11 @@ function App() {
                             <WorkshopFeedback progress={changeprogress} />
                           }
                         ></Route>
-
                         {/* Logout routes ---------------------------------------------------------------------------- */}
-                        {localStorage.getItem("jwtToken") && (
-                          <Route
-                            path="/logout"
-                            element={<Logout_Model progress={progress} />}
-                          />
-                        )}
+                        <Route
+                          path="/logout"
+                          element={<Logout_Model progress={progress} />}
+                        />
                         {localStorage.getItem("jwtToken") && (
                           <Route
                             path="/logout/user"
@@ -185,11 +162,12 @@ function App() {
                         {localStorage.getItem("jwtToken") && (
                           <Route
                             path="/user/dashboard"
-                            element={<UserDashboard progress={changeprogress} />}
+                            element={
+                              <UserDashboard progress={changeprogress} />
+                            }
                           />
                         )}
-
-                        {/* Login and Signup for creators -------------------------------------- */}
+                        {/* Login and Signup for creators -------------------------------------- */}{" "}
                         <Route path="/login">
                           <Route
                             path="creators"
@@ -198,11 +176,10 @@ function App() {
                             }
                           />
                         </Route>
-                        <Route path="/signup/creators" element={<Signup />} />
-
+                        <Route path="/signup/creators" element={<Signup />} />{" "}
+                        
                         {/* Sitemap route -------------------------------------------------------------- */}
                         <Route path="/sitemapac" element={<Sitemap />}></Route>
-
                         {/* Testing routes --------------------------------------------------------------- */}
                         {/**EXCEL FILE VIEWING ROUTE : ) */}
                         <Route

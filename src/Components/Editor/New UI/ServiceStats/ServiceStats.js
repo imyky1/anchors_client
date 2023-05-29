@@ -69,7 +69,6 @@ const ServiceStats = (props) => {
       }),
     });
     response = await response.json();
-    console.log(response);
     if (response.result) {
       setBounceRate(response?.result?.bouncerate);
       setAvgTime(response?.result?.avgTime);
@@ -77,9 +76,7 @@ const ServiceStats = (props) => {
   };
   useEffect(() => {
     setopenLoading(true);
-    console.log(serviceInfo.slug);
     if (serviceInfo.slug) {
-      console.log("www");
       getAnalyticsData().then(() => {
         setopenLoading(false);
       });
@@ -118,6 +115,7 @@ const ServiceStats = (props) => {
 
   // mixpanel api------------------------------
   const handler = async () => {
+    setopenLoading(true)
     if (serviceType === undefined) {
     } else {
       fetch(`${host}/api/stats/getStats`, {
@@ -135,22 +133,18 @@ const ServiceStats = (props) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
           setMixpanelData({
             valueunique: data?.response?.uniquevisits,
             valuenotunique: data?.response?.Totalvisits,
           });
+          setopenLoading(false)
         });
     }
   };
 
   useEffect(() => {
-    const process = async () => {
-      await handler();
-    };
-
     toast.promise(
-      process,
+      handler,
       {
         pending: "Please Wait..",
         error: "Try Again by reloading the page!",
@@ -161,21 +155,21 @@ const ServiceStats = (props) => {
       }
     );
 
-    process();
+    handler();
   }, [serviceInfo, workshopInfo]);
 
   return (
     <>
       <ToastContainer />
-      {(openLoading || !approvedUser) && <LoadTwo open={!approvedUser} />}
+      <LoadTwo open={openLoading} />
 
       {approvedUser && (
         <div className="servicestat_wrapper">
           <div className="servicestat_heading">
             <div className="servicestat_leftheading">
-              <h1>Event Detailed Analysis</h1>
+              <h1>Service Detailed analysis</h1>
               <div className="servicestat_product">
-                <div className="servicestat_span1">Event Name:</div>
+                <div className="servicestat_span1">Service Name:</div>
                 <span className="servicestat_span2">
                   {serviceType === "download"
                     ? serviceInfo?.sname
@@ -183,7 +177,7 @@ const ServiceStats = (props) => {
                 </span>
               </div>
               <div className="servicestat_product">
-                <div className="servicestat_span1">Event Date:</div>
+                <div className="servicestat_span1">Service Created on:</div>
                 <span className="servicestat_span2"> {date + " " + time}</span>
               </div>
               <div className="servicestat_product">
@@ -206,7 +200,7 @@ const ServiceStats = (props) => {
                     : navigate(`/viewUserDetails/${slug}?service=workshop`);
                 }}
               >
-                Check Registered Users
+                Check Users details
               </button>
             </div>
           </div>
@@ -216,7 +210,7 @@ const ServiceStats = (props) => {
               <div className="servicestat_boxpa">
                 <img src={ICON5} alt="c"></img>
                 <div className="servicestat_boxpa_div">
-                  Total Users Registered For Event
+                Total user used your service
                 </div>
                 <h2>
                   {serviceType === "download"
@@ -229,7 +223,7 @@ const ServiceStats = (props) => {
               <div className="servicestat_boxpa">
                 <img src={ICON1} alt="c"></img>
                 <div className="servicestat_boxpa_div">
-                  Conversion Rate Registrations/Visits
+                Conversion Rate : No. of user used this service / Unique Visits
                 </div>
                 <h2>
                   {mixpaneldata?.valuenotunique !== 0
@@ -249,7 +243,7 @@ const ServiceStats = (props) => {
             <div className="servicestat_statsbox">
               <div className="servicestat_boxpa">
                 <img src={ICON2} alt="c"></img>
-                <div className="servicestat_boxpa_div">Event Page Visit</div>
+                <div className="servicestat_boxpa_div">Service Page visit</div>
                 <h2>
                   {mixpaneldata?.valuenotunique !== 0
                     ? mixpaneldata?.valuenotunique

@@ -1,43 +1,62 @@
 .navbar_creator_wrapper01 {
-  width: 100%;
-  background: #101010;
-  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 120px;
+  margin: auto;
+  width: 93vw;
+  padding: 0 22px;
+  padding-top: 20px;
+  position: fixed;
+  top: 0px;
+  left: 35px;
+  background: #101010;
+  z-index: 99;
+  padding-bottom: 12px;
   box-sizing: border-box;
 }
 
 .navbar_creator_wrapper01 > img {
-  width: 196px;
-  height: 35px;
+  width: 200px;
+  cursor: pointer;
 }
 
 .navbar_creator_wrapper01 > button {
-  min-width: 80px;
-  padding: 0 15px;
-  height: 30px;
+  background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 38px;
-  background-color: transparent;
-
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 17px;
+  font-family: "Inter", sans-serif;
   color: #ffffff;
+  padding: 8px 25px;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 24px;
   cursor: pointer;
+}
+
+.navbar_creator_wrapper01 > button:hover{
+  background-color: red;
+  border: 1px solid red;
 }
 
 @media (max-width: 600px) {
   .navbar_creator_wrapper01 {
-    padding: 0 15px;
+    left: 0px;
+    width: 100vw;
+    padding: 22px 10px;
   }
 
   .navbar_creator_wrapper01 > img {
     width: 150px;
-    height: unset;
+    margin-left: 15px;
+  }
+
+  .navbar_creator_wrapper01 > button{
+    width: 114px;
+    height: 23px;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 15px;
+    padding: unset;
   }
 }

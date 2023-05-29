@@ -5,6 +5,7 @@ import Excel from "../../../Utils/Icons/Canvas Banner/ExcelIcon.svg";
 import Video from "../../../Utils/Icons/Canvas Banner/VideoIcon.svg";
 import ExcelWhite from "../../../Utils/Icons/Canvas Banner/ExcelIconWhite.svg";
 import VideoWhite from "../../../Utils/Icons/Canvas Banner/VideoIconWhite.svg";
+import { ToastContainer, toast } from "react-toastify";
 
 function DefaultBanner({ open, onClose, dataToRender,setFinalData }) {
   const canvasRef = useRef();
@@ -75,7 +76,7 @@ function DefaultBanner({ open, onClose, dataToRender,setFinalData }) {
     ctx.lineHeight = 36;
 
     // Define the text to be drawn
-    const text = sname;
+    const text = sname
 
     // Wrap the text to fit in the canvas
     const words = text.split(" ");
@@ -169,7 +170,6 @@ function DefaultBanner({ open, onClose, dataToRender,setFinalData }) {
 
   const handleColorClick = (e) => {
     setColor({ background: e });
-    handleSave()
   };
 
   const handleSave = () => {
@@ -189,10 +189,22 @@ function DefaultBanner({ open, onClose, dataToRender,setFinalData }) {
   };
 
   useEffect(() => {
+    setFinalData({})
     if (canvasRef.current) {
-      drawCanvas(dataToRender?.type, dataToRender?.sname, dataToRender?.cname);
+      if(dataToRender?.sname !== ""){
+        drawCanvas(dataToRender?.type, dataToRender?.sname, dataToRender?.cname);
+      }
+      else{
+        toast.info("Fill the service title to generate the banner",{
+          position:"top-center",
+          autoClose:2000
+        })
+        onClose()
+      }
     }
+     // eslint-disable-next-line 
   }, [color, open]);
+
 
   if (!open) {
     return null;
@@ -232,12 +244,13 @@ function DefaultBanner({ open, onClose, dataToRender,setFinalData }) {
             </div>
 
             <section>
-              <button onClick={()=>{handleSave();onClose()}}>Save</button>
               <button onClick={onClose}>Close</button>
+              <button onClick={()=>{handleSave();onClose();toast.success("Banner Saved Successfully",{autoClose:1500})}}>Save</button>
             </section>
           </section>
         </div>
       </div>
+      <ToastContainer/>
     </>
   );
 }

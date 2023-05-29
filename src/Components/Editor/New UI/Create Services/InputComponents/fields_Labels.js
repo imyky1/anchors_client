@@ -151,6 +151,7 @@ function UploadField02(props) {
       <input
         type="file"
         id={props.id}
+        disabled = {props?.disabled}
         style={{ display: "none" }}
         onChange={handleChange}
         accept={props.FileType}
@@ -158,7 +159,7 @@ function UploadField02(props) {
       <label htmlFor={props.id} className="input_type_02">
         <i className="fa-solid fa-plus fa-xl"></i>
         <span>Browse</span>
-        <p>{fileName ? fileName : props.info}</p>
+        <p>{props?.disabled ? "Using Default Banner (in png)" : fileName ? fileName : props.info}</p>
       </label>
     </div>
   );
