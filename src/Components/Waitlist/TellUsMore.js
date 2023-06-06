@@ -147,7 +147,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
   };
 
   const VerifyCode = () => {
-    mixpanel.track("Verify invite code")
+    mixpanel.track("Verify invite code");
     if (formData?.inviteCode) {
       let process = verifyInviteCode(formData.inviteCode).then((e) => {
         if (e?.success) {
@@ -291,7 +291,14 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
         </>
       )}
 
-      <div className="tellUsMore_form">
+      <div
+        className="tellUsMore_form"
+        onKeyDown={(e) => {
+          e.keyCode === 9 &&
+            // Prevent default action of Tab key
+            e.preventDefault();
+        }}
+      >
         <AiOutlineArrowLeft
           id="prev_ques_slide_button"
           onClick={handlePrevButton}
@@ -311,54 +318,6 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
             modules={[Navigation]}
             style={{ width: "100%", minHeight: "130px" }}
           >
-            <SwiperSlide>
-              <section className="form_fields_tellusmore">
-                <label htmlFor="inviteCode">
-                  Enter your Invite Code <span>(Optional)</span>
-                </label>
-                <div className="input_section_tellUsMore">
-                  <section
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      position: "relative",
-                    }}
-                  >
-                    <input
-                      className="input_form_tellUsMore"
-                      type="text"
-                      id="inviteCode"
-                      name="inviteCode"
-                      onChange={handleChange}
-                      value={formData?.inviteCode}
-                    />
-                    {verifiedCode && (
-                      <AiOutlineCheck
-                        color="#58D96E"
-                        style={{ position: "absolute", right: "10px" }}
-                      />
-                    )}
-                  </section>
-                  <button
-                    className="verify_tellusmore"
-                    onClick={!verifiedCode ? VerifyCode : undefined}
-                  >
-                    {!verifiedCode ? "Verify" : "Verified"}
-                  </button>
-                </div>
-                <div className="wrong_code_tellUsMore">
-                  <p
-                    onClick={() => {
-                      window.open("https://bit.ly/anchors-invite-code");
-                      mixpanel.track("redirect to notion link")
-                    }}
-                  >
-                    KNOW ABOUT INVITE CODE
-                  </p>
-                  {incorrectCode && <span>*Wrong Code</span>}
-                </div>
-              </section>
-            </SwiperSlide>
             <SwiperSlide>
               <section className="form_fields_tellusmore">
                 <label htmlFor="contactNumber">Your Whatsapp number</label>
@@ -439,6 +398,54 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
                   setformData({ ...formData, knownFrom: e });
                 }}
               />
+            </SwiperSlide>
+            <SwiperSlide>
+              <section className="form_fields_tellusmore">
+                <label htmlFor="inviteCode">
+                  Enter your Invite Code <span>(Optional)</span>
+                </label>
+                <div className="input_section_tellUsMore">
+                  <section
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      position: "relative",
+                    }}
+                  >
+                    <input
+                      className="input_form_tellUsMore"
+                      type="text"
+                      id="inviteCode"
+                      name="inviteCode"
+                      onChange={handleChange}
+                      value={formData?.inviteCode}
+                    />
+                    {verifiedCode && (
+                      <AiOutlineCheck
+                        color="#58D96E"
+                        style={{ position: "absolute", right: "10px" }}
+                      />
+                    )}
+                  </section>
+                  <button
+                    className="verify_tellusmore"
+                    onClick={!verifiedCode ? VerifyCode : undefined}
+                  >
+                    {!verifiedCode ? "Verify" : "Verified"}
+                  </button>
+                </div>
+                <div className="wrong_code_tellUsMore">
+                  <p
+                    onClick={() => {
+                      window.open("https://bit.ly/anchors-invite-code");
+                      mixpanel.track("redirect to notion link");
+                    }}
+                  >
+                    KNOW ABOUT INVITE CODE
+                  </p>
+                  {incorrectCode && <span>*Wrong Code</span>}
+                </div>
+              </section>
             </SwiperSlide>
           </Swiper>
         </div>

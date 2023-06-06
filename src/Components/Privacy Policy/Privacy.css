@@ -1,7 +1,7 @@
 .privacy_policy{
     font-size: 1.1rem;
     width: 80%;
-    margin: 40px auto;
+    margin: 100px auto;
 }
 
 .privacy_policy h1{
@@ -32,5 +32,6 @@
     
     .privacy_policy{
         width: 95%;
+        margin: 80px auto;
     }
 }

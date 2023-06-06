@@ -2,6 +2,7 @@ import mixpanel from "mixpanel-browser";
 import React, { useEffect } from "react";
 import { SuperSEO } from "react-super-seo";
 import "./Privacy.css";
+import Navbar from "../Layouts/Navbar Creator/Navbar";
 
 function Privacy() {
   // Visited page mix panel
@@ -11,13 +12,7 @@ function Privacy() {
 
   return (
     <>
-      <div className="mainpage_header creator_login_header ">
-        <div className="logo">
-          <img src={require("../logo.png")} alt="Logo" />
-          <span>anchors</span>
-          <p className="beta_tagname">Beta</p>
-        </div>
-      </div>
+      <Navbar noAccount={true} whiteTheme = {true}/>
       <div className="privacy_policy">
         <h1>Privacy Policy</h1>
         <section>

@@ -3,7 +3,7 @@ import "./Navbar.css";
 import mixpanel from "mixpanel-browser";
 import { useNavigate } from "react-router-dom";
 
-function Navbar({noAccount = false}) {
+function Navbar({noAccount = false, whiteTheme = false}) {
   const navigate = useNavigate();
 
   // Functions --------------------
@@ -14,9 +14,9 @@ function Navbar({noAccount = false}) {
 
   return (
     <>
-      <section className="navbar_creator_wrapper01">
+      <section className="navbar_creator_wrapper01" style={whiteTheme && {background:"white"}}>
           <img
-            src={require("../../../Utils/Images/logo-beta.png")}
+            src={whiteTheme ? require("../../../Utils/Images/logo-beta-black.png") : require("../../../Utils/Images/logo-beta.png")}
             alt=""
             onClick={handleLogoClick}
           />
