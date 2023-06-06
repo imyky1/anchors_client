@@ -21,6 +21,7 @@ function Signup() {
   }, []);
 
   const handleGoogle = async () => {
+    mixpanel.track("Google signup")
     localStorage.setItem("isUser", "");
     localStorage.setItem("from", "google");
     localStorage.setItem("authFor", "signUp");
@@ -28,6 +29,7 @@ function Signup() {
   };
 
   const handlelinkedin = async () => {
+    mixpanel.track("Linkedin signup")
     localStorage.setItem("isUser", "");
     localStorage.setItem("from", "linkedin");
     localStorage.setItem("authFor", "signUp");

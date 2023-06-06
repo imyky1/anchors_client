@@ -2,8 +2,17 @@ import React from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
 import "./Modal.css";
+import mixpanel from "mixpanel-browser";
 
-function Modal1({ open, toClose, userData, moreInfo, alternateInfo,openHelp,openFb }) {
+function Modal1({
+  open,
+  toClose,
+  userData,
+  moreInfo,
+  alternateInfo,
+  openHelp,
+  openFb,
+}) {
   const navigate = useNavigate();
 
   open &&
@@ -51,6 +60,7 @@ function Modal1({ open, toClose, userData, moreInfo, alternateInfo,openHelp,open
                   onClick={() => {
                     toClose();
                     navigate("/reviews");
+                    mixpanel.track("Profile Reviews");
                   }}
                 >
                   {moreInfo ? moreInfo?.Reviews : "--"} Reviews
@@ -64,6 +74,7 @@ function Modal1({ open, toClose, userData, moreInfo, alternateInfo,openHelp,open
                   onClick={() => {
                     toClose();
                     navigate("/mycontents");
+                    mixpanel.track("Profile Services");
                   }}
                 >
                   {moreInfo ? moreInfo?.Services : "--"} Services
@@ -73,6 +84,7 @@ function Modal1({ open, toClose, userData, moreInfo, alternateInfo,openHelp,open
                 onClick={() => {
                   navigate("/editprofile");
                   toClose();
+                  mixpanel.track("Profile Edit Profile");
                 }}
               >
                 Edit Profile
@@ -86,37 +98,55 @@ function Modal1({ open, toClose, userData, moreInfo, alternateInfo,openHelp,open
             <div
               onClick={() => {
                 window.open(`/c/${userData?.slug}`);
+                mixpanel.track("Profile View Public Profile");
               }}
             >
               View Public Profile
             </div>
           )}
-          {moreInfo && <div
-            onClick={()=>{openFb();toClose()}}
-          >
-            Feedback Form
-          </div>}
+          {moreInfo && (
+            <div
+              onClick={() => {
+                openFb();
+                toClose();
+                mixpanel.track("Creators Feedback Form");
+              }}
+              >
+              Feedback Form
+            </div>
+          )}
           <div
             onClick={() => {
               window.open("/pricing");
+              mixpanel.track("Profile Pricing");
             }}
-          >
+            >
             Pricing
           </div>
           {/* <div onClick={openHelp}>Help</div> */}
-          <div onClick={()=>{window.open("https://api.whatsapp.com/send?phone=918692006538&text=Hey,%20I%20would%20like%20to%20connect%20with%20anchors%20Team")}}>Help</div>
+          <div
+            onClick={() => {
+              window.open(
+                "https://api.whatsapp.com/send?phone=918692006538&text=Hey,%20I%20would%20like%20to%20connect%20with%20anchors%20Team"
+                );
+                mixpanel.track("Profile Help ");
+                mixpanel.track("Continued to whatsapp help")
+              }}
+              >
+            Help
+          </div>
         </section>
 
         <div
           className="logout_button_modal"
           onClick={() => {
-            window.open("/logout","_self");
+            window.open("/logout", "_self");
+            mixpanel.track("Profile Logout ");
           }}
         >
           <i className="fa-solid fa-right-from-bracket fa-lg"></i>
         </div>
       </div>
-
     </>
   );
 }

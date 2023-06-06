@@ -29,6 +29,7 @@ import Footer from "../Footer/Footer";
 import Modal1 from "../Modals/ModalType01/Modal1";
 import Modal2 from "../Modals/ModalType01/Modal2";
 import NavbarCreator from "../Layouts/Navbar Creator/Navbar";
+import UserDashboard from "../User Dashboard/UserDashboard";
 
 const whyanchors = [
   {
@@ -573,13 +574,13 @@ const ConnectWithUs = () => {
         <p>
         Let's connect and make things happen ! Reach out to our team for any assistance or suggestions.
         </p>
-        <button data-cal-link="anchors-team/15min">Let’s Connect</button>
+        <button data-cal-link="anchors-team/15min" onClick={()=>{mixpanel.track("Connect with us")}}>Let’s Connect</button>
       </div>
     </section>
   );
 };
 
-function Main() {
+function Main(props) {
   const [data, setData] = useState("");
   const navigate = useNavigate();
   const { getallfb } = useContext(feedbackcontext);
@@ -596,11 +597,21 @@ function Main() {
   }, []);
 
   const handleStart = () => {
+    mixpanel.track("Join Now")
     let link = document.createElement("a");
     link.href = "#eligibility";
     mixpanel.track("Clicked Start Now in hero section");
     link.dispatchEvent(new MouseEvent("click"));
   };
+
+
+  // No main page when user is logged in --------------------------
+  if(localStorage.getItem("jwtToken") &&
+  localStorage.getItem("isUser") === "true"){
+    return (
+      <UserDashboard progress={props.progress}/>
+    )
+  }
 
   return (
     <>

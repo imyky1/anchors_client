@@ -12,6 +12,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import ProfileInfoWarn from "../../../Modals/ServiceSuccess/Modal1";
+import mixpanel from "mixpanel-browser";
 
 function Sidebar({ userData, moreInfo, alternateInfo }) {
   const localtion = useLocation();
@@ -32,6 +33,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
         <img
           onClick={() => {
             navigate("/");
+            mixpanel.track("header logo")
           }}
           src={logo}
           alt=""
@@ -71,6 +73,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
                     className="reviews_from_sidebar"
                     onClick={() => {
                       navigate("/reviews");
+                      mixpanel.track("dashboard Reviews")
                     }}
                   >
                     {moreInfo?.Reviews} Reviews
@@ -81,6 +84,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
             <span
               onClick={() => {
                 window.open(`/c/${userData?.slug}`);
+                mixpanel.track("Public profile link")
               }}
             >
               <img src={Globe} alt="" />
@@ -108,7 +112,9 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
                 localtion.pathname === "/mycontents" &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
-            >
+
+              onClick={()=>{mixpanel.track("My content")}}
+              >
               <img src={svg2} alt="" />
               My Content
             </Link>
@@ -118,7 +124,8 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
                 (localtion.pathname === "/paymentInfo" || localtion.pathname === "/paymentSummary") &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
-            >
+              onClick={()=>{mixpanel.track("Payment")}}
+              >
               <img src={svg3} alt="" />
               Payment
             </Link>
@@ -128,6 +135,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
                 localtion.pathname === "/requests" &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
+              onClick={()=>{mixpanel.track("Requests")}}
             >
               <img src={svg4} alt="" />
               Requests
@@ -151,6 +159,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
             <span>Share & avail EXCLUSIVE <a href="https://go.anchors.in/invite-code-benefit" target="_blank" style={{color:"unset"}}>benefits</a>!*<br/>-limited time offer</span>
             <div
               onClick={() => {
+                mixpanel.track("copy invite code")
                 toast.info("Invite Code Copied Successfully", {
                   position: "top-center",
                   autoClose: 1500,

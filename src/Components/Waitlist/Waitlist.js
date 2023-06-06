@@ -91,6 +91,7 @@ const WaitlistMiddleSection = () => {
               key={e?.cname}
               onClick={() => {
                 window.open(e?.link);
+                mixpanel.track("redirect to creator's linkedin profile")
               }}
             >
               <div>

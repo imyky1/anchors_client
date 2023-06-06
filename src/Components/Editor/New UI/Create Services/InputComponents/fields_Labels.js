@@ -3,6 +3,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import React, { useState } from "react";
 import "./components.css";
 import { useEffect } from "react";
+import mixpanel from "mixpanel-browser";
 
 // text field -------------------------
 function fields_Labels1(props) {
@@ -310,6 +311,7 @@ function Dropdown01(props) {
                   setdropValue(e);
                   setOpenDropDown(false);
                   props.selectedValue(e);
+                  props.onClick()
                 }}
               >
                 {e}

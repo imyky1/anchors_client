@@ -147,6 +147,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
   };
 
   const VerifyCode = () => {
+    mixpanel.track("Verify invite code")
     if (formData?.inviteCode) {
       let process = verifyInviteCode(formData.inviteCode).then((e) => {
         if (e?.success) {
@@ -349,6 +350,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
                   <p
                     onClick={() => {
                       window.open("https://bit.ly/anchors-invite-code");
+                      mixpanel.track("redirect to notion link")
                     }}
                   >
                     KNOW ABOUT INVITE CODE

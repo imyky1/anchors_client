@@ -16,7 +16,7 @@ function Footer() {
     <HelpModal open={openHelpModal} toClose={()=>{setopenHelpModal(false)}}/>
       <div className="main_footer_section">
         <div>
-        {window.screen.width > 600 && <img className="logo_footer" src={require("../Main Page/Images/logo-beta.png")} alt="" />}
+        {window.screen.width > 600 && <img className="logo_footer" src={require("../Main Page/Images/logo-beta.png")} onClick={()=>{mixpanel.track("footer logo")}} alt="" />}
           <section className="upper_footer_section">
             <div className="anchors_details">
               {/* <span>Monetize your <span style={{color: "rgb(255 255 255)",fontWeight: "600"}}>Content, skill, Expertise</span> and help your audience to grow.</span> */}
@@ -24,6 +24,7 @@ function Footer() {
               <button
                 onClick={() => {
                   navigate("/login/creators");
+                  mixpanel.track("join anchors footer")
                 }}
               >
                Join Exclusive Community
@@ -48,12 +49,12 @@ function Footer() {
                 Linkedin
               </a> */}
             </div>
-            {window.screen.width < 600 &&  <img className="logo_footer" src={require("../Main Page/Images/logo-beta.png")} alt="" />}
+            {window.screen.width < 600 &&  <img className="logo_footer" src={require("../Main Page/Images/logo-beta.png")} onClick={()=>{mixpanel.track("footer logo")}} alt="" />}
           </section>
           <section className="some_extra">
           <i className="fa-brands fa-linkedin-in fa-xl" style={{cursor:"pointer",color:"white",marginBottom:"15px"}} onClick={()=>{window.open("https://www.linkedin.com/company/beanchorite/")}}></i>
           <span>Anchors.in All rights reserved</span>
-          {window.screen.width > 600 && <span style={{textDecoration:"underline",cursor:"pointer"}} onClick={()=>{window.open("/privacy-policy")}}>Terms & privacy</span>}
+          {window.screen.width > 600 && <span style={{textDecoration:"underline",cursor:"pointer"}} onClick={()=>{window.open("/privacy-policy");mixpanel.track("Privacy policy")}}>Terms & privacy</span>}
           </section>
         </div>
         <section className="lower_footer_section">

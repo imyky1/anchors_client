@@ -16,6 +16,7 @@ import { Button1 } from "../Create Services/InputComponents/buttons";
 import "./UserRequest.css";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
+import mixpanel from "mixpanel-browser";
 
 const UserRequest = ({creatorSlug}) => {
   const navigate = useNavigate()
@@ -48,6 +49,7 @@ const UserRequest = ({creatorSlug}) => {
 
   const handleCopyLink = () =>{
     navigator.clipboard.writeText(`https:www.anchors.in/c/${creatorSlug}`)
+    mixpanel.track("Copy Profile Page Link ")
     toast.info("Copied link successfully",{
       position:"top-center",
       autoClose:2000

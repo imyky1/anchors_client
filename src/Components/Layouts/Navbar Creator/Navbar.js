@@ -8,7 +8,7 @@ function Navbar({noAccount = false}) {
 
   // Functions --------------------
   const handleLogoClick = () => {
-    mixpanel.track("Pricing Page LOGO clicked");
+    mixpanel.track("header logo");
     navigate(`/`);
   };
 
@@ -23,7 +23,7 @@ function Navbar({noAccount = false}) {
 
        {!noAccount && <button
           onClick={() => {
-            mixpanel.track("Clicked Creator's Login on Navbar");
+            mixpanel.track(`${localStorage.getItem("jwtToken") ? "My Account" : "Clicked Creator Login on Navbar"}`);
             localStorage.getItem("jwtToken") && localStorage.getItem("isUser") === ""
               ? window.open("/dashboard","_self")
               : localStorage.getItem("jwtToken") && localStorage.getItem("isUser") !== "" ? window.open(localStorage.getItem("url"),"_self") : window.open("/login/creators","_self")

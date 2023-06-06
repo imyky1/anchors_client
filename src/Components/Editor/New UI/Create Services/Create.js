@@ -23,9 +23,15 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Cropper from "react-easy-crop";
 import { SuperSEO } from "react-super-seo";
+import mixpanel from "mixpanel-browser";
 
-
-function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefaultBannerFormData}) {
+function Create({
+  progress,
+  openDefaultBanner,
+  setDefaultBannerData,
+  cname,
+  FinalDefaultBannerFormData,
+}) {
   const navigate = useNavigate();
 
   // for checking the type of service we need to create --------------------------------------
@@ -33,7 +39,7 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
   const query = new URLSearchParams(search);
   const paramsType = query.get("type");
   const [CreateType, setCreateType] = useState(); // decides the type of document choosed in query
-  const [showPopup, setshowPopup] = useState({open:false,link:""}); // success popup data
+  const [showPopup, setshowPopup] = useState({ open: false, link: "" }); // success popup data
 
   const [paid, setpaid] = useState(); // decides the form acc to paid or free service type
   const [advanced, setAdvanced] = useState(false); // sets the advanced customize settings
@@ -43,9 +49,8 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
   const [imagetocrop, setImageToCrop] = useState(null);
   const [openimagePreview, setImagePreview] = useState(false);
 
-
   // default banner
-  const [defaultbanner, setDefaultBanner] = useState(false);      // decides wheter to user checked the default banner-----
+  const [defaultbanner, setDefaultBanner] = useState(false); // decides wheter to user checked the default banner-----
 
   // service Context --------------------------------------------------
   const {
@@ -72,9 +77,10 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
   // allow preview variables
   const [allowPreview, setAllowPreview] = useState(false);
   const [noOfPage, setNoOfPages] = useState(0);
-  const [ServiceDoc, setServiceDoc] = useState(); 
+  const [ServiceDoc, setServiceDoc] = useState();
 
   const handleChangeFileBanner = (e) => {
+    mixpanel.track("Browse banner");
     if (defaultbanner) {
       setDefaultBanner(false);
     }
@@ -120,7 +126,6 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
   //   });
   // };
 
-
   // Image cropping
   // IMAGE RESIZE
   const [croppedArea, setCroppedArea] = useState(null);
@@ -134,7 +139,6 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
   const onCropComplete = (croppedAreaPercentage, croppedAreaPixels) => {
     setCroppedArea(croppedAreaPixels);
   };
-
 
   const savecroppedImage = async () => {
     const img = await getCroppedImg(
@@ -151,14 +155,12 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
     setdata({ ...data, [e.target.name]: e.target.value });
   };
 
-
   // responsible for generating slug
   const process = () => {
     let slug = data.sname.split(" ").join("-"); // creates the slug from the name
     //getslugcount(slug.toLowerCase());  // checks if similar slug already exists -----
     return slug;
   };
-  
 
   // form submission ----------------------------------------------------------
   const onSubmit = async () => {
@@ -176,59 +178,61 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
         try {
           var banner;
           if (defaultbanner) {
-            if(FinalDefaultBannerFormData instanceof FormData){
-              banner = await Uploadfile(FinalDefaultBannerFormData)
-            }
-            else{
-              toast.info(`Save the default banner design from the Edit Option`, {
-                position: "top-center",
-                autoClose: 2500,
-              });
-              setOpenLoading(false)
+            if (FinalDefaultBannerFormData instanceof FormData) {
+              banner = await Uploadfile(FinalDefaultBannerFormData);
+            } else {
+              toast.info(
+                `Save the default banner design from the Edit Option`,
+                {
+                  position: "top-center",
+                  autoClose: 2500,
+                }
+              );
+              setOpenLoading(false);
               return null;
             }
           } else {
             banner = await Uploadfile(data1); /// uplaoding banner and files on s3
           }
-            var doc = await UploadDocuments(data2);
-            if (banner?.success && doc?.success) {
-              progress(75);
-              let json = await addservice(
-                data.sname,
-                data.sdesc,
-                Content,
-                SlugCount === 0
-                  ? slug.toLowerCase()
-                  : slug.toLowerCase().concat("--", `${SlugCount}`),
-                banner?.url,
-                doc?.result?.Location,
-                Tags,
-                CreateType === "excel" ? 1 : CreateType === "video" ? 2 : 0, // type for pdf is 0 and excel is 1 and video is 2
-                paid === "Free" ? false : true,
-                paid === "Free" ? 0 : data.smrp,
-                paid === "Free" ? 0 : data.ssp,
-                allowPreview,
-                noOfPage,
-                data.guidelines
-              );
-              if (json?.success) {
-                //setservData(json.res);
-                setOpenLoading(false);
-                setshowPopup({open:true,link:json?.shortLink});
-              } else {
-                setOpenLoading(false);
-                toast.error(`Service Not Created Please Try Again`, {
-                  position: "top-center",
-                  autoClose: 2000,
-                });
-              }
+          var doc = await UploadDocuments(data2);
+          if (banner?.success && doc?.success) {
+            progress(75);
+            let json = await addservice(
+              data.sname,
+              data.sdesc,
+              Content,
+              SlugCount === 0
+                ? slug.toLowerCase()
+                : slug.toLowerCase().concat("--", `${SlugCount}`),
+              banner?.url,
+              doc?.result?.Location,
+              Tags,
+              CreateType === "excel" ? 1 : CreateType === "video" ? 2 : 0, // type for pdf is 0 and excel is 1 and video is 2
+              paid === "Free" ? false : true,
+              paid === "Free" ? 0 : data.smrp,
+              paid === "Free" ? 0 : data.ssp,
+              allowPreview,
+              noOfPage,
+              data.guidelines
+            );
+            if (json?.success) {
+              //setservData(json.res);
+              setOpenLoading(false);
+              setshowPopup({ open: true, link: json?.shortLink });
             } else {
               setOpenLoading(false);
-              toast.error(`Facing issues while uploading files and images`, {
+              toast.error(`Service Not Created Please Try Again`, {
                 position: "top-center",
                 autoClose: 2000,
               });
             }
+          } else {
+            setOpenLoading(false);
+            toast.error(`Facing issues while uploading files and images`, {
+              position: "top-center",
+              autoClose: 2000,
+            });
+          }
         } catch (error) {
           setOpenLoading(false);
           console.log(error);
@@ -255,15 +259,15 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
     progress(100);
   };
 
-
-
   //Edit control of default banner button ------------
-  const EditOptionDefaultBanner = () =>{
-    setDefaultBannerData({sname:data?.sname,cname:cname,type:CreateType})
-    openDefaultBanner()
-  }
-
-
+  const EditOptionDefaultBanner = () => {
+    setDefaultBannerData({
+      sname: data?.sname,
+      cname: cname,
+      type: CreateType,
+    });
+    openDefaultBanner();
+  };
 
   // check is the query parameter is changed----------------------------------------
   if (!["pdf", "excel", "video"].includes(CreateType)) {
@@ -274,7 +278,9 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
     <>
       {openLoading && <LoadTwo open={openLoading} />}
 
-      {showPopup?.open && <SuccessService type={CreateType} link={showPopup?.link} />}
+      {showPopup?.open && (
+        <SuccessService type={CreateType} link={showPopup?.link} />
+      )}
 
       <div className="main_create_container">
         {/* Heading of the create section ------------------------ */}
@@ -331,31 +337,43 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
               FileType=".jpg,.png,.jpeg"
               required={true}
               onChange={setBannerImage}
-              disabled = {defaultbanner}
+              disabled={defaultbanner}
               onChangeFunction={handleChangeFileBanner}
-              defaultRadioLabel = "Use Default Image"
+              defaultRadioLabel="Use Default Image"
               defaultRadioOnChange={(e) => {
+                mixpanel.track("Use default banner");
                 e.target.checked
                   ? setDefaultBanner(true)
-                  : setDefaultBanner(false)
+                  : setDefaultBanner(false);
               }}
             />
-            {(BannerImage || defaultbanner) ? (
+            {BannerImage || defaultbanner ? (
               <>
                 {" "}
                 <Button
                   variant="outlined"
-                  onClick={()=>{defaultbanner ? EditOptionDefaultBanner() : setImagePreview((prev) => !prev)}}
+                  onClick={() => {
+                    if(defaultbanner){
+                      EditOptionDefaultBanner()
+                      mixpanel.track("Edit default banner")
+                    }
+                    else{
+                      setImagePreview((prev) => !prev);
+                      mixpanel.track("Edit Browse Banner")
+                    }
+                  }}
                   className="imageresizeopenerbutton"
                 >
-                  {defaultbanner ? "Edit default Banner" : "Preview Image and Resize"}
+                  {defaultbanner
+                    ? "Edit default Banner"
+                    : "Preview Image and Resize"}
                 </Button>
                 <br />
               </>
             ) : (
               ""
             )}
-            
+
             <Editor1
               label={`Describe your ${
                 CreateType === "pdf"
@@ -391,6 +409,9 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
               required={true}
               selectedValue={(e) => {
                 setpaid(e);
+              }}
+              onClick={() => {
+                mixpanel.track(`${paid} Service`);
               }}
             />
             {paid === "Paid" && (
@@ -453,6 +474,7 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
               className="create_text_03"
               onClick={() => {
                 setAdvanced(!advanced);
+                mixpanel.track("Advance Customization ");
               }}
             >
               Advanced Customizations &nbsp;
@@ -512,7 +534,6 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
                   onChange={setAllowPreview}
                   id="asdas"
                 /> */}
-                
               </div>
             </section>
           </section>
@@ -569,12 +590,8 @@ function Create({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefa
                 </div>
                 <div className="button-preview">
                   {" "}
-                  <button onClick={savecroppedImage}>
-                    Save
-                  </button>
-                  <button onClick={() => setImagePreview(false)}>
-                    Cancel
-                  </button>
+                  <button onClick={savecroppedImage}>Save</button>
+                  <button onClick={() => setImagePreview(false)}>Cancel</button>
                 </div>
                 <span className="warningspan_imagepreview">
                   *Do not save if you want the full image to be covered in

@@ -1,12 +1,14 @@
 import React from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "./Navbar.css";
+import mixpanel from "mixpanel-browser";
 
 function Navbar({ChangeModalState,ModalState,userData,alternateInfo}) {
 
   // handles the openeing of the creator modal
   const handleModalOpening = (e) =>{
     e?.stopPropagation()
+    mixpanel.track("Header Profile ")
     ModalState ? ChangeModalState(false) : ChangeModalState(true)
   }
 

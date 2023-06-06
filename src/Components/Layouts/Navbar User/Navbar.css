@@ -13,6 +13,11 @@
   -webkit-user-select: none;
 }
 
+.logo_main_page{
+  width: 200px;
+  cursor: pointer;
+}
+
 .top_header_creator_profile > button {
   width: 89px;
   height: 27px;
@@ -123,6 +128,11 @@
     height: 55px;
     padding-right: 15px;
     z-index: 999;
+  }
+
+  .logo_main_page{
+    width: 150px;
+    margin-left: 15px;
   }
 
   .top_header_creator_profile > button {

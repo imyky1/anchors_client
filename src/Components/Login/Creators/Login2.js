@@ -20,7 +20,10 @@ function Login2() {
 
   }, [])
 
+  
+
   const handleGoogle = async () => {
+    mixpanel.track("Login using Google")
     localStorage.setItem("isUser", "");
     localStorage.setItem("from", "google");
     localStorage.setItem("authFor","login")           // to know if the page is login or signup
@@ -28,6 +31,7 @@ function Login2() {
   };
 
   const handlelinkedin = async () => {
+    mixpanel.track("Login using Linkedin")
     localStorage.setItem("isUser", "");
     localStorage.setItem("from", "linkedin");
     localStorage.setItem("authFor","login")

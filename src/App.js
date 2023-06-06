@@ -3,22 +3,17 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useLocation,
 } from "react-router-dom";
-import Home from "./Components/Home/Home";
 import ServiceState from "./Context/services/ServiceState";
 import Creators_login from "./Components/Login/Creators/Login2";
-import Profile from "./Components/Creator Profile/Profile";
 import CreatorState from "./Context/CreatorState";
 import UserState from "./Context/UserState";
-import Service from "./Components/Service Page/Service";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import LoadingBar from "react-top-loading-bar";
 import Feedback from "./Components/Feedback/Feedback";
 import LinkedinState from "./Context/LinkedinState";
 import FeedbackState from "./Context/FeedbackState";
 import Privacy from "./Components/Privacy Policy/Privacy";
-import Waitlist from "./Components/Waitlist/Waitlist";
 import Logout_Model from "./Components/Modals/Logout_Model";
 import UserCount from "./Developers/Count/UserCount";
 import mixpanel from "mixpanel-browser";
@@ -34,7 +29,6 @@ import Workshop from "./Components/Service Page/Workshop";
 import Pricing from "./Components/Pricing/Pricing";
 import Sitemap from "./Components/sitemap/Sitemap";
 import WorkshopFeedback from "./Components/Feedback/Workshopfeedback";
-import Dashboarduser from "./Components/User Dashboard/Dashboarduser";
 import Logout_Model_user from "./Components/Modals/Logout_Model_user";
 import UserDashboardState from "./Context/userdashbaord";
 import Redirect_servworkshop from "./Components/Redirect_servworkshop";
@@ -45,7 +39,6 @@ import VideoDisplay from "./Components/Editor/VideoDisplay/VideoDisplay";
 import HomeUI from "./Components/Editor/New UI/Home/Home";
 import NewProfile from "./Components/Editor/New UI/Creator Profile/Profile";
 import NewService from "./Components/Editor/New UI/Service Page/Service";
-import TellUsMore from "./Components/Waitlist/TellUsMore";
 import PDFReaderPreview from "./Components/Editor/pdfViewer/pdfViewerPreview/Components/PDFReader";
 import Seo from "./Utils/Seo";
 import UserDashboard from "./Components/User Dashboard/UserDashboard";
@@ -75,18 +68,8 @@ function App() {
                     <UserDashboardState>
                       <LoadingBar color="#f11946" progress={progress} />
                       <Routes>
-                        {/* User dashboard routes ---------------------------------------------------------- */}
-                        <Route
-                          path="/"
-                          element={
-                            localStorage.getItem("jwtToken") &&
-                            localStorage.getItem("isUser") === "true" ? (
-                              <UserDashboard progress={changeprogress} />
-                            ) : (
-                              <Main />
-                            )
-                          }
-                        ></Route>
+                        {/* Landing Page routes ---------------------------------------------------------- */}
+                        <Route path="/" element={<Main progress={progress}/>}></Route>
                         {/* Home route to creator dashboard ------------------------------------------------ */}
                         <Route
                           path="*"
@@ -182,7 +165,6 @@ function App() {
                           />
                         </Route>
                         <Route path="/signup/creators" element={<Signup />} />{" "}
-                        
                         {/* Sitemap route -------------------------------------------------------------- */}
                         <Route path="/sitemapac" element={<Sitemap />}></Route>
                         {/* Testing routes --------------------------------------------------------------- */}
@@ -215,10 +197,6 @@ function App() {
                             />
                           }
                         />
-                        {/* <Route
-                          path="/newdashboard"
-                          element={<UserDashboard />}
-                        /> */}
                       </Routes>
                     </UserDashboardState>
                   </FeedbackState>

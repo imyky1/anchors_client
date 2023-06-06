@@ -26,7 +26,7 @@ function Modal1({open,toClose}) {
                 <p>Together, we will unleash the beast of your utmost potential.</p>
                 <br/>
                 <button className='button_modal_01' onClick={()=>{
-                    mixpanel.track("Apply Now clicked on Success Modal from Main Page");
+                    mixpanel.track("Creator's Signup");
                     navigate("/signup/creators")}}>Apply Now</button>
             </section>
         </div>

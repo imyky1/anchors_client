@@ -22,6 +22,7 @@ import { Email_Model2 } from "../../../Modals/Email_Modal";
 import ChangeStatusModal from "../../../Modals/ServiceSuccess/Modal2";
 import { Button1 } from "../Create Services/InputComponents/buttons";
 import { AiOutlinePlus } from "react-icons/ai";
+import mixpanel from "mixpanel-browser";
 
 function ServiceDetailPage(props) {
   const [openLoading, setOpenLoading] = useState(false);
@@ -274,6 +275,7 @@ function ServiceDetailPage(props) {
                           <span
                             className="servicelist_icon"
                             onClick={() => {
+                              mixpanel.track("Downloads")
                               !dummyData && elem.downloads !== 0 &&
                                 window.open(
                                   `/viewUserDetails/${elem.slug}`,
@@ -291,6 +293,7 @@ function ServiceDetailPage(props) {
                           <span
                             className="servicelist_icon iconalign"
                             onClick={() => {
+                              mixpanel.track("Analysis")
                               !dummyData &&
                                 window.open(
                                   `/serviceStats/${elem.slug}`,

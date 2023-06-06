@@ -21,6 +21,7 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { SuperSEO } from "react-super-seo";
 import { Button1 } from "../Create Services/InputComponents/buttons";
+import mixpanel from "mixpanel-browser";
 
 const PaymentSummary = () => {
   const navigate = useNavigate()
@@ -127,7 +128,7 @@ const PaymentSummary = () => {
     <div className="servicelist-wrapper">
       <section className="headers_section_paymentInfo">
       <h1 className="text_type01_payment_info">Earnings Summary</h1>
-      <button onClick={()=>{navigate("/paymentInfo")}}>Account Details</button>
+      <button onClick={()=>{navigate("/paymentInfo"); mixpanel.track("Account Details")}}>Account Details</button>
       </section>
       <div className="usereview_details">
         <div className="userreview_detail1">
@@ -163,14 +164,16 @@ const PaymentSummary = () => {
         <div
           className={`servicelist-catItem ${sort === 0 ? "selectedlist" : ""}`}
           onClick={function () {
+            mixpanel.track("Summary | Service Wise")
             setSort(0);
           }}
-        >
+          >
           Service Wise
         </div>
         <div
           className={`servicelist-catItem ${sort === 1 ? "selectedlist" : ""}`}
           onClick={function () {
+            mixpanel.track("Summary | Date Wise")
             setSort(1);
           }}
         >
