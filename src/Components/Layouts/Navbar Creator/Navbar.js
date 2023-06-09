@@ -14,7 +14,7 @@ function Navbar({noAccount = false, whiteTheme = false}) {
 
   return (
     <>
-      <section className="navbar_creator_wrapper01" style={whiteTheme && {background:"white"}}>
+      <section className="navbar_creator_wrapper01" style={whiteTheme ? {background:"white"} : {}}>
           <img
             src={whiteTheme ? require("../../../Utils/Images/logo-beta-black.png") : require("../../../Utils/Images/logo-beta.png")}
             alt=""
