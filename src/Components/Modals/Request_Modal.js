@@ -29,6 +29,7 @@ function Request_Modal({ open, onClose, slug, id, cname, UserDetails }) {
     }
   };
   const handleSubmit = (e) => {
+    mixpanel.track("Submitting the Request through Modal")
     e.preventDefault();
 
     if (requestQuery.length < 5) {
@@ -61,7 +62,6 @@ function Request_Modal({ open, onClose, slug, id, cname, UserDetails }) {
         amount === 0 || !amount ? false : true,
         amount ? amount : 0
       ).then((e) => {
-        console.log(e);
         if (e.error === "This action requires the user to login") {
           toast.error("Please login to proceed!", {
             position: "top-center",

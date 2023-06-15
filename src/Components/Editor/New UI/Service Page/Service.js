@@ -65,7 +65,7 @@ function Service(props) {
     useContext(creatorContext);
   const { checkFBlatest, getallfeedback, feedbacks, getRatingCreator } =
     useContext(feedbackcontext);
-  const { createRazorpayClientSecret, razorpay_key, checkfororder } =
+  const { createRazorpayClientSecret, razorpay_key, checkfororder,informLarkBot } =
     useContext(paymentContext);
   const {
     userPlaceOrder,
@@ -244,6 +244,7 @@ function Service(props) {
 
         // controlling the edges casses now ----------------
         if (result?.success && result?.orderPlaced && result?.paymentRecieved) {
+          setAlreadyOrderPlaced(true)
           mixpanel.track("Paid Order placed Successfully", {
             user: UserDetails?.email,
             slug: serviceInfo?.slug,
@@ -259,16 +260,20 @@ function Service(props) {
           result?.paymentRecieved
         ) {
           // sending the payment fail email at info@anchors.in
-          sendEmailForOrderPayments(
-            serviceInfo?.sname,
-            UserDetails?.email,
-            order.amount / 100,
-            res.razorpay_payment_id
-          );
+          informLarkBot(true,order.amount / 100,serviceInfo?.sname,res.razorpay_payment_id,UserDetails?.email, "Payment recieved but error in order placing response")
+
+          // sendEmailForOrderPayments(
+          //   serviceInfo?.sname,
+          //   UserDetails?.email,
+          //   order.amount / 100,
+          //   res.razorpay_payment_id
+          // );
+
           mixpanel.track("Problem!!!, Order not placed but money deducted", {
             user: UserDetails?.email,
             slug: serviceInfo?.slug,
           });
+
           toast.info(
             "Something wrong happened, If money got deducted then please reach us at info@anchors.in",
             {
@@ -323,13 +328,18 @@ function Service(props) {
         user: UserDetails?.email,
         slug: serviceInfo?.slug,
       });
+
+      // Inform lark bot about the default
+      informLarkBot(true,order.amount / 100,serviceInfo?.sname,e?.error?.metadata?.payment_id,UserDetails?.email, "Payment failed from Razorpay's side")
+
       // sending the payment fail email at info@anchors.in
-      sendEmailForOrderPayments(
-        serviceInfo?.sname,
-        UserDetails?.email,
-        order.amount / 100,
-        e?.error?.metadata?.payment_id
-      );
+      // sendEmailForOrderPayments(
+      //   serviceInfo?.sname,
+      //   UserDetails?.email,
+      //   order.amount / 100,
+      //   e?.error?.metadata?.payment_id
+      // );
+
       toast.info(
         "Payment Failed, if amount got deducted inform us at info@anchors.in",
         {
@@ -343,6 +353,7 @@ function Service(props) {
   const downloadService = async (e) => {
     mixpanel.track("Get Access")
     e?.preventDefault();
+    
     const ext = serviceInfo.surl?.split(".").at(-1);
     if (localStorage.getItem("jwtToken")) {
       if (serviceInfo?.isPaid) {
@@ -389,6 +400,7 @@ function Service(props) {
           localStorage.getItem("isUser") === "true" ? "user" : "creator"
         );
         if (success) {
+          setAlreadyOrderPlaced(true)
           // previewing the pdf as popup ----------------------------
           if (ext === "pdf") {
             sessionStorage.setItem("link", serviceInfo.surl);
@@ -410,6 +422,10 @@ function Service(props) {
             creator: basicCdata?.slug,
           });
         } else {
+
+          // inform lark bot --------
+          informLarkBot(false,0,serviceInfo?.sname,null,UserDetails?.email, "Unpaid Order Not placed")
+
           toast.error(
             "Order not Placed Due to some error, Please try again!!!",
             {

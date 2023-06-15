@@ -26,7 +26,7 @@ function Navbar({ slug, open, close }) {
 
   // Functions --------------------
   const handleLogoClick = () => {
-    mixpanel.track("User Dashboard from LOGO", {
+    mixpanel.track( localStorage.getItem("jwtToken") && localStorage.getItem("isUser") === true ? "User Dashboard from LOGO" : "Navbar logo clicked", {
       user: userDetails ? userDetails?.email : "",
     });
     navigate(`/`);

@@ -18,6 +18,7 @@ function Logout_Model() {
         localStorage.removeItem("url") 
         localStorage.removeItem("user") 
         localStorage.removeItem("c_id") 
+        mixpanel.reset()
         navigate("/")     
       }
       else{

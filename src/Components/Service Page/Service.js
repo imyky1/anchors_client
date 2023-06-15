@@ -385,7 +385,6 @@ function Service(props) {
           localStorage.getItem("isUser") === "true" ? "user" : "creator"
         );
         if (success) {
-          console.log(ext);
           // if (ext === "xls") {
           //   console.log(ext);
           //   setPaymentProcessing(false);

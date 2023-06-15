@@ -83,7 +83,6 @@ const UserState = (props) => {
         }),
       });
       const json = await response.json();
-
       if (json.success && json.verified) {
         // i.e payment has been verified now user order placing
         const success = await userPlaceOrder(

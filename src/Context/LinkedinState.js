@@ -137,10 +137,20 @@ const LinkedinState = (props) => {
       });
       const res = await response.json();
       if (res.success) {
+        //Identify and track the user in Mixpanel
+        mixpanel.identify(email);
+
+        // if mixpanel has already props set then it would not be updated
+        mixpanel.people.set_once({
+          $first_name: name.split(" ")[0],
+          $last_name: name.split(" ")[1],
+          $email: email,
+          isCreator: true,
+        });
+
         localStorage.setItem("jwtToken", res.jwtToken);
         localStorage.setItem("c_id", res.slug);
-        window.open("/tellUsMore","_self");
-
+        window.open("/tellUsMore", "_self");
       } else if (!res.success && res.already) {
         // creator already registeredd----
         // account is not created------------
@@ -194,6 +204,17 @@ const LinkedinState = (props) => {
       });
       const res = await response.json();
       if (res.success) {
+        //Identify and track the user in Mixpanel
+        mixpanel.identify(email);
+
+        // if mixpanel has already props set then it would not be updated
+        mixpanel.people.set_once({
+          $first_name: name.split(" ")[0],
+          $last_name: name.split(" ")[1],
+          $email: email,
+          isCreator: true,
+        });
+
         //const status = await getStatus(res.jwtToken);
         localStorage.setItem("jwtToken", res.jwtToken);
         localStorage.setItem("c_id", res.slug);
@@ -202,6 +223,7 @@ const LinkedinState = (props) => {
         } else {
           navigate("/waitlist");
         }
+        
       } else if (!res.success && !res.already) {
         // account is not created------------
         toast.error("No such account exists. First create one", {
@@ -266,6 +288,7 @@ const LinkedinState = (props) => {
     }
   };
 
+  // Google user login
   const usergooglelogin = async () => {
     fetch(`${host}/google/login/success`, {
       method: "GET",
@@ -355,18 +378,33 @@ const LinkedinState = (props) => {
     localStorage.removeItem("from");
     const res = await response.json();
     if (res.success) {
-      if (!res.already) {
-        mixpanel.alias(email);
+      // Determine if user is signing up or logging in
+      const isSigningUp = !res.already;
+
+      // Set user-related data in local storage
+      localStorage.setItem("isUser", true);
+      localStorage.setItem("jwtToken", res.jwtToken);
+
+      //Identify and track the user in Mixpanel
+      mixpanel.identify(email);
+
+      // if mixpanel has already props set then it would not be updated
+      mixpanel.people.set_once({
+        $first_name: name.split(" ")[0],
+        $last_name: name.split(" ")[1],
+        $email: email,
+      });
+
+      // // Track user signup event and set initial properties if applicable
+      if (isSigningUp) {
         mixpanel.people.set_once({
-          Type: "user",
           $first_name: name.split(" ")[0],
           $last_name: name.split(" ")[1],
           $email: email,
         });
       }
-      localStorage.setItem("isUser", true);
-      localStorage.setItem("jwtToken", res.jwtToken);
-      mixpanel.identify(email);
+
+      // Perform any necessary navigation
       navigate(localStorage.getItem("url"));
     } else {
       toast.error("Login Failed! Please Try Again", {

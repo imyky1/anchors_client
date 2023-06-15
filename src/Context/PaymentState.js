@@ -63,6 +63,26 @@ const PaymentState = (props) => {
   };
 
 
+  // Inform Lark bot about default in payment gateway
+  const informLarkBot = async (paid,amount,sname,paymentId,email,issue) => {
+    try {
+      const response = await fetch(`${host}/api/payment/informLarkRoute`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+        body: JSON.stringify({ paid,amount,sname,paymentId,email,issue }),
+      });
+      const json = await response.json();
+      return json.success;
+
+    } catch (error) {}
+  };
+
+
   // update or create the payment informations ---------------------
   const fillPaymentinformation = async (name, acNumber, ifsc) => {
     try {
@@ -116,6 +136,7 @@ const PaymentState = (props) => {
         checkfororder,
         fetchPaymentinformation,
         fillPaymentinformation,
+        informLarkBot
       }}
     >
       {props.children}

@@ -47,12 +47,14 @@ const whyanchors = [
   {
     icon: videoIcon,
     title: "Offer free/paid content",
-    subtitle: "Embrace the power of choice with anchors - free or paid, it's up to you.",
+    subtitle:
+      "Embrace the power of choice with anchors - free or paid, it's up to you.",
   },
   {
     icon: audienceIcon,
     title: "Know your audience",
-    subtitle: "Enhance connection with your audience  - simplified query acceptance made possible.",
+    subtitle:
+      "Enhance connection with your audience  - simplified query acceptance made possible.",
   },
 ];
 
@@ -83,7 +85,7 @@ const FAQDetails = [
   {
     question: "What is anchors? ",
     answer:
-      "anchors is an invite-only exclusive platform for premium creators. It provides a space for creators from various social media platforms to monetize their content, skills, expertise, and time. The platform is designed to empower creators and help them grow their communities and income streams. With anchors, creators can unlock their full potential in the creator economy by accessing a range of features and benefits."
+      "anchors is an invite-only exclusive platform for premium creators. It provides a space for creators from various social media platforms to monetize their content, skills, expertise, and time. The platform is designed to empower creators and help them grow their communities and income streams. With anchors, creators can unlock their full potential in the creator economy by accessing a range of features and benefits.",
   },
   {
     question: "Can I join this platform for free?",
@@ -93,7 +95,7 @@ const FAQDetails = [
   {
     question: "How are anchors different from other platforms?",
     answer:
-      "anchors isn't just another tool or SaaS platform. We are a creator's home, offering everything they need to unlock their full potential. Our mission is to constantly raise the bar, setting new standards in the creator economy and delivering the best experience possible. We're committed to competing with ourselves, continuously improving to empower creators and help them reach new heights."
+      "anchors isn't just another tool or SaaS platform. We are a creator's home, offering everything they need to unlock their full potential. Our mission is to constantly raise the bar, setting new standards in the creator economy and delivering the best experience possible. We're committed to competing with ourselves, continuously improving to empower creators and help them reach new heights.",
   },
   {
     question: "Why is there an eligibility criteria to join the platform?",
@@ -103,12 +105,12 @@ const FAQDetails = [
   {
     question: "What is an invite-code for anchors?",
     answer:
-      "An invite-code for anchors is a unique code provided by existing creators. By using an invite-code during the registration process, new creators can gain access to the platform and start their journey on anchors. It's a way to ensure that serious creators join our exclusive community."
+      "An invite-code for anchors is a unique code provided by existing creators. By using an invite-code during the registration process, new creators can gain access to the platform and start their journey on anchors. It's a way to ensure that serious creators join our exclusive community.",
   },
   {
     question: "What is the process to be a part of anchors?",
     answer:
-      "To become a part of anchors, you can request an invitation using the form on our website. If you meet the eligibility criteria, our team will review your application and send you an exclusive invite. Once you receive the invite, you can complete the registration process and start leveraging the features and benefits of anchors."
+      "To become a part of anchors, you can request an invitation using the form on our website. If you meet the eligibility criteria, our team will review your application and send you an exclusive invite. Once you receive the invite, you can complete the registration process and start leveraging the features and benefits of anchors.",
   },
 ];
 
@@ -572,9 +574,17 @@ const ConnectWithUs = () => {
       <div>
         <h2 className="headers1_mainpage">Connect with us</h2>
         <p>
-        Let's connect and make things happen ! Reach out to our team for any assistance or suggestions.
+          Let's connect and make things happen ! Reach out to our team for any
+          assistance or suggestions.
         </p>
-        <button data-cal-link="anchors-team/15min" onClick={()=>{mixpanel.track("Connect with us")}}>Let’s Connect</button>
+        <button
+          data-cal-link="anchors-team/15min"
+          onClick={() => {
+            mixpanel.track("Connect with us");
+          }}
+        >
+          Let’s Connect
+        </button>
       </div>
     </section>
   );
@@ -593,24 +603,30 @@ function Main(props) {
 
   // Visited page mix panel
   useEffect(() => {
-    mixpanel.track("Visited Main Page");
+
+    // Not allow this event when a logined user goes to dahboard
+    if (
+      !localStorage.getItem("jwtToken") &&
+      localStorage.getItem("isUser") !== true
+    ) {
+      mixpanel.track("Visited Main Page");
+    }
   }, []);
 
   const handleStart = () => {
-    mixpanel.track("Join Now")
+    mixpanel.track("Join Now");
     let link = document.createElement("a");
     link.href = "#eligibility";
     mixpanel.track("Clicked Start Now in hero section");
     link.dispatchEvent(new MouseEvent("click"));
   };
 
-
   // No main page when user is logged in --------------------------
-  if(localStorage.getItem("jwtToken") &&
-  localStorage.getItem("isUser") === "true"){
-    return (
-      <UserDashboard progress={props.progress}/>
-    )
+  if (
+    localStorage.getItem("jwtToken") &&
+    localStorage.getItem("isUser") === "true"
+  ) {
+    return <UserDashboard progress={props.progress} />;
   }
 
   return (
@@ -619,7 +635,7 @@ function Main(props) {
 
       <div className="mainLandingpage_body">
         {/* Logo and header section --------------------------------------------- */}
-        <NavbarCreator/>
+        <NavbarCreator />
 
         {/* Hero Section --------------------------------------------------------------- */}
         <section className="hero_mainpage">
@@ -738,7 +754,7 @@ function Main(props) {
         <WallOfLove data={data} />
 
         {/* Faq sections */}
-        <MainFAQs data={FAQDetails}/>
+        <MainFAQs data={FAQDetails} />
 
         <Footer />
       </div>
