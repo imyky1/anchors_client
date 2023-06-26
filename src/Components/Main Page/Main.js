@@ -635,7 +635,7 @@ function Main(props) {
 
       <div className="mainLandingpage_body">
         {/* Logo and header section --------------------------------------------- */}
-        <NavbarCreator />
+        <NavbarCreator newfeature={true}/>
 
         {/* Hero Section --------------------------------------------------------------- */}
         <section className="hero_mainpage">

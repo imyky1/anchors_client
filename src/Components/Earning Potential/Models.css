@@ -1,0 +1,365 @@
+.outside_wrapper_earning {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: #ffffff33;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outside_wrapper_earning input::placeholder {
+  color: #707070;
+  font-size: 16px;
+}
+
+.callback_earning_model {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 854px;
+  height: 410px;
+
+  background: #282828;
+  border-radius: 10px;
+
+  padding: 40px 0;
+  box-sizing: border-box;
+}
+
+.callback_earning_model > h1 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  margin-bottom: 28px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.callback_earning_model > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  box-sizing: border-box;
+  padding: 0 20px;
+}
+
+.left_side_model_earning {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  padding-right: 80px;
+  gap: 20px;
+  border-right: 1px solid #000000;
+}
+
+.left_side_model_earning > input {
+  width: 360px;
+  height: 50px;
+  padding: 15px 20px;
+  gap: 10px;
+  box-sizing: border-box;
+
+  border: 1px solid #707070;
+  border-radius: 10px;
+  background-color: transparent;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  /* identical to box height, or 125% */
+
+  color: white;
+}
+
+.left_side_model_earning > input:focus {
+  outline: none;
+}
+
+.left_side_model_earning > div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left_side_model_earning button {
+  width: 230px;
+  height: 43px;
+
+  background: #ff0000;
+  box-shadow: 0px 4px 8px rgba(31, 31, 31, 0.1);
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #ffffff;
+  cursor: pointer;
+  border: none;
+}
+
+.right_side_model_earning {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.right_side_model_earning > p {
+  width: 254px;
+  height: 112px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.right_side_model_earning > span {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  text-decoration-line: underline;
+  cursor: pointer;
+  color: #ff0000;
+}
+
+/* OTP MODEL EARNING */
+
+.otp_main_container_earning {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  box-sizing: border-box;
+  gap: 40px;
+
+  width: 480px;
+  height: 396px;
+
+  background: #282828;
+  border-radius: 10px;
+}
+
+.otp_main_container_earning h2 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.otp_main_container_earning > section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.otp_main_container_earning input {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 15px 20px;
+  gap: 10px;
+
+  width: 360px;
+  height: 54px;
+
+  border: 1px solid #707070;
+  border-radius: 10px;
+  background-color: transparent;
+  box-sizing: border-box;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: #ffffff;
+}
+
+.otp_main_container_earning input:focus {
+  outline: none;
+}
+
+.otp_main_container_earning > button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px 40px;
+  gap: 10px;
+  box-sizing: border-box;
+
+  min-width: 268px;
+  height: 48px;
+  border: none;
+
+  background: #ff0000;
+  box-shadow: 0px 4px 8px rgba(31, 31, 31, 0.1);
+  border-radius: 40px;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  cursor: pointer;
+
+  color: #ffffff;
+}
+
+.otp_main_container_earning span {
+  width: 244px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+
+  color: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 600px) {
+  .outside_wrapper_earning input::placeholder {
+    color: #707070;
+    font-size: 12px;
+  }
+
+  .callback_earning_model {
+    width: 90%;
+    height: 463px;
+    padding: 20px 0;
+  }
+
+  .callback_earning_model > h1 {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+  }
+
+  .callback_earning_model > div {
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+  }
+
+  .left_side_model_earning {
+    padding-right: unset;
+    border: none;
+    width: 100%;
+    border-bottom: 1px solid #ffffff;
+    padding-bottom: 20px;
+  }
+
+  .left_side_model_earning > input {
+    width: 100%;
+    height: 40px;
+
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .left_side_model_earning button {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    width: 180px;
+    height: 40px;
+  }
+
+  .right_side_model_earning {
+    width: 100%;
+  }
+
+  .right_side_model_earning > p {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    width: 60%;
+    height: unset;
+  }
+
+  .right_side_model_earning > span {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .otp_main_container_earning {
+    width: 90%;
+    min-height: 243px;
+    max-height: 255px;
+    padding: 20px 16px;
+    gap: 20px;
+  }
+
+  .otp_main_container_earning h2 {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+  }
+
+  .otp_main_container_earning > section {
+    width: 100%;
+    gap: 12px;
+  }
+
+  .otp_main_container_earning input {
+    width: 100%;
+    height: 40px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .otp_main_container_earning > button {
+    height: 40px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    padding: 18px 24px;
+    min-width: unset;
+  }
+
+  .otp_main_container_earning > section img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .otp_main_container_earning span {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    width: 60%;
+  }
+}

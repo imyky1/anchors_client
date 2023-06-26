@@ -303,7 +303,7 @@ function Pricing() {
 
   return (
     <>
-      <NavbarCreator />
+      <NavbarCreator  newfeature={true}/>
 
       <div className="main_pricing_wrapper">
         <div className="pricingIntroContainer">

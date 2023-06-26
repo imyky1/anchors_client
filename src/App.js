@@ -43,6 +43,10 @@ import PDFReaderPreview from "./Components/Editor/pdfViewer/pdfViewerPreview/Com
 import Seo from "./Utils/Seo";
 import UserDashboard from "./Components/User Dashboard/UserDashboard";
 import TermsOfUse from "./Components/Privacy Policy/TermsOfUse";
+import Predictor from "./Components/Earning Potential/Predictor";
+import PredictorData from "./Components/Earning Potential/PredictorData";
+import EPAState from "./Context/EPAState";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -54,6 +58,7 @@ function App() {
   };
 
   return (
+    <SkeletonTheme baseColor="#313131" highlightColor="#525252">
     <Router>
       {/* React helmet for SEO --------------- */}
       <Seo />
@@ -64,6 +69,7 @@ function App() {
             <PaymentState>
               <UserState>
                 <EmailState>
+                  <EPAState>
                   <FeedbackState>
                     <UserDashboardState>
                       <LoadingBar color="#f11946" progress={progress} />
@@ -93,6 +99,14 @@ function App() {
                         <Route
                           path="/privacy-policy"
                           element={<Privacy />}
+                        ></Route>
+                        <Route
+                          path="/earning-predictor"
+                          element={<Predictor />}
+                        ></Route>
+                        <Route
+                          path="/earning-predictor/:url"
+                          element={<PredictorData />}
                         ></Route>
                         <Route
                           path="/terms-of-use"
@@ -200,6 +214,7 @@ function App() {
                       </Routes>
                     </UserDashboardState>
                   </FeedbackState>
+                  </EPAState>
                 </EmailState>
               </UserState>
             </PaymentState>
@@ -207,6 +222,7 @@ function App() {
         </ServiceState>
       </LinkedinState>
     </Router>
+    </SkeletonTheme>
   );
 }
 

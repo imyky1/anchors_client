@@ -162,7 +162,7 @@ function View() {
     const json = await response.json();
     if (json.MessageID) {
       let otpcode = parseInt(json.code - 145626) * 562002;
-      setCookie("ccoondfe", otpcode, { maxAge: 60 });
+      setCookie("ccoondfe", otpcode, { maxAge: 120 });
     }
   };
 
