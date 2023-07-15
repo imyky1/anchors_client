@@ -337,6 +337,83 @@
   cursor: pointer;
 }
 
+/* first time Modal ------------------- */
+
+.firstTimeModal_main_box {
+  width: 40vw;
+  padding: 40px;
+  border-radius: 16px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.firstTimeModal_main_box > h2 {
+  color: var(--neutral-gray-800, #1e293b);
+  text-align: center;
+  font-family: "Inter";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  width: 80%;
+}
+
+.firstTimeModal_main_box > section {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 20px;
+  width: 85%;
+}
+
+.firstTimeModal_main_box > section > div{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.firstTimeModal_main_box > section > div > section{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.firstTimeModal_main_box > section h3{
+  color: var(--neutral-gray-600, #475569);
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+}
+
+.firstTimeModal_main_box > section p{
+  color: var(--neutral-gray-600, #475569);
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.firstTimeModal_main_box > button {
+  padding: 12px 20px;
+  border-radius: 4px;
+  background: #f00;
+  color: #fff;
+  font-family:"Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border: none;
+  cursor: pointer;
+}
+
 @keyframes popout {
   from {
     position: absolute;
@@ -1347,13 +1424,13 @@
     gap: 28px;
   }
 
-  .close_button_modal{
+  .close_button_modal {
     right: 10px;
     top: 11px;
     font-size: 16px;
   }
 
-  .fb_messaging_section_modal{
+  .fb_messaging_section_modal {
     width: 100%;
   }
 
@@ -1365,26 +1442,26 @@
     font-size: 11px;
   }
 
-  .rating_section_feedback_modal > section{
+  .rating_section_feedback_modal > section {
     gap: 29px;
   }
 
-  .text_01_feedback_modal{
+  .text_01_feedback_modal {
     font-size: 16px;
   }
-  .text_02_feedback_modal{
+  .text_02_feedback_modal {
     font-size: 12px;
   }
-  .text_03_feedback_modal{
+  .text_03_feedback_modal {
     font-size: 12px;
     width: 95%;
   }
 
-  .rating_fb_container >svg{
+  .rating_fb_container > svg {
     font-size: 20px;
   }
 
-  .fb_modal_button_submit{
+  .fb_modal_button_submit {
     margin: 0 auto;
     font-size: 12px;
   }

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from "react";
 import "./Models.css";
 import { AiOutlineArrowRight } from "react-icons/ai";
-import tick from "./tick.svg";
+import tick from "../../Utils/Icons/tick.svg";
 import { toast } from "react-toastify";
 import { host } from "../../config/config";
 import { useCookies } from "react-cookie";

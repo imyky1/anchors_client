@@ -37,7 +37,7 @@ function Modal1(props) {
           <button
             onClick={() => {
               props.toClose();
-              props?.type==="Payment-Success" ? navigate("/paymentSummary") : navigate("/editprofile");
+              props?.type==="Payment-Success" ? navigate("/dashboard/paymentSummary") : navigate("/dashboard/editprofile");
             }}
           >
             {props?.type==="Payment-Success" ? "Go to Payment Summary" : "Update Personal Information"}

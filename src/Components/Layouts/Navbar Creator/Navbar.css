@@ -3,16 +3,16 @@
   align-items: center;
   justify-content: space-between;
   margin: auto;
-  width: 93vw;
-  padding: 0 22px;
+  padding: 0 45px;
   padding-top: 20px;
   position: fixed;
   top: 0px;
-  left: 35px;
   background: #101010;
   z-index: 99;
   padding-bottom: 12px;
   box-sizing: border-box;
+  width: 100vw;
+  padding-left: 6%;
 }
 
 .navbar_creator_wrapper01 > img {

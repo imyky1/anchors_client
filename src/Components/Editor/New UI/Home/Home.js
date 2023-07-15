@@ -21,17 +21,20 @@ import { LoadOne } from "../../../Modals/Loading";
 import { linkedinContext } from "../../../../Context/LinkedinState";
 import Waitlist from "../../../Waitlist/Waitlist";
 import HelpModal from "../../../Modals/ModalType01/HelpModal";
-import Edit from "../../../Edit Service/Edit";
 import EditService from "../Edit Services/EditService";
 import CreatorFeedback from "../../../Modals/CreatorProfile/CreatorFeedback";
 import DefaultBanner from "../../../Modals/Default Banner/DefaultBanner";
 import TellUsMore from "../../../Waitlist/TellUsMore";
+import CreateEvent from "../Create Services/CreateEvent";
+import FirstTimeModal from "../../../Modals/FirstTimeModal";
+import Stats from "../Stats/stats";
 
 function Home(props) {
   const location = useLocation();
   const navigate = useNavigate();
   const [openCreatorInfo, setopenCreatorInfo] = useState(false);
   const [openHelpModal, setOpenHelpModal] = useState(false);
+  const [openFirstTimeModal, setOpenFirstTimeModal] = useState(false);
   const [openCreatorFbModal, setOpenCreatorFbModal] = useState(false);
   const [openDefaultBannerModal, setOpenDefaultBannerModal] = useState(false);
   const [dataDefaultBanner, setDataDefaultBanner] = useState({
@@ -108,7 +111,7 @@ function Home(props) {
   }, []);
 
   useEffect(() => {
-    if (localStorage.getItem("jwtToken") && localStorage.getItem("c_id")) {
+    if (localStorage.getItem("jwtToken") && localStorage.getItem("c_id") ) {
       getCreatorExtraDetails().then((e) => {
         setcreatorData({
           ...creatorData,
@@ -122,6 +125,40 @@ function Home(props) {
           setRating(e1);
         });
       });
+
+      const script = document.createElement("script");
+      script.innerHTML = `
+        (function (w, d, s, c, r, a, m) {
+          w["KiwiObject"] = r;
+          w[r] =
+            w[r] ||
+            function () {
+              (w[r].q = w[r].q || []).push(arguments);
+            };
+          w[r].l = 1 * new Date();
+          a = d.createElement(s);
+          m = d.getElementsByTagName(s)[0];
+          a.async = 1;
+          a.src = c;
+          m.parentNode.insertBefore(a, m);
+        })(
+          window,
+          document,
+          "script",
+          "https://app.interakt.ai/kiwi-sdk/kiwi-sdk-17-prod-min.js?v=" +
+            new Date().getTime(),
+          "kiwi"
+        );
+        window.addEventListener("load", function () {
+          kiwi.init("", "5iLlXa3nOrSCBGdtkweRO8tws2xujgB0", {});
+        });
+      `;
+      document.body.appendChild(script);
+
+      return () => {
+        // Clean up the script when the component is unmounted
+        document.body.removeChild(script);
+      };
     }
     // eslint-disable-next-line
   }, [localStorage.getItem("jwtToken")]);
@@ -129,7 +166,7 @@ function Home(props) {
   return (
     <>
       {/* at /check the loader comes into role */}
-      {location.pathname === "/check" && <LoadOne />}
+      {location.pathname === "/dashboard/check" && <LoadOne />}
 
       {localStorage.getItem("jwtToken") &&
         localStorage.getItem("c_id") &&
@@ -160,6 +197,15 @@ function Home(props) {
                 setOpenCreatorFbModal(false);
               }}
             />
+
+            {/* First time details modal --------------------- */}
+            {openFirstTimeModal && (
+              <FirstTimeModal
+                onClose={() => {
+                  setOpenFirstTimeModal(false);
+                }}
+              />
+            )}
 
             {/* Default Banner modal controlled through craete service -------- */}
             <DefaultBanner
@@ -212,16 +258,24 @@ function Home(props) {
                 ) : (
                   <Routes>
                     {/* Dashboard Route ---------------------------------------------------- */}
-                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route
+                      path="/"
+                      element={
+                        <Dashboard
+                          setOpenFirstTimeModal={setOpenFirstTimeModal}
+                          reviews={creatorData?.Reviews}
+                        />
+                      }
+                    />
 
                     {/* Service List Route ---------------------------------------------------- */}
                     <Route
-                      path="/mycontents"
+                      path="mycontents"
                       element={<ServiceDetailPage progress={props.progress} />}
                     />
                     {/* Create service Route ---------------------------------------------------- */}
                     <Route
-                      path="/createservice"
+                      path="createservice"
                       element={
                         <Create
                           progress={props.progress}
@@ -241,12 +295,34 @@ function Home(props) {
                         />
                       }
                     />
+                    {/* Create event route */}
                     <Route
-                      path="/editprofile"
+                      path="createevent"
+                      element={
+                        <CreateEvent
+                          progress={props.progress}
+                          openDefaultBanner={() => {
+                            setOpenDefaultBannerModal(true);
+                          }}
+                          setDefaultBannerData={(e) =>
+                            setDataDefaultBanner({
+                              ...dataDefaultBanner,
+                              fillingData: e,
+                            })
+                          }
+                          FinalDefaultBannerFormData={
+                            dataDefaultBanner?.finalFormData
+                          }
+                          cname={allCreatorInfo?.name}
+                        />
+                      }
+                    />
+                    <Route
+                      path="editprofile"
                       element={<EditProfile progress={props.progress} />}
                     />
                     <Route
-                      path="/editservice/:slug/:servicetype"
+                      path="editservice/:slug/:servicetype"
                       element={
                         <EditService
                           progress={props.progress}
@@ -267,7 +343,7 @@ function Home(props) {
                       }
                     />
                     <Route
-                      path="/reviews"
+                      path="reviews"
                       element={
                         <UserReviews
                           progress={props.progress}
@@ -276,7 +352,7 @@ function Home(props) {
                       }
                     />
                     <Route
-                      path="/servicereviews/:slug"
+                      path="servicereviews/:slug"
                       element={
                         <UserReviews
                           progress={props.progress}
@@ -285,7 +361,7 @@ function Home(props) {
                       }
                     />
                     <Route
-                      path="/requests"
+                      path="requests"
                       element={
                         <UserRequest
                           progress={props.progress}
@@ -294,24 +370,41 @@ function Home(props) {
                       }
                     />
                     <Route
-                      path="/servicestats/:slug"
+                      path="stats"
+                      element={
+                        <Stats
+                          progress={props.progress}
+                          creatorSlug={basicNav?.slug}
+                        />
+                      }
+                    />
+                    <Route
+                      path="servicestats/:slug"
                       element={<ServiceStats progress={props.progress} />}
                     />
                     <Route
-                      path="/paymentSummary"
+                      path="paymentSummary"
                       element={<PaymentSummary progress={props.progress} />}
                     />
                     <Route
-                      path="/paymentInfo"
+                      path="paymentInfo"
                       element={<PaymentInfo progress={props.progress} />}
                     />
                     <Route
-                      path="/viewUserDetails/:slug"
+                      path="viewUserDetails/:slug"
                       element={<Users progress={props.progress} />}
                     />
 
                     {/* exception  Route for false input ---------------------------------------------------- */}
-                    <Route path="/*" element={<Dashboard />} />
+                    <Route
+                      path="/*"
+                      element={
+                        <Dashboard
+                          reviews={creatorData?.Reviews}
+                          setOpenFirstTimeModal={setOpenFirstTimeModal}
+                        />
+                      }
+                    />
                   </Routes>
                 )}
               </div>

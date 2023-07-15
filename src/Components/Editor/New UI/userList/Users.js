@@ -23,8 +23,8 @@ function Users(props) {
     serviceInfo,
     getserviceinfo,
     compareJWT,
-    getworkshopinfo,
-    workshopInfo,
+    geteventinfo,
+    eventInfo,
   } = useContext(ServiceContext);
   const [openLoading, setopenLoading] = useState(false);
   const [serviceType, setServiceType] = useState();
@@ -41,27 +41,27 @@ function Users(props) {
   // Checking if the user is only able to check its data not others-------------------
   useEffect(() => {
     props.progress(0);
-    if (query.get("service") === "workshop") {
-      setServiceType("workshop");
-      getworkshopinfo(slug).then((e) => {
-        compareJWT(e[0]).then((e) => {
+    if (query.get("type") === "event") {
+      setServiceType("event");
+      geteventinfo(slug).then((e) => {
+        compareJWT(e[0]?._id).then((e) => {
           if (e) {
             setapprovedUser(true);
             props.progress(100);
           } else {
-            navigate("/mycontents");
+            navigate("/dashboard/mycontents");
           }
         });
       });
     } else {
       setServiceType("download");
       getserviceinfo(slug).then((e) => {
-        compareJWT(e[0]).then((e) => {
+        compareJWT(e[0]?._id).then((e) => {
           if (e) {
             setapprovedUser(true);
             props.progress(100);
           } else {
-            navigate("/mycontents");
+            navigate("/dashboard/mycontents");
           }
         });
       });
@@ -71,12 +71,13 @@ function Users(props) {
   useEffect(() => {
     setopenLoading(true);
     getUserDetails(
-      serviceType === "download" ? serviceInfo?._id : workshopInfo?._id,
+      serviceType === "download" ? serviceInfo?.service?._id : eventInfo?.event?._id,
       serviceType
     ).then((e) => {
       setopenLoading(false);
     });
-  }, [serviceType === "download" ? serviceInfo : workshopInfo]);
+
+  }, [serviceType === "download" ? serviceInfo : eventInfo]);
 
   const renderdate1 = (date) => {
     let a = new Date(date);
@@ -113,7 +114,7 @@ function Users(props) {
             <div className="servicestat_leftheading">
               <h1 style={{margin:"5px"}}>List of users</h1>
               <span className="servicelist_wrap_span">
-              Access a list of users who have used this service
+              Access a list of users who have used this {serviceType === "download" ? "service" : "event"}
               </span>
             </div>
 
@@ -122,8 +123,8 @@ function Users(props) {
                 className="servicestat_button"
                 onClick={() => {
                   serviceType === "download"
-                    ? navigate(`/servicestats/${slug}`)
-                    : navigate(`/servicestats/${slug}?service=workshop`);
+                    ? navigate(`/dashboard/servicestats/${slug}`)
+                    : navigate(`/dashboard/servicestats/${slug}?type=event`);
                 }}
               >
                 Check detailed Analysis

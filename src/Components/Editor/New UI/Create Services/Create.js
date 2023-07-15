@@ -54,20 +54,16 @@ function Create({
 
   // service Context --------------------------------------------------
   const {
-    slugCount,
     getslugcount,
     addservice,
     UploadDocuments,
     Uploadfile,
-    UploadBanners,
-    checkCpyUrl,
   } = useContext(ServiceContext);
   const [data, setdata] = useState({
     sname: "",
     sdesc: "",
     smrp: 0,
     ssp: 0,
-    guidelines: "",
   });
 
   const [Tags, setTags] = useState([]);
@@ -75,7 +71,7 @@ function Create({
   const [BannerImage, setBannerImage] = useState();
 
   // allow preview variables
-  const [allowPreview, setAllowPreview] = useState(false);
+  const [allowDownload, setAllowDownload] = useState(false);
   const [noOfPage, setNoOfPages] = useState(0);
   const [ServiceDoc, setServiceDoc] = useState();
 
@@ -108,23 +104,6 @@ function Create({
   useEffect(() => {
     setCreateType(paramsType);
   }, [paramsType]);
-
-  // genrating copy url string -----------------------------------------------
-  // const generateCopyURL = async () => {
-  //   var result = "";
-  //   var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  //   var charactersLength = characters.length;
-  //   for (var i = 0; i < 2; i++) {
-  //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  //   }
-  //   checkCpyUrl(result).then((check) => {
-  //     if (check) {
-  //       setdata({ ...data, CopyURL: result });
-  //     } else {
-  //       generateCopyURL();
-  //     }
-  //   });
-  // };
 
   // Image cropping
   // IMAGE RESIZE
@@ -161,15 +140,16 @@ function Create({
     //getslugcount(slug.toLowerCase());  // checks if similar slug already exists -----
     return slug;
   };
+  
 
   // form submission ----------------------------------------------------------
-  const onSubmit = async () => {
+  const onSubmit = async (buttonType) => {
     let slug = process();
     let SlugCount = await getslugcount(slug.toLowerCase());
     setOpenLoading(true); // true on loader
     progress(0);
     if (
-      data.sname.length > 3 &&
+      data.sname.length > 1 &&
       ServiceDoc &&
       paid &&
       (BannerImage || defaultbanner)
@@ -211,9 +191,9 @@ function Create({
               paid === "Free" ? false : true,
               paid === "Free" ? 0 : data.smrp,
               paid === "Free" ? 0 : data.ssp,
-              allowPreview,
+              allowDownload,
               noOfPage,
-              data.guidelines
+              buttonType === "preview" ? 2 : 1
             );
             if (json?.success) {
               //setservData(json.res);
@@ -270,7 +250,7 @@ function Create({
   };
 
   // check is the query parameter is changed----------------------------------------
-  if (!["pdf", "excel", "video"].includes(CreateType)) {
+  if (!["pdf", "excel", "video", "event"].includes(CreateType)) {
     return navigate("/dashboard");
   }
 
@@ -293,7 +273,9 @@ function Create({
               ? "Excel Sheet"
               : CreateType === "video"
               ? "Video"
-              : ""}{" "}
+              : CreateType === "event"
+              ? "Event"
+              : "" }{" "}
             about?
           </h1>
           <p className="create_text_02">
@@ -502,7 +484,7 @@ function Create({
                   }`}
                   placeholder="Mention guidelines how your content can be useful for your audience"
                   Content={data.sdesc}
-                  setContent={(e) => setdata({ ...data, guidelines: e })}
+                  setContent={(e) => setdata({ ...data, sdesc: e })}
                 />
               </div>
               {/* right section -------------------------- */}
@@ -527,20 +509,19 @@ function Create({
                 />
 
                 {/* Allow preview section ------------------------------- */}
-                {/* <RadioField1
-                  label={
-                    CreateType === "video" ? "Allow Download" : "Allow Preview"
-                  }
-                  onChange={setAllowPreview}
+                <RadioField1
+                  label="Allow Download"
+                  onChange={setAllowDownload}
                   id="asdas"
-                /> */}
+                />
               </div>
             </section>
           </section>
         )}
 
         <section className="buttons_form">
-          <Button1 text="Save and Publish" onClick={onSubmit} />
+          <Button1 text="Preview" onClick={()=>{onSubmit("preview")}} />
+          <Button1 text="Save and Publish" onClick={()=>{onSubmit("save")}} />
         </section>
       </div>
       {openimagePreview && BannerImage ? (

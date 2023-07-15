@@ -4,10 +4,10 @@ import { host } from "../../config/config";
 
 const ServiceState = (props) => {
   const servicesInitial = []; // this state is being passed as value to the notestate
-  const workshopInitial = [];
+  const eventInitial = [];
   const [services, setServices] = useState(servicesInitial);
-  const [workshops, setWorkshops] = useState(workshopInitial);
-  const [workshopInfo, setWorkshopInfo] = useState(workshopInitial);
+  const [events, setEvents] = useState(eventInitial);
+  const [eventInfo, setEventInfo] = useState(eventInitial);
   const [getallsubscriber, setgetallsubs] = useState({});
   const [totalsubscount, setTotalSubscount] = useState({});
   const [serviceInfo, setServiceInfo] = useState(servicesInitial);
@@ -87,11 +87,10 @@ const ServiceState = (props) => {
     isPaid,
     smrp,
     ssp,
-    allowPreview,
+    allowDownload,
     noOfPage,
-    guidelines
+    status
   ) => {
-    console.log(guidelines);
     const response = await fetch(`${host}/api/services/createservice`, {
       method: "POST",
       headers: {
@@ -99,7 +98,7 @@ const ServiceState = (props) => {
         "jwt-token": localStorage.getItem("jwtToken"),
       },
 
-      //body: JSON.stringify({ sname:sname,sdesc:sdesc,ldesc:ldesc,slug:slug,simg:simg,surl:surl,stype:stype,isPaid:isPaid,smrp:smrp,ssp:ssp }),
+
       body: JSON.stringify({
         sname: sname,
         sdesc: sdesc,
@@ -112,24 +111,24 @@ const ServiceState = (props) => {
         isPaid: isPaid,
         smrp: smrp,
         ssp: ssp,
-        allowPreview: allowPreview,
+        allowDownload,
         noOfPages: noOfPage,
-        guidelines: guidelines,
+        status
       }),
     });
     const json = await response.json();
     return json;
   };
 
-  // 5. Deleting services from the respective data from /deleteservice endpoint
-  const deleteService = async (id, status) => {
+  // 5. changing staus of services from the respective data from /deleteservice endpoint
+  const deleteService = async (id, status, serviceType) => {
     const response = await fetch(`${host}/api/services/deleteservice/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         "jwt-token": localStorage.getItem("jwtToken"),
       },
-      body: JSON.stringify({ status: status }),
+      body: JSON.stringify({ status: status, serviceType : serviceType ? serviceType : "document" }),
     });
     const json = await response.json();
     return json.success;
@@ -177,8 +176,8 @@ const ServiceState = (props) => {
     );
     const json = await response.json();
     if (json.success) {
-      setServiceInfo(json.service[0]);
-      return [json.service[0]?.c_id, json.service[0]?._id];
+      setServiceInfo({ service: json.service, creator: json.creator });
+      return [json.service.c_id, json.service._id];
     } else {
       //console.log("Some error Occured")
     }
@@ -259,24 +258,6 @@ const ServiceState = (props) => {
     }
   };
 
-  //6. get slug count dor workshop
-  const getslugcountWorkshop = async (slug) => {
-    const response = await fetch(`${host}/api/workshop/getslugcount`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ slug: slug }),
-    });
-    const json = await response.json();
-
-    if (json.success) {
-      setSlugCount(json.count);
-    } else {
-      console.log("Some error Occured");
-    }
-  };
-
   // check for copy url if it already exists
   const checkCpyUrl = async (url) => {
     const response = await fetch(`${host}/api/services/checkurl`, {
@@ -333,14 +314,15 @@ const ServiceState = (props) => {
     const json = await response.json();
     return json.users;
   };
-  /**WORKSHOP FETCHES FROM HERE */
-  // 4. Adding services from the respective data from /createservice endpoint
-  const addworkshop = async (
+
+  /*---------Event FETCHES FROM HERE ----------------------------------------------------------------------------------------------------- */
+
+  // 4. Adding events from the respective data from /createevent endpoint
+  const addEvent = async (
     sname,
     sdesc,
     ldesc,
     slug,
-    copyURL,
     simg,
     tags,
     stype,
@@ -348,13 +330,13 @@ const ServiceState = (props) => {
     smrp,
     ssp,
     startDate,
-    time,
-    afterstartentry,
+    time, // in object {startTime:"",endTime:""}
+    benefits,
     maxCapacity,
     meetlink,
-    svideo
+    videoLink
   ) => {
-    const response = await fetch(`${host}/api/workshop/createworkshop`, {
+    const response = await fetch(`${host}/api/event/createEvent`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -363,32 +345,50 @@ const ServiceState = (props) => {
 
       //body: JSON.stringify({ sname:sname,sdesc:sdesc,ldesc:ldesc,slug:slug,simg:simg,surl:surl,stype:stype,isPaid:isPaid,smrp:smrp,ssp:ssp }),
       body: JSON.stringify({
-        sname: sname,
-        sdesc: sdesc,
-        ldesc: ldesc,
-        slug: slug,
-        copyURL: copyURL,
-        tags: tags,
-        simg: simg,
-        stype: stype,
-        isPaid: isPaid,
-        smrp: smrp,
-        ssp: ssp,
-        startDate: startDate,
-        time: time,
-        afterstartentry: afterstartentry,
-        maxCapacity: maxCapacity,
-        svideo: svideo,
-        meetlink: meetlink,
+        sname,
+        sdesc,
+        ldesc,
+        slug,
+        simg,
+        tags,
+        stype,
+        isPaid,
+        smrp,
+        ssp,
+        startDate,
+        time, // in object {startTime:"",endTime:""}
+        benefits,
+        maxCapacity,
+        meetlink,
+        videoLink,
       }),
     });
     const json = await response.json();
     return json;
   };
 
+  //6. get slug count dor event
+  const getslugcountEvent = async (slug) => {
+    const response = await fetch(`${host}/api/event/getslugcount`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ slug: slug }),
+    });
+    const json = await response.json();
+
+    if (json.success) {
+      setSlugCount(json.count);
+      return json.count;
+    } else {
+      console.log("Some error Occured");
+    }
+  };
+
   // 1. Getting all the services for the respective creator
-  const getallworkshops = async () => {
-    const response = await fetch(`${host}/api/workshop/getallworkshop`, {
+  const getallevents = async () => {
+    const response = await fetch(`${host}/api/event/getallevent`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -397,15 +397,29 @@ const ServiceState = (props) => {
     });
     const json = await response.json();
     if (json.success) {
-      setWorkshops(json);
+      setEvents(json);
     } else {
       console.log("Some error Occured");
     }
   };
 
+  //5. Upload event video files to url form on aws s3
+  const UploadEventVideo = async (data) => {
+    try {
+      const response = await fetch(`${host}/api/file/upload/s3/event/videos`, {
+        method: "POST",
+        body: data,
+      });
+      const json = await response.json();
+      return json;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // Update the service
-  const updateWorkshop = async (id, data) => {
-    const response = await fetch(`${host}/api/workshop/updateworkshop/${id}`, {
+  const updateEvent = async (id, data) => {
+    const response = await fetch(`${host}/api/event/updateevent/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -434,8 +448,8 @@ const ServiceState = (props) => {
   };
 
   //  2. Getting all the services for the respective creator
-  const getallworkshopsusingid = async (c_id) => {
-    const response = await fetch(`${host}/api/workshop/getallworkshopusingid`, {
+  const getalleventsusingid = async (c_id) => {
+    const response = await fetch(`${host}/api/event/getalleventusingid`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -444,61 +458,39 @@ const ServiceState = (props) => {
     });
     const json = await response.json();
     if (json.success) {
-      setWorkshops(json);
+      setEvents(json);
     } else {
       console.log("Some error Occured");
     }
   };
 
-  const getworkshopinfo = async (slug) => {
-    const response = await fetch(
-      `${host}/api/workshop/getworkshopinfo/${slug}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+  const geteventinfo = async (slug) => {
+    const response = await fetch(`${host}/api/event/getEventInfo/${slug}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const json = await response.json();
     //console.log(json);
     if (json.success) {
-      setWorkshopInfo(json.workshop[0]);
-      return [json.workshop[0]?.c_id, json.workshop[0]?._id];
+      setEventInfo({ event: json.event, creator: json.creator });
+      return [json.event.c_id, json.event._id];
     } else {
       //console.log("Some error Occured")
     }
   };
 
-  const getworkshopusingid = async (id) => {
-    const response = await fetch(
-      `${host}/api/workshop/getworkshopusingid/${id}`,
-      {
-        method: "GET",
-      }
-    );
+  const geteventusingid = async (id) => {
+    const response = await fetch(`${host}/api/event/geteventusingid/${id}`, {
+      method: "GET",
+    });
     const json = await response.json();
     if (json.success) {
-      return json.workshop;
+      return json.event;
     } else {
       //console.log("Some error Occured")
     }
-  };
-
-  // get workshop slug from redirection copy url
-  const getworkshopslugfromcpyid = async (id) => {
-    const response = await fetch(
-      `${host}/api/workshop/getworkshopslugfromcpyid`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: id }),
-      }
-    );
-    const json = await response.json();
-    return json;
   };
 
   // get all subscribers
@@ -569,6 +561,19 @@ const ServiceState = (props) => {
     return json;
   };
 
+  // get leaderboard Data for event ----------------
+  const getLeaderBoardData = async (eventID,isCreator) => {
+    const response = await fetch(`${host}/api/event/leaderboard/${eventID}?creator=${isCreator ?? false}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
+    });
+    const json = await response.json();
+    return json;
+  };
+
   return (
     <ServiceContext.Provider
       value={{
@@ -576,38 +581,39 @@ const ServiceState = (props) => {
         compareJWT,
         updateService,
         getslugfromcpyid,
-        getworkshopslugfromcpyid,
         checkCpyUrl,
         checkFirstService,
         getuserorder,
         serviceInfo,
         services,
         slugCount,
-        workshops,
-        workshopInfo,
+        events,
+        eventInfo,
         totalsubscount,
         alluserorder,
         getserviceusingid,
         getallservicesusingid,
         getallservices,
-        getworkshopinfo,
+        geteventinfo,
         addservice,
         deleteService,
         Uploadfile,
         UploadVideo,
+        UploadEventVideo,
         UploadDocuments,
         UploadBanners,
         getserviceinfo,
         getslugcount,
         getallsubscriber,
-        getslugcountWorkshop,
-        addworkshop,
-        getallworkshops,
-        updateWorkshop,
-        getworkshopusingid,
-        getallworkshopsusingid,
+        getslugcountEvent,
+        addEvent,
+        getallevents,
+        updateEvent,
+        geteventusingid,
+        getalleventsusingid,
         getallsubs,
         getfeedbacksfromslug,
+        getLeaderBoardData,
       }}
     >
       {" "}

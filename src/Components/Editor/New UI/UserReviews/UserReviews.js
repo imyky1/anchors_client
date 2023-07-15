@@ -7,7 +7,7 @@ import {
   Table,
   TableRow,
 } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { creatorContext } from "../../../../Context/CreatorState";
 import ShowReviewModel from "../../../Modals/ShowReviewModel";
 import { LoadTwo } from "../../../Modals/Loading";
@@ -15,7 +15,7 @@ import "./UserReview.css";
 import { SuperSEO } from "react-super-seo";
 import { ToastContainer, toast } from "react-toastify";
 import { Button1 } from "../Create Services/InputComponents/buttons";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { AiOutlinePlus } from "react-icons/ai";
 
@@ -35,6 +35,14 @@ const UserReviews = ({creatorSlug}) => {
   const [noData, setnoData] = useState(false);
   const [firstService, setfirstService] = useState(true);      // wheather a creator has its first service or not  ------ true means firstservice is present
 
+    // custom hook to get querries
+    function useQuery() {
+      const { search } = useLocation();
+      return useMemo(() => new URLSearchParams(search), [search]);
+    }
+    const query = useQuery();
+
+
   useEffect(() => {
     setOpenLoading(true);
     setnoData(false);
@@ -49,7 +57,7 @@ const UserReviews = ({creatorSlug}) => {
             setnoData(true);
           }
         } else if (!e?.creator) {
-          navigate("/reviews");
+          navigate("/dashboard/reviews");
         }
       });
     } else {
@@ -113,7 +121,7 @@ const UserReviews = ({creatorSlug}) => {
             <div className="userreview_detailedno">
               <span>Total Reviews</span>
               <h3>
-                {!noData && (feedbackStats?.total || FeedbackStats?.total)}
+                {!noData ? (feedbackStats?.total || FeedbackStats?.total) : 0}
               </h3>
             </div>
           </div>
@@ -135,8 +143,8 @@ const UserReviews = ({creatorSlug}) => {
             <div className="userreview_detailedno">
               <span>5 Star Reviews</span>
               <h3>
-                {!noData &&
-                  (feedbackStats?.fiveStar || FeedbackStats?.fiveStar)}
+                {!noData ?
+                  (feedbackStats?.fiveStar || FeedbackStats?.fiveStar) : 0 }
               </h3>
             </div>
           </div>
@@ -158,7 +166,7 @@ const UserReviews = ({creatorSlug}) => {
             <div className="userreview_detailedno">
               <span>1 Star Reviews</span>
               <h3>
-                {!noData && (feedbackStats?.oneStar || FeedbackStats?.oneStar)}
+                {!noData ? (feedbackStats?.oneStar || FeedbackStats?.oneStar) : 0}
               </h3>
             </div>
           </div>

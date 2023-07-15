@@ -59,7 +59,7 @@ function Modal1({
                   className="hover_span_modal_creatorinfo"
                   onClick={() => {
                     toClose();
-                    navigate("/reviews");
+                    navigate("reviews");
                     mixpanel.track("Profile Reviews");
                   }}
                 >
@@ -73,7 +73,7 @@ function Modal1({
                   className="hover_span_modal_creatorinfo"
                   onClick={() => {
                     toClose();
-                    navigate("/mycontents");
+                    navigate("mycontents");
                     mixpanel.track("Profile Services");
                   }}
                 >
@@ -82,7 +82,7 @@ function Modal1({
               </div>
               <button
                 onClick={() => {
-                  navigate("/editprofile");
+                  navigate("editprofile");
                   toClose();
                   mixpanel.track("Profile Edit Profile");
                 }}
@@ -97,7 +97,7 @@ function Modal1({
           {moreInfo && (
             <div
               onClick={() => {
-                window.open(`/c/${userData?.slug}`);
+                window.open(`/${userData?.slug}`);
                 mixpanel.track("Profile View Public Profile");
               }}
             >

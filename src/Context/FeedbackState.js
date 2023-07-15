@@ -152,6 +152,9 @@ const FeedbackState = (props) => {
     });
     const json = await response.json();
     if (json.success) {
+      if (json.rating === 0) {
+        return 5.0;
+      }
       return json.rating;
     } else {
       return 5.0;

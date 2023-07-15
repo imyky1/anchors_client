@@ -1,0 +1,226 @@
+.sample_page_wrapper {
+  width: 100vw;
+  height: 100vh;
+  background: #121212;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+}
+
+.sample_page_hero_section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  height: 100vh;
+}
+
+.benefits_sample_page {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 40px;
+  height: 100%;
+  width: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.benefits_sample_page > h2 {
+  color: #fff;
+  text-align: center;
+  font-size: 36px;
+  font-family: "Gilroy-Bold", sans-serif;
+  font-style: normal;
+  line-height: normal;
+  width: 60vw;
+  margin-top: 40px;
+}
+
+.benefits_sample_page > section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 78vw;
+  height: 90%;
+}
+
+.sample_page_divison_section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 78vw;
+  margin: 0 auto;
+  height: 90%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* sample page fonts and buttons  */
+
+.header_sample_page01 {
+  color: #fff;
+  font-size: 40px;
+  font-family: "Gilroy-Bold", sans-serif;
+  font-style: normal;
+  line-height: normal;
+}
+
+.header_sample_page02 {
+  color: #fff;
+  text-align: center;
+  font-size: 24px;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-style: normal;
+  line-height: normal;
+  text-align: left;
+  max-width: 60vw;
+}
+
+.button_sample_page01 {
+  padding: 20px 40px;
+  border-radius: 100px;
+  background: #fff;
+  cursor: pointer;
+
+  color: #000;
+  text-align: center;
+  font-size: 24px;
+  font-family: "Gilroy-Bold", sans-serif;
+  font-style: normal;
+  line-height: normal;
+  font-weight: bold;
+  border: none;
+}
+
+.button_sample_page01:hover {
+  background: rgba(255, 0, 0, 1);
+  color: rgba(255, 255, 255, 1);
+}
+
+.left_division_sample_page {
+  width: 50%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.right_division_sample_page {
+  display: flex;
+  flex-direction: column;
+}
+
+.right_division_sample_page > img {
+  width: 25vw;
+}
+
+.right_division_sample_page > img:nth-child(2n-1) {
+  transform: translateX(-140px);
+}
+
+.right_division_sample_page2 {
+  display: flex;
+  flex-direction: column;
+  margin: auto 0;
+}
+
+.right_division_sample_page2 > img {
+  width: 21vw;
+}
+
+.right_division_sample_page2 > img:nth-child(2n-1) {
+  transform: translateX(-140px);
+}
+
+/* personalized section -------- */
+
+.personalized_section_sample_page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  gap: 40px;
+  margin-top: 150px;
+}
+
+.personalized_section_sample_page > div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.personalized_section_sample_page > div > img {
+  width: 20vw;
+}
+
+.personalized_section_sample_page > div > img:nth-child(3) {
+  z-index: 99;
+  position: relative;
+}
+
+.personalized_section_sample_page > div > img:nth-child(4) {
+  z-index: 9;
+  position: relative;
+}
+
+/* SHaring section --------- */
+
+.sharing_section_sample_page {
+  width: 78vw;
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 auto;
+}
+
+.sharing_section_sample_page > img {
+  width: 45vw;
+}
+
+.sharing_section_sample_page > div {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  width: 50%;
+  text-align: left;
+  gap: 10px;
+}
+
+/* extra section ----------------- */
+
+.extra_section_sample_page {
+  width: 78vw;
+  height: 85vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  gap: 40px;
+  margin: 0 auto;
+}
+
+.extra_section_sample_page > h3 {
+  color: #fff;
+  font-size: 40px;
+  font-family: "Gilroy-Medium", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: 60vw;
+}

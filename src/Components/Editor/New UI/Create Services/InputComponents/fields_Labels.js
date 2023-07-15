@@ -3,7 +3,8 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import React, { useState } from "react";
 import "./components.css";
 import { useEffect } from "react";
-import mixpanel from "mixpanel-browser";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 // text field -------------------------
 function fields_Labels1(props) {
@@ -49,7 +50,7 @@ function EditorText01(props) {
         {props?.label}{" "}
         {props?.required && <span style={{ color: "red" }}>*</span>}
       </span>
-      <CKEditor
+      {/* <CKEditor
         editor={ClassicEditor}
         data={props?.Content ? props?.Content : ""}
         config={{
@@ -72,7 +73,8 @@ function EditorText01(props) {
           const data = editor.getData();
           props?.setContent(data);
         }}
-      />
+      /> */}
+      <ReactQuill theme="snow" value={props?.Content} onChange={(e)=>{props?.setContent(e)}} className="quill-editor" placeholder={props?.placeholder}/>
       <p className="label_type_03">{props.info}</p>
     </div>
   );
@@ -105,8 +107,8 @@ function UploadField01(props) {
         accept={props.FileType}
       />
       <label htmlFor={props.id} className="input_type_02">
-        <i className="fa-solid fa-plus fa-xl"></i>
-        <span>Browse</span>
+      {fileName ? <i class="fa-solid fa-rotate fa-xl"></i> : <i className="fa-solid fa-plus fa-xl"></i> }
+        <span>{fileName ? "Replace" : "Browse"}</span>
         <p>{fileName ? fileName : props.info}</p>
       </label>
     </div>
@@ -135,7 +137,7 @@ function UploadField02(props) {
         </span>
 
         {/* Radio button ---------- */}
-        <div className="radiofiled_container_01">
+        {props.defaultRadioLabel && <div className="radiofiled_container_01">
           <span className="label_type_02">{props.defaultRadioLabel} </span>
           <label className="switch_type_01">
             <input
@@ -146,7 +148,8 @@ function UploadField02(props) {
             />
             <span className="slider_type_01 round_type_01"></span>
           </label>
-        </div>
+        </div>}
+
       </div>
 
       <input
@@ -158,8 +161,8 @@ function UploadField02(props) {
         accept={props.FileType}
       />
       <label htmlFor={props.id} className="input_type_02">
-        <i className="fa-solid fa-plus fa-xl"></i>
-        <span>Browse</span>
+       {fileName ? <i class="fa-solid fa-rotate fa-xl"></i> : <i className="fa-solid fa-plus fa-xl"></i> }
+        <span>{fileName ? "Replace" : "Browse"}</span>
         <p>{props?.disabled ? "Using Default Banner (in png)" : fileName ? fileName : props.info}</p>
       </label>
     </div>
@@ -323,6 +326,9 @@ function Dropdown01(props) {
     </div>
   );
 }
+
+
+
 
 export const TextField1 = fields_Labels1;
 export const Editor1 = EditorText01;

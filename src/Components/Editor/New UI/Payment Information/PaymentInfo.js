@@ -72,7 +72,7 @@ function PaymentInfo() {
           <h1 className="text_type01_payment_info">Account Details</h1>
           <button
             onClick={() => {
-              navigate("/paymentSummary");
+              navigate("/dashboard/paymentSummary");
             }}
           >
             Earnings Summary

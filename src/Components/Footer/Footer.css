@@ -65,8 +65,8 @@
 
 .footer_support_menu {
   display: flex;
-  align-items: center;
-  gap: 55px;
+  align-items: flex-end;
+  flex-direction: column;
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
@@ -163,6 +163,8 @@
   align-items: center;
 }
 
+/* Footer dark theme New css ------------------- */
+
 .footer_user_side_anchors2 {
   background-color: #101010;
   width: 100vw;
@@ -172,7 +174,15 @@
   justify-content: center;
   gap: 10px;
   color: white;
-  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  position: relative;
+  margin-top: 40px;
+}
+
+.footer_user_side_anchors2 > img {
+  width: 132.107px;
+  height: 36px;
+  position: absolute;
+  left: 10%;
 }
 
 .footer-section_logo_02 > svg {
@@ -180,12 +190,11 @@
 }
 
 .footer_user_side_anchors2 > span {
-  font-family: "Inter";
+  color: #fff;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 16px;
   font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 15px;
-  color: #ffffff;
+  line-height: 13px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -303,12 +312,19 @@
   }
 
   .footer_user_side_anchors2 {
-    gap: 5px;
+    gap: 8px;
     flex-direction: column;
     height: 90px;
   }
 
-  .footer_user_side_anchors2 > a {
-    color: white;
+  .footer_user_side_anchors2 > img {
+    position: unset;
+    left: 0;
+    width: 91.741px;
+    height: 25px;
+  }
+
+  .footer_user_side_anchors2 > span{
+    font-size: 10px;
   }
 }

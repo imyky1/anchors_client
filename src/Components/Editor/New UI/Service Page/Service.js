@@ -161,8 +161,7 @@ function Service(props) {
   // getting user data,feedbacks and many function to run on user login ----------------
   useEffect(() => {
     if (
-      localStorage.getItem("jwtToken") &&
-      localStorage.getItem("isUser") === "true"
+      localStorage.getItem("jwtToken")
     ) {
       setLoader(true);
       // checks if order is already placed or not
@@ -175,7 +174,7 @@ function Service(props) {
         });
 
       // get user details for mixpanel
-      getUserDetails().then((e) => {
+      getUserDetails(localStorage.getItem("isUser") === "").then((e) => {
         if (e.success) {
           setUserDetails(e?.user);
         }
@@ -499,7 +498,6 @@ function Service(props) {
       <div className="service_page_main_wrapper">
         {/* Header of creator profile as well as service page-------------------------------------------------------------------------------------------- */}
         <NavbarUser
-          UserDetails={UserDetails}
           slug={basicCdata?.slug}
           open={openModel}
           close={() => {
@@ -752,13 +750,13 @@ function Service(props) {
           </div>
 
           {/* reviews of creator --------------------- */}
-          {feedbacks?.filter((e) => e.status === 1)?.length !== 0 && (
+          {feedbacks?.filter((e) => e?.status === 1)?.length !== 0 && (
             <div className="user_reviews_service_page">
               <h2 className="service_details_text_type02">User Reviews</h2>
               <div>
                 {(showMore?.reviews
-                  ? feedbacks?.filter((e) => e.status === 1)
-                  : feedbacks?.filter((e) => e.status === 1).slice(0, 4)
+                  ? feedbacks?.filter((e) => e?.status === 1)
+                  : feedbacks?.filter((e) => e?.status === 1).slice(0, 4)
                 )?.map((e2, index) => {
                   return (
                     <div
@@ -815,7 +813,7 @@ function Service(props) {
                 })}
               </div>
 
-              {feedbacks?.filter((e) => e.status === 1)?.length > 4 && (
+              {feedbacks?.filter((e) => e?.status === 1)?.length > 4 && (
                 <section className="More_or_less_section">
                   <span
                     onClick={() => {
@@ -858,7 +856,7 @@ function Service(props) {
                 <div>
                   {services.res
                     ?.filter((e1) => {
-                      return e1.status === 1 && e1.slug !== slug;
+                      return e1?.status === 1 && e1.slug !== slug;
                     })
                     .sort((a, b) => {
                       return b?.downloads - a?.downloads;

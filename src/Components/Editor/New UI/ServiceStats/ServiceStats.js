@@ -23,8 +23,8 @@ const ServiceStats = (props) => {
     serviceInfo,
     getserviceinfo,
     compareJWT,
-    getworkshopinfo,
-    workshopInfo,
+    geteventinfo,
+    eventInfo,
   } = useContext(ServiceContext);
   const [serviceType, setServiceType] = useState();
   const [approvedUser, setapprovedUser] = useState(false); // check if user searching is appropriate
@@ -47,15 +47,15 @@ const ServiceStats = (props) => {
   });
 
   const date = Moment(
-    serviceType === "download" ? serviceInfo?.date : workshopInfo?.startDate
+    serviceType === "download" ? serviceInfo?.service?.date : eventInfo?.event?.createdOn
   )
     .format()
     .split("T")[0];
 
   const time =
     serviceType === "download"
-      ? Moment(serviceInfo?.date).format().split("T")[1].split("+")[0]
-      : workshopInfo?.time?.startTime;
+      ? Moment(serviceInfo?.service?.date).format().split("T")[1].split("+")[0]
+      :  Moment(eventInfo?.event?.createdOn).format().split("T")[1].split("+")[0];
 
   const getAnalyticsData = async () => {
     let response = await fetch(`${host}/analytics/getdata`, {
@@ -65,7 +65,7 @@ const ServiceStats = (props) => {
         "jwt-token": localStorage.getItem("jwtToken"),
       },
       body: JSON.stringify({
-        slug: serviceInfo?.slug,
+        slug: serviceInfo?.service?.slug,
       }),
     });
     response = await response.json();
@@ -81,32 +81,32 @@ const ServiceStats = (props) => {
         setopenLoading(false);
       });
     }
-  }, [serviceInfo?.slug]);
+  }, [serviceInfo?.service?.slug]);
 
   // Checking if the user is only able to check its data not others-------------------
   useEffect(() => {
     props.progress(0);
-    if (query.get("service") === "workshop") {
-      setServiceType("workshop");
-      getworkshopinfo(slug).then((e) => {
-        compareJWT(e[0]).then((e) => {
+    if (query.get("type") === "event") {
+      setServiceType("event");
+      geteventinfo(slug).then((e) => {
+        compareJWT(e[0]?._id).then((e) => {
           if (e) {
             setapprovedUser(true);
             props.progress(100);
           } else {
-            navigate("/mycontents");
+            navigate("/dashboard/mycontents");
           }
         });
       });
     } else {
       setServiceType("download");
       getserviceinfo(slug).then((e) => {
-        compareJWT(e[0]).then((e) => {
+        compareJWT(e[0]?._id).then((e) => {
           if (e) {
             setapprovedUser(true);
             props.progress(100);
           } else {
-            navigate("/mycontents");
+            navigate("/dashboard/mycontents");
           }
         });
       });
@@ -127,7 +127,7 @@ const ServiceStats = (props) => {
           "jwt-token": localStorage.getItem("jwtToken"),
         },
         body: JSON.stringify({
-          service: serviceType === "download" ? serviceInfo : workshopInfo,
+          service: serviceType === "download" ? serviceInfo : eventInfo,
           serviceType: serviceType,
         }),
       })
@@ -156,7 +156,7 @@ const ServiceStats = (props) => {
     );
 
     handler();
-  }, [serviceInfo, workshopInfo]);
+  }, [serviceInfo, eventInfo]);
 
   return (
     <>
@@ -167,27 +167,27 @@ const ServiceStats = (props) => {
         <div className="servicestat_wrapper">
           <div className="servicestat_heading">
             <div className="servicestat_leftheading">
-              <h1>Service Detailed analysis</h1>
+              <h1>{serviceType === "event" ? "Event" : "Service"} Detailed analysis</h1>
               <div className="servicestat_product">
-                <div className="servicestat_span1">Service Name:</div>
+                <div className="servicestat_span1">{serviceType === "event" ? "Event" : "Service"} Name:</div>
                 <span className="servicestat_span2">
                   {serviceType === "download"
-                    ? serviceInfo?.sname
-                    : workshopInfo?.sname}
+                    ? serviceInfo?.service?.sname
+                    : eventInfo?.event?.sname}
                 </span>
               </div>
               <div className="servicestat_product">
-                <div className="servicestat_span1">Service Created on:</div>
+                <div className="servicestat_span1">{serviceType === "event" ? "Event" : "Service"} Created on:</div>
                 <span className="servicestat_span2"> {date + " " + time}</span>
               </div>
               <div className="servicestat_product">
                 <div className="servicestat_span1">Amount:</div>
                 <span className="servicestat_span2">
                   {serviceType === "download"
-                    ? serviceInfo?.isPaid
-                      ? "Paid" + ` (₹ ${serviceInfo?.ssp})`
+                    ? serviceInfo?.service?.isPaid
+                      ? "Paid" + ` (₹ ${serviceInfo?.service?.ssp})`
                       : "Free"
-                    : "₹ " + workshopInfo?.ssp}
+                    : "₹ " + eventInfo?.event?.ssp}
                 </span>
               </div>
             </div>
@@ -196,8 +196,8 @@ const ServiceStats = (props) => {
                 className="servicestat_button"
                 onClick={() => {
                   serviceType === "download"
-                    ? navigate(`/viewUserDetails/${slug}`)
-                    : navigate(`/viewUserDetails/${slug}?service=workshop`);
+                    ? navigate(`/dashboard/viewUserDetails/${slug}`)
+                    : navigate(`/dashboard/viewUserDetails/${slug}?type=event`);
                 }}
               >
                 Check Users details
@@ -210,12 +210,12 @@ const ServiceStats = (props) => {
               <div className="servicestat_boxpa">
                 <img src={ICON5} alt="c"></img>
                 <div className="servicestat_boxpa_div">
-                Total user used your service
+                Total user used your {serviceType === "event" ? "event" : "service"}
                 </div>
                 <h2>
                   {serviceType === "download"
-                    ? serviceInfo?.downloads
-                    : workshopInfo?.registrations}
+                    ? serviceInfo?.service?.downloads
+                    : eventInfo?.event?.registrations}
                 </h2>
               </div>
             </div>
@@ -223,17 +223,17 @@ const ServiceStats = (props) => {
               <div className="servicestat_boxpa">
                 <img src={ICON1} alt="c"></img>
                 <div className="servicestat_boxpa_div">
-                Conversion Rate : No. of user used this service / Unique Visits
+                Conversion Rate : No. of user used this {serviceType === "event" ? "event" : "service"} / Unique Visits
                 </div>
                 <h2>
                   {mixpaneldata?.valuenotunique !== 0
                     ? serviceType === "download"
                       ? (
-                          (serviceInfo?.downloads * 100) /
+                          (serviceInfo?.service?.downloads * 100) /
                           mixpaneldata?.valueunique
                         ).toFixed(2) + " %"
                       : (
-                          (workshopInfo?.registrations * 100) /
+                          (eventInfo?.event?.registrations * 100) /
                           mixpaneldata?.valueunique
                         ).toFixed(2) + " %"
                     : "---"}
@@ -243,7 +243,7 @@ const ServiceStats = (props) => {
             <div className="servicestat_statsbox">
               <div className="servicestat_boxpa">
                 <img src={ICON2} alt="c"></img>
-                <div className="servicestat_boxpa_div">Service Page visit</div>
+                <div className="servicestat_boxpa_div">{serviceType === "event" ? "Event" : "Service"} Page visit</div>
                 <h2>
                   {mixpaneldata?.valuenotunique !== 0
                     ? mixpaneldata?.valuenotunique

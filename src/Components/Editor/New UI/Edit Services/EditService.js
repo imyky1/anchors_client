@@ -154,13 +154,13 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
             banner = await Uploadfile(data1); /// uplaoding banner and files on s3
           }
         } else {
-          banner = { url: serviceInfo?.simg };
+          banner = { url: serviceInfo?.service?.simg };
         }
         if (ServiceDoc) {
           /// to check if the creator want soto to change the document or not
           var docs = await UploadDocuments(data2);
         } else {
-          docs = { result: { Location: serviceInfo?.surl } };
+          docs = { result: { Location: serviceInfo?.service?.surl } };
         }
         const newData = {
           ...data,
@@ -174,14 +174,14 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
           allowPreview,
           noOfPage
         };
-        updateService(serviceInfo?._id, newData).then((e) => {
+        updateService(serviceInfo?.service?._id, newData).then((e) => {
           if (e?.success) {
             toast.success("Service Edited Succesfully", {
               position: "top-center",
               autoClose: 1500,
             });
             setTimeout(() => {
-              navigate("/mycontents");
+              navigate("/dashboard/mycontents");
             }, 1500);
           } else {
             toast.error("Some error occured", {
@@ -213,7 +213,7 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
   useEffect(() => {
     setOpenLoading(true);
     getserviceinfo(slug).then((e) => {
-      compareJWT(e[0]).then((e2) => {
+      compareJWT(e[0]?._id).then((e2) => {
         // setcheck(e2);
         setOpenLoading(false);
       });
@@ -222,19 +222,19 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
 
   useEffect(() => {
     setdata({
-      sname: serviceInfo?.sname,
-      sdesc: serviceInfo?.sdesc,
-      smrp: serviceInfo?.smrp,
-      ssp: serviceInfo?.ssp,
+      sname: serviceInfo?.service?.sname,
+      sdesc: serviceInfo?.service?.sdesc,
+      smrp: serviceInfo?.service?.smrp,
+      ssp: serviceInfo?.service?.ssp,
     });
-    setTags(serviceInfo?.tags);
-    setContent(serviceInfo?.ldesc);
-    setNoOfPages(serviceInfo?.noOfPages)
+    setTags(serviceInfo?.service?.tags);
+    setContent(serviceInfo?.service?.ldesc);
+    setNoOfPages(serviceInfo?.service?.noOfPages)
 
-    if(serviceInfo?.allowPreview){
-        setAllowPreview(serviceInfo?.allowPreview)
+    if(serviceInfo?.service?.allowPreview){
+        setAllowPreview(serviceInfo?.service?.allowPreview)
     }
-    if (serviceInfo?.isPaid) {
+    if (serviceInfo?.service?.isPaid) {
       setpaid("Paid");
     } else {
       setpaid("Free");
@@ -311,7 +311,7 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
                   : setDefaultBanner(false)
               }}
             />
-            <span className="preview_edit_service" onClick={()=>{window.open(serviceInfo?.simg)}} >
+            <span className="preview_edit_service" onClick={()=>{window.open(serviceInfo?.service?.simg)}} >
               Preview Banner
             </span>
 
@@ -389,7 +389,7 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
                   : ""
               }
             />
-            <span className="preview_edit_service" onClick={()=>{window.open(serviceInfo?.stype === 1 ? "/viewExcel" : "/viewPdf"); sessionStorage.setItem("link", serviceInfo?.surl);}}>
+            <span className="preview_edit_service" onClick={()=>{window.open(serviceInfo?.service?.stype === 1 ? "/viewExcel" : "/viewPdf"); sessionStorage.setItem("link", serviceInfo?.service?.surl);}}>
               {`Preview ${servicetype === "excel" ? "Excel Sheet" : "Document"}`}
             </span>
 

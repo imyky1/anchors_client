@@ -64,7 +64,7 @@ const SelectedCreatorCard = ({ serviceCount, name, photo, slug }) => {
           mixpanel.track("Dashboard Creator Profile",{
             creatorSlug:slug
           })
-          window.open(`/c/${slug}`);
+          window.open(`/${slug}`);
         }}
       />
       <section>
@@ -178,7 +178,7 @@ const NoServiceHanlder = ({ option, selectedCreator }) => {
       {selectedCreator?.id && (
         <button
           onClick={() => {
-            window.open(`/c/${selectedCreator?.slug}`);
+            window.open(`/${selectedCreator?.slug}`);
           }}
         >
           Explore{" "}

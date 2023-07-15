@@ -53,6 +53,7 @@ function Profile() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+  
 
   // Main Data of creator and all its services and mixpanel ---------------------------------------------------
   useEffect(() => {
@@ -60,7 +61,6 @@ function Profile() {
       getcreatoridUsingSlug(slug).then((data) => {
         getallfeedback(data);
         getallservicesusingid(data).then(() => {});
-        getallworkshopsusingid(data).then(() => {});
       });
     };
     toast.promise(
@@ -95,7 +95,7 @@ function Profile() {
 
   // Getting the data of the user login
   useEffect(() => {
-    getUserDetails().then((e) => {
+    getUserDetails(localStorage.getItem("isUser") === "").then((e) => {
       if (e.success) {
         setUserDetails(e?.user?.email);
       }
@@ -106,7 +106,7 @@ function Profile() {
 
 
   // checks for a status 0 creator
-  if (basicCdata.status === 0) return alert("The Creator doesn't exist");
+  if (basicCdata?.status === 0) return alert("The Creator doesn't exist");
 
   return (
     <>
@@ -121,14 +121,26 @@ function Profile() {
         UserDetails={UserDetails ? UserDetails : ""}
       />
 
-      <div className="creator_profile_main_container">
+      <div className="creator_profile_main_container"
+      style={{
+        height:
+        services?.res?.filter((e1) => {
+          return e1?.status === 1;
+        }).length === 0
+            && (window.screen.width > 500 ? document.querySelector(".creator_main_details_parts_01")
+                ?.clientHeight +200
+            : document.querySelector(".creator_main_details_parts_01")
+                ?.clientHeight + 300),
+      }}
+      >
         {/* Header of creator profile -------------------------------------------------------------------------------------------- */}
         <NavbarUser UserDetails={UserDetails} slug={basicCdata?.slug} />
 
         {/* just for background and profile section----------------------------------- */}
         <section className="just_background_color_creator_profile">
           {/* Creator info section ------------------------------------------------------------------------------------------------- */}
-          <section className="creator_details_section">
+          <section className="creator_details_section" 
+            >
             <div>
               <img
                 src={basicCreatorInfo?.profile}
@@ -239,14 +251,16 @@ function Profile() {
         {/* Creator resources section adjusting according to the about  section --------------------------------------------------------------------------- */}
 
         {services?.res?.filter((e1) => {
-          return e1.status === 1;
-        }).length !== 0 && (
+          return e1?.status === 1;
+        })?.length !== 0 && (
           <section
             id="resources"
             className="creator_resources_profile"
             style={{
               marginTop:
-                window.screen.width > 550
+              services?.res?.filter((e1) => {
+                return e1?.status === 1;
+              })?.length === 0
                   ? document.querySelector(".creator_main_details_parts_01")
                       ?.clientHeight + 50
                   : document.querySelector(".creator_main_details_parts_01")
@@ -257,11 +271,11 @@ function Profile() {
             <div>
               {(showMore?.resources
                 ? services.res?.filter((e1) => {
-                    return e1.status === 1;
+                    return e1?.status === 1;
                   })
                 : services.res
                     ?.filter((e1) => {
-                      return e1.status === 1;
+                      return e1?.status === 1;
                     })
                     ?.slice(0, 6)
               )?.map((e) => {
@@ -335,7 +349,7 @@ function Profile() {
               })}
             </div>
             {services?.res?.filter((e1) => {
-              return e1.status === 1;
+              return e1?.status === 1;
             })?.length > 6 && (
               <section className="More_or_less_section">
                 <span
@@ -355,13 +369,13 @@ function Profile() {
         )}
 
         {/* User reviews section -------------------------------------------------------------------- */}
-        {feedbacks?.filter((e) => e.status === 1)?.length !== 0 && (
+        {feedbacks?.filter((e) => e?.status === 1)?.length !== 0 && (
           <section className="user_reviews_creator_profile">
             <h1 className="text_type_05_creator_profile">User Reviews</h1>
             <div>
               {(showMore?.reviews
-                ? feedbacks?.filter((e) => e.status === 1)
-                : feedbacks?.filter((e) => e.status === 1).slice(0, 4)
+                ? feedbacks?.filter((e) => e?.status === 1)
+                : feedbacks?.filter((e) => e?.status === 1).slice(0, 4)
               )?.map((e2, index) => {
                 return (
                   <div
@@ -410,7 +424,7 @@ function Profile() {
               })}
             </div>
 
-            {feedbacks?.filter((e) => e.status === 1)?.length > 4 && (
+            {feedbacks?.filter((e) => e?.status === 1)?.length > 4 && (
               <section className="More_or_less_section">
                 <span
                   onClick={() => {

@@ -297,11 +297,12 @@ const CreatorState = (props) => {
         "jwt-token": localStorage.getItem("jwtToken"),
       },
       body: JSON.stringify({
-        type,
+        type
       }),
     });
     const json = await response.json();
     if (json.success) {
+      console.log(json)
       setallUserDetails(json.users);
     } else {
       //  toastify error
@@ -364,7 +365,7 @@ const CreatorState = (props) => {
 
 
   // fill tell us more form-------------------------------
-  const fillTellUsMoreForm = async (inviteCode,contactNumber,platform,followers,socialLink,knownFrom) => {
+  const fillTellUsMoreForm = async (contactNumber,verifiedContact,inviteCode,platform,followers,socialLink,knownFrom) => {
     try {
       const response = await fetch(`${host}/api/tellUsMore/fillTellUsMoreForm`, {
         method: "POST",
@@ -377,6 +378,7 @@ const CreatorState = (props) => {
         body:JSON.stringify({
           inviteCode,
           contactNumber,
+          verifiedContact,
           platform,
           followers,
           socialLink,
@@ -474,6 +476,125 @@ const CreatorState = (props) => {
     }
   }
 
+// Check Stepper status ------------
+  const checkStepperStatus = async () =>{
+    try {
+      const response = await fetch(`${host}/api/creator/creatorStepperChecker`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token":localStorage.getItem("jwtToken")
+        }
+      })
+
+      const json = await response.json()
+      return json
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+// update Stepper status ------------
+  const updateStepperStatus = async () =>{
+    try {
+      const response = await fetch(`${host}/api/creator/updateStepperStatus`, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token":localStorage.getItem("jwtToken")
+        }
+      })
+
+      const json = await response.json()
+      return json
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
+  // Statistics -----------------------------------------------------------------------------------
+
+  const getViews=async()=>{
+    try{
+      const response=await fetch(`${host}/api/stats/getStats`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+        body: JSON.stringify({
+          serviceType: "profile",
+        }),
+      })
+  
+  
+      const json = response.json()
+      return json
+  
+    }catch(error){
+      console.log(error);
+    }
+  }
+  
+      //get order stats
+      const getOrderStats=async(selectedOption)=>{
+        try{
+          const response=await fetch(`${host}/api/stats/getOrderStats?filter=${selectedOption}`,{
+            method:"GET",
+            headers:{
+              "jwt-token":localStorage.getItem("jwtToken")
+            }
+          });
+          const json = await response.json();
+          return json
+  
+        }catch(error){
+          console.log(error);
+        }
+      }
+  
+      const getMaxService=async()=>{
+        try{
+          const response=await fetch(`${host}/api/stats/getMaxService`,{
+            method:"GET",
+            headers:{
+              "jwt-token":localStorage.getItem("jwtToken")
+            }
+          });
+          const json = await response.json();
+          return json
+  
+        }catch(error){
+          console.log(error);
+        }
+      }
+  
+      const getAvgRating=async()=>{
+        try{
+          const response=await fetch(`${host}/api/stats/getAvgRating`,{
+            method:"GET",
+            headers:{
+              "jwt-token":localStorage.getItem("jwtToken")
+            }
+          });
+          const json = await response.json();
+          return json
+  
+        }catch(error){
+          console.log(error);
+        }
+      }
 
 
 
@@ -515,7 +636,13 @@ const CreatorState = (props) => {
         updateStatus,
         getWaitlistNumber,
         createCreatorFeedback,
-        UpdateCodeInTellUsMoreForm
+        UpdateCodeInTellUsMoreForm,
+        updateStepperStatus,
+        checkStepperStatus,
+        getViews,
+        getMaxService,
+        getAvgRating,
+        getOrderStats
       }}
     >
       {props.children}

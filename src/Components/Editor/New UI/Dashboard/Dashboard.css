@@ -20,7 +20,6 @@
   font-size: 30px;
   line-height: 38px;
   color: #000000;
-  margin-bottom: 15px;
 }
 
 .text_02_dashboard {
@@ -29,10 +28,8 @@
   font-weight: 300;
   font-size: 15px;
   line-height: 18px;
-  text-align: center;
   color: rgba(0, 0, 0, 0.6);
   margin-bottom: 25px;
-  width: 75%;
 }
 
 .main_dashboard_conatiner > div > section {
@@ -60,7 +57,94 @@
   margin-bottom: 20px;
 }
 
-.dashboard_options:hover{
-    background: #000000;
-    color: #FFFFFF;
+.dashboard_options:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* main container box 2 */
+
+.main_dashboard_conatiner2 {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 14%;
+  box-sizing: border-box;
+  height: 91vh;
+  gap: 100px;
+}
+
+.stepper_outside_wrapper_dashboard {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stepper_outside_wrapper_dashboard > section {
+  display: flex;
+  align-items: center;
+}
+
+.main_dashboard_design_box {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.main_dashboard_design_box > section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+.each_step_stepper_dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+  width: 92px;
+}
+
+.each_step_stepper_dashboard > div {
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  border: 1px solid #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.changeBackgroundToBlackDashboard {
+  background-color: #121212;
+}
+
+.changeBackgroundToGreyDashboard {
+  background: #64748b;
+}
+
+.each_step_stepper_dashboard > span {
+  color: var(--neutral-gray-500, #64748b);
+  font-family: "Gilroy-Bold", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  top: 10px;
+  text-align: center;
+  text-wrap: nowrap;
+}
+
+.horizonal_bar_stepper_dashboard {
+  width: 96px;
+  height: 2px;
+  position: relative;
+  bottom: 8px;
+  right: 27px;
 }

@@ -13,7 +13,7 @@ import { SuperSEO } from "react-super-seo";
 import { host } from "../../config/config";
 import { toast } from "react-toastify";
 
-function Dashboard() {
+function Dashboard({setOpenFirstTimeModal}) {
   const { loginInfo, getStatus } = useContext(linkedinContext);
   const [firstService, setFirstService] = useState(false);
   const [userloading, setuserloading] = useState(true);
@@ -66,6 +66,9 @@ function Dashboard() {
       console.log(error);
     }
   };
+
+
+
 
 
 

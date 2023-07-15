@@ -1,10 +1,7 @@
 import React from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useNavigate } from "react-router-dom";
 import "./Modal.css";
 
 function HelpModal({ open, toClose }) {
-  const navigate = useNavigate();
 
   open &&
     document?.addEventListener("click", () => {

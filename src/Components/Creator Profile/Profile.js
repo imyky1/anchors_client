@@ -90,7 +90,7 @@ function Profile(props) {
   }, []);
 
   useEffect(() => {
-    getUserDetails().then((e) => {
+    getUserDetails(localStorage.getItem("isUser") === "").then((e) => {
       if (e.success) {
         setUserDetails(e?.user?.email);
       }

@@ -23,6 +23,7 @@ import Request_Modal from "../Modals/Request_Modal";
 import CalendarIcon from "react-calendar-icon";
 import Footer from "../Footer/Footer";
 import WorkshopThanks from "../Modals/WorkshopThanks";
+import Navbar from "../Layouts/Navbar Creator/Navbar";
 
 function Service(props) {
   const { slug } = useParams();
@@ -1129,5 +1130,6 @@ function Service(props) {
     </>
   );
 }
+
 
 export default Service;

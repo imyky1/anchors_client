@@ -344,3 +344,30 @@ input:checked + .slider_type_01:before {
   cursor: pointer;
   margin-left: 10px;
 }
+
+
+
+/* Ck editor css ------------ */
+
+.ck-editor__editable_inline {
+  min-height: 90px;
+  padding: 0 12px !important;
+}
+
+.quill-editor{
+  height:100%;
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.ql-container{
+  min-height: 90px;
+  border-radius: 0 0 5px 5px;
+  border: 0.5px solid rgba(0, 0, 0, 0.3);
+}
+
+.ql-toolbar{
+  border-radius: 5px 5px 0 0;
+  border: 0.5px solid rgba(0, 0, 0, 0.3);
+}

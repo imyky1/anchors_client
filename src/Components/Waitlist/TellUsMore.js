@@ -12,8 +12,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import {
   IoIosArrowDown,
   IoIosArrowForward,
+  IoMdInformationCircleOutline,
   IoIosArrowUp,
 } from "react-icons/io";
+import {RxCross2} from "react-icons/rx"
 import { AiOutlineArrowLeft, AiOutlineCheck } from "react-icons/ai";
 
 // Import Swiper styles
@@ -23,6 +25,8 @@ import "swiper/css/pagination";
 
 import { Autoplay, Navigation, Pagination } from "swiper";
 import Navbar from "../Layouts/Navbar Creator/Navbar";
+import { useCookies } from "react-cookie";
+import { host } from "../../config/config";
 
 // Intro tell us more -------------
 const IntroTellUsMore = ({ nextClick }) => {
@@ -37,6 +41,135 @@ const IntroTellUsMore = ({ nextClick }) => {
       </p>
       <button onClick={nextClick}>Let me jump the Queue</button>
       <span>*it takes 30seconds</span>
+    </div>
+  );
+};
+
+const OTPVerificationModel = ({ onClose }) => {
+  const [cookies, setCookie] = useCookies();
+  const [formData, setFormData] = useState({
+    number: "",
+    otp: "",
+  });
+
+  const [sentOTP, setSentOTP] = useState(false);
+
+  //  Contexts -------------------
+  const { fillTellUsMoreForm } = useContext(creatorContext);
+
+  const verfiyOTP = async () => {
+    if (formData?.otp?.length !== 6) {
+      toast.info("Enter a proper code", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    } else {
+      let code = cookies?.ccoondfe;
+      if (!code) {
+        toast.error("OTP was valid for 2 minute, Please retry again", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      } else {
+        if (parseInt(formData?.otp) === parseInt(parseInt(code) / 562002)) {
+          // Save the form data in the tell us more form ----------
+          await fillTellUsMoreForm(formData?.number, true);
+          onClose(formData?.number,true);
+        } else {
+          toast.error("Invalid OTP!!!. Try again!!!", {
+            position: "top-center",
+            autoClose: 2000,
+          });
+        }
+      }
+    }
+  };
+
+  const sendOTP = async () => {
+    if (formData?.number?.length === 10) {
+      const response = await fetch(
+        `${host}/api/email/sendMsg?message=Mobile Number&number=${formData?.number}&subject=Anchors`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+          },
+        }
+      );
+      const json = await response.json();
+      if (json.MessageID) {
+        toast.success("OTP sent successfully", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+
+        // Saving the number in the backend db
+        await fillTellUsMoreForm(formData?.number);
+
+        setSentOTP(true);
+        let otpcode = parseInt(json.code - 145626) * 562002;
+        setCookie("ccoondfe", otpcode, { maxAge: 120 }); // valid for one minute
+      }
+    } else {
+      toast.error("Enter a proper mobile number", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    }
+  };
+
+  return (
+    <div className="outside_wrapper_earning" style={window.screen.width < 600 ? {background: "rgba(18, 18, 18, 0.80)"} : {}}>
+      <div
+        className="otp_main_container_earning"
+        style={{ background: "#F7F4F2" }}
+      >
+        <h2 style={{ color: "#1E293B" }}>
+          Please verify phone number to continue
+        </h2>
+
+        <section>
+          <input
+            type="number"
+            name="number"
+            placeholder="Enter Mobile Number"
+            style={{ color: "black" }}
+            value={formData?.number}
+            onChange={(e) => {
+              setSentOTP(false);
+              setFormData({ ...formData, [e.target.name]: e.target.value });
+            }}
+          />
+          <input
+            type="number"
+            name="otp"
+            placeholder="OTP"
+            style={{ color: "black" }}
+            value={formData?.otp}
+            onChange={(e) => {
+              setFormData({ ...formData, [e.target.name]: e.target.value });
+            }}
+          />
+        </section>
+
+        {sentOTP ? (
+          <button
+            style={{ minWidth: "unset", background: "rgba(33, 33, 33, 1)" }}
+            onClick={verfiyOTP}
+          >
+            Verify OTP
+          </button>
+        ) : (
+          <button
+            style={{ minWidth: "unset", background: "rgba(33, 33, 33, 1)" }}
+            onClick={sendOTP}
+          >
+            Send OTP
+          </button>
+        )}
+      </div>
     </div>
   );
 };
@@ -94,7 +227,10 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
   const [qNo, setQNo] = useState(1); // keeps the qno
   const [verifiedCode, setVerifiedCode] = useState(false);
   const [incorrectCode, setIncorrectCode] = useState(false);
-  const [formAlreadyFilled, setFormAlreadyFilled] = useState(false);
+  const [formAlreadyFilled, setFormAlreadyFilled] = useState({
+    openOTP: false,
+    restData: false,
+  }); // verified for the otp model openeing and thwe rest is to redirect the page to the next page
   const [formPassed, setFormPassed] = useState(false);
   const [formData, setformData] = useState({
     inviteCode: "",
@@ -103,6 +239,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
     followers: 0,
     socialLink: "",
     knownFrom: "",
+    verifiedContact:false,
   });
 
   //  Contexts -------------------
@@ -118,14 +255,21 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
     getTellUsMoreFormData().then((e) => {
       if (e?.success && e?.already) {
         setformData(e?.form);
-        setFormAlreadyFilled(true);
-        toast.info("You have already filled the form", {
-          position: "top-center",
-          autoClose: 2000,
+        setFormAlreadyFilled({
+          openOTP: !e?.form?.verifiedContact,
+          restData: e?.form?.followers ? true : false,
         });
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 3000);
+        if (e?.form?.followers && e?.form?.verifiedContact) {
+          toast.info("You have already filled the form", {
+            position: "top-center",
+            autoClose: 2000,
+          });
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 3000);
+        }
+      } else if (e?.success) {
+        setFormAlreadyFilled({ openOTP: true, restData: false });
       }
     });
   }, []);
@@ -149,7 +293,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
   const VerifyCode = () => {
     mixpanel.track("Verify invite code");
     if (formData?.inviteCode) {
-      let process = verifyInviteCode(formData.inviteCode).then((e) => {
+      let process = verifyInviteCode(formData?.inviteCode).then((e) => {
         if (e?.success) {
           if (e?.verified) {
             setVerifiedCode(true);
@@ -182,30 +326,65 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
     }
   };
 
+  // Get he platform from the url
+
+  function getPlatformFromURL(url) {
+    // Regex patterns for each platform
+    const linkedinRegex = /linkedin\.com\/.*$/;
+    const youtubeRegex = /youtube\.com\/.*$|youtu\.be\/.*$/;
+    const instagramRegex = /instagram\.com\/.*$/;
+    const telegramRegex = /t\.me\/.*$/;
+    const facebookRegex = /facebook\.com\/.*$/;
+
+    // Test the URL against each pattern
+    if (linkedinRegex.test(url)) {
+      return "LinkedIn";
+    } else if (youtubeRegex.test(url)) {
+      return "Youtube";
+    } else if (instagramRegex.test(url)) {
+      return "Instagram";
+    } else if (telegramRegex.test(url)) {
+      return "Telegram";
+    } else if (facebookRegex.test(url)) {
+      return "Facebook";
+    } else {
+      return "Unknown";
+    }
+  }
+
   const handleSubmit = async () => {
     try {
       if (
-        formData.contactNumber?.toString().length > 1 &&
-        formData.platform !== "" &&
-        formData.followers?.toString().length > 1 &&
-        formData.socialLink !== "" &&
-        formData.knownFrom !== ""
+        formData?.contactNumber?.toString().length > 1 &&
+        formData?.verifiedContact &&
+        formData?.followers?.length > 1 &&
+        formData?.socialLink !== ""
       ) {
-        // if (
-        //   verifiedCode ||
-        //   formData.inviteCode === ""
-        // ) {
+        if (
+          formData?.inviteCode &&
+          formData?.inviteCode?.length !== 0 &&
+          !verifiedCode
+        ) {
+          toast.error("Verify the code first", {
+            position: "top-center",
+            autoClose: 2000,
+          });
+          return true;
+        }
+        const platform = getPlatformFromURL(formData?.socialLink);
+
         fillTellUsMoreForm(
           // saving the data in tell us more in database
-          verifiedCode ? formData?.inviteCode?.toUpperCase() : "",
           formData?.contactNumber,
-          formData?.platform,
+          formData?.verifiedContact,
+          verifiedCode ? formData?.inviteCode?.toUpperCase() : "",
+          platform,
           formData?.followers,
           formData?.socialLink,
           formData?.knownFrom
         ).then((e) => {
           if (e?.success) {
-            switch (formData?.platform) {
+            switch (platform) {
               case "LinkedIn":
                 if (parseInt(formData?.followers) > 10000 && verifiedCode) {
                   updateStatus().then((e) => {
@@ -253,6 +432,10 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
                 break;
 
               default:
+                toast.error("Improper social link, Refresh to proceed", {
+                  position: "top-center",
+                  autoClose: 2000,
+                });
                 break;
             }
           } else {
@@ -284,6 +467,15 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
 
   return (
     <>
+      {formAlreadyFilled?.openOTP && (
+        <OTPVerificationModel
+          onClose={(number,verified) => {
+            setFormAlreadyFilled({ ...formAlreadyFilled, openOTP: false });
+            setformData({...formData,contactNumber:number,verifiedContact:verified})
+          }}
+        />
+      )}
+
       {formPassed && (
         <>
           <SignupModal />
@@ -299,14 +491,101 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
             e.preventDefault();
         }}
       >
-        <AiOutlineArrowLeft
+        {/* <AiOutlineArrowLeft
           id="prev_ques_slide_button"
           onClick={handlePrevButton}
-        />
-        <h1>You are increasing your chances of getting approved.</h1>
-        <p>QUESTIONS {qNo} OF 6</p>
+        /> */}
+        <h1>Help us understand you better. Tell us more !</h1>
+        {/* <p>QUESTIONS {qNo} OF 6</p> */}
 
         <div>
+          <section className="form_fields_tellusmore">
+            <label htmlFor="socialLink">
+              Your Profile Link <span>*</span>
+            </label>
+            <input
+              className="input_form_tellUsMore"
+              type="text"
+              id="socialLink"
+              name="socialLink"
+              value={formData?.socialLink}
+              onChange={handleChange}
+            />
+          </section>
+
+          <section className="form_fields_tellusmore">
+            <label htmlFor="followers">
+              What’s your Size of audience? <span>*</span>
+            </label>
+            <input
+              className="input_form_tellUsMore"
+              type="number"
+              name="followers"
+              id="followers"
+              value={formData?.followers !== 0 && formData?.followers}
+              onChange={handleChange}
+            />
+          </section>
+
+          <section className="form_fields_tellusmore">
+            <label htmlFor="inviteCode">
+              Enter your Invite Code{" "}
+              {window.screen.width < 600 && (
+                <IoMdInformationCircleOutline color="grey" />
+              )}
+            </label>
+            <div className="input_section_tellUsMore">
+              <section
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  position: "relative",
+                }}
+              >
+                <input
+                  className="input_form_tellUsMore"
+                  type="text"
+                  id="inviteCode"
+                  name="inviteCode"
+                  onChange={handleChange}
+                  value={formData?.inviteCode}
+                />
+                {verifiedCode && (
+                  <AiOutlineCheck
+                    color="#58D96E"
+                    style={{ position: "absolute", right: "10px" }}
+                  />
+                )}
+
+                {incorrectCode && window.screen.width < 600 && (
+                  <RxCross2
+                    color="red"
+                    style={{ position: "absolute", right: "10px" }}
+                  />
+                )}
+              </section>
+              <button
+                className="verify_tellusmore"
+                onClick={!verifiedCode ? VerifyCode : undefined}
+              >
+                {!verifiedCode ? "Verify" : "Verified"}
+              </button>
+            </div>
+            <div className="wrong_code_tellUsMore">
+              <p
+                onClick={() => {
+                  window.open("https://bit.ly/anchors-invite-code");
+                  mixpanel.track("redirect to notion link");
+                }}
+              >
+                KNOW ABOUT INVITE CODE
+              </p>
+              {incorrectCode && <span>*Wrong Code</span>}
+            </div>
+          </section>
+        </div>
+
+        {/* <div>
           <Swiper
             navigation={{
               nextEl: "#next_ques_slide_button",
@@ -448,9 +727,9 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
               </section>
             </SwiperSlide>
           </Swiper>
-        </div>
+        </div> */}
 
-        <span
+        {/* <span
           style={qNo === 6 ? { display: "none" } : {}}
           id="next_ques_slide_button"
           onClick={(e) => {
@@ -458,13 +737,13 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
           }}
         >
           <IoIosArrowForward />
-        </span>
+        </span> */}
 
-        {qNo === 6 && !formAlreadyFilled && (
-          <button className="tellUsMore_submitbutton" onClick={handleSubmit}>
-            Submit
-          </button>
-        )}
+        {/* {qNo === 6 && !formAlreadyFilled && ( */}
+        <button className="tellUsMore_submitbutton" onClick={handleSubmit}>
+          Submit
+        </button>
+        {/* )} */}
       </div>
     </>
   );
@@ -550,24 +829,24 @@ function TellUsMore() {
           }
         >
           {/* Intro section tell us more */}
-          {tackleIntro && (
+          {/* {tackleIntro && (
             <IntroTellUsMore
               nextClick={() => {
                 setTackleIntro(false);
               }}
             />
-          )}
+          )} */}
 
-          {!tackleIntro && (
-            <FormTellUsMore
-              prevClick={() => {
-                setTackleIntro(true);
-              }}
-              setVerifiedCodeModal={(bool) => {
-                setVerifiedCodeModal(bool);
-              }}
-            />
-          )}
+          {/* {!tackleIntro && ( */}
+          <FormTellUsMore
+            prevClick={() => {
+              setTackleIntro(true);
+            }}
+            setVerifiedCodeModal={(bool) => {
+              setVerifiedCodeModal(bool);
+            }}
+          />
+          {/* )} */}
         </div>
       </div>
 

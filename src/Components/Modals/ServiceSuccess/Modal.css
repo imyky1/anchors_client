@@ -157,3 +157,27 @@
   width: 100%;
   margin-top: 30px;
 }
+
+
+
+@media screen and (max-width: 660px) {
+
+  .serviceSuccess_container{
+    width: 90%;
+    height: 300px;
+  }
+
+  .text_success_01_modal{
+    font-size: 19px;
+    line-height: 29px;
+    width: 90%;
+
+  }
+
+  .text_success_02_modal{
+    font-size: 15px;
+  }
+
+
+
+}

@@ -24,15 +24,16 @@ function Modal(props) {
           <span className="text_success_02_modal">
             {props.type === "Profile Information"         // profile info success modal-------------
               ? "Profile Information Updated Successfully"
-              : (props.type === "excel"       // create service success modal -----------------
+              : props.type === "Event" ? "Event Registered Successfully"
+              : ((props.type === "excel"       // create service success modal -----------------
                   ? "Excel Sheet"
                   : props.type === "video"
                   ? "Video"
-                  : "Document") + " Uploaded Successfully"}
+                  : "Document") + " Uploaded Successfully")}
           </span>
           <button
             onClick={() => {
-              {props.type === "Profile Information" ? window.open("/dashboard","_self") : navigate("/mycontents")};
+              {props.type === "Profile Information" ? window.open("/dashboard?firstTime=true","_self") : navigate("/dashboard/mycontents")};
             }}
           >
             {props.type === "Profile Information" ? "Go to Dashboard" : "Go to My Content"}

@@ -222,7 +222,7 @@ const WailtistInviteCodeSection = () => {
   useEffect(() => {
     getTellUsMoreFormData().then((e) => {
       setFormData({platform:e?.form?.platform,followers:e?.form?.followers})
-      if (e?.form?.inviteCode.length > 0) {
+      if (e?.form?.inviteCode?.length > 0) {
         setInviteCode(e?.form?.inviteCode);
         setAllreadyFilled(true);
       }
@@ -335,13 +335,13 @@ function Waitlist() {
     const process = async () => {
       await getAllCreatorInfo();
       getTellUsMoreFormData().then((e) => {
-        if (e?.success && !e?.already) {
+        if (e?.success && !e?.form?.followers) {
           toast.info("Please fill the tell us more form", {
             position: "top-center",
             autoClose: 2000,
           });
           setTimeout(() => {
-            navigate("/tellusmore");
+            navigate("/dashboard/tellusmore");
           }, 2000);
         }
       });
@@ -367,7 +367,7 @@ function Waitlist() {
   // redirection ------------------------------------------
   if (basicNav?.status !== 0) {
     // logout the person then give him message
-    navigate("/");
+    navigate("/dashboard");
     return null;
   }
 

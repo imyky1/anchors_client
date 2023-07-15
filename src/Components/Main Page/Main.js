@@ -20,7 +20,7 @@ import { getCalApi } from "@calcom/embed-react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import PNGIMG from "../default_user.png";
+import PNGIMG from "../../Utils/Images/default_user.png";
 import { Autoplay, Pagination, Navigation } from "swiper";
 import { useContext } from "react";
 import { feedbackcontext } from "../../Context/FeedbackState";
@@ -285,7 +285,7 @@ const FeaturedCreators = () => {
                   mixpanel.track("Clicked trusted Creators on Main Page", {
                     creator: "Himanshu Shekhar",
                   });
-                  navigate("/c/himanshu-shekhar");
+                  navigate("/himanshu-shekhar");
                 }}
               >
                 <img
@@ -326,7 +326,7 @@ const FeaturedCreators = () => {
                   mixpanel.track("Clicked trusted Creators on Main Page", {
                     creator: "Himanshu Kumar",
                   });
-                  navigate("/c/himanshu-kumar");
+                  navigate("/himanshu-kumar");
                 }}
               >
                 {" "}
@@ -387,7 +387,7 @@ const FeaturedCreators = () => {
                 mixpanel.track("Clicked trusted Creators on Main Page", {
                   creator: "Himanshu Shekhar",
                 });
-                navigate("/c/himanshu-shekhar");
+                navigate("/himanshu-shekhar");
               }}
             >
               <img src={require("./Images/himanshu1.jpg")} alt="creator"></img>
@@ -423,7 +423,7 @@ const FeaturedCreators = () => {
                 mixpanel.track("Clicked trusted Creators on Main Page", {
                   creator: "Himanshu Kumar",
                 });
-                navigate("/c/himanshu-kumar");
+                navigate("/himanshu-kumar");
               }}
             >
               <img src={require("./Images/himanshu2.jpg")} alt="creator"></img>

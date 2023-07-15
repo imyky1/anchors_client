@@ -59,13 +59,13 @@ function DefaultBanner({ open, onClose, dataToRender,setFinalData }) {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     var textWidth = ctx.measureText(text1).width;
-    ctx.fillText(text1, 69 + (textWidth + 24) / 2, 37 + height2 / 2);
+    ctx.fillText(text1, 60 + (textWidth + 24) / 2, 80 + height2 / 2);
 
     ctx.strokeStyle = "#FFFFFF";
     ctx.fillStyle = "transparent";
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.roundRect(69, 37, textWidth + 24, height2, [borderRadius]);
+    ctx.roundRect(60, 80, textWidth + 24, height2, [borderRadius]);
     ctx.stroke();
 
     // Set the font and text properties --------------------------------
@@ -96,9 +96,9 @@ function DefaultBanner({ open, onClose, dataToRender,setFinalData }) {
     lines.push(line);
 
     // Draw the wrapped text onto the canvas
-    let y = 79;
+    let y = 122;
     for (let i = 0; i < lines.length; i++) {
-      ctx.fillText(lines[i], 70, y);
+      ctx.fillText(lines[i], 60, y);
       y += ctx.lineHeight;
     }
 
@@ -109,7 +109,7 @@ function DefaultBanner({ open, onClose, dataToRender,setFinalData }) {
     const width = textWidth2;
     const height = 40;
     const x = 69;
-    y = 212;
+    y = 280;
     const cornerRadius = 4;
 
     // Draw the round rectangle
@@ -141,7 +141,7 @@ function DefaultBanner({ open, onClose, dataToRender,setFinalData }) {
     ctx.font = "500 21px Inter";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(text2, 69 + textWidth2 / 2, 212 + 40 / 2);
+    ctx.fillText(text2, 69 + textWidth2 / 2, 280 + 40 / 2);
 
     // Image icon -------------------------------------------------------------------
 
@@ -149,7 +149,7 @@ function DefaultBanner({ open, onClose, dataToRender,setFinalData }) {
     const image = new Image();
     image.onload = function () {
       //   // Draw image within clipping path
-      ctx.drawImage(image, 820, 61);
+      ctx.drawImage(image, 700, 130);
       ctx.imageSmoothingEnabled = true;
     };
 
@@ -214,7 +214,7 @@ function DefaultBanner({ open, onClose, dataToRender,setFinalData }) {
     <>
       <div className="default_previewer_wrapper">
         <div>
-          <canvas ref={canvasRef} width={1100} height={290} />
+          <canvas ref={canvasRef} width={900} height={450} />
           <section className="default_options_sections">
             <div>
               <span 

@@ -46,7 +46,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
                 className="creator_sidebar_image"
                 effect="blur"
                 onClick={() => {
-                  window.open(`/c/${userData?.slug}`);
+                  window.open(`/${userData?.slug}`);
                 }}
                 src={
                   alternateInfo?.profile
@@ -72,7 +72,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
                   <span
                     className="reviews_from_sidebar"
                     onClick={() => {
-                      navigate("/reviews");
+                      navigate("reviews");
                       mixpanel.track("dashboard Reviews")
                     }}
                   >
@@ -83,7 +83,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
             </section>
             <span
               onClick={() => {
-                window.open(`/c/${userData?.slug}`);
+                window.open(`/${userData?.slug}`);
                 mixpanel.track("Public profile link")
               }}
             >
@@ -96,10 +96,10 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
             onClick={handleClickNotFilledInviteCode}
           >
             <Link
-              to="/dashboard"
+              to=""
               className={`${
                 (localtion.pathname === "/dashboard" ||
-                  localtion.pathname === "/createservice") &&
+                  localtion.pathname === "/dashboard/createservice") &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
             >
@@ -107,9 +107,9 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
               Dashboard
             </Link>
             <Link
-              to="/mycontents"
+              to="mycontents"
               className={`${
-                localtion.pathname === "/mycontents" &&
+                localtion.pathname === "/dashboard/mycontents" &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
 
@@ -119,9 +119,9 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
               My Content
             </Link>
             <Link
-              to="/paymentSummary"
+              to="paymentSummary"
               className={`${
-                (localtion.pathname === "/paymentInfo" || localtion.pathname === "/paymentSummary") &&
+                (localtion.pathname === "/dashboard/paymentInfo" || localtion.pathname === "/dashboard/paymentSummary") &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
               onClick={()=>{mixpanel.track("Payment")}}
@@ -130,9 +130,9 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
               Payment
             </Link>
             <Link
-              to="/requests"
+              to="requests"
               className={`${
-                localtion.pathname === "/requests" &&
+                localtion.pathname === "/dashboard/requests" &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
               onClick={()=>{mixpanel.track("Requests")}}
@@ -140,16 +140,16 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
               <img src={svg4} alt="" />
               Requests
             </Link>
-            {/* <Link
-              to="/stats"
+            <Link
+              to="stats"
               className={`${
-                (localtion.pathname === "/stats" || localtion.pathname.includes("/serviceStats")) &&
+                (localtion.pathname === "/dashboard/stats" || localtion.pathname.includes("/dashboard/serviceStats")) &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
             >
               <img src={svg5} alt="" />
               Statistics
-            </Link> */}
+            </Link>
           </section>
         </div>
 

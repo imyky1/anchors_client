@@ -128,7 +128,7 @@ const PaymentSummary = () => {
     <div className="servicelist-wrapper">
       <section className="headers_section_paymentInfo">
       <h1 className="text_type01_payment_info">Earnings Summary</h1>
-      <button onClick={()=>{navigate("/paymentInfo"); mixpanel.track("Account Details")}}>Account Details</button>
+      <button onClick={()=>{navigate("/dashboard/paymentInfo"); mixpanel.track("Account Details")}}>Account Details</button>
       </section>
       <div className="usereview_details">
         <div className="userreview_detail1">

@@ -116,7 +116,7 @@ const UserState = (props) => {
     status,
     serviceid,
     creatorId,
-    paidUser,
+    paidUser, // tells about the service is paid or not
     orderType,
     orderFrom,
     razorpayPaymentId,
@@ -144,6 +144,101 @@ const UserState = (props) => {
         }),
       }
     );
+    const json = await response.json();
+    if (json.success) {
+      const res2 = await addSubscriber(creatorId, paidUser); // adding the subscriber
+      return json.success;
+    } else {
+      return json.success;
+    }
+  };
+
+  //Used to verify if payments took place or not for events-------------
+  const verifyPaymentsForEventsinBackend = async (
+    razorpay_payment_id,
+    razorpay_order_id,
+    razorpay_signature,
+    amount,
+    status,
+    eventid,
+    referralCode,
+    creatorId,
+    paidUser,
+    orderFrom
+  ) => {
+    try {
+      const response = await fetch(`${host}/api/payment/paymentVerification`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+        body: JSON.stringify({
+          razorpay_payment_id,
+          razorpay_order_id,
+          razorpay_signature,
+        }),
+      });
+      const json = await response.json();
+      if (json.success && json.verified) {
+        // i.e payment has been verified now user order placing for event
+        const success = await userPlaceOrderForEvent(
+          amount,
+          status,
+          eventid,
+          creatorId,
+          paidUser, // tells about the service is paid or not
+          orderFrom,
+          referralCode,
+          razorpay_payment_id,
+          razorpay_order_id,
+          razorpay_signature
+        );
+        if (success) {
+          return { success: true, orderPlaced: true, paymentRecieved: true };
+        } else {
+          return { success: true, orderPlaced: false, paymentRecieved: true };
+        }
+      } else {
+        return { success: true, orderPlaced: false, paymentRecieved: false };
+      }
+    } catch (error) {
+      console.error("Some error occured");
+    }
+  };
+
+  // ROUTE 4: USER ORDER for event
+  const userPlaceOrderForEvent = async (
+    amount,
+    status,
+    eventid,
+    creatorId,
+    paidUser, // tells about the service is paid or not
+    orderFrom,
+    referralCode,
+    razorpayPaymentId,
+    razorpayOrderId,
+    razorpaySignature
+  ) => {
+    const response = await fetch(`${host}/api/user/event/neworder/${eventid}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
+      body: JSON.stringify({
+        amount,
+        status,
+        razorpayPaymentId,
+        razorpayOrderId,
+        razorpaySignature,
+        orderFrom: orderFrom ? orderFrom : "user",
+        referralCode,
+      }),
+    });
     const json = await response.json();
     if (json.success) {
       const res2 = await addSubscriber(creatorId, paidUser);
@@ -191,9 +286,9 @@ const UserState = (props) => {
   };
 
   // get user details
-  const getUserDetails = async () => {
+  const getUserDetails = async (isCreator) => {
     // USER LOGIN IS REQUIRED
-    const response = await fetch(`${host}/api/user/getUserDetails`, {
+    const response = await fetch(`${host}/api/user/getUserDetails?creator=${isCreator ?? false}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -246,7 +341,9 @@ const UserState = (props) => {
         lastUser,
         checkSubscriber,
         userPlaceOrder,
+        userPlaceOrderForEvent,
         verifyPaymentsinBackend,
+        verifyPaymentsForEventsinBackend,
         addSubscriber,
         getUserDetails,
         checkUserOrderPlaced,

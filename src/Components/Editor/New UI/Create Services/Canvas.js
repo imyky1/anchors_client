@@ -228,32 +228,3 @@ class Canvas extends Component {
 }
 export default Canvas;
 
-// const Canvas = ({ textToShow, width, height, imgBackground }) => {
-//   const img = useRef();
-//   const canvas = useRef();
-
-//   useEffect(() => {
-//     const ctx = canvas.current.getContext("2d");
-//     img.onload = () => {
-//       ctx.drawImage(img, 0, 0);
-//       ctx.font = "40px Courier";
-//       ctx.fillStyle = "black";
-//       ctx.fillText(textToShow, 10, 180);
-//     };
-//   }, [textToShow, img, canvas]);
-
-//   return (
-//     <>
-//       <div className="canvas_image">
-//         <h3>Original Image</h3>
-//         <img src={imgBackground} alt="" ref={img} />
-//       </div>
-//       <div>
-//         <h3>Canvas Image</h3>
-//         <canvas ref={canvas} width={width} height={height} />
-//       </div>
-//     </>
-//   );
-// };
-
-// export default Canvas;

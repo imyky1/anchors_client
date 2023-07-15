@@ -45,7 +45,8 @@ const PaymentState = (props) => {
     return json.key;
   };
 
-  const checkfororder = async (serviceID, userType) => {
+  const checkfororder = async (serviceID, userType , type) => {
+    // type means that the event
     try {
       const response = await fetch(`${host}/api/payment/checkOrderPlaced`, {
         method: "POST",
@@ -55,7 +56,7 @@ const PaymentState = (props) => {
           "Access-Control-Allow-Credentials": true,
           "jwt-token": localStorage.getItem("jwtToken"),
         },
-        body: JSON.stringify({ serviceID, userType }),
+        body: JSON.stringify({ serviceID, userType , type }),
       });
       const json = await response.json();
       return json.success;
