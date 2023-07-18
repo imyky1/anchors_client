@@ -40,7 +40,7 @@ function User_login({ open, onClose }) {
         <RxCross2 className="userModalCross" onClick={onClose}/>
         {/* logo ------------- */}
         <section className="logo_user_modal">
-          <img src={require("../../logo.png")} alt="" />
+          <img src={require("../../../Utils/Images/logo.png")} alt="" />
           <span>anchors</span>
         </section>
 

@@ -235,7 +235,7 @@ function Feedback(props) {
       <div className="main_feedback_box">
         <div className="profile_header" style={{ border: "none" }}>
           <div className="logo">
-            <img src={require("../logo.png")} alt="Logo" />
+            <img src={require("../../Utils/Images/logo.png")} alt="Logo" />
             <span>anchors</span>
             <p className="beta_tagname">beta</p>
           </div>
@@ -293,6 +293,8 @@ function Feedback(props) {
             </div>
           )}
         </div>
+
+        
 
         <div className="design_box">
           <div className="rating">

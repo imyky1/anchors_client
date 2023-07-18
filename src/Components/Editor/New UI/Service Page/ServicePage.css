@@ -222,9 +222,9 @@
   align-items: flex-start;
   flex-direction: column;
   gap: 40px;
-  width: 713px;
   padding: 20px;
   width: 100%;
+  min-height: 41vh;
   box-sizing: border-box;
 
   border-radius: 16px;
@@ -616,6 +616,7 @@
   .description_section_new_service_page {
     padding: 16px 8px;
     gap: 20px;
+    min-height: unset;
   }
 
   /* More service section desgin ------------------- */
@@ -742,6 +743,7 @@
     box-sizing: border-box;
     gap: 8px;
     position: relative;
+    width: 100%;
   }
 
   .creator_details_new_service_page > img {

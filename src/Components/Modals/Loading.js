@@ -4,7 +4,7 @@ import "./Model.css"
 function Loading() {
   return (
     <div className="loading_bar">
-        <img src={require("../logo.png")} alt="Loading" className='loader_home' />
+        <img src={require("../../Utils/Images/logo.png")} alt="Loading" className='loader_home' />
     </div>
   )
 }
@@ -16,7 +16,7 @@ function LoadingOne( {open}){
 
   return(
     <div className="loadbar2">
-        <img src={require("../logo.png")} alt="..Loading" className='loader_home load2' />
+        <img src={require("../../Utils/Images/logo.png")} alt="..Loading" className='loader_home load2' />
     </div>
   )
 }
@@ -25,7 +25,7 @@ function LoadingOne( {open}){
 function LoadingTwo( {open}){
   return(
     <div className="loadbar3">
-        <img src={require("../logo.png")} alt="..Loading" className='loader_home load2' />
+        <img src={require("../../Utils/Images/logo.png")} alt="..Loading" className='loader_home load2' />
     </div>
   )
 }

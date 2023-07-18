@@ -3,8 +3,6 @@ import "./Model.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { creatorContext } from "../../Context/CreatorState";
-import ReactEditor from "../Editor/Editor";
-import { host } from "../../config/config";
 import { emailcontext } from "../../Context/EmailState";
 import mixpanel from "mixpanel-browser";
 
@@ -349,13 +347,6 @@ function Email_Model_Two({
                 Mail Content
               </label>
               <div className="mail_content"></div>
-              {/* <div className="editorinemail">
-                <ReactEditor
-                  readOnly={false}
-                  content={Content}
-                  setContent={setContent}
-                />
-              </div> */}
             </div>
           </form>
           <p className="email_subs">

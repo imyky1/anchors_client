@@ -24,9 +24,7 @@ import EmailState from "./Context/EmailState";
 import Pricing from "./Components/Pricing/Pricing";
 import Sitemap from "./Components/sitemap/Sitemap";
 import WorkshopFeedback from "./Components/Feedback/Workshopfeedback";
-import Logout_Model_user from "./Components/Modals/Logout_Model_user";
 import UserDashboardState from "./Context/userdashbaord";
-import Redirect_servworkshop from "./Components/Redirect_servworkshop";
 import Signup from "./Components/Signup/Signup";
 import ExcelViewer from "./Components/Editor/excelviewer/ExcelViewer";
 import PDFReader from "./Components/Editor/pdfViewer/Components/PDFReader";
@@ -169,10 +167,6 @@ function App() {
                               path="/c/:id"
                               element={<Redirect_serv />}
                             ></Route>
-                            <Route
-                              path="/rw/:id"
-                              element={<Redirect_servworkshop />}
-                            ></Route>
                             {/* Developer routes --------------------------------------------------------------- */}
                             <Route
                               path="/developer/count"
@@ -206,14 +200,7 @@ function App() {
                               path="/logout"
                               element={<Logout_Model progress={progress} />}
                             />
-                            {localStorage.getItem("jwtToken") && (
-                              <Route
-                                path="/logout/user"
-                                element={
-                                  <Logout_Model_user progress={progress} />
-                                }
-                              />
-                            )}
+
                             {localStorage.getItem("jwtToken") && (
                               <Route
                                 path="/user/dashboard"

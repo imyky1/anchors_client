@@ -349,18 +349,6 @@ function Waitlist() {
       setWNum(e?.wNumber);
     };
 
-    toast.promise(
-      process,
-      {
-        pending: "Please Wait..",
-        error: "Try Again by reloading the page!",
-      },
-      {
-        position: "top-center",
-        autoClose: 2000,
-      }
-    );
-
     process();
   }, []);
 

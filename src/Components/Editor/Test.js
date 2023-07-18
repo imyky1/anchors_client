@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { linkedinContext } from "../../Context/LinkedinState";
-import { atcb_action, atcb_init } from "add-to-calendar-button";
+
 // import { InlineShareButtons } from "sharethis-reactjs";
 import { host } from "../../config/config";
 import { Page, Document, pdfjs } from "react-pdf";
@@ -8,35 +8,16 @@ import { Page, Document, pdfjs } from "react-pdf";
 import { useLinkedIn } from "react-linkedin-login-oauth2";
 // You can use provided image shipped by this package or using your own
 import linkedin from "react-linkedin-login-oauth2/assets/linkedin.png";
-import "./teststyle.css";
 
-import "add-to-calendar-button/assets/css/atcb.css";
-import { FormHelperText, Modal } from "@mui/material";
-import PreviewDocument from "../Modals/PreviewDoc";
-import Canvas from "./New UI/Create Services/Canvas";
-import PSPDFKit from "pspdfkit";
-import pdfjsLib from "pdfjs-dist";
 import { Worker } from "@react-pdf-viewer/core";
 import { Viewer } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
-
-import Doc from "../../Utils/Icons/Canvas Banner/DocIcon.svg";
-import Excel from "../../Utils/Icons/Canvas Banner/ExcelIcon.svg";
-import Video from "../../Utils/Icons/Canvas Banner/VideoIcon.svg";
-import ExcelWhite from "../../Utils/Icons/Canvas Banner/ExcelIconWhite.svg";
-import VideoWhite from "../../Utils/Icons/Canvas Banner/VideoIconWhite.svg";
-
-import back from "./back.png";
-import Yuv from "./yuvraj.jpg";
 
 // Import styles
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 
 // Import the styles
 import "@react-pdf-viewer/core/lib/styles/index.css";
-
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 
 function Test() {
   const { truecallerlogin, truecallervalue } = useContext(linkedinContext);
@@ -520,32 +501,6 @@ function Test2() {
 //   );
 // }
 
-function PDF() {
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    let PSPDFKit;
-
-    (async function () {
-      PSPDFKit = await import("pspdfkit");
-      PSPDFKit.unload(container);
-
-      PSPDFKit.load({
-        // Container where PSPDFKit should be mounted.
-        container,
-        // The document to open.
-        document: sessionStorage.getItem("link"),
-        // Use the public directory URL as a base URL. PSPDFKit will download its library assets from here.
-        baseUrl: `${window.location.protocol}//${window.location.host}/${process.env.PUBLIC_URL}`,
-      });
-    })();
-
-    return () => PSPDFKit && PSPDFKit.unload(container);
-  }, []);
-
-  return <div ref={containerRef} style={{ width: "100%", height: "100vh" }} />;
-}
 
 // function PDF2() {
 //   const canvasRef = useRef(null);
@@ -604,55 +559,5 @@ function PDF3() {
   );
 }
 
-function VideoCheck() {
-  return (
-    <video controls>
-      <source
-        src="https://check-555.s3.ap-south-1.amazonaws.com/2023-01-18+22-53-31.mp4"
-        type="video/mp4"
-      />
-    </video>
-  );
-}
 
-const DynamicBanner = ({ backgroundImage, userImage, userName, dateTime }) => {
-  const bannerRef = useRef(null);
-
-  const handleDownload = () => {
-    const bannerElement = bannerRef.current;
-  };
-
-  return (
-    <>
-      <div
-        ref={bannerRef}
-        className="banner"
-        style={{ backgroundImage: `url(${back})` }}
-      >
-        <img className="user-image" src={Yuv} alt="User Image" />
-        <div className="user-name">{`Hello, Yuvraj`}</div>
-        <div className="date-time">5th July</div>
-      </div>
-      <button onClick={handleDownload}>Download Banner</button>
-    </>
-  );
-};
-
-const EditorCheck = () => {
-  const [value, setValue] = useState("");
-
-  return (
-    <div style={{ width: "50vw", height: "400px" }}>
-      <ReactQuill
-        theme="snow"
-        value={value}
-        onChange={setValue}
-        style={{ height: "100%" }}
-      />
-      ;
-    </div>
-  );
-};
-
-
-export default EditorCheck;
+export default PDF3;

@@ -288,7 +288,7 @@ function ServicePage(props) {
       currency: "INR",
       name: "anchors", //your business name
       description: `Payment for Buying - ${serviceInfo?.service?.sname}`,
-      image: require("./logo.png"),
+      image: require("../../../../Utils/Images/logo.png"),
       order_id: order?.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       //callback_url: `${host}/api/payment/paymentVerification`,
       handler: async function (res) {

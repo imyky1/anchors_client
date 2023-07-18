@@ -179,7 +179,7 @@ function WorkshopFeedback(props) {
       <div className="main_feedback_box">
         <div className="profile_header" style={{ border: "none" }}>
           <div className="logo">
-            <img src={require("../logo.png")} alt="Logo" />
+            <img src={require("../../Utils/Images/logo.png")} alt="Logo" />
             <span>anchors</span>
           </div>
           {localStorage.getItem("isUser") === "" ? (

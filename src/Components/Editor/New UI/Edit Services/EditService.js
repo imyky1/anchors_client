@@ -3,7 +3,6 @@ import Cropper from "react-easy-crop";
 import { useNavigate, useParams } from "react-router-dom";
 import { SuperSEO } from "react-super-seo";
 import { LoadTwo } from "../../../Modals/Loading";
-import Canvas from "../Create Services/Canvas";
 import { Button, Modal, Slider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -16,7 +15,6 @@ import {
   UploadField1,
   UploadField2,
 } from "../Create Services/InputComponents/fields_Labels";
-import SuccessService from "../../../Modals/ServiceSuccess/Modal";
 import getCroppedImg, { generateDownload } from "../../../helper/imageresize";
 import "./EditService.css";
 import { Button1 } from "../Create Services/InputComponents/buttons";

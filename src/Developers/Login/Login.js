@@ -3,6 +3,7 @@ import { host, jwtTokenDeveloper } from "../../config/config";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 import "./Login.css"
+import Navbar from "../../Components/Layouts/Navbar Creator/Navbar";
 
 function Login() {
   const ref = useRef();
@@ -101,12 +102,9 @@ function Login() {
 
   return (
     <div className="creator_login">
-      <div className="creator_login_header">
-        <div className="logo">
-          <img src={require("../../Components/logo.png")} alt="Logo" />
-          <span>anchors</span>
-        </div>
-      </div>
+
+      <Navbar noAccount={true}/>
+
       <div className="main_page_login">
         <div className="gyan_container">
           Hello, Anchors Builders <br />

@@ -6,6 +6,7 @@ import Moment from "moment";
 import { AiOutlineClose } from "react-icons/ai";
 import { useCookies } from "react-cookie";
 import { ToastContainer, toast } from "react-toastify";
+import Navbar from "../../Components/Layouts/Navbar Creator/Navbar";
 
 const OtpModal = ({ onClose,cid,currentStatus }) => {
   const [data, setData] = useState();
@@ -182,18 +183,7 @@ function View() {
         />
       )}
       <div className="admin_container">
-        <div className="profile_header" style={{ border: "none" }}>
-          <div className="logo">
-            <img src={require("../../Components/logo.png")} alt="Logo" />
-            <span>anchors</span>
-          </div>
-          {localStorage.getItem("jwtTokenD") && (
-            <button className="logout_admin_panel" onClick={handleLogout}>
-              Logout
-            </button>
-          )}
-        </div>
-
+        <Navbar noAccount={true}/>
         <div className="creator_display_list">
           {allcreators.length !== 0
             ? allcreators.map((e, index) => {

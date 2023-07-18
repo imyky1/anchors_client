@@ -25,7 +25,6 @@
 }
 
 .desc_stats {
-  width: 427px;
   height: 19px;
   padding-left: 80px;
   font-family: "Inter";
@@ -167,7 +166,7 @@
   display: flex;
   align-items: flex-start;
   position: relative;
-  left: 37px;
+  left: 59px;
   box-shadow: 0px 0px 4px 0px rgba(18, 18, 18, 0.1);
 }
 
@@ -237,10 +236,9 @@
 }
 
 .profile_graph_stats {
-  width: 92%;
-  height: 265px;
-  padding: 15px;
-
+  bottom: 10px;
+  position: relative;
+  width: 97%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -355,7 +353,7 @@
   align-self: stretch;
   color: var(--neutral-gray-600, #475569);
   font-family: "Inter";
-  font-size: 15px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -393,8 +391,7 @@
   align-items: flex-start;
   gap: 24px;
 }
-.detail_service {
-}
+
 
 .total_download {
   color: var(--neutral-gray-800, #1e293b);
