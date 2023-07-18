@@ -19,13 +19,8 @@ import { toast, ToastContainer } from "react-toastify";
 const ServiceStats = (props) => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const {
-    serviceInfo,
-    getserviceinfo,
-    compareJWT,
-    geteventinfo,
-    eventInfo,
-  } = useContext(ServiceContext);
+  const { serviceInfo, getserviceinfo, compareJWT, geteventinfo, eventInfo } =
+    useContext(ServiceContext);
   const [serviceType, setServiceType] = useState();
   const [approvedUser, setapprovedUser] = useState(false); // check if user searching is appropriate
   const [openLoading, setopenLoading] = useState(false);
@@ -47,7 +42,9 @@ const ServiceStats = (props) => {
   });
 
   const date = Moment(
-    serviceType === "download" ? serviceInfo?.service?.date : eventInfo?.event?.createdOn
+    serviceType === "download"
+      ? serviceInfo?.service?.date
+      : eventInfo?.event?.createdOn
   )
     .format()
     .split("T")[0];
@@ -55,7 +52,10 @@ const ServiceStats = (props) => {
   const time =
     serviceType === "download"
       ? Moment(serviceInfo?.service?.date).format().split("T")[1].split("+")[0]
-      :  Moment(eventInfo?.event?.createdOn).format().split("T")[1].split("+")[0];
+      : Moment(eventInfo?.event?.createdOn)
+          .format()
+          .split("T")[1]
+          .split("+")[0];
 
   const getAnalyticsData = async () => {
     let response = await fetch(`${host}/analytics/getdata`, {
@@ -115,30 +115,35 @@ const ServiceStats = (props) => {
 
   // mixpanel api------------------------------
   const handler = async () => {
-    setopenLoading(true)
+    setopenLoading(true);
     if (serviceType === undefined) {
     } else {
-      fetch(`${host}/api/stats/getStats`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-          "jwt-token": localStorage.getItem("jwtToken"),
-        },
-        body: JSON.stringify({
-          service: serviceType === "download" ? serviceInfo : eventInfo,
-          serviceType: serviceType,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setMixpanelData({
-            valueunique: data?.response?.uniquevisits,
-            valuenotunique: data?.response?.Totalvisits,
+      if (serviceInfo?.service) {
+        fetch(`${host}/api/stats/getStats`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+            "jwt-token": localStorage.getItem("jwtToken"),
+          },
+          body: JSON.stringify({
+            service:
+              serviceType === "download"
+                ? serviceInfo?.service
+                : eventInfo?.event,
+            serviceType: serviceType,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setMixpanelData({
+              valueunique: data?.response?.uniquevisits,
+              valuenotunique: data?.response?.Totalvisits,
+            });
+            setopenLoading(false);
           });
-          setopenLoading(false)
-        });
+      }
     }
   };
 
@@ -158,6 +163,8 @@ const ServiceStats = (props) => {
     handler();
   }, [serviceInfo, eventInfo]);
 
+  console.log(mixpaneldata);
+
   return (
     <>
       <ToastContainer />
@@ -167,9 +174,14 @@ const ServiceStats = (props) => {
         <div className="servicestat_wrapper">
           <div className="servicestat_heading">
             <div className="servicestat_leftheading">
-              <h1>{serviceType === "event" ? "Event" : "Service"} Detailed analysis</h1>
+              <h1>
+                {serviceType === "event" ? "Event" : "Service"} Detailed
+                analysis
+              </h1>
               <div className="servicestat_product">
-                <div className="servicestat_span1">{serviceType === "event" ? "Event" : "Service"} Name:</div>
+                <div className="servicestat_span1">
+                  {serviceType === "event" ? "Event" : "Service"} Name:
+                </div>
                 <span className="servicestat_span2">
                   {serviceType === "download"
                     ? serviceInfo?.service?.sname
@@ -177,7 +189,9 @@ const ServiceStats = (props) => {
                 </span>
               </div>
               <div className="servicestat_product">
-                <div className="servicestat_span1">{serviceType === "event" ? "Event" : "Service"} Created on:</div>
+                <div className="servicestat_span1">
+                  {serviceType === "event" ? "Event" : "Service"} Created on:
+                </div>
                 <span className="servicestat_span2"> {date + " " + time}</span>
               </div>
               <div className="servicestat_product">
@@ -210,7 +224,8 @@ const ServiceStats = (props) => {
               <div className="servicestat_boxpa">
                 <img src={ICON5} alt="c"></img>
                 <div className="servicestat_boxpa_div">
-                Total user used your {serviceType === "event" ? "event" : "service"}
+                  Total user used your{" "}
+                  {serviceType === "event" ? "event" : "service"}
                 </div>
                 <h2>
                   {serviceType === "download"
@@ -223,10 +238,13 @@ const ServiceStats = (props) => {
               <div className="servicestat_boxpa">
                 <img src={ICON1} alt="c"></img>
                 <div className="servicestat_boxpa_div">
-                Conversion Rate : No. of user used this {serviceType === "event" ? "event" : "service"} / Unique Visits
+                  Conversion Rate : No. of user used this{" "}
+                  {serviceType === "event" ? "event" : "service"} / Unique
+                  Visits
                 </div>
                 <h2>
-                  {mixpaneldata?.valuenotunique !== 0
+                  {mixpaneldata?.valuenotunique !== 0 &&
+                  mixpaneldata?.valuenotunique
                     ? serviceType === "download"
                       ? (
                           (serviceInfo?.service?.downloads * 100) /
@@ -243,9 +261,12 @@ const ServiceStats = (props) => {
             <div className="servicestat_statsbox">
               <div className="servicestat_boxpa">
                 <img src={ICON2} alt="c"></img>
-                <div className="servicestat_boxpa_div">{serviceType === "event" ? "Event" : "Service"} Page visit</div>
+                <div className="servicestat_boxpa_div">
+                  {serviceType === "event" ? "Event" : "Service"} Page visit
+                </div>
                 <h2>
-                  {mixpaneldata?.valuenotunique !== 0
+                  {mixpaneldata?.valuenotunique !== 0 &&
+                  mixpaneldata?.valueunique
                     ? mixpaneldata?.valuenotunique
                     : "---"}
                 </h2>
@@ -256,7 +277,7 @@ const ServiceStats = (props) => {
                 <img src={ICON3} alt="c"></img>
                 <div className="servicestat_boxpa_div">Unique User Visit </div>
                 <h2>
-                  {mixpaneldata?.valueunique !== 0
+                  {mixpaneldata?.valueunique !== 0 && mixpaneldata?.valueunique
                     ? mixpaneldata?.valueunique
                     : "---"}
                 </h2>

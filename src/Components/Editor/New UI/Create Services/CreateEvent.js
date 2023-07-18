@@ -23,6 +23,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import Cropper from "react-easy-crop";
 import { SuperSEO } from "react-super-seo";
 import mixpanel from "mixpanel-browser";
+import {FiSend} from "react-icons/fi"
 
 function CreateEvent({
   progress,
@@ -271,8 +272,11 @@ function CreateEvent({
       <div className="main_create_container">
         {/* Heading of the create section ------------------------ */}
         <section className="heading_create_box">
+          <div>
           <h1 className="create_text_01">What is your Event about?</h1>
           <p className="create_text_02">You can create events and workshops</p>
+          </div>
+          <button onClick={()=>{mixpanel.track("Preview Sample Page");window.open("https://www.anchors.in/e/how-to-become-a-product-manager")}}><FiSend/> Preview Sample Page</button>
         </section>
 
         {/* form section of create container ---------------------------------------- */}

@@ -172,7 +172,8 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
           smrp: paid === "Free" ? 0 : data.smrp,
           ssp: paid === "Free" ? 0 : data.ssp,
           allowPreview,
-          noOfPage
+          noOfPage,
+          status:1
         };
         updateService(serviceInfo?.service?._id, newData).then((e) => {
           if (e?.success) {

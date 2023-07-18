@@ -1,79 +1,160 @@
+.default_previewer_wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(65, 62, 62, 0.29);
+  position: fixed;
+  border-radius: 8px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.default_previewer_wrapper > div {
+  gap: 28px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
 
-.default_previewer_wrapper{
-    width: 100%;
-    height: 100%;
-    background-color: rgba(65, 62, 62, 0.29);
-    position: fixed;
-    border-radius: 8px;
-    z-index: 999;
+.default_options_sections {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* background-color: red; */
+  width: 98%;
+}
+
+.default_options_sections > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.normal_color_option_default_banner {
+  padding: 2px;
+  box-sizing: border-box;
+  border: 2px solid white;
+  width: 38px;
+  height: 38px;
+  border-radius: 100px;
+}
+
+.default_options_sections > div > span > span {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+.active_color_option_default_banner {
+  border: 2px solid red;
+}
+
+.default_options_sections > section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.default_options_sections > section button {
+  padding: 8px 15px;
+  border-radius: 5px;
+  background-color: black;
+  border: none;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.default_options_sections > section button:hover {
+  background-color: red;
+}
+
+/* html banner cs ------- */
+
+.outer {
+  width: 1079px;
+  height: 540px;
+  position: relative;
+}
+
+.outer > div{
+    position: absolute;
+    top: 0;
+    left: 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    z-index: 99999;
 }
 
-.default_previewer_wrapper > div{
-    gap: 28px;
-    background-color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    padding: 20px;
-    box-sizing: border-box;
+.outer > img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-.default_options_sections{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    /* background-color: red; */
-    width: 98%;
+.type_01 {
+  display: inline-flex;
+  align-items: center;
+
+  margin-left: 80px;
+  margin-top: 136px;
 }
 
-.default_options_sections > div{
-    display: flex;
-    align-items: center;
-    gap: 20px;
+.type_text {
+  color: var(--neutral-gray-400, #94a3b8);
+  padding-left: 4px;
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
 }
 
-.normal_color_option_default_banner{
-    padding: 2px;
-    box-sizing: border-box;
-    border: 2px solid white;
-    width: 38px;
-    height: 38px;
-    border-radius: 100px;
+.type_title {
+  width: 540px;
+  color: var(--neutral-gray-100, #f1f5f9);
+  font-family: "Gilroy-Bold", "Inter";
+  font-size: 28px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  margin-top: 20px;
+  margin-left: 80px;
+}
+.creator_name {
+  margin-left: 80px;
+  margin-top: 80px;
+  border-radius: 4px;
+
+  display: inline-flex;
+  padding: 8px;
+  align-items: center;
+  gap: 10px;
+  color: var(--neutral-gray-200, #e2e8f0);
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
 }
 
-.default_options_sections > div > span > span{
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    border-radius: 100px;
-    cursor: pointer;
+.outer_01 {
+  flex-direction: column;
 }
 
-.active_color_option_default_banner{
-    border: 2px solid red;
-}
-
-.default_options_sections > section{
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.default_options_sections > section button{
-    padding: 8px 15px;
-    border-radius: 5px;
-    background-color: black;
-    border: none;
-    color: white;
-    font-size: 15px;
-    cursor: pointer;
-}
-
-.default_options_sections > section button:hover{
-    background-color: red;
+.right_image {
+  margin-top: 150px;
+  margin-left: 59px;
+  width: 240px;
+  height: 240px;
+  flex-shrink: 0;
+  fill: var(--neutral-gray-200, #e2e8f0);
 }

@@ -596,6 +596,43 @@ const CreatorState = (props) => {
         }
       }
 
+      const getEventReg=async(selectedOption)=>{
+        try{
+          const response=await fetch(`${host}/api/stats/getEventRegistrations?filter=${selectedOption}`,{
+            method:"GET",
+            headers:{
+              "jwt-token":localStorage.getItem("jwtToken")
+            }
+          });
+          const json = await response.json();
+          console.log('json');
+          console.log(json);
+          return json
+
+        }catch(error){
+          console.log(error);
+        }
+
+      }
+
+      const getMaxEvent=async()=>{
+        try{
+          const response=await fetch(`${host}/api/stats/getEventMax`,{
+            method:"GET",
+            headers:{
+              "jwt-token":localStorage.getItem("jwtToken")
+            }
+          });
+          const json = await response.json();
+
+          return json
+
+        }catch(error){
+          console.log(error);
+        }
+
+      }
+
 
 
 
@@ -642,7 +679,9 @@ const CreatorState = (props) => {
         getViews,
         getMaxService,
         getAvgRating,
-        getOrderStats
+        getOrderStats,
+        getEventReg,
+        getMaxEvent
       }}
     >
       {props.children}

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import "./Canvas.css";
-import { toBlob, toJpeg, toPng } from "html-to-image";
+import { toJpeg} from "html-to-image";
 import DateIcon from "../../calendar.svg";
 import TimeIcon from "../../clock.svg";
 

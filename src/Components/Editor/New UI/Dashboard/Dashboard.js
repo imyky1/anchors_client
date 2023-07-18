@@ -263,7 +263,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
             >
               Share an Excelsheet
             </div>
-            <div
+            {/* <div
               onClick={() => {
                 navigate("createservice?type=video");
                 mixpanel.track("Share a video");
@@ -271,7 +271,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
               className="dashboard_options"
             >
               Share a Video
-            </div>
+            </div> */}
             <div
               onClick={() => {
                 navigate("createevent");

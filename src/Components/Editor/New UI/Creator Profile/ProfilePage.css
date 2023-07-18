@@ -51,6 +51,12 @@
   line-height: 26px;
 }
 
+.text_creator_profile_page-04 *{
+  font: inherit !important;
+  background-color: inherit !important;
+  color: inherit !important;
+}
+
 .text_creator_profile_page-05 {
   color: #fff;
   font-family: " Gilroy-Bold", sans-serif;
@@ -194,6 +200,26 @@
   max-height: 750px;
   overflow-y: auto;
   padding-right: 20px;
+}
+
+.other_services_new_creator_profile > div::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.other_services_new_creator_profile > div::-webkit-scrollbar-track {
+  background: #000;
+}
+
+/* Handle */
+.other_services_new_creator_profile > div::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 6px;
+}
+
+/* Handle on hover */
+.other_services_new_creator_profile > div ::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 /* reviews section  ------------- */

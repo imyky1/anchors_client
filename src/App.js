@@ -57,6 +57,7 @@ import "./fonts/Gilroy-SemiBold.ttf";
 import "./fonts/Gilroy-Regular.ttf";
 import ServicePage from "./Components/Editor/New UI/Service Page/ServicePage";
 import ProfilePage from "./Components/Editor/New UI/Creator Profile/ProfilePage";
+import PreviewPage from "./Components/Editor/New UI/Service Page/PreviewPage";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -103,6 +104,12 @@ function App() {
                               exact path="/s/:slug"
                               element={
                                 <ServicePage progress={changeprogress} />
+                              }
+                            ></Route>
+                            <Route
+                              exact path="/s/preview/:slug"
+                              element={
+                                <PreviewPage progress={changeprogress} />
                               }
                             ></Route>
                             <Route
@@ -180,7 +187,7 @@ function App() {
                               element={<Login />}
                             ></Route>
                             <Route
-                              path="/developer/test/:slug"
+                              path="/developer/test"
                               element={<Test />}
                             ></Route>
                             {/* User feedback routes ----------------------------------------------------------- */}

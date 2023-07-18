@@ -48,7 +48,7 @@ function Navbar({ ChangeModalState, ModalState, userData, alternateInfo }) {
 
         {/* <span onClick={()=>{mixpanel.track("Connect with Us");window.open(generateMailtoLink())}}>Connect with us</span> */}
 
-        <span className="fancy_navbar_link01" onClick={()=>{mixpanel.track("Host your event");window.open("https://www.anchors.in/hostevent","_blank")}}>Host Your Event</span>
+        <span className="fancy_navbar_link01" onClick={()=>{mixpanel.track("Host your event");window.open("https://www.anchors.in/hostevent","_blank")}}>Host Event</span>
 
     </div>
   );

@@ -51,6 +51,7 @@ const ServiceState = (props) => {
         tags: data.Tags,
         allowPreview: data.allowPreview,
         noOfPages: data.noOfPage,
+        status:data.status,
       }),
     });
     const json = await response.json();

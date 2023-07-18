@@ -10,7 +10,11 @@ import TelgramIcon from "../../../../Utils/Icons/telegram.svg";
 import YoutubeIcon from "../../../../Utils/Icons/youtube.svg";
 import topmateIcon from "../../../../Utils/Icons/topmate.svg";
 import linkedinIcon from "../../../../Utils/Icons/linkedin.svg";
-import { AiOutlineArrowRight, AiOutlineDown } from "react-icons/ai";
+import {
+  AiOutlineArrowRight,
+  AiOutlineDown,
+  AiOutlineUp,
+} from "react-icons/ai";
 import { ReviewCards, ServiceCards } from "../Service Page/ServicePage";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { creatorContext } from "../../../../Context/CreatorState";
@@ -26,6 +30,7 @@ import Request_Modal from "../../../Modals/Request_Modal";
 import mixpanel from "mixpanel-browser";
 import Seo from "../../../../Utils/Seo";
 import PNGIMG from "../../../../Utils/Images/default_user.png";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const ExtraCard = () => {
   return (
@@ -33,7 +38,7 @@ const ExtraCard = () => {
       <section>Most Popular Services</section>
 
       <div className="extra_card_profile_details">
-        <img
+        <LazyLoadImage
           src="https://images.pexels.com/photos/255379/pexels-photo-255379.jpeg?cs=srgb&dl=pexels-miguel-%C3%A1-padri%C3%B1%C3%A1n-255379.jpg&fm=jpg"
           alt=""
         />
@@ -70,6 +75,7 @@ function ProfilePage() {
   const [openModelRequest, setOpenModelRequest] = useState(false);
   const [UserDetails, setUserDetails] = useState();
   const [creatorRatingData, setCreatorRatingData] = useState(0); // creator rating data
+  const [moreAbout, setMoreAbout] = useState(false);
 
   //   Contexts ----------------------
   const { services, getallservicesusingid } = useContext(ServiceContext);
@@ -135,6 +141,24 @@ function ProfilePage() {
     });
   }, [localStorage.getItem("jwtToken")]);
 
+  // loading more about section -----------------
+
+  useEffect(() => {
+    let doc = document.querySelector("#about_creator_profile");
+    if (doc) {
+      doc.innerHTML = ""
+      if (window.screen.width < 600) {
+        if (moreAbout) {
+          doc.innerHTML = basicCreatorInfo?.aboutMe;
+        } else {
+          doc.innerHTML = basicCreatorInfo?.aboutMe?.slice(0, 200);
+        }
+      } else {
+        doc.innerHTML = basicCreatorInfo?.aboutMe;
+      }
+    }
+  }, [moreAbout,basicCreatorInfo]);
+
   // checks for a status 0 creator
   if (basicCdata?.status === 0) {
     navigate("/");
@@ -161,12 +185,12 @@ function ProfilePage() {
         <div className="outerframe_new_creator_page">
           {/* main details sections ---------------- */}
           <section className="main_creator_details_creator_page">
-            <img
+            <LazyLoadImage
               src={basicCreatorInfo?.profile}
               alt={basicCreatorInfo?.name}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
-                currentTarget.src = PNGIMG
+                currentTarget.src = PNGIMG;
               }}
             />
 
@@ -366,15 +390,31 @@ function ProfilePage() {
           {/* About Section ------------- */}
           <section className="about_section_new_creator_profile">
             <h2 className="text_creator_profile_page-03">About</h2>
+
             <p
               className="text_creator_profile_page-04"
               id="about_creator_profile"
-            >
-              {document.querySelector("#about_creator_profile")
-                ? (document.querySelector("#about_creator_profile").innerHTML =
-                    basicCreatorInfo?.aboutMe ? basicCreatorInfo?.aboutMe : "")
-                : ""}
-            </p>
+            ></p>
+
+            {window.screen.width < 600 && (
+              <div style={{ textAlign: "center", width: "100%" }}>
+                {moreAbout ? (
+                  <AiOutlineUp
+                    color="white"
+                    onClick={() => {
+                      setMoreAbout(!moreAbout);
+                    }}
+                  />
+                ) : (
+                  <AiOutlineDown
+                    color="white"
+                    onClick={() => {
+                      setMoreAbout(!moreAbout);
+                    }}
+                  />
+                )}
+              </div>
+            )}
           </section>
 
           {/* most popular section ---------------  */}

@@ -27,8 +27,6 @@ import ExcelWhite from "../../Utils/Icons/Canvas Banner/ExcelIconWhite.svg";
 import VideoWhite from "../../Utils/Icons/Canvas Banner/VideoIconWhite.svg";
 
 import back from "./back.png";
-import DateIcon from "./calendar.svg";
-import TimeIcon from "./clock.svg";
 import Yuv from "./yuvraj.jpg";
 
 // Import styles
@@ -644,12 +642,17 @@ const EditorCheck = () => {
   const [value, setValue] = useState("");
 
   return (
-
-    <div style={{width:"50vw",height:"400px"}}>
-      <ReactQuill theme="snow" value={value} onChange={setValue} style={{height:"100%"}}/>;
+    <div style={{ width: "50vw", height: "400px" }}>
+      <ReactQuill
+        theme="snow"
+        value={value}
+        onChange={setValue}
+        style={{ height: "100%" }}
+      />
+      ;
     </div>
-  )
-  
+  );
 };
+
 
 export default EditorCheck;

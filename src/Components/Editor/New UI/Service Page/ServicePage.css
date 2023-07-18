@@ -45,6 +45,13 @@
   max-height: 396px;
   overflow-y: auto;
   padding-right: 4px;
+  background-color: transparent;
+}
+
+.text_type_03_new_service_page *{
+  font: inherit !important;
+  background-color: inherit !important;
+  color: inherit !important;
 }
 
 .text_type_03_new_service_page::-webkit-scrollbar {
@@ -137,6 +144,7 @@
 
 .left_side_data_new_service_page {
   max-width: 65%;
+  min-width: 65%;
   display: flex;
   align-items: flex-start;
   flex-direction: column;
@@ -572,11 +580,10 @@
 
   .left_side_data_new_service_page {
     width: 100%;
+    min-width: unset;
     max-width: unset;
   }
 
-  .action_points_new_service_page {
-  }
 
   .action_points_new_service_page > section {
     font-size: 12px;

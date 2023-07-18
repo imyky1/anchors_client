@@ -22,6 +22,8 @@ import {
 } from "@mui/material";
 import getCroppedImg, { generateDownload } from "../../../helper/imageresize";
 import { SuperSEO } from "react-super-seo";
+import { FiSend } from "react-icons/fi";
+import mixpanel from "mixpanel-browser";
 
 const EditProfile = (props) => {
   const {
@@ -213,6 +215,7 @@ const EditProfile = (props) => {
         <div className="personalinfo_top">
           <h1>Personal Information </h1>
           <span>Update your personal informations here</span>
+        <button className="edit_profile_sample_page_button" onClick={()=>{mixpanel.track("Preview Sample Profile");window.open("https://www.anchors.in/arohi-agrawal")}}><FiSend/> Preview Sample Page</button>
         </div>
         <div className="personalinfo_photosection">
           <span>

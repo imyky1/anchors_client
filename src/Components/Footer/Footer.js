@@ -31,7 +31,7 @@ function Footer() {
               </button>
             </div>
             <div className="footer_support_menu">
-              <Link to="/aboutUs" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked Pricing in footer from Landing Page")}}>
+              <Link to="/aboutUs" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked about us in footer from Landing Page")}}>
                 About Us
               </Link>
 
@@ -39,16 +39,20 @@ function Footer() {
                 Pricing
               </Link>}
 
-              <Link to="/contactUs" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked Pricing in footer from Landing Page")}}>
+              <Link to="/contactUs" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked contact us in footer from Landing Page")}}>
                 Contact Us
               </Link>
 
-              <Link to="/refundPolicy" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked Pricing in footer from Landing Page")}}>
+              <Link to="/refundPolicy" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked refund policy in footer from Landing Page")}}>
                 Refund Policy
               </Link>
 
-              <Link to="/privacy-policy" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked Pricing in footer from Landing Page")}}>
+              <Link to="/privacy-policy" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked Privacy policy in footer from Landing Page")}}>
                 Privacy Policy
+              </Link>
+
+              <Link to="/termsConditions" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked Terms and Condition in footer from Landing Page")}}>
+                Terms & Conditions
               </Link>
 
               {/* <span onClick={(e)=>{e?.stopPropagation(); mixpanel.track("Clicked on Help in Landing Page");
@@ -70,7 +74,7 @@ function Footer() {
           <section className="some_extra">
           <i className="fa-brands fa-linkedin-in fa-xl" style={{cursor:"pointer",color:"white",marginBottom:"15px"}} onClick={()=>{window.open("https://www.linkedin.com/company/beanchorite/")}}></i>
           <span>Anchors.in All rights reserved</span>
-          {window.screen.width > 600 && <span style={{textDecoration:"underline",cursor:"pointer"}} onClick={()=>{window.open("/termsConditions");mixpanel.track("Privacy policy")}}>Terms of use</span>}
+          {/* {window.screen.width > 600 && <span style={{textDecoration:"underline",cursor:"pointer"}} onClick={()=>{window.open("/termsConditions");mixpanel.track("Privacy policy")}}>Terms of use</span>} */}
           </section>
         </div>
         <section className="lower_footer_section">

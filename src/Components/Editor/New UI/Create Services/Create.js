@@ -24,6 +24,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import Cropper from "react-easy-crop";
 import { SuperSEO } from "react-super-seo";
 import mixpanel from "mixpanel-browser";
+import { FiSend } from "react-icons/fi";
 
 function Create({
   progress,
@@ -39,7 +40,15 @@ function Create({
   const query = new URLSearchParams(search);
   const paramsType = query.get("type");
   const [CreateType, setCreateType] = useState(); // decides the type of document choosed in query
-  const [showPopup, setshowPopup] = useState({ open: false, link: "" }); // success popup data
+  const [draftCreated, setDraftCreated] = useState({
+    status: false,
+    service: {},
+  }); // checks if the draft is created or not --------
+  const [showPopup, setshowPopup] = useState({
+    open: false,
+    link: "",
+    buttonType: "",
+  }); // success popup data
 
   const [paid, setpaid] = useState(); // decides the form acc to paid or free service type
   const [advanced, setAdvanced] = useState(false); // sets the advanced customize settings
@@ -58,6 +67,7 @@ function Create({
     addservice,
     UploadDocuments,
     Uploadfile,
+    updateService,
   } = useContext(ServiceContext);
   const [data, setdata] = useState({
     sname: "",
@@ -140,7 +150,94 @@ function Create({
     //getslugcount(slug.toLowerCase());  // checks if similar slug already exists -----
     return slug;
   };
-  
+
+  // reupdate the draft ----------
+  const updateTheDraft = async (buttonType) => {
+    progress(0);
+    setOpenLoading(true);
+    if (data.sname.length > 1 && Content.length > 10) {
+      try {
+        var banner;
+        if (BannerImage || defaultbanner) {
+          // to check if the creator has uploaded banner image o upload
+          if (defaultbanner) {
+            if (FinalDefaultBannerFormData instanceof FormData) {
+              banner = await Uploadfile(FinalDefaultBannerFormData);
+            } else {
+              toast.info(
+                `Save the default banner design from the Edit Option`,
+                {
+                  position: "top-center",
+                  autoClose: 2500,
+                }
+              );
+              setOpenLoading(false);
+              return null;
+            }
+          } else {
+            banner = await Uploadfile(data1); /// uplaoding banner and files on s3
+          }
+        } else {
+          banner = { url: draftCreated?.service?.simg };
+        }
+        if (ServiceDoc) {
+          /// to check if the creator want soto to change the document or not
+          var docs = await UploadDocuments(data2);
+        } else {
+          docs = { result: { Location: draftCreated?.service?.surl } };
+        }
+        const newData = {
+          ...data,
+          ldesc: Content,
+          Tags,
+          simg: banner?.url,
+          surl: docs?.result?.Location,
+          isPaid: paid === "Free" ? false : true,
+          smrp: paid === "Free" ? 0 : data.smrp,
+          ssp: paid === "Free" ? 0 : data.ssp,
+          allowDownload,
+          noOfPage,
+          status: buttonType === "preview" ? 2 : 1,
+        };
+        updateService(draftCreated?.service?._id, newData).then((e) => {
+          if (e?.success) {
+            setDraftCreated({ status: true, service: e?.service }); // to know that document is already created
+            setOpenLoading(false);
+            setshowPopup({
+              open: true,
+              link:
+                buttonType === "preview"
+                  ? `/s/preview/${e.service.slug}`
+                  : e?.shortLink,
+              buttonType,
+            });
+          } else {
+            toast.error(
+              "Some error occured, Although we have saved your service as draft",
+              {
+                position: "top-center",
+                autoClose: 3000,
+              }
+            );
+          }
+        });
+      } catch (error) {
+        setOpenLoading(false);
+        toast.error(`Server side error please try after some time`, {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      }
+    } else {
+      setOpenLoading(false);
+      toast.info("Fill all the required fileds", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+    }
+    setOpenLoading(false);
+    progress(100);
+  };
 
   // form submission ----------------------------------------------------------
   const onSubmit = async (buttonType) => {
@@ -196,9 +293,18 @@ function Create({
               buttonType === "preview" ? 2 : 1
             );
             if (json?.success) {
-              //setservData(json.res);
+              if (buttonType === "preview") {
+                setDraftCreated({ status: true, service: json?.service }); // to know that document is already created
+              }
               setOpenLoading(false);
-              setshowPopup({ open: true, link: json?.shortLink });
+              setshowPopup({
+                open: true,
+                link:
+                  buttonType === "preview"
+                    ? `/s/preview/${json.service.slug}`
+                    : json?.shortLink,
+                buttonType,
+              });
             } else {
               setOpenLoading(false);
               toast.error(`Service Not Created Please Try Again`, {
@@ -239,6 +345,11 @@ function Create({
     progress(100);
   };
 
+  const TestBanner = async () => {
+    let banner = await Uploadfile(FinalDefaultBannerFormData);
+    console.log(banner);
+  };
+
   //Edit control of default banner button ------------
   const EditOptionDefaultBanner = () => {
     setDefaultBannerData({
@@ -259,34 +370,59 @@ function Create({
       {openLoading && <LoadTwo open={openLoading} />}
 
       {showPopup?.open && (
-        <SuccessService type={CreateType} link={showPopup?.link} />
+        <SuccessService
+          type={CreateType}
+          link={showPopup?.link}
+          buttonType={showPopup?.buttonType}
+          onClose={() => {
+            setshowPopup({ ...showPopup, open: false });
+          }}
+        />
       )}
 
       <div className="main_create_container">
         {/* Heading of the create section ------------------------ */}
         <section className="heading_create_box">
-          <h1 className="create_text_01">
-            What is your{" "}
-            {CreateType === "pdf"
-              ? "PDF"
-              : CreateType === "excel"
-              ? "Excel Sheet"
-              : CreateType === "video"
-              ? "Video"
-              : CreateType === "event"
-              ? "Event"
-              : "" }{" "}
-            about?
-          </h1>
-          <p className="create_text_02">
-            {CreateType === "pdf"
-              ? "You can upload helpful study material, interview questions, food recipes etc."
-              : CreateType === "excel"
-              ? "You can upload helpful study material, interview questions prep, list of companies hiring, etc"
-              : CreateType === "video"
-              ? "You can upload gorgeous art, DIY tutorials, Fashion Ideas etc."
-              : ""}
-          </p>
+          <div>
+            <h1 className="create_text_01">
+              What is your{" "}
+              {CreateType === "pdf"
+                ? "PDF"
+                : CreateType === "excel"
+                ? "Excel Sheet"
+                : CreateType === "video"
+                ? "Video"
+                : CreateType === "event"
+                ? "Event"
+                : ""}{" "}
+              about?
+            </h1>
+            <p className="create_text_02">
+              {CreateType === "pdf"
+                ? "You can upload helpful study material, interview questions, food recipes etc."
+                : CreateType === "excel"
+                ? "You can upload helpful study material, interview questions prep, list of companies hiring, etc"
+                : CreateType === "video"
+                ? "You can upload gorgeous art, DIY tutorials, Fashion Ideas etc."
+                : ""}
+            </p>
+          </div>
+          <button
+            onClick={() => {
+              mixpanel.track("Preview Sample Page");
+              window.open(
+                CreateType === "pdf"
+                  ? "https://www.anchors.in/s/list-of-top-10-youtube-channel-for-coding"
+                  : CreateType === "excel"
+                  ? "https://www.anchors.in/s/companies-list-hiring-for"
+                  : CreateType === "video"
+                  ? "https://www.anchors.in/s/top-10-profession-for-fresher-with-salary-package-5-8-lpa"
+                  : ""
+              );
+            }}
+          >
+            <FiSend /> Preview Sample Page
+          </button>
         </section>
 
         {/* form section of create container ---------------------------------------- */}
@@ -335,13 +471,12 @@ function Create({
                 <Button
                   variant="outlined"
                   onClick={() => {
-                    if(defaultbanner){
-                      EditOptionDefaultBanner()
-                      mixpanel.track("Edit default banner")
-                    }
-                    else{
+                    if (defaultbanner) {
+                      EditOptionDefaultBanner();
+                      mixpanel.track("Edit default banner");
+                    } else {
                       setImagePreview((prev) => !prev);
-                      mixpanel.track("Edit Browse Banner")
+                      mixpanel.track("Edit Browse Banner");
                     }
                   }}
                   className="imageresizeopenerbutton"
@@ -520,8 +655,26 @@ function Create({
         )}
 
         <section className="buttons_form">
-          <Button1 text="Preview" onClick={()=>{onSubmit("preview")}} />
-          <Button1 text="Save and Publish" onClick={()=>{onSubmit("save")}} />
+          <Button1
+            text="Preview"
+            onClick={() => {
+              draftCreated?.status
+                ? updateTheDraft("preview")
+                : onSubmit("preview");
+            }}
+          />
+          <Button1
+            text="Save and Publish"
+            onClick={() => {
+              draftCreated?.status ? updateTheDraft("save") : onSubmit("save");
+            }}
+          />
+          {/* <Button1
+            text="Save and Publish"
+            onClick={() => {
+              TestBanner();
+            }}
+          /> */}
         </section>
       </div>
       {openimagePreview && BannerImage ? (
