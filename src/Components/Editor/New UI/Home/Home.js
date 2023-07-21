@@ -378,6 +378,7 @@ function Home(props) {
                         />
                       }
                     />
+                    
                     <Route
                       path="servicestats/:slug"
                       element={<ServiceStats progress={props.progress} />}

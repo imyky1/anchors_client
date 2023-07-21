@@ -62,7 +62,7 @@ function Thanks({ open, onClose, copyURL, slug, name, control, c_id,stype }) {
           <span className="thanks_model_header">
             <i className="fa-solid fa-cloud-arrow-down fa-xl"></i>
             <br />
-            {stype === 1 ? "Thanks for registering for workshop" : "Thanks for downloading..."}
+            {stype === 1 ? "Thanks for registering for workshop" : "Thanks for accessing..."}
           </span>
           <span className="thanks_model_content">
             {!request ? (

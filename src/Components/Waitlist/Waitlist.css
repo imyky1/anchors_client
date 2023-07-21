@@ -14,6 +14,7 @@
   width: 100%;
   box-sizing: border-box;
   padding: 10px 60px;
+  justify-content: space-between;
 }
 
 .logo_waitlist {
@@ -431,6 +432,16 @@
   cursor: pointer;
 }
 
+.tellUsMore_form > section{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  position: absolute;
+  bottom: 100px;
+}
+
 .form_fields_tellusmore {
   display: flex;
   align-items: flex-start;
@@ -520,7 +531,7 @@
 .wrong_code_tellUsMore {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   flex-direction: row-reverse;
   width: 100%;
 }
@@ -611,9 +622,6 @@
   line-height: 17px;
   color: #ffffff;
   cursor: pointer;
-
-  position: absolute;
-  bottom: 100px;
 }
 
 .waitlist_form_area {
@@ -877,9 +885,12 @@
     bottom: 0;
   }
 
+  .tellUsMore_form > section{
+    gap: 20px;
+  }
+
   .tellUsMore_submitbutton {
     bottom: 0;
-    width: 201px;
     height: 40px;
   }
 

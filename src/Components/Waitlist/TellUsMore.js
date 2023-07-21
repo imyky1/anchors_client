@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Waitlist.css";
 import { SuperSEO } from "react-super-seo";
 import { toast, ToastContainer } from "react-toastify";
@@ -15,7 +15,7 @@ import {
   IoMdInformationCircleOutline,
   IoIosArrowUp,
 } from "react-icons/io";
-import {RxCross2} from "react-icons/rx"
+import { RxCross2 } from "react-icons/rx";
 import { AiOutlineArrowLeft, AiOutlineCheck } from "react-icons/ai";
 
 // Import Swiper styles
@@ -74,7 +74,7 @@ const OTPVerificationModel = ({ onClose }) => {
         if (parseInt(formData?.otp) === parseInt(parseInt(code) / 562002)) {
           // Save the form data in the tell us more form ----------
           await fillTellUsMoreForm(formData?.number, true);
-          onClose(formData?.number,true);
+          onClose(formData?.number, true);
         } else {
           toast.error("Invalid OTP!!!. Try again!!!", {
             position: "top-center",
@@ -121,7 +121,14 @@ const OTPVerificationModel = ({ onClose }) => {
   };
 
   return (
-    <div className="outside_wrapper_earning" style={window.screen.width < 600 ? {background: "rgba(18, 18, 18, 0.80)"} : {}}>
+    <div
+      className="outside_wrapper_earning"
+      style={
+        window.screen.width < 600
+          ? { background: "rgba(18, 18, 18, 0.80)" }
+          : {}
+      }
+    >
       <div
         className="otp_main_container_earning"
         style={{ background: "#F7F4F2" }}
@@ -232,6 +239,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
     restData: false,
   }); // verified for the otp model openeing and thwe rest is to redirect the page to the next page
   const [formPassed, setFormPassed] = useState(false);
+  const [inviteCodeSection, setInviteCodeSection] = useState(false);
   const [formData, setformData] = useState({
     inviteCode: "",
     contactNumber: 0,
@@ -239,13 +247,14 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
     followers: 0,
     socialLink: "",
     knownFrom: "",
-    verifiedContact:false,
+    verifiedContact: false,
   });
 
   //  Contexts -------------------
   const {
     verifyInviteCode,
     fillTellUsMoreForm,
+    UpdateCodeInTellUsMoreForm,
     getTellUsMoreFormData,
     updateStatus,
   } = useContext(creatorContext);
@@ -384,60 +393,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
           formData?.knownFrom
         ).then((e) => {
           if (e?.success) {
-            switch (platform) {
-              case "LinkedIn":
-                if (parseInt(formData?.followers) > 10000 && verifiedCode) {
-                  updateStatus().then((e) => {
-                    setFormPassed(true);
-                  });
-                } else {
-                  window.open("/waitlist", "_self");
-                }
-                break;
-              case "Youtube":
-                if (parseInt(formData?.followers) > 10000 && verifiedCode) {
-                  updateStatus().then((e) => {
-                    setFormPassed(true);
-                  });
-                } else {
-                  window.open("/waitlist", "_self");
-                }
-                break;
-              case "Instagram":
-                if (parseInt(formData?.followers) > 10000 && verifiedCode) {
-                  updateStatus().then((e) => {
-                    setFormPassed(true);
-                  });
-                } else {
-                  window.open("/waitlist", "_self");
-                }
-                break;
-              case "Telegram":
-                if (parseInt(formData?.followers) > 5000 && verifiedCode) {
-                  updateStatus().then((e) => {
-                    setFormPassed(true);
-                  });
-                } else {
-                  window.open("/waitlist", "_self");
-                }
-                break;
-              case "Facebook":
-                if (parseInt(formData?.followers) > 5000 && verifiedCode) {
-                  updateStatus().then((e) => {
-                    setFormPassed(true);
-                  });
-                } else {
-                  window.open("/waitlist", "_self");
-                }
-                break;
-
-              default:
-                toast.error("Improper social link, Refresh to proceed", {
-                  position: "top-center",
-                  autoClose: 2000,
-                });
-                break;
-            }
+            setInviteCodeSection(true);
           } else {
             toast.error("Form not saved, Please try again", {
               position: "top-center",
@@ -465,13 +421,99 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
     }
   };
 
+  const handleInviteCodeSubmit = async () => {
+    if (
+      formData?.inviteCode &&
+      formData?.inviteCode?.length !== 0 &&
+      !verifiedCode
+    ) {
+      toast.error("Verify the code first", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+      return true;
+    } else if (!formData?.inviteCode || formData?.inviteCode?.length === 0) {
+      navigate("/dashboard");
+    } else {
+      const platform = getPlatformFromURL(formData?.socialLink);
+
+      UpdateCodeInTellUsMoreForm(formData?.inviteCode).then((e) => {
+        if (e) {
+          switch (platform) {
+            case "LinkedIn":
+              if (parseInt(formData?.followers) > 10000 && verifiedCode) {
+                updateStatus().then((e) => {
+                  setFormPassed(true);
+                });
+              } else {
+                window.open("/dashboard/waitlist", "_self");
+              }
+              break;
+            case "Youtube":
+              if (parseInt(formData?.followers) > 10000 && verifiedCode) {
+                updateStatus().then((e) => {
+                  setFormPassed(true);
+                });
+              } else {
+                window.open("/dashboard/waitlist", "_self");
+              }
+              break;
+            case "Instagram":
+              if (parseInt(formData?.followers) > 10000 && verifiedCode) {
+                updateStatus().then((e) => {
+                  setFormPassed(true);
+                });
+              } else {
+                window.open("/dashboard/waitlist", "_self");
+              }
+              break;
+            case "Telegram":
+              if (parseInt(formData?.followers) > 5000 && verifiedCode) {
+                updateStatus().then((e) => {
+                  setFormPassed(true);
+                });
+              } else {
+                window.open("/dashboard/waitlist", "_self");
+              }
+              break;
+            case "Facebook":
+              if (parseInt(formData?.followers) > 5000 && verifiedCode) {
+                updateStatus().then((e) => {
+                  setFormPassed(true);
+                });
+              } else {
+                window.open("/dashboard/waitlist", "_self");
+              }
+              break;
+
+            default:
+              toast.error("Improper social link, Refresh to proceed", {
+                position: "top-center",
+                autoClose: 2000,
+              });
+              break;
+          }
+        } else {
+          toast.error("Some error occured while uploading the invite code", {
+            position: "top-center",
+            autoClose: 3000,
+          });
+        }
+      });
+    }
+  };
+
   return (
     <>
       {formAlreadyFilled?.openOTP && (
         <OTPVerificationModel
-          onClose={(number,verified) => {
+          onClose={(number, verified) => {
             setFormAlreadyFilled({ ...formAlreadyFilled, openOTP: false });
-            setformData({...formData,contactNumber:number,verifiedContact:verified})
+            setformData({
+              ...formData,
+              contactNumber: number,
+              verifiedContact: verified,
+            });
           }}
         />
       )}
@@ -495,254 +537,135 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
           id="prev_ques_slide_button"
           onClick={handlePrevButton}
         /> */}
-        <h1>Help us understand you better. Tell us more !</h1>
+        <h1>
+          {!inviteCodeSection
+            ? "Help us understand you better. Tell us more !"
+            : "Skip the Waitlist"}
+        </h1>
         {/* <p>QUESTIONS {qNo} OF 6</p> */}
 
-        <div>
-          <section className="form_fields_tellusmore">
-            <label htmlFor="socialLink">
-              Your Profile Link <span>*</span>
-            </label>
-            <input
-              className="input_form_tellUsMore"
-              type="text"
-              id="socialLink"
-              name="socialLink"
-              value={formData?.socialLink}
-              onChange={handleChange}
-            />
-          </section>
+        {!inviteCodeSection ? (
+          <div>
+            <section className="form_fields_tellusmore">
+              <label htmlFor="socialLink">
+                Your Profile Link <span>*</span>
+              </label>
+              <input
+                className="input_form_tellUsMore"
+                type="text"
+                id="socialLink"
+                name="socialLink"
+                value={formData?.socialLink}
+                onChange={handleChange}
+              />
+            </section>
 
-          <section className="form_fields_tellusmore">
-            <label htmlFor="followers">
-              What’s your Size of audience? <span>*</span>
-            </label>
-            <input
-              className="input_form_tellUsMore"
-              type="number"
-              name="followers"
-              id="followers"
-              value={formData?.followers !== 0 && formData?.followers}
-              onChange={handleChange}
-            />
-          </section>
-
-          <section className="form_fields_tellusmore">
-            <label htmlFor="inviteCode">
-              Enter your Invite Code{" "}
-              {window.screen.width < 600 && (
-                <IoMdInformationCircleOutline color="grey" />
-              )}
-            </label>
-            <div className="input_section_tellUsMore">
-              <section
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  position: "relative",
-                }}
-              >
-                <input
-                  className="input_form_tellUsMore"
-                  type="text"
-                  id="inviteCode"
-                  name="inviteCode"
-                  onChange={handleChange}
-                  value={formData?.inviteCode}
-                />
-                {verifiedCode && (
-                  <AiOutlineCheck
-                    color="#58D96E"
-                    style={{ position: "absolute", right: "10px" }}
+            <section className="form_fields_tellusmore">
+              <label htmlFor="followers">
+                What’s your Size of audience? <span>*</span>
+              </label>
+              <input
+                className="input_form_tellUsMore"
+                type="number"
+                name="followers"
+                id="followers"
+                value={formData?.followers !== 0 && formData?.followers}
+                onChange={handleChange}
+              />
+            </section>
+          </div>
+        ) : (
+          <div>
+            <section className="form_fields_tellusmore">
+              <label htmlFor="inviteCode">
+                Enter your Invite Code{" "}
+                {window.screen.width < 600 && (
+                  <IoMdInformationCircleOutline
+                    color="grey"
+                    onClick={() => {
+                      window.open("/approved-creators");
+                      mixpanel.track("redirect to approved creators page");
+                    }}
                   />
                 )}
-
-                {incorrectCode && window.screen.width < 600 && (
-                  <RxCross2
-                    color="red"
-                    style={{ position: "absolute", right: "10px" }}
-                  />
-                )}
-              </section>
-              <button
-                className="verify_tellusmore"
-                onClick={!verifiedCode ? VerifyCode : undefined}
-              >
-                {!verifiedCode ? "Verify" : "Verified"}
-              </button>
-            </div>
-            <div className="wrong_code_tellUsMore">
-              <p
-                onClick={() => {
-                  window.open("https://bit.ly/anchors-invite-code");
-                  mixpanel.track("redirect to notion link");
-                }}
-              >
-                KNOW ABOUT INVITE CODE
-              </p>
-              {incorrectCode && <span>*Wrong Code</span>}
-            </div>
-          </section>
-        </div>
-
-        {/* <div>
-          <Swiper
-            navigation={{
-              nextEl: "#next_ques_slide_button",
-              prevEl: "#prev_ques_slide_button",
-            }}
-            className="mySwiper"
-            spaceBetween={1000}
-            allowTouchMove={false}
-            modules={[Navigation]}
-            style={{ width: "100%", minHeight: "130px" }}
-          >
-            <SwiperSlide>
-              <section className="form_fields_tellusmore">
-                <label htmlFor="contactNumber">Your Whatsapp number</label>
-                <div
+              </label>
+              <div className="input_section_tellUsMore">
+                <section
                   style={{
                     display: "flex",
                     alignItems: "center",
                     position: "relative",
                   }}
                 >
-                  <span className="placeholder_Number_tellUsMore">+91-</span>
                   <input
                     className="input_form_tellUsMore"
-                    style={{ paddingLeft: "50px" }}
-                    type="number"
-                    name="contactNumber"
-                    id="contactNumber"
+                    type="text"
+                    id="inviteCode"
+                    name="inviteCode"
                     onChange={handleChange}
-                    value={
-                      formData?.contactNumber !== 0 && formData?.contactNumber
-                    }
+                    value={formData?.inviteCode}
                   />
-                </div>
-              </section>
-            </SwiperSlide>
-            <SwiperSlide>
-              <DropdownField
-                question="On which platform do you have the strongest presence as a creator or influencer?"
-                dropdownData={[
-                  "Instagram",
-                  "LinkedIn",
-                  "Telegram",
-                  "Youtube",
-                  "Other",
-                ]}
-                selectedDropdownValue={(e) => {
-                  setformData({ ...formData, platform: e });
-                }}
-              />
-            </SwiperSlide>
-            <SwiperSlide>
-              <section className="form_fields_tellusmore">
-                <label htmlFor="followers">What’s your Size of audience?</label>
-                <input
-                  className="input_form_tellUsMore"
-                  type="number"
-                  name="followers"
-                  id="followers"
-                  value={formData?.followers !== 0 && formData?.followers}
-                  onChange={handleChange}
-                />
-              </section>
-            </SwiperSlide>
-            <SwiperSlide>
-              <section className="form_fields_tellusmore">
-                <label htmlFor="socialLink">Your Profile Link</label>
-                <input
-                  className="input_form_tellUsMore"
-                  type="text"
-                  id="socialLink"
-                  name="socialLink"
-                  value={formData?.socialLink}
-                  onChange={handleChange}
-                />
-              </section>
-            </SwiperSlide>
-            <SwiperSlide>
-              <DropdownField
-                question="How did you discover us ?"
-                dropdownData={[
-                  "Friends",
-                  "Creators",
-                  "Social media platorms",
-                  "Google",
-                  "Other",
-                ]}
-                selectedDropdownValue={(e) => {
-                  setformData({ ...formData, knownFrom: e });
-                }}
-              />
-            </SwiperSlide>
-            <SwiperSlide>
-              <section className="form_fields_tellusmore">
-                <label htmlFor="inviteCode">
-                  Enter your Invite Code <span>(Optional)</span>
-                </label>
-                <div className="input_section_tellUsMore">
-                  <section
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      position: "relative",
-                    }}
-                  >
-                    <input
-                      className="input_form_tellUsMore"
-                      type="text"
-                      id="inviteCode"
-                      name="inviteCode"
-                      onChange={handleChange}
-                      value={formData?.inviteCode}
+                  {verifiedCode && (
+                    <AiOutlineCheck
+                      color="#58D96E"
+                      style={{ position: "absolute", right: "10px" }}
                     />
-                    {verifiedCode && (
-                      <AiOutlineCheck
-                        color="#58D96E"
-                        style={{ position: "absolute", right: "10px" }}
-                      />
-                    )}
-                  </section>
-                  <button
-                    className="verify_tellusmore"
-                    onClick={!verifiedCode ? VerifyCode : undefined}
-                  >
-                    {!verifiedCode ? "Verify" : "Verified"}
-                  </button>
-                </div>
-                <div className="wrong_code_tellUsMore">
-                  <p
-                    onClick={() => {
-                      window.open("https://bit.ly/anchors-invite-code");
-                      mixpanel.track("redirect to notion link");
-                    }}
-                  >
-                    KNOW ABOUT INVITE CODE
-                  </p>
-                  {incorrectCode && <span>*Wrong Code</span>}
-                </div>
-              </section>
-            </SwiperSlide>
-          </Swiper>
-        </div> */}
+                  )}
 
-        {/* <span
-          style={qNo === 6 ? { display: "none" } : {}}
-          id="next_ques_slide_button"
-          onClick={(e) => {
-            setQNo(qNo + 1);
-          }}
-        >
-          <IoIosArrowForward />
-        </span> */}
+                  {incorrectCode && (
+                    <RxCross2
+                      color="red"
+                      style={{ position: "absolute", right: "10px" }}
+                    />
+                  )}
+                </section>
+                <button
+                  className="verify_tellusmore"
+                  onClick={!verifiedCode ? VerifyCode : undefined}
+                >
+                  {!verifiedCode ? "Verify" : "Verified"}
+                </button>
+              </div>
+              <div className="wrong_code_tellUsMore">
+                <p
+                  onClick={() => {
+                    window.open("/approved-creators");
+                    mixpanel.track("redirect to approved creators page");
+                  }}
+                >
+                  KNOW ABOUT INVITE CODE
+                </p>
+              </div>
+            </section>
+          </div>
+        )}
 
         {/* {qNo === 6 && !formAlreadyFilled && ( */}
-        <button className="tellUsMore_submitbutton" onClick={handleSubmit}>
-          Submit
-        </button>
+
+        <section>
+          {inviteCodeSection && (
+            <button
+              className="tellUsMore_submitbutton"
+              style={{
+                background: "transparent",
+                color: "#212121",
+                border: "1px solid #212121",
+              }}
+              onClick={() => {
+                navigate("/dashboard");
+              }}
+            >
+              Skip
+            </button>
+          )}
+
+          <button
+            className="tellUsMore_submitbutton"
+            onClick={inviteCodeSection ? handleInviteCodeSubmit : handleSubmit}
+          >
+            Submit
+          </button>
+        </section>
         {/* )} */}
       </div>
     </>

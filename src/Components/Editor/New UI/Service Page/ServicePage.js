@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { Suspense, lazy, useContext, useEffect, useRef, useState } from "react";
 import "./ServicePage.css";
-import { Navbar2 } from "../../../Layouts/Navbar User/Navbar";
 import { RiStarSFill } from "react-icons/ri";
 import { BsWhatsapp } from "react-icons/bs";
 import { AiOutlineArrowRight } from "react-icons/ai";
@@ -13,7 +12,6 @@ import VideoIcon from "../../../../Utils/Icons/video-service.svg";
 import DocIcon from "../../../../Utils/Icons/doc-service.svg";
 import TrendIcon from "../../../../Utils/Icons/trend-service.svg";
 import FlagIcon from "../../../../Utils/Icons/flag-service.svg";
-import { Footer3 } from "../../../Footer/Footer2";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { feedbackcontext } from "../../../../Context/FeedbackState";
@@ -24,118 +22,22 @@ import { userContext } from "../../../../Context/UserState";
 import { ToastContainer, toast } from "react-toastify";
 import { LoadThree } from "../../../Modals/Loading";
 import Seo from "../../../../Utils/Seo";
-import Thanks from "../../../Modals/Thanks";
 import FeedbackModal from "../../../Modals/Feedback_Modal";
+import { Navbar2 } from "../../../Layouts/Navbar User/Navbar";
+import Thanks from "../../../Modals/Thanks";
+import { Footer3 } from "../../../Footer/Footer2";
 
-// More services Section ----------------
-const MoreServices = (data) => {
-  return (
-    <section className="new_service_page_other_services_section">
-      <h2 className="text_type_06_new_service_page">More Services</h2>
-
-      <div>
-        {data?.data?.map((e, i) => {
-          return <ServiceCards {...e} key={i} />;
-        })}
-      </div>
-    </section>
-  );
-};
-
-// Each Service Card ---------------------
-export const ServiceCards = ({ sname, simg, slug, stype }) => {
-  const navigate = useNavigate();
-
-  return (
-    <div className="new_service_page_service_card">
-      <LazyLoadImage src={simg} alt={sname} />
-      <h3>
-        {sname.length > (window.screen.width > 600 ? 45 : 30)
-          ? sname.slice(0, window.screen.width > 600 ? 45 : 30) + "..."
-          : sname}
-      </h3>
-
-      <span>
-        <img
-          src={stype === 1 ? ExcelIcon : stype === 2 ? VideoIcon : DocIcon}
-          alt=""
-        />{" "}
-        Document
-      </span>
-
-      <button
-        onClick={() => {
-          navigate(`/s/${slug}`);
-        }}
-      >
-        Explore
-      </button>
-    </div>
-  );
-};
-
-// Review Section -----------------
-const ReviewsSection = (data) => {
-  return (
-    <section className="new_service_page_other_services_section">
-      <h2 className="text_type_06_new_service_page">User Reviews</h2>
-
-      <div>
-        {data?.data?.map((e, i) => {
-          return <ReviewCards {...e} key={i} />;
-        })}
-      </div>
-    </section>
-  );
-};
-
-// Each Review Card ---------------------
-export const ReviewCards = ({ name, desc, rating, photo }) => {
-  return (
-    <div className="new_service_page_review_card">
-      <section>
-        <LazyLoadImage
-          src={photo}
-          alt=""
-          onError={({ currentTarget }) => {
-            currentTarget.onerror = null; // prevents looping
-            currentTarget.src = PNGIMG;
-          }}
-          className="user_profile_pic"
-        />
-
-        <div>
-          <span>
-            {name ? (name.length > 10 ? name.slice(0, 10) + ".." : name) : "--"}
-          </span>
-          <p>
-            {Array(rating)
-              .fill("a")
-              ?.map((e, i) => {
-                return (
-                  <RiStarSFill
-                    size={window.screen.width > 600 ? 16 : 12}
-                    color="rgba(255, 214, 0, 1)"
-                  />
-                );
-              })}
-          </p>
-        </div>
-      </section>
-
-      <p>{desc}</p>
-    </div>
-  );
-};
-
-// Report Modal section -----------
+// Code Splitiing the imports ----------------
+const MoreServices = lazy(() => import("./Components/MoreServices"));
+const ReviewsSection = lazy(() => import("./Components/ReviewsSection"));
 
 // Main Service Page---------------------
 function ServicePage(props) {
   const location = useLocation();
   const navigate = useNavigate();
   const { slug } = useParams();
-
+  const creatorSectionDesktop = useRef(null)
+ 
   // States
   const [loader, setLoader] = useState(false); // loader states
   const [openModel, setOpenModel] = useState(false);
@@ -216,7 +118,6 @@ function ServicePage(props) {
           localStorage.getItem("isUser") === "true" ? "user" : "creator",
           "download"
         ).then((e) => {
-          console.log(e);
           setAlreadyOrderPlaced(e);
         });
 
@@ -605,8 +506,6 @@ function ServicePage(props) {
       />
 
       <div className="new_service_page_outer_wrapper">
-        {/* Navbar */}
-
         <Navbar2
           slug={serviceInfo?.service?.c_id?.slug}
           open={openModel}
@@ -655,7 +554,7 @@ function ServicePage(props) {
                         <span>
                           {" "}
                           <img src={TrendIcon} alt="" />{" "}
-                          {serviceInfo?.service?.downloads} times
+                          Accessed by {serviceInfo?.service?.downloads} people
                         </span>
                       ) : (
                         ""
@@ -691,7 +590,7 @@ function ServicePage(props) {
                           service: slug,
                         });
                         window.open(
-                          `https://api.whatsapp.com/send?text=Checkout this Important resource -- *${serviceInfo?.service?.sname}* at https://www.anchors.in/s/${slug}?utm_medium=whatsapp&utm_source=wahtsapp&utm_campaign=company-question`
+                          `https://api.whatsapp.com/send?text=Hey check this ${serviceInfo?.service?.stype === 1 ? "sheet" : serviceInfo?.service?.stype === 2 ? "video" : "document"} about *${serviceInfo?.service?.sname}*  by *${serviceInfo?.creator?.name}* out. I found it really helpful!. Check it out at https://www.anchors.in/s/${slug}?utm_medium=whatsapp&utm_source=wahtsapp&utm_campaign=company-question`
                         );
                       }}
                     >
@@ -700,7 +599,12 @@ function ServicePage(props) {
                   </div>
                 </section>
 
-                <section className="description_section_new_service_page">
+                <section
+                  className="description_section_new_service_page"
+                  style={window.screen.width > 600 ? {
+                    minHeight : `${creatorSectionDesktop?.current?.clientHeight - 104}px`
+                  } : {}}
+                >
                   <div>
                     <h2 className="text_type_02_new_service_page">
                       Resource Description
@@ -726,7 +630,7 @@ function ServicePage(props) {
               </div>
 
               {window.screen.width > 600 && (
-                <div className="right_side_data_new_service_page">
+                <div className="right_side_data_new_service_page" ref={creatorSectionDesktop}>
                   <section className="pricing_section_new_service_page_card">
                     {serviceInfo?.service?.isPaid && (
                       <h3 className="text_type_04_new_service_page">
@@ -739,7 +643,9 @@ function ServicePage(props) {
                     )}
 
                     <span className="text_type_05_new_service_page">
-                      30 people purchased this in last 7 days.
+                      {serviceInfo?.service?.download !== 0
+                        ? "30 people accessed this in last 7 days."
+                        : `Uploaded on : ${serviceInfo?.service?.date} `}
                     </span>
 
                     <button
@@ -802,13 +708,15 @@ function ServicePage(props) {
             </section>
           </section>
 
-          {/* User Review Section for mobile ------------------------- */}
-          {window.screen.width < 600 &&
-            feedbacks?.filter((e) => e?.status === 1)?.length !== 0 && (
-              <ReviewsSection
-                data={feedbacks?.filter((e) => e?.status === 1)}
-              />
-            )}
+          <Suspense>
+            {/* User Review Section for mobile ------------------------- */}
+            {window.screen.width < 600 &&
+              feedbacks?.filter((e) => e?.status === 1)?.length !== 0 && (
+                <ReviewsSection
+                  data={feedbacks?.filter((e) => e?.status === 1)}
+                />
+              )}
+          </Suspense>
 
           {/* Creator profile section mobile section ----------------- */}
 
@@ -848,30 +756,36 @@ function ServicePage(props) {
           )}
 
           {/* More services section ----------------- */}
-          {services?.res?.filter((e) => {
-            return e?.status === 1 && e?.slug !== slug;
-          })?.length !== 0 && (
-            <MoreServices
-              data={services?.res
-                ?.filter((e1) => {
-                  return e1?.status === 1 && e1.slug !== slug;
-                })
-                .sort((a, b) => {
-                  return b?.downloads - a?.downloads;
-                })
-                ?.sort((a, b) => {
-                  return b?.smrp - a?.smrp;
-                })}
-            />
-          )}
+
+          <Suspense>
+            {services?.res?.filter((e) => {
+              return e?.status === 1 && e?.slug !== slug;
+            })?.length !== 0 &&
+              localStorage.getItem("jwtToken") && (
+                <MoreServices
+                  data={services?.res
+                    ?.filter((e1) => {
+                      return e1?.status === 1 && e1.slug !== slug;
+                    })
+                    .sort((a, b) => {
+                      return b?.downloads - a?.downloads;
+                    })
+                    ?.sort((a, b) => {
+                      return b?.smrp - a?.smrp;
+                    })}
+                />
+              )}
+          </Suspense>
 
           {/* User Review Section for desktop ---------------- */}
-          {window.screen.width > 600 &&
-            feedbacks?.filter((e) => e?.status === 1)?.length !== 0 && (
-              <ReviewsSection
-                data={feedbacks?.filter((e) => e?.status === 1)}
-              />
-            )}
+          <Suspense>
+            {window.screen.width > 600 &&
+              feedbacks?.filter((e) => e?.status === 1)?.length !== 0 && (
+                <ReviewsSection
+                  data={feedbacks?.filter((e) => e?.status === 1)}
+                />
+              )}
+          </Suspense>
         </div>
 
         {/* Cta for mobile screen ------------------ */}
@@ -880,7 +794,7 @@ function ServicePage(props) {
           <section className="mobile_cta_section_new_service_page">
             <div>
               <span className="text_type_05_new_service_page">
-                30 people purchased this in last 7 days.
+                30 people accessed this in last 7 days.
               </span>
 
               {serviceInfo?.service?.isPaid && (

@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import "./Main.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { BsLinkedin, BsInstagram, BsYoutube } from "react-icons/bs";
@@ -26,35 +26,38 @@ import { useContext } from "react";
 import { feedbackcontext } from "../../Context/FeedbackState";
 import mixpanel from "mixpanel-browser";
 import Footer from "../Footer/Footer";
-import Modal1 from "../Modals/ModalType01/Modal1";
-import Modal2 from "../Modals/ModalType01/Modal2";
-import NavbarCreator from "../Layouts/Navbar Creator/Navbar";
-import UserDashboard from "../User Dashboard/UserDashboard";
+import { LoadThree } from "../Modals/Loading";
+
+// Split the component that requires code splitting
+const Modal1 = lazy(() => import("../Modals/ModalType01/Modal1"));
+const Modal2 = lazy(() => import("../Modals/ModalType01/Modal2"));
+const NavbarCreator = lazy(() => import("../Layouts/Navbar Creator/Navbar"));
+const UserDashboard = lazy(() => import("../User Dashboard/UserDashboard"));
 
 const whyanchors = [
   {
     icon: commIcon,
     title: "Exclusive Creator Community",
     subtitle:
-      "anchors is an invite -only exclusive platform for premium creators.",
+      "anchors is an invite - only exclusive platform for premium creators.",
   },
   {
     icon: dataIcon,
     title: "Detailed Analysis ",
     subtitle:
-      "Get complete analytics for audience insights and make informed decisions.",
+      "Obtain comprehensive audience analytics to gain insights and make well-informed decisions.",
   },
   {
     icon: videoIcon,
-    title: "Offer free/paid content",
+    title: "Offer Free/Paid Content",
     subtitle:
       "Embrace the power of choice with anchors - free or paid, it's up to you.",
   },
   {
     icon: audienceIcon,
-    title: "Know your audience",
+    title: "Know Your Audience ",
     subtitle:
-      "Enhance connection with your audience  - simplified query acceptance made possible.",
+      "Deepen your connection with your audience by receiving audience requests and gain valuable insights into their preferences. ",
   },
 ];
 
@@ -62,22 +65,22 @@ const features = [
   {
     icon: videoIcon,
     title: "Video",
-    subtitle: "Recordings, Lecture, Concepts etc",
+    subtitle: "Recordings, Lecture, Concepts etc.",
   },
   {
     icon: docIcon,
-    title: "Documents",
-    subtitle: "Notes,Interview Questions concepts etc.",
+    title: "Document",
+    subtitle: "Notes, Interview Questions concepts etc.",
   },
   {
     icon: excelIcon,
-    title: "Excel Sheets",
+    title: "Excel Sheet",
     subtitle: "Curated Lists, Opportunity list etc.",
   },
   {
     icon: imageIcon,
     title: "Image Assets",
-    subtitle: "Wallpapers, Artworks,Graphics etc",
+    subtitle: "Wallpapers, Artworks, Graphics etc.",
   },
 ];
 
@@ -93,7 +96,7 @@ const FAQDetails = [
       "Absolutely! Joining our platform is completely free. There are no hidden charges or fees to join, and we also do not charge a monthly fee.",
   },
   {
-    question: "How are anchors different from other platforms?",
+    question: "How is anchors different from other platforms?",
     answer:
       "anchors isn't just another tool or SaaS platform. We are a creator's home, offering everything they need to unlock their full potential. Our mission is to constantly raise the bar, setting new standards in the creator economy and delivering the best experience possible. We're committed to competing with ourselves, continuously improving to empower creators and help them reach new heights.",
   },
@@ -103,7 +106,7 @@ const FAQDetails = [
       "anchors is an exclusive platform for premium creators. By maintaining exclusivity, we ensure a high-quality community that fosters growth and unlocks the full potential of the creator economy.",
   },
   {
-    question: "What is an invite-code for anchors?",
+    question: "What is an invite code for anchors?",
     answer:
       "An invite-code for anchors is a unique code provided by existing creators. By using an invite-code during the registration process, new creators can gain access to the platform and start their journey on anchors. It's a way to ensure that serious creators join our exclusive community.",
   },
@@ -189,7 +192,7 @@ const EligibilitySection = () => {
         }}
       />
       <section className="eligibility_mainpage" id="eligibility">
-        <h1 className="headers1_mainpage">Do you have what it takes?</h1>
+        <h1 className="headers1_mainpage">Do You Have What it Takes?</h1>
         <p>
           Your Golden Ticket to the Exclusive Creators Community.
           {/* through boundless innovation and sustainable growth */}
@@ -249,7 +252,7 @@ const FeaturedCreators = () => {
   const navigate = useNavigate();
   return (
     <section className="featured_creators" id="featured-creators">
-      <h1 className="headers1_mainpage">Creators who trust us </h1>
+      <h1 className="headers1_mainpage">Creators Who Trust Us</h1>
       <span>Creators and Trust: The Winning Combination</span>
       <div className="creator_section_cardsection">
         {/* Different for mobile and pc ---------------------------------------------------------------------------------------- */}
@@ -470,53 +473,6 @@ const FeaturedCreators = () => {
   );
 };
 
-const WallOfLove = ({ data }) => {
-  return (
-    <section className="wall_of_love">
-      <h1 className="headers1_mainpage">Wall of Love</h1>
-      <div>
-        {data
-          ? data
-              ?.filter((e1) => {
-                return e1?.userID?.name;
-              })
-              .map((e) => {
-                return (
-                  <div className="feedback_box_mainpage" key={e?.userID}>
-                    <section>
-                      <LazyLoadImage
-                        src={e?.userID?.photo}
-                        onError={({ currentTarget }) => {
-                          currentTarget.onerror = null; // prevents looping
-                          currentTarget.src = PNGIMG;
-                        }}
-                        alt="userimag"
-                      />
-                      <div>
-                        <span className="user_name_mainpage">
-                          {e?.userID?.name.length > 13
-                            ? e?.userID?.name.slice(0, 13) + "..."
-                            : e?.userID?.name}
-                        </span>
-                        {/* <span className="user_email_mainpage">
-                            abc@gmail.com
-                          </span> */}
-                      </div>
-                    </section>
-                    <p>
-                      {e?.desc.length > 160
-                        ? e?.desc.slice(0, 160) + "..."
-                        : e?.desc}
-                    </p>
-                  </div>
-                );
-              })
-          : ""}
-      </div>
-    </section>
-  );
-};
-
 const MainFAQs = ({ data }) => {
   const handleClick = (e) => {
     let accordionItemHeader = document.getElementById(e.target.id);
@@ -572,9 +528,9 @@ const ConnectWithUs = () => {
     <section id="connect" className="connect_with_us_wrapper">
       <img src={require("./Images/illus2.png")} alt="" />
       <div>
-        <h2 className="headers1_mainpage">Connect with us</h2>
+        <h2 className="headers1_mainpage">Connect With Us</h2>
         <p>
-          Let's connect and make things happen ! Reach out to our team for any
+          Let's connect and make things happen! Reach out to our team for any
           assistance or suggestions.
         </p>
         <button
@@ -590,6 +546,9 @@ const ConnectWithUs = () => {
   );
 };
 
+// Code spliting ------------------------
+const WallOfLove = lazy(() => import("./Components/WallOfLove"));
+
 function Main(props) {
   const [data, setData] = useState("");
   const navigate = useNavigate();
@@ -603,7 +562,6 @@ function Main(props) {
 
   // Visited page mix panel
   useEffect(() => {
-
     // Not allow this event when a logined user goes to dahboard
     if (
       !localStorage.getItem("jwtToken") &&
@@ -626,91 +584,117 @@ function Main(props) {
     localStorage.getItem("jwtToken") &&
     localStorage.getItem("isUser") === "true"
   ) {
-    return <UserDashboard progress={props.progress} />;
+    return (
+      <Suspense fallback={<LoadThree />}>
+        <UserDashboard progress={props.progress} />;
+      </Suspense>
+    );
   }
 
   return (
     <>
       <ToastContainer />
 
-      <div className="mainLandingpage_body">
-        {/* Logo and header section --------------------------------------------- */}
-        <NavbarCreator newfeature={true}/>
+      <Suspense>
+        <div className="mainLandingpage_body">
+          {/* Logo and header section --------------------------------------------- */}
+          <NavbarCreator newfeature={true} />
 
-        {/* Hero Section --------------------------------------------------------------- */}
-        <section className="hero_mainpage">
-          <div className="left_hero_text">
-            <div>
-              <h1>Monetize as you Thrive</h1>
-              <img src={heroIcon} alt="" />
-            </div>
-            <p>
-              {/* An INVITE ONLY community for creators to monetize your{" "}
+          {/* Hero Section --------------------------------------------------------------- */}
+          <section className="hero_mainpage">
+            <div className="left_hero_text">
+              <div>
+                <h1>Monetize as you Thrive</h1>
+                <img src={heroIcon} alt="" />
+              </div>
+              <p>
+                {/* An INVITE ONLY community for creators to monetize your{" "}
               <span style={{ color: "#ffffff" }}>Content, skill </span> &{" "}
               <span style={{ color: "#ffffff" }}>expertise.</span> */}
-              An invite-only exclusive platform for premium creators
-            </p>
+                An invite-only exclusive platform for premium creators
+              </p>
 
-            <section>
-              <img src={require("./Images/peopleIcon.png")} alt="" />
-              <span>
-                Tap into our thriving ecosystem to monetize your expertise and
-                grow with our community
-              </span>
-            </section>
+              <section>
+                <img src={require("./Images/peopleIcon.png")} alt="" />
+                <span>
+                  Tap into our thriving ecosystem to monetize your expertise and
+                  grow with our community
+                </span>
+              </section>
 
-            <button onClick={handleStart}>Join Now</button>
-          </div>
-          {/* <img
+              <button onClick={handleStart}>Join Now</button>
+            </div>
+            {/* <img
             src={require("./Images/hero_img.png")}
             alt=""
             className="hero_section_image"
           /> */}
-        </section>
+          </section>
 
-        {/* steps of anchors verification */}
-        <section className="steps_anchors_mainpage">
-          <h1 className="headers1_mainpage">Be an Anchor, stand out</h1>
-          <div>
-            <div className="steps">
-              <div>
-                <img src={require("./Images/stars.png")} alt="" />
-                <h1 className="headers2_mainpage">1</h1>
-                <p>Apply to join anchors</p>
-              </div>
-            </div>
-            <div className="steps">
-              <div>
-                <img src={require("./Images/stars.png")} alt="" />
-                <h1 className="headers2_mainpage">2</h1>
-                <p>we will review your profile</p>
-              </div>
-            </div>
-            <div className="steps">
-              <div>
-                <img src={require("./Images/stars.png")} alt="" />
-                <h1 className="headers2_mainpage">3</h1>
-                <p>Proud to be an anchor</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* why to be an anchor */}
-        <section className="why_anchors_section">
-          <img src={require("./Images/illus1.png")} alt="" />
-          <div className="why_anchors_desc">
-            <h1 className="headers1_mainpage">
-              Why <span style={{ color: "#FF0000" }}>anchors?</span>
-            </h1>
-            <span className="text_mainpage1">
-              Unlock a full-stack solution to monetize your expertise and skills
-              like never before.
-            </span>
+          {/* steps of anchors verification */}
+          <section className="steps_anchors_mainpage">
+            <h1 className="headers1_mainpage">Anchor Yourself, Stand Out</h1>
             <div>
-              {whyanchors?.map((e, i) => {
+              <div className="steps">
+                <div>
+                  <img src={require("./Images/stars.png")} alt="" />
+                  <h1 className="headers2_mainpage">1</h1>
+                  <p>Submit an Application to join Anchors</p>
+                </div>
+              </div>
+              <div className="steps">
+                <div>
+                  <img src={require("./Images/stars.png")} alt="" />
+                  <h1 className="headers2_mainpage">2</h1>
+                  <p>Our team will evaluate your profile</p>
+                </div>
+              </div>
+              <div className="steps">
+                <div>
+                  <img src={require("./Images/stars.png")} alt="" />
+                  <h1 className="headers2_mainpage">3</h1>
+                  <p>Our team will evaluate your profile</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* why to be an anchor */}
+          <section className="why_anchors_section">
+            <img src={require("./Images/illus1.png")} alt="" />
+            <div className="why_anchors_desc">
+              <h1 className="headers1_mainpage">
+                Why <span style={{ color: "#FF0000" }}>anchors?</span>
+              </h1>
+              <span className="text_mainpage1">
+                Unlock a full-stack solution to monetize your expertise and
+                skills like never before.
+              </span>
+              <div>
+                {whyanchors?.map((e, i) => {
+                  return (
+                    <div className="why_anchors_steps_boxes" key={i}>
+                      <img src={e?.icon} />
+                      <span>{e?.title}</span>
+                      <p>{e?.subtitle}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
+          {/* What can you upload facilities of anchors */}
+          <section className="facilities">
+            <h1 className="headers1_mainpage">Supported Upload Formats</h1>
+            <span>
+              Your knowledge, your way - choose the perfect format to share your
+              skills!
+            </span>
+            <div className="facilities_boxes">
+              {features?.map((e, i) => {
                 return (
-                  <div className="why_anchors_steps_boxes" key={i}>
+                  <div key={e?.title}>
                     <img src={e?.icon} />
                     <span>{e?.title}</span>
                     <p>{e?.subtitle}</p>
@@ -718,46 +702,26 @@ function Main(props) {
                 );
               })}
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* What can you upload facilities of anchors */}
-        <section className="facilities">
-          <h1 className="headers1_mainpage">What all you can upload</h1>
-          <span>
-            Your knowledge, your way - choose the perfect format to share your
-            skills..
-          </span>
-          <div className="facilities_boxes">
-            {features?.map((e, i) => {
-              return (
-                <div key={e?.title}>
-                  <img src={e?.icon} />
-                  <span>{e?.title}</span>
-                  <p>{e?.subtitle}</p>
-                </div>
-              );
-            })}
-          </div>
-        </section>
+          {/* join and eligibility section */}
+          <EligibilitySection />
 
-        {/* join and eligibility section */}
-        <EligibilitySection />
+          {/* Connect with us section */}
+          <ConnectWithUs />
 
-        {/* Connect with us section */}
-        <ConnectWithUs />
+          {/* featured creators section */}
+          <FeaturedCreators />
 
-        {/* featured creators section */}
-        <FeaturedCreators />
+          {/* Feedback or wall of love section */}
+          <WallOfLove data={data} />
 
-        {/* Feedback or wall of love section */}
-        <WallOfLove data={data} />
+          {/* Faq sections */}
+          <MainFAQs data={FAQDetails} />
 
-        {/* Faq sections */}
-        <MainFAQs data={FAQDetails} />
-
-        <Footer />
-      </div>
+          <Footer />
+        </div>
+      </Suspense>
     </>
   );
 }

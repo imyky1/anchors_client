@@ -323,13 +323,14 @@ const Stats = () => {
           <Event />
         ) : ( */}
           <>
-          {serviceStats?.free_max_download!==0&&serviceStats?.paid_max_earn!==0&&(
+          {(serviceStats?.free_max_download!==0 || serviceStats?.paid_max_earn!==0) && (
         <div className="profile_view_stats" style={{height: '315px'}}>
           <div className="profile_text_stats">
             <span>Most Used Services</span>
           </div>
           <div className="profile_graph_stats">
-            <div className="service_stats">
+
+            {serviceStats?.free_max_download !== 0 && <div className="service_stats">
               <span className="service_free_stats">Free Service</span>
               <div className="service_desc_stats">
                 <img
@@ -354,9 +355,9 @@ const Stats = () => {
                   </span>
                 </div>
               </div>
-            </div>
+            </div>}
 
-            <div className="service_stats">
+           {serviceStats?.paid_max_earn !== 0 && <div className="service_stats">
               <span className="service_free_stats">Paid Service</span>
               <div className="service_desc_stats">
                 <img
@@ -381,7 +382,7 @@ const Stats = () => {
                   </span>
                 </div>
               </div>
-            </div>
+            </div>}
           </div>
         </div>
         )}

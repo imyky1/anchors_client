@@ -76,7 +76,7 @@ const ServiceStats = (props) => {
   };
   useEffect(() => {
     setopenLoading(true);
-    if (serviceInfo.slug) {
+    if (serviceInfo?.service?.slug) {
       getAnalyticsData().then(() => {
         setopenLoading(false);
       });
@@ -142,32 +142,19 @@ const ServiceStats = (props) => {
               valuenotunique: data?.response?.Totalvisits,
             });
             setopenLoading(false);
+            return data?.response;
           });
       }
     }
   };
 
   useEffect(() => {
-    toast.promise(
-      handler,
-      {
-        pending: "Please Wait..",
-        error: "Try Again by reloading the page!",
-      },
-      {
-        position: "top-center",
-        autoClose: 2000,
-      }
-    );
-
     handler();
   }, [serviceInfo, eventInfo]);
 
-  console.log(mixpaneldata);
-
   return (
     <>
-      <ToastContainer />
+      <ToastContainer limit={1} />
       <LoadTwo open={openLoading} />
 
       {approvedUser && (
@@ -288,7 +275,12 @@ const ServiceStats = (props) => {
               <div className="servicestat_boxpa">
                 <img src={ICON4} alt="c"></img>
                 <div className="servicestat_boxpa_div">Average time Spent</div>
-                <h2> {avgTime !== 0 ? `${avgTime.toFixed(2)} s` : "---"}</h2>
+                <h2>
+                  {" "}
+                  {avgTime !== 0 && avgTime
+                    ? `${avgTime?.toFixed(2)} s`
+                    : "---"}
+                </h2>
               </div>
             </div>
           </div>

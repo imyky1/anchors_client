@@ -128,9 +128,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Adjust to your needs */
   border-radius: 16px;
   border: 1px solid var(--dark-mode-dark-mode-700, #262a36);
+  object-fit: cover;
 }
 
 /* details both left and right side */
@@ -224,7 +224,6 @@
   gap: 40px;
   padding: 20px;
   width: 100%;
-  min-height: 41vh;
   box-sizing: border-box;
 
   border-radius: 16px;
@@ -640,7 +639,6 @@
   .new_service_page_service_card > img {
     height: 64px;
     border-radius: 4px;
-    object-fit: cover;
   }
 
   .new_service_page_service_card > h3 {

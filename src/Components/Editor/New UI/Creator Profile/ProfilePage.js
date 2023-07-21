@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { Suspense, lazy, useContext, useEffect, useState } from "react";
 import "./ProfilePage.css";
-import { Navbar2 } from "../../../Layouts/Navbar User/Navbar";
 import { RiStarSFill } from "react-icons/ri";
-import { Footer3 } from "../../../Footer/Footer2";
 
 import InstagramIcon from "../../../../Utils/Icons/instagram.svg";
 import fbIcon from "../../../../Utils/Icons/fb.svg";
@@ -15,7 +13,6 @@ import {
   AiOutlineDown,
   AiOutlineUp,
 } from "react-icons/ai";
-import { ReviewCards, ServiceCards } from "../Service Page/ServicePage";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { creatorContext } from "../../../../Context/CreatorState";
 import ServiceContext from "../../../../Context/services/serviceContext";
@@ -26,11 +23,24 @@ import VideoIcon from "../../../../Utils/Icons/video-service.svg";
 import DocIcon from "../../../../Utils/Icons/doc-service.svg";
 import TrendIcon from "../../../../Utils/Icons/trend-service.svg";
 import { userContext } from "../../../../Context/UserState";
-import Request_Modal from "../../../Modals/Request_Modal";
 import mixpanel from "mixpanel-browser";
 import Seo from "../../../../Utils/Seo";
 import PNGIMG from "../../../../Utils/Images/default_user.png";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { Navbar2 } from "../../../Layouts/Navbar User/Navbar";
+import { Footer3 } from "../../../Footer/Footer2";
+import Request_Modal from "../../../Modals/Request_Modal";
+
+// Code Spliting -------------------------
+// const { ReviewCards } = lazy(() =>
+//   import("../Service Page/Components/ReviewsSection")
+// );
+// const { ServiceCards } = lazy(() =>
+//   import("../Service Page/Components/MoreServices")
+// );
+
+import {ReviewCards} from "../Service Page/Components/ReviewsSection"
+import {ServiceCards} from "../Service Page/Components/MoreServices"
 
 const ExtraCard = () => {
   return (
@@ -146,7 +156,7 @@ function ProfilePage() {
   useEffect(() => {
     let doc = document.querySelector("#about_creator_profile");
     if (doc) {
-      doc.innerHTML = ""
+      doc.innerHTML = "";
       if (window.screen.width < 600) {
         if (moreAbout) {
           doc.innerHTML = basicCreatorInfo?.aboutMe;
@@ -157,7 +167,7 @@ function ProfilePage() {
         doc.innerHTML = basicCreatorInfo?.aboutMe;
       }
     }
-  }, [moreAbout,basicCreatorInfo]);
+  }, [moreAbout, basicCreatorInfo]);
 
   // checks for a status 0 creator
   if (basicCdata?.status === 0) {
@@ -168,6 +178,7 @@ function ProfilePage() {
   return (
     <>
       <ToastContainer theme="dark" />
+
       <Request_Modal
         open={openModelRequest}
         onClose={() => {
@@ -424,53 +435,54 @@ function ProfilePage() {
           </section> */}
 
           {/* other services or events */}
-          {services?.res?.filter((e1) => {
-            return e1?.status === 1;
-          })?.length !== 0 && (
-            <section className="other_services_new_creator_profile">
-              <section>
-                <h3 className="text_creator_profile_page-05">Service List</h3>
-                {/* <div className="filter_option_new_creator_profile">
+            {services?.res?.filter((e1) => {
+              return e1?.status === 1;
+            })?.length !== 0 && (
+              <section className="other_services_new_creator_profile">
+                <section>
+                  <h3 className="text_creator_profile_page-05">Service List</h3>
+                  {/* <div className="filter_option_new_creator_profile">
                 Event <AiOutlineDown />
               </div> */}
+                </section>
+
+                <div>
+                  {services.res
+                    ?.filter((e1) => {
+                      return e1?.status === 1;
+                    })
+                    ?.map((e, i) => {
+                      return (
+                        <ServiceCards
+                          {...e}
+                          key={i}
+                          onClick={() => {
+                            mixpanel.track("Explore resources");
+                            navigate(`/s/${e?.slug}`);
+                          }}
+                        />
+                      );
+                    })}
+                </div>
               </section>
+            )}
 
-              <div>
-                {services.res
-                  ?.filter((e1) => {
-                    return e1?.status === 1;
-                  })
-                  ?.map((e, i) => {
-                    return (
-                      <ServiceCards
-                        {...e}
-                        key={i}
-                        onClick={() => {
-                          mixpanel.track("Explore resources");
-                          navigate(`/s/${e?.slug}`);
-                        }}
-                      />
-                    );
-                  })}
-              </div>
-            </section>
-          )}
+            {/* user reviews */}
+            {feedbacks?.filter((e) => e?.status === 1)?.length !== 0 && (
+              <section className="other_reviews_new_creator_profile">
+                <h3 className="text_creator_profile_page-05">User Reviews</h3>
 
-          {/* user reviews */}
-          {feedbacks?.filter((e) => e?.status === 1)?.length !== 0 && (
-            <section className="other_reviews_new_creator_profile">
-              <h3 className="text_creator_profile_page-05">User Reviews</h3>
-
-              <div>
-                {feedbacks
-                  ?.filter((e) => e?.status === 1)
-                  ?.map((e, i) => {
-                    return <ReviewCards {...e} key={i} />;
-                  })}
-              </div>
-            </section>
-          )}
+                <div>
+                  {feedbacks
+                    ?.filter((e) => e?.status === 1)
+                    ?.map((e, i) => {
+                      return <ReviewCards {...e} key={i} />;
+                    })}
+                </div>
+              </section>
+            )}
         </div>
+
         <Footer3 />
       </div>
 

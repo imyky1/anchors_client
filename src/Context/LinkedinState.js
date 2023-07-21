@@ -150,7 +150,7 @@ const LinkedinState = (props) => {
 
         localStorage.setItem("jwtToken", res.jwtToken);
         localStorage.setItem("c_id", res.slug);
-        window.open("/tellUsMore", "_self");
+        window.open("/dashboard/tellUsMore", "_self");
       } else if (!res.success && res.already) {
         // creator already registeredd----
         // account is not created------------
@@ -221,7 +221,7 @@ const LinkedinState = (props) => {
         if (res.status === 1) {
           navigate("/dashboard");
         } else {
-          navigate("/waitlist");
+          navigate("/dashboard/waitlist");
         }
         
       } else if (!res.success && !res.already) {

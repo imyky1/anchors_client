@@ -147,10 +147,10 @@ function View() {
   const changeStatus = async (e, cname , cid , status) => {
     e?.preventDefault();
     setSelected({id:cid,status:status})
-    e?.stopPropagation();
+    e?.stopPropagation(); 
     setOpenModal(true);
     const response = await fetch(
-      `${host}/api/email/sendMsg?message=Status Updation to ${status === 1 ? 0 : 1} for Creator ${cname}&number=8692006538&subject=Anchors`,
+      `${host}/api/email/sendMsg?message=Status Updation to ${status === 1 ? 0 : 1} for Creator ${cname}&number=6267941318&subject=Anchors`,
       {
         method: "GET",
         headers: {
@@ -184,6 +184,8 @@ function View() {
       )}
       <div className="admin_container">
         <Navbar noAccount={true}/>
+        <button onClick={handleLogout}>Logout</button>
+        <button onClick={()=>{navigate("/developer/admin/upload")}}>Upload Files</button>
         <div className="creator_display_list">
           {allcreators.length !== 0
             ? allcreators.map((e, index) => {

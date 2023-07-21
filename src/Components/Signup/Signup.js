@@ -14,6 +14,7 @@ import "swiper/css/pagination";
 
 import { Autoplay, Pagination } from "swiper";
 
+
 function Signup() {
   // Visited page mix panel
   useEffect(() => {
@@ -35,6 +36,12 @@ function Signup() {
     localStorage.setItem("authFor", "signUp");
     window.open(`${host}/login/auth/linkedin`, "_self");
   };
+
+  if(localStorage.getItem("jwtToken") && localStorage.getItem("isUser")=== ""){
+    window.open("/dashboard","_self")
+    return null;
+  }
+  
 
   return (
     <>

@@ -31,7 +31,7 @@ function Modal1(props) {
           <i class="fa-solid fa-triangle-exclamation fa-3x"></i>}
 
           <h1 className="text_success_05_modal">
-            {props?.type==="Payment-Success" ? "Payment Details Saved" : "To access this feature please fill personal information"}
+            {props?.type==="Payment-Success" ? "Payment Details Saved" : "To access this feature, please fill in your personal information first."}
           </h1>
 
           <button

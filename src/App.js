@@ -56,6 +56,8 @@ import "./fonts/Gilroy-Regular.ttf";
 import ServicePage from "./Components/Editor/New UI/Service Page/ServicePage";
 import ProfilePage from "./Components/Editor/New UI/Creator Profile/ProfilePage";
 import PreviewPage from "./Components/Editor/New UI/Service Page/PreviewPage";
+import Upload from "./Developers/Upload/Upload";
+import Creator from "./Components/ApprovedCreators/Creator.js";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -124,6 +126,10 @@ function App() {
                               element={<Privacy />}
                             ></Route>
                             <Route
+                              path="/approved-creators"
+                              element={<Creator />}
+                            ></Route>
+                            <Route
                               path="/earning-predictor"
                               element={<Predictor />}
                             ></Route>
@@ -175,6 +181,10 @@ function App() {
                             <Route
                               path="/developer/admin"
                               element={<View />}
+                            ></Route>
+                            <Route
+                              path="/developer/admin/upload"
+                              element={<Upload />}
                             ></Route>
                             <Route
                               path="/developer/login"
