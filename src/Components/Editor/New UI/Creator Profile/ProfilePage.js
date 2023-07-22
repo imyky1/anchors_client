@@ -230,6 +230,7 @@ function ProfilePage() {
                   <p className="text_creator_profile_page-02">
                     {basicCreatorInfo?.tagLine}
                   </p>
+                  <div style={{display:"flex",flexDirection:"row-reverse",width:"max-content",gap:"20px"}}>
                   <div className="social-icons-new-creator-page">
                     {basicCreatorInfo?.linkedInLink?.length !== 0 && (
                       <div
@@ -306,6 +307,7 @@ function ProfilePage() {
                   >
                     Request Resource
                   </button>{" "}
+                  </div>
                 </>
               )}
             </div>
