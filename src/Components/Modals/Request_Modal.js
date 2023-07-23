@@ -407,7 +407,7 @@ function Request_Modal2({ open, onClose, slug, id, cname, UserDetails }) {
                 </div>
               </div>
               <div className="modal_frame_01_types_inside_01_frame01">
-                <div className="modal_frame_01_types_inside_01_frame01_text">
+                <div className="modal_frame_01_types_inside_01_text">
                   Topic Name
                 </div>
                 <div className="modal_frame_01_types_inside_01_frame01_textarea">
@@ -416,7 +416,7 @@ function Request_Modal2({ open, onClose, slug, id, cname, UserDetails }) {
               </div>
               <div className="modal_frame_01_types_inside_01_frame02">
                 <div className="modal_frame_01_types_inside_01_frame02_01">
-                  <div className="modal_frame_01_types_inside_01_frame02_01_text">
+                  <div className="modal_frame_01_types_inside_01_text">
                     Cost
                   </div>
                   <div className="modal_frame_01_types_inside_01_frame02_01_cost">

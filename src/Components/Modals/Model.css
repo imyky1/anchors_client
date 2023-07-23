@@ -107,7 +107,6 @@
   z-index: 9999;
   display: grid;
   place-items: center;
-  top: 0;
 }
 .logout_model_logout_workshop {
   width: 100vw;

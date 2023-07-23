@@ -23,7 +23,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import { Autoplay, Navigation, Pagination } from "swiper";
+import { Autoplay, Pagination } from "swiper/modules";
 import Navbar from "../Layouts/Navbar Creator/Navbar";
 import { useCookies } from "react-cookie";
 import { host } from "../../config/config";
@@ -369,6 +369,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
         formData?.followers?.length > 1 &&
         formData?.socialLink !== ""
       ) {
+        mixpanel.track("Submitting the basic tell us more")
         if (
           formData?.inviteCode &&
           formData?.inviteCode?.length !== 0 &&
@@ -427,6 +428,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
       formData?.inviteCode?.length !== 0 &&
       !verifiedCode
     ) {
+      mixpanel.track("Submitting the invite code on Tell us more page")
       toast.error("Verify the code first", {
         position: "top-center",
         autoClose: 2000,
@@ -653,6 +655,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
               }}
               onClick={() => {
                 navigate("/dashboard");
+                mixpanel.track("Skip button clicked on tell us more")
               }}
             >
               Skip

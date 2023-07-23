@@ -10,7 +10,7 @@ import { ImLinkedin2 } from "react-icons/im";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-import { Autoplay, Pagination } from "swiper";
+import { Autoplay, Pagination} from 'swiper/modules';
 
 function Login2() {
 

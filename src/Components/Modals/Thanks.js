@@ -92,4 +92,5 @@ function Thanks({ open, onClose, copyURL, slug, name, control, c_id,stype }) {
   );
 }
 
+
 export default Thanks;
