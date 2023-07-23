@@ -69,6 +69,9 @@ function App() {
   };
 
   return (
+    <>  
+    <Seo/>
+
     <SkeletonTheme baseColor="#313131" highlightColor="#525252">
       <Router>
         <LinkedinState>
@@ -279,6 +282,8 @@ function App() {
         </LinkedinState>
       </Router>
     </SkeletonTheme>
+
+    </>
   );
 }
 
