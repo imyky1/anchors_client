@@ -13,7 +13,6 @@ import { Navbar2 } from "../../../Layouts/Navbar User/Navbar";
 import tick from "../../../../Utils/Icons/tick.svg";
 import { userContext } from "../../../../Context/UserState";
 import { useNavigate, useParams } from "react-router-dom";
-import { host } from "../../../../config/config";
 import { ToastContainer, toast } from "react-toastify";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import {
@@ -23,6 +22,9 @@ import {
 } from "react-share";
 import { paymentContext } from "../../../../Context/PaymentState";
 import Canvas from "../Event Page/Canvas";
+import { Footer3 } from "../../../Footer/Footer2";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import PNGIMG from "../../../../Utils/Images/default_user.png";
 
 function TableComponent({ userComponent, name, points, index }) {
   return (
@@ -31,8 +33,7 @@ function TableComponent({ userComponent, name, points, index }) {
       style={
         userComponent
           ? {
-              background:
-                "linear-gradient(180deg, #F00 0%, #F14545 49.48%, #F87171 100%)",
+            background: "linear-gradient(180deg, #7D0000 0%, #A90F0F 49.48%, #610000 100%)"
             }
           : {}
       }
@@ -101,11 +102,13 @@ function Success() {
         navigate("/");
         return null;
       }
-      getLeaderBoardData(id[1],localStorage.getItem("isUser") === "").then((e) => {
-        if (e?.success) {
-          setLeaderBoardData(e);
+      getLeaderBoardData(id[1], localStorage.getItem("isUser") === "").then(
+        (e) => {
+          if (e?.success) {
+            setLeaderBoardData(e);
+          }
         }
-      });
+      );
     });
   }, []);
 
@@ -184,12 +187,10 @@ function Success() {
   }
 
   // handling the status 0 of services ------------------
-  if (eventInfo?.event?.status === 0 || eventInfo?.event?.c_id?.status === 0) {
+  if ((eventInfo?.event?.status === 0 || eventInfo?.event?.c_id?.status === 0) && eventInfo?.event?.c_id?.eventStatus === 0) {
     navigate("/");
     return null;
   }
-
-
 
   return (
     <>
@@ -202,21 +203,21 @@ function Success() {
       <ToastContainer theme="dark" />
 
       <div className="success_page_wrapper">
-          <div className="banner_canvas_wrapper">
-            <Canvas
-              setBannerData={setBannerData}
-              dataToUse={{
-                userName: userDetails?.name,
-                userProfile: userDetails?.photo,
-                eventName: eventInfo?.event?.sname,
-                creatorName: eventInfo?.creator?.name,
-                creatorProfile: eventInfo?.creator?.profile,
-                date: getDate(eventInfo?.event?.startDate),
-                time: `${convertTime(eventInfo?.event?.time?.startTime)} - 
+        <div className="banner_canvas_wrapper">
+          <Canvas
+            setBannerData={setBannerData}
+            dataToUse={{
+              userName: userDetails?.name,
+              userProfile: userDetails?.photo,
+              eventName: eventInfo?.event?.sname,
+              creatorName: eventInfo?.creator?.name,
+              creatorProfile: eventInfo?.creator?.profile,
+              date: getDate(eventInfo?.event?.startDate),
+              time: `${convertTime(eventInfo?.event?.time?.startTime)} - 
             ${convertTime(eventInfo?.event?.time?.endTime)}`,
-              }}
-            />
-          </div>
+            }}
+          />
+        </div>
 
         {/* main hero section details */}
         <section className="main_header_component_success_page">
@@ -267,28 +268,15 @@ function Success() {
               </div>
 
               <section>
-                <WhatsappShareButton
-                  url={
-                    shareLink
-                  }
-                >
+                <WhatsappShareButton url={shareLink}>
                   <BsWhatsapp />
                 </WhatsappShareButton>
 
-                <LinkedinShareButton
-                  url={
-                    shareLink
-                  }
-                >
+                <LinkedinShareButton url={shareLink}>
                   <FaLinkedinIn />
                 </LinkedinShareButton>
                 {/* <BsInstagram /> */}
-                <FacebookShareButton
-                  url={
-                    shareLink
-                  }
-                  quote={"Hello user"}
-                >
+                <FacebookShareButton url={shareLink} quote={"Hello user"}>
                   <FaFacebookF />
                 </FacebookShareButton>
               </section>
@@ -308,107 +296,159 @@ function Success() {
 
           {/* main leader Boards toppers ------ */}
 
-          <div className="main_leader_board_toppers">
-            {/* silvertrophy */}
-            <section id="silver-trophy">
-              <div>
-                <div
-                  className="topper_image_area"
-                  style={{ border: "4px solid #ccc" }}
-                >
-                  <img
-                    src={
-                      leaderBoardData?.finalData?.length > 1 && leaderBoardData?.finalData[1]?.points !== 0
-                        ? leaderBoardData?.finalData[1]?.profile
-                        : "https://img.freepik.com/premium-photo/red-question-mark-isolated-white_3482-715.jpg?w=2000"
-                    }
-                    alt=""
-                  />
+          {leaderBoardData?.data?.length !== 0 && (
+            <div className="main_leader_board_toppers">
+              {/* silvertrophy */}
+              <section id="silver-trophy">
+                <div>
+                  <div
+                    className="topper_image_area"
+                    style={{ border: "4px solid #ccc" }}
+                  >
+                    <LazyLoadImage
+                      src={
+                        leaderBoardData?.data?.length > 1 &&
+                        leaderBoardData?.data[1]?.points !== 0
+                          ? leaderBoardData?.data[1]?.profile
+                          : "https://img.freepik.com/premium-photo/red-question-mark-isolated-white_3482-715.jpg?w=2000"
+                      }
+                      alt=""
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src = PNGIMG;
+                      }}
+                    />
+                  </div>
+                  <span style={{ color: "#737373" }}>2</span>
                 </div>
-                <span style={{ color: "#737373" }}>2</span>
-              </div>
 
-              <img src={silver} alt="silver" />
+                <img src={silver} alt="silver" />
 
-              <h2>{leaderBoardData?.finalData && leaderBoardData?.finalData[1]?.points !== 0 && leaderBoardData?.finalData[1]?.name}</h2>
-              <span>{leaderBoardData?.finalData && leaderBoardData?.finalData[1]?.points !== 0 && leaderBoardData?.finalData[1]?.points}</span>
-            </section>
+                <h2>
+                  {leaderBoardData?.data &&
+                    leaderBoardData?.data[1]?.points !== 0 &&
+                    leaderBoardData?.data[1]?.name}
+                </h2>
+                <span>
+                  {leaderBoardData?.data &&
+                    leaderBoardData?.data[1]?.points !== 0 &&
+                    leaderBoardData?.data[1]?.points}
+                </span>
+              </section>
 
-            {/* gold trophy */}
-            <section id="gold-trophy">
-              <div>
-                <div
-                  className="gold_image_area topper_image_area"
-                  style={{ border: "4px solid #CA9100" }}
-                >
-                  <img
-                    src={
-                      leaderBoardData?.finalData?.length > 0 && leaderBoardData?.finalData[0]?.points !== 0
-                        ? leaderBoardData?.finalData[0]?.profile
-                        : "https://img.freepik.com/premium-photo/red-question-mark-isolated-white_3482-715.jpg?w=2000"
-                    }
-                    alt=""
-                  />
+              {/* gold trophy */}
+              <section id="gold-trophy">
+                <div>
+                  <div
+                    className="gold_image_area topper_image_area"
+                    style={{ border: "4px solid #CA9100" }}
+                  >
+                    <LazyLoadImage
+                      src={
+                        leaderBoardData?.data?.length > 0 &&
+                        leaderBoardData?.data[0]?.points !== 0
+                          ? leaderBoardData?.data[0]?.profile
+                          : "https://img.freepik.com/premium-photo/red-question-mark-isolated-white_3482-715.jpg?w=2000"
+                      }
+                      alt=""
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src = PNGIMG;
+                      }}
+                    />
+                  </div>
+                  <span style={{ color: "#CA9100" }}>1</span>
                 </div>
-                <span style={{ color: "#CA9100" }}>1</span>
-              </div>
 
-              <img src={gold} alt="gold" />
+                <img src={gold} alt="gold" />
 
-              <h2>{leaderBoardData?.finalData  && leaderBoardData?.finalData[0]?.points !== 0 && leaderBoardData?.finalData[0]?.name}</h2>
-              <span>{leaderBoardData?.finalData  && leaderBoardData?.finalData[0]?.points !== 0 && leaderBoardData?.finalData[0]?.points}</span>
-            </section>
+                <h2>
+                  {leaderBoardData?.data &&
+                    leaderBoardData?.data[0]?.points !== 0 &&
+                    leaderBoardData?.data[0]?.name}
+                </h2>
+                <span>
+                  {leaderBoardData?.data &&
+                    leaderBoardData?.data[0]?.points !== 0 &&
+                    leaderBoardData?.data[0]?.points}
+                </span>
+              </section>
 
-            {/* bronze trophy */}
-            <section id="bronze-trophy">
-              <div>
-                <div
-                  className="topper_image_area"
-                  style={{ border: "4px solid #EA9542" }}
-                >
-                  <img
-                    src={
-                      leaderBoardData?.finalData?.length > 2 && leaderBoardData?.finalData[2]?.points !== 0
-                        ? leaderBoardData?.finalData[2]?.profile
-                        : "https://img.freepik.com/premium-photo/red-question-mark-isolated-white_3482-715.jpg?w=2000"
-                    }
-                  />
+              {/* bronze trophy */}
+              <section id="bronze-trophy">
+                <div>
+                  <div
+                    className="topper_image_area"
+                    style={{ border: "4px solid #EA9542" }}
+                  >
+                    <LazyLoadImage
+                      src={
+                        leaderBoardData?.data?.length > 2 &&
+                        leaderBoardData?.data[2]?.points !== 0
+                          ? leaderBoardData?.data[2]?.profile
+                          : "https://img.freepik.com/premium-photo/red-question-mark-isolated-white_3482-715.jpg?w=2000"
+                      }
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src = PNGIMG;
+                      }}
+                    />
+                  </div>
+                  <span style={{ color: "#EA9542" }}>3</span>
                 </div>
-                <span style={{ color: "#EA9542" }}>3</span>
-              </div>
 
-              <img src={bronze} alt="bronze" />
+                <img src={bronze} alt="bronze" />
 
-              <h2>{leaderBoardData?.finalData && leaderBoardData?.finalData[2]?.points !== 0 &&  leaderBoardData?.finalData[2]?.name}</h2>
-              <span>{leaderBoardData?.finalData && leaderBoardData?.finalData[2]?.points !== 0 &&  leaderBoardData?.finalData[2]?.points}</span>
-            </section>
-          </div>
+                <h2>
+                  {leaderBoardData?.data &&
+                    leaderBoardData?.data[2]?.points !== 0 &&
+                    leaderBoardData?.data[2]?.name}
+                </h2>
+                <span>
+                  {leaderBoardData?.data &&
+                    leaderBoardData?.data[2]?.points !== 0 &&
+                    leaderBoardData?.data[2]?.points}
+                </span>
+              </section>
+            </div>
+          )}
+        </section>
+
+        <section className="leaderboard_rest_data_success_page">
+          <p className="leaderboard_status_text_event_success">
+            {leaderBoardData?.text}
+          </p>
 
           {/* Table for other ranks ------------- */}
 
-          {(leaderBoardData?.finalData?.length > 3 || leaderBoardData?.showUserInExtra?.value) && (
-          <div className="leader_board_table_success">
-            <section className="table_head_leaderboard_success">
-              <span>Rank</span>
-              <span>User Name</span>
-              <span>Referrals</span>
-            </section>
+          {(leaderBoardData?.data?.length > 3 ||
+            leaderBoardData?.showUserInExtra?.value) && (
+            <div className="leader_board_table_success">
+              <section className="table_head_leaderboard_success">
+                <span>Rank</span>
+                <span>User name</span>
+                <span>Referrals</span>
+              </section>
 
-            {leaderBoardData?.finalData?.slice(leaderBoardData?.showUserInExtra?.value ? leaderBoardData?.showUserInExtra?.count : 3)?.map((element, i) => {
-              return (
-                <TableComponent
-                  key={element?.id}
-                  {...element}
-                  index={(leaderBoardData?.showUserInExtra?.value || element?.points === 0 ) ? "?" : i + 4}
-                  userComponent={element.user}
-                />
-              );
-            })}
-          </div>
-        )}
+              {leaderBoardData?.data?.slice(3)?.map((element, i) => {
+                return (
+                  <TableComponent
+                    key={element?.id}
+                    {...element}
+                    index={
+                      leaderBoardData?.showUserInExtra?.value ||
+                      element?.points === 0
+                        ? "--"
+                        : i + 4
+                    }
+                    userComponent={element.isUser}
+                  />
+                );
+              })}
+            </div>
+          )}
+          <Footer3 />
         </section>
-
-        
       </div>
     </>
   );

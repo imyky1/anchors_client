@@ -3,6 +3,7 @@ import "./frame.css";
 import { host } from "../../config/config";
 import profile from "../../Utils/Images/default_user.png";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import mixpanel from "mixpanel-browser";
 
 const Frame = ({setLoading}) => {
   const [creators, setCreators] = useState([]);
@@ -26,20 +27,20 @@ const Frame = ({setLoading}) => {
   }, []);
 
 
-  console.log(creators)
-
   return (
     <div className="image_conatiner">
       {creators.map((creator, index) => (
-        <div key={index} className="image_section">
+        <div key={index} className="image_section" onClick={()=>{mixpanel.track("Creator Clicked in approved Creators",{
+          creator:creator?.name
+        })}}>
           <a
             href={creator.linkedInLink ? creator.linkedInLink : `/${creator.link}`}
             target="_blank"
             rel="noopener noreferrer"
           >
             <LazyLoadImage
-              src={creator.profile ?? profile}
-              alt={creator.name}
+              src={creator?.profile ?? profile}
+              alt={creator?.name}
               className="image"
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null;

@@ -10,12 +10,14 @@ import { CgFileDocument } from "react-icons/cg";
 import { LoadTwo } from "../../../Modals/Loading";
 import Confetti from "react-confetti";
 import { ToastContainer, toast } from "react-toastify";
+import EventModel from "../../../Modals/EventModal/Event_popup";
 
 const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
   const navigate = useNavigate();
   const [loadConfetti, setLoadConfetti] = useState(false);
   const [loader, setLoader] = useState(false);
   const [stepperData, setStepperData] = useState({});
+  const [openEventPopup, setOpenEventPopup] = useState(false)
 
   const {
     updateStepperStatus,
@@ -104,6 +106,8 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
       {loadConfetti && (
         <Confetti width={window.screen.width} height={window.screen.height} />
       )}
+
+      {openEventPopup && <EventModel onClose = {()=>{setOpenEventPopup(false)}}/>}
 
       <div className="main_dashboard_conatiner2">
         <div className="stepper_outside_wrapper_dashboard">
@@ -274,7 +278,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
             </div> */}
             <div
               onClick={() => {
-                navigate("createevent");
+                setOpenEventPopup(true)
                 mixpanel.track("Share a event");
               }}
               className="dashboard_options"

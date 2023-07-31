@@ -74,13 +74,13 @@ const WaitlistMiddleSection = () => {
   return (
     <div className="waitlist_middle_details_section">
       <div>
-        <h1>Don't wait any Longer! </h1>
+        <h1>Don't wait any longer! </h1>
         <p>
           Accelerate your waitlist journey with an exclusive invite code.
           Connect with our creators to get it . Why wait when you can jump
           ahead?
         </p>
-        {/* <button className="waitlist_buttontype"><a href="#inviteCodeAccess" style={{textDecoration:"none",color:"unset"}}>Get Invite Access</a></button> */}
+        <button className="waitlist_buttontype" style={{marginTop:"20px"}} onClick={()=>{window.open("/approved-creators");mixpanel.track("Get Invite Access")}}>Get Invite Access</button>
       </div>
 
       <section>

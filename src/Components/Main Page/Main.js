@@ -2,7 +2,7 @@ import React, { useEffect, lazy, Suspense } from "react";
 import "./Main.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { BsLinkedin, BsInstagram, BsYoutube } from "react-icons/bs";
@@ -236,6 +236,7 @@ const EligibilitySection = () => {
             type="number"
             placeholder="Number of followers"
             value={followers}
+            onClick={()=>{platform === 0 && toast.info("Select a platform first",{position:"top-center",autoClose:1500})}}
             onChange={(e) => {
               setFollowers(e.target.value);
             }}
@@ -652,7 +653,7 @@ function Main(props) {
                 <div>
                   <img src={require("./Images/stars.png")} alt="" />
                   <h1 className="headers2_mainpage">3</h1>
-                  <p>Our team will evaluate your profile</p>
+                  <p>Become a proud member of Anchors!</p>
                 </div>
               </div>
             </div>

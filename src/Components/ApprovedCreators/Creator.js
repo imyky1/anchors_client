@@ -18,6 +18,12 @@ const ShareModal = ({ onClose }) => {
   return (
     <div className="share_modal_approved_creators">
       <div>
+        {window.screen.width < 600 && (
+          <span className="mobile_view_modal_horizonal_bar" style={{top:"19px"}}>
+            <section></section>
+          </span>
+        )}
+
         <section className="share_modal_approved_Creators_section01">
           <span>Share this message</span>
           <AiOutlineClose onClick={onClose} />

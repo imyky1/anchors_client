@@ -83,12 +83,12 @@ function App() {
                     <EPAState>
                       <FeedbackState>
                         <UserDashboardState>
-                          <LoadingBar color="#f11946" progress={progress} />
+                          <LoadingBar color="#f11946" progress={changeprogress} />
                           <Routes>
                             {/* Landing Page routes ---------------------------------------------------------- */}
                             <Route
                               path="/"
-                              element={<Main progress={progress} />}
+                              element={<Main progress={changeprogress} />}
                             ></Route>
                             {/* Home route to creator dashboard ------------------------------------------------ */}
                             <Route
@@ -211,7 +211,7 @@ function App() {
                             {/* Logout routes ---------------------------------------------------------------------------- */}
                             <Route
                               path="/logout"
-                              element={<Logout_Model progress={progress} />}
+                              element={<Logout_Model progress={changeprogress} />}
                             />
 
                             {localStorage.getItem("jwtToken") && (

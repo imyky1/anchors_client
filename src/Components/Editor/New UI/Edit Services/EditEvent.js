@@ -21,7 +21,13 @@ import { Button1 } from "../Create Services/InputComponents/buttons";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { toast } from "react-toastify";
 
-function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,FinalDefaultBannerFormData}) {
+function EditEvent({
+  progress,
+  openDefaultBanner,
+  setDefaultBannerData,
+  cname,
+  FinalDefaultBannerFormData,
+}) {
   const navigate = useNavigate();
   const { slug, servicetype } = useParams();
 
@@ -84,7 +90,6 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
     setCroppedArea(croppedAreaPixels);
   };
 
-
   const savecroppedImage = async () => {
     const img = await getCroppedImg(
       imagetocrop,
@@ -119,11 +124,15 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
     }
   };
 
-   //Edit control of default banner button ------------
-   const EditOptionDefaultBanner = () =>{
-    setDefaultBannerData({sname:data?.sname,cname:cname,type:servicetype})
-    openDefaultBanner()
-  }
+  //Edit control of default banner button ------------
+  const EditOptionDefaultBanner = () => {
+    setDefaultBannerData({
+      sname: data?.sname,
+      cname: cname,
+      type: servicetype,
+    });
+    openDefaultBanner();
+  };
 
   // On submit func-----------------
   const onSubmit = async (e) => {
@@ -136,15 +145,17 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
         if (BannerImage || defaultbanner) {
           // to check if the creator has uploaded banner image o upload
           if (defaultbanner) {
-            if(FinalDefaultBannerFormData instanceof FormData){
-              banner = await Uploadfile(FinalDefaultBannerFormData)
-            }
-            else{
-              toast.info(`Save the default banner design from the Edit Option`, {
-                position: "top-center",
-                autoClose: 2500,
-              });
-              setOpenLoading(false)
+            if (FinalDefaultBannerFormData instanceof FormData) {
+              banner = await Uploadfile(FinalDefaultBannerFormData);
+            } else {
+              toast.info(
+                `Save the default banner design from the Edit Option`,
+                {
+                  position: "top-center",
+                  autoClose: 2500,
+                }
+              );
+              setOpenLoading(false);
               return null;
             }
           } else {
@@ -227,10 +238,11 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
     });
     setTags(serviceInfo?.service?.tags);
     setContent(serviceInfo?.service?.ldesc);
-    setNoOfPages(serviceInfo?.service?.noOfPages)
+    setNoOfPages(serviceInfo?.service?.noOfPages);
+    console.log(serviceInfo);
 
-    if(serviceInfo?.service?.allowDownload){
-        setAllowDownload(serviceInfo?.service?.allowDownload)
+    if (serviceInfo?.service?.allowDownload) {
+      setAllowDownload(serviceInfo?.service?.allowDownload);
     }
     if (serviceInfo?.service?.isPaid) {
       setpaid("Paid");
@@ -248,25 +260,10 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
         {/* Heading of the create section ------------------------ */}
         <section className="heading_create_box">
           <div>
-          <h1 className="create_text_01">
-            Edit{" "}
-            {servicetype === "pdf"
-              ? "PDF"
-              : servicetype === "excel"
-              ? "Excel sheet"
-              : servicetype === "video"
-              ? "Video"
-              : ""}
-          </h1>
-          <p className="create_text_02">
-            {servicetype === "pdf"
-              ? "Express yourself and share concepts, tricks and tips and many more things via any document format."
-              : servicetype === "excel"
-              ? "From curated lists to opportunity lists, you can upload whatever you want via simple (or complex) Excel sheets"
-              : servicetype === "video"
-              ? "Add a personal touch with Interview Q&A's, How-to Tutorials, Lectures etc. to engage your audience"
-              : ""}
-          </p>
+            <h1 className="create_text_01">What is your Event about?</h1>
+            <p className="create_text_02">
+              You can create events and workshops
+            </p>
           </div>
         </section>
 
@@ -275,7 +272,7 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
           {/* left side---------------------------------------------------------------------------- */}
           <div className="left_section_form">
             <TextField1
-              label="Title of Service"
+              label="Title of Event"
               name="sname"
               id="sname"
               required={true}
@@ -295,42 +292,57 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
                 onChange={handleChange}
               />
             )}
-             <UploadField2
+            <UploadField2
               label="Upload Banner Image"
               id="asdas"
               info="File Size Limit 15 MB Formats - jpg,png"
               FileType=".jpg,.png,.jpeg"
               required={true}
               onChange={setBannerImage}
-              disabled = {defaultbanner}
               onChangeFunction={handleChangeFileBanner}
-              defaultRadioLabel = "Use Default Image"
-              defaultRadioOnChange={(e) => {
-                e.target.checked
-                  ? setDefaultBanner(true)
-                  : setDefaultBanner(false)
-              }}
             />
-            <span className="preview_edit_service" onClick={()=>{window.open(serviceInfo?.service?.simg)}} >
+            <span
+              className="preview_edit_service"
+              onClick={() => {
+                window.open(serviceInfo?.service?.simg);
+              }}
+            >
               Preview Banner
             </span>
 
-            {(BannerImage || defaultbanner) ? (
+            {BannerImage || defaultbanner ? (
               <>
                 {" "}
                 <Button
                   variant="outlined"
-                  onClick={()=>{defaultbanner ? EditOptionDefaultBanner() : setImagePreview((prev) => !prev)}}
+                  onClick={() => {
+                    defaultbanner
+                      ? EditOptionDefaultBanner()
+                      : setImagePreview((prev) => !prev);
+                  }}
                   className="imageresizeopenerbutton"
                 >
-                  {defaultbanner ? "Edit default Banner" : "Preview Image and Resize"}
+                  {defaultbanner
+                    ? "Edit default Banner"
+                    : "Preview Image and Resize"}
                 </Button>
                 <br />
               </>
             ) : (
               ""
             )}
-            
+
+            <Dropdown1
+              label="Is it Online/Offline?"
+              placeholder="Choose the mode of event"
+              value={["Online", "Offline"]}
+              required={true}
+              defaultValue="Online"
+              selectedValue={(e) => {
+                setdata({ ...data, stype: e });
+              }}
+            />
+
             <Editor1
               label={`Describe your ${
                 servicetype === "pdf"
@@ -413,8 +425,18 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
                   : ""
               }
             />
-            <span className="preview_edit_service" onClick={()=>{window.open(serviceInfo?.service?.stype === 1 ? "/viewExcel" : "/viewPdf"); sessionStorage.setItem("link", serviceInfo?.service?.surl);}}>
-              {`Preview ${servicetype === "excel" ? "Excel Sheet" : "Document"}`}
+            <span
+              className="preview_edit_service"
+              onClick={() => {
+                window.open(
+                  serviceInfo?.service?.stype === 1 ? "/viewExcel" : "/viewPdf"
+                );
+                sessionStorage.setItem("link", serviceInfo?.service?.surl);
+              }}
+            >
+              {`Preview ${
+                servicetype === "excel" ? "Excel Sheet" : "Document"
+              }`}
             </span>
 
             <Tags1
@@ -587,4 +609,4 @@ function EditService({progress,openDefaultBanner,setDefaultBannerData,cname,Fina
   );
 }
 
-export default EditService;
+export default EditEvent;

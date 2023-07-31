@@ -28,6 +28,8 @@ import TellUsMore from "../../../Waitlist/TellUsMore";
 import CreateEvent from "../Create Services/CreateEvent";
 import FirstTimeModal from "../../../Modals/FirstTimeModal";
 import Stats from "../Stats/stats";
+import NoMobileScreen from "../../../Layouts/Error Pages/NoMobileScreen";
+import EditEvent from "../Edit Services/EditEvent";
 
 function Home(props) {
   const location = useLocation();
@@ -111,7 +113,7 @@ function Home(props) {
   }, []);
 
   useEffect(() => {
-    if (localStorage.getItem("jwtToken") && localStorage.getItem("c_id") ) {
+    if (localStorage.getItem("jwtToken") && localStorage.getItem("c_id")) {
       getCreatorExtraDetails().then((e) => {
         setcreatorData({
           ...creatorData,
@@ -177,6 +179,8 @@ function Home(props) {
             <Route path="/*" element={<Waitlist />}></Route>
             <Route path="/tellUsMore" element={<TellUsMore />}></Route>
           </Routes>
+        ) : window.screen.width < 600 ? (
+          <NoMobileScreen />
         ) : (
           <div className="main_home_page_container">
             <Sidebar
@@ -343,6 +347,27 @@ function Home(props) {
                       }
                     />
                     <Route
+                      path="editevent/:slug"
+                      element={
+                        <EditEvent
+                          progress={props.progress}
+                          openDefaultBanner={() => {
+                            setOpenDefaultBannerModal(true);
+                          }}
+                          setDefaultBannerData={(e) =>
+                            setDataDefaultBanner({
+                              ...dataDefaultBanner,
+                              fillingData: e,
+                            })
+                          }
+                          FinalDefaultBannerFormData={
+                            dataDefaultBanner?.finalFormData
+                          }
+                          cname={allCreatorInfo?.name}
+                        />
+                      }
+                    />
+                    <Route
                       path="reviews"
                       element={
                         <UserReviews
@@ -378,7 +403,7 @@ function Home(props) {
                         />
                       }
                     />
-                    
+
                     <Route
                       path="servicestats/:slug"
                       element={<ServiceStats progress={props.progress} />}

@@ -121,15 +121,40 @@
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #F5051B !important;
+  background-color: #f5051b !important;
   width: 16px;
   height: 16px;
 }
 
 .swiper-pagination-bullet {
-  background: #F5051B4D;
+  background: #f5051b4d;
   width: 16px;
   height: 16px;
+}
+
+.terms_cond_check_signup {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  color: #475569;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; /* 160% */
+}
+
+.terms_cond_check_signup > input {
+  cursor: pointer;
+  border-radius: 2px;
+  border: 1px solid var(--neutral-gray-600, #475569);
+}
+
+.terms_cond_check_signup > label {
+  cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {

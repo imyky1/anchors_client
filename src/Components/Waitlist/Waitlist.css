@@ -762,9 +762,14 @@
     line-height: 22px;
   }
 
+  .waitlist_invite_section > section > input{
+    width: 100%;
+  }
+
   .waitlist_invite_section > section{
     flex-direction: column;
     gap: 13px;
+    width: 90%;
   }
 
   /* faq */

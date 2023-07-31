@@ -9,26 +9,7 @@ function Login() {
   const ref = useRef();
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies();
-  const [timer, setTimer] = useState(60);
   const [sentOTP,setsentOTP] = useState(false)
- //const timeOutCallback = useCallback(
- //   () => setTimer((currTimer) => currTimer - 1),
- //   []
- //);
-
- //const resetTimer = function () {
-    if (!timer) {
-      setTimer(60);
-    }
- //};
-
-
- //useEffect(() => {
- //  timer > 0 && sentOTP && setTimeout(timeOutCallback, 1000);
- //}, [resetTimer]);
-
- /// console.log(timer);
-
 
   const [data, setData] = useState({ email: "", password: "", otp:"" });
 
@@ -61,11 +42,11 @@ function Login() {
       alert("Invalid Credentials Please Try Again");
     }
   };
+  
 
   const handleSubmitOTP = async (e) => {
     e.preventDefault();
-    console.log("sent")
-    const response = await fetch(`${host}/api/email/sendMsg?message=Login&number=6267941318&subject=Anchors`, {
+    const response = await fetch(`${host}/api/email/sendMsg?message=Login&number=8692006538&subject=Anchors`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -74,10 +55,10 @@ function Login() {
       }
     });
     const json = await response.json();
-    if(json.MessageID){
+    if(json?.MessageID){
       setsentOTP(true)
-      let otpcode = parseInt(json.code)*562002
-      setCookie('ccoondfe', otpcode, { maxAge:60 });
+      let otpcode =  parseInt(json?.code - 145626) * 562002;
+      setCookie('ccoondfe', otpcode, { maxAge:120 });
     }
   };
   
@@ -88,6 +69,7 @@ function Login() {
     if(data.otp === (parseInt(code)/562002).toString()){
       localStorage.setItem("jwtTokenD",jwtTokenDeveloper);
       localStorage.setItem("isDev", true);
+      setCookie('devsession', true , { maxAge:30*24*60*60*1000 });
       navigate("/developer/admin");
     } else {
       alert("Invalid OTP Please Try Again");
@@ -100,6 +82,8 @@ function Login() {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
+
+
   return (
     <div className="creator_login">
 
@@ -110,10 +94,10 @@ function Login() {
           Hello, Anchors Builders <br />
           Let's work hard and raise the level of Anchors together.
         </div>
-        <div className="login_container" style={{ height: "79vh" }}>
+        <div className="login_container_developer" style={{ height: "79vh" }}>
           <h2>Welcome Back Builders</h2>
           {/* <img src={require("../../Components/logo2.png")} alt="logo" style={{width:"5rem",height:"5rem",marginBottom:"-50px"}} /> */}
-          <form style={{ marginTop: "25px" }}>
+          {/* <form style={{ marginTop: "25px" }}>
             <input
               className="input_cred"
               type="email"
@@ -148,8 +132,8 @@ function Login() {
               value="Login"
               onClick={handleSubmit}
             />
-          </form>
-          <h2 style={{ marginTop: "13px" }}>--------------- or ------------</h2>
+          </form> */}
+          {/* <h2 style={{ marginTop: "13px" }}>--------------- or ------------</h2> */}
           {/* <input
             type="submit"
             className="login_submit"
@@ -159,7 +143,7 @@ function Login() {
           /> */}
           <button onClick={handleSubmitOTP} className="button_login_dev">{sentOTP ? "OTP Sent" : "Login with OTP"}</button>
 
-          {sentOTP && <div className="otp">
+          {sentOTP && <div className="otp_modal_developers">
             <input
               className="input_cred"
               type="number"

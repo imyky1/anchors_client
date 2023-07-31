@@ -15,5 +15,5 @@
     width: 100%;
     background: #F8F8FA;
     min-height: 91vh;
-    /* padding-bottom: 10px; */
+    height: max-content;
 }

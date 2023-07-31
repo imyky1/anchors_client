@@ -1,5 +1,5 @@
 .main_wrapper_user_dashboard {
-  background-color: #F1F1F2;
+  background-color: #f1f1f2;
   width: 100%;
   margin: 0 auto;
   padding: 20px 130px;
@@ -43,7 +43,7 @@
   cursor: pointer;
 }
 
-.outline_stroke_selected_creator{
+.outline_stroke_selected_creator {
   width: 64px;
   height: 64px;
   border-radius: 100px;
@@ -53,11 +53,11 @@
   border: 5px solid transparent;
 }
 
-.active_stroke_selected_creator{
+.active_stroke_selected_creator {
   border: 5px solid red;
 }
 
-.creator_card_user_dashboard  img {
+.creator_card_user_dashboard img {
   width: 64px;
   height: 64px;
   border-radius: 100px;
@@ -300,6 +300,226 @@
   color: #ffffff;
 }
 
+/* events new ui section -------------------  */
+
+.user_dashboard_event_data_section_wrapper {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.live_events_wrapper_user_dashboard_page {
+  display: flex;
+  align-items: center;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0px 0px 8px 0px rgba(18, 18, 18, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
+  width: 452px;
+  height: 220px;
+}
+
+.live_events_wrapper_user_dashboard_page > div {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.live_events_wrapper_user_dashboard_page > div > span {
+  color: #f00;
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 125% */
+}
+
+.live_events_wrapper_user_dashboard_page > div > section {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+
+  overflow: hidden;
+  color: var(--neutral-gray-800, #1e293b);
+  font-family: "Inter";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.live_events_wrapper_user_dashboard_page > div > section > img {
+  border-radius: 4px;
+  width: 44%;
+  height: 100px;
+}
+
+.live_events_wrapper_user_dashboard_page > div > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+.live_events_wrapper_user_dashboard_page > div > div button {
+  padding: 8px 20px;
+  border-radius: 4px;
+
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  cursor: pointer;
+}
+
+.live_events_wrapper_user_dashboard_page > div > div button:first-child {
+  color: #f00;
+  border: 1px solid #f00;
+  background: transparent;
+}
+
+.live_events_wrapper_user_dashboard_page > div > div button:last-child {
+  color: #fff;
+  border: 1px solid #f00;
+  background: #f00;
+}
+
+.live_events_wrapper_user_dashboard_page > div > div button:first-child:hover {
+  color: #fff;
+  border: 1px solid #f00;
+  background: #f00;
+}
+
+.live_events_wrapper_user_dashboard_page > div > div button:last-child:hover {
+  color: #f00;
+  border: 1px solid #f00;
+  background: transparent;
+}
+
+.upcoming_events_wrapper_user_dashboard_page {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 20px;
+  width: 82vw;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0px 0px 8px 0px rgba(18, 18, 18, 0.1);
+}
+
+.upcoming_events_wrapper_user_dashboard_page > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.upcoming_events_wrapper_user_dashboard_page > div span {
+  border-radius: 4px;
+  background: #64748b;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #fff;
+  font-family: "Inter";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 100% */
+}
+
+.upcoming_events_wrapper_user_dashboard_page > section {
+  width: 100%;
+  overflow-x: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 10px 2px;
+}
+
+.upcoming_events_wrapper_user_dashboard_page > section::-webkit-scrollbar {
+  display: none;
+}
+
+.upcoming_event_cards_user_dashboard_event_page {
+  min-width: 20vw;
+  max-width: 20vw;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0px 0px 8px 0px rgba(18, 18, 18, 0.1);
+  gap: 20px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.upcoming_event_cards_user_dashboard_event_page > img {
+  width: 100%;
+  height: 120px;
+  border-radius: 4px;
+}
+
+.upcoming_event_cards_user_dashboard_event_page > span {
+  color: var(--neutral-gray-800, #1e293b);
+  font-family: "Inter";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.upcoming_event_cards_user_dashboard_event_page > div {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--neutral-gray-600, #475569);
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.upcoming_event_cards_user_dashboard_event_page > div > span{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.upcoming_event_cards_user_dashboard_event_page > button {
+  width: 100%;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background: #f00;
+  color: #fff;
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  border: none;
+  cursor: pointer;
+  border: 1px solid #fff;
+}
+
+.upcoming_event_cards_user_dashboard_event_page > button:hover {
+  background: white;
+  color: #f00;
+  border: 1px solid red;
+}
+
 @media screen and (max-width: 600px) {
   .main_wrapper_user_dashboard {
     padding: 20px 0px;
@@ -327,17 +547,17 @@
   }
 
   /* Creator card */
-  .outline_stroke_selected_creator{
+  .outline_stroke_selected_creator {
     width: 48px;
     height: 48px;
     border: 3px solid transparent;
   }
 
-  .active_stroke_selected_creator{
+  .active_stroke_selected_creator {
     border: 3px solid red;
   }
 
-  .creator_card_user_dashboard  img {
+  .creator_card_user_dashboard img {
     width: 48px;
     height: 48px;
   }
@@ -489,8 +709,26 @@
     text-align: center;
   }
 
-  .optional_info_service_section_user_db > button{
+  .optional_info_service_section_user_db > button {
     width: 116px;
     height: 35px;
+  }
+
+  .user_dashboard_event_data_section_wrapper{
+    align-items: center;
+  }
+
+  .live_events_wrapper_user_dashboard_page{
+    width: 90%;
+  }
+
+  .upcoming_events_wrapper_user_dashboard_page{
+    width: 90%;
+  }
+
+  .upcoming_event_cards_user_dashboard_event_page{
+    min-width: 250px;
+    max-width: 250px;
+    width: 250px;
   }
 }

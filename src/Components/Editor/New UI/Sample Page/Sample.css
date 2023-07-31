@@ -8,6 +8,29 @@
   scroll-snap-type: y mandatory;
 }
 
+.arrow_button_sample_page{
+  color: white;
+  font-size: 35px;
+  margin-top: 20px;
+  animation: updownarrow 0.8s infinite ease-in-out;
+  cursor: pointer;
+}
+
+@keyframes updownarrow {
+  0%{
+    transform: translateY(0);
+  }
+
+  50%{
+    transform: translateY(20px);
+  }
+
+  100%{
+    transform: translateY(0);
+  }
+
+}
+
 .sample_page_hero_section {
   display: flex;
   flex-direction: column;

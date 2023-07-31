@@ -38,7 +38,7 @@ function Create({
   // for checking the type of service we need to create --------------------------------------
   const { search } = useLocation();
   const query = new URLSearchParams(search);
-  const paramsType = query.get("type");
+
   const [CreateType, setCreateType] = useState(); // decides the type of document choosed in query
   const [draftCreated, setDraftCreated] = useState({
     status: false,
@@ -68,6 +68,8 @@ function Create({
     UploadDocuments,
     Uploadfile,
     updateService,
+    getserviceinfo,
+    serviceInfo
   } = useContext(ServiceContext);
   const [data, setdata] = useState({
     sname: "",
@@ -112,9 +114,38 @@ function Create({
 
   // check for the type of the service that needs to be created
   useEffect(() => {
-    setCreateType(paramsType);
-  }, [paramsType]);
+    setCreateType(query.get("type"));
+  }, [query]);
 
+  // get duplicate service data -----------------------------
+  useEffect(()=>{
+    if(query.get("duplicate")){
+      getserviceinfo(query.get("duplicate"))
+    } 
+  },[])
+
+  useEffect(() => {
+    setdata({
+      sname: serviceInfo?.service?.sname,
+      sdesc: serviceInfo?.service?.sdesc,
+      smrp: serviceInfo?.service?.smrp,
+      ssp: serviceInfo?.service?.ssp,
+    });
+    setTags(serviceInfo?.service?.tags);
+    setContent(serviceInfo?.service?.ldesc);
+    setNoOfPages(serviceInfo?.service?.noOfPages)
+
+    if(serviceInfo?.service?.allowDownload){
+        setAllowDownload(serviceInfo?.service?.allowDownload)
+    }
+    if (serviceInfo?.service?.isPaid) {
+      setpaid("Paid");
+    } else {
+      setpaid("Free");
+    }
+  }, [getserviceinfo]);
+
+  
   // Image cropping
   // IMAGE RESIZE
   const [croppedArea, setCroppedArea] = useState(null);
@@ -345,11 +376,6 @@ function Create({
     progress(100);
   };
 
-  const TestBanner = async () => {
-    let banner = await Uploadfile(FinalDefaultBannerFormData);
-    console.log(banner);
-  };
-
   //Edit control of default banner button ------------
   const EditOptionDefaultBanner = () => {
     setDefaultBannerData({
@@ -434,6 +460,7 @@ function Create({
               name="sname"
               id="sname"
               required={true}
+              value={data?.sname}
               placeholder="Enter Title Here"
               onChange={handleChange}
             />
@@ -444,6 +471,7 @@ function Create({
                 name="smrp"
                 id="smrp"
                 type="number"
+                value={data?.smrp}
                 required={true}
                 onChange={handleChange}
               />
@@ -524,6 +552,7 @@ function Create({
               placeholder="Choose a service type"
               value={["Free", "Paid"]}
               required={true}
+              defaultValue={paid}
               selectedValue={(e) => {
                 setpaid(e);
               }}
@@ -539,6 +568,7 @@ function Create({
                 id="ssp"
                 type="number"
                 required={true}
+                value={data?.ssp}
                 onChange={handleChange}
               />
             )}
@@ -641,12 +671,14 @@ function Create({
                       : ""
                   }
                   onChange={(e) => setNoOfPages(e.target.value)}
+                  value={noOfPage}
                 />
 
                 {/* Allow preview section ------------------------------- */}
                 <RadioField1
                   label="Allow Download"
                   onChange={setAllowDownload}
+                  value={allowDownload}
                   id="asdas"
                 />
               </div>

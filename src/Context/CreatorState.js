@@ -51,7 +51,7 @@ const CreatorState = (props) => {
       }
     );
     const json = await response.json();
-    return json.success;
+    return json;
   };
 
   // ROUTE 4 : Get Basic Creator Info -> No login required

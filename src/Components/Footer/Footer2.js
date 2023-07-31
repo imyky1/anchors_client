@@ -1,7 +1,5 @@
 import React from "react";
-import { ImLinkedin2 } from "react-icons/im";
 import "./Footer.css";
-import mixpanel from "mixpanel-browser";
 
 function Footer2() {
   return (
@@ -17,10 +15,10 @@ function Footer2() {
           className="india_logo"
           src={require("./India-logo.png")}
           alt="India"
-        />{" "}
+        />
       </span>
     </div>
-  );
+  )
 }
 
 export const Footer3 = () => {
@@ -30,7 +28,7 @@ export const Footer3 = () => {
 
       <span>2023 © anchors.in | Made in India</span>
     </div>
-  );
-};
+  )
+}
 
 export default Footer2;

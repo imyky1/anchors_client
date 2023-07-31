@@ -100,7 +100,7 @@ const FeedbackState = (props) => {
   };
 
   // create a new query from user to creator profile
-  const createRequest = async (creatorID, query, paid, amount) => {
+  const createRequest = async (creatorID, query, paid, amount,stype) => {
     const response = await fetch(`${host}/api/query/giverequest/${creatorID}`, {
       method: "POST",
       headers: {
@@ -111,6 +111,7 @@ const FeedbackState = (props) => {
         query: query,
         paid: paid,
         amount: amount,
+        stype,
       }),
     });
     const json = await response.json();

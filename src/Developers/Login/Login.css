@@ -13,9 +13,21 @@
 }
 
 
-.otp{
+.otp_modal_developers{
     width: 100%;
     display: flex;
     align-items: center;
+    flex-direction: column;
+}
+
+.otp_modal_developers > input{
+    padding: 5px 10px;
+}
+
+.login_container_developer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
     flex-direction: column;
 }

@@ -8,15 +8,15 @@ import "./Modal.css";
 function Modal(props) {
   const navigate = useNavigate();
 
-  console.log(props)
+  console.log(props);
 
   return (
     <div className="serviceSuccess_outside_container">
       <div className="serviceSuccess_container">
         <section
           style={
-            (props.type === "Profile Information" ||
-            props?.buttonType === "preview")
+            props.type === "Profile Information" ||
+            props?.buttonType === "preview"
               ? { height: "90%" }
               : {}
           }
@@ -55,7 +55,9 @@ function Modal(props) {
             onClick={() => {
               {
                 props.type === "Profile Information"
-                  ? window.open("/dashboard?firstTime=true", "_self")
+                  ? props.firstTimeModalOpenDashboard
+                    ? window.open("/dashboard?firstTime=true", "_self")
+                    : window.open("/dashboard", "_self")
                   : props?.buttonType === "preview"
                   ? window.open(props?.link)
                   : navigate("/dashboard/mycontents");
@@ -70,25 +72,25 @@ function Modal(props) {
           </button>
         </section>
 
-        {(props.type !== "Profile Information" &&
-          props?.buttonType !== "preview") && (
-          <div>
-            <p className="text_success_03_modal">
-              Shareable Link for your Audience
-            </p>
-            <section>
-              <p className="text_success_04_modal">{props?.link}</p>
-              <button
-                onClick={() => {
-                  toast.info("Copied link successfully");
-                  navigator.clipboard.writeText(props?.link);
-                }}
-              >
-                Copy Link
-              </button>
-            </section>
-          </div>
-        )}
+        {props.type !== "Profile Information" &&
+          props?.buttonType !== "preview" && (
+            <div>
+              <p className="text_success_03_modal">
+                Shareable Link for your Audience
+              </p>
+              <section>
+                <p className="text_success_04_modal">{props?.link}</p>
+                <button
+                  onClick={() => {
+                    toast.info("Copied link successfully");
+                    navigator.clipboard.writeText(props?.link);
+                  }}
+                >
+                  Copy Link
+                </button>
+              </section>
+            </div>
+          )}
       </div>
     </div>
   );

@@ -20,10 +20,9 @@
 .details {
   color: var(--neutral-gray-200, #e2e8f0);
   text-align: center;
-  font-family: "Gilroy-Regular";
+  font-family: "Gilroy-Regular",sans-serif;
   font-size: 20px;
   font-style: normal;
-  font-weight: 400;
   line-height: normal;
   width: 80vw;
 }
@@ -113,7 +112,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 99;
+  z-index: 999;
+  background-color: rgba(0,0,0,.6);
 }
 
 .share_modal_approved_creators > div {
@@ -122,11 +122,15 @@
   flex-direction: column;
   gap: 20px;
   padding: 20px;
-  width: 480px;
-  border-radius: 14px;
-  border: 0.5px solid #fff;
+  width: 100vw;
+  padding: 40px 10%;
+  box-sizing: border-box;
+  border-radius: 14px 14px 0 0;
   background: #121212;
   box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
+  animation: popoutModal 0.5s forwards ease-in-out;
 }
 
 .share_modal_approved_Creators_section01 {
@@ -206,7 +210,8 @@
   /* modal css ----------- */
 
   .share_modal_approved_creators > div {
-    width: 91vw;
+    border-radius: 40px 40px 0px 0px;
+    padding: 40px 20px;
   }
 
   .share_modal_approved_Creators_section01 > span {
@@ -233,6 +238,9 @@
     font-size: 16px;
   }
 
+  .share_modal_approved_Creators_section01 > svg {
+    font-size: 15px;
+  }
 
 
   /* css trhe creator page */
@@ -249,7 +257,7 @@
   .body{
     box-sizing: border-box;
     padding: unset;
-    width: 90%;
+    width: 100%;
   }
 
   .body_01{

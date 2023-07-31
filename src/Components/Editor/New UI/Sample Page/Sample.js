@@ -11,13 +11,13 @@ import Banner5 from "./images/Banner (11).png";
 import image1 from "./images/image1.png";
 import image2 from "./images/image2.png";
 import image4 from "./images/image4.png";
-import image3 from "./images/image3.png";
 import image5 from "./images/image5.png";
 import image6 from "./images/image6.png";
 import image7 from "./images/image7.png";
 import { Footer3 } from "../../../Footer/Footer2";
 import NoMobileScreen from "../../../Layouts/Error Pages/NoMobileScreen";
 import mixpanel from "mixpanel-browser";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 const PersonalizedSection = () => {
   const containerVariant = (index) => {
@@ -169,11 +169,15 @@ function Sample() {
             Host Your Event
           </button>
         </div>
+
+        <a href="#benefits">
+          <MdKeyboardArrowDown className="arrow_button_sample_page" />
+        </a>
       </section>
 
       {/* benefits section ----------- */}
 
-      <section className="benefits_sample_page">
+      <section className="benefits_sample_page" id="benefits">
         <h2>Focus on the experience, while anchors handles the rest.</h2>
         <section>
           <div className="left_division_sample_page">
@@ -239,6 +243,25 @@ function Sample() {
               />
             );
           })}
+        </div>
+      </section>
+
+      <section className="sharing_section_sample_page" style={{width:"88vw",marginTop:"150px"}}>
+        <motion.img
+          src={require("./images/image8.png")}
+          alt=""
+          variants={imgVariant}
+          initial="from" // here default type is tween and not spring because it has duration
+          whileInView="to"
+        />
+        <div>
+          <h2 className="header_sample_page01" style={{ textAlign: "right" }}>
+            Host Events with Upto 3 Speakers!
+          </h2>
+          <p className="header_sample_page02" style={{ textAlign: "right" }}>
+            Plan captivating events showcasing three speakers to ensure maximum
+            engagement and excitement for your audience!
+          </p>
         </div>
       </section>
 

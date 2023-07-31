@@ -49,7 +49,7 @@ const ServiceState = (props) => {
         simg: data.simg,
         surl: data.surl,
         tags: data.Tags,
-        allowPreview: data.allowPreview,
+        allowDownload: data.allowDownload,
         noOfPages: data.noOfPage,
         status:data.status,
       }),

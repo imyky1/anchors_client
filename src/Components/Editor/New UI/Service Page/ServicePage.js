@@ -77,7 +77,15 @@ function ServicePage(props) {
   //Scroll to top automatically ---------------------------------------------
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    mixpanel.track("Page Visit", {
+      user: UserDetails ? UserDetails : "",
+      creator: serviceInfo?.creator?.slug,
+    });
+
   }, [location]);
+
+
 
   // getting the service data ----------
   useEffect(() => {
@@ -492,7 +500,7 @@ function ServicePage(props) {
       {loader && <LoadThree open={loader} />}
 
       {/* Feedback Modal -------------------- */}
-      <FeedbackModal
+      {/* <FeedbackModal
         open={fbModalDetails?.open}
         onClose={() => {
           setFbModalDetails({ ...fbModalDetails, open: false });
@@ -503,7 +511,7 @@ function ServicePage(props) {
         serviceType
         id={fbModalDetails?.service?._id}
         UserDetails={UserDetails ? UserDetails : ""}
-      />
+      /> */}
 
       <div className="new_service_page_outer_wrapper">
         <Navbar2
@@ -524,9 +532,8 @@ function ServicePage(props) {
           copyURL={serviceInfo?.service?.copyURL}
           slug={serviceInfo?.service?.slug}
           name={serviceInfo?.service?.sname}
-          stype={0}
-          control
-          c_id={serviceInfo?.service?.c_id?._id}
+          stype={serviceInfo?.service?.stype}
+          cname={serviceInfo?.service?.c_id?.name}
         />
 
         <div className="oneframe_new_service_page">
@@ -642,11 +649,11 @@ function ServicePage(props) {
                       </h3>
                     )}
 
-                    <span className="text_type_05_new_service_page">
+                    {/* <span className="text_type_05_new_service_page">
                       {serviceInfo?.service?.download !== 0
                         ? "30 people accessed this in last 7 days."
                         : `Uploaded on : ${serviceInfo?.service?.date} `}
-                    </span>
+                    </span> */}
 
                     <button
                       className="new_service_page_button_one"
@@ -793,9 +800,9 @@ function ServicePage(props) {
         {window.screen.width < 600 && (
           <section className="mobile_cta_section_new_service_page">
             <div>
-              <span className="text_type_05_new_service_page">
+              {/* <span className="text_type_05_new_service_page">
                 30 people accessed this in last 7 days.
-              </span>
+              </span> */}
 
               {serviceInfo?.service?.isPaid && (
                 <h3 className="text_type_04_new_service_page">

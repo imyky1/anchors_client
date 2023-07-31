@@ -9,6 +9,7 @@ const UserDashboardState = (props) => {
   const [alluserWorkshops, setallUserWorkshops] = useState([]);
 
   const [totaluserorders, setTotalUserOrders] = useState(0);
+  const [eventsUser, setEventsUser] = useState([]);
   // get all creators the user has subbed to
   const getallcreatorsofuser = async () => {
     // USER LOGIN IS REQUIRED
@@ -45,6 +46,24 @@ const UserDashboardState = (props) => {
     return json.success;
   };
 
+
+  // get all user orders the user has placed to
+  const getalleventsofuser = async () => {
+    // USER LOGIN IS REQUIRED
+    const response = await fetch(`${host}/api/userdashboard/getalleventuserorders`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
+    });
+    const json = await response.json();
+    setEventsUser(json)
+    return json.success;
+  };
+
   return (
     <UserDashbaord.Provider
       value={{
@@ -55,7 +74,9 @@ const UserDashboardState = (props) => {
         alluserDocs,
         alluserWorkshops,
         totaluserorders,
+        eventsUser,
         setallUserWorkshops,
+        getalleventsofuser
       }}
     >
       {props.children}

@@ -31,7 +31,7 @@
 .main_hero_details_benefits {
   display: flex;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: space-between;
   gap: 50px;
   color: white;
   width: 100%;
@@ -63,9 +63,10 @@
 
 .left_benefit_section_hero_success > h2 {
   color: #fff;
-  font-size: 28px;
-  font-family: "Gilroy-Bold", sans-serif;
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 24px;
   font-style: normal;
+  font-weight: 400;
   line-height: normal;
 }
 
@@ -113,20 +114,17 @@
 
 .right_benefit_section_hero_success > h1 {
   color: var(--neutral-gray-200, #e2e8f0);
-  font-size: 66px;
+  font-size: 70px;
   font-family: "Gilroy-Bold", sans-serif;
   font-style: normal;
   line-height: 90px;
 }
 
 .right_benefit_section_hero_success > p {
-  color: #fff;
-  font-size: 22px;
-  font-family: "Gilroy-Regular", sans-serif;
-  font-style: normal;
-  font-weight: 100;
+  color: var(--neutral-gray-200, #e2e8f0) !important;
+  font-size: 24px !important;
+  font-family: "Gilroy-Regular", sans-serif !important;
   line-height: normal;
-  padding-right: 1%;
 }
 
 /* LeaderBoard css */
@@ -169,7 +167,7 @@
 
 .main_leader_board_toppers > section > h2 {
   color: #fff;
-  font-size: 40px;
+  font-size: 32px;
   font-family: "Gilroy-Bold", sans-serif;
   font-style: normal;
   line-height: normal;
@@ -178,7 +176,7 @@
 .main_leader_board_toppers > section > span {
   color: #fff;
   text-align: center;
-  font-size: 40px;
+  font-size: 32px;
   font-family: "Gilroy-Bold", sans-serif;
   font-style: normal;
   font-weight: 400;
@@ -240,6 +238,31 @@
   width: 61px;
 }
 
+.leaderboard_status_text_event_success {
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  margin-top: 35px;
+  line-height: normal;
+}
+
+/* End section leader board --------- */
+.leaderboard_rest_data_success_page {
+  margin-top: 53px;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 40px;
+  width: 100vw;
+  min-height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
 /* leader_board_table */
 
 .leader_board_table_success {
@@ -263,8 +286,9 @@
   margin-bottom: 32px;
 
   color: #fff;
-  font-size: 40px;
+  font-size: 30px;
   font-family: "Gilroy-Bold", sans-serif;
+  font-weight: bold;
   font-style: normal;
   line-height: normal;
 }
@@ -275,21 +299,21 @@
 
 .table_body_leaderboard_success {
   width: 100%;
+  height: 60px;
   display: grid;
   grid-template-columns: 30% 40% 30%;
   place-items: center;
-  padding: 20px 0;
   color: #fff;
-  font-family: "Gilroy SemiBold";
+  font-family: "Gilroy SemiBold", sans-serif;
   font-style: normal;
-  font-weight: 400;
   line-height: normal;
-  font-size: 40px;
+  font-size: 24px;
   border-radius: 8px;
   background: linear-gradient(
     180deg,
-    rgba(75, 75, 75, 0.6) 0%,
-    rgba(75, 75, 75, 0) 100%
+    rgba(33, 33, 33, 0.6) 0%,
+    rgba(102, 102, 102, 0.3) 49.48%,
+    rgba(33, 33, 33, 0.6) 100%
   );
 
   box-sizing: border-box;
@@ -369,7 +393,7 @@
 
 @media (max-width: 600px) {
   .main_header_component_success_page {
-    gap: 20px;
+    gap: 0px;
     height: unset;
   }
 
@@ -399,7 +423,7 @@
   }
 
   .left_benefit_section_hero_success > h2 {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .left_benefit_section_hero_success > div {
@@ -409,6 +433,7 @@
   .left_benefit_section_hero_success > div input {
     padding: 14px 20px;
     padding-right: 13%;
+    font-size: 12px;
   }
 
   .left_benefit_section_hero_success > section {
@@ -417,7 +442,7 @@
   }
 
   .left_benefit_section_hero_success > section svg {
-    font-size: 23px;
+    font-size: 21px;
   }
 
   .right_benefit_section_hero_success {
@@ -426,12 +451,12 @@
   }
 
   .right_benefit_section_hero_success > h1 {
-    font-size: 40px;
+    font-size: 24px;
     line-height: 50px;
   }
 
   .right_benefit_section_hero_success > p {
-    font-size: 16px;
+    font-size: 16px !important;
   }
 
   .leaderboard_wrapper_success_page {
@@ -446,7 +471,7 @@
   }
 
   .leaderboard_wrapper_success_page > h1 {
-    font-size: 40px;
+    font-size: 24px;
   }
 
   .main_leader_board_toppers {
@@ -455,17 +480,22 @@
   }
 
   .main_leader_board_toppers > section {
-    gap: 34px;
+    gap: 16px;
     min-width: 22vw;
   }
 
+  .main_leader_board_toppers > section > div {
+    margin-bottom: 10px;
+  }
+
+
   .main_leader_board_toppers > section > h2 {
-    font-size: 20px;
+    font-size: 16px;
     text-align: center;
   }
 
   .main_leader_board_toppers > section > span {
-    font-size: 20px;
+    font-size: 16px;
   }
 
   .main_leader_board_toppers > section > div > span {
@@ -484,9 +514,21 @@
     height: 22vw;
   }
 
+  .leaderboard_rest_data_success_page {
+    scroll-snap-type: unset;
+    scroll-snap-stop: unset;
+    margin-top: 90px;
+    min-height: unset;
+  }
+
+  .leaderboard_status_text_event_success{
+    font-size: 14px;
+    width: 90%;
+  }
+
   .leader_board_table_success {
     width: 91vw;
-    margin-top: 125px;
+    margin: unset;
   }
 
   .table_head_leaderboard_success {
@@ -495,6 +537,7 @@
 
   .table_body_leaderboard_success {
     font-size: 16px;
+    height: 40px;
   }
 
   #silver-trophy > img {

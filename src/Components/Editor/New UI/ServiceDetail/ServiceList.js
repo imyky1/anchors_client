@@ -30,7 +30,10 @@ function ServiceDetailPage(props) {
     useContext(ServiceContext);
   const [revArray, setrevArray] = useState([]);
   const [selected, setSelected] = useState(0);
-  const [dummyData, setdummyData] = useState({ServiceDummy:false,EventDummy:false});
+  const [dummyData, setdummyData] = useState({
+    ServiceDummy: false,
+    EventDummy: false,
+  });
 
   useEffect(() => {
     setOpenLoading(true);
@@ -43,7 +46,10 @@ function ServiceDetailPage(props) {
 
   // no need of reversing the array of serices it is inverted from backend
   useEffect(() => {
-    setdummyData({ServiceDummy:services?.Servicedummy,EventDummy:services?.Eventdummy});
+    setdummyData({
+      ServiceDummy: services?.Servicedummy,
+      EventDummy: services?.Eventdummy,
+    });
     let list = services?.res;
     if (selected === "pdf") {
       setrevArray(
@@ -75,7 +81,7 @@ function ServiceDetailPage(props) {
   const getDatelist = (date) => {
     let ll = date?.slice(0, date.toString().length - 5);
     const datenew = ll?.split("T");
-    if(datenew){
+    if (datenew) {
       return datenew[0];
     }
   };
@@ -83,7 +89,7 @@ function ServiceDetailPage(props) {
   const getDatelist2 = (date) => {
     let ll = date?.slice(0, date.toString().length - 5);
     const datenew = ll?.split("T");
-    if(datenew){
+    if (datenew) {
       return datenew[1];
     }
   };
@@ -119,7 +125,11 @@ function ServiceDetailPage(props) {
     if (elem.status) {
       // means now it is checked ------------
       setChangeStatus(0);
-      const success = await deleteService(elem._id, 0 , selected === "events" ? "event" : "document"); // changing status of the service / eevent
+      const success = await deleteService(
+        elem._id,
+        0,
+        selected === "events" ? "event" : "document"
+      ); // changing status of the service / eevent
       if (success) {
         setOpenModel(true);
         props.progress(100);
@@ -133,7 +143,11 @@ function ServiceDetailPage(props) {
     } else {
       // means now it is unchecked-----------------
       setChangeStatus(1);
-      const success = await deleteService(elem._id, 1 , selected === "events" ? "event" : "document");
+      const success = await deleteService(
+        elem._id,
+        1,
+        selected === "events" ? "event" : "document"
+      );
       if (success) {
         setOpenModel(true);
         props.progress(100);
@@ -212,14 +226,14 @@ function ServiceDetailPage(props) {
           >
             Excel Sheets ({services?.typeDetails?.Excel})
           </div>
-          <div
+          {/* <div
             className={`servicelist-catItem ${
               selected === "video" && "selectedlist"
             }`}
             onClick={() => setSelected("video")}
           >
             Videos ({services?.typeDetails?.Video})
-          </div>
+          </div> */}
           <div
             className={`servicelist-catItem ${
               selected === "events" && "selectedlist"
@@ -236,12 +250,16 @@ function ServiceDetailPage(props) {
               <TableHead>
                 <TableRow>
                   <TableCell align="center">S.No</TableCell>
-                  <TableCell align="center">{selected === "events" ? "Event Name" : "Service Name"}</TableCell>
+                  <TableCell align="center">
+                    {selected === "events" ? "Event Name" : "Service Name"}
+                  </TableCell>
                   <TableCell align="center">Type</TableCell>
                   <TableCell align="center">Amount</TableCell>
                   <TableCell align="center">Uploaded On</TableCell>
                   <TableCell align="center">Banner</TableCell>
-                  <TableCell align="center">{selected === "events" ? "Registrations" : "Downloads"}</TableCell>
+                  <TableCell align="center">
+                    {selected === "events" ? "Registrations" : "Downloads"}
+                  </TableCell>
                   <TableCell align="center">Analysis</TableCell>
                   <TableCell align="center">Short Link</TableCell>
                   <TableCell align="center">Actions</TableCell>
@@ -256,9 +274,9 @@ function ServiceDetailPage(props) {
                         <TableCell
                           align="center"
                           onClick={() => {
-                            selected === "events" ?
-                            window.open(`/e/${elem?.slug}`) :
-                            window.open(`/s/${elem?.slug}`);
+                            selected === "events"
+                              ? window.open(`/e/${elem?.slug}`)
+                              : window.open(`/s/${elem?.slug}`);
                           }}
                           style={{ cursor: "pointer" }}
                           onMouseOver={(e) => {
@@ -276,43 +294,60 @@ function ServiceDetailPage(props) {
                         <TableCell align="center">₹{elem.ssp}</TableCell>
                         <TableCell align="center">
                           <span className="servicelist_getdate">
-                            <div> {getDatelist(selected === "events" ? elem.createdOn : elem.date)}</div>
-                            <div> {getDatelist2(selected === "events" ? elem.createdOn : elem.date)}</div>
+                            <div>
+                              {" "}
+                              {getDatelist(
+                                selected === "events"
+                                  ? elem.createdOn
+                                  : elem.date
+                              )}
+                            </div>
+                            <div>
+                              {" "}
+                              {getDatelist2(
+                                selected === "events"
+                                  ? elem.createdOn
+                                  : elem.date
+                              )}
+                            </div>
                           </span>
                         </TableCell>
                         <TableCell align="center">
-                          {selected === "events" && elem.simg === "" ?
-                          "--" :
-                          <img
-                          src={elem?.simg && elem?.simg}
-                          className="servicelistbannerimg"
-                          alt="service"
-                          ></img>
-                        }
+                          {selected === "events" && elem.simg === "" ? (
+                            "--"
+                          ) : (
+                            <img
+                              src={elem?.simg && elem?.simg}
+                              className="servicelistbannerimg"
+                              alt="service"
+                            ></img>
+                          )}
                         </TableCell>
                         <TableCell align="center">
                           <span
                             className="servicelist_icon"
                             onClick={() => {
                               mixpanel.track("Downloads");
-                              selected === "events" ? 
-                              (!dummyData.EventDummy && elem.registrations !== 0 && 
-                              window.open(
-                                `/dashboard/viewUserDetails/${elem?.slug}?type=event`,
-                                "_blank"
-                              ) )
-                              :
-                              (!dummyData.ServiceDummy &&
-                                elem.downloads !== 0 &&
-                                window.open(
-                                  `/dashboard/viewUserDetails/${elem?.slug}`,
-                                  "_blank"
-                                ))
+                              selected === "events"
+                                ? !dummyData.EventDummy &&
+                                  elem.registrations !== 0 &&
+                                  window.open(
+                                    `/dashboard/viewUserDetails/${elem?.slug}?type=event`,
+                                    "_blank"
+                                  )
+                                : !dummyData.ServiceDummy &&
+                                  elem.downloads !== 0 &&
+                                  window.open(
+                                    `/dashboard/viewUserDetails/${elem?.slug}`,
+                                    "_blank"
+                                  );
                             }}
                           >
                             <img src={UserIcon}></img>
                             <span className="usericonservicelist">
-                              {selected === "events" ? elem?.registrations : elem?.downloads}
+                              {selected === "events"
+                                ? elem?.registrations
+                                : elem?.downloads}
                             </span>
                           </span>
                         </TableCell>
@@ -321,19 +356,20 @@ function ServiceDetailPage(props) {
                             className="servicelist_icon iconalign"
                             onClick={() => {
                               mixpanel.track("Analysis");
-                              console.log(`/serviceStats/${elem?.slug}?type=event`)
-                              selected === "events" ? 
-                              (!dummyData.EventDummy && 
-                                window.open(
-                                  `/dashboard/serviceStats/${elem?.slug}?type=event`,
-                                  "_blank"
-                                ))
-                              :
-                              (!dummyData.ServiceDummy &&
-                                window.open(
-                                  `/dashboard/serviceStats/${elem?.slug}`,
-                                  "_blank"
-                                ))
+                              console.log(
+                                `/serviceStats/${elem?.slug}?type=event`
+                              );
+                              selected === "events"
+                                ? !dummyData.EventDummy &&
+                                  window.open(
+                                    `/dashboard/serviceStats/${elem?.slug}?type=event`,
+                                    "_blank"
+                                  )
+                                : !dummyData.ServiceDummy &&
+                                  window.open(
+                                    `/dashboard/serviceStats/${elem?.slug}`,
+                                    "_blank"
+                                  );
                             }}
                           >
                             <img src={ChartIcon}></img>
@@ -343,11 +379,12 @@ function ServiceDetailPage(props) {
                           <span
                             className="servicelist_icon iconalign"
                             onClick={() => {
+                              const pattern = /go\.anchors\.in/;
                               elem.copyURL
-                                ? elem.copyURL.length > 7
+                                ? pattern.test(elem.copyURL.length)
                                   ? navigator.clipboard.writeText(elem.copyURL)
                                   : navigator.clipboard.writeText(
-                                      `https://www.anchors.in/r/${elem.copyURL}`
+                                      `https://www.anchors.in/s/${elem.slug}`
                                     )
                                 : navigator.clipboard.writeText(
                                     `https://www.anchors.in/s/${elem.slug}`
@@ -366,7 +403,11 @@ function ServiceDetailPage(props) {
                           <span
                             className="servicelist_icon iconalign"
                             onClick={() =>
-                              selected === "events" ?  !dummyData.EventDummy && openOptionsPopup(i + 1) : !dummyData.ServiceDummy && openOptionsPopup(i + 1)
+                              selected === "events"
+                                ? !dummyData.EventDummy &&
+                                  openOptionsPopup(i + 1)
+                                : !dummyData.ServiceDummy &&
+                                  openOptionsPopup(i + 1)
                             }
                           >
                             <img src={Option}></img>
@@ -381,20 +422,45 @@ function ServiceDetailPage(props) {
                                 <div
                                   className="modaloptions_servicelist"
                                   onClick={() => {
-                                    selected === "events" ?
-                                    navigate(`/dashboard/editevent/${elem.slug}`) :
+                                    selected === "events"
+                                      ? navigate(
+                                          `/dashboard/editevent/${elem.slug}`
+                                        )
+                                      : navigate(
+                                          `/dashboard/editservice/${
+                                            elem.slug
+                                          }/${
+                                            elem?.stype === 2
+                                              ? "video"
+                                              : elem?.stype === 1
+                                              ? "excel"
+                                              : "pdf"
+                                          }`
+                                        );
+                                  }}
+                                >
+                                  Edit{" "}
+                                  {selected === "events" ? "Event" : "Service"}
+                                </div>
+
+                                <div
+                                  className="modaloptions_servicelist"
+                                  onClick={() => {
                                     navigate(
-                                      `/dashboard/editservice/${elem.slug}/${
+                                      `/dashboard/createservice?type=${
                                         elem?.stype === 2
                                           ? "video"
                                           : elem?.stype === 1
                                           ? "excel"
                                           : "pdf"
-                                      }`
+                                      }&duplicate=${elem?.slug}`
                                     );
+                                    mixpanel.track("Duplicate Service", {
+                                      service: elem?.slug,
+                                    });
                                   }}
                                 >
-                                  Edit {selected === "events" ? "Event" : "Service"}
+                                  Duplicate Service
                                 </div>
                                 {/* <div
                                   className="modaloptions_servicelist"
@@ -405,14 +471,22 @@ function ServiceDetailPage(props) {
                                 >
                                   Notify Users
                                 </div> */}
-                                {selected !== "events" && <div
-                                  className="modaloptions_servicelist"
-                                  onClick={() => {
-                                    selected === "events" ? navigate(`/dashboard/servicereviews/${elem?.slug}?type=event`) : navigate(`/dashboard/servicereviews/${elem?.slug}`);
-                                  }}
-                                >
-                                  User Reviews
-                                </div>}
+                                {selected !== "events" && (
+                                  <div
+                                    className="modaloptions_servicelist"
+                                    onClick={() => {
+                                      selected === "events"
+                                        ? navigate(
+                                            `/dashboard/servicereviews/${elem?.slug}?type=event`
+                                          )
+                                        : navigate(
+                                            `/dashboard/servicereviews/${elem?.slug}`
+                                          );
+                                    }}
+                                  >
+                                    User Reviews
+                                  </div>
+                                )}
                                 <div className="modaloptions_servicelist_status">
                                   Active Status
                                   <span onClick={() => handleCheckClick(elem)}>
@@ -439,14 +513,20 @@ function ServiceDetailPage(props) {
           </TableContainer>
         </div>
 
-        {(selected === "events" ? dummyData?.EventDummy : dummyData?.ServiceDummy) && (
+        {(selected === "events"
+          ? dummyData?.EventDummy
+          : dummyData?.ServiceDummy) && (
           <div className="cta_dummy_data">
             <span>
-              This is sample data , start creating your first {selected === "events" ? "event" : "service"} for your
-              data
+              This is sample data , start creating your first{" "}
+              {selected === "events" ? "event" : "service"} for your data
             </span>
             <Button1
-              text={selected === "events" ? "Create your First Event" : "Create your First Service"}
+              text={
+                selected === "events"
+                  ? "Create your First Event"
+                  : "Create your First Service"
+              }
               icon={<AiOutlinePlus size={18} width={30} />}
               width="268px"
               onClick={() => {

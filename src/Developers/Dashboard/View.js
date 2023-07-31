@@ -83,7 +83,7 @@ function View() {
   const [openModal, setOpenModal] = useState(false);
   const [selected, setSelected] = useState({id:"",status:""})
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies();
+  const [cookies, setCookie ,removeCookie] = useCookies();
 
   const getjwt = async (id, status) => {
     localStorage.removeItem("jwtToken");
@@ -134,6 +134,7 @@ function View() {
     localStorage.removeItem("isUser");
     localStorage.removeItem("isDev");
     localStorage.removeItem("c_id");
+    removeCookie("devsession")
     navigate("/");
   };
 
@@ -167,8 +168,13 @@ function View() {
     }
   };
 
-  if (!localStorage.getItem("jwtTokenD") || !localStorage.getItem("isDev")) {
+  if (!localStorage.getItem("jwtTokenD") || !localStorage.getItem("isDev") || !cookies.devsession) {
     window.open("/developer/login", "_self");
+  }
+
+  // REMOVES OLD SESSIONS -----------------------
+  if(localStorage.getItem("jwtTokenD") && !cookies.devsession){
+    handleLogout()
   }
 
   return (
