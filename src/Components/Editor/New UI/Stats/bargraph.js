@@ -11,6 +11,16 @@ const barGraph = (props) => {
   const freeRate = props?.freeRate;
   const paidRate =  props?.paidRate;
 
+  const alldays = props?.month_tot;
+  let valuees = [];
+
+  if (alldays) {
+    for (const key in alldays) {
+      const value = alldays[key];
+      valuees.push(value);
+    }
+  }
+
   let options;
   let labels;
   let data;
@@ -259,92 +269,186 @@ const barGraph = (props) => {
     }
    
 
-
-else if (props?.selectedOption === 'Last Month') {
-  options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: true,
-      },
-      tooltip: {
-        enabled: true,
-        callbacks: {
-          label: function (context) {
-            const dayLabel = 'Day: ' + context.label;
-            const orderLabel = 'Order: ' + context.raw;
-            return [dayLabel, orderLabel];
+    else if (props?.selectedOption === "Last Month") {
+      options = {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
           },
-          title: function () {
-            return ''; // Hide x-axis label from tooltip
+          tooltip: {
+            enabled: true,
+            callbacks: {
+              label: function (context) {
+
+                var dayLabel = "Day: " + context.label;
+                var orderLabel = "Order:"+ context.formattedValue;
+
+                return [dayLabel, orderLabel];
+              },
+              title: function () {
+                return ""; // Hide x-axis label from tooltip
+              },
+            },
           },
         },
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
+        scales: {
+          x: {
+            grid: {
+              display: false,
+            },
+            offset: true,
+            maxRotation: 0,
+            ticks: {
+              stepSize: 3,
+            },
+          },
+          y: {
+            grid: {
+              display: true,
+              color: "rgba(0, 0, 0, 0.2)",
+              borderDash: [5, 5],
+            },
+            // min: 2,
+            // max: 20,
+            offset: true,
+            ticks: {
+              stepSize: 2,
+            },
+          },
         },
-        offset: true,
-        maxRotation: 0,
-        ticks: {
-          stepSize: 3,
+        layout: {
+          padding: {
+            left: 1,
+            right: 1,
+          },
         },
-      },
-      y: {
-        grid: {
-          display: true,
-          color: 'rgba(0, 0, 0, 0.2)',
-          borderDash: [5, 5],
-        },
-        // min: 2,
-        // max: 20,
-        offset: true,
-        ticks: {
-          stepSize: 2,
-        },
-      },
-    },
-    layout: {
-      padding: {
-        left: 1,
-        right: 1,
-      },
-    },
-    
-    
-    
-  };
+      };
 
-  labels = [
-    '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
-    '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26',
-    '27', '28', '29', '30', '31'
-  ];
 
-  const freedata = props?.month_arr;
-  const paiddata = props?.month_arr_p;
-  data = {
-    labels,
-    datasets: [
-       {
+
+      labels = [];
+
+      if (alldays) {
+        for (const key in alldays) {
+
+          labels.push(key);
+        }
+      }
+
+
+
+      // const allLabels = [...labels, ...labels2];
+      // const freedata = Object.values(props?.month_arr??{});
+      // const paiddata = Object.values(props?.month_arr_p??{} );
+      const freedata = props?.month_arr;
+      const paiddata = props?.month_arr_p;
+      // console.log("data", freedata, paiddata);
+      data = {
+        labels,
+        datasets: [
+          {
             data: freedata,
-            backgroundColor: '#334155',
+            backgroundColor: "#334155",
             borderRadius: 5,
             barThickness: 10,
-            label:"Free Order"
+            label: "Free Order",
           },
           {
             data: paiddata,
-            backgroundColor: '#94A3B8',
+            backgroundColor: "#94A3B8",
             borderRadius: 5,
             barThickness: 10,
-            label:"Paid Order"
+            label: "Paid Order",
           },
-    ],
-  };
-}
+        ],
+      };
+    }
+// else if (props?.selectedOption === 'Last Month') {
+//   options = {
+//     responsive: true,
+//     plugins: {
+//       legend: {
+//         display: true,
+//       },
+//       tooltip: {
+//         enabled: true,
+//         callbacks: {
+//           label: function (context) {
+//             const dayLabel = 'Day: ' + context.label;
+//             const orderLabel = 'Order: ' + context.raw;
+//             return [dayLabel, orderLabel];
+//           },
+//           title: function () {
+//             return ''; // Hide x-axis label from tooltip
+//           },
+//         },
+//       },
+//     },
+//     scales: {
+//       x: {
+//         grid: {
+//           display: false,
+//         },
+//         offset: true,
+//         maxRotation: 0,
+//         ticks: {
+//           stepSize: 3,
+//         },
+//       },
+//       y: {
+//         grid: {
+//           display: true,
+//           color: 'rgba(0, 0, 0, 0.2)',
+//           borderDash: [5, 5],
+//         },
+//         // min: 2,
+//         // max: 20,
+//         offset: true,
+//         ticks: {
+//           stepSize: 2,
+//         },
+//       },
+//     },
+//     layout: {
+//       padding: {
+//         left: 1,
+//         right: 1,
+//       },
+//     },
+    
+    
+    
+//   };
+
+//   labels = [
+//     '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
+//     '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26',
+//     '27', '28', '29', '30', '31'
+//   ];
+
+//   const freedata = props?.month_arr;
+//   const paiddata = props?.month_arr_p;
+//   data = {
+//     labels,
+//     datasets: [
+//        {
+//             data: freedata,
+//             backgroundColor: '#334155',
+//             borderRadius: 5,
+//             barThickness: 10,
+//             label:"Free Order"
+//           },
+//           {
+//             data: paiddata,
+//             backgroundColor: '#94A3B8',
+//             borderRadius: 5,
+//             barThickness: 10,
+//             label:"Paid Order"
+//           },
+//     ],
+//   };
+// }
 
 
     else{

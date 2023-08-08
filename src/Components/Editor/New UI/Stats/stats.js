@@ -449,18 +449,21 @@ const Stats = () => {
                 </div>
 
                 <div className="graph_stats">
-                  <Bar
-                    show="order"
-                    hr_arr={orderStats?.hr_arr}
-                    hr_arr_p={orderStats?.hr_arr_p}
-                    week_arr={orderStats?.weekArr}
-                    week_arr_p={orderStats?.weekArrP}
-                    month_arr={orderStats?.month_arr}
-                    month_arr_p={orderStats?.month_arr_p}
-                    data={orderStats?.data}
-                    data_p={orderStats?.data_p}
-                    selectedOption={selectedOption4}
-                  />
+                <Bar
+                  show="order"
+                  hr_arr={orderStats?.hr_arr}
+                  hr_arr_p={orderStats?.hr_arr_p}
+                  week_arr={orderStats?.weekArr}
+                  week_arr_p={orderStats?.weekArrP}
+                  // month_arr={orderStats?.monthArr}
+                  // month_arr_p={orderStats?.monthArrp}
+                  month_arr={orderStats?. monthArr}
+                  month_arr_p={orderStats?. monthArrp}
+                  data={orderStats?.data}
+                  data_p={orderStats?.data_p}
+                  month_tot={orderStats?.month_tot}
+                  selectedOption={selectedOption4}
+                />
                 </div>
               </div>{" "}
             </div>

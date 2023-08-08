@@ -215,7 +215,7 @@ function Sample() {
       <section className="sample_page_divison_section">
         <div className="left_division_sample_page">
           <h2 className="header_sample_page01">
-            Amplify with Referral Rewards
+          Amplify your Reach with our Referral Program
           </h2>
           <p className="header_sample_page02">
             Unlock the power of word-of-mouth marketing with our dynamic
@@ -254,7 +254,7 @@ function Sample() {
           initial="from" // here default type is tween and not spring because it has duration
           whileInView="to"
         />
-        <div>
+        <div style={{gap:"40px"}}>
           <h2 className="header_sample_page01" style={{ textAlign: "right" }}>
             Host Events with Upto 3 Speakers!
           </h2>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./Success.css";
 
 import { BsWhatsapp, BsInstagram } from "react-icons/bs";
@@ -21,10 +21,12 @@ import {
   LinkedinShareButton,
 } from "react-share";
 import { paymentContext } from "../../../../Context/PaymentState";
-import Canvas from "../Event Page/Canvas";
+import Canvas, { MultipleBanner } from "../Event Page/Canvas";
 import { Footer3 } from "../../../Footer/Footer2";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import PNGIMG from "../../../../Utils/Images/default_user.png";
+import { FiDownload } from "react-icons/fi";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 function TableComponent({ userComponent, name, points, index }) {
   return (
@@ -33,7 +35,8 @@ function TableComponent({ userComponent, name, points, index }) {
       style={
         userComponent
           ? {
-            background: "linear-gradient(180deg, #7D0000 0%, #A90F0F 49.48%, #610000 100%)"
+              background:
+                "linear-gradient(180deg, #7D0000 0%, #A90F0F 49.48%, #610000 100%)",
             }
           : {}
       }
@@ -181,13 +184,45 @@ function Success() {
     link.click();
   };
 
+  // Handling the display of down arrow -------------------
+  const ref1 = useRef()
+  const [isArrowVisible, setIsArrowVisible] = useState(true);
+  // Intersection Observer callback
+  const handleIntersection = (entries) => {
+    const [entry] = entries;
+    setIsArrowVisible(entry.isIntersecting);
+  };
+
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.6, // Adjust this threshold to control visibility
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, options);
+
+    if (ref1.current) {
+      observer.observe(ref1.current);
+    }
+
+    return () => {
+      if (ref1.current) {
+        observer.unobserve(ref1.current);
+      }
+    };
+  }, []);
+
   if (!localStorage.getItem("jwtToken") || !eligible) {
     navigate(`/e/${slug}`);
     return null;
   }
 
   // handling the status 0 of services ------------------
-  if ((eventInfo?.event?.status === 0 || eventInfo?.event?.c_id?.status === 0) && eventInfo?.event?.c_id?.eventStatus === 0) {
+  if (
+    (eventInfo?.event?.status === 0 || eventInfo?.event?.c_id?.status === 0) &&
+    eventInfo?.event?.c_id?.eventStatus === 0
+  ) {
     navigate("/");
     return null;
   }
@@ -203,21 +238,48 @@ function Success() {
       <ToastContainer theme="dark" />
 
       <div className="success_page_wrapper">
-        <div className="banner_canvas_wrapper">
-          <Canvas
-            setBannerData={setBannerData}
-            dataToUse={{
-              userName: userDetails?.name,
-              userProfile: userDetails?.photo,
-              eventName: eventInfo?.event?.sname,
-              creatorName: eventInfo?.creator?.name,
-              creatorProfile: eventInfo?.creator?.profile,
-              date: getDate(eventInfo?.event?.startDate),
-              time: `${convertTime(eventInfo?.event?.time?.startTime)} - 
+        {window.screen.width > 600 && !isArrowVisible && (
+          <a
+            href="#eventDetails"
+            style={{ position: "fixed", right: "10vw", bottom: "100px" }}
+          >
+            <MdKeyboardArrowDown className="arrow_button_sample_page" />
+          </a>
+        )}
+
+        {eventInfo?.event?.speakerDetails.length === 0 ? (
+          <div className="banner_canvas_wrapper">
+            <Canvas
+              setBannerData={setBannerData}
+              dataToUse={{
+                userName: userDetails?.name,
+                userProfile: userDetails?.photo,
+                eventName: eventInfo?.event?.sname,
+                creatorName: eventInfo?.creator?.name,
+                creatorProfile: eventInfo?.creator?.profile,
+                date: getDate(eventInfo?.event?.startDate),
+                time: `${convertTime(eventInfo?.event?.time?.startTime)} - 
             ${convertTime(eventInfo?.event?.time?.endTime)}`,
-            }}
-          />
-        </div>
+              }}
+            />
+          </div>
+        ) : (
+          <div className="banner_canvas_wrapper">
+            <MultipleBanner
+              setBannerData={setBannerData}
+              dataToUse={{
+                userName: userDetails?.name,
+                userProfile: userDetails?.photo,
+                eventName: eventInfo?.event?.sname,
+                speakers: eventInfo?.event?.speakerDetails,
+                creatorProfile: eventInfo?.creator?.profile,
+                date: getDate(eventInfo?.event?.startDate),
+                time: `${convertTime(eventInfo?.event?.time?.startTime)} - 
+            ${convertTime(eventInfo?.event?.time?.endTime)}`,
+              }}
+            />
+          </div>
+        )}
 
         {/* main hero section details */}
         <section className="main_header_component_success_page">
@@ -231,8 +293,10 @@ function Success() {
                     bannerData ?? "https://wallpaperaccess.com/full/2439064.png"
                   }
                   alt="Event Banner"
-                  onClick={(e) => bannerData && handleDonwload(e)}
                 />
+                <span onClick={(e) => bannerData && handleDonwload(e)}>
+                  <FiDownload size={20} />
+                </span>
               </div>
               <h2>
                 Share with your friends and invite them using your unique
@@ -310,7 +374,7 @@ function Success() {
                         leaderBoardData?.data?.length > 1 &&
                         leaderBoardData?.data[1]?.points !== 0
                           ? leaderBoardData?.data[1]?.profile
-                          : "https://img.freepik.com/premium-photo/red-question-mark-isolated-white_3482-715.jpg?w=2000"
+                          : "https://e-lect.net/wp-content/uploads/2010/08/Question-Mark.jpg"
                       }
                       alt=""
                       onError={({ currentTarget }) => {
@@ -348,7 +412,7 @@ function Success() {
                         leaderBoardData?.data?.length > 0 &&
                         leaderBoardData?.data[0]?.points !== 0
                           ? leaderBoardData?.data[0]?.profile
-                          : "https://img.freepik.com/premium-photo/red-question-mark-isolated-white_3482-715.jpg?w=2000"
+                          : "https://e-lect.net/wp-content/uploads/2010/08/Question-Mark.jpg"
                       }
                       alt=""
                       onError={({ currentTarget }) => {
@@ -386,7 +450,7 @@ function Success() {
                         leaderBoardData?.data?.length > 2 &&
                         leaderBoardData?.data[2]?.points !== 0
                           ? leaderBoardData?.data[2]?.profile
-                          : "https://img.freepik.com/premium-photo/red-question-mark-isolated-white_3482-715.jpg?w=2000"
+                          : "https://e-lect.net/wp-content/uploads/2010/08/Question-Mark.jpg"
                       }
                       onError={({ currentTarget }) => {
                         currentTarget.onerror = null; // prevents looping
@@ -414,7 +478,7 @@ function Success() {
           )}
         </section>
 
-        <section className="leaderboard_rest_data_success_page">
+        <section className="leaderboard_rest_data_success_page" ref={ref1}>
           <p className="leaderboard_status_text_event_success">
             {leaderBoardData?.text}
           </p>

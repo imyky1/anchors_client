@@ -1,10 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import ServiceState from "./Context/services/ServiceState";
 import Creators_login from "./Components/Login/Creators/Login2";
 import CreatorState from "./Context/CreatorState";
 import UserState from "./Context/UserState";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoadingBar from "react-top-loading-bar";
 import Feedback from "./Components/Feedback/Feedback";
 import LinkedinState from "./Context/LinkedinState";
@@ -68,6 +68,7 @@ function App() {
     setprogress(progress);
   };
 
+
   return (
     <>  
     <Seo/>
@@ -83,7 +84,7 @@ function App() {
                     <EPAState>
                       <FeedbackState>
                         <UserDashboardState>
-                          <LoadingBar color="#f11946" progress={changeprogress} />
+                          <LoadingBar color="#f11946" progress={progress} />
                           <Routes>
                             {/* Landing Page routes ---------------------------------------------------------- */}
                             <Route

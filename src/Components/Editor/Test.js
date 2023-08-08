@@ -501,7 +501,6 @@ function Test2() {
 //   );
 // }
 
-
 // function PDF2() {
 //   const canvasRef = useRef(null);
 
@@ -559,5 +558,26 @@ function PDF3() {
   );
 }
 
+const ZaapPayPage = () => {
+  const [htmlContent, setHtmlContent] = useState("");
 
-export default PDF3;
+  const handleClick = async () => {
+    let response = await fetch(
+      "http://localhost:5000/api/payment/createOrderZaapPay2"
+    ); // Replace with the actual API endpoint
+
+    let json = await response.json();
+
+    setHtmlContent(json?.json);
+  };
+
+  return (
+    <div>
+      {/* Render the HTML content */}
+      <button onClick={handleClick}>Pay Now </button>
+      <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+    </div>
+  );
+};
+
+export default ZaapPayPage;

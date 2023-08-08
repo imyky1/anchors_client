@@ -248,6 +248,29 @@ const UserState = (props) => {
     }
   };
 
+  // Upadte user info-------------
+  const updateUserInfo = async (data) => {
+    const response = await fetch(
+      `${host}/api/user/updateUserInfo`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    const json = await response.json();
+    if (json.success) {
+      return json.success;
+    } else {
+      return json.success;
+    }
+  };
+
   const addSubscriber = async (id, isPaid) => {
     // USER LOGIN IS REQUIRED
     const response = await fetch(`${host}/api/subscribe/new/${id}`, {
@@ -288,15 +311,18 @@ const UserState = (props) => {
   // get user details
   const getUserDetails = async (isCreator) => {
     // USER LOGIN IS REQUIRED
-    const response = await fetch(`${host}/api/user/getUserDetails?creator=${isCreator ?? false}`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Credentials": true,
-        "jwt-token": localStorage.getItem("jwtToken"),
-      },
-    });
+    const response = await fetch(
+      `${host}/api/user/getUserDetails?creator=${isCreator ?? false}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+      }
+    );
     const json = await response.json();
     return json;
   };
@@ -347,6 +373,7 @@ const UserState = (props) => {
         addSubscriber,
         getUserDetails,
         checkUserOrderPlaced,
+        updateUserInfo
       }}
     >
       {props.children}
