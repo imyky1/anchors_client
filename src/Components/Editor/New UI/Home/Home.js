@@ -22,7 +22,7 @@ import { linkedinContext } from "../../../../Context/LinkedinState";
 import Waitlist from "../../../Waitlist/Waitlist";
 import HelpModal from "../../../Modals/ModalType01/HelpModal";
 import EditService from "../Edit Services/EditService";
-import CreatorFeedback from "../../../Modals/CreatorProfile/CreatorFeedback";
+import CreatorFeedback, { CreatorFeedbackModal } from "../../../Modals/CreatorProfile/CreatorFeedback";
 import DefaultBanner from "../../../Modals/Default Banner/DefaultBanner";
 import TellUsMore from "../../../Waitlist/TellUsMore";
 import CreateEvent from "../Create Services/CreateEvent";
@@ -195,9 +195,9 @@ function Home(props) {
               }}
             />
 
-            <CreatorFeedback
+            <CreatorFeedbackModal
               open={openCreatorFbModal}
-              toClose={() => {
+              onClose={() => {
                 setOpenCreatorFbModal(false);
               }}
             />
@@ -256,7 +256,7 @@ function Home(props) {
                   <Routes>
                     <Route
                       path="/*"
-                      element={<EditProfile progress={props.progress} />}
+                      element={<EditProfile progress={props.progress} moreInfo={{ ...creatorData, Rating }}/>}
                     />
                   </Routes>
                 ) : (
@@ -323,7 +323,7 @@ function Home(props) {
                     />
                     <Route
                       path="editprofile"
-                      element={<EditProfile progress={props.progress} />}
+                      element={<EditProfile progress={props.progress} moreInfo={{ ...creatorData, Rating }}/>}
                     />
                     <Route
                       path="editservice/:slug/:servicetype"
@@ -437,7 +437,7 @@ function Home(props) {
             </div>
           </div>
         ))}
-      <ToastContainer />
+      <ToastContainer theme="dark"/>
     </>
   );
 }

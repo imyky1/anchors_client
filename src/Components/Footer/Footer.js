@@ -31,29 +31,29 @@ function Footer() {
               </button>
             </div>
             <div className="footer_support_menu">
-              <Link to="/aboutUs" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked about us in footer from Landing Page")}}>
+              {window.location.pathname !== "/aboutUs" && <Link to="/aboutUs" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked about us in footer from Landing Page")}}>
                 About Us
-              </Link>
+              </Link>}
 
               {window.location.pathname !== "/pricing" && <Link to="/pricing" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked Pricing in footer from Landing Page")}}>
                 Pricing
               </Link>}
 
-              <Link to="/contactUs" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked contact us in footer from Landing Page")}}>
+              {window.location.pathname !== "/contactUs" && <Link to="/contactUs" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked contact us in footer from Landing Page")}}>
                 Contact Us
-              </Link>
+              </Link>}
 
-              <Link to="/refundPolicy" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked refund policy in footer from Landing Page")}}>
+              {window.location.pathname !== "/refundPolicy" && <Link to="/refundPolicy" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked refund policy in footer from Landing Page")}}>
                 Refund Policy
-              </Link>
+              </Link>}
 
-              <Link to="/privacy-policy" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked Privacy policy in footer from Landing Page")}}>
+              {window.location.pathname !== "/privacy-policy" && <Link to="/privacy-policy" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked Privacy policy in footer from Landing Page")}}>
                 Privacy Policy
-              </Link>
+              </Link>}
 
-              <Link to="/termsConditions" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked Terms and Condition in footer from Landing Page")}}>
+             {window.location.pathname !== "/termsConditions" && <Link to="/termsConditions" target="_blank" rel="no_referrer" onClick={()=>{mixpanel.track("Clicked Terms and Condition in footer from Landing Page")}}>
                 Terms & Conditions
-              </Link>
+              </Link>}
 
               {/* <span onClick={(e)=>{e?.stopPropagation(); mixpanel.track("Clicked on Help in Landing Page");
                  setopenHelpModal(true)}}>Help & Support</span> */}

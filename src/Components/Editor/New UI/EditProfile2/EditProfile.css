@@ -1,23 +1,14 @@
-.edit_profile_outside_wrapper {
-  display: flex;
-  align-items: flex-start;
-  width: 100%;
-  margin-left: 6%;
-  position: relative;
-}
-
 .personalinfo_wrap {
-  width: 47%;
-  padding-top: 40px;
-  padding-right: 20px;
-  box-sizing: border-box;
+  margin-left: 6%;
+  padding-top: 3%;
+  margin-right: 6%;
 }
 
 .personalinfo_top {
   display: flex;
   flex-direction: column;
-  gap: 1px;
-  margin-bottom: 3vh;
+  gap: 1vh;
+  margin-bottom: 4vh;
   position: relative;
   width: 100%;
 }
@@ -58,7 +49,6 @@
   gap: 0px;
   display: flex;
   align-items: flex-start;
-  flex-direction: column;
   justify-content: space-between;
   width: 100%;
 }
@@ -67,7 +57,7 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  width: 100%;
+  width: 47%;
 }
 
 .perosnalinfo_leftform > div {
@@ -77,7 +67,7 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  width: 100%;
+  width: 47%;
 }
 .perosnalinfo_rightform > div {
   margin-bottom: 30px;
@@ -110,7 +100,7 @@
   margin-bottom: 5vh;
 }
 .personalinfo_socialwrap {
-  width: 100%;
+  width: 60%;
 }
 .personalinfo_socialwrap svg {
   padding-top: 15px;
@@ -124,7 +114,7 @@
 .personalinfo_sociallinks {
   display: grid;
   grid-template-columns: 0.3fr 1fr 0.1fr;
-  gap: 10px;
+  gap: 2vw;
   margin-bottom: 2vh;
 }
 .profileinfo_imagec {
@@ -171,43 +161,4 @@
 
 .edit_profile_sample_page_button:hover {
   background-color: rgb(237, 237, 237);
-}
-
-/* preview section  --------------- */
-
-.live_preview_edit_profile_page {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 38%;
-  border-left: 1px solid #94a3b8;
-  height: 100%;
-  position: fixed;
-  right: 0;
-  padding-left: 40px;
-  box-sizing: border-box;
-  padding-top: 40px;
-}
-
-.live_preview_modal_design {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.live_preview_modal_design > section {
-  position: relative;
-  /* background-image: url("../../../../Utils/Images/mobile-screen.png");
-  overflow: hidden;
-  background-size: "contain";
-  background-repeat: "no-repeat";
-  background-position: "center";
-  width: 100%;
-  height: 100%; */
-}
-
-.live_preview_modal_design > section > img {
-  width: 42vh;
-  height: 85vh;
 }

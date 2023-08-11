@@ -15,6 +15,9 @@ import ServiceContext from "../../../../Context/services/serviceContext";
 import { host } from "../../../../config/config";
 import { LoadTwo } from "../../../Modals/Loading";
 import { toast, ToastContainer } from "react-toastify";
+import { HiInformationCircle } from "react-icons/hi";
+
+const TooltipBox = ({ text }) => <div className="tooltip-box" style={{top:"30px"}}>{text}</div>;
 
 const ServiceStats = (props) => {
   const { slug } = useParams();
@@ -24,6 +27,13 @@ const ServiceStats = (props) => {
   const [serviceType, setServiceType] = useState();
   const [approvedUser, setapprovedUser] = useState(false); // check if user searching is appropriate
   const [openLoading, setopenLoading] = useState(false);
+  const [isHovered, setIsHovered] = useState({
+    tip1: false,
+    tip2: false,
+    tip3: false,
+    tip4: false,
+    tip5: false,
+  });
 
   // custom hook to get querries
   function useQuery() {
@@ -65,7 +75,8 @@ const ServiceStats = (props) => {
         "jwt-token": localStorage.getItem("jwtToken"),
       },
       body: JSON.stringify({
-        slug: serviceInfo?.service?.slug,
+        serviceType,
+        slug,
       }),
     });
     response = await response.json();
@@ -76,12 +87,12 @@ const ServiceStats = (props) => {
   };
   useEffect(() => {
     setopenLoading(true);
-    if (serviceInfo?.service?.slug) {
+    if (slug) {
       getAnalyticsData().then(() => {
         setopenLoading(false);
       });
     }
-  }, [serviceInfo?.service?.slug]);
+  }, [slug, serviceType]);
 
   // Checking if the user is only able to check its data not others-------------------
   useEffect(() => {
@@ -118,7 +129,7 @@ const ServiceStats = (props) => {
     setopenLoading(true);
     if (serviceType === undefined) {
     } else {
-      if (serviceInfo?.service) {
+      if (serviceInfo?.service || eventInfo?.event) {
         fetch(`${host}/api/stats/getStats`, {
           method: "POST",
           headers: {
@@ -162,8 +173,8 @@ const ServiceStats = (props) => {
           <div className="servicestat_heading">
             <div className="servicestat_leftheading">
               <h1>
-                {serviceType === "event" ? "Event" : "Service"} Detailed
-                analysis
+                Detailed {serviceType === "event" ? "Event" : "Service"}{" "}
+                Analysis
               </h1>
               <div className="servicestat_product">
                 <div className="servicestat_span1">
@@ -211,8 +222,25 @@ const ServiceStats = (props) => {
               <div className="servicestat_boxpa">
                 <img src={ICON5} alt="c"></img>
                 <div className="servicestat_boxpa_div">
-                  Total user used your{" "}
-                  {serviceType === "event" ? "event" : "service"}
+                  {serviceType === "event"
+                    ? "Number of Registrations"
+                    : "Number of Users who accessed"}
+                  <div style={{ position: "relative" }}>
+                    <HiInformationCircle
+                      size={20}
+                      color="grey"
+                      style={{ cursor: "pointer" }}
+                      onMouseEnter={() => {
+                        setIsHovered({ ...isHovered, tip1: true });
+                      }}
+                      onMouseLeave={() => {
+                        setIsHovered({ ...isHovered, tip1: false });
+                      }}
+                    />
+                    {isHovered?.tip1 && (
+                      <TooltipBox text={serviceType === "download" ? `Number of Users who accessed for the Service` : `Number of Users who registered for the Event`} />
+                    )}
+                  </div>
                 </div>
                 <h2>
                   {serviceType === "download"
@@ -225,23 +253,38 @@ const ServiceStats = (props) => {
               <div className="servicestat_boxpa">
                 <img src={ICON1} alt="c"></img>
                 <div className="servicestat_boxpa_div">
-                  Conversion Rate : No. of user used this{" "}
-                  {serviceType === "event" ? "event" : "service"} / Unique
-                  Visits
+                  Conversion Rate
+                  <div style={{ position: "relative" }}>
+                    <HiInformationCircle
+                      size={20}
+                      color="grey"
+                      style={{ cursor: "pointer" }}
+                      onMouseEnter={() => {
+                        setIsHovered({ ...isHovered, tip2: true });
+                      }}
+                      onMouseLeave={() => {
+                        setIsHovered({ ...isHovered, tip2: false });
+                      }}
+                    />
+                    {isHovered?.tip2 && (
+                      <TooltipBox text={serviceType === "download" ? `No. Of Users who accessed the Service / Unique Service Page Visits ` : "No. Of Users who registered for the Event / Unique Event Page Visits "} />
+                    )}
+                  </div>
                 </div>
                 <h2>
-                  {mixpaneldata?.valuenotunique !== 0 &&
-                  mixpaneldata?.valuenotunique
-                    ? serviceType === "download"
-                      ? (
-                          (serviceInfo?.service?.downloads * 100) /
-                          mixpaneldata?.valueunique
-                        ).toFixed(2) + " %"
-                      : (
-                          (eventInfo?.event?.registrations * 100) /
-                          mixpaneldata?.valueunique
-                        ).toFixed(2) + " %"
-                    : "---"}
+                  {mixpaneldata?.valuenotunique !== 0
+                    ? mixpaneldata?.valuenotunique
+                      ? serviceType === "download"
+                        ? (
+                            (serviceInfo?.service?.downloads * 100) /
+                            mixpaneldata?.valueunique
+                          ).toFixed(2) + " %"
+                        : (
+                            (eventInfo?.event?.registrations * 100) /
+                            mixpaneldata?.valueunique
+                          ).toFixed(2) + " %"
+                      : "---"
+                    : "..."}
                 </h2>
               </div>
             </div>
@@ -249,32 +292,78 @@ const ServiceStats = (props) => {
               <div className="servicestat_boxpa">
                 <img src={ICON2} alt="c"></img>
                 <div className="servicestat_boxpa_div">
-                  {serviceType === "event" ? "Event" : "Service"} Page visit
+                  Total {serviceType === "event" ? "Event" : "Service"} Page
+                  Visits
+                  <div style={{ position: "relative" }}>
+                    <HiInformationCircle
+                      size={20}
+                      color="grey"
+                      style={{ cursor: "pointer" }}
+                      onMouseEnter={() => {
+                        setIsHovered({ ...isHovered, tip3: true });
+                      }}
+                      onMouseLeave={() => {
+                        setIsHovered({ ...isHovered, tip3: false });
+                      }}
+                    />
+                    {isHovered?.tip3 && (
+                      <TooltipBox text={serviceType === "download" ? "Number of times your Service Page was checked out" : "Number of times your Event Page was checked out"} />
+                    )}
+                  </div>
                 </div>
-                <h2>
-                  {mixpaneldata?.valuenotunique !== 0 &&
-                  mixpaneldata?.valueunique
-                    ? mixpaneldata?.valuenotunique
-                    : "---"}
-                </h2>
+                <h2>{mixpaneldata?.valuenotunique ?? "---"}</h2>
               </div>
             </div>
             <div className="servicestat_statsbox">
               <div className="servicestat_boxpa">
                 <img src={ICON3} alt="c"></img>
-                <div className="servicestat_boxpa_div">Unique User Visit </div>
-                <h2>
-                  {mixpaneldata?.valueunique !== 0 && mixpaneldata?.valueunique
-                    ? mixpaneldata?.valueunique
-                    : "---"}
-                </h2>
+                <div className="servicestat_boxpa_div">
+                  Unique {serviceType === "event" ? "Event" : "Service"} Page
+                  Visits
+                  <div style={{ position: "relative" }}>
+                    <HiInformationCircle
+                      size={20}
+                      color="grey"
+                      style={{ cursor: "pointer" }}
+                      onMouseEnter={() => {
+                        setIsHovered({ ...isHovered, tip4: true });
+                      }}
+                      onMouseLeave={() => {
+                        setIsHovered({ ...isHovered, tip4: false });
+                      }}
+                    />
+                    {isHovered?.tip4 && (
+                      <TooltipBox text={serviceType === "download" ? "Number of Unique Visits on your Service Page" : "Number of Unique Visits on your Event Page"} />
+                    )}
+                  </div>
+                </div>
+                <h2>{mixpaneldata?.valueunique ?? "---"}</h2>
               </div>
             </div>
 
             <div className="servicestat_statsbox">
               <div className="servicestat_boxpa">
                 <img src={ICON4} alt="c"></img>
-                <div className="servicestat_boxpa_div">Average time Spent</div>
+                <div className="servicestat_boxpa_div">
+                  Average time Spent on{" "}
+                  {serviceType === "event" ? "Event" : "Service"} Page
+                  <div style={{ position: "relative" }}>
+                    <HiInformationCircle
+                      size={20}
+                      color="grey"
+                      style={{ cursor: "pointer" }}
+                      onMouseEnter={() => {
+                        setIsHovered({ ...isHovered, tip5: true });
+                      }}
+                      onMouseLeave={() => {
+                        setIsHovered({ ...isHovered, tip5: false });
+                      }}
+                    />
+                    {isHovered?.tip5 && (
+                      <TooltipBox text={`Average time spent by the User on your ${serviceType === "download" ? "Service" : "Event"} Page `} />
+                    )}
+                  </div>
+                </div>
                 <h2>
                   {" "}
                   {avgTime !== 0 && avgTime

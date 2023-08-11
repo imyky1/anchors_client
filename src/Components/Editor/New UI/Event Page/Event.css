@@ -189,6 +189,14 @@
   color: inherit !important;
 }
 
+.scrollable_section_event > p ul{
+  padding-left: 20px;
+}
+
+.scrollable_section_event > p ol{
+  padding-left: 20px;
+}
+
 .right_stable_side {
   position: sticky;
   top: 150px;

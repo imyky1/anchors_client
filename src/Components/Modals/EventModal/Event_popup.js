@@ -4,12 +4,12 @@ import { BsFillPersonFill } from "react-icons/bs";
 import {MdGroups} from 'react-icons/md'
 import { useNavigate } from "react-router-dom";
 
-const EventModel = () => {
+const EventModel = ({onClose}) => {
   const navigate = useNavigate()
 
   return (
-    <div className="event_popup_wrap_up">
-      <div className="create_event_head_popup">
+    <div className="event_popup_wrap_up" onClick={onClose}>
+      <div className="create_event_head_popup" onClick={(e)=>{e?.stopPropagation()}}>
         <div className="create_event_head_popup_text">
           Who are you creating this Event for?
         </div>

@@ -48,7 +48,6 @@
   flex-wrap: wrap;
   column-gap: 35px;
   row-gap: 40px;
-  justify-content: center;
 }
 
 .servicestat_statsbox {
@@ -78,7 +77,10 @@
   line-height: 18px;
   color: rgba(0, 0, 0, 0.5);
   min-height: 60px;
-  margin-bottom: 10px
+  margin-bottom: 10px;
+  display: flex;
+  width: 106%;
+  justify-content: space-between;
 }
 
 .servicestat_boxpa > h2 {

@@ -185,7 +185,7 @@ const PaymentSummary = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell align="center">SL.No</TableCell>
+                <TableCell align="center">Sr.No</TableCell>
                 {sort === 0 ? (
                   <TableCell align="center">Service Name</TableCell>
                 ) : (

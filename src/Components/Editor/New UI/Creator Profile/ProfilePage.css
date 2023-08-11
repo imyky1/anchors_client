@@ -58,6 +58,14 @@
   color: inherit !important;
 }
 
+.text_creator_profile_page-04 ul{
+  padding-left: 20px;
+}
+
+.text_creator_profile_page-04 ol{
+  padding-left: 20px;
+}
+
 .text_creator_profile_page-05 {
   color: #fff;
   font-family: " Gilroy-Bold", sans-serif;

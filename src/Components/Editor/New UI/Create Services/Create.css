@@ -38,6 +38,87 @@
   color: #000000;
 }
 
+.create_text_04 {
+  width: 100%;
+  color: #000;
+  font-family: "Inter";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.create_speaker_toggle {
+  width: 100%;
+  margin-top: -28px;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+  color: rgba(0, 0, 0, 0.5);
+  text-align: right;
+  font-family: "Inter";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.speaker_switch {
+  background-color: white;
+  height: 28px;
+  width: 28px;
+}
+
+.create_speaker_toggle_spacing {
+  width: 100%;
+  min-height: 323px;
+}
+
+.create_speaker_toggle_spacing0 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 36px;
+  gap: 12px;
+}
+.close_button_modal_speaker{
+  color: black;
+  font-size: 20px;
+  cursor: pointer;
+
+}
+.main_box_1_create_form {
+  gap: 50px;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+}
+.main_box_1_create_form1 {
+  margin-top: 30px;
+  gap: 50px;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+}
+
+.map_speaker_details_field_inside {
+  gap: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.map_speaker_details_field_inside_frame {
+  width: 100%;
+
+  gap: 20px;
+
+  display: flex;
+  flex-direction: column;
+}
+
 /* heading section in create  -------------------------------- */
 
 .heading_create_box {
@@ -83,6 +164,17 @@
   width: 100%;
 }
 
+.create_form_box_event {
+  /* display: grid;
+    grid-template-columns: repeat(2,1fr); */
+    gap: 0px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+
 .left_section_form {
   display: flex;
   align-items: flex-start;
@@ -96,6 +188,9 @@
 }
 .left_section_form > div {
   margin-bottom: 30px;
+}
+.map_speaker_details_field {
+  width: 100%;
 }
 
 .right_section_form {

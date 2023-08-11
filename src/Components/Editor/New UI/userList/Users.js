@@ -14,6 +14,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { creatorContext } from "../../../../Context/CreatorState";
 import { LoadTwo } from "../../../Modals/Loading";
 import { SuperSEO } from "react-super-seo";
+import Moment from "moment";
 
 function Users(props) {
   const { slug } = useParams();
@@ -93,6 +94,22 @@ function Users(props) {
     return splity[1].slice(0, 8);
   };
 
+  const date = Moment(
+    serviceType === "download"
+      ? serviceInfo?.service?.date
+      : eventInfo?.event?.createdOn
+  )
+    .format()
+    .split("T")[0];
+
+  const time =
+    serviceType === "download"
+      ? Moment(serviceInfo?.service?.date).format().split("T")[1].split("+")[0]
+      : Moment(eventInfo?.event?.createdOn)
+          .format()
+          .split("T")[1]
+          .split("+")[0];
+
   // hides the email -----------------------
   const hiddenEmail = (email) => {
     let email2 =
@@ -114,8 +131,34 @@ function Users(props) {
             <div className="servicestat_leftheading">
               <h1 style={{margin:"5px"}}>List of users</h1>
               <span className="servicelist_wrap_span">
-              Access a list of users who have used this {serviceType === "download" ? "service" : "event"}
+              List of users who have {serviceType === "download" ? "accessed the Service" : "registered for the Event"}
               </span>
+              <div className="servicestat_product" style={{marginTop:"40px"}}>
+                <div className="servicestat_span1">
+                  {serviceType === "event" ? "Event" : "Service"} Name:
+                </div>
+                <span className="servicestat_span2">
+                  {serviceType === "download"
+                    ? serviceInfo?.service?.sname
+                    : eventInfo?.event?.sname}
+                </span>
+              </div>
+              <div className="servicestat_product">
+                <div className="servicestat_span1">
+                  {serviceType === "event" ? "Event" : "Service"} Created on:
+                </div>
+                <span className="servicestat_span2"> {date + " " + time}</span>
+              </div>
+              <div className="servicestat_product">
+                <div className="servicestat_span1">Amount:</div>
+                <span className="servicestat_span2">
+                  {serviceType === "download"
+                    ? serviceInfo?.service?.isPaid
+                      ? "Paid" + ` (₹ ${serviceInfo?.service?.ssp})`
+                      : "Free"
+                    : "₹ " + eventInfo?.event?.ssp}
+                </span>
+              </div>
             </div>
 
             <div className="servicestat_rightheading">
@@ -127,7 +170,7 @@ function Users(props) {
                     : navigate(`/dashboard/servicestats/${slug}?type=event`);
                 }}
               >
-                Check detailed Analysis
+                Detailed {serviceType === "download" ? "Service" : "Event"} Analysis
               </button>
             </div>
           </div>
@@ -142,7 +185,7 @@ function Users(props) {
                     <TableCell align="center">Email ID</TableCell>
                     <TableCell align="center">Location</TableCell>
                     <TableCell align="center">Amount Paid</TableCell>
-                    <TableCell align="center">Ordered on</TableCell>
+                    <TableCell align="center">{serviceType === "download" ? "Ordered" : "Registered"} on</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

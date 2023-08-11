@@ -69,22 +69,22 @@ function Create({
     Uploadfile,
     updateService,
     getserviceinfo,
-    serviceInfo
+    serviceInfo,
   } = useContext(ServiceContext);
   const [data, setdata] = useState({
     sname: "",
     sdesc: "",
-    smrp: 0,
-    ssp: 0,
+    smrp: "0",
+    ssp: "0",
   });
 
-  const [Tags, setTags] = useState([]);
+  let [Tags, setTags] = useState([]);
   const [Content, setContent] = useState();
   const [BannerImage, setBannerImage] = useState();
 
   // allow preview variables
   const [allowDownload, setAllowDownload] = useState(false);
-  const [noOfPage, setNoOfPages] = useState(0);
+  const [noOfPage, setNoOfPages] = useState("0");
   const [ServiceDoc, setServiceDoc] = useState();
 
   const handleChangeFileBanner = (e) => {
@@ -118,13 +118,14 @@ function Create({
   }, [query]);
 
   // get duplicate service data -----------------------------
-  useEffect(()=>{
-    if(query.get("duplicate")){
-      getserviceinfo(query.get("duplicate"))
-    } 
-  },[])
+  useEffect(() => {
+    if (query.get("duplicate")) {
+      getserviceinfo(query.get("duplicate"));
+    }
+  }, []);
 
   useEffect(() => {
+    if (query.get("duplicate")) {
     setdata({
       sname: serviceInfo?.service?.sname,
       sdesc: serviceInfo?.service?.sdesc,
@@ -133,19 +134,19 @@ function Create({
     });
     setTags(serviceInfo?.service?.tags);
     setContent(serviceInfo?.service?.ldesc);
-    setNoOfPages(serviceInfo?.service?.noOfPages)
+    setNoOfPages(serviceInfo?.service?.noOfPages);
 
-    if(serviceInfo?.service?.allowDownload){
-        setAllowDownload(serviceInfo?.service?.allowDownload)
+    if (serviceInfo?.service?.allowDownload) {
+      setAllowDownload(serviceInfo?.service?.allowDownload);
     }
     if (serviceInfo?.service?.isPaid) {
       setpaid("Paid");
     } else {
       setpaid("Free");
     }
+  }
   }, [getserviceinfo]);
 
-  
   // Image cropping
   // IMAGE RESIZE
   const [croppedArea, setCroppedArea] = useState(null);
@@ -470,7 +471,6 @@ function Create({
                 placeholder="Max 500"
                 name="smrp"
                 id="smrp"
-                type="number"
                 value={data?.smrp}
                 required={true}
                 onChange={handleChange}
@@ -566,7 +566,6 @@ function Create({
                 placeholder="Min 99"
                 name="ssp"
                 id="ssp"
-                type="number"
                 required={true}
                 value={data?.ssp}
                 onChange={handleChange}
@@ -605,12 +604,13 @@ function Create({
               }
             />
             <Tags1
-              label="Add Relevant Tags"
-              placeholder="Press Enter to add tags"
-              info="This will help in easy search and recommendation"
-              tags={Tags}
-              setTags={setTags}
-            />
+                label="Add Relevant Tags"
+                placeholder="Press Enter to add tags"
+                info="This will help in easy search and recommendation"
+                tags={Tags}
+                id="servicecreateTags"
+                setTags={setTags}
+              />
           </div>
         </section>
 
@@ -662,7 +662,6 @@ function Create({
                       ? "Number of items"
                       : "Number of Pages"
                   }
-                  type="number"
                   placeholder={
                     CreateType === "video"
                       ? "in minutes"
@@ -709,6 +708,8 @@ function Create({
           /> */}
         </section>
       </div>
+      
+
       {openimagePreview && BannerImage ? (
         <Modal
           open={openimagePreview}

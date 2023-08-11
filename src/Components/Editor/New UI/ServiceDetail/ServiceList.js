@@ -19,15 +19,298 @@ import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { LoadTwo } from "../../../Modals/Loading";
 import { Email_Model2 } from "../../../Modals/Email_Modal";
-import ChangeStatusModal from "../../../Modals/ServiceSuccess/Modal2";
+import { ChangeStatus } from "../../../Modals/ServiceSuccess/Modal2";
 import { Button1 } from "../Create Services/InputComponents/buttons";
-import { AiOutlinePlus } from "react-icons/ai";
+import {
+  AiOutlineCalendar,
+  AiOutlineClockCircle,
+  AiOutlinePlus,
+} from "react-icons/ai";
 import mixpanel from "mixpanel-browser";
+import {
+  BsFillCalendar3WeekFill,
+  BsLinkedin,
+  BsPersonFill,
+  BsTelegram,
+  BsWhatsapp,
+} from "react-icons/bs";
+import { TbSend } from "react-icons/tb";
+import {
+  LinkedinShareButton,
+  TelegramShareButton,
+  WhatsappShareButton,
+} from "react-share";
+
+const PopupModal = ({ slug, onClose, simg, sname, link, isEvent }) => {
+  let message = isEvent
+    ? `Greetings! Delighted to announce my event on ${sname}. Join for an unforgettable experience you won't want to miss!`
+    : `Greetings! Here's my document on the topic ${sname}, I believe you'll find it highly informative and beneficial.`;
+
+  const handleCopyToClipboard = () => {
+    const copyURL =
+      link.length > 7
+        ? `https://www.anchors.in/s/${link}`
+        : `https://www.anchors.in/s/${link}`;
+
+    navigator.clipboard
+      .writeText(copyURL)
+      .then(() => {
+        toast.info("Copied link to clipboard", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      })
+      .catch((error) => {
+        console.error("Failed to copy link to clipboard:", error);
+      });
+  };
+
+  return (
+    <div className="service_share_link_user_wrapper" onClick={onClose}>
+      <div
+        className="service_share_link_user_popup"
+        onClick={(e) => {
+          e?.stopPropagation();
+        }}
+      >
+        <div className="service_share_link_user">
+          <div className="service_share_link_user_first_frame">
+            <img src={simg} alt="Image" />
+            {isEvent ? (
+              <div className="service_share_link_user_first_frame_text">
+                Greetings! Delighted to announce my event on <b>{sname}</b>.
+                Join for an unforgettable experience you won't want to miss!
+              </div>
+            ) : (
+              <div className="service_share_link_user_first_frame_text">
+                Greetings! Here's my document on the topic <b>{sname}</b>, I
+                believe you'll find it highly informative and beneficial.
+              </div>
+            )}
+            <div className="service_share_link_user_first_frame_close">
+              <i className="fa-solid fa-xmark fa-lg" onClick={onClose}></i>
+            </div>
+          </div>
+          <div className="service_share_link_user_second_frame">
+            {/* <div className="service_share_link_user_second_frame_link">
+              https://www.anchors.in/s/{link}
+              <img src={copy} alt="Copy" onClick={handleCopyToClipboard} />
+            </div> */}
+            <div className="service_share_link_user_second_frame_allshare">
+              <LinkedinShareButton
+                url={link}
+                title={message}
+                onClick={() => {
+                  mixpanel.track("Event Shared On Linkedin", {
+                    service: slug,
+                  });
+                }}
+              >
+                <div className="service_share_link_user_second_frame_allshare_container">
+                  {" "}
+                  <BsLinkedin color="white" size={20} />
+                </div>
+              </LinkedinShareButton>
+              <WhatsappShareButton
+                url={link}
+                title={message}
+                onClick={() => {
+                  mixpanel.track("Event Shared On Whatsapp", {
+                    event: slug,
+                  });
+                }}
+              >
+                <div className="service_share_link_user_second_frame_allshare_container">
+                  {" "}
+                  <BsWhatsapp color="white" size={20} />
+                </div>
+              </WhatsappShareButton>
+              <TelegramShareButton
+                url={link}
+                title={message}
+                onClick={() => {
+                  mixpanel.track("Event Shared On Telegram", {
+                    event: slug,
+                  });
+                }}
+              >
+                <div className="service_share_link_user_second_frame_allshare_container">
+                  {" "}
+                  <BsTelegram color="white" size={20} />
+                </div>
+              </TelegramShareButton>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ToastContainer />
+    </div>
+  );
+};
+
+const EventsSectionData = ({ liveData = [{}], upcomingData = [{}] }) => {
+  const navigate = useNavigate();
+
+  const convertTime = (inputTime) => {
+    if (inputTime) {
+      var timeParts = inputTime?.split(":");
+      var hours = parseInt(timeParts[0]);
+      var minutes = parseInt(timeParts[1]);
+
+      var period = hours >= 12 ? "PM" : "AM";
+      hours = hours > 12 ? hours - 12 : hours;
+
+      var convertedTime =
+        hours.toString().padStart(2, "0") +
+        ":" +
+        minutes.toString().padStart(2, "0") +
+        " " +
+        period;
+
+      return convertedTime;
+    }
+  };
+
+  const getDate = (date) => {
+    let d = new Date(date);
+
+    let newDate = d.toDateString().split(" ");
+
+    return (
+      newDate[0] + " | " + newDate[1] + " " + newDate[2] + " " + newDate[3]
+    );
+  };
+
+  return (
+    <div className="user_dashboard_event_data_section_wrapper" style={{marginTop:"20px"}}>
+      {liveData?.length !== 0 && (
+        <section className="live_events_wrapper_user_dashboard_page" style={{width:"100%"}}>
+          {liveData?.map((e, index) => {
+            return (
+              <div>
+                <span>&bull; Live</span>
+
+                <section>
+                  <img
+                    src={
+                      e?.simg ??
+                      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/No_sign.svg/300px-No_sign.svg.png"
+                    }
+                    alt=""
+                  />
+
+                  <div>
+                    <span
+                      onClick={() => {
+                        window.open(`https://www.anchors.in/e/${e?.slug}`);
+                      }}
+                    >
+                      {e?.sname}
+                    </span>
+                    <button
+                      onClick={() => {
+                        window.open(e?.meetlink);
+                        mixpanel.track("Event Join Now", {
+                          slug: e?.slug,
+                        });
+                      }}
+                    >
+                      Join Now
+                    </button>
+                  </div>
+                </section>
+
+                <div></div>
+              </div>
+            );
+          })}
+        </section>
+      )}
+
+      {upcomingData?.length !== 0 && (
+        <section className="upcoming_events_wrapper_user_dashboard_page" style={{width:"100%"}}>
+          <div>
+            <span>
+              <BsFillCalendar3WeekFill />
+              Upcoming Events
+            </span>
+          </div>
+
+          <section>
+            {upcomingData?.map((e, index) => {
+              return (
+                <div
+                  className="upcoming_event_cards_user_dashboard_event_page"
+                  key={index}
+                >
+                  <img
+                    src={
+                      e?.simg ??
+                      "https://www.pngitem.com/pimgs/m/123-1236078_straight-line-transparent-straight-white-line-no-background.png"
+                    }
+                    alt=""
+                  />
+                  <span
+                    onClick={() => {
+                      window.open(`https://www.anchors.in/e/${e?.slug}`);
+                    }}
+                  >
+                    {e?.sname}
+                  </span>
+
+                  <div>
+                    <span>
+                      <BsPersonFill />
+                      {`${e?.registrations} Registrations`}
+                    </span>
+                    <span>
+                      <AiOutlineCalendar />
+                      {getDate(e?.startDate)}
+                    </span>
+                    <span>
+                      <AiOutlineClockCircle />
+                      {`${convertTime(e?.time?.startTime)} - ${convertTime(
+                        e?.time?.endTime
+                      )}`}
+                    </span>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      navigate(`/dashboard/editevent/${e.slug}`);
+                      mixpanel.track("Upcoming Edit Event", {
+                        slug: e?.slug,
+                      });
+                    }}
+                  >
+                    Edit Event
+                  </button>
+                </div>
+              );
+            })}
+          </section>
+        </section>
+      )}
+    </div>
+  );
+};
 
 function ServiceDetailPage(props) {
   const [openLoading, setOpenLoading] = useState(false);
-  const { services, getallservices, deleteService } =
-    useContext(ServiceContext);
+  const [shareModalData, setShareModalData] = useState({
+    open: false,
+    sname: "",
+    slug: "",
+    link: "",
+    simg: "",
+  });
+  const {
+    services,
+    getallservices,
+    deleteService,
+    getalleventsLiveandUpcoming,
+    latestEvents,
+  } = useContext(ServiceContext);
   const [revArray, setrevArray] = useState([]);
   const [selected, setSelected] = useState(0);
   const [dummyData, setdummyData] = useState({
@@ -37,6 +320,9 @@ function ServiceDetailPage(props) {
 
   useEffect(() => {
     setOpenLoading(true);
+
+    getalleventsLiveandUpcoming().then(() => {});
+
     getallservices().then(() => {
       setSelected("all");
       setOpenLoading(false);
@@ -167,8 +453,17 @@ function ServiceDetailPage(props) {
 
       {/* Change Status Modal ----------------------------------------- */}
 
+      {shareModalData?.open && (
+        <PopupModal
+          {...shareModalData}
+          onClose={() => {
+            setShareModalData({ ...shareModalData, open: false });
+          }}
+        />
+      )}
+
       {openModel && (
-        <ChangeStatusModal
+        <ChangeStatus
           toClose={() => {
             setOpenModel(false);
           }}
@@ -244,24 +539,34 @@ function ServiceDetailPage(props) {
           </div>
         </div>
         <div className="servicelist-linebreak"></div>
+
+        {selected === "events" && (
+          <EventsSectionData
+            liveData={latestEvents?.LiveEvents}
+            upcomingData={latestEvents?.UpcomingEvents}
+          />
+        )}
+
         <div className="servicelist-table">
           <TableContainer component={Paper}>
             <Table aria-aria-label="Services Table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">S.No</TableCell>
+                  <TableCell align="center">Sr.No</TableCell>
                   <TableCell align="center">
                     {selected === "events" ? "Event Name" : "Service Name"}
                   </TableCell>
                   <TableCell align="center">Type</TableCell>
                   <TableCell align="center">Amount</TableCell>
-                  <TableCell align="center">Uploaded On</TableCell>
+                  <TableCell align="center">
+                    {selected === "events" ? "Event On" : "Uploaded On"}
+                  </TableCell>
                   <TableCell align="center">Banner</TableCell>
                   <TableCell align="center">
                     {selected === "events" ? "Registrations" : "Downloads"}
                   </TableCell>
                   <TableCell align="center">Analysis</TableCell>
-                  <TableCell align="center">Short Link</TableCell>
+                  <TableCell align="center">Share</TableCell>
                   <TableCell align="center">Actions</TableCell>
                 </TableRow>
               </TableHead>
@@ -294,20 +599,20 @@ function ServiceDetailPage(props) {
                         <TableCell align="center">₹{elem.ssp}</TableCell>
                         <TableCell align="center">
                           <span className="servicelist_getdate">
-                            <div>
+                            <div style={{textWrap: "nowrap"}}>
                               {" "}
                               {getDatelist(
                                 selected === "events"
-                                  ? elem.createdOn
-                                  : elem.date
+                                  ? elem?.startDate
+                                  : elem?.date
                               )}
                             </div>
-                            <div>
+                            <div style={{textWrap: "nowrap"}}>
                               {" "}
                               {getDatelist2(
                                 selected === "events"
-                                  ? elem.createdOn
-                                  : elem.date
+                                  ? elem?.startDate
+                                  : elem?.date
                               )}
                             </div>
                           </span>
@@ -356,9 +661,6 @@ function ServiceDetailPage(props) {
                             className="servicelist_icon iconalign"
                             onClick={() => {
                               mixpanel.track("Analysis");
-                              console.log(
-                                `/serviceStats/${elem?.slug}?type=event`
-                              );
                               selected === "events"
                                 ? !dummyData.EventDummy &&
                                   window.open(
@@ -380,23 +682,21 @@ function ServiceDetailPage(props) {
                             className="servicelist_icon iconalign"
                             onClick={() => {
                               const pattern = /go\.anchors\.in/;
-                              elem.copyURL
-                                ? pattern.test(elem.copyURL.length)
-                                  ? navigator.clipboard.writeText(elem.copyURL)
-                                  : navigator.clipboard.writeText(
-                                      `https://www.anchors.in/s/${elem.slug}`
-                                    )
-                                : navigator.clipboard.writeText(
-                                    `https://www.anchors.in/s/${elem.slug}`
-                                  );
-
-                              toast.info("Copied link to clipboard", {
-                                position: "top-center",
-                                autoClose: 2000,
+                              setShareModalData({
+                                open: true,
+                                sname: elem?.sname,
+                                slug: elem?.slug,
+                                simg: elem?.simg,
+                                isEvent: selected === "events",
+                                link: elem?.copyURL
+                                  ? pattern.test(elem.copyURL.length)
+                                    ? elem.copyURL
+                                    : `https://www.anchors.in/e/${elem.slug}`
+                                  : `https://www.anchors.in/e/${elem.slug}`,
                               });
                             }}
                           >
-                            <img src={CopyIcon}></img>
+                            <TbSend size={22} color="black" />
                           </span>
                         </TableCell>
                         <TableCell align="center">
@@ -419,7 +719,7 @@ function ServiceDetailPage(props) {
                           >
                             <div className="servicelist_wrap">
                               <div className="servicelist_popuptop">
-                                <div
+                                {(selected !== "events" || new Date(elem?.startDate) > new Date()) &&  <div
                                   className="modaloptions_servicelist"
                                   onClick={() => {
                                     selected === "events"
@@ -441,9 +741,9 @@ function ServiceDetailPage(props) {
                                 >
                                   Edit{" "}
                                   {selected === "events" ? "Event" : "Service"}
-                                </div>
+                                </div>}
 
-                                <div
+                                {selected !== "events" && <div
                                   className="modaloptions_servicelist"
                                   onClick={() => {
                                     navigate(
@@ -461,7 +761,7 @@ function ServiceDetailPage(props) {
                                   }}
                                 >
                                   Duplicate Service
-                                </div>
+                                </div>}
                                 {/* <div
                                   className="modaloptions_servicelist"
                                   onClick={() => {

@@ -369,7 +369,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
         formData?.followers?.length > 1 &&
         formData?.socialLink !== ""
       ) {
-        mixpanel.track("Submitting the basic tell us more")
+        mixpanel.track("Submitting the basic tell us more");
         if (
           formData?.inviteCode &&
           formData?.inviteCode?.length !== 0 &&
@@ -428,7 +428,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
       formData?.inviteCode?.length !== 0 &&
       !verifiedCode
     ) {
-      mixpanel.track("Submitting the invite code on Tell us more page")
+      mixpanel.track("Submitting the invite code on Tell us more page");
       toast.error("Verify the code first", {
         position: "top-center",
         autoClose: 2000,
@@ -541,7 +541,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
         /> */}
         <h1>
           {!inviteCodeSection
-            ? "Help us understand you better. Tell us more !"
+            ? "Share the deets! We're eager to learn more! "
             : "Skip the Waitlist"}
         </h1>
         {/* <p>QUESTIONS {qNo} OF 6</p> */}
@@ -550,7 +550,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
           <div>
             <section className="form_fields_tellusmore">
               <label htmlFor="socialLink">
-                Your Profile Link <span>*</span>
+                Your Social Media Profile Link <span>*</span>
               </label>
               <input
                 className="input_form_tellUsMore"
@@ -564,7 +564,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
 
             <section className="form_fields_tellusmore">
               <label htmlFor="followers">
-                What’s your Size of audience? <span>*</span>
+                Your Audience Size <span>*</span>
               </label>
               <input
                 className="input_form_tellUsMore"
@@ -655,7 +655,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
               }}
               onClick={() => {
                 navigate("/dashboard");
-                mixpanel.track("Skip button clicked on tell us more")
+                mixpanel.track("Skip button clicked on tell us more");
               }}
             >
               Skip

@@ -2,13 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./Modal.css";
+import { BsCheckCircle } from "react-icons/bs";
+import { IoCopy } from "react-icons/io5";
 
 // This modal is the modal for Success for creation of services and also success for edit profile
 
 function Modal(props) {
   const navigate = useNavigate();
-
-  console.log(props);
 
   return (
     <div className="serviceSuccess_outside_container">
@@ -96,4 +96,47 @@ function Modal(props) {
   );
 }
 
+const CongratsServiceCreation = ({ link }) => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="congratualtion_popup_outer">
+      <div className="congratualtion_popup_inside">
+        <div className="congratualtion_popup_inside_symbol">
+          <BsCheckCircle
+            className="congratualtion_popup_inside_symbol_design"
+            size={50}
+          />
+        </div>
+        <div className="congratualtion_popup_inside_symbol_middle">
+          Congratulations
+          <section>Event Created Successfully!</section>
+        </div>
+        <div className="congratualtion_popup_inside_symbol_last">
+          <div
+            className="congratualtion_popup_inside_symbol_last_01"
+            onClick={() => {
+              toast.info("Copied link successfully");
+              navigator.clipboard.writeText(link);
+            }}
+          >
+            {link}
+            <IoCopy size={20} />
+          </div>
+          <button
+            className="congratualtion_popup_inside_symbol_last_button"
+            onClick={() => {
+              navigate("/dashboard/mycontents");
+            }}
+          >
+            Go to My Events
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default Modal;
+
+export const CongratsServiceModal = CongratsServiceCreation;

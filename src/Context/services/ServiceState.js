@@ -7,6 +7,7 @@ const ServiceState = (props) => {
   const eventInitial = [];
   const [services, setServices] = useState(servicesInitial);
   const [events, setEvents] = useState(eventInitial);
+  const [latestEvents,setLatestEvents] = useState(eventInitial)
   const [eventInfo, setEventInfo] = useState(eventInitial);
   const [getallsubscriber, setgetallsubs] = useState({});
   const [totalsubscount, setTotalSubscount] = useState({});
@@ -335,8 +336,10 @@ const ServiceState = (props) => {
     benefits,
     maxCapacity,
     meetlink,
-    videoLink
+    videoLink,
+    speakerDetails
   ) => {
+    console.log(simg)
     const response = await fetch(`${host}/api/event/createEvent`, {
       method: "POST",
       headers: {
@@ -362,6 +365,7 @@ const ServiceState = (props) => {
         maxCapacity,
         meetlink,
         videoLink,
+        speakerDetails
       }),
     });
     const json = await response.json();
@@ -418,6 +422,20 @@ const ServiceState = (props) => {
     }
   };
 
+  //5. Upload event speakers profile to url form on aws s3
+  const UploadEventSpeakersProfile = async (data) => {
+    try {
+      const response = await fetch(`${host}/api/file/upload/s3/event/speakers`, {
+        method: "POST",
+        body: data,
+      });
+      const json = await response.json();
+      return json;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // Update the service
   const updateEvent = async (id, data) => {
     const response = await fetch(`${host}/api/event/updateevent/${id}`, {
@@ -446,6 +464,23 @@ const ServiceState = (props) => {
     });
     const json = await response.json();
     return json.success;
+  };
+
+  // get all the events live and upcoming events data ------------------
+  const getalleventsLiveandUpcoming = async () => {
+    const response = await fetch(`${host}/api/event/getalleventsLiveandUpcoming`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
+    });
+    const json = await response.json();
+    if (json.success) {
+      setLatestEvents(json)
+    } else {
+      console.log("Some error Occured");
+    }
   };
 
   //  2. Getting all the services for the respective creator
@@ -615,6 +650,9 @@ const ServiceState = (props) => {
         getallsubs,
         getfeedbacksfromslug,
         getLeaderBoardData,
+        UploadEventSpeakersProfile,
+        getalleventsLiveandUpcoming,
+        latestEvents
       }}
     >
       {" "}

@@ -54,6 +54,14 @@
   color: inherit !important;
 }
 
+.text_type_03_new_service_page ul{
+  padding-left: 20px;
+}
+
+.text_type_03_new_service_page ol{
+  padding-left: 20px;
+}
+
 .text_type_03_new_service_page::-webkit-scrollbar {
   width: 5px;
   border-radius: 2px;

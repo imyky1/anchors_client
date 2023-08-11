@@ -158,7 +158,7 @@ const UserRequest = ({creatorSlug}) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell align="center">S.No</TableCell>
+                <TableCell align="center">Sr.No</TableCell>
                 <TableCell align="center">Name</TableCell>
                 <TableCell align="center">Resources Requested</TableCell>
                 <TableCell align="center">Ready to pay</TableCell>

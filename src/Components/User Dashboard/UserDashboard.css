@@ -489,16 +489,18 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  position: absolute;
+  bottom: 100px;
 }
 
-.upcoming_event_cards_user_dashboard_event_page > div > span{
+.upcoming_event_cards_user_dashboard_event_page > div > span {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .upcoming_event_cards_user_dashboard_event_page > button {
-  width: 100%;
+  width: 85%;
   padding: 12px 20px;
   box-sizing: border-box;
   border-radius: 4px;
@@ -512,6 +514,8 @@
   border: none;
   cursor: pointer;
   border: 1px solid #fff;
+  bottom: 40px;
+  position: absolute;
 }
 
 .upcoming_event_cards_user_dashboard_event_page > button:hover {
@@ -714,19 +718,19 @@
     height: 35px;
   }
 
-  .user_dashboard_event_data_section_wrapper{
+  .user_dashboard_event_data_section_wrapper {
     align-items: center;
   }
 
-  .live_events_wrapper_user_dashboard_page{
+  .live_events_wrapper_user_dashboard_page {
     width: 90%;
   }
 
-  .upcoming_events_wrapper_user_dashboard_page{
+  .upcoming_events_wrapper_user_dashboard_page {
     width: 90%;
   }
 
-  .upcoming_event_cards_user_dashboard_event_page{
+  .upcoming_event_cards_user_dashboard_event_page {
     min-width: 250px;
     max-width: 250px;
     width: 250px;

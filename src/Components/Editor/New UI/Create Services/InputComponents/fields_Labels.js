@@ -213,28 +213,36 @@ function fields_Labels4(props) {
 
 // tags section ------------------------------
 function Tags01(props) {
+
+
   const handleKeyDown = (e) => {
-    if (e.key !== "Enter") return;
-    const value = e.target.value;
+    if (e.key !== "Enter") return; // If the pressed key is not Enter, exit the function.
+    const value = e.target.value; // Get the value from the input field.
+  
     if (value.includes(",")) {
-      let arrcomma = value.split(",");
-      props.setTags([...props.tags, ...arrcomma]);
-      e.target.value = "";
+      let arrcomma = value.split(","); // Split the value by commas into an array.
+      props.setTags([...props?.tags, ...arrcomma]); // Concatenate the new tags to the existing tags.
+      e.target.value = ""; // Clear the input field.
       return;
     }
-    if (!value.trim()) return;
-    props.setTags([...props.tags, value]);
-    e.target.value = "";
+  
+    if (!value.trim()) return; // If the value is empty or only consists of whitespace, exit the function.
+    
+    // Add the value as a new tag.
+    props?.setTags([...props?.tags, value]);
+    e.target.value = ""; // Clear the input field.
   };
+  
+
   const removeTag = (index) => {
-    props?.setTags(props.tags.filter((e, i) => i !== index));
+    props?.setTags(props?.tags.filter((e, i) => i !== index));
   };
 
   return (
     // Normal type -1 text field used in create
     <div className="textfiled_container_01">
       <span className="label_type_01">
-        {props.label}{" "}
+        {props?.label}{" "}
         {props?.required && <span style={{ color: "red" }}>*</span>}
       </span>
       <div className="tags01_box">
@@ -250,12 +258,15 @@ function Tags01(props) {
           className="input_type_03"
           placeholder={props.placeholder}
           onKeyDown={handleKeyDown}
+          id={props?.id}
+          name={props?.name}
         />
       </div>
       <p className="label_type_03">{props.info}</p>
     </div>
   );
 }
+
 
 // dropdown section ---------------------------------------
 

@@ -5,6 +5,7 @@ import { FaRegStar } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import mixpanel from "mixpanel-browser";
 import { creatorContext } from "../../../Context/CreatorState";
+import { AiFillStar } from "react-icons/ai";
 
 const feedbackQuestions = [
   {
@@ -58,17 +59,17 @@ function CreatorFeedback({ open, toClose }) {
   const handleSubmit = () => {
     if (rating !== 0 && questionData && Object.keys(questionData).length > 3) {
       createCreatorFeedback(rating, questionData, feedback).then((e) => {
-        if(e){
+        if (e) {
           toast.success("Feedback submitted successfully", {
             position: "top-center",
             autoClose: 2500,
           });
           toClose();
-          setTotalrating(0)
-          setfeedback("")
-          setFormNotFilled(false)
-          setQuestionData()
-        }else{
+          setTotalrating(0);
+          setfeedback("");
+          setFormNotFilled(false);
+          setQuestionData();
+        } else {
           toast.error("Some error at the server, Please Try Again!!", {
             position: "top-center",
             autoClose: 2500,
@@ -98,10 +99,6 @@ function CreatorFeedback({ open, toClose }) {
     });
   };
 
-  if (!open) {
-    return null;
-  }
-
   return (
     <>
       <div className="creator_feedback_modal_wrapper">
@@ -113,6 +110,7 @@ function CreatorFeedback({ open, toClose }) {
         >
           <IoMdClose
             className="close_button_modal"
+            style={{ position: "absolute", right: "13px" }}
             onClick={() => {
               toClose();
             }}
@@ -209,7 +207,9 @@ function CreatorFeedback({ open, toClose }) {
               <button className="creator_fb_submit" onClick={handleSubmit}>
                 Submit Feedback
               </button>
-              {formNotFilled && <span className="">*Ratings required to submit feedback </span>}
+              {formNotFilled && (
+                <span className="">*Ratings required to submit feedback </span>
+              )}
             </div>
           </section>
         </div>
@@ -218,5 +218,147 @@ function CreatorFeedback({ open, toClose }) {
     </>
   );
 }
+
+export const CreatorFeedbackModal = ({ open, onClose }) => {
+  const [rating, setrating] = useState(0);
+  const [feedback, setfeedback] = useState("");
+  const [selectedStars, setSelectedStars] = useState({
+    filled: 0,
+    unfilled: 5,
+  });
+
+  const { createCreatorFeedback } = useContext(creatorContext);
+
+  const handleratingclick = (e) => {
+    setrating(e + 1);
+    setSelectedStars({ filled: e + 1, unfilled: 4 - e });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (rating !== 0) {
+      if (feedback?.length !== 0) {
+        const success = await createCreatorFeedback(rating, [], feedback);
+        if (success) {
+          toast.success("Thanks for your Valuable Feedback ", {
+            position: "top-center",
+            autoClose: 2000,
+          });
+          onClose();
+          setfeedback("");
+          setrating(0);
+        } else {
+          toast.error("Feedback Not Submitted Please Try Again ", {
+            position: "top-center",
+            autoClose: 2000,
+          });
+        }
+      } else {
+        toast.info("Please fill out the feedback form", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      }
+    } else {
+      toast.info("Please fill out the ratings", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    }
+  };
+
+  open &&
+    document?.addEventListener("click", () => {
+      onClose();
+    });
+
+  if (!open) {
+    return null;
+  }
+
+  return (
+    <div
+      className="outer_class_creator_feedback"
+      onClick={(e) => {
+        e?.stopPropagation();
+      }}
+    >
+      <div className="outer_class_creator_feedback01">
+        <div className="outer_class_creator_feedback01_first">
+          Empowering Creators - Your voice is significant. We actively listen.
+          <section>How well do you like us overall?</section>
+          <i
+            class="fa-solid fa-xmark fa-lg chnageStatusModalCross"
+            onClick={() => {
+              onClose();
+            }}
+          ></i>
+        </div>
+        <section className="rating_section_feedback_modal ">
+          <section>
+            {Array(selectedStars?.filled)
+              .fill(selectedStars?.filled)
+              .map((e, i) => {
+                return (
+                  <div className="rating_fb_container" key={i}>
+                    <AiFillStar
+                      className="selected_star"
+                      size={20}
+                      onClick={() => handleratingclick(i)}
+                    />
+                  </div>
+                );
+              })}
+            {Array(selectedStars?.unfilled)
+              .fill(selectedStars?.unfilled)
+              .map((e, i) => {
+                return (
+                  <div className="rating_fb_container" key={i}>
+                    <AiFillStar
+                      className="unselected_star"
+                      size={20}
+                      onClick={() =>
+                        handleratingclick(i + selectedStars?.filled)
+                      }
+                    />
+                  </div>
+                );
+              })}
+          </section>
+        </section>
+      </div>
+      <div className="outer_class_creator_feedback02">
+        <div className="outer_class_creator_feedback02_textarea">
+          <section>Please share your experience</section>
+          <textarea
+            style={{
+              backgroundColor: "color: var(--neutral-gray-500, #64748B)", // Replace with your desired background color
+              height: "120px",
+              padding: "20px",
+              borderRadius: "8px",
+              border: "1px solid var(--neutral-gray-500, #64748B)",
+              background: "#212121",
+            }}
+            value={feedback}
+            onChange={(e) => {
+              setfeedback(e.target.value);
+            }}
+            placeholder="Please share your experience"
+          ></textarea>
+        </div>
+        <div
+          style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
+        >
+          <button
+            className="outer_class_creator_feedback02_button"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default CreatorFeedback;

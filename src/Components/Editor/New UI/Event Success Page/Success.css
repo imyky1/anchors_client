@@ -130,11 +130,19 @@
   line-height: 90px;
 }
 
-.right_benefit_section_hero_success > p {
+.right_benefit_section_hero_success > p * {
   color: var(--neutral-gray-200, #e2e8f0) !important;
   font-size: 24px !important;
   font-family: "Gilroy-Regular", sans-serif !important;
   line-height: normal;
+}
+
+.right_benefit_section_hero_success > p ul {
+  padding-left: 30px;
+}
+
+.right_benefit_section_hero_success > p ol {
+ padding-left: 30px;
 }
 
 /* LeaderBoard css */

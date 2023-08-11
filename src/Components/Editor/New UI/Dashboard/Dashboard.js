@@ -244,9 +244,13 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
 
         <div className="main_dashboard_design_box">
           <h2 className="text_01_dashboard">Create your post</h2>
-          <span className="text_02_dashboard">
+          {/* <span className="text_02_dashboard">
             You can upload Excel sheets, Important Document, Notes, Interview
             Questions & Videos
+          </span> */}
+          <span className="text_02_dashboard">
+            You can upload Excel sheets, Important Document, Notes & Interview
+            Questions.
           </span>
           <section>
             <div
