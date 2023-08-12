@@ -42,6 +42,7 @@ function Home(props) {
   const [dataDefaultBanner, setDataDefaultBanner] = useState({
     fillingData: {},
     finalFormData: {},
+    objectUrl:null
   });
   const [Rating, setRating] = useState("");
   const [creatorData, setcreatorData] = useState({ Reviews: "", Services: "" });
@@ -218,11 +219,13 @@ function Home(props) {
                 setOpenDefaultBannerModal(false);
               }}
               dataToRender={dataDefaultBanner?.fillingData}
-              setFinalData={(e) => {
+              setFinalData={(formdata,objectUrl) => {
                 setDataDefaultBanner({
                   ...dataDefaultBanner,
-                  finalFormData: e,
+                  finalFormData: formdata,
+                  objectUrl
                 });
+
               }}
             />
 
@@ -292,6 +295,7 @@ function Home(props) {
                               fillingData: e,
                             })
                           }
+                          defaultImageobjectUrl={dataDefaultBanner?.objectUrl}
                           FinalDefaultBannerFormData={
                             dataDefaultBanner?.finalFormData
                           }

@@ -308,9 +308,10 @@ function DefaultBanner2({ open, onClose, dataToRender, setFinalData }) {
 
     html2canvas(element).then(function (canvas) {
       canvas.toBlob(function (blob) {
+        var objectURL = URL.createObjectURL(blob);
         const formData = new FormData();
         formData.append("file", blob, "image.png");
-        setFinalData(formData);
+        setFinalData(formData,objectURL);
       });
     });
   };

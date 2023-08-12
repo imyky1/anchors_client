@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import "./components.css";
 import { useEffect } from "react";
@@ -73,7 +72,15 @@ function EditorText01(props) {
           props?.setContent(data);
         }}
       /> */}
-      <ReactQuill theme="snow" value={props?.Content} onChange={(e)=>{props?.setContent(e)}} className="quill-editor" placeholder={props?.placeholder}/>
+      <ReactQuill
+        theme="snow"
+        value={props?.Content}
+        onChange={(e) => {
+          props?.setContent(e);
+        }}
+        className="quill-editor"
+        placeholder={props?.placeholder}
+      />
       <p className="label_type_03">{props.info}</p>
     </div>
   );
@@ -106,7 +113,11 @@ function UploadField01(props) {
         accept={props.FileType}
       />
       <label htmlFor={props.id} className="input_type_02">
-      {fileName ? <i class="fa-solid fa-rotate fa-xl"></i> : <i className="fa-solid fa-plus fa-xl"></i> }
+        {fileName ? (
+          <i class="fa-solid fa-rotate fa-xl"></i>
+        ) : (
+          <i className="fa-solid fa-plus fa-xl"></i>
+        )}
         <span>{fileName ? "Replace" : "Browse"}</span>
         <p>{fileName ? fileName : props.info}</p>
       </label>
@@ -136,34 +147,85 @@ function UploadField02(props) {
         </span>
 
         {/* Radio button ---------- */}
-        {props.defaultRadioLabel && <div className="radiofiled_container_01">
-          <span className="label_type_02">{props.defaultRadioLabel} </span>
-          <label className="switch_type_01">
-            <input
-              type="checkbox"
-              onChange={(event) =>
-                props.defaultRadioOnChange(event)
-              }
-            />
-            <span className="slider_type_01 round_type_01"></span>
-          </label>
-        </div>}
-
+        {props.defaultRadioLabel && (
+          <div className="radiofiled_container_01">
+            <span className="label_type_02">{props.defaultRadioLabel} </span>
+            <label className="switch_type_01">
+              <input
+                type="checkbox"
+                onChange={(event) => props.defaultRadioOnChange(event)}
+              />
+              <span className="slider_type_01 round_type_01"></span>
+            </label>
+          </div>
+        )}
       </div>
 
       <input
         type="file"
         id={props.id}
-        disabled = {props?.disabled}
+        disabled={props?.disabled}
         style={{ display: "none" }}
         onChange={handleChange}
         accept={props.FileType}
       />
       <label htmlFor={props.id} className="input_type_02">
-       {fileName ? <i class="fa-solid fa-rotate fa-xl"></i> : <i className="fa-solid fa-plus fa-xl"></i> }
+        {fileName ? (
+          <i class="fa-solid fa-rotate fa-xl"></i>
+        ) : (
+          <i className="fa-solid fa-plus fa-xl"></i>
+        )}
         <span>{fileName ? "Replace" : "Browse"}</span>
-        <p>{props?.disabled ? "Using Default Banner (in png)" : fileName ? fileName : props.info}</p>
+        <p>
+          {props?.disabled
+            ? "Using Default Banner (in png)"
+            : fileName
+            ? fileName
+            : props.info}
+        </p>
       </label>
+    </div>
+  );
+}
+
+// upload new ui field
+function UploadField03(props) {
+  const [fileName, setfileName] = useState();
+
+  const handleChange = (e) => {
+    setfileName(e.target.files[0].name);
+    props.onChange(e.target.files[0]);
+    if (props.onChangeFunction) {
+      props.onChangeFunction(e);
+    }
+  };
+
+  return (
+    // Normal type -1 text field used in create
+    <div className="textfiled_container_01">
+      <span className="label_type_01">
+        {props.label}{" "}
+        {props?.required && <span style={{ color: "red" }}>*</span>}
+      </span>
+      <input
+        type="file"
+        id={props.id}
+        style={{ display: "none" }}
+        onChange={handleChange}
+        accept={props.FileType}
+      />
+      <label htmlFor={props.id} className="input_type_04">
+        {fileName ? (
+          <i class="fa-solid fa-rotate fa-lg"></i>
+        ) : (
+          <i className="fa-solid fa-plus fa-lg"></i>
+        )}
+      </label>
+      <p className="label_type_03">
+        {fileName
+          ? (fileName.split(".")[0].slice(0, 15) + "." + fileName.split(".")[1])
+          : props.info}
+      </p>
     </div>
   );
 }
@@ -213,26 +275,23 @@ function fields_Labels4(props) {
 
 // tags section ------------------------------
 function Tags01(props) {
-
-
   const handleKeyDown = (e) => {
     if (e.key !== "Enter") return; // If the pressed key is not Enter, exit the function.
     const value = e.target.value; // Get the value from the input field.
-  
+
     if (value.includes(",")) {
       let arrcomma = value.split(","); // Split the value by commas into an array.
       props.setTags([...props?.tags, ...arrcomma]); // Concatenate the new tags to the existing tags.
       e.target.value = ""; // Clear the input field.
       return;
     }
-  
+
     if (!value.trim()) return; // If the value is empty or only consists of whitespace, exit the function.
-    
+
     // Add the value as a new tag.
     props?.setTags([...props?.tags, value]);
     e.target.value = ""; // Clear the input field.
   };
-  
 
   const removeTag = (index) => {
     props?.setTags(props?.tags.filter((e, i) => i !== index));
@@ -266,7 +325,6 @@ function Tags01(props) {
     </div>
   );
 }
-
 
 // dropdown section ---------------------------------------
 
@@ -324,7 +382,7 @@ function Dropdown01(props) {
                   setdropValue(e);
                   setOpenDropDown(false);
                   props.selectedValue(e);
-                  props.onClick()
+                  props.onClick();
                 }}
               >
                 {e}
@@ -337,13 +395,11 @@ function Dropdown01(props) {
   );
 }
 
-
-
-
 export const TextField1 = fields_Labels1;
 export const Editor1 = EditorText01;
 export const UploadField1 = UploadField01;
 export const UploadField2 = UploadField02;
+export const UploadField3 = UploadField03;
 export const RadioField1 = fields_Labels3;
 export const SocialFields = fields_Labels4;
 export const Tags1 = Tags01;

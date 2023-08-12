@@ -921,7 +921,6 @@ function CreateEvent({
                 type="date"
                 id="date"
                 required={true}
-                placeholder="Enter Title Here"
                 onChange={handleChange}
               />
 

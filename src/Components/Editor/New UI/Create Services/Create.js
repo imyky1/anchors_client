@@ -10,6 +10,7 @@ import {
   TextField1,
   UploadField1,
   UploadField2,
+  UploadField3,
 } from "./InputComponents/fields_Labels";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { toast } from "react-toastify";
@@ -25,6 +26,7 @@ import Cropper from "react-easy-crop";
 import { SuperSEO } from "react-super-seo";
 import mixpanel from "mixpanel-browser";
 import { FiSend } from "react-icons/fi";
+import CreateServiceDemo from "./CreateServiceDemo";
 
 function Create({
   progress,
@@ -32,6 +34,7 @@ function Create({
   setDefaultBannerData,
   cname,
   FinalDefaultBannerFormData,
+  defaultImageobjectUrl,
 }) {
   const navigate = useNavigate();
 
@@ -53,6 +56,8 @@ function Create({
   const [paid, setpaid] = useState(); // decides the form acc to paid or free service type
   const [advanced, setAdvanced] = useState(false); // sets the advanced customize settings
   const [openLoading, setOpenLoading] = useState(false); // controlls the loader
+
+  const [showimg, setShowimg] = useState(null); // img url thats being uploaded
 
   // state for image cropping
   const [imagetocrop, setImageToCrop] = useState(null);
@@ -103,6 +108,7 @@ function Create({
       reader.addEventListener("load", () => {
         setImageToCrop(reader.result);
       });
+      setShowimg(URL.createObjectURL(file));
       setBannerImage(file);
     }
   };
@@ -126,25 +132,25 @@ function Create({
 
   useEffect(() => {
     if (query.get("duplicate")) {
-    setdata({
-      sname: serviceInfo?.service?.sname,
-      sdesc: serviceInfo?.service?.sdesc,
-      smrp: serviceInfo?.service?.smrp,
-      ssp: serviceInfo?.service?.ssp,
-    });
-    setTags(serviceInfo?.service?.tags);
-    setContent(serviceInfo?.service?.ldesc);
-    setNoOfPages(serviceInfo?.service?.noOfPages);
+      setdata({
+        sname: serviceInfo?.service?.sname,
+        sdesc: serviceInfo?.service?.sdesc,
+        smrp: serviceInfo?.service?.smrp,
+        ssp: serviceInfo?.service?.ssp,
+      });
+      setTags(serviceInfo?.service?.tags);
+      setContent(serviceInfo?.service?.ldesc);
+      setNoOfPages(serviceInfo?.service?.noOfPages);
 
-    if (serviceInfo?.service?.allowDownload) {
-      setAllowDownload(serviceInfo?.service?.allowDownload);
+      if (serviceInfo?.service?.allowDownload) {
+        setAllowDownload(serviceInfo?.service?.allowDownload);
+      }
+      if (serviceInfo?.service?.isPaid) {
+        setpaid("Paid");
+      } else {
+        setpaid("Free");
+      }
     }
-    if (serviceInfo?.service?.isPaid) {
-      setpaid("Paid");
-    } else {
-      setpaid("Free");
-    }
-  }
   }, [getserviceinfo]);
 
   // Image cropping
@@ -168,6 +174,7 @@ function Create({
       BannerImage?.name
     );
     setBannerImage(img);
+    setShowimg(URL.createObjectURL(img));
     setImagePreview(false);
   };
 
@@ -407,238 +414,133 @@ function Create({
         />
       )}
 
-      <div className="main_create_container">
-        {/* Heading of the create section ------------------------ */}
-        <section className="heading_create_box">
-          <div>
-            <h1 className="create_text_01">
-              What is your{" "}
-              {CreateType === "pdf"
-                ? "PDF"
-                : CreateType === "excel"
-                ? "Excel Sheet"
-                : CreateType === "video"
-                ? "Video"
-                : CreateType === "event"
-                ? "Event"
-                : ""}{" "}
-              about?
-            </h1>
-            <p className="create_text_02">
-              {CreateType === "pdf"
-                ? "You can upload helpful study material, interview questions, food recipes etc."
-                : CreateType === "excel"
-                ? "You can upload helpful study material, interview questions prep, list of companies hiring, etc"
-                : CreateType === "video"
-                ? "You can upload gorgeous art, DIY tutorials, Fashion Ideas etc."
-                : ""}
-            </p>
-          </div>
-          <button
-            onClick={() => {
-              mixpanel.track("Preview Sample Page");
-              window.open(
-                CreateType === "pdf"
-                  ? "https://www.anchors.in/s/list-of-top-10-youtube-channel-for-coding"
+      <div className="create_service_outside_wrapper">
+        <div className="main_create_container_new_conatiner_live_demo">
+          {/* Heading of the create section ------------------------ */}
+          <section className="heading_create_box">
+            <div>
+              <h1 className="create_text_01">
+                What is your{" "}
+                {CreateType === "pdf"
+                  ? "PDF"
                   : CreateType === "excel"
-                  ? "https://www.anchors.in/s/companies-list-hiring-for"
-                  : CreateType === "video"
-                  ? "https://www.anchors.in/s/top-10-profession-for-fresher-with-salary-package-5-8-lpa"
-                  : ""
-              );
-            }}
-          >
-            <FiSend /> Preview Sample Page
-          </button>
-        </section>
-
-        {/* form section of create container ---------------------------------------- */}
-        <section className="create_form_box">
-          {/* left side---------------------------------------------------------------------------- */}
-          <div className="left_section_form">
-            <TextField1
-              label="Title of Service"
-              name="sname"
-              id="sname"
-              required={true}
-              value={data?.sname}
-              placeholder="Enter Title Here"
-              onChange={handleChange}
-            />
-            {paid === "Paid" && (
-              <TextField1
-                label="Set Maximum Price"
-                placeholder="Max 500"
-                name="smrp"
-                id="smrp"
-                value={data?.smrp}
-                required={true}
-                onChange={handleChange}
-              />
-            )}
-            <UploadField2
-              label="Upload Banner Image"
-              id="asdas"
-              info="File Size Limit 15 MB Formats - jpg,png"
-              FileType=".jpg,.png,.jpeg"
-              required={true}
-              onChange={setBannerImage}
-              disabled={defaultbanner}
-              onChangeFunction={handleChangeFileBanner}
-              defaultRadioLabel="Use Default Image"
-              defaultRadioOnChange={(e) => {
-                mixpanel.track("Use default banner");
-                e.target.checked
-                  ? setDefaultBanner(true)
-                  : setDefaultBanner(false);
-              }}
-            />
-            {BannerImage || defaultbanner ? (
-              <>
-                {" "}
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    if (defaultbanner) {
-                      EditOptionDefaultBanner();
-                      mixpanel.track("Edit default banner");
-                    } else {
-                      setImagePreview((prev) => !prev);
-                      mixpanel.track("Edit Browse Banner");
-                    }
-                  }}
-                  className="imageresizeopenerbutton"
-                >
-                  {defaultbanner
-                    ? "Edit default Banner"
-                    : "Preview Image and Resize"}
-                </Button>
-                <br />
-              </>
-            ) : (
-              ""
-            )}
-
-            <Editor1
-              label={`Describe your ${
-                CreateType === "pdf"
-                  ? "Document"
-                  : CreateType === "excel"
-                  ? "Sheet"
+                  ? "Excel Sheet"
                   : CreateType === "video"
                   ? "Video"
-                  : ""
-              }`}
-              placeholder={`Caption your ${
-                CreateType === "pdf"
-                  ? "Document"
+                  : CreateType === "event"
+                  ? "Event"
+                  : ""}{" "}
+                about?
+              </h1>
+              <p className="create_text_02">
+                {CreateType === "pdf"
+                  ? "You can upload helpful study material, interview questions, food recipes etc."
                   : CreateType === "excel"
-                  ? "Sheet"
+                  ? "You can upload helpful study material, interview questions prep, list of companies hiring, etc"
                   : CreateType === "video"
-                  ? "Video"
-                  : ""
-              }`}
-              info="A brief description gives your audience some context"
-              Content={Content}
-              required={true}
-              setContent={(e) => setContent(e)}
-            />
-          </div>
-
-          {/* right side----------------- ---------------------------------------------------------------------------*/}
-          <div className="right_section_form">
-            <Dropdown1
-              label="Is it paid/free?"
-              placeholder="Choose a service type"
-              value={["Free", "Paid"]}
-              required={true}
-              defaultValue={paid}
-              selectedValue={(e) => {
-                setpaid(e);
-              }}
+                  ? "You can upload gorgeous art, DIY tutorials, Fashion Ideas etc."
+                  : ""}
+              </p>
+            </div>
+            {/* <button
               onClick={() => {
-                mixpanel.track(`${paid} Service`);
-              }}
-            />
-            {paid === "Paid" && (
-              <TextField1
-                label="Selling Price "
-                placeholder="Min 99"
-                name="ssp"
-                id="ssp"
-                required={true}
-                value={data?.ssp}
-                onChange={handleChange}
-              />
-            )}
-            <UploadField1
-              label={`Upload your ${
-                CreateType === "pdf"
-                  ? "Document"
-                  : CreateType === "excel"
-                  ? "Sheet"
-                  : CreateType === "video"
-                  ? "Video"
-                  : ""
-              }`}
-              id="asd1515"
-              required={true}
-              onChange={setServiceDoc}
-              info={
-                CreateType === "pdf"
-                  ? "File Size Limit 15 MB Formats - pdf"
-                  : CreateType === "excel"
-                  ? "File Size Limit 15 MB Formats -xls"
-                  : CreateType === "video"
-                  ? "File Size Limit 500 MB Formats -Avi,mp4"
-                  : ""
-              }
-              FileType={
-                CreateType === "pdf"
-                  ? ".pdf"
-                  : CreateType === "excel"
-                  ? ".xls,.cvv"
-                  : CreateType === "video"
-                  ? ".mp4,.avi"
-                  : ""
-              }
-            />
-            <Tags1
-                label="Add Relevant Tags"
-                placeholder="Press Enter to add tags"
-                info="This will help in easy search and recommendation"
-                tags={Tags}
-                id="servicecreateTags"
-                setTags={setTags}
-              />
-          </div>
-        </section>
-
-        {/* Used to trigeer the advanced section ------------------------------------------------------------------ */}
-        {!advanced && (
-          <section className="adanced_remote_control">
-            <span
-              className="create_text_03"
-              onClick={() => {
-                setAdvanced(!advanced);
-                mixpanel.track("Advance Customization ");
+                mixpanel.track("Preview Sample Page");
+                window.open(
+                  CreateType === "pdf"
+                    ? "https://www.anchors.in/s/list-of-top-10-youtube-channel-for-coding"
+                    : CreateType === "excel"
+                    ? "https://www.anchors.in/s/companies-list-hiring-for"
+                    : CreateType === "video"
+                    ? "https://www.anchors.in/s/top-10-profession-for-fresher-with-salary-package-5-8-lpa"
+                    : ""
+                );
               }}
             >
-              Advanced Customizations &nbsp;
-              <i className="fa-solid fa-plus "></i>
-            </span>
+              <FiSend /> Preview Sample Page
+            </button> */}
           </section>
-        )}
 
-        {advanced && (
-          <section className="advanced_custom_mode_create">
-            <span className="create_text_03">Advanced Customizations</span>
-            <section>
-              {/* left section -------------------------- */}
-              <div className="left_section_form">
-                <Editor1
-                  name="sdesc"
-                  label={`Describe your ${
+          {/* form section of create container ---------------------------------------- */}
+          <section className="create_form_box">
+            {/* left side---------------------------------------------------------------------------- */}
+            <div className="left_section_form" style={{ width: "100%" }}>
+              <TextField1
+                label="Title of Service"
+                name="sname"
+                id="sname"
+                required={true}
+                value={data?.sname}
+                placeholder="Enter Title Here"
+                onChange={handleChange}
+              />
+
+              <Dropdown1
+                label="Is it paid/free?"
+                placeholder="Choose a service type"
+                value={["Free", "Paid"]}
+                required={true}
+                defaultValue={paid}
+                selectedValue={(e) => {
+                  setpaid(e);
+                }}
+                onClick={() => {
+                  mixpanel.track(`${paid} Service`);
+                }}
+              />
+
+              {paid === "Paid" && (
+                <section
+                  style={{
+                    width: "100%",
+                    gap: "25px",
+                    display: "grid",
+                    gridTemplateColumns: "repeat(2,1fr)",
+                    marginBottom: "32px",
+                  }}
+                >
+                  <TextField1
+                    label="Set Maximum Price"
+                    placeholder="Max 500"
+                    name="smrp"
+                    id="smrp"
+                    value={data?.smrp}
+                    required={true}
+                    onChange={handleChange}
+                  />
+
+                  <TextField1
+                    label="Selling Price "
+                    placeholder="Min 99"
+                    name="ssp"
+                    id="ssp"
+                    required={true}
+                    value={data?.ssp}
+                    onChange={handleChange}
+                  />
+                </section>
+              )}
+
+              <section
+                style={{
+                  width: "100%",
+                  gap: "25px",
+                  display: "grid",
+                  gridTemplateColumns: "repeat(2,1fr)",
+                  marginBottom: "32px",
+                }}
+              >
+                <UploadField3
+                  label="Upload Banner Image"
+                  id="bannerimage"
+                  info="File Size Limit 15 MB Formats - jpg,png"
+                  FileType=".jpg,.png,.jpeg"
+                  required={true}
+                  onChange={setBannerImage}
+                  disabled={defaultbanner}
+                  onChangeFunction={handleChangeFileBanner}
+                />
+                <UploadField3
+                  label={`Upload your ${
                     CreateType === "pdf"
                       ? "Document"
                       : CreateType === "excel"
@@ -647,68 +549,221 @@ function Create({
                       ? "Video"
                       : ""
                   }`}
-                  placeholder="Mention guidelines how your content can be useful for your audience"
-                  Content={data.sdesc}
-                  setContent={(e) => setdata({ ...data, sdesc: e })}
-                />
-              </div>
-              {/* right section -------------------------- */}
-              <div className="right_section_form">
-                <TextField1
-                  label={
-                    CreateType === "video"
-                      ? "Time Duration"
+                  id="asd1515"
+                  required={true}
+                  onChange={setServiceDoc}
+                  info={
+                    CreateType === "pdf"
+                      ? "File Size Limit 15 MB Formats - pdf"
                       : CreateType === "excel"
-                      ? "Number of items"
-                      : "Number of Pages"
-                  }
-                  placeholder={
-                    CreateType === "video"
-                      ? "in minutes"
-                      : CreateType === "excel"
-                      ? "21"
+                      ? "File Size Limit 15 MB Formats -xls"
+                      : CreateType === "video"
+                      ? "File Size Limit 500 MB Formats -Avi,mp4"
                       : ""
                   }
-                  onChange={(e) => setNoOfPages(e.target.value)}
-                  value={noOfPage}
+                  FileType={
+                    CreateType === "pdf"
+                      ? ".pdf"
+                      : CreateType === "excel"
+                      ? ".xls,.cvv"
+                      : CreateType === "video"
+                      ? ".mp4,.avi"
+                      : ""
+                  }
                 />
+              </section>
 
-                {/* Allow preview section ------------------------------- */}
+              <section
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "row-reverse",
+                  justifyContent: "space-between",
+                  marginBottom: "32px",
+                  height:"36px"
+                }}
+              >
                 <RadioField1
-                  label="Allow Download"
-                  onChange={setAllowDownload}
-                  value={allowDownload}
-                  id="asdas"
+                  label="Use Default Image"
+                  onChange={(e) => {
+                    mixpanel.track("Use default banner");
+                    setDefaultBanner(e);
+                  }}
+                  id="defaultimageradio"
                 />
-              </div>
-            </section>
-          </section>
-        )}
 
-        <section className="buttons_form">
-          <Button1
-            text="Preview"
-            onClick={() => {
-              draftCreated?.status
-                ? updateTheDraft("preview")
-                : onSubmit("preview");
-            }}
-          />
-          <Button1
-            text="Save and Publish"
-            onClick={() => {
-              draftCreated?.status ? updateTheDraft("save") : onSubmit("save");
-            }}
-          />
-          {/* <Button1
+                {(BannerImage ||
+                  defaultbanner) && (
+                    <Button1
+                      text={
+                        defaultbanner
+                          ? "Edit default Banner"
+                          : "Preview Image and Resize"
+                      }
+                      onClick={() => {
+                        if (defaultbanner) {
+                          EditOptionDefaultBanner();
+                          mixpanel.track("Edit default banner");
+                        } else {
+                          setImagePreview((prev) => !prev);
+                          mixpanel.track("Edit Browse Banner");
+                        }
+                      }}
+                    />
+                  )}
+              </section>
+
+              <Editor1
+                label={`Describe your ${
+                  CreateType === "pdf"
+                    ? "Document"
+                    : CreateType === "excel"
+                    ? "Sheet"
+                    : CreateType === "video"
+                    ? "Video"
+                    : ""
+                }`}
+                placeholder={`Caption your ${
+                  CreateType === "pdf"
+                    ? "Document"
+                    : CreateType === "excel"
+                    ? "Sheet"
+                    : CreateType === "video"
+                    ? "Video"
+                    : ""
+                }`}
+                info="A brief description gives your audience some context"
+                Content={Content}
+                required={true}
+                setContent={(e) => setContent(e)}
+              />
+
+              <Tags1
+                label="Add Relevant Tags"
+                placeholder="Press Enter to add tags"
+                info="This will help in easy search and recommendation"
+                tags={Tags}
+                id="servicecreateTags"
+                setTags={setTags}
+              />
+            </div>
+          </section>
+
+          {/* Used to trigeer the advanced section ------------------------------------------------------------------ */}
+          {!advanced && (
+            <section className="adanced_remote_control">
+              <span
+                className="create_text_03"
+                onClick={() => {
+                  setAdvanced(!advanced);
+                  mixpanel.track("Advance Customization ");
+                }}
+              >
+                Advanced Customizations &nbsp;
+                <i className="fa-solid fa-plus "></i>
+              </span>
+            </section>
+          )}
+
+          {advanced && (
+            <section className="advanced_custom_mode_create">
+              <span className="create_text_03">Advanced Customizations</span>
+              <section>
+                {/* left section -------------------------- */}
+                <div className="left_section_form" style={{ width: "100%" }}>
+                  <Editor1
+                    name="sdesc"
+                    label={`Describe your ${
+                      CreateType === "pdf"
+                        ? "Document"
+                        : CreateType === "excel"
+                        ? "Sheet"
+                        : CreateType === "video"
+                        ? "Video"
+                        : ""
+                    }`}
+                    placeholder="Mention guidelines how your content can be useful for your audience"
+                    Content={data.sdesc}
+                    setContent={(e) => setdata({ ...data, sdesc: e })}
+                  />
+
+                  <TextField1
+                    label={
+                      CreateType === "video"
+                        ? "Time Duration"
+                        : CreateType === "excel"
+                        ? "Number of items"
+                        : "Number of Pages"
+                    }
+                    placeholder={
+                      CreateType === "video"
+                        ? "in minutes"
+                        : CreateType === "excel"
+                        ? "21"
+                        : ""
+                    }
+                    onChange={(e) => setNoOfPages(e.target.value)}
+                    value={noOfPage}
+                  />
+
+                  {/* Allow download section ------------------------------- */}
+                  <RadioField1
+                    label="Allow Download"
+                    onChange={setAllowDownload}
+                    value={allowDownload}
+                    id="asdas"
+                  />
+                </div>
+              </section>
+            </section>
+          )}
+
+          <section className="buttons_form">
+            {/* <Button1
+              text="Preview"
+              onClick={() => {
+                draftCreated?.status
+                  ? updateTheDraft("preview")
+                  : onSubmit("preview");
+              }}
+            /> */}
+            <Button1
+              text="Save and Publish"
+              onClick={() => {
+                draftCreated?.status
+                  ? updateTheDraft("save")
+                  : onSubmit("save");
+              }}
+            />
+            {/* <Button1
             text="Save and Publish"
             onClick={() => {
               TestBanner();
             }}
           /> */}
-        </section>
+          </section>
+        </div>
+
+        {/* Live preview Section ------------- */}
+        <div className="live_preview_edit_profile_page">
+          <div className="live_preview_modal_design">
+            <section>
+              <img
+                src={require("../../../../Utils/Images/mobile-screen.png")}
+                alt=""
+              />
+              <CreateServiceDemo
+                {...data}
+                paid={paid}
+                ldesc={Content}
+                simg={defaultbanner ? defaultImageobjectUrl : showimg}
+                stype={CreateType}
+                noOfPage={noOfPage}
+              />
+            </section>
+          </div>
+        </div>
       </div>
-      
 
       {openimagePreview && BannerImage ? (
         <Modal

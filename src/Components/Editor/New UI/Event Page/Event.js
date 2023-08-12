@@ -716,31 +716,31 @@ function Event() {
             )}
 
             <h1>{eventInfo?.event?.sname}</h1>
-            {showCreator ? (
-              <span>by {eventInfo?.creator?.name}</span>
-            ) : (
-              <p>
-                by
-                {eventInfo?.event?.speakerDetails?.map((e, index) => {
-                  return (
-                    <span key={index}>
-                      {" "}
-                      {`${e?.name}${
-                        index !==
-                          eventInfo?.event?.speakerDetails?.length - 2 &&
-                        index !== eventInfo?.event?.speakerDetails?.length - 1
-                          ? ", "
-                          : ""
-                      } ${
-                        index === eventInfo?.event?.speakerDetails?.length - 2
-                          ? "&"
-                          : ""
-                      }`}
-                    </span>
-                  );
-                })}
-              </p>
-            )}
+            {/* {showCreator ? ( */}
+            <span>by {eventInfo?.creator?.name}</span>
+            {/* // ) : (
+            //   <p>
+            //     by
+            //     {eventInfo?.event?.speakerDetails?.map((e, index) => {
+            //       return (
+            //         <span key={index}>
+            //           {" "}
+            //           {`${e?.name}${
+            //             index !==
+            //               eventInfo?.event?.speakerDetails?.length - 2 &&
+            //             index !== eventInfo?.event?.speakerDetails?.length - 1
+            //               ? ", "
+            //               : ""
+            //           } ${
+            //             index === eventInfo?.event?.speakerDetails?.length - 2
+            //               ? "&"
+            //               : ""
+            //           }`}
+            //         </span>
+            //       );
+            //     })}
+            //   </p>
+            // )} */}
 
             <button onClick={handleNavigation}>
               {eventFinished || alreadyOrderPlaced

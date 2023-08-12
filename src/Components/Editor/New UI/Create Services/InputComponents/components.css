@@ -145,6 +145,19 @@ margin-top: 10px;
   margin-left: -3px;
 }
 
+.input_type_04{
+  height: 49px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px dashed #000000;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
 div.ck-editor.ck.ck-reset {
   width: 100%;
   /* height: 175px; */
@@ -287,7 +300,8 @@ input:checked + .slider_type_01:before {
 /* Buttons csss ------------------------------------------ */
 
 .button_01_css {
-  width: 164px;
+  min-width: 164px;
+  padding: 0 18px;
   height: 36px;
   background: #000000;
   border-radius: 8px;
