@@ -135,7 +135,7 @@
 .terms_cond_check_signup {
   display: flex;
   width: 50%;
-  align-items: center;
+  align-items: flex-start;
   gap: 4px;
   text-align: center;
   color: #475569;

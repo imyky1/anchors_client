@@ -523,30 +523,6 @@ const CreatorState = (props) => {
 
   // Statistics -----------------------------------------------------------------------------------
 
-  const getViews=async()=>{
-    try{
-      const response=await fetch(`${host}/api/stats/getStats`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-          "jwt-token": localStorage.getItem("jwtToken"),
-        },
-        body: JSON.stringify({
-          serviceType: "profile",
-        }),
-      })
-  
-  
-      const json = response.json()
-      return json
-  
-    }catch(error){
-      console.log(error);
-    }
-  }
-  
       //get order stats
       const getOrderStats=async(selectedOption)=>{
         try{
@@ -633,6 +609,23 @@ const CreatorState = (props) => {
 
       }
 
+      const getViewsStats=async(selectedOption)=>{
+        try{
+          const response=await fetch(`${host}/api/stats/getViews?filter=${selectedOption}`, {
+            method: "GET",
+            headers:{
+              "jwt-token":localStorage.getItem("jwtToken")
+            }
+    
+          })
+          const json = response.json()
+          return json
+    
+        }catch(error){
+          console.log(error);
+        }
+      }
+
 
 
 
@@ -676,12 +669,12 @@ const CreatorState = (props) => {
         UpdateCodeInTellUsMoreForm,
         updateStepperStatus,
         checkStepperStatus,
-        getViews,
         getMaxService,
         getAvgRating,
         getOrderStats,
         getEventReg,
-        getMaxEvent
+        getMaxEvent,
+        getViewsStats
       }}
     >
       {props.children}

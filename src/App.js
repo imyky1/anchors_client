@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import ServiceState from "./Context/services/ServiceState";
 import Creators_login from "./Components/Login/Creators/Login2";
 import CreatorState from "./Context/CreatorState";
@@ -58,6 +63,7 @@ import ProfilePage from "./Components/Editor/New UI/Creator Profile/ProfilePage"
 import PreviewPage from "./Components/Editor/New UI/Service Page/PreviewPage";
 import Upload from "./Developers/Upload/Upload";
 import Creator from "./Components/ApprovedCreators/Creator.js";
+import MainLanding from "./Components/Editor/New UI/Main Page/Main";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -68,222 +74,232 @@ function App() {
     setprogress(progress);
   };
 
-
   return (
-    <>  
-    <Seo/>
+    <>
+      <Seo />
 
-    <SkeletonTheme baseColor="#313131" highlightColor="#525252">
-      <Router>
-        <LinkedinState>
-          <ServiceState>
-            <CreatorState>
-              <PaymentState>
-                <UserState>
-                  <EmailState>
-                    <EPAState>
-                      <FeedbackState>
-                        <UserDashboardState>
-                          <LoadingBar color="#f11946" progress={progress} />
-                          <Routes>
-                            {/* Landing Page routes ---------------------------------------------------------- */}
-                            <Route
-                              path="/"
-                              element={<Main progress={changeprogress} />}
-                            ></Route>
-                            {/* Home route to creator dashboard ------------------------------------------------ */}
-                            <Route
-                              path="/dashboard/*"
-                              element={<HomeUI progress={changeprogress} />}
-                            ></Route>
-                            {/* Creator profile routes and service reoutes --------------------------------------------------- */}
-                            <Route
-                              exact
-                              path="/:slug"
-                              element={
-                                <ProfilePage progress={changeprogress} />
-                              }
-                            ></Route>
-                            <Route
-                              exact path="/s/:slug"
-                              element={
-                                <ServicePage progress={changeprogress} />
-                              }
-                            ></Route>
-                            <Route
-                              exact path="/s/preview/:slug"
-                              element={
-                                <PreviewPage progress={changeprogress} />
-                              }
-                            ></Route>
-                            <Route
-                              path="/e/:slug"
-                              element={<Event progress={changeprogress} />}
-                            ></Route>
-                            <Route
-                              path="/success/:slug"
-                              element={<Success />}
-                            />
-                            {/* Anchors details routes ------------------------------------------------------- */}
-                            <Route
-                              path="/privacy-policy"
-                              element={<Privacy />}
-                            ></Route>
-                            <Route
-                              path="/approved-creators"
-                              element={<Creator />}
-                            ></Route>
-                            <Route
-                              path="/earning-predictor"
-                              element={<Predictor />}
-                            ></Route>
-                            <Route
-                              path="/earning-predictor/:url"
-                              element={<PredictorData />}
-                            ></Route>
-                            {/* Static Pages */}
-                            <Route
-                              path="/termsConditions"
-                              element={<TermsAndConditions />}
-                            ></Route>
-                            <Route path="/aboutUs" element={<About />}></Route>
-                            <Route
-                              path="/contactUs"
-                              element={<Contact />}
-                            ></Route>
-                            <Route
-                              path="/refundPolicy"
-                              element={<RefundPolicy />}
-                            ></Route>
-                            <Route
-                              path="/static/success"
-                              element={<StaticSuccess />}
-                            ></Route>
-                            <Route
-                              path="/pricing"
-                              element={<Pricing />}
-                            ></Route>
-                            {/* Demo Page */}
-                            <Route
-                              path="/hostevent"
-                              element={<Sample />}
-                            ></Route>
-                            {/* Redirection routes ---------------------------------------------------------------------- */}
-                            <Route
-                              path="/r/:id"
-                              element={<Redirect_serv />}
-                            ></Route>
-                            <Route
-                              path="/c/:id"
-                              element={<Redirect_serv />}
-                            ></Route>
-                            {/* Developer routes --------------------------------------------------------------- */}
-                            <Route
-                              path="/developer/count"
-                              element={<UserCount />}
-                            ></Route>
-                            <Route
-                              path="/developer/admin"
-                              element={<View />}
-                            ></Route>
-                            <Route
-                              path="/developer/admin/upload"
-                              element={<Upload />}
-                            ></Route>
-                            <Route
-                              path="/developer/login"
-                              element={<Login />}
-                            ></Route>
-                            <Route
-                              path="/developer/test"
-                              element={<Test />}
-                            ></Route>
-                            {/* User feedback routes ----------------------------------------------------------- */}
-                            <Route
-                              path="/feedback"
-                              element={<Feedback progress={changeprogress} />}
-                            ></Route>
-                            <Route
-                              path="/feedback/workshop/:id"
-                              element={
-                                <WorkshopFeedback progress={changeprogress} />
-                              }
-                            ></Route>
-                            {/* Logout routes ---------------------------------------------------------------------------- */}
-                            <Route
-                              path="/logout"
-                              element={<Logout_Model progress={changeprogress} />}
-                            />
-
-                            {localStorage.getItem("jwtToken") && (
+      <SkeletonTheme baseColor="#313131" highlightColor="#525252">
+        <Router>
+          <LinkedinState>
+            <ServiceState>
+              <CreatorState>
+                <PaymentState>
+                  <UserState>
+                    <EmailState>
+                      <EPAState>
+                        <FeedbackState>
+                          <UserDashboardState>
+                            <LoadingBar color="#f11946" progress={progress} />
+                            <Routes>
+                              {/* Landing Page routes ---------------------------------------------------------- */}
                               <Route
-                                path="/user/dashboard"
+                                path="/"
                                 element={
-                                  <UserDashboard progress={changeprogress} />
+                                  window.screen.width > 600 ? (
+                                    <MainLanding progress={changeprogress} />
+                                  ) : (
+                                    <Main progress={changeprogress} />
+                                  )
+                                }
+                              ></Route>
+                              {/* Home route to creator dashboard ------------------------------------------------ */}
+                              <Route
+                                path="/dashboard/*"
+                                element={<HomeUI progress={changeprogress} />}
+                              ></Route>
+                              {/* Creator profile routes and service reoutes --------------------------------------------------- */}
+                              <Route
+                                exact
+                                path="/:slug"
+                                element={
+                                  <ProfilePage progress={changeprogress} />
+                                }
+                              ></Route>
+                              <Route
+                                exact
+                                path="/s/:slug"
+                                element={
+                                  <ServicePage progress={changeprogress} />
+                                }
+                              ></Route>
+                              <Route
+                                exact
+                                path="/s/preview/:slug"
+                                element={
+                                  <PreviewPage progress={changeprogress} />
+                                }
+                              ></Route>
+                              <Route
+                                path="/e/:slug"
+                                element={<Event progress={changeprogress} />}
+                              ></Route>
+                              <Route
+                                path="/success/:slug"
+                                element={<Success />}
+                              />
+                              {/* Anchors details routes ------------------------------------------------------- */}
+                              <Route
+                                path="/privacy-policy"
+                                element={<Privacy />}
+                              ></Route>
+                              <Route
+                                path="/approved-creators"
+                                element={<Creator />}
+                              ></Route>
+                              <Route
+                                path="/earning-predictor"
+                                element={<Predictor />}
+                              ></Route>
+                              <Route
+                                path="/earning-predictor/:url"
+                                element={<PredictorData />}
+                              ></Route>
+                              {/* Static Pages */}
+                              <Route
+                                path="/termsConditions"
+                                element={<TermsAndConditions />}
+                              ></Route>
+                              <Route
+                                path="/aboutUs"
+                                element={<About />}
+                              ></Route>
+                              <Route
+                                path="/contactUs"
+                                element={<Contact />}
+                              ></Route>
+                              <Route
+                                path="/refundPolicy"
+                                element={<RefundPolicy />}
+                              ></Route>
+                              <Route
+                                path="/static/success"
+                                element={<StaticSuccess />}
+                              ></Route>
+                              <Route
+                                path="/pricing"
+                                element={<Pricing />}
+                              ></Route>
+                              {/* Demo Page */}
+                              <Route
+                                path="/hostevent"
+                                element={<Sample />}
+                              ></Route>
+                              {/* Redirection routes ---------------------------------------------------------------------- */}
+                              <Route
+                                path="/r/:id"
+                                element={<Redirect_serv />}
+                              ></Route>
+                              <Route
+                                path="/c/:id"
+                                element={<Redirect_serv />}
+                              ></Route>
+                              {/* Developer routes --------------------------------------------------------------- */}
+                              <Route
+                                path="/developer/count"
+                                element={<UserCount />}
+                              ></Route>
+                              <Route
+                                path="/developer/admin"
+                                element={<View />}
+                              ></Route>
+                              <Route
+                                path="/developer/admin/upload"
+                                element={<Upload />}
+                              ></Route>
+                              <Route
+                                path="/developer/login"
+                                element={<Login />}
+                              ></Route>
+                              <Route
+                                path="/developer/test"
+                                element={<Test />}
+                              ></Route>
+                              {/* User feedback routes ----------------------------------------------------------- */}
+                              <Route
+                                path="/feedback"
+                                element={<Feedback progress={changeprogress} />}
+                              ></Route>
+                              <Route
+                                path="/feedback/workshop/:id"
+                                element={
+                                  <WorkshopFeedback progress={changeprogress} />
+                                }
+                              ></Route>
+                              {/* Logout routes ---------------------------------------------------------------------------- */}
+                              <Route
+                                path="/logout"
+                                element={
+                                  <Logout_Model progress={changeprogress} />
                                 }
                               />
-                            )}
-                            {/* Login and Signup for creators -------------------------------------- */}{" "}
-                            <Route path="/login">
+                              {localStorage.getItem("jwtToken") && (
+                                <Route
+                                  path="/user/dashboard"
+                                  element={
+                                    <UserDashboard progress={changeprogress} />
+                                  }
+                                />
+                              )}
+                              {/* Login and Signup for creators -------------------------------------- */}{" "}
+                              <Route path="/login">
+                                <Route
+                                  path="creators"
+                                  element={
+                                    <Creators_login progress={changeprogress} />
+                                  }
+                                />
+                              </Route>
                               <Route
-                                path="creators"
+                                path="/signup/creators"
+                                element={<Signup />}
+                              />{" "}
+                              {/* Sitemap route -------------------------------------------------------------- */}
+                              <Route
+                                path="/sitemapac"
+                                element={<Sitemap />}
+                              ></Route>
+                              {/* Testing routes --------------------------------------------------------------- */}
+                              {/**EXCEL FILE VIEWING ROUTE : ) */}
+                              <Route
+                                path="/viewExcel"
                                 element={
-                                  <Creators_login progress={changeprogress} />
+                                  <ExcelViewer /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
+                                  />
                                 }
                               />
-                            </Route>
-                            <Route
-                              path="/signup/creators"
-                              element={<Signup />}
-                            />{" "}
-                            {/* Sitemap route -------------------------------------------------------------- */}
-                            <Route
-                              path="/sitemapac"
-                              element={<Sitemap />}
-                            ></Route>
-                            {/* Testing routes --------------------------------------------------------------- */}
-                            {/**EXCEL FILE VIEWING ROUTE : ) */}
-                            <Route
-                              path="/viewExcel"
-                              element={
-                                <ExcelViewer /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
-                                />
-                              }
-                            />
-                            <Route
-                              path="/viewPdf"
-                              element={
-                                <PDFReader /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
-                                />
-                              }
-                            />
-                            <Route
-                              path="/viewPdfPreview"
-                              element={
-                                <PDFReaderPreview /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
-                                />
-                              }
-                            />
-                            <Route
-                              path="/viewVideo"
-                              element={
-                                <VideoDisplay /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
-                                />
-                              }
-                            />
-                          </Routes>
-                        </UserDashboardState>
-                      </FeedbackState>
-                    </EPAState>
-                  </EmailState>
-                </UserState>
-              </PaymentState>
-            </CreatorState>
-          </ServiceState>
-        </LinkedinState>
-      </Router>
-    </SkeletonTheme>
-
+                              <Route
+                                path="/viewPdf"
+                                element={
+                                  <PDFReader /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
+                                  />
+                                }
+                              />
+                              <Route
+                                path="/viewPdfPreview"
+                                element={
+                                  <PDFReaderPreview /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
+                                  />
+                                }
+                              />
+                              <Route
+                                path="/viewVideo"
+                                element={
+                                  <VideoDisplay /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
+                                  />
+                                }
+                              />
+                            </Routes>
+                          </UserDashboardState>
+                        </FeedbackState>
+                      </EPAState>
+                    </EmailState>
+                  </UserState>
+                </PaymentState>
+              </CreatorState>
+            </ServiceState>
+          </LinkedinState>
+        </Router>
+      </SkeletonTheme>
     </>
   );
 }

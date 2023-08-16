@@ -17,11 +17,12 @@ import Event from "./event";
 const Stats = () => {
   const [activeButton, setActiveButton] = useState("overall");
   const [showList1, setShowList1] = useState(false);
-  const [selectedOption1, setSelectedOption1] = useState("Today");
+  const [selectedOption1, setSelectedOption1] = useState("Last Year");
   const [showList2, setShowList2] = useState(false);
-  const [selectedOption2, setSelectedOption2] = useState("Today");
+  const [selectedOption2, setSelectedOption2] = useState("Last Year");
   const [showList4, setShowList4] = useState(false);
   const [selectedOption4, setSelectedOption4] = useState("Last Month");
+  const [profileViews, setProfileViews] = useState(null);
 
   const menuRef1 = useRef(null);
   const menuRef2 = useRef(null);
@@ -104,7 +105,7 @@ const Stats = () => {
   };
 
   //{avgStats?.a}
-  const { getOrderStats, getMaxService, getAvgRating, getViews } =
+  const { getOrderStats, getMaxService, getAvgRating, getViewsStats } =
     useContext(creatorContext);
 
   useEffect(() => {
@@ -153,6 +154,39 @@ const Stats = () => {
 
     fetchServiceStats();
   }, []);
+  useEffect(() => {
+    setOpenLoading(true)
+    const fetchViewsService = async () => {
+      try {
+        const data = await getViewsStats(selectedOption2);
+        setOpenLoading(false)
+          console.log('mydata',data);
+          setViews(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchViewsService();
+  }, [selectedOption2]);
+
+
+  useEffect(() => {
+    setOpenLoading(true)
+    const fetchViewsProfile = async () => {
+      try {
+        const data = await getViewsStats(selectedOption1);
+        setOpenLoading(false)
+        console.log('mydata2',data);
+        setProfileViews(data);
+
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchViewsProfile();
+  }, [selectedOption1]);
 
   useEffect(() => {
     const fetchAvgStats = async () => {
@@ -240,215 +274,251 @@ const Stats = () => {
             EVENT
           </button>
         </div> */}
-        {/* <div className='profile_view_stats'>
-        <div className='profile_text_stats'>
-            <span>Profile Views</span>
-            <div className="time_stats">
-            <div className='date'>
-               <img src={calendar} alt='Calendar' />
-               <span>{selectedOption1}</span>
-               </div>
-                
-              <div className={`dropmenu_stats ${showList1 ? 'active' : ''}`} onClick={handleDropmenuClick1} ref={menuRef1} >
-                 <img src={below} alt='Dropdown Menu' />
-                 {showList1 && (
-                <ul className='list'>
-                  <li onClick={() => handleOptionClick1('Today')}>Today</li>
-                  <li onClick={() => handleOptionClick1('Last Week')}>Last Week</li>
-                  <li onClick={() => handleOptionClick1('Last Month')}>Last Month</li>
-                  <li onClick={() => handleOptionClick1('Last Year')}>Last Year</li>
-                </ul>
-                   )}
-            </div>
-            </div>
-
-        </div>
-        <div className='profile_graph_stats'>
-            <div className='view_stats'>
-                 <div className='frame_stats'>
-                     <span className='num_stats'>{views?.uniquevisits}</span>
-                     <span className='views_stats' >Total Views</span>
-                 </div>
+        {!profileViews?.allProfile && (
+          <div className="profile_view_stats" style={{ marginTop: "40px" }}>
+            <div className="profile_text_stats">
+              <span>Profile Views</span>
+              <div className="time_stats">
+                <div className="date">
+                  <img src={calendar} alt="Calendar" />
+                  <span>{selectedOption1}</span>
                 </div>
 
-            <div className='graph_stats'>
-              
-                 <Graph/>
-               
+                <div
+                  className={`dropmenu_stats ${showList1 ? "active" : ""}`}
+                  onClick={handleDropmenuClick1}
+                  ref={menuRef1}
+                >
+                  <img src={below} alt="Dropdown Menu" />
+                  {showList1 && (
+                    <ul className="list">
+                      <li onClick={() => handleOptionClick1("Last Week")}>
+                        Last Week
+                      </li>
+                      <li onClick={() => handleOptionClick1("Last Month")}>
+                        Last Month
+                      </li>
+                      <li onClick={() => handleOptionClick1("Last Year")}>
+                        Last Year
+                      </li>
+                    </ul>
+                  )}
+                </div>
+              </div>
             </div>
-         </div>
-
-       </div> */}
-        {/* <div className='profile_view_stats'>
-        <div className='profile_text_stats'>
-            <span>Service Page Views</span>
-            <div className="time_stats">
-            <div className='date'>
-               <img src={calendar} alt='Calendar' />
-               <span>{selectedOption2}</span>
-               </div>
-
-              <div className={`dropmenu_stats ${showList2 ? 'active' : ''}`} onClick={handleDropmenuClick2} ref={menuRef2}>
-                 <img src={below} alt='Dropdown Menu' />
-                 {showList2 && (
-                <ul className='list'>
-                  <li onClick={() => handleOptionClick2('Today')}>Today</li>
-                  <li onClick={() => handleOptionClick2('Last Week')}>Last Week</li>
-                  <li onClick={() => handleOptionClick2('Last Month')}>Last Month</li>
-                  <li onClick={() => handleOptionClick2('Last Year')}>Last Year</li>
-                </ul>
-                   )}
+            <div className="profile_graph_stats">
+              <div className="view_stats">
+                <div className="frame_stats">
+                  <span className="num_stats">
+                    {profileViews?.valuenotunique}
+                  </span>
+                  <span className="views_stats">Total Views</span>
+                </div>
+              </div>
+              <div className="graph_stats">
+                <Graph
+                  selectedOption={selectedOption1}
+                  week_arr_profile={profileViews?.weekArr}
+                  month_arr_profile={profileViews?.monthArr}
+                  year_arr_profile={profileViews?.yearArr}
+                />
+              </div>
             </div>
+          </div>
+        )}
 
-            </div>
-
-        </div>
-        <div className='profile_graph_stats'>
-            <div className='view_stats'>
-                 <div className='frame_stats'>
-                     <span className='num_stats'>2,39,045</span>
-                     <span className='views_stats' >Total Views</span>
-                 </div>
+        {!views?.allService && (
+          <div className="profile_view_stats">
+            <div className="profile_text_stats">
+              <span>Service Page Views</span>
+              <div className="time_stats">
+                <div className="date">
+                  <img src={calendar} alt="Calendar" />
+                  <span>{selectedOption2}</span>
                 </div>
 
-            <div className='graph_stats'>
-
+                <div
+                  className={`dropmenu_stats ${showList2 ? "active" : ""}`}
+                  onClick={handleDropmenuClick2}
+                  ref={menuRef2}
+                >
+                  <img src={below} alt="Dropdown Menu" />
+                  {showList2 && (
+                    <ul className="list">
+                      <li onClick={() => handleOptionClick2("Last Week")}>
+                        Last Week
+                      </li>
+                      <li onClick={() => handleOptionClick2("Last Month")}>
+                        Last Month
+                      </li>
+                      <li onClick={() => handleOptionClick2("Last Year")}>
+                        Last Year
+                      </li>
+                    </ul>
+                  )}
+                </div>
+              </div>
             </div>
+            <div className="profile_graph_stats">
+              <div className="view_stats">
+                <div className="frame_stats">
+                  <span className="num_stats">
+                    {views?.valuenotuniqueService}
+                  </span>
+                  <span className="views_stats">Total Views</span>
+                </div>
+              </div>
 
+              <div className="graph_stats">
+                <Bar
+                  show="service"
+                  week_arr_service={views?.weekArrService}
+                  month_arr_service={views?.monthArrService}
+                  year_arr_service={views?.yearArrService}
+                  selectedOption={selectedOption2}
+                />
+              </div>
             </div>
-
-       </div> */}
+          </div>
+        )}
 
         {/* {paramsType === "event" ? (
           <Event />
         ) : ( */}
-          <>
-          {(serviceStats?.free_max_download!==0 || serviceStats?.paid_max_earn!==0) && (
-        <div className="profile_view_stats" style={{height: '315px'}}>
-          <div className="profile_text_stats">
-            <span>Most Used Services</span>
-          </div>
-          <div className="profile_graph_stats">
-
-            {serviceStats?.free_max_download !== 0 && <div className="service_stats">
-              <span className="service_free_stats">Free Service</span>
-              <div className="service_desc_stats">
-                <img
-                  className="free_service_img"
-                  src={serviceStats?.free_img}
-                />
-                <div className="detail_service">
-                  <p className="service_title">{serviceStats?.free_name}</p>
-                  {/* <span className='service_type'>
-                      {type_service}
-                      </span> */}
-                </div>
-              </div>
-              <div className="type">
-                <div className="service_type1">
-                  <div className="outer_type">
-                    <img src={doc} />
-                    <div className="service_name"> {type_service}</div>
-                  </div>
-                  <span className="total_download">
-                    Downloads:{serviceStats?.free_max_download}
-                  </span>
-                </div>
-              </div>
-            </div>}
-
-           {serviceStats?.paid_max_earn !== 0 && <div className="service_stats">
-              <span className="service_free_stats">Paid Service</span>
-              <div className="service_desc_stats">
-                <img
-                  className="free_service_img"
-                  src={serviceStats?.paid_img}
-                />
-                <div className="detail_service">
-                  <p className="service_title">{serviceStats?.paid_name}</p>
-                  {/* <span className='service_type'>
-                      {type_service}
-                      </span> */}
-                </div>
-              </div>
-              <div className="type">
-                <div className="service_type1">
-                  <div className="outer_type">
-                    <img src={doc} />
-                    <div className="service_name"> {type_service_paid}</div>
-                  </div>
-                  <span className="total_download">
-                    Earning:{serviceStats?.paid_max_earn}
-                  </span>
-                </div>
-              </div>
-            </div>}
-          </div>
-        </div>
-        )}
-            
-            <div className="profile_view_stats">
+        <>
+          {(serviceStats?.free_max_download !== 0 ||
+            serviceStats?.paid_max_earn !== 0) && (
+            <div className="profile_view_stats" style={{ height: "315px" }}>
               <div className="profile_text_stats">
-                <span>Orders</span>
-                <div className="time_stats">
-                  <div className="date">
-                    <img src={calendar} alt="Calendar" />
-                    <span>{selectedOption4}</span>
-                  </div>
-
-                  <div
-                    className={`dropmenu_stats ${showList4 ? "active" : ""}`}
-                    onClick={handleDropmenuClick4}
-                    ref={menuRef4}
-                  >
-                    <img src={below} alt="Dropdown Menu" />
-                    {showList4 && (
-                      <ul className="list">
-                        <li onClick={() => handleOptionClick4("Today")}>
-                          Today
-                        </li>
-                        <li onClick={() => handleOptionClick4("Last Week")}>
-                          Last Week
-                        </li>
-                        <li onClick={() => handleOptionClick4("Last Month")}>
-                          Last Month
-                        </li>
-                        <li onClick={() => handleOptionClick4("Last Year")}>
-                          Last Year
-                        </li>
-                      </ul>
-                    )}
-                  </div>
-                </div>
+                <span>Most Used Services</span>
               </div>
               <div className="profile_graph_stats">
-                <div className="view_stats">
-                  <div className="frame_stats">
-                    <span className="num_stats">
-                      {orderStats?.tot_download}
-                    </span>
-                    <span className="views_stats">Total Orders</span>
-                  </div>
-                  <div className="order_stats">
-                    <div className="free_order_stats">
-                      <div className="inside_order_stats">
-                        <span className="number_free_stats">
-                          {orderStats?.free_download}
-                        </span>
-                        <span className="free_order_in_stats">Free Order</span>
+                {serviceStats?.free_max_download !== 0 && (
+                  <div className="service_stats">
+                    <span className="service_free_stats">Free Service</span>
+                    <div className="service_desc_stats">
+                      <img
+                        className="free_service_img"
+                        src={serviceStats?.free_img}
+                      />
+                      <div className="detail_service">
+                        <p className="service_title">
+                          {serviceStats?.free_name}
+                        </p>
+                        {/* <span className='service_type'>
+                      {type_service}
+                      </span> */}
                       </div>
-                      <div className="line_stats"></div>
-                      <div className="inside_order_stats">
-                        <span className="number_paid_stats">
-                          {orderStats?.paid_download}
+                    </div>
+                    <div className="type">
+                      <div className="service_type1">
+                        <div className="outer_type">
+                          <img src={doc} />
+                          <div className="service_name"> {type_service}</div>
+                        </div>
+                        <span className="total_download">
+                          Downloads:{serviceStats?.free_max_download}
                         </span>
-                        <span className="paid_order_in_stats">Paid Order</span>
                       </div>
                     </div>
                   </div>
+                )}
+
+                {serviceStats?.paid_max_earn !== 0 && (
+                  <div className="service_stats">
+                    <span className="service_free_stats">Paid Service</span>
+                    <div className="service_desc_stats">
+                      <img
+                        className="free_service_img"
+                        src={serviceStats?.paid_img}
+                      />
+                      <div className="detail_service">
+                        <p className="service_title">
+                          {serviceStats?.paid_name}
+                        </p>
+                        {/* <span className='service_type'>
+                      {type_service}
+                      </span> */}
+                      </div>
+                    </div>
+                    <div className="type">
+                      <div className="service_type1">
+                        <div className="outer_type">
+                          <img src={doc} />
+                          <div className="service_name">
+                            {" "}
+                            {type_service_paid}
+                          </div>
+                        </div>
+                        <span className="total_download">
+                          Earning:{serviceStats?.paid_max_earn}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          <div className="profile_view_stats">
+            <div className="profile_text_stats">
+              <span>Orders</span>
+              <div className="time_stats">
+                <div className="date">
+                  <img src={calendar} alt="Calendar" />
+                  <span>{selectedOption4}</span>
                 </div>
 
-                <div className="graph_stats">
+                <div
+                  className={`dropmenu_stats ${showList4 ? "active" : ""}`}
+                  onClick={handleDropmenuClick4}
+                  ref={menuRef4}
+                >
+                  <img src={below} alt="Dropdown Menu" />
+                  {showList4 && (
+                    <ul className="list">
+                      <li onClick={() => handleOptionClick4("Today")}>Today</li>
+                      <li onClick={() => handleOptionClick4("Last Week")}>
+                        Last Week
+                      </li>
+                      <li onClick={() => handleOptionClick4("Last Month")}>
+                        Last Month
+                      </li>
+                      <li onClick={() => handleOptionClick4("Last Year")}>
+                        Last Year
+                      </li>
+                    </ul>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="profile_graph_stats">
+              <div className="view_stats">
+                <div className="frame_stats">
+                  <span className="num_stats">{orderStats?.tot_download}</span>
+                  <span className="views_stats">Total Orders</span>
+                </div>
+                <div className="order_stats">
+                  <div className="free_order_stats">
+                    <div className="inside_order_stats">
+                      <span className="number_free_stats">
+                        {orderStats?.free_download}
+                      </span>
+                      <span className="free_order_in_stats">Free Order</span>
+                    </div>
+                    <div className="line_stats"></div>
+                    <div className="inside_order_stats">
+                      <span className="number_paid_stats">
+                        {orderStats?.paid_download}
+                      </span>
+                      <span className="paid_order_in_stats">Paid Order</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="graph_stats">
                 <Bar
                   show="order"
                   hr_arr={orderStats?.hr_arr}
@@ -457,87 +527,80 @@ const Stats = () => {
                   week_arr_p={orderStats?.weekArrP}
                   // month_arr={orderStats?.monthArr}
                   // month_arr_p={orderStats?.monthArrp}
-                  month_arr={orderStats?. monthArr}
-                  month_arr_p={orderStats?. monthArrp}
+                  month_arr={orderStats?.monthArr}
+                  month_arr_p={orderStats?.monthArrp}
                   data={orderStats?.data}
                   data_p={orderStats?.data_p}
                   month_tot={orderStats?.month_tot}
                   selectedOption={selectedOption4}
                 />
-                </div>
-              </div>{" "}
-            </div>
-            <div className="profile_view_stats">
-              <div className="profile_text_stats">
-                <span>Average Ratings</span>
               </div>
-              <div className="profile_graph_stats">
-                <div className="view_stats">
-                  <div className="frame_stats">
-                    <span className="num_stats">
-                      <div className="star_user">
-                        <img src={big_star} />
-                        <span className="total_rating_stats">
-                          {isNaN(avgStats?.avg_rating)
+            </div>{" "}
+          </div>
+          <div className="profile_view_stats">
+            <div className="profile_text_stats">
+              <span>Average Ratings</span>
+            </div>
+            <div className="profile_graph_stats">
+              <div className="view_stats">
+                <div className="frame_stats">
+                  <span className="num_stats">
+                    <div className="star_user">
+                      <img src={big_star} />
+                      <span className="total_rating_stats">
+                        {isNaN(avgStats?.avg_rating) ? 0 : avgStats?.avg_rating}
+                      </span>
+
+                      <span className="total_user">
+                        ({avgStats?.total_user})
+                      </span>
+                    </div>
+                  </span>
+                  <span className="views_stats">Total Ratings</span>
+                </div>
+                <div className="order_stats">
+                  <div className="free_order_stats">
+                    <div className="inside_star_user">
+                      <div className="inside_star_both">
+                        <img src={blue_star} />
+                        <span className="inside_star">
+                          {isNaN(avgStats?.free_rating)
                             ? 0
-                            : avgStats?.avg_rating}
+                            : avgStats?.free_rating}
                         </span>
-
-                        <span className="total_user">
-                          ({avgStats?.total_user})
+                        <span className="free_user">
+                          ({avgStats?.free_user})
                         </span>
                       </div>
-                    </span>
-                    <span className="views_stats">Total Ratings</span>
-                  </div>
-                  <div className="order_stats">
-                    <div className="free_order_stats">
-                      <div className="inside_star_user">
-                        <div className="inside_star_both">
-                          <img src={blue_star} />
-                          <span className="inside_star">
-                            {isNaN(avgStats?.free_rating)
-                              ? 0
-                              : avgStats?.free_rating}
-                          </span>
-                          <span className="free_user">
-                            ({avgStats?.free_user})
-                          </span>
-                        </div>
 
-                        <span className="view_free_ser">Free Service</span>
+                      <span className="view_free_ser">Free Service</span>
+                    </div>
+                    <div className="line_stats"></div>
+                    <div className="inside_star_user">
+                      <div className="inside_star_both">
+                        <img src={red_star} />
+                        <span className="inside_star_red">
+                          {isNaN(avgStats?.paid_rating)
+                            ? 0
+                            : avgStats?.paid_rating}
+                        </span>
+                        <span className="free_use_red">
+                          ({avgStats?.paid_user})
+                        </span>
                       </div>
-                      <div className="line_stats"></div>
-                      <div className="inside_star_user">
-                        <div className="inside_star_both">
-                          <img src={red_star} />
-                          <span className="inside_star_red">
-                            {isNaN(avgStats?.paid_rating)
-                              ? 0
-                              : avgStats?.paid_rating}
-                          </span>
-                          <span className="free_use_red">
-                            ({avgStats?.paid_user})
-                          </span>
-                        </div>
 
-                        <span className="view_free_ser_red">Paid Service</span>
-                      </div>
+                      <span className="view_free_ser_red">Paid Service</span>
                     </div>
                   </div>
                 </div>
+              </div>
 
-                <div className="graph_stats">
-                  <Bar
-                    show="rating"
-                    freeRate={free_rate}
-                    paidRate={paid_rate}
-                  />
-                </div>
+              <div className="graph_stats">
+                <Bar show="rating" freeRate={free_rate} paidRate={paid_rate} />
               </div>
             </div>
-          </>
-
+          </div>
+        </>
       </div>
     </>
   );

@@ -1,0 +1,88 @@
+.container__slider_laptop_home {
+  height: 500px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 30px 10px;
+  box-sizing: border-box;
+}
+
+.container_inside_slider_laptop > input[type="checkbox"] {
+  display: none;
+}
+
+.container_inside_slider_laptop {
+  width: 100%;
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cards_laptop_homepage {
+  height: 400px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card_inside_selection {
+  position: absolute;
+  cursor: pointer;
+  transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.all_image_laptop > img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+#item-2:checked ~ .cards_laptop_homepage #selector-1,
+#item-1:checked ~ .cards_laptop_homepage #selector-3,
+#item-3:checked ~ .cards_laptop_homepage #selector-2 {
+  padding: 10px;
+  width: 21vw;
+  transform: translateX(-130%) translateY(-35px) scale(0.8);
+}
+
+#item-3:checked ~ .cards_laptop_homepage #selector-1,
+#item-1:checked ~ .cards_laptop_homepage #selector-2,
+#item-2:checked ~ .cards_laptop_homepage #selector-3 {
+  padding: 10px;
+  width: 21vw;
+  transform: translateX(130%) translateY(-35px) scale(0.8);
+}
+
+#item-1:checked ~ .cards_laptop_homepage #selector-1,
+#item-2:checked ~ .cards_laptop_homepage #selector-2,
+#item-3:checked ~ .cards_laptop_homepage #selector-3 {
+  padding: 10px;
+  width: 36vw;
+  transform: translateX(0) scale(1);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.laptop_images_heading {
+  padding-top: 37px;
+  color: #d0d0d0;
+  text-align: center;
+  font-family: "Gilroy-SemiBold",sans-serif;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: bold;
+}
+
+.laptop_images_desc {
+  padding-top: 9px;
+  color: rgba(113, 113, 113, 0.8);
+  text-align: center;
+  font-family: "Gilroy-Regular",sans-serif;
+  font-size: 24px;
+  font-style: normal;
+}

@@ -540,7 +540,232 @@ const barGraph = (props) => {
 
     }
    
-  }
+  }else if (props.show === "service") {
+
+    if (props?.selectedOption === "Last Week") {
+       options = {
+         responsive: true,
+         plugins: {
+           legend: {
+             display: true,
+           },
+           tooltip: {
+             enabled: true,
+             callbacks: {
+               label: function (context) {
+                 const dayLabel = "WeekDay: " + context.label;
+                 const orderLabel = "Views: " + context.raw;
+                 return [dayLabel, orderLabel];
+               },
+               title: function () {
+                 return ""; 
+               },
+             },
+           },
+         },
+         scales: {
+           x: {
+             grid: {
+               display: false,
+             },
+             offset: true,
+             maxRotation: 0,
+             ticks: {
+               stepSize: 3,
+             },
+           },
+           y: {
+             grid: {
+               display: true,
+               color: "rgba(0, 0, 0, 0.2)",
+               borderDash: [5, 5],
+             },
+             // min: 1,
+             // max: 10,
+             offset: true,
+             ticks: {
+               stepSize: 1,
+             },
+           },
+         },
+         layout: {
+           padding: {
+             left: 10,
+             right: 10,
+           },
+         },
+       };
+ 
+       labels = Object.keys(props?.week_arr_service ?? {});
+ 
+ 
+       const freedata = Object.values(props?.week_arr_service ?? {});
+ 
+ 
+       data = {
+         labels,
+         datasets: [
+           {
+             data: freedata,
+             backgroundColor: "#334155",
+             borderRadius: 5,
+             barThickness: 10,
+             label: "Views",
+           },
+ 
+         ],
+       };
+     } 
+     else if (props?.selectedOption === "Last Month") {
+       options = {
+         responsive: true,
+         plugins: {
+           legend: {
+             display: true,
+           },
+           tooltip: {
+             enabled: true,
+             callbacks: {
+               label: function (context) {
+ 
+                 var dayLabel = "Day: " + context.label;
+                 var orderLabel = "Views:"+ context.formattedValue;
+ 
+                 return [dayLabel, orderLabel];
+               },
+               title: function () {
+                 return ""; 
+               },
+             },
+           },
+         },
+         scales: {
+           x: {
+             grid: {
+               display: false,
+             },
+             offset: true,
+             maxRotation: 0,
+             ticks: {
+               stepSize: 3,
+             },
+           },
+           y: {
+             grid: {
+               display: true,
+               color: "rgba(0, 0, 0, 0.2)",
+               borderDash: [5, 5],
+             },
+ 
+             offset: true,
+             ticks: {
+               stepSize: 2,
+             },
+           },
+         },
+         layout: {
+           padding: {
+             left: 1,
+             right: 1,
+           },
+         },
+       };
+ 
+ 
+ 
+ 
+       const freedata = props?.month_arr_service;
+       labels = Object.keys(props?.month_arr_service ?? {});
+ 
+       data = {
+         labels,
+         datasets: [
+           {
+             data: freedata,
+             backgroundColor: "#334155",
+             borderRadius: 5,
+             barThickness: 10,
+             label: "Views",
+           },
+ 
+         ],
+       };
+     } 
+     else {
+       options = {
+         responsive: true,
+         plugins: {
+           legend: {
+             display: true,
+           },
+ 
+           tooltip: {
+             enabled: true,
+             callbacks: {
+               label: function (context) {
+                 const dayLabel = "Month: " + context.label;
+                 const orderLabel = "Views:: " + context.raw;
+                 return [dayLabel, orderLabel];
+               },
+               title: function () {
+                 return ""; 
+               },
+             },
+           },
+         },
+         scales: {
+           x: {
+             grid: {
+               display: false,
+             },
+             offset: true,
+             maxRotation: 0,
+             ticks: {
+               stepSize: 3,
+             },
+           },
+           y: {
+             grid: {
+               display: true,
+               color: "rgba(0, 0, 0, 0.2)",
+               borderDash: [5, 5],
+             },
+ 
+             offset: true,
+             ticks: {
+               stepSize: 100,
+             },
+           },
+         },
+         layout: {
+           padding: {
+             left: 1,
+             right: 1,
+           },
+         },
+       };
+ 
+ 
+       labels = Object.keys(props?.year_arr_service ?? {});
+ 
+       const freedata = Object.values(props?.year_arr_service ?? {});
+ 
+ 
+       data = {
+         labels,
+         datasets: [
+           {
+             data: freedata,
+             backgroundColor: "#334155",
+             borderRadius: 5,
+             barThickness: 10,
+             label: "Views",
+           },
+ 
+         ],
+       };
+     }
+   }
 
   return (
     <div
