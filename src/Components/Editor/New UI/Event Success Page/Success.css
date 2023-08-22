@@ -62,7 +62,7 @@
   object-fit: cover;
 }
 
-.banner_success_page > span{
+.banner_success_page > span {
   position: absolute;
   left: -18px;
   bottom: -18px;
@@ -142,7 +142,7 @@
 }
 
 .right_benefit_section_hero_success > p ol {
- padding-left: 30px;
+  padding-left: 30px;
 }
 
 /* LeaderBoard css */
@@ -477,6 +477,10 @@
     font-size: 16px !important;
   }
 
+  .right_benefit_section_hero_success > p * {
+    font-size: 16px !important;
+  }
+
   .leaderboard_wrapper_success_page {
     scroll-snap-type: unset;
     scroll-snap-align: unset;
@@ -505,7 +509,6 @@
   .main_leader_board_toppers > section > div {
     margin-bottom: 10px;
   }
-
 
   .main_leader_board_toppers > section > h2 {
     font-size: 16px;
@@ -539,7 +542,7 @@
     min-height: unset;
   }
 
-  .leaderboard_status_text_event_success{
+  .leaderboard_status_text_event_success {
     font-size: 14px;
     width: 90%;
   }
@@ -592,5 +595,11 @@
 
   .successPage_main_modal_box > button {
     font-size: 12px;
+  }
+
+  .banner_success_page > span {
+    left: -12px;
+    bottom: -13px;
+    padding: 10px;
   }
 }

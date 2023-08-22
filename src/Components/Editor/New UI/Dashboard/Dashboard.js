@@ -280,7 +280,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
             >
               Share a Video
             </div> */}
-            <div
+            {/* <div
               onClick={() => {
                 setOpenEventPopup(true)
                 mixpanel.track("Share a event");
@@ -288,7 +288,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
               className="dashboard_options"
             >
               Create an Event
-            </div>
+            </div> */}
           </section>
         </div>
       </div>

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Canvas.css";
-import { toCanvas, toJpeg, toPng } from "html-to-image";
+import { toBlob, toCanvas, toJpeg, toPng } from "html-to-image";
 import DateIcon from "../../calendar.svg";
 import TimeIcon from "../../clock.svg";
 import PNGIMG from "../../../../Utils/Images/default_user.png";
@@ -9,36 +9,36 @@ import html2canvas from "html2canvas";
 function Canvas({ setBannerData, dataToUse }) {
   const bannerRef = useRef(null);
 
-  useEffect(() => {
-    const generateImage = async () => {
-      try {
-        const dataUrl = await toJpeg(bannerRef.current);
-        setBannerData(dataUrl);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  // useEffect(() => {
+  //   const generateImage = async () => {
+  //     try {
+  //       const dataUrl = await toJpeg(bannerRef.current);
+  //       setBannerData(dataUrl);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
 
-    // const generateImage2 = async () => {
-    //   const element = bannerRef.current;
+  //   // const generateImage2 = async () => {
+  //   //   const element = bannerRef.current;
 
-    //   html2canvas(element).then(function (canvas) {
-    //     canvas.toBlob(function (blob) {
-    //       const reader = new FileReader();
-    //       reader.onloadend = function () {
-    //         const dataURI = reader.result;
-    //         console.log(dataURI);
-    //         setBannerData(dataURI);
-    //       };
-    //       reader.readAsDataURL(blob);
-    //     });
-    //   });
-    // };
+  //   //   html2canvas(element).then(function (canvas) {
+  //   //     canvas.toBlob(function (blob) {
+  //   //       const reader = new FileReader();
+  //   //       reader.onloadend = function () {
+  //   //         const dataURI = reader.result;
+  //   //         console.log(dataURI);
+  //   //         setBannerData(dataURI);
+  //   //       };
+  //   //       reader.readAsDataURL(blob);
+  //   //     });
+  //   //   });
+  //   // };
 
-    if (dataToUse?.userName) {
-      generateImage();
-    }
-  }, [dataToUse, setBannerData]);
+  //   if (dataToUse?.userName) {
+  //     generateImage();
+  //   }
+  // }, [dataToUse, setBannerData]);
 
   return (
     <>
@@ -85,7 +85,7 @@ function Canvas({ setBannerData, dataToUse }) {
             <h3>JOIN ALONG WITH ME!</h3>
           </section>
 
-          <section className="date_time_section_banner">
+          <section className="date_time_section_banner_single">
             <div>
               <img src={DateIcon} alt="" />
               <span>{dataToUse?.date}</span>
@@ -104,45 +104,61 @@ function Canvas({ setBannerData, dataToUse }) {
 function Canvas2({ setBannerData, dataToUse }) {
   const bannerRef2 = useRef(null);
 
-  useEffect(() => {
-    const generateImage = async () => {
-      try {
-        const dataUrl = await toJpeg(bannerRef2.current);
-        setBannerData(dataUrl);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const [speakerImages, setSpeakerImages] = useState([]);
+  const [userImage, setuserImage] = useState();
 
-    // const generateImage3 = async () => {
+  async function getImageDataURI(imageUrl) {
+    try {
+      const response = await fetch(imageUrl);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch image");
+      }
+
+      const blob = await response.blob();
+
+      // Convert the blob to a Data URI
+      const reader = new FileReader();
+      return new Promise((resolve, reject) => {
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch (error) {
+      console.error(error);
+      throw error; // Rethrow the error for the caller to handle
+    }
+  }
+
+  useEffect(() => {
+    // const generateImage = async () => {
     //   try {
-    //     const dataUrl = await toCanvas(bannerRef2.current);
+    //     const dataUrl = await toJpeg(bannerRef2.current);
     //     setBannerData(dataUrl);
     //   } catch (error) {
     //     console.log(error);
     //   }
     // };
 
-    // const generateImage2 = async () => {
-    //   const element = bannerRef2.current;
-
-    //   html2canvas(element).then(function (canvas) {
-    //     canvas.toBlob(function (blob) {
-    //       const reader = new FileReader();
-    //       reader.onloadend = function () {
-    //         const dataURI = reader.result;
-    //         console.log(dataURI);
-    //         setBannerData(dataURI);
-    //       };
-    //       reader.readAsDataURL(blob);
-    //     });
-    //   });
-    // };
+    const generateImage2 = async () => {
+      try {
+        let blob = await toBlob(bannerRef2.current);
+        const file = new File([blob], "banner2.png", { type: blob.type });
+        // console.log(file,blob)
+        // console.log(file)
+        setBannerData(URL.createObjectURL(file));
+      } catch (error) {
+        console.log("some error");
+      }
+    };
 
     if (dataToUse?.userName && dataToUse?.speakers) {
-      generateImage();
+      generateImage2();
     }
-  }, [dataToUse, setBannerData]);
+  }, [dataToUse]);
+
 
   return (
     <>
@@ -192,7 +208,12 @@ function Canvas2({ setBannerData, dataToUse }) {
                   </div>
                   <div className="creator_image_cover_banner_multiple">
                     <img
-                      src={e?.profile ?? dataToUse?.creatorProfile}
+                      src={
+                        e?.profile ??
+                        dataToUse?.creatorProfile
+                      }
+                      // src={"https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Chris_Evans_SDCC_2014.jpg/800px-Chris_Evans_SDCC_2014.jpg"}
+
                       alt=""
                       onError={({ currentTarget }) => {
                         currentTarget.onerror = null; // prevents looping

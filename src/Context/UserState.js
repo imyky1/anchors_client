@@ -119,9 +119,8 @@ const UserState = (props) => {
     paidUser, // tells about the service is paid or not
     orderType,
     orderFrom,
-    razorpayPaymentId,
-    razorpayOrderId,
-    razorpaySignature
+    paymentData,
+    createdOrderID
   ) => {
     const response = await fetch(
       `${host}/api/user/service/neworder/${serviceid}`,
@@ -137,9 +136,8 @@ const UserState = (props) => {
           amount,
           status,
           orderType,
-          razorpayPaymentId,
-          razorpayOrderId,
-          razorpaySignature,
+          paymentData,
+          createdOrderID,
           orderFrom: orderFrom ? orderFrom : "user",
         }),
       }
@@ -217,9 +215,9 @@ const UserState = (props) => {
     paidUser, // tells about the service is paid or not
     orderFrom,
     referralCode,
-    razorpayPaymentId,
-    razorpayOrderId,
-    razorpaySignature
+    paymentData,
+    createdOrderID,
+    eventBannerImage
   ) => {
     const response = await fetch(`${host}/api/user/event/neworder/${eventid}`, {
       method: "POST",
@@ -232,11 +230,11 @@ const UserState = (props) => {
       body: JSON.stringify({
         amount,
         status,
-        razorpayPaymentId,
-        razorpayOrderId,
-        razorpaySignature,
+        paymentData,
+        createdOrderID,
         orderFrom: orderFrom ? orderFrom : "user",
         referralCode,
+        eventBannerImage
       }),
     });
     const json = await response.json();

@@ -239,10 +239,10 @@ function Event() {
     useContext(feedbackcontext);
 
   const {
-    createRazorpayClientSecret,
-    razorpay_key,
     checkfororder,
     informLarkBot,
+    createUserOrderEaseBuzz,
+    easeBuzzApiKey,
   } = useContext(paymentContext);
 
   const {
@@ -263,6 +263,7 @@ function Event() {
   const [openOtpModal, setOpenOtpModal] = useState(false); // controll the otp modmal
 
   // Use effects  ---------------
+
   useEffect(() => {
     // Loading mixpanel ------
     mixpanel.track("Page Visit");
@@ -271,8 +272,22 @@ function Event() {
 
     // setting the referral code in the localstorage -----------------
     const params = new URLSearchParams(window.location.search);
-
     if (params.get("referredFrom")?.length > 2) {
+
+      // handle the seo redirection with ease
+      if (params.get("reload") === "true") {
+        // Remove the 'reload' parameter from the URL
+        params.delete("reload");
+
+        // Construct the new URL without the 'reload' parameter
+        const newUrl = `${window.location.origin}${
+          window.location.pathname
+        }?${params.toString()}`;
+
+        // Reload the page with the modified URL
+        window.location.replace(newUrl);
+      }
+
       var obj = {
         url: window.location.pathname.split("/")[2],
         code: params.get("referredFrom"),
@@ -382,7 +397,7 @@ function Event() {
           localStorage.getItem("isUser") === "true" ? "user" : "creator",
           "event"
         ).then((e) => {
-          setAlreadyOrderPlaced(e);
+          setAlreadyOrderPlaced(e?.success);
         });
 
       // get user details for mixpanel
@@ -439,72 +454,184 @@ function Event() {
     );
   };
 
-  // Order placing in razorpay --------
+  // function to save the banner in the backend -------------------
+  let generateNewUserEventBanner = async () => {
+    let dataToUse = {
+      userName: UserDetails?.name,
+      userProfile: UserDetails?.photo,
+      eventName: eventInfo?.event?.sname,
+      creatorName: eventInfo?.creator?.name,
+      creatorProfile: eventInfo?.creator?.profile,
+      speakers: eventInfo?.event?.speakerDetails,
+      date: getDate(eventInfo?.event?.startDate),
+      time: `${convertTime(eventInfo?.event?.time?.startTime)} - 
+  ${convertTime(eventInfo?.event?.time?.endTime)}`,
+    };
 
-  const orderPlacingThroughRazorpay = async () => {
+    const response = await fetch(host + "/api/seo/createEventbanner", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
+      },
+      body: JSON.stringify({
+        data: dataToUse,
+        multipleSpeakers:
+          eventInfo?.event?.speakerDetails &&
+          eventInfo?.event?.speakerDetails?.length !== 0,
+      }),
+    });
+
+    const json = await response.json();
+
+    // Create a Uint8Array from the buffer data
+    const uint8Array = new Uint8Array(json?.buffer?.data);
+
+    // Create a Blob from the Uint8Array
+    const blob = new Blob([uint8Array]);
+
+    // Create a File from the Blob
+    const file = new File([blob], "image.jpg", { type: "image/jpeg" }); // Replace 'image.jpg' and 'image/jpeg' with your desired filename and content type
+
+    let formData = new FormData();
+    formData.append("file", file);
+
+    const response2 = await fetch(
+      host + "/api/file/upload/s3/event/userBanner",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const json2 = await response2.json();
+    return json2;
+  };
+
+  // Handling the payment responses
+  const handlePaymentResponse = async (response, orderId) => {
     setPaymentProcessing(true);
-    setLoader(true);
-    const order = await createRazorpayClientSecret(eventInfo?.event?.ssp);
-    const key = await razorpay_key();
+    setLoader(false);
 
-    var options = {
-      key, // Enter the Key ID generated from the Dashboard
-      amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-      currency: "INR",
-      name: "anchors", //your business name
-      description: `Payment for Buying - ${eventInfo?.event?.sname}`,
-      image: require("../../../../Utils/Images/logo.png"),
-      order_id: order?.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      //callback_url: `${host}/api/payment/paymentVerification`,
-      handler: async function (res) {
-        var storedObjString = localStorage.getItem("Cref");
-        var reffObj = JSON.parse(storedObjString);
+    switch (response.status) {
+      // 1. user cancelled the payment mode
+      case "userCancelled" || "dropped":
+        setPaymentProcessing(false);
+        setLoader(false);
+        toast.info(
+          "It is a paid event, for using it you have to pay the one time payment",
+          {
+            position: "top-center",
+            autoClose: 5000,
+          }
+        );
+        break;
 
-        const result = await verifyPaymentsForEventsinBackend(
-          res.razorpay_payment_id,
-          res.razorpay_order_id,
-          res.razorpay_signature,
-          order.amount / 100,
-          1,
-          eventInfo?.event?._id,
-          reffObj?.url === slug ? reffObj?.code : null, // referralCode
-          eventInfo?.event?.c_id?._id,
-          1,
-          localStorage.getItem("isUser") === "true" ? "user" : "creator"
+      //2. payment dropping by user --- dropped the payment by the user
+      case "dropped":
+        setPaymentProcessing(false);
+        setLoader(false);
+        toast.info(
+          "It is a paid event, for using it you have to pay the one time payment",
+          {
+            position: "top-center",
+            autoClose: 5000,
+          }
+        );
+        break;
+
+      //  2. payment failed due to any reasone
+      case "failure":
+        mixpanel.track("Problem!!!, Paid Order failed", {
+          user: UserDetails?.email,
+          slug: eventInfo?.event?.slug,
+        });
+
+        setPaymentProcessing(false);
+        setLoader(false);
+
+        // Inform lark bot about the failure
+        informLarkBot(
+          true,
+          response.amount,
+          eventInfo?.event?.sname,
+          response?.easepayid,
+          UserDetails?.email,
+          `Status - ${response.status} Payment failed from EaseBuzz's side`
         );
 
-        // controlling the edges casses now ----------------
-        if (result?.success && result?.orderPlaced && result?.paymentRecieved) {
+        toast.info(
+          "Payment Failed, if amount got deducted inform us at info@anchors.in",
+          {
+            autoClose: 5000,
+          }
+        );
+
+        break;
+
+      //  3. Payment pending due to any reason
+      case "pending":
+        // Inform lark bot about the failure
+        setPaymentProcessing(false);
+        setLoader(false);
+
+        informLarkBot(
+          true,
+          response.amount,
+          eventInfo?.event?.sname,
+          response?.easepayid,
+          UserDetails?.email,
+          `Status - ${response.status} Payment pending from user's side`
+        );
+
+        toast.info(
+          "Payment is still pending, complete the payment to proceed,for issues inform us at info@anchors.in",
+          {
+            autoClose: 5000,
+          }
+        );
+        break;
+
+      // 4. success payment
+      case "success":
+        let generateBanner = await generateNewUserEventBanner();
+
+        const success = await userPlaceOrderForEvent(
+          eventInfo?.event?.ssp,
+          1,
+          eventInfo?.event?._id,
+          eventInfo?.event?.c_id?._id,
+          1,
+          localStorage.getItem("isUser") === "true" ? "user" : "creator",
+          "",
+          response,
+          orderId,
+          generateBanner?.result?.Location
+        );
+
+        localStorage.removeItem("Cref");
+
+        if (success) {
           mixpanel.track("Paid Order placed Successfully", {
             user: UserDetails?.email,
             slug: eventInfo?.event?.slug,
           });
-          // sending user to the success page ------------
           setAlreadyOrderPlaced(true);
-          setPaymentProcessing(false);
-          setLoader(false);
           navigate(`/success/${slug}?placedOrder=success`);
-        } else if (
-          result?.success &&
-          !result?.orderPlaced &&
-          result?.paymentRecieved
-        ) {
+        } else {
           // sending the payment fail email at info@anchors.in
           informLarkBot(
             true,
-            order.amount / 100,
+            response.amount,
             eventInfo?.event?.sname,
-            res.razorpay_payment_id,
+            response?.easepayid,
             UserDetails?.email,
             "Payment recieved but error in registering for event response"
           );
-          setLoader(false);
-
           mixpanel.track("Problem!!!, Order not placed but money deducted", {
             user: UserDetails?.email,
             slug: eventInfo?.event?.slug,
           });
-
           toast.info(
             "Something wrong happened, If money got deducted then please reach us at info@anchors.in",
             {
@@ -512,79 +639,76 @@ function Event() {
               autoClose: 5000,
             }
           );
-          setPaymentProcessing(false);
-        } else {
-          mixpanel.track("Paid Order not placed", {
-            user: UserDetails?.email,
-            slug: eventInfo?.event?.slug,
-          });
-          setLoader(false);
-          setPaymentProcessing(false);
-          toast.info(
-            "Your order was not placed. Please try again!!. If money got deducted then please reach us at info@anchors.in",
-            {
-              position: "top-center",
-              autoClose: 5000,
-            }
-          );
         }
-      },
 
-      prefill: {
-        name: UserDetails?.name, //your customer's name
-        email: UserDetails?.email,
-      },
-      notes: {
-        address: "https://www.anchors.in",
-      },
-      modal: {
-        ondismiss: function () {
-          setPaymentProcessing(false);
-          setLoader(false);
-          toast.info(
-            "It is a paid event, for using it you have to pay the one time payment",
-            {
-              position: "top-center",
-              autoClose: 5000,
-            }
-          );
-        },
-      },
-      notify: {
-        sms: true,
-        email: true,
-      },
-      theme: {
-        color: "#040102",
-      },
-    };
-    var razor = new window.Razorpay(options);
-    razor.on("payment.failed", (e) => {
-      mixpanel.track("Problem!!!, Paid Order failed", {
-        user: UserDetails?.email,
-        slug: eventInfo?.event?.slug,
-      });
+        setPaymentProcessing(false);
+        setLoader(false);
+        break;
+
+      // Else all cases  -----------------
+      default:
+        setPaymentProcessing(false);
+        setLoader(false);
+
+        toast.info(
+          "The order is not placed. Try again!!! ,in case of issues inform us at info@anchors.in ",
+          {
+            position: "top-center",
+            autoClose: 5000,
+          }
+        );
+        break;
+    }
+  };
+
+  const orderPlacingThroughEaseBuzz = async () => {
+    setPaymentProcessing(true);
+    setLoader(true);
+
+    // referral code of the reserrer for events only
+    var storedObjString = localStorage.getItem("Cref");
+    var reffObj = JSON.parse(storedObjString);
+
+    const order = await createUserOrderEaseBuzz(
+      localStorage.getItem("isUser") === "true" ? "user" : "creator",
+      "event",
+      eventInfo?.event?.ssp,
+      eventInfo?.event?.sname,
+      reffObj?.url === slug ? reffObj?.code : null, // referralCode,
+      eventInfo?.event?._id
+    );
+
+    const key = await easeBuzzApiKey();
+    let orderData = {}; // Access key received via Initiate Payment
+
+    if (order?.success && order?.already) {
       setPaymentProcessing(false);
       setLoader(false);
-
-      // Inform lark bot about the default
-      informLarkBot(
-        true,
-        order.amount / 100,
-        eventInfo?.event?.sname,
-        e?.error?.metadata?.payment_id,
-        UserDetails?.email,
-        "Payment failed from Razorpay's side"
-      );
-
+      toast.info("You have already paid for the event");
+      return true;
+    } else if (order?.success) {
+      orderData = order;
+    } else {
+      setPaymentProcessing(false);
+      setLoader(false);
       toast.info(
-        "Payment Failed, if amount got deducted inform us at info@anchors.in",
-        {
-          autoClose: 5000,
-        }
+        "Problems in creating order, Please refresh the page and try again!!"
       );
-    });
-    razor.open();
+      return true;
+    }
+
+    var easebuzzCheckout = new window.EasebuzzCheckout(key, "prod");
+
+    var options = {
+      access_key: orderData?.data,
+      onResponse: (response) => {
+        // handling the edge cases of the response
+        handlePaymentResponse(response, orderData?.orderId);
+      },
+      theme: "#000000", // color hex
+    };
+
+    easebuzzCheckout.initiatePayment(options);
   };
 
   const handleEventRegistration = async (e) => {
@@ -603,11 +727,11 @@ function Event() {
               localStorage.getItem("isUser") === "true" ? "user" : "creator",
               "event"
             ).then((e) => {
-              if (e) {
+              if (e?.success) {
                 setAlreadyOrderPlaced(true);
                 navigate(`/success/${slug}`);
               } else {
-                orderPlacingThroughRazorpay();
+                orderPlacingThroughEaseBuzz();
               }
               setLoader(false);
             });
@@ -616,6 +740,10 @@ function Event() {
             var storedObjString = localStorage.getItem("Cref");
             var reffObj = JSON.parse(storedObjString);
             // Free Order processing -----------------
+
+            // genrate event banner for users ------
+            let generateBanner = await generateNewUserEventBanner();
+
             const success = await userPlaceOrderForEvent(
               eventInfo?.event?.ssp,
               1,
@@ -623,7 +751,10 @@ function Event() {
               eventInfo?.event?.c_id?._id,
               0,
               localStorage.getItem("isUser") === "true" ? "user" : "creator",
-              reffObj?.url === slug ? reffObj?.code : null // referralCode
+              reffObj?.url === slug ? reffObj?.code : null, // referralCode
+              null,
+              null,
+              generateBanner?.result?.Location
             );
 
             localStorage.removeItem("Cref");
@@ -1076,7 +1207,7 @@ function Event() {
           </section>
         </section>
 
-        <Footer3 />
+        <Footer3 hostEventButton={true} />
       </div>
 
       <ToastContainer theme="dark" />

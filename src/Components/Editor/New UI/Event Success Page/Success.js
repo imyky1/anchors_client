@@ -21,7 +21,6 @@ import {
   LinkedinShareButton,
 } from "react-share";
 import { paymentContext } from "../../../../Context/PaymentState";
-import Canvas, { MultipleBanner } from "../Event Page/Canvas";
 import { Footer3 } from "../../../Footer/Footer2";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import PNGIMG from "../../../../Utils/Images/default_user.png";
@@ -83,18 +82,17 @@ function Success() {
   const [userDetails, setUserDetails] = useState(); // stores the user data
   const [shareLink, setShareLink] = useState(); // stores the user data
   const [leaderBoardData, setLeaderBoardData] = useState();
-  const [eligible, setEligible] = useState(true);
+  const [eligible, setEligible] = useState({ success: true, order: {} });
   const [bannerData, setBannerData] = useState(); // event invite card banner data
 
   // User Contexts --------------------
   const { getUserDetails } = useContext(userContext);
   const { checkfororder } = useContext(paymentContext);
-  const { geteventinfo, eventInfo, getLeaderBoardData, Uploadfile } =
+  const { geteventinfo, eventInfo, getLeaderBoardData } =
     useContext(ServiceContext);
+  const params = new URLSearchParams(window.location.search);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-
     if (params.get("placedOrder") === "success") {
       setOpenSuccessModal(true);
     }
@@ -126,7 +124,6 @@ function Success() {
       localStorage.getItem("isUser") === "true" ? "user" : "creator",
       "event"
     ).then((e) => {
-      // e = true means order is placed
       setEligible(e);
     });
   }, [eventInfo]);
@@ -137,15 +134,14 @@ function Success() {
       getUserDetails(localStorage.getItem("isUser") === "").then((e) => {
         setUserDetails(e?.user);
         let value =
-          window.location.host +
-          "/e/" +
-          slug +
-          `?referredFrom=${e?.user?.referralCode}`;
+          "https://open.anchors.in/" +
+          eventInfo?.event?.eventCode +
+          `/${e?.user?.referralCode}`;
 
         setShareLink(value);
       });
     }
-  }, [localStorage.getItem("jwtToken")]);
+  }, [localStorage.getItem("jwtToken"), eventInfo]);
 
   const convertTime = (inputTime) => {
     if (inputTime) {
@@ -185,8 +181,9 @@ function Success() {
   };
 
   // Handling the display of down arrow -------------------
-  const ref1 = useRef()
+  const ref1 = useRef();
   const [isArrowVisible, setIsArrowVisible] = useState(true);
+
   // Intersection Observer callback
   const handleIntersection = (entries) => {
     const [entry] = entries;
@@ -213,7 +210,7 @@ function Success() {
     };
   }, []);
 
-  if (!localStorage.getItem("jwtToken") || !eligible) {
+  if (!localStorage.getItem("jwtToken") || !eligible?.success) {
     navigate(`/e/${slug}`);
     return null;
   }
@@ -247,40 +244,6 @@ function Success() {
           </a>
         )}
 
-        {eventInfo?.event?.speakerDetails.length === 0 ? (
-          <div className="banner_canvas_wrapper">
-            <Canvas
-              setBannerData={setBannerData}
-              dataToUse={{
-                userName: userDetails?.name,
-                userProfile: userDetails?.photo,
-                eventName: eventInfo?.event?.sname,
-                creatorName: eventInfo?.creator?.name,
-                creatorProfile: eventInfo?.creator?.profile,
-                date: getDate(eventInfo?.event?.startDate),
-                time: `${convertTime(eventInfo?.event?.time?.startTime)} - 
-            ${convertTime(eventInfo?.event?.time?.endTime)}`,
-              }}
-            />
-          </div>
-        ) : (
-          <div className="banner_canvas_wrapper">
-            <MultipleBanner
-              setBannerData={setBannerData}
-              dataToUse={{
-                userName: userDetails?.name,
-                userProfile: userDetails?.photo,
-                eventName: eventInfo?.event?.sname,
-                speakers: eventInfo?.event?.speakerDetails,
-                creatorProfile: eventInfo?.creator?.profile,
-                date: getDate(eventInfo?.event?.startDate),
-                time: `${convertTime(eventInfo?.event?.time?.startTime)} - 
-            ${convertTime(eventInfo?.event?.time?.endTime)}`,
-              }}
-            />
-          </div>
-        )}
-
         {/* main hero section details */}
         <section className="main_header_component_success_page">
           <Navbar2 />
@@ -290,11 +253,16 @@ function Success() {
               <div className="banner_success_page">
                 <img
                   src={
-                    bannerData ?? "https://wallpaperaccess.com/full/2439064.png"
+                    eligible?.order?.eventBannerImage ??
+                    "https://wallpaperaccess.com/full/2439064.png"
                   }
                   alt="Event Banner"
                 />
-                <span onClick={(e) => bannerData && handleDonwload(e)}>
+                <span
+                  onClick={(e) =>
+                    eligible?.order?.eventBannerImage && handleDonwload(e)
+                  }
+                >
                   <FiDownload size={20} />
                 </span>
               </div>
@@ -332,11 +300,30 @@ function Success() {
               </div>
 
               <section>
-                <WhatsappShareButton url={shareLink}>
-                  <BsWhatsapp />
-                </WhatsappShareButton>
+                <BsWhatsapp
+                  onClick={() => {
+                    window.open(`https://api.whatsapp.com/send?text=Hey,
+I just signed up for this amazing event, *${eventInfo?.event?.sname}*, and I thought you might be interested too!%0A%0A
 
-                <LinkedinShareButton url={shareLink}>
+🎉 Join me by registering here: ${shareLink} %0A%0A
+
+Let's experience this together!%0A
+Catch you there`);
+                  }}
+                />
+
+                <LinkedinShareButton
+                  url={shareLink}
+                  title={eventInfo?.event?.sname}
+                  source="anchors.in"
+                  summary={`Hey,
+I just signed up for this amazing event, *${eventInfo?.event?.sname}*, and I thought you might be interested too!%0A%0A
+
+🎉 Join me by registering here: ${shareLink} %0A%0A
+
+Let's experience this together!%0A
+Catch you there`}
+                >
                   <FaLinkedinIn />
                 </LinkedinShareButton>
                 {/* <BsInstagram /> */}
@@ -511,7 +498,7 @@ function Success() {
               })}
             </div>
           )}
-          <Footer3 />
+          <Footer3 hostEventButton={true} />
         </section>
       </div>
     </>

@@ -334,7 +334,6 @@ const MainLanding = (props) => {
   // Feedback -----
   useEffect(() => {
     getallfb().then((e) => {
-      console.log(e);
       setFeedbackData(e);
     });
   }, []);

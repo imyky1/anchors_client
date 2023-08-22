@@ -15,10 +15,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  /* gap: 110px; */
   height: 100vh;
   scroll-snap-align: start;
   scroll-snap-stop: always; /* Stop on each item's snap point */
+  padding-bottom: 40px;
+  box-sizing: border-box;
 }
 
 .main_title_event_box {
@@ -317,7 +318,7 @@
 .end_frame_event_page {
   scroll-snap-align: start;
   scroll-snap-stop: always; /* Stop on each item's snap point */
-  height: 85vh;
+  height: 80vh;
   margin-top: 80px;
   display: flex;
   align-items: center;
@@ -461,8 +462,14 @@
 }
 
 @media (max-width: 600px) {
+
   .event_page_outside_wrapper::-webkit-scrollbar {
     display: none;
+  }
+
+  .main_header_component_event_page{
+    padding-bottom: 50px;
+    box-sizing: border-box;
   }
 
   /* hero section ------ */
@@ -497,6 +504,7 @@
     padding: unset;
     flex-direction: column-reverse;
     align-items: center;
+    scroll-snap-stop: always;
   }
 
   .left_side_scrollable {
@@ -600,6 +608,21 @@
     line-height: normal;
   }
 
+
+  .desc_mobile_view_event > p *{
+    font: inherit !important;
+    background-color: inherit !important;
+    color: inherit !important;
+  }
+  
+  .desc_mobile_view_event > p ul{
+    padding-left: 22px;
+  }
+  
+  .desc_mobile_view_event > p ol{
+    padding-left: 22px;
+  }
+
   .user_reviews_event {
     padding: 20px 16px;
     width: 100%;
@@ -652,5 +675,9 @@
 
   .right_stable_side_image_desc > p {
     width: 100%;
+  }
+
+  .end_frame_event_page{
+    height: 75vh;
   }
 }

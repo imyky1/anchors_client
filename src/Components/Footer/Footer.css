@@ -168,21 +168,41 @@
 .footer_user_side_anchors2 {
   background-color: #101010;
   width: 100vw;
-  height: 98px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 10px;
   color: white;
-  position: relative;
-  padding-top: 40px;
+  padding: 40px 10%;
+  box-sizing: border-box;
 }
 
 .footer_user_side_anchors2 > img {
   width: 132.107px;
   height: 36px;
-  position: absolute;
-  left: 10%;
+}
+
+.footer_user_side_anchors2 > button {
+  padding: 16px 32px;
+  border-radius: 70px;
+  border: 1px solid #d0d0d0;
+  background: #121212;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  color: #ddd;
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.footer_user_side_anchors2 > button:hover{
+  background-color: #ff0000;
+  border: 1px solid #f00;
 }
 
 .footer-section_logo_02 > svg {
@@ -312,19 +332,24 @@
   }
 
   .footer_user_side_anchors2 {
-    gap: 8px;
-    flex-direction: column;
-    height: 90px;
+    gap: 12px;
+    flex-direction: column-reverse;
+    padding: 30px 16px;
   }
 
   .footer_user_side_anchors2 > img {
-    position: unset;
-    left: 0;
     width: 91.741px;
     height: 25px;
   }
 
-  .footer_user_side_anchors2 > span{
+  .footer_user_side_anchors2 > span {
     font-size: 10px;
   }
+
+  .footer_user_side_anchors2 > button{
+    font-size: 12px;
+    padding: 4px 12px;
+    gap: 8px;
+  }
+
 }

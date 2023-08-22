@@ -1,4 +1,11 @@
-import React, { Suspense, lazy, useContext, useEffect, useRef, useState } from "react";
+import React, {
+  Suspense,
+  lazy,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import "./ServicePage.css";
 import { RiStarSFill } from "react-icons/ri";
 import { BsWhatsapp } from "react-icons/bs";
@@ -36,8 +43,8 @@ function ServicePage(props) {
   const location = useLocation();
   const navigate = useNavigate();
   const { slug } = useParams();
-  const creatorSectionDesktop = useRef(null)
- 
+  const creatorSectionDesktop = useRef(null);
+
   // States
   const [loader, setLoader] = useState(false); // loader states
   const [openModel, setOpenModel] = useState(false);
@@ -69,6 +76,8 @@ function ServicePage(props) {
     razorpay_key,
     checkfororder,
     informLarkBot,
+    createUserOrderEaseBuzz,
+    easeBuzzApiKey,
   } = useContext(paymentContext);
 
   const { userPlaceOrder, getUserDetails, verifyPaymentsinBackend } =
@@ -82,10 +91,7 @@ function ServicePage(props) {
       user: UserDetails ? UserDetails : "",
       creator: serviceInfo?.creator?.slug,
     });
-
   }, [location]);
-
-
 
   // getting the service data ----------
   useEffect(() => {
@@ -126,7 +132,7 @@ function ServicePage(props) {
           localStorage.getItem("isUser") === "true" ? "user" : "creator",
           "download"
         ).then((e) => {
-          setAlreadyOrderPlaced(e);
+          setAlreadyOrderPlaced(e?.success);
         });
 
       // get user details for mixpanel
@@ -185,37 +191,285 @@ function ServicePage(props) {
 
   // Functions ----------------------
 
-  const orderPlacingThroughRazorpay = async () => {
-    setPaymentProcessing(true);
-    setLoader(true);
-    const order = await createRazorpayClientSecret(serviceInfo?.service?.ssp);
-    const key = await razorpay_key();
+  // const orderPlacingThroughRazorpay = async () => {
+  //   setPaymentProcessing(true);
+  //   setLoader(true);
+  //   const order = await createRazorpayClientSecret(serviceInfo?.service?.ssp);
+  //   const key = await razorpay_key();
 
-    var options = {
-      key, // Enter the Key ID generated from the Dashboard
-      amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-      currency: "INR",
-      name: "anchors", //your business name
-      description: `Payment for Buying - ${serviceInfo?.service?.sname}`,
-      image: require("../../../../Utils/Images/logo.png"),
-      order_id: order?.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      //callback_url: `${host}/api/payment/paymentVerification`,
-      handler: async function (res) {
-        const result = await verifyPaymentsinBackend(
-          res.razorpay_payment_id,
-          res.razorpay_order_id,
-          res.razorpay_signature,
-          order.amount / 100,
+  //   var options = {
+  //     key, // Enter the Key ID generated from the Dashboard
+  //     amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+  //     currency: "INR",
+  //     name: "anchors", //your business name
+  //     description: `Payment for Buying - ${serviceInfo?.service?.sname}`,
+  //     image: require("../../../../Utils/Images/logo.png"),
+  //     order_id: order?.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+  //     //callback_url: `${host}/api/payment/paymentVerification`,
+  //     handler: async function (res) {
+  //       const result = await verifyPaymentsinBackend(
+  //         res.razorpay_payment_id,
+  //         res.razorpay_order_id,
+  //         res.razorpay_signature,
+  //         order.amount / 100,
+  //         1,
+  //         serviceInfo?.service?._id,
+  //         serviceInfo?.service?.c_id?._id,
+  //         1,
+  //         0,
+  //         localStorage.getItem("isUser") === "true" ? "user" : "creator"
+  //       );
+
+  //       // controlling the edges casses now ----------------
+  //       if (result?.success && result?.orderPlaced && result?.paymentRecieved) {
+  //         // handling donwload edge cases ---------------------------
+  //         if (serviceInfo?.service?.allowDownload) {
+  //           let link = document.createElement("a");
+  //           link.href = serviceInfo?.service?.surl;
+  //           link.download = serviceInfo?.service?.sname;
+  //           link.dispatchEvent(new MouseEvent("click"));
+  //         } else {
+  //           if (serviceInfo?.service?.stype === 0) {
+  //             // viewing pdf files --------------
+  //             sessionStorage.setItem("link", serviceInfo?.service?.surl);
+  //             window.open("/viewPdf");
+  //           } else if (serviceInfo?.service?.stype === 1) {
+  //             // viewing excel files ------------
+  //             sessionStorage.setItem("link", serviceInfo?.service?.surl);
+  //             window.open("/viewExcel");
+  //           }
+  //         }
+  //         setAlreadyOrderPlaced(true);
+  //         mixpanel.track("Paid Order placed Successfully", {
+  //           user: UserDetails?.email,
+  //           slug: serviceInfo?.service?.slug,
+  //         });
+  //         toast.success("Thanks for placing the order", {
+  //           position: "top-center",
+  //           autoClose: 3000,
+  //         });
+  //         setOpenModelDownload(true);
+  //         setPaymentProcessing(false);
+  //         setLoader(false);
+  //       } else if (
+  //         result?.success &&
+  //         !result?.orderPlaced &&
+  //         result?.paymentRecieved
+  //       ) {
+  //         // sending the payment fail email at info@anchors.in
+  //         informLarkBot(
+  //           true,
+  //           order.amount / 100,
+  //           serviceInfo?.service?.sname,
+  //           res.razorpay_payment_id,
+  //           UserDetails?.email,
+  //           "Payment recieved but error in order placing response"
+  //         );
+  //         setPaymentProcessing(false);
+  //         setLoader(false);
+
+  //         // sendEmailForOrderPayments(
+  //         //   serviceInfo?.sname,
+  //         //   UserDetails?.email,
+  //         //   order.amount / 100,
+  //         //   res.razorpay_payment_id
+  //         // );
+
+  //         mixpanel.track("Problem!!!, Order not placed but money deducted", {
+  //           user: UserDetails?.email,
+  //           slug: serviceInfo?.service?.slug,
+  //         });
+
+  //         toast.info(
+  //           "Something wrong happened, If money got deducted then please reach us at info@anchors.in",
+  //           {
+  //             position: "top-center",
+  //             autoClose: 5000,
+  //           }
+  //         );
+  //       } else {
+  //         mixpanel.track("Paid Order not placed", {
+  //           user: UserDetails?.email,
+  //           slug: serviceInfo?.service?.slug,
+  //         });
+  //         toast.info(
+  //           "Your order was not placed. Please try again!!. If money got deducted then please reach us at info@anchors.in",
+  //           {
+  //             position: "top-center",
+  //             autoClose: 5000,
+  //           }
+  //         );
+  //         setPaymentProcessing(false);
+  //         setLoader(false);
+  //       }
+  //     },
+
+  //     prefill: {
+  //       name: UserDetails?.name, //your customer's name
+  //       email: UserDetails?.email,
+  //     },
+  //     notes: {
+  //       address: "https://www.anchors.in",
+  //     },
+  //     modal: {
+  //       ondismiss: function () {
+  //         setPaymentProcessing(false);
+  //         setLoader(false);
+  //         toast.info(
+  //           "It is a paid service, for using it you have to pay the one time payment",
+  //           {
+  //             position: "top-center",
+  //             autoClose: 5000,
+  //           }
+  //         );
+  //       },
+  //     },
+  //     notify: {
+  //       sms: true,
+  //       email: true,
+  //     },
+  //     theme: {
+  //       color: "#040102",
+  //     },
+  //   };
+  //   var razor = new window.Razorpay(options);
+  //   razor.on("payment.failed", (e) => {
+  //     setPaymentProcessing(false);
+  //     setLoader(false);
+  //     mixpanel.track("Problem!!!, Paid Order failed", {
+  //       user: UserDetails?.email,
+  //       slug: serviceInfo?.service?.slug,
+  //     });
+
+  //     // Inform lark bot about the default
+  //     informLarkBot(
+  //       true,
+  //       order.amount / 100,
+  //       serviceInfo?.service?.sname,
+  //       e?.error?.metadata?.payment_id,
+  //       UserDetails?.email,
+  //       "Payment failed from Razorpay's side"
+  //     );
+
+  //     // sending the payment fail email at info@anchors.in
+  //     // sendEmailForOrderPayments(
+  //     //   serviceInfo?.sname,
+  //     //   UserDetails?.email,
+  //     //   order.amount / 100,
+  //     //   e?.error?.metadata?.payment_id
+  //     // );
+
+  //     toast.info(
+  //       "Payment Failed, if amount got deducted inform us at info@anchors.in",
+  //       {
+  //         autoClose: 5000,
+  //       }
+  //     );
+  //   });
+  //   razor.open();
+  // };
+
+  // Handling the payment responses
+  const handlePaymentResponse = async (response, orderId) => {
+    setPaymentProcessing(true);
+    setLoader(false);
+
+    switch (response.status) {
+      // 1. user cancelled the payment mode
+      case "userCancelled":
+        setPaymentProcessing(false);
+        setLoader(false);
+        toast.info(
+          "It is a paid service, for using it you have to pay the one time payment",
+          {
+            position: "top-center",
+            autoClose: 5000,
+          }
+        );
+        break;
+
+      //2. payment dropping by user --- dropped the payment by the user
+      case "dropped":
+        setPaymentProcessing(false);
+        setLoader(false);
+        toast.info(
+          "It is a paid service, for using it you have to pay the one time payment",
+          {
+            position: "top-center",
+            autoClose: 5000,
+          }
+        );
+        break;
+
+      //  2. payment failed due to any reasone
+      case "failure":
+        mixpanel.track("Problem!!!, Paid Order failed", {
+          user: UserDetails?.email,
+          slug: serviceInfo?.service?.slug,
+        });
+
+        setPaymentProcessing(false);
+        setLoader(false);
+
+        // Inform lark bot about the failure
+        informLarkBot(
+          true,
+          response.amount,
+          serviceInfo?.service?.sname,
+          response?.easepayid,
+          UserDetails?.email,
+          `Status - ${response.status} Payment failed from EaseBuzz's side`
+        );
+
+        toast.info(
+          "Payment Failed, if amount got deducted inform us at info@anchors.in",
+          {
+            autoClose: 5000,
+          }
+        );
+
+        break;
+
+      //  3. Payment pending due to any reason
+      case "pending":
+        // Inform lark bot about the failure
+        setPaymentProcessing(false);
+        setLoader(false);
+
+        informLarkBot(
+          true,
+          response.amount,
+          serviceInfo?.service?.sname,
+          response?.easepayid,
+          UserDetails?.email,
+          `Status - ${response.status} Payment pending from user's side`
+        );
+
+        toast.info(
+          "Payment is still pending, complete the payment to proceed,for issues inform us at info@anchors.in",
+          {
+            autoClose: 5000,
+          }
+        );
+        break;
+
+      // 4. success payment
+      case "success":
+        const success = await userPlaceOrder(
+          serviceInfo?.service?.ssp,
           1,
           serviceInfo?.service?._id,
           serviceInfo?.service?.c_id?._id,
-          1,
           0,
-          localStorage.getItem("isUser") === "true" ? "user" : "creator"
+          0,
+          localStorage.getItem("isUser") === "true" ? "user" : "creator",
+          response,
+          orderId
         );
 
-        // controlling the edges casses now ----------------
-        if (result?.success && result?.orderPlaced && result?.paymentRecieved) {
+        if (success) {
+          setAlreadyOrderPlaced(true);
+
           // handling donwload edge cases ---------------------------
           if (serviceInfo?.service?.allowDownload) {
             let link = document.createElement("a");
@@ -233,41 +487,22 @@ function ServicePage(props) {
               window.open("/viewExcel");
             }
           }
-          setAlreadyOrderPlaced(true);
+
+          setOpenModelDownload(true);
           mixpanel.track("Paid Order placed Successfully", {
             user: UserDetails?.email,
             slug: serviceInfo?.service?.slug,
           });
-          toast.success("Thanks for placing the order", {
-            position: "top-center",
-            autoClose: 3000,
-          });
-          setOpenModelDownload(true);
-          setPaymentProcessing(false);
-          setLoader(false);
-        } else if (
-          result?.success &&
-          !result?.orderPlaced &&
-          result?.paymentRecieved
-        ) {
-          // sending the payment fail email at info@anchors.in
+        } else {
+          // inform lark bot --------
           informLarkBot(
             true,
-            order.amount / 100,
+            response.amount,
             serviceInfo?.service?.sname,
-            res.razorpay_payment_id,
+            response?.easepayid,
             UserDetails?.email,
-            "Payment recieved but error in order placing response"
+            "Payment recieved but error in registering for event response"
           );
-          setPaymentProcessing(false);
-          setLoader(false);
-
-          // sendEmailForOrderPayments(
-          //   serviceInfo?.sname,
-          //   UserDetails?.email,
-          //   order.amount / 100,
-          //   res.razorpay_payment_id
-          // );
 
           mixpanel.track("Problem!!!, Order not placed but money deducted", {
             user: UserDetails?.email,
@@ -281,86 +516,71 @@ function ServicePage(props) {
               autoClose: 5000,
             }
           );
-        } else {
-          mixpanel.track("Paid Order not placed", {
-            user: UserDetails?.email,
-            slug: serviceInfo?.service?.slug,
-          });
-          toast.info(
-            "Your order was not placed. Please try again!!. If money got deducted then please reach us at info@anchors.in",
-            {
-              position: "top-center",
-              autoClose: 5000,
-            }
-          );
-          setPaymentProcessing(false);
-          setLoader(false);
         }
-      },
+        setPaymentProcessing(false);
+        setLoader(false);
+        break;
 
-      prefill: {
-        name: UserDetails?.name, //your customer's name
-        email: UserDetails?.email,
-      },
-      notes: {
-        address: "https://www.anchors.in",
-      },
-      modal: {
-        ondismiss: function () {
-          setPaymentProcessing(false);
-          setLoader(false);
-          toast.info(
-            "It is a paid service, for using it you have to pay the one time payment",
-            {
-              position: "top-center",
-              autoClose: 5000,
-            }
-          );
-        },
-      },
-      notify: {
-        sms: true,
-        email: true,
-      },
-      theme: {
-        color: "#040102",
-      },
-    };
-    var razor = new window.Razorpay(options);
-    razor.on("payment.failed", (e) => {
+      // Else all cases  -----------------
+      default:
+        setPaymentProcessing(false);
+        setLoader(false);
+
+        toast.info(
+          "The order is not placed. Try again!!! ,in case of issues inform us at info@anchors.in ",
+          {
+            position: "top-center",
+            autoClose: 5000,
+          }
+        );
+        break;
+    }
+  };
+
+  const orderPlacingThroughEaseBuzz = async () => {
+    setPaymentProcessing(true);
+    setLoader(true);
+
+    const order = await createUserOrderEaseBuzz(
+      localStorage.getItem("isUser") === "true" ? "user" : "creator",
+      "service",
+      serviceInfo?.service?.ssp,
+      serviceInfo?.service?.sname,
+      "", // referralCode,
+      serviceInfo?.service?._id
+    );
+
+    const key = await easeBuzzApiKey();
+    let orderData = {}; // Access key received via Initiate Payment
+
+    if (order?.success && order?.already) {
       setPaymentProcessing(false);
       setLoader(false);
-      mixpanel.track("Problem!!!, Paid Order failed", {
-        user: UserDetails?.email,
-        slug: serviceInfo?.service?.slug,
-      });
-
-      // Inform lark bot about the default
-      informLarkBot(
-        true,
-        order.amount / 100,
-        serviceInfo?.service?.sname,
-        e?.error?.metadata?.payment_id,
-        UserDetails?.email,
-        "Payment failed from Razorpay's side"
-      );
-
-      // sending the payment fail email at info@anchors.in
-      // sendEmailForOrderPayments(
-      //   serviceInfo?.sname,
-      //   UserDetails?.email,
-      //   order.amount / 100,
-      //   e?.error?.metadata?.payment_id
-      // );
-
+      toast.info("You have already paid for the service");
+      return true;
+    } else if (order?.success) {
+      orderData = order;
+    } else {
+      setPaymentProcessing(false);
+      setLoader(false);
       toast.info(
-        "Payment Failed, if amount got deducted inform us at info@anchors.in",
-        {
-          autoClose: 5000,
-        }
+        "Problems in creating order, Please refresh the page and try again!!"
       );
-    });
-    razor.open();
+      return true;
+    }
+
+    var easebuzzCheckout = new window.EasebuzzCheckout(key, "prod");
+
+    var options = {
+      access_key: orderData?.data,
+      onResponse: (response) => {
+        // handling the edge cases of the response
+        handlePaymentResponse(response, orderData?.orderId);
+      },
+      theme: "#000000", // color hex
+    };
+
+    easebuzzCheckout.initiatePayment(options);
   };
 
   const downloadService = async (e) => {
@@ -374,7 +594,7 @@ function ServicePage(props) {
           serviceInfo?.service?._id,
           localStorage.getItem("isUser") === "true" ? "user" : "creator"
         ).then((e) => {
-          if (e) {
+          if (e?.success) {
             // handling donwload edge cases ---------------------------
             if (serviceInfo?.service?.allowDownload) {
               let link = document.createElement("a");
@@ -403,7 +623,7 @@ function ServicePage(props) {
             setPaymentProcessing(false);
             setLoader(false);
           } else {
-            orderPlacingThroughRazorpay();
+            orderPlacingThroughEaseBuzz();
           }
         });
       } else {
@@ -560,8 +780,8 @@ function ServicePage(props) {
                       {serviceInfo?.service?.downloads > 10 ? (
                         <span>
                           {" "}
-                          <img src={TrendIcon} alt="" />{" "}
-                          Accessed by {serviceInfo?.service?.downloads} people
+                          <img src={TrendIcon} alt="" /> Accessed by{" "}
+                          {serviceInfo?.service?.downloads} people
                         </span>
                       ) : (
                         ""
@@ -597,7 +817,15 @@ function ServicePage(props) {
                           service: slug,
                         });
                         window.open(
-                          `https://api.whatsapp.com/send?text=Hey check this ${serviceInfo?.service?.stype === 1 ? "sheet" : serviceInfo?.service?.stype === 2 ? "video" : "document"} about *${serviceInfo?.service?.sname}*  by *${serviceInfo?.creator?.name}* out. I found it really helpful!. Check it out at https://www.anchors.in/s/${slug}?utm_medium=whatsapp&utm_source=wahtsapp&utm_campaign=company-question`
+                          `https://api.whatsapp.com/send?text=Hey check this ${
+                            serviceInfo?.service?.stype === 1
+                              ? "sheet"
+                              : serviceInfo?.service?.stype === 2
+                              ? "video"
+                              : "document"
+                          } about *${serviceInfo?.service?.sname}*  by *${
+                            serviceInfo?.creator?.name
+                          }* out. I found it really helpful!. Check it out at https://www.anchors.in/s/${slug}?utm_medium=whatsapp&utm_source=wahtsapp&utm_campaign=company-question`
                         );
                       }}
                     >
@@ -608,9 +836,15 @@ function ServicePage(props) {
 
                 <section
                   className="description_section_new_service_page"
-                  style={window.screen.width > 600 ? {
-                    minHeight : `${creatorSectionDesktop?.current?.clientHeight - 104}px`
-                  } : {}}
+                  style={
+                    window.screen.width > 600
+                      ? {
+                          minHeight: `${
+                            creatorSectionDesktop?.current?.clientHeight - 104
+                          }px`,
+                        }
+                      : {}
+                  }
                 >
                   <div>
                     <h2 className="text_type_02_new_service_page">
@@ -637,7 +871,10 @@ function ServicePage(props) {
               </div>
 
               {window.screen.width > 600 && (
-                <div className="right_side_data_new_service_page" ref={creatorSectionDesktop}>
+                <div
+                  className="right_side_data_new_service_page"
+                  ref={creatorSectionDesktop}
+                >
                   <section className="pricing_section_new_service_page_card">
                     {serviceInfo?.service?.isPaid && (
                       <h3 className="text_type_04_new_service_page">

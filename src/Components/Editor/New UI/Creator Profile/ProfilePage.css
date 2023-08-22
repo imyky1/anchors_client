@@ -421,6 +421,8 @@
     width: 122px;
     height: 121px;
     border-radius: 8px;
+    min-width: unset;
+    min-height: unset;
   }
 
   .social-icons-new-creator-page {

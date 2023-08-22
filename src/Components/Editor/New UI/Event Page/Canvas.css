@@ -182,7 +182,7 @@
 
 /* Date and Time Section ----------- */
 
-.date_time_section_banner {
+.date_time_section_banner_single {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
@@ -192,13 +192,13 @@
   bottom: 17px;
 }
 
-.date_time_section_banner > div {
+.date_time_section_banner_single > div {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.date_time_section_banner > div > span {
+.date_time_section_banner_single > div > span {
   color: #fff;
   text-align: center;
   font-family: "Inter",sans-serif;

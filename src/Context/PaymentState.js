@@ -45,7 +45,7 @@ const PaymentState = (props) => {
     return json.key;
   };
 
-  const checkfororder = async (serviceID, userType , type) => {
+  const checkfororder = async (serviceID, userType, type) => {
     // type means that the event
     try {
       const response = await fetch(`${host}/api/payment/checkOrderPlaced`, {
@@ -56,16 +56,22 @@ const PaymentState = (props) => {
           "Access-Control-Allow-Credentials": true,
           "jwt-token": localStorage.getItem("jwtToken"),
         },
-        body: JSON.stringify({ serviceID, userType , type }),
+        body: JSON.stringify({ serviceID, userType, type }),
       });
       const json = await response.json();
-      return json.success;
+      return json;
     } catch (error) {}
   };
 
-
   // Inform Lark bot about default in payment gateway
-  const informLarkBot = async (paid,amount,sname,paymentId,email,issue) => {
+  const informLarkBot = async (
+    paid,
+    amount,
+    sname,
+    paymentId,
+    email,
+    issue
+  ) => {
     try {
       const response = await fetch(`${host}/api/payment/informLarkRoute`, {
         method: "POST",
@@ -75,14 +81,12 @@ const PaymentState = (props) => {
           "Access-Control-Allow-Credentials": true,
           "jwt-token": localStorage.getItem("jwtToken"),
         },
-        body: JSON.stringify({ paid,amount,sname,paymentId,email,issue }),
+        body: JSON.stringify({ paid, amount, sname, paymentId, email, issue }),
       });
       const json = await response.json();
       return json.success;
-
     } catch (error) {}
   };
-
 
   // update or create the payment informations ---------------------
   const fillPaymentinformation = async (name, acNumber, ifsc) => {
@@ -129,6 +133,58 @@ const PaymentState = (props) => {
     }
   };
 
+  // Create user order easebuzz ----------------
+  const createUserOrderEaseBuzz = async (
+    orderFrom,
+    orderFor,
+    amount,
+    sname,
+    referralCode,
+    id
+  ) => {
+    try {
+      const response = await fetch(
+        `${host}/api/payment/userOrder/createOrderEaseBuzz/${id}`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+            "jwt-token": localStorage.getItem("jwtToken"),
+          },
+          body: JSON.stringify({
+            orderFrom,
+            orderFor,
+            amount,
+            sname,
+            referralCode,
+          }),
+        }
+      );
+      const json = await response.json();
+      return json;
+
+    } catch (error) {
+      toast.error("Some Error from Easebuzz", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    }
+  };
+
+  // Get easebuzz api key ----------
+  const easeBuzzApiKey = async () => {
+    const res = await fetch(`${host}/api/payment/getEaseBuzzKey`, {
+      method: "GET",
+      headers: {
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
+    });
+    const json = await res.json();
+    return json.key;
+  };
+
   return (
     <paymentContext.Provider
       value={{
@@ -137,7 +193,9 @@ const PaymentState = (props) => {
         checkfororder,
         fetchPaymentinformation,
         fillPaymentinformation,
-        informLarkBot
+        informLarkBot,
+        createUserOrderEaseBuzz,
+        easeBuzzApiKey,
       }}
     >
       {props.children}
