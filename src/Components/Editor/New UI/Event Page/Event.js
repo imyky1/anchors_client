@@ -1209,7 +1209,7 @@ function Event() {
             </section>
           )}
 
-          {/* <section className="extra_event_details_cta">
+          <section className="extra_event_details_cta">
             <h2>
               {!eventFinished
                 ? "Don't miss out on this valuable experience, grab your seat now. Hurry, limited seats available!"
@@ -1246,7 +1246,7 @@ function Event() {
                 ? "Explore your benefits"
                 : "Register for Event"}
             </button>
-          </section> */}
+          </section>
         </section>
 
         <Footer3 hostEventButton={true} />
