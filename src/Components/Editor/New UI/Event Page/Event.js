@@ -199,7 +199,9 @@ function Event() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+
   const ref1 = useRef();
+  const params = new URLSearchParams(location.search);
 
   // Show creator or not ---------------------------------
   const [showCreator, setShowCreator] = useState(true);
@@ -267,27 +269,10 @@ function Event() {
   useEffect(() => {
     // Loading mixpanel ------
     mixpanel.track("Page Visit");
-
     setLoader(true);
 
     // setting the referral code in the localstorage -----------------
-    const params = new URLSearchParams(window.location.search);
     if (params.get("referredFrom")?.length > 2) {
-
-      // handle the seo redirection with ease
-      if (params.get("reload") === "true") {
-        // Remove the 'reload' parameter from the URL
-        params.delete("reload");
-
-        // Construct the new URL without the 'reload' parameter
-        const newUrl = `${window.location.origin}${
-          window.location.pathname
-        }?${params.toString()}`;
-
-        // Reload the page with the modified URL
-        window.location.replace(newUrl);
-      }
-
       var obj = {
         url: window.location.pathname.split("/")[2],
         code: params.get("referredFrom"),
@@ -315,7 +300,23 @@ function Event() {
     }
 
     // eslint-disable-next-line
-  }, []);
+  }, [location]);
+
+  useEffect(() => {
+    // handle the seo redirection with ease
+    if (params.get("reload") === "true") {
+      // Remove the 'reload' parameter from the URL
+      params.delete("reload");
+
+      // Construct the new URL without the 'reload' parameter
+      const newUrl = `${window.location.origin}${window.location.pathname}${
+        params.toString().length > 0 ? "?" + params.toString() : ""
+      }`;
+
+      // Reload the page with the modified URL
+      window.location.replace(newUrl);
+    }
+  }, [params]);
 
   // Scroll to top ----------
   useEffect(() => {
@@ -414,8 +415,8 @@ function Event() {
 
   // Functions used ---------------
 
-  const handleNavigation = () => {
-    if (eventFinished || alreadyOrderPlaced) {
+  const handleNavigation = (showEventDetails = false) => {
+    if (eventFinished || alreadyOrderPlaced || showEventDetails) {
       const section = document.getElementById("eventDetails");
       section.scrollIntoView({ behavior: "smooth" });
     } else {
@@ -873,22 +874,50 @@ function Event() {
             //   </p>
             // )} */}
 
-            <button onClick={handleNavigation}>
-              {eventFinished || alreadyOrderPlaced
+            <button
+              onClick={() => {
+                handleNavigation(true);
+                mixpanel.track(
+                  // eventFinished || alreadyOrderPlaced
+                  "View Events Details first CTA"
+                  // : "Register for Event first CTA"
+                );
+              }}
+            >
+              {/* {eventFinished || alreadyOrderPlaced
                 ? "View Event Details"
-                : "Register for Event"}
+                : "Event Details"} */}
+              View Event Details
             </button>
           </div>
 
           <a href="#eventDetails">
-            <MdKeyboardArrowDown className="arrow_button_sample_page" />
+            <MdKeyboardArrowDown
+              className="arrow_button_sample_page"
+              onClick={() => {
+                mixpanel.track("Downpointing Arrow");
+              }}
+            />
           </a>
         </section>
+
+        {/* Description for mobile */}
+
+        {window.screen.width < 600 && (
+          <section className="desc_mobile_view_event" id="eventDetails">
+            <h2>About</h2>
+            <p className="description-event-page"></p>
+          </section>
+        )}
 
         {/* Description section */}
         {window.screen.width > 600 ? (
           <section className="event_desc_screen">
             <div className="left_side_scrollable" id="eventDetails">
+            <section className={`scrollable_section_event`}>
+                <h2>About</h2>
+                <p className="description-event-page"></p>
+              </section>
               <section
                 className={`scrollable_section_event
                 }`}
@@ -927,10 +956,7 @@ function Event() {
                   </span>
                 </section>
               )}
-              <section className={`scrollable_section_event`}>
-                <h2>About</h2>
-                <p className="description-event-page"></p>
-              </section>
+              
               {!eventFinished && (
                 <section
                   className={`scrollable_section_event`}
@@ -953,7 +979,16 @@ function Event() {
                       )}
                     </span>
                   )}
-                  <button onClick={handleEventRegistration}>
+                  <button
+                    onClick={() => {
+                      handleEventRegistration();
+                      mixpanel.track(
+                        alreadyOrderPlaced
+                          ? "Explore your benefits at Your Spot is Reserved"
+                          : "Register for Event at Reserve your Spot"
+                      );
+                    }}
+                  >
                     {alreadyOrderPlaced
                       ? "Explore your benefits"
                       : paymentProcessing
@@ -1019,7 +1054,7 @@ function Event() {
         ) : (
           <section className="event_desc_screen">
             <div className="left_side_scrollable">
-              <section className="scrollable_section_event" id="eventDetails">
+              <section className="scrollable_section_event" >
                 <div>
                   <section>
                     <h2>Mode</h2>
@@ -1124,7 +1159,16 @@ function Event() {
                       "For Free"
                     )}
                   </span>
-                  <button onClick={handleEventRegistration}>
+                  <button
+                    onClick={() => {
+                      handleEventRegistration();
+                      mixpanel.track(
+                        alreadyOrderPlaced
+                          ? "Explore your benefits at Your Spot is Reserved"
+                          : "Register for Event at Reserve your Spot"
+                      );
+                    }}
+                  >
                     {alreadyOrderPlaced
                       ? "Explore your benefits"
                       : paymentProcessing
@@ -1141,15 +1185,6 @@ function Event() {
                 alt=""
               />
             </div>
-          </section>
-        )}
-
-        {/* Description for mobile */}
-
-        {window.screen.width < 600 && (
-          <section className="desc_mobile_view_event">
-            <h2>About</h2>
-            <p className="description-event-page"></p>
           </section>
         )}
 
@@ -1174,7 +1209,7 @@ function Event() {
             </section>
           )}
 
-          <section className="extra_event_details_cta">
+          {/* <section className="extra_event_details_cta">
             <h2>
               {!eventFinished
                 ? "Don't miss out on this valuable experience, grab your seat now. Hurry, limited seats available!"
@@ -1192,6 +1227,13 @@ function Event() {
                   if (!alreadyOrderPlaced) {
                     handleNavigation();
                     handleEventRegistration();
+                    mixpanel.track(
+                      eventFinished
+                        ? "Go To Dashboard"
+                        : alreadyOrderPlaced
+                        ? "Explore your benefits - last CTA"
+                        : "Register for Event last CTA"
+                    );
                   } else {
                     navigate(`/success/${slug}`);
                   }
@@ -1204,7 +1246,7 @@ function Event() {
                 ? "Explore your benefits"
                 : "Register for Event"}
             </button>
-          </section>
+          </section> */}
         </section>
 
         <Footer3 hostEventButton={true} />

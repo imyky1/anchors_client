@@ -26,6 +26,8 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import PNGIMG from "../../../../Utils/Images/default_user.png";
 import { FiDownload } from "react-icons/fi";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import mixpanel from "mixpanel-browser";
+import { mix } from "framer-motion";
 
 function TableComponent({ userComponent, name, points, index }) {
   return (
@@ -93,6 +95,9 @@ function Success() {
   const params = new URLSearchParams(window.location.search);
 
   useEffect(() => {
+    // Loading mixpanel ------
+    mixpanel.track("Page Visit");
+
     if (params.get("placedOrder") === "success") {
       setOpenSuccessModal(true);
     }
@@ -174,8 +179,9 @@ function Success() {
   };
 
   const handleDonwload = async (e) => {
+    mixpanel.track("Download Invite Banner")
     const link = document.createElement("a");
-    link.href = bannerData;
+    link.href = eligible?.order?.eventBannerImage;
     link.download = `${userDetails?.name}.png`;
     link.click();
   };
@@ -240,7 +246,9 @@ function Success() {
             href="#eventDetails"
             style={{ position: "fixed", right: "10vw", bottom: "100px" }}
           >
-            <MdKeyboardArrowDown className="arrow_button_sample_page" />
+            <MdKeyboardArrowDown className="arrow_button_sample_page" onClick={()=>{
+              mixpanel.track("Downpointing Arrow")
+            }}/>
           </a>
         )}
 
@@ -279,6 +287,7 @@ function Success() {
                   alignItems: "center",
                 }}
                 onClick={() => {
+                  mixpanel.track("Copy Invite Code link");
                   navigator.clipboard.writeText(shareLink);
                   toast.success("Copied Link Successfully", {
                     position: "top-center",
@@ -302,7 +311,8 @@ function Success() {
               <section>
                 <BsWhatsapp
                   onClick={() => {
-                    window.open(`https://api.whatsapp.com/send?text=Hey,
+                    mixpanel.track("Share Invite Code on WhatsApp");
+                    window.open(`https://api.whatsapp.com/send?text=Hey,%0A
 I just signed up for this amazing event, *${eventInfo?.event?.sname}*, and I thought you might be interested too!%0A%0A
 
 🎉 Join me by registering here: ${shareLink} %0A%0A
@@ -323,11 +333,16 @@ I just signed up for this amazing event, *${eventInfo?.event?.sname}*, and I tho
 
 Let's experience this together!%0A
 Catch you there`}
+                  onClick={()=>{
+                    mixpanel.track("Share Invite Code on LinkedIn")
+                  }}
                 >
                   <FaLinkedinIn />
                 </LinkedinShareButton>
                 {/* <BsInstagram /> */}
-                <FacebookShareButton url={shareLink} quote={"Hello user"}>
+                <FacebookShareButton url={shareLink} quote={"Hello user"} onClick={()=>{
+                    mixpanel.track("Share Invite Code on FaceBook")
+                  }}>
                   <FaFacebookF />
                 </FacebookShareButton>
               </section>

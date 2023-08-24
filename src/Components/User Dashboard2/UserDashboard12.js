@@ -1,6 +1,63 @@
+// import React, { useContext, useEffect, useState } from "react";
+// import anchor from './anchor.png';
+// import './testDashboard.css';
+// import { UserDashbaord } from "../../Context/userdashbaord";
+// const UserDashboard = () => {
+//   const [selectedCreator, setSelectedCreator] = useState();
+//   const [countServices, setCountServices] = useState();
+//   const {
+//     getallcreatorsofuser,
+//     userCreators,
+//     getallordersofuser,
+//     alluserDocs,
+//     getalleventsofuser,
+//     eventsUser,
+//   } = useContext(UserDashbaord);
+
+//   useEffect(() => {
+//     setCountServices(
+//       alluserDocs
+//         ?.filter((e) => {
+//           return e?.service?.sname && e?.service?.status !== 0;
+//         })
+//         ?.filter((e) => {
+//           return e?.service?.c_id === selectedCreator?.id;
+//         }).length +
+//         eventsUser?.LiveEvents?.filter((e) => {
+//           return e?.eventID?.c_id === selectedCreator?.id;
+//         }).length +
+//         eventsUser?.UpcomingEvents?.filter((e) => {
+//           return e?.eventID?.c_id === selectedCreator?.id;
+//         }).length
+//     );
+//   }, [selectedCreator]);
+
+//   return (
+//     <div className='user_dashboard_outer'>
+//         <div className='user_dashboard_outer_nav'>
+//             <img src={anchor}/>
+//         </div>
+//         <div className='user_dashboard_all_creators_00'>
+//           <div className='user_dashboard_all_creators_00_combine'>
+//           <span className='user_dashboard_all_creators_00_creator'>Your Creators</span>
+//           <span className='user_dashboard_all_creators_00_desc' >Creators who's content you've engaged with.</span>
+//           </div>
+//           <div className="user_dashboard_all_creators_00_creator_images">
+
+//           </div>
+
+//         </div>
+//     </div>
+//   )
+// }
+
+// export default UserDashboard;
+
+
+
 import React, { useContext, useEffect, useState } from "react";
 import "./UserDashboard.css";
-import Navbar, { Navbar2 } from "../Layouts/Navbar User/Navbar";
+import Navbar from "../Layouts/Navbar User/Navbar";
 import { BsChevronDown, BsFillCalendar3WeekFill } from "react-icons/bs";
 import {
   AiOutlineCheck,
@@ -15,7 +72,7 @@ import EventIcon from "../../Utils/Icons/iconEvent.svg";
 import ImageIcon from "../../Utils/Icons/iconImage.svg";
 import { UserDashbaord } from "../../Context/userdashbaord";
 import { LoadThree } from "../Modals/Loading";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import FeedbackModal from "../Modals/Feedback_Modal";
 import { ToastContainer } from "react-toastify";
 import mixpanel from "mixpanel-browser";
@@ -329,7 +386,6 @@ const EventsSectionData = ({ liveData, upcomingData }) => {
 };
 
 function UserDashboard(props) {
-  const location = useLocation()
   // States ------------------------
   const [selectedCreator, setSelectedCreator] = useState();
   const [countServices, setCountServices] = useState();
@@ -338,7 +394,6 @@ function UserDashboard(props) {
   const [liveEventsArray, setliveEventsArray] = useState([]);
   const [upcomingEventsArray, setUpcomingEventsArray] = useState([]);
   const [openLoading, setOpenLoading] = useState(false);
-  const [openUserLoginModal, setOpenUserLoginModal] = useState(false);
   const [fbModalDetails, setFbModalDetails] = useState({
     open: false,
     service: {},
@@ -358,27 +413,15 @@ function UserDashboard(props) {
 
   useEffect(() => {
     mixpanel.track("Page Visit");
-
-    if (!localStorage.getItem("isUser") === "true") {
-      localStorage.removeItem("url");
-    } else {
-      localStorage.setItem("url", location.pathname);
-    }
-
-
-    if (!localStorage.getItem("jwtToken")) {
-      setOpenUserLoginModal(true);
-    } else {
-      setOpenLoading(true);
-      getallcreatorsofuser().then(() => {
-        setOpenLoading(false);
-      });
-      getalleventsofuser().then((e) => {});
-      getallordersofuser().then(() => {
-        setOpenLoading(false);
-      });
-    }
-  }, [location]);
+    setOpenLoading(true);
+    getallcreatorsofuser().then(() => {
+      setOpenLoading(false);
+    });
+    getalleventsofuser().then((e) => {});
+    getallordersofuser().then(() => {
+      setOpenLoading(false);
+    });
+  }, []);
 
   // get the count for the selected creator
   useEffect(() => {
@@ -411,6 +454,7 @@ function UserDashboard(props) {
   // Functions --------------------------
 
   const handleOptionClick = (option) => {
+   
     setOption(option);
   };
 
@@ -480,7 +524,7 @@ function UserDashboard(props) {
       setliveEventsArray(
         eventsUser?.LiveEvents?.filter((e) => {
           return (
-             e?.eventID?.c_id === selectedCreator?.id
+            selectedCreator?.id && e?.eventID?.c_id === selectedCreator?.id
           );
         })
       );
@@ -488,7 +532,7 @@ function UserDashboard(props) {
       setUpcomingEventsArray(
         eventsUser?.UpcomingEvents?.filter((e) => {
           return (
-             e?.eventID?.c_id === selectedCreator?.id
+            selectedCreator?.id && e?.eventID?.c_id === selectedCreator?.id
           );
         })
       );
@@ -501,13 +545,7 @@ function UserDashboard(props) {
 
   return (
     <>
-      <Navbar2
-        backgroundDark={true}
-        open={openUserLoginModal}
-        close={() => {
-          openUserLoginModal(false);
-        }}
-      />
+      <Navbar />
       <ToastContainer />
 
       {openLoading && <LoadThree />}

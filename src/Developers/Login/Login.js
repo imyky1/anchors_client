@@ -46,7 +46,7 @@ function Login() {
 
   const handleSubmitOTP = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${host}/api/email/sendMsg?message=Login&number=8692008538&subject=Anchors`, {
+    const response = await fetch(`${host}/api/email/sendMsg?message=Login&number=6267941318&subject=Anchors`, {
       method: "GET",
       headers: {
         Accept: "application/json",

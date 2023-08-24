@@ -72,15 +72,13 @@ function ServicePage(props) {
     useContext(feedbackcontext);
 
   const {
-    createRazorpayClientSecret,
-    razorpay_key,
     checkfororder,
     informLarkBot,
     createUserOrderEaseBuzz,
     easeBuzzApiKey,
   } = useContext(paymentContext);
 
-  const { userPlaceOrder, getUserDetails, verifyPaymentsinBackend } =
+  const { userPlaceOrder, getUserDetails } =
     useContext(userContext);
 
   //Scroll to top automatically ---------------------------------------------

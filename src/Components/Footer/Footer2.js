@@ -1,6 +1,7 @@
 import React from "react";
 import "./Footer.css";
-import {MdEventSeat} from "react-icons/md"
+import { MdEventSeat } from "react-icons/md";
+import mixpanel from "mixpanel-browser";
 
 function Footer2() {
   return (
@@ -22,15 +23,26 @@ function Footer2() {
   )
 }
 
-
-export const Footer3 = ({hostEventButton = false}) => {
+export const Footer3 = ({ hostEventButton = false }) => {
   return (
     <div className="footer_user_side_anchors2">
       <img src={require("../../Utils/Images/logo-invite-only.png")} alt="" />
 
       <span>2023 © anchors.in | Made in India</span>
 
-      {window.screen.width > 600 && hostEventButton && <button onClick={()=>{window.open("/hostevent","_self")}}><MdEventSeat/> Host Your Own Event</button>}
+      <button
+        style={
+          !(window.screen.width > 600 && hostEventButton)
+            ? { visibility: "hidden" }
+            : {}
+        }
+        onClick={() => {
+          window.open("/hostevent", "_self");
+          mixpanel.track("Host Your Own Event footer");
+        }}
+      >
+        <MdEventSeat /> Host Your Own Event
+      </button>
     </div>
   )
 }

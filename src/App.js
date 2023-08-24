@@ -3,13 +3,12 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useLocation,
 } from "react-router-dom";
 import ServiceState from "./Context/services/ServiceState";
 import Creators_login from "./Components/Login/Creators/Login2";
 import CreatorState from "./Context/CreatorState";
 import UserState from "./Context/UserState";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import LoadingBar from "react-top-loading-bar";
 import Feedback from "./Components/Feedback/Feedback";
 import LinkedinState from "./Context/LinkedinState";
@@ -64,6 +63,7 @@ import PreviewPage from "./Components/Editor/New UI/Service Page/PreviewPage";
 import Upload from "./Developers/Upload/Upload";
 import Creator from "./Components/ApprovedCreators/Creator.js";
 import MainLanding from "./Components/Editor/New UI/Main Page/Main";
+import UserDashboard2 from "./Components/User Dashboard2/UserDashboard";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -232,14 +232,12 @@ function App() {
                                   <Logout_Model progress={changeprogress} />
                                 }
                               />
-                              {localStorage.getItem("jwtToken") && (
                                 <Route
                                   path="/user/dashboard"
                                   element={
-                                    <UserDashboard progress={changeprogress} />
+                                    <UserDashboard2 progress={changeprogress} />
                                   }
                                 />
-                              )}
                               {/* Login and Signup for creators -------------------------------------- */}{" "}
                               <Route path="/login">
                                 <Route

@@ -26,6 +26,7 @@ import { feedbackcontext } from "../../Context/FeedbackState";
 import mixpanel from "mixpanel-browser";
 import Footer from "../Footer/Footer";
 import { LoadThree } from "../Modals/Loading";
+import UserDashboard2 from "../User Dashboard2/UserDashboard";
 
 // Split the component that requires code splitting
 const Modal1 = lazy(() => import("../Modals/ModalType01/Modal1"));
@@ -586,7 +587,7 @@ function Main(props) {
   ) {
     return (
       <Suspense fallback={<LoadThree />}>
-        <UserDashboard progress={props.progress} />;
+        <UserDashboard2 progress={props.progress} />
       </Suspense>
     );
   }

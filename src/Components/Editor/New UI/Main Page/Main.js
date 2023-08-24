@@ -52,6 +52,7 @@ import { LoadThree } from "../../../Modals/Loading";
 import Cards from "./Cards.js"
 import Laptop from "./Laptop.js"
 import Arrow from "./Arrow.js"
+import UserDashboard2 from "../../../User Dashboard2/UserDashboard";
 
 const UserDashboard = lazy(() =>
   import("../../../User Dashboard/UserDashboard")
@@ -520,7 +521,7 @@ const MainLanding = (props) => {
   ) {
     return (
       <Suspense fallback={<LoadThree />}>
-        <UserDashboard progress={props.progress} />;
+        <UserDashboard2 progress={props.progress} />
       </Suspense>
     );
   }

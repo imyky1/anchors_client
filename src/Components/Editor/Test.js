@@ -632,6 +632,9 @@ const EaseBuzzPage = () => {
         />
         <button type="submit">Pay Now</button>
       </form>
+
+
+      <video src="https://anchors-files.s3.ap-south-1.amazonaws.com/eventVideos/1688639094241-Screen_Recording_2023-07-04_at_10.47.36_PM.mov" width={400} height={500} controls ></video>
     </div>
   );
 };

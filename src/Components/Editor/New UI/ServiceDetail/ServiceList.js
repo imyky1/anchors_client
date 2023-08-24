@@ -34,6 +34,7 @@ import {
   BsTelegram,
   BsWhatsapp,
 } from "react-icons/bs";
+import { IoCopy } from "react-icons/io5";
 import { TbSend } from "react-icons/tb";
 import {
   LinkedinShareButton,
@@ -41,16 +42,27 @@ import {
   WhatsappShareButton,
 } from "react-share";
 
-const PopupModal = ({ slug, onClose, simg, sname, link, isEvent }) => {
+const PopupModal = ({
+  slug,
+  onClose,
+  simg,
+  sname,
+  link,
+  isEvent,
+  eventCode,
+}) => {
+  console.log(eventCode);
+
   let message = isEvent
     ? `Greetings! Delighted to announce my event on ${sname}. Join for an unforgettable experience you won't want to miss!`
     : `Greetings! Here's my document on the topic ${sname}, I believe you'll find it highly informative and beneficial.`;
 
   const handleCopyToClipboard = () => {
-    const copyURL =
-      link.length > 7
-        ? `https://www.anchors.in/s/${link}`
-        : `https://www.anchors.in/s/${link}`;
+    const copyURL = isEvent
+      ? eventCode
+        ? `https://open.anchors.in/${eventCode}`
+        : link
+      : link;
 
     navigator.clipboard
       .writeText(copyURL)
@@ -92,13 +104,26 @@ const PopupModal = ({ slug, onClose, simg, sname, link, isEvent }) => {
             </div>
           </div>
           <div className="service_share_link_user_second_frame">
-            {/* <div className="service_share_link_user_second_frame_link">
-              https://www.anchors.in/s/{link}
-              <img src={copy} alt="Copy" onClick={handleCopyToClipboard} />
-            </div> */}
+            <div
+              className="service_share_link_user_second_frame_link"
+              onClick={handleCopyToClipboard}
+            >
+              {isEvent
+                ? eventCode
+                  ? `https://open.anchors.in/${eventCode}`
+                  : link
+                : link}
+              <IoCopy color="white" />
+            </div>
             <div className="service_share_link_user_second_frame_allshare">
               <LinkedinShareButton
-                url={link}
+                url={
+                  isEvent
+                    ? eventCode
+                      ? `https://open.anchors.in/${eventCode}`
+                      : link
+                    : link
+                }
                 title={message}
                 onClick={() => {
                   mixpanel.track("Event Shared On Linkedin", {
@@ -111,22 +136,42 @@ const PopupModal = ({ slug, onClose, simg, sname, link, isEvent }) => {
                   <BsLinkedin color="white" size={20} />
                 </div>
               </LinkedinShareButton>
-              <WhatsappShareButton
-                url={link}
+              {/* <WhatsappShareButton
+                url={isEvent ? (eventCode ? `https://open.anchors.in/${eventCode}` : link) : link}
                 title={message}
                 onClick={() => {
                   mixpanel.track("Event Shared On Whatsapp", {
                     event: slug,
                   });
                 }}
+              > */}
+              <div
+                className="service_share_link_user_second_frame_allshare_container"
+                onClick={() => {
+                  mixpanel.track("Event Shared On Whatsapp", { event: slug });
+                  window.open(
+                    `https://api.whatsapp.com/send?text=${message} at ${
+                      isEvent
+                        ? eventCode
+                          ? `https://open.anchors.in/${eventCode}`
+                          : link
+                        : link
+                    }`
+                  );
+                }}
               >
-                <div className="service_share_link_user_second_frame_allshare_container">
-                  {" "}
-                  <BsWhatsapp color="white" size={20} />
-                </div>
-              </WhatsappShareButton>
+                {" "}
+                <BsWhatsapp color="white" size={20} />
+              </div>
+              {/* </WhatsappShareButton> */}
               <TelegramShareButton
-                url={link}
+                url={
+                  isEvent
+                    ? eventCode
+                      ? `https://open.anchors.in/${eventCode}`
+                      : link
+                    : link
+                }
                 title={message}
                 onClick={() => {
                   mixpanel.track("Event Shared On Telegram", {
@@ -182,9 +227,12 @@ const EventsSectionData = ({ liveData = [{}], upcomingData = [{}] }) => {
   };
 
   return (
-    <div className="user_dashboard_event_data_section_wrapper" style={{marginTop:"20px"}}>
+    <div
+      className="user_dashboard_event_data_section_wrapper"
+      style={{ marginTop: "20px", background: "unset", padding: "unset" }}
+    >
       {liveData?.length !== 0 && (
-        <section className="live_events_wrapper_user_dashboard_page" style={{width:"100%"}}>
+        <section className="live_events_wrapper_user_dashboard_page">
           {liveData?.map((e, index) => {
             return (
               <div>
@@ -228,7 +276,10 @@ const EventsSectionData = ({ liveData = [{}], upcomingData = [{}] }) => {
       )}
 
       {upcomingData?.length !== 0 && (
-        <section className="upcoming_events_wrapper_user_dashboard_page" style={{width:"100%"}}>
+        <section
+          className="upcoming_events_wrapper_user_dashboard_page"
+          style={{ width: "100%" }}
+        >
           <div>
             <span>
               <BsFillCalendar3WeekFill />
@@ -303,6 +354,7 @@ function ServiceDetailPage(props) {
     slug: "",
     link: "",
     simg: "",
+    eventCode: null,
   });
   const {
     services,
@@ -599,7 +651,7 @@ function ServiceDetailPage(props) {
                         <TableCell align="center">₹{elem.ssp}</TableCell>
                         <TableCell align="center">
                           <span className="servicelist_getdate">
-                            <div style={{textWrap: "nowrap"}}>
+                            <div style={{ textWrap: "nowrap" }}>
                               {" "}
                               {getDatelist(
                                 selected === "events"
@@ -607,7 +659,7 @@ function ServiceDetailPage(props) {
                                   : elem?.date
                               )}
                             </div>
-                            <div style={{textWrap: "nowrap"}}>
+                            <div style={{ textWrap: "nowrap" }}>
                               {" "}
                               {getDatelist2(
                                 selected === "events"
@@ -688,11 +740,16 @@ function ServiceDetailPage(props) {
                                 slug: elem?.slug,
                                 simg: elem?.simg,
                                 isEvent: selected === "events",
+                                eventCode: elem?.eventCode,
                                 link: elem?.copyURL
-                                  ? pattern.test(elem.copyURL.length)
+                                  ? pattern.test(elem?.copyURL)
                                     ? elem.copyURL
-                                    : `https://www.anchors.in/e/${elem.slug}`
-                                  : `https://www.anchors.in/e/${elem.slug}`,
+                                    : selected === "events"
+                                    ? `https://www.anchors.in/e/${elem.slug}`
+                                    : `https://www.anchors.in/s/${elem.slug}`
+                                  : selected === "events"
+                                  ? `https://www.anchors.in/e/${elem.slug}`
+                                  : `https://www.anchors.in/s/${elem.slug}`,
                               });
                             }}
                           >
@@ -719,49 +776,56 @@ function ServiceDetailPage(props) {
                           >
                             <div className="servicelist_wrap">
                               <div className="servicelist_popuptop">
-                                {(selected !== "events" || new Date(elem?.startDate) > new Date()) &&  <div
-                                  className="modaloptions_servicelist"
-                                  onClick={() => {
-                                    selected === "events"
-                                      ? navigate(
-                                          `/dashboard/editevent/${elem.slug}`
-                                        )
-                                      : navigate(
-                                          `/dashboard/editservice/${
-                                            elem.slug
-                                          }/${
-                                            elem?.stype === 2
-                                              ? "video"
-                                              : elem?.stype === 1
-                                              ? "excel"
-                                              : "pdf"
-                                          }`
-                                        );
-                                  }}
-                                >
-                                  Edit{" "}
-                                  {selected === "events" ? "Event" : "Service"}
-                                </div>}
+                                {(selected !== "events" ||
+                                  new Date(elem?.startDate) > new Date()) && (
+                                  <div
+                                    className="modaloptions_servicelist"
+                                    onClick={() => {
+                                      selected === "events"
+                                        ? navigate(
+                                            `/dashboard/editevent/${elem.slug}`
+                                          )
+                                        : navigate(
+                                            `/dashboard/editservice/${
+                                              elem.slug
+                                            }/${
+                                              elem?.stype === 2
+                                                ? "video"
+                                                : elem?.stype === 1
+                                                ? "excel"
+                                                : "pdf"
+                                            }`
+                                          );
+                                    }}
+                                  >
+                                    Edit{" "}
+                                    {selected === "events"
+                                      ? "Event"
+                                      : "Service"}
+                                  </div>
+                                )}
 
-                                {selected !== "events" && <div
-                                  className="modaloptions_servicelist"
-                                  onClick={() => {
-                                    navigate(
-                                      `/dashboard/createservice?type=${
-                                        elem?.stype === 2
-                                          ? "video"
-                                          : elem?.stype === 1
-                                          ? "excel"
-                                          : "pdf"
-                                      }&duplicate=${elem?.slug}`
-                                    );
-                                    mixpanel.track("Duplicate Service", {
-                                      service: elem?.slug,
-                                    });
-                                  }}
-                                >
-                                  Duplicate Service
-                                </div>}
+                                {selected !== "events" && (
+                                  <div
+                                    className="modaloptions_servicelist"
+                                    onClick={() => {
+                                      navigate(
+                                        `/dashboard/createservice?type=${
+                                          elem?.stype === 2
+                                            ? "video"
+                                            : elem?.stype === 1
+                                            ? "excel"
+                                            : "pdf"
+                                        }&duplicate=${elem?.slug}`
+                                      );
+                                      mixpanel.track("Duplicate Service", {
+                                        service: elem?.slug,
+                                      });
+                                    }}
+                                  >
+                                    Duplicate Service
+                                  </div>
+                                )}
                                 {/* <div
                                   className="modaloptions_servicelist"
                                   onClick={() => {

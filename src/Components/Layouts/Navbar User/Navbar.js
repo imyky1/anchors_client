@@ -8,6 +8,8 @@ import { userContext } from "../../../Context/UserState";
 import { toast } from "react-toastify";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import PNGIMG from "../../../Utils/Images/default_user.png";
+import { RxDashboard } from "react-icons/rx";
+import { FiLogOut } from "react-icons/fi";
 
 function Navbar({ slug, open, close }) {
   const [openModel, setOpenModel] = useState(false); // opens user login
@@ -17,13 +19,6 @@ function Navbar({ slug, open, close }) {
 
   // User context ---------------
   const { getUserDetails } = useContext(userContext);
-
-  // controlls the closing of user menu
-  openUserMenu &&
-    document?.addEventListener("click", () => {
-      setOpenUserMenu(false);
-      window.screen.width < 600 && enableScroll();
-    });
 
   // Functions --------------------
   const handleLogoClick = () => {
@@ -43,23 +38,6 @@ function Navbar({ slug, open, close }) {
     mixpanel.track("Logout");
     navigate("/logout");
   };
-
-  // diabeling the scroll in mobile
-  function disableScroll() {
-    // Get the current page scroll position
-    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-
-    // if any scroll is attempted,
-    // set this to the previous value
-    window.onscroll = function () {
-      window.scrollTo(scrollLeft, scrollTop);
-    };
-  }
-
-  function enableScroll() {
-    window.onscroll = function () {};
-  }
 
   // the user details-----------
   useEffect(() => {
@@ -123,7 +101,6 @@ function Navbar({ slug, open, close }) {
               onClick={(e) => {
                 e?.stopPropagation();
                 setOpenUserMenu(!openUserMenu);
-                window.screen.width < 600 && disableScroll();
               }}
             />
           ))}
@@ -167,7 +144,7 @@ function Navbar({ slug, open, close }) {
   );
 }
 
-export const Navbar2 = ({ slug, open, close, noAccount=false }) => {
+export const Navbar2 = ({ slug, open, close, noAccount=false,backgroundDark = false,noCloseLogin=false }) => {
   const [openModel, setOpenModel] = useState(false); // opens user login
   const [openUserMenu, setOpenUserMenu] = useState(false); // opens hamburger menu
   const [userDetails, setUserDetails] = useState({});
@@ -180,8 +157,9 @@ export const Navbar2 = ({ slug, open, close, noAccount=false }) => {
   openUserMenu &&
     document?.addEventListener("click", () => {
       setOpenUserMenu(false);
-      window.screen.width < 600 && enableScroll();
+      // window.screen.width < 600 && enableScroll();
     });
+
 
   // Functions --------------------
   const handleLogoClick = () => {
@@ -203,21 +181,21 @@ export const Navbar2 = ({ slug, open, close, noAccount=false }) => {
   };
 
   // diabeling the scroll in mobile
-  function disableScroll() {
-    // Get the current page scroll position
-    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+  // function disableScroll() {
+  //   // Get the current page scroll position
+  //   let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  //   let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
 
-    // if any scroll is attempted,
-    // set this to the previous value
-    window.onscroll = function () {
-      window.scrollTo(scrollLeft, scrollTop);
-    };
-  }
+  //   // if any scroll is attempted,
+  //   // set this to the previous value
+  //   window.onscroll = function () {
+  //     window.scrollTo(scrollLeft, scrollTop);
+  //   };
+  // }
 
-  function enableScroll() {
-    window.onscroll = function () {};
-  }
+  // function enableScroll() {
+  //   window.onscroll = function () {};
+  // }
 
   // the user details-----------
   useEffect(() => {
@@ -247,12 +225,12 @@ export const Navbar2 = ({ slug, open, close, noAccount=false }) => {
       <User_login
         open={openModel}
         onClose={() => {
-          close && close();
-          setOpenModel(false);
+          !noCloseLogin && close && close();
+          !noCloseLogin && setOpenModel(false);
         }}
       />
 
-      <div className="header_section_new_ui_event_page">
+      <div className="header_section_new_ui_event_page" style={backgroundDark ? {backgroundColor:"#101010"} : {}}>
         <div>
         <img
           src={require("../../../Utils/Images/logo-invite-only.png")}
@@ -285,12 +263,12 @@ export const Navbar2 = ({ slug, open, close, noAccount=false }) => {
               onClick={(e) => {
                 e?.stopPropagation();
                 setOpenUserMenu(!openUserMenu);
-                window.screen.width < 600 && disableScroll();
+                // window.screen.width < 600 && disableScroll();
               }}
             />
           )) : "" )}
 
-        {window.screen.width > 600 && openUserMenu && (
+        {openUserMenu && (
           <section
             className="listing_options_navbar"
             onClick={(e) => {
@@ -303,28 +281,12 @@ export const Navbar2 = ({ slug, open, close, noAccount=false }) => {
                 navigate("/");
               }}
             >
-              Dashboard
+              <RxDashboard/> Dashboard
             </span>
-            <span onClick={userlogout}>Logout</span>
+            <span onClick={userlogout}><FiLogOut/> Logout</span>
           </section>
         )}
       </div>
-
-      {window.screen.width < 600 && openUserMenu && (
-        <section className="mobile_listing_options_navbar">
-          <div>
-            <span
-              onClick={() => {
-                mixpanel.track("Visit Dashboard");
-                navigate("/");
-              }}
-            >
-              Dashboard
-            </span>
-            <span onClick={userlogout}>Logout</span>
-          </div>
-        </section>
-      )}
 
     </>
   );

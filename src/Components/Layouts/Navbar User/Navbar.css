@@ -93,32 +93,38 @@
 .listing_options_navbar {
   position: absolute;
   width: 120px;
-  height: 72px;
+  /* height: 65px; */
+  padding: 12px 20px;
   top: 93%;
   right: 7%;
-  background: #ffffff;
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.1);
-  border-radius: 13px;
-  z-index: 9;
+  background: #282828;
+  z-index: 9999;
+  color: white;
 
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: space-evenly;
+  gap: 13px;
+
 }
 
 .listing_options_navbar > span {
-  font-family: "Inter";
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 16px;
   font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 15px;
-  color: #000000;
+  font-weight: 400;
+  line-height: normal;
   cursor: pointer;
+  width: 90%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
 }
 
 .listing_options_navbar > span:hover {
-  color: rgba(30, 29, 29, 0.67);
+  color: rgba(218, 213, 213, 0.67);
 }
 
 /* Navbar 2 css -------- */
@@ -200,39 +206,6 @@
     height: 34px;
   }
 
-  .mobile_listing_options_navbar {
-    background-color: #00000080;
-    position: fixed;
-    top: 0px;
-    width: 100vw;
-    height: 100vh;
-    z-index: 99;
-    display: flex;
-    flex-direction: row-reverse;
-  }
-
-  .mobile_listing_options_navbar > div {
-    width: 169px;
-    background-color: white;
-    height: 100%;
-    display: flex;
-    align-items: flex-start;
-    gap: 25px;
-    flex-direction: column;
-    position: relative;
-    top: 55px;
-    padding: 10px;
-    box-sizing: border-box;
-  }
-
-  .mobile_listing_options_navbar > div span {
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 17px;
-    color: #000000;
-  }
 
   /* navbar 2  */
 
@@ -250,10 +223,22 @@
     padding: 8px 16px;
     border-radius: 38px;
     color: #fff;
-    font-family: "Gilroy-Light",sans-serif;
+    font-family: "Gilroy-Light", sans-serif;
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
   }
+
+  .listing_options_navbar{
+    right: 5%;
+    padding: 10px 6px;
+  }
+
+  .listing_options_navbar > span{
+    font-size: 12px;
+    width: 70%;
+  }
+
+
 }
