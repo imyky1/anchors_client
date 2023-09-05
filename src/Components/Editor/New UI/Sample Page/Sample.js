@@ -18,6 +18,8 @@ import { Footer3 } from "../../../Footer/Footer2";
 import NoMobileScreen from "../../../Layouts/Error Pages/NoMobileScreen";
 import mixpanel from "mixpanel-browser";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { MainNewFooter } from "../../../Footer/Footer";
+import { EventsNavbar } from "../../../Layouts/Navbar Creator/Navbar";
 
 const PersonalizedSection = () => {
   const containerVariant = (index) => {
@@ -28,12 +30,12 @@ const PersonalizedSection = () => {
     switch (index) {
       case 0:
         yoffset = 0;
-        xoffset = 140;
+        xoffset = (window.screen.width > 600 ? 140 : 120);
         time = 0.2;
         break;
       case 1:
         yoffset = -40;
-        xoffset = 70;
+        xoffset = window.screen.width > 600 ? 70 : 44;
         time = 0.4;
         break;
       case 2:
@@ -43,12 +45,12 @@ const PersonalizedSection = () => {
         break;
       case 3:
         yoffset = -40;
-        xoffset = -70;
+        xoffset = window.screen.width > 600 ? -70 : -44;
         time = 0.4;
         break;
       case 4:
         yoffset = 0;
-        xoffset = -140;
+        xoffset =( window.screen.width > 600 ? -140 : -120);
         time = 0.2;
         break;
     }
@@ -81,6 +83,7 @@ const PersonalizedSection = () => {
               variants={containerVariant(i)}
               initial="from" // here default type is tween and not spring because it has duration
               whileInView="to"
+              viewport={window.screen.width < 600 ? { once: true } : {}}
               src={e}
               alt=""
               key={i}
@@ -135,21 +138,18 @@ function Sample() {
     },
   };
 
-  if (window.screen.width < 800) {
-    return <NoMobileScreen />;
-  }
+  // if (window.screen.width < 800) {
+  //   return <NoMobileScreen />;
+  // }
 
   return (
     <div className="sample_page_wrapper">
       {/* Hero Section  */}
       <section className="main_header_component_event_page">
-        <Navbar2
-          open={openModel}
-          close={() => {
-            setOpenModel(false);
-          }}
-          noAccount={true}
-        />
+      <EventsNavbar
+        noAccount={true}
+        showPricingButton={false}
+      />
 
         {/* Main detail of the component */}
 
@@ -215,7 +215,7 @@ function Sample() {
       <section className="sample_page_divison_section">
         <div className="left_division_sample_page">
           <h2 className="header_sample_page01">
-          Amplify your Reach with our Referral Program
+            Amplify your Reach with our Referral Program
           </h2>
           <p className="header_sample_page02">
             Unlock the power of word-of-mouth marketing with our dynamic
@@ -246,7 +246,10 @@ function Sample() {
         </div>
       </section>
 
-      <section className="sharing_section_sample_page" style={{width:"88vw",marginTop:"150px"}}>
+      <section
+        className="sharing_section_sample_page"
+        style={{ width: window.screen.width > 600 ? "88vw" : "100vw", marginTop: window.screen.width > 600 ? "150px" : "10px" }}
+      >
         <motion.img
           src={require("./images/image8.png")}
           alt=""
@@ -254,11 +257,11 @@ function Sample() {
           initial="from" // here default type is tween and not spring because it has duration
           whileInView="to"
         />
-        <div style={{gap:"40px"}}>
-          <h2 className="header_sample_page01" style={{ textAlign: "right" }}>
+        <div style={{ gap: "40px" }}>
+          <h2 className="header_sample_page01" style={{ textAlign: window.screen.width > 600 ? "right" : "center" }}>
             Host Events with Upto 3 Speakers!
           </h2>
-          <p className="header_sample_page02" style={{ textAlign: "right" }}>
+          <p className="header_sample_page02" style={{ textAlign: window.screen.width > 600 ? "right" : "center" }}>
             Plan captivating events showcasing three speakers to ensure maximum
             engagement and excitement for your audience!
           </p>
@@ -277,10 +280,10 @@ function Sample() {
           whileInView="to"
         />
         <div>
-          <h2 className="header_sample_page01" style={{ textAlign: "right" }}>
+          <h2 className="header_sample_page01" style={{ textAlign: window.screen.width > 600 ? "right" : "center" }}>
             Effortless Content Sharing
           </h2>
-          <p className="header_sample_page02" style={{ textAlign: "right" }}>
+          <p className="header_sample_page02" style={{ textAlign: window.screen.width > 600 ? "right" : "center" }}>
             We streamline your event's design and content efforts, so you can
             focus on what matters most.
           </p>
@@ -301,8 +304,29 @@ function Sample() {
         >
           Yes, I'm ready!{" "}
         </button>
+
+        <MainNewFooter
+        onEvents={true}
+        footerOptions1={[
+          {
+            title: "Event Pricing",
+            link: "https://www.anchors.in/eventpricing",
+          },
+          {
+            title: "Sample Event Page",
+            link: "https://www.anchors.in/e/how-to-become-a-product-manager",
+          },
+          {
+            title: "Sample Referral Page",
+            link: "https://www.anchors.in/static/success",
+          },
+        ]}
+        noPrivacyPolicy={false}
+        noRefund={false}
+        useEventsLogo = {true}
+      />
       </section>
-      <Footer3 />
+      
     </div>
   );
 }

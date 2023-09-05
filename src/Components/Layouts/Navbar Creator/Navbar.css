@@ -2,21 +2,22 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: auto;
-  padding: 0 45px;
-  padding-top: 20px;
+  /* margin: auto; */
+  /* padding: 0 45px; */
+  /* padding-top: 20px; */
   position: fixed;
   top: 0px;
   background: #101010;
   z-index: 99;
-  padding-bottom: 12px;
+  /* padding-bottom: 12px; */
   box-sizing: border-box;
   width: 100vw;
-  padding-left: 6%;
+  /* padding-left: 6%; */
+  padding: 20px 10%;
 }
 
 .navbar_creator_wrapper01 > img {
-  width: 200px;
+  width: 132px;
   cursor: pointer;
 }
 
@@ -56,6 +57,29 @@
 .navbar_creator_wrapper01 > div > section > button:hover {
   background-color: red;
   border: 1px solid red;
+}
+
+.navbar_creator_wrapper01 > div > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.navbar_creator_wrapper01 > div > div > button{
+  display: flex;
+  padding: 10px 20px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(160, 160, 160, 0.5);
+  background: transparent;
+  color: #f0f0f0;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  cursor: pointer;
 }
 
 /* new featrue button */
@@ -127,7 +151,7 @@
   }
 
   .navbar_creator_wrapper01 > img {
-    width: 150px;
+    width: 100px;
     margin-left: 15px;
   }
 

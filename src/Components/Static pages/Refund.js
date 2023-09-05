@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../Layouts/Navbar Creator/Navbar";
-import Footer from "../Footer/Footer";
+import { MainNewFooter } from "../Footer/Footer";
 
 
 const RefundObj = [
@@ -87,7 +87,8 @@ const Refund = () => {
         </section>
       </div>
 
-      <Footer />
+      <MainNewFooter
+       onEvents={true} />
     </>
   );
 };

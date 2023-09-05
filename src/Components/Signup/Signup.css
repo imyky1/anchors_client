@@ -23,10 +23,10 @@
 }
 
 .logo_signup_page {
-  width: 200px;
+  width: 132px;
   position: absolute;
   top: 23px;
-  left: 35px;
+  left: 10%;
 }
 
 .left_signup_side > span {
@@ -168,7 +168,7 @@
 
   /* logo signup page ------------------- */
   .logo_signup_page {
-    width: 150px;
+    width: 100px;
     top: 17px;
     left: 15px;
   }

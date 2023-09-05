@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { SuperSEO } from "react-super-seo";
 import "./Privacy.css";
 import Navbar from "../Layouts/Navbar Creator/Navbar";
-import Footer from "../Footer/Footer";
+import { MainNewFooter } from "../Footer/Footer";
 
 const PrivacyObj = [
   {
@@ -126,7 +126,7 @@ const PrivacySection = () => {
         </section>
       </div>
 
-      <Footer />
+      <MainNewFooter onEvents={true} />
     </>
   );
 };

@@ -707,7 +707,7 @@ function TellUsMore() {
             <Link to="/" style={{ textDecoration: "none", color: "unset" }}>
               <img
                 className="logo_signup_page"
-                src={require("../Main Page/Images/logo-beta.png")}
+                src={require("../../Utils/Images/logo-invite-only.png")}
                 alt=""
               />
             </Link>

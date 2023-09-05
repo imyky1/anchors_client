@@ -249,40 +249,67 @@ const spanStyle = {
 
 export const CreateEventDemo = ({
   sname,
-  sdesc,
   ldesc,
   smrp,
   ssp,
   paid,
-  simg,
   stype,
-  noOfPage,
+  date,
+  startTime,
+  endTime,
+  cname,
+  cprofile,
+  crating,
+  ctagline,
+  seatCapacity,
+  eventSeatCapacity,
+  multipleSpeakers,
+  speakersArray,
+  speakersImagesArray
 }) => {
-  // useEffect(() => {
-  //   let doc = document.querySelector("#large_desc_service_page");
-  //   if (ldesc) {
-  //     if (doc) {
-  //       doc.innerHTML = "";
-  //       doc.innerHTML = ldesc;
-  //     }
-  //   } else {
-  //     doc.innerHTML =
-  //       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic, facilis!";
-  //   }
-  // }, [ldesc]);
 
-  // useEffect(() => {
-  //   let doc = document.querySelector("#short_desc_service_page");
-  //   if (sdesc) {
-  //     if (doc) {
-  //       doc.innerHTML = "";
-  //       doc.innerHTML = sdesc;
-  //     }
-  //   } else {
-  //     doc.innerHTML =
-  //       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic, facilis!";
-  //   }
-  // }, [sdesc]);
+  useEffect(() => {
+    let doc = document.querySelector("#content_event_html");
+    if (ldesc) {
+      if (doc) {
+        doc.innerHTML = "";
+        doc.innerHTML = ldesc;
+      }
+    } else {
+      doc.innerHTML =
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic, facilis!";
+    }
+  }, [ldesc]);
+
+  const convertTime = (inputTime) => {
+    if (inputTime) {
+      var timeParts = inputTime?.split(":");
+      var hours = parseInt(timeParts[0]);
+      var minutes = parseInt(timeParts[1]);
+
+      var period = hours >= 12 ? "PM" : "AM";
+      hours = hours > 12 ? hours - 12 : hours;
+
+      var convertedTime =
+        hours.toString().padStart(2, "0") +
+        ":" +
+        minutes.toString().padStart(2, "0") +
+        " " +
+        period;
+
+      return convertedTime;
+    }
+  };
+
+  const getDate = (date) => {
+    let d = new Date(date);
+
+    let newDate = d.toDateString().split(" ");
+
+    return (
+      newDate[0] + " | " + newDate[1] + " " + newDate[2] + " " + newDate[3]
+    );
+  };
 
   return (
     <div className="perview_demo_mobile_view_edit_profile">
@@ -310,18 +337,67 @@ export const CreateEventDemo = ({
               <h1
                 style={{ fontSize: "40px", width: "80%", lineHeight: "50px" }}
               >
-                lorem asdasd asdasda
+                {sname?.length > 0 ? sname : "Lorem ipsum dolor sit amet."}
               </h1>
-              <span style={{ fontSize: "16px" }}>by lorem asdasd</span>
+              <span style={{ fontSize: "16px" }}>by {cname}</span>
 
-              <button style={{ fontSize: "16px", padding: "16px 20px" }}>
-                Register for Event
+              <button
+                style={{ fontSize: "16px", padding: "16px 20px" }}
+                onClick={() => {
+                  const section = document.getElementById("eventDetails");
+                  section.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                View Event Details
               </button>
             </div>
 
             <a href="#eventDetails">
               <MdKeyboardArrowDown className="arrow_button_sample_page" />
             </a>
+          </section>
+
+          <section
+            className="desc_mobile_view_event"
+            id="eventDetails"
+            style={{
+              boxSizing: "border-box",
+              display: "flex",
+              flexDirection: "column",
+              gap: "8px",
+              justifyContent: "center",
+              minHeight: "100%",
+              padding: "20px 16px",
+              scrollSnapAlign: "start",
+              scrollSnapStop: "always",
+              width: "100%",
+            }}
+          >
+            <h2
+              style={{
+                color: "#fff",
+                fontFamily: "Gilroy-Bold,sans-serif",
+                fontSize: "40px",
+                fontStyle: "normal",
+                lineHeight: "normal",
+              }}
+            >
+              About
+            </h2>
+            <p
+              className="description-event-page"
+              id="content_event_html"
+              style={{
+                color: "#e2e8f0",
+                fontFamily: "Gilroy-Regular,sans-serif",
+                fontSize: "16px",
+                fontStyle: "normal",
+                fontWeight: "400",
+                lineHeight: "normal",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            ></p>
           </section>
 
           <section
@@ -370,7 +446,9 @@ export const CreateEventDemo = ({
                     >
                       Mode
                     </h2>
-                    <span style={spanStyle}>{true ? "Offline" : "Online"}</span>
+                    <span style={spanStyle}>
+                      {stype !== "Online" ? "Offline" : "Online"}
+                    </span>
                   </section>
                   <section
                     style={{
@@ -389,7 +467,9 @@ export const CreateEventDemo = ({
                     >
                       Date
                     </h2>
-                    <span style={spanStyle}>5th aug</span>
+                    <span style={spanStyle}>
+                      {date ? getDate(date) : getDate(new Date())}
+                    </span>
                   </section>
                   <section
                     style={{
@@ -408,7 +488,10 @@ export const CreateEventDemo = ({
                     >
                       Time
                     </h2>
-                    <span style={spanStyle}>12:00 PM To 1:00 AM</span>
+                    <span style={spanStyle}>
+                      {startTime ? convertTime(startTime) : "00:00 AM"} To{" "}
+                      {endTime ? convertTime(endTime) : "00:00 AM"}
+                    </span>
                   </section>
                   <section
                     style={{
@@ -425,26 +508,43 @@ export const CreateEventDemo = ({
                         textAlign: "center",
                       }}
                     >
-                      {true ? "Spots available" : "Spots are available"}
+                      {seatCapacity === "Enter Manally"
+                        ? "Spots available"
+                        : "Spots are available"}
                     </h2>
-                    <span style={spanStyle}>{true ? 100 : ""}</span>
+                    <span style={spanStyle}>
+                      {seatCapacity === "Enter Manually"
+                        ? eventSeatCapacity
+                        : ""}
+                    </span>
                   </section>
                 </div>
               </section>
-              {/* {eventInfo?.event?.speakerDetails &&
-              eventInfo?.event?.speakerDetails?.length !== 0 && (
-                <section className="scrollable_section_event">
+              {(multipleSpeakers && speakersArray[0]?.name) ? (
+                <section className="scrollable_section_event" style={{alignItems:"center"}}>
                   <section
                     className="right_stable_side_top"
-                    style={{ width: "62%", gap: "30px" }}
+                    style={{ width: "62%", gap: "30px",
+                    // display: "flex",
+                    // alignItems: "center",
+                    // justifyContent: "center",
+                    // flexDirection: "column",
+                    left:"unset"
+                  }}
                   >
-                    {eventInfo?.event?.speakerDetails?.map((speaker, index) => (
-                      <div className="right_stable_side_image" key={index}>
+                    {speakersArray?.map((speaker, index) => (
+                      <div className="right_stable_side_image" key={index} style={{
+                        display: "flex",
+                        justifyContent: "flex-start",
+                        width: "100%",
+                        gap:"8px",
+                        overflow:"hidden"
+                      }}>
                         <img
                           src={
-                            speaker?.profile ??
+                            speakersImagesArray[index] ? URL.createObjectURL(speakersImagesArray[index]) :
                             (speaker?.isCreator
-                              ? eventInfo?.creator?.profile
+                              ? cprofile
                               : PNGIMG)
                           }
                           alt=""
@@ -455,54 +555,70 @@ export const CreateEventDemo = ({
                         />
                         <div className="right_stable_side_image_desc">
                           <span>{speaker?.name}</span>
-                          <p>{speaker?.designation}</p>
+                          <p style={{width:"90%"}}>{speaker?.designation}</p>
                         </div>
                       </div>
                     ))}
                   </section>
                 </section>
-              )} */}
+              ) : (
+                <section
+                  className="scrollable_section_event"
+                  style={{ alignItems: "center" }}
+                >
+                  <section className="right_side_creator_profile_event_page">
+                    <img
+                      src={cprofile}
+                      alt=""
+                      onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src = PNGIMG;
+                      }}
+                    />
+                    <span>{cname}</span>
+                    <p>{ctagline}</p>
+                    <div>
+                      <RiStarSFill size={16} /> {crating}/5
+                    </div>
+                  </section>
+                </section>
+              )}
 
-              {/* {(!eventInfo?.event?.speakerDetails ||
-              eventInfo?.event?.speakerDetails?.length === 0) && ( */}
               <section
                 className="scrollable_section_event"
+                id="reserveSeat"
                 style={{ alignItems: "center" }}
               >
-                <section className="right_side_creator_profile_event_page">
-                  <img
-                    src=""
-                    alt=""
-                    onError={({ currentTarget }) => {
-                      currentTarget.onerror = null; // prevents looping
-                      currentTarget.src = PNGIMG;
-                    }}
-                  />
-                  <span>lorem asdasdasd</span>
-                  <p>lorem asdasdasd</p>
-                  <div>
-                    <RiStarSFill size={16} /> 4.5/5
-                  </div>
-                </section>
-              </section>
-              {/* )} */}
-
-              <section className="scrollable_section_event" id="reserveSeat">
-                <h2>Reserve your spot</h2>
-                <span>
-                  {true ? (
+                <h2
+                  style={{
+                    fontSize: "22px",
+                    textAlign: "center",
+                  }}
+                >
+                  Reserve your spot
+                </h2>
+                <span style={{ fontSize: "22px" }}>
+                  {paid ? (
                     <>
-                      ₹10 <span>100</span>
+                      ₹{ssp} <span style={{ fontSize: "14px" }}>{smrp}</span>
                     </>
                   ) : (
                     "For Free"
                   )}
                 </span>
-                <button>Register for Event</button>
+                <button
+                  style={{
+                    fontSize: "14px",
+                    marginTop: "0",
+                    padding: "12px 18px",
+                  }}
+                >
+                  Register for Event
+                </button>
               </section>
             </div>
 
-            {/* <div
+            <div
               className="right_stable_side"
               style={{
                 height: "100%",
@@ -519,7 +635,7 @@ export const CreateEventDemo = ({
                   width: "78%",
                 }}
               />
-            </div> */}
+            </div>
           </section>
         </div>
       </div>

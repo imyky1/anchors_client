@@ -461,6 +461,15 @@
   color: rgba(255, 255, 255, 1);
 }
 
+.desc_mobile_view_event > p ul{
+  padding-left: 22px;
+}
+
+.desc_mobile_view_event > p ol{
+  padding-left: 22px;
+}
+
+
 @media (max-width: 600px) {
 
   .event_page_outside_wrapper::-webkit-scrollbar {
@@ -615,13 +624,7 @@
     color: inherit !important;
   }
   
-  .desc_mobile_view_event > p ul{
-    padding-left: 22px;
-  }
-  
-  .desc_mobile_view_event > p ol{
-    padding-left: 22px;
-  }
+
 
   .user_reviews_event {
     padding: 20px 16px;

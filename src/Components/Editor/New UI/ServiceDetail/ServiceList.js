@@ -227,7 +227,8 @@ const EventsSectionData = ({ liveData = [{}], upcomingData = [{}] }) => {
   };
 
   return (
-    <div
+    <>
+   {(liveData?.length !== 0 || upcomingData?.length !== 0) && <div
       className="user_dashboard_event_data_section_wrapper"
       style={{ marginTop: "20px", background: "unset", padding: "unset" }}
     >
@@ -342,7 +343,8 @@ const EventsSectionData = ({ liveData = [{}], upcomingData = [{}] }) => {
           </section>
         </section>
       )}
-    </div>
+    </div>}
+    </>
   );
 };
 

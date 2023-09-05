@@ -115,7 +115,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
             Hi {allCreatorInfo?.name?.split(" ")[0]}, Welcome to anchors!
           </h2>
           <span className="text_02_dashboard" style={{ textAlign: "left" }}>
-            Begin your Anchors journey by following the milestones outlined
+            Begin your anchors journey by following the milestones outlined
             below to get started!
           </span>
 
@@ -280,7 +280,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
             >
               Share a Video
             </div> */}
-            {/* <div
+            <div
               onClick={() => {
                 setOpenEventPopup(true)
                 mixpanel.track("Share a event");
@@ -288,7 +288,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
               className="dashboard_options"
             >
               Create an Event
-            </div> */}
+            </div>
           </section>
         </div>
       </div>

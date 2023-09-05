@@ -10,6 +10,7 @@ import {
   RadioField1,
   UploadField2,
   UploadField3,
+  UploadField1,
 } from "./InputComponents/fields_Labels";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { toast } from "react-toastify";
@@ -39,6 +40,9 @@ function CreateEvent({
   openDefaultBanner,
   setDefaultBannerData,
   cname,
+  ctagline,
+  crating,
+  cprofile,
 }) {
   const params = new URLSearchParams(window.location.search);
 
@@ -51,6 +55,9 @@ function CreateEvent({
 
   const [paid, setpaid] = useState(); // decides the form acc to paid or free service type
   const [openLoading, setOpenLoading] = useState(false); // controlls the loader
+
+  // saving for preview in live eevnt
+  const [showimg, setShowimg] = useState({});
 
   // state for image cropping
   const [imagetocrop, setImageToCrop] = useState([]); // first is banner image , rest are sepaker's profile image
@@ -320,7 +327,6 @@ function CreateEvent({
               if (json?.success) {
                 //setservData(json.res);
                 setOpenLoading(false);
-                console.log(json);
                 setshowPopup({ open: true, link: json?.shortLink });
               } else {
                 setOpenLoading(false);
@@ -724,6 +730,7 @@ function CreateEvent({
                       <UploadField2
                         label="Profile Image"
                         id={`speakerImage0`}
+                        onChange={(e)=>{return null}}
                         info={
                           isSpeakerSelected
                             ? "Profile Image Selected"
@@ -734,8 +741,8 @@ function CreateEvent({
                       />
 
                       {speakersImagesArray[0] && (
-                        <Button
-                          variant="outlined"
+                        <Button1
+                          text={"Preview Image and Resize"}
                           onClick={() => {
                             setZoom(1);
                             setCrop({ x: 0, y: 0 });
@@ -745,11 +752,9 @@ function CreateEvent({
                               indexToCrop: 1,
                             });
                           }}
-                          className="imageresizeopenerbutton"
-                        >
-                          Preview Image and Resize
-                        </Button>
+                        />
                       )}
+
                     </div>
                     <div className="create_speaker_toggle_spacing0">
                       <div className="create_speaker_toggle">
@@ -812,6 +817,7 @@ function CreateEvent({
                           }`}
                           info="File Size Limit 15 MB Formats - jpg,png"
                           FileType=".jpg,.png,.jpeg"
+                          onChange={(e)=>{return null}}
                           onChangeFunction={(e) =>
                             handleChangeSpeakerImage(
                               e,
@@ -1076,6 +1082,213 @@ function CreateEvent({
                   </section>
                 )}
 
+                {isSpeakerSelected && (
+                  <div className="map_speaker_details_field">
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                        gap: "40px",
+                        marginBottom: "30px",
+                      }}
+                    >
+                      <div className="map_speaker_details_field_inside">
+                        <div className="map_speaker_details_field_inside_frame">
+                          <div className="create_text_04">Speaker Details</div>
+                          <TextField1
+                            label="Name"
+                            name="name"
+                            id="name"
+                            placeholder="Enter name"
+                            value={allCreatorInfo?.name}
+                          />
+
+                          <UploadField3
+                            label="Profile Image"
+                            id={`speakerImage0`}
+                            info={
+                              isSpeakerSelected
+                                ? "Profile Image Selected"
+                                : "File Size Limit 15 MB Formats - jpg,png"
+                            }
+                            onChange = {()=>{return null}}
+                            FileType=".jpg,.png,.jpeg"
+                            onChangeFunction={(e) =>
+                              handleChangeSpeakerImage(e, 0)
+                            }
+                          />
+
+                          {speakersImagesArray[0] && (
+                            <Button
+                              variant="outlined"
+                              onClick={() => {
+                                setZoom(1);
+                                setCrop({ x: 0, y: 0 });
+                                setCroppedArea(null);
+                                setImagePreview({
+                                  value: true,
+                                  indexToCrop: 1,
+                                });
+                              }}
+                              className="imageresizeopenerbutton"
+                            >
+                              Preview Image and Resize
+                            </Button>
+                          )}
+                        </div>
+                        <div className="create_speaker_toggle_spacing0">
+                          <div className="create_speaker_toggle">
+                            I am the speaker
+                            <RadioField1
+                              onChange={(value) => handleSpeaker(value)}
+                              value={isSpeakerSelected}
+                            />
+                          </div>
+                          <TextField1
+                            label="Designation"
+                            name="designation"
+                            id="designation"
+                            placeholder="Enter designation"
+                            value={allCreatorInfo?.tagLine}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {multipleSpeakers && (
+                  <div className="map_speaker_details_field">
+                    {(isSpeakerSelected
+                      ? speakersArray?.slice(1)
+                      : speakersArray
+                    )?.map((speaker, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "flex-start",
+                          gap: "40px",
+                          marginBottom: "30px",
+                        }}
+                      >
+                        <div className="map_speaker_details_field_inside">
+                          <div className="map_speaker_details_field_inside_frame">
+                            <div className="create_text_04">
+                              Speaker Details
+                            </div>
+                            <TextField1
+                              label="Name"
+                              name="name"
+                              id={`name${
+                                isSpeakerSelected ? index + 1 : index
+                              }`}
+                              placeholder="Enter name"
+                              onChange={(e) => {
+                                handleSpeakerChange(
+                                  e.target.value,
+                                  isSpeakerSelected ? index + 1 : index,
+                                  e.target.name
+                                );
+                              }}
+                            />
+
+                            <UploadField3
+                              label="Profile Image"
+                              id={`speakerImage${
+                                isSpeakerSelected ? index + 1 : index
+                              }`}
+                              info="File Size Limit 15 MB Formats - jpg,png"
+                              FileType=".jpg,.png,.jpeg"
+                              onChange = {()=>{return null}}
+                              onChangeFunction={(e) =>
+                                handleChangeSpeakerImage(
+                                  e,
+                                  isSpeakerSelected ? index + 1 : index
+                                )
+                              }
+                            />
+
+                            {speakersImagesArray[
+                              isSpeakerSelected ? index + 1 : index
+                            ] && (
+                              <Button
+                                variant="outlined"
+                                onClick={() => {
+                                  setZoom(1);
+                                  setCrop({ x: 0, y: 0 });
+                                  setCroppedArea(null);
+                                  setImagePreview({
+                                    value: true,
+                                    indexToCrop: isSpeakerSelected
+                                      ? index + 2
+                                      : index + 1,
+                                  });
+                                }}
+                                className="imageresizeopenerbutton"
+                              >
+                                Preview Image and Resize
+                              </Button>
+                            )}
+                          </div>
+                          <div className="create_speaker_toggle_spacing0">
+                            {index === 0 && !isSpeakerSelected && (
+                              <div className="create_speaker_toggle">
+                                I am the speaker
+                                <RadioField1
+                                  onChange={(value) => handleSpeaker(value)}
+                                  value={isSpeakerSelected}
+                                />
+                              </div>
+                            )}
+                            <TextField1
+                              label="Designation"
+                              name="designation"
+                              id={`designation${
+                                isSpeakerSelected ? index + 1 : index
+                              }`}
+                              placeholder="Enter designation"
+                              onChange={(e) =>
+                                handleSpeakerChange(
+                                  e.target.value,
+                                  isSpeakerSelected ? index + 1 : index,
+                                  e.target.name
+                                )
+                              }
+                            />
+
+                            {(index !== 0 || isSpeakerSelected) && (
+                              <Button1
+                                text="Remove Speaker"
+                                onClick={() =>
+                                  handleRemoveSpeaker(
+                                    isSpeakerSelected ? index + 1 : index
+                                  )
+                                }
+                              />
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {multipleSpeakers && speakersArray.length < 3 && (
+                  <div className="create_text_04" onClick={handleAddSpeaker} style={{marginTop:"-30px"}}>
+                    Add Speaker
+                    <BsPlus
+                      style={{
+                        marginBottom: "-3px",
+                        fontSize: "17px",
+                        marginLeft: "-1px",
+                        fontWeight: "bolder",
+                        cursor: "pointer",
+                      }}
+                    />{" "}
+                  </div>
+                )}
 
                 <Dropdown1
                   label="Is it Online/Offline?"
@@ -1221,206 +1434,6 @@ function CreateEvent({
                 )}
               </div>
             </div>
-
-            {isSpeakerSelected && (
-              <div className="map_speaker_details_field">
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    gap: "40px",
-                    marginBottom: "30px",
-                  }}
-                >
-                  <div className="map_speaker_details_field_inside">
-                    <div className="map_speaker_details_field_inside_frame">
-                      <div className="create_text_04">Speaker Details</div>
-                      <TextField1
-                        label="Name"
-                        name="name"
-                        id="name"
-                        placeholder="Enter name"
-                        value={allCreatorInfo?.name}
-                      />
-
-                      <UploadField2
-                        label="Profile Image"
-                        id={`speakerImage0`}
-                        info={
-                          isSpeakerSelected
-                            ? "Profile Image Selected"
-                            : "File Size Limit 15 MB Formats - jpg,png"
-                        }
-                        FileType=".jpg,.png,.jpeg"
-                        onChangeFunction={(e) => handleChangeSpeakerImage(e, 0)}
-                      />
-
-                      {speakersImagesArray[0] && (
-                        <Button
-                          variant="outlined"
-                          onClick={() => {
-                            setZoom(1);
-                            setCrop({ x: 0, y: 0 });
-                            setCroppedArea(null);
-                            setImagePreview({
-                              value: true,
-                              indexToCrop: 1,
-                            });
-                          }}
-                          className="imageresizeopenerbutton"
-                        >
-                          Preview Image and Resize
-                        </Button>
-                      )}
-                    </div>
-                    <div className="create_speaker_toggle_spacing0">
-                      <div className="create_speaker_toggle">
-                        I am the speaker
-                        <RadioField1
-                          onChange={(value) => handleSpeaker(value)}
-                          value={isSpeakerSelected}
-                        />
-                      </div>
-                      <TextField1
-                        label="Designation"
-                        name="designation"
-                        id="designation"
-                        placeholder="Enter designation"
-                        value={allCreatorInfo?.tagLine}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {multipleSpeakers && (
-              <div className="map_speaker_details_field">
-                {(isSpeakerSelected
-                  ? speakersArray?.slice(1)
-                  : speakersArray
-                )?.map((speaker, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "flex-start",
-                      gap: "40px",
-                      marginBottom: "30px",
-                    }}
-                  >
-                    <div className="map_speaker_details_field_inside">
-                      <div className="map_speaker_details_field_inside_frame">
-                        <div className="create_text_04">Speaker Details</div>
-                        <TextField1
-                          label="Name"
-                          name="name"
-                          id={`name${isSpeakerSelected ? index + 1 : index}`}
-                          placeholder="Enter name"
-                          onChange={(e) => {
-                            handleSpeakerChange(
-                              e.target.value,
-                              isSpeakerSelected ? index + 1 : index,
-                              e.target.name
-                            );
-                          }}
-                        />
-
-                        <UploadField2
-                          label="Profile Image"
-                          id={`speakerImage${
-                            isSpeakerSelected ? index + 1 : index
-                          }`}
-                          info="File Size Limit 15 MB Formats - jpg,png"
-                          FileType=".jpg,.png,.jpeg"
-                          onChangeFunction={(e) =>
-                            handleChangeSpeakerImage(
-                              e,
-                              isSpeakerSelected ? index + 1 : index
-                            )
-                          }
-                        />
-
-                        {speakersImagesArray[
-                          isSpeakerSelected ? index + 1 : index
-                        ] && (
-                          <Button
-                            variant="outlined"
-                            onClick={() => {
-                              setZoom(1);
-                              setCrop({ x: 0, y: 0 });
-                              setCroppedArea(null);
-                              setImagePreview({
-                                value: true,
-                                indexToCrop: isSpeakerSelected
-                                  ? index + 2
-                                  : index + 1,
-                              });
-                            }}
-                            className="imageresizeopenerbutton"
-                          >
-                            Preview Image and Resize
-                          </Button>
-                        )}
-                      </div>
-                      <div className="create_speaker_toggle_spacing0">
-                        {index === 0 && !isSpeakerSelected && (
-                          <div className="create_speaker_toggle">
-                            I am the speaker
-                            <RadioField1
-                              onChange={(value) => handleSpeaker(value)}
-                              value={isSpeakerSelected}
-                            />
-                          </div>
-                        )}
-                        <TextField1
-                          label="Designation"
-                          name="designation"
-                          id={`designation${
-                            isSpeakerSelected ? index + 1 : index
-                          }`}
-                          placeholder="Enter designation"
-                          onChange={(e) =>
-                            handleSpeakerChange(
-                              e.target.value,
-                              isSpeakerSelected ? index + 1 : index,
-                              e.target.name
-                            )
-                          }
-                        />
-
-                        {(index !== 0 || isSpeakerSelected) && (
-                          <Button1
-                            text="Remove Speaker"
-                            onClick={() =>
-                              handleRemoveSpeaker(
-                                isSpeakerSelected ? index + 1 : index
-                              )
-                            }
-                          />
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-            {multipleSpeakers && speakersArray.length < 3 && (
-              <div className="create_text_04" onClick={handleAddSpeaker}>
-                Add Speaker
-                <BsPlus
-                  style={{
-                    marginBottom: "-3px",
-                    fontSize: "17px",
-                    marginLeft: "-1px",
-                    fontWeight: "bolder",
-                    cursor: "pointer",
-                  }}
-                />{" "}
-              </div>
-            )}
           </section>
 
           <section className="buttons_form">
@@ -1436,12 +1449,17 @@ function CreateEvent({
                 alt=""
               />
               <CreateEventDemo
-                // {...data}
-                // paid={paid}
-                // ldesc={Content}
-                // simg={defaultbanner ? defaultImageobjectUrl : showimg}
-                // stype={CreateType}
-                // noOfPage={noOfPage}
+                {...data}
+                paid={paid}
+                ldesc={Content}
+                seatCapacity={seatCapacity}
+                cname={cname}
+                cprofile={cprofile}
+                crating={crating}
+                ctagline={ctagline}
+                multipleSpeakers={multipleSpeakers}
+                speakersArray={speakersArray}
+                speakersImagesArray={speakersImagesArray}
               />
             </section>
           </div>

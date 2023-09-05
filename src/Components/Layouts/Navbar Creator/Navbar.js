@@ -10,7 +10,7 @@ function Navbar({
   requestCallBack = false,
   backgroundDark = false,
   setOpenCallbackModel,
-  newfeature = false,
+  newfeature = false
 }) {
   const navigate = useNavigate();
 
@@ -35,8 +35,8 @@ function Navbar({
         <img
           src={
             whiteTheme
-              ? require("../../../Utils/Images/logo-beta-black.png")
-              : require("../../../Utils/Images/logo-beta.png")
+              ? require("../../../Utils/Images/logo-invite-only-black.png")
+              : require("../../../Utils/Images/logo-invite-only.png")
           }
           alt=""
           onClick={handleLogoClick}
@@ -45,7 +45,6 @@ function Navbar({
         <div>
 
           {/* new features ------------ */}
-          <div>
           {newfeature && <button
             className="new_feature_button"
             onClick={() => {
@@ -59,9 +58,6 @@ function Navbar({
             </span>
             {window.screen.width > 650 ? "Earning Potential Analyzer" : "EPA"}
           </button>}
-          </div>
-
-
 
           {/* Normal use buttons */}
           <section>
@@ -108,5 +104,101 @@ function Navbar({
     </>
   );
 }
+
+
+export function EventsNavbar({
+  noAccount = false,
+  whiteTheme = false,
+  backgroundDark = false,
+  newfeature = false,
+  showPricingButton = true,
+  position="unset"
+}) {
+  const navigate = useNavigate();
+
+  // Functions --------------------
+  const handleLogoClick = () => {
+    mixpanel.track("events header logo");
+    window.open("https://events.anchors.in/","_self");
+  };
+
+  return (
+    <>
+      <section
+        className="navbar_creator_wrapper01"
+        style={
+          whiteTheme
+            ? { background: "white" , position:position }
+            : backgroundDark
+            ? { background: "#121212" , position:position }
+            : {position:position}
+        }
+      >
+        <img
+          src={require("../../../Utils/Images/logo-events.png")
+          }
+          alt=""
+          onClick={handleLogoClick}
+        />
+
+        <div>
+
+          {/* new features ------------ */}
+          <div>
+          {newfeature && <button
+            className="new_feature_button"
+            onClick={() => {
+              mixpanel.track("EPA header button");
+              navigate("/earning-predictor");
+            }}
+          >
+            {" "}
+            <span>
+              New
+            </span>
+            {window.screen.width > 650 ? "Earning Potential Analyzer" : "EPA"}
+          </button>}
+          </div>
+
+
+
+          {/* Normal use buttons */}
+          <div>
+            {showPricingButton && (
+              <button
+                onClick={() => {
+                  mixpanel.track("Events side pricing button header");
+                  window.open("https://www.anchors.in/eventpricing")
+                }}
+              > Pricing
+              </button>
+            )}
+
+            {!noAccount && (
+              <button
+                onClick={() => {
+                  mixpanel.track(
+                    `${
+                      localStorage.getItem("jwtToken")
+                        ? "Event Side My Account"
+                        : "Event Side Clicked Get Started on Navbar"
+                    }`
+                  );
+                  !localStorage.getItem("jwtToken") ? window.open("https://events.anchors.in/login","_self") : window.open("https://events.anchors.in/dashboard","_self")
+                }}
+              >
+                {localStorage.getItem("jwtToken")
+                  ? "My Account"
+                  : "Get Started"}
+              </button>
+            )}
+          </div>
+          
+        </div>
+      </section>
+    </>
+  );
+}
+
 
 export default Navbar;

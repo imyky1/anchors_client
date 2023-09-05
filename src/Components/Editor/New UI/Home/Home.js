@@ -22,7 +22,9 @@ import { linkedinContext } from "../../../../Context/LinkedinState";
 import Waitlist from "../../../Waitlist/Waitlist";
 import HelpModal from "../../../Modals/ModalType01/HelpModal";
 import EditService from "../Edit Services/EditService";
-import CreatorFeedback, { CreatorFeedbackModal } from "../../../Modals/CreatorProfile/CreatorFeedback";
+import CreatorFeedback, {
+  CreatorFeedbackModal,
+} from "../../../Modals/CreatorProfile/CreatorFeedback";
 import DefaultBanner from "../../../Modals/Default Banner/DefaultBanner";
 import TellUsMore from "../../../Waitlist/TellUsMore";
 import CreateEvent from "../Create Services/CreateEvent";
@@ -42,7 +44,7 @@ function Home(props) {
   const [dataDefaultBanner, setDataDefaultBanner] = useState({
     fillingData: {},
     finalFormData: {},
-    objectUrl:null
+    objectUrl: null,
   });
   const [Rating, setRating] = useState("");
   const [creatorData, setcreatorData] = useState({ Reviews: "", Services: "" });
@@ -219,13 +221,12 @@ function Home(props) {
                 setOpenDefaultBannerModal(false);
               }}
               dataToRender={dataDefaultBanner?.fillingData}
-              setFinalData={(formdata,objectUrl) => {
+              setFinalData={(formdata, objectUrl) => {
                 setDataDefaultBanner({
                   ...dataDefaultBanner,
                   finalFormData: formdata,
-                  objectUrl
+                  objectUrl,
                 });
-
               }}
             />
 
@@ -259,7 +260,12 @@ function Home(props) {
                   <Routes>
                     <Route
                       path="/*"
-                      element={<EditProfile progress={props.progress} moreInfo={{ ...creatorData, Rating }}/>}
+                      element={
+                        <EditProfile
+                          progress={props.progress}
+                          moreInfo={{ ...creatorData, Rating }}
+                        />
+                      }
                     />
                   </Routes>
                 ) : (
@@ -312,6 +318,10 @@ function Home(props) {
                           openDefaultBanner={() => {
                             setOpenDefaultBannerModal(true);
                           }}
+                          cname = {allCreatorInfo?.name ?? basicNav?.name}
+                          ctagline = {allCreatorInfo?.tagLine}
+                          crating={Rating}
+                          cprofile = {allCreatorInfo?.profile ?? basicNav?.photo}
                           setDefaultBannerData={(e) =>
                             setDataDefaultBanner({
                               ...dataDefaultBanner,
@@ -321,13 +331,17 @@ function Home(props) {
                           FinalDefaultBannerFormData={
                             dataDefaultBanner?.finalFormData
                           }
-                          cname={allCreatorInfo?.name}
                         />
                       }
                     />
                     <Route
                       path="editprofile"
-                      element={<EditProfile progress={props.progress} moreInfo={{ ...creatorData, Rating }}/>}
+                      element={
+                        <EditProfile
+                          progress={props.progress}
+                          moreInfo={{ ...creatorData, Rating }}
+                        />
+                      }
                     />
                     <Route
                       path="editservice/:slug/:servicetype"
@@ -441,7 +455,7 @@ function Home(props) {
             </div>
           </div>
         ))}
-      <ToastContainer theme="dark"/>
+      <ToastContainer theme="dark" />
     </>
   );
 }

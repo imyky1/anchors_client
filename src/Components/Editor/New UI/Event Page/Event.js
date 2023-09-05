@@ -342,13 +342,16 @@ function Event() {
         eventInfo?.event?.ldesc;
     }
 
-    getRatingCreator(eventInfo?.event?.c_id?._id).then((e) => {
-      // getting the creator's rating
-      setCreatorRatingData(e);
-      setLoader(false);
-    });
-
-    getallfeedback(eventInfo?.event?.c_id?._id);
+    
+    if(eventInfo?.event?.c_id?._id){
+      getRatingCreator(eventInfo?.event?.c_id?._id).then((e) => {
+        // getting the creator's rating
+        setCreatorRatingData(e);
+        setLoader(false);
+      });
+      
+      getallfeedback(eventInfo?.event?.c_id?._id);
+    }
 
     // cheking if we need to show creator -----------
     if (eventInfo?.event?.speakerDetails?.length !== 0) {

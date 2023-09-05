@@ -131,9 +131,9 @@ function UploadField02(props) {
 
   const handleChange = (e) => {
     setfileName(e.target.files[0].name);
-    props.onChange(e.target.files[0]);
-    if (props.onChangeFunction) {
-      props.onChangeFunction(e);
+    props?.onChange(e.target.files[0]);
+    if (props?.onChangeFunction) {
+      props?.onChangeFunction(e);
     }
   };
 
@@ -194,9 +194,9 @@ function UploadField03(props) {
 
   const handleChange = (e) => {
     setfileName(e.target.files[0].name);
-    props.onChange(e.target.files[0]);
-    if (props.onChangeFunction) {
-      props.onChangeFunction(e);
+    props?.onChange(e.target.files[0]);
+    if (props?.onChangeFunction) {
+      props?.onChangeFunction(e);
     }
   };
 

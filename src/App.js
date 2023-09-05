@@ -64,6 +64,7 @@ import Upload from "./Developers/Upload/Upload";
 import Creator from "./Components/ApprovedCreators/Creator.js";
 import MainLanding from "./Components/Editor/New UI/Main Page/Main";
 import UserDashboard2 from "./Components/User Dashboard2/UserDashboard";
+import EventPricing from "./Components/Pricing/EventPricing";
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -178,6 +179,10 @@ function App() {
                               <Route
                                 path="/pricing"
                                 element={<Pricing />}
+                              ></Route>
+                              <Route
+                                path="/eventpricing"
+                                element={<EventPricing />}
                               ></Route>
                               {/* Demo Page */}
                               <Route

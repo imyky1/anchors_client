@@ -19,6 +19,34 @@
   gap: 41px;
 }
 
+.pricingIntroContainer > section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 572px;
+}
+
+.pricingIntroContainer > section > span {
+  color: #f00;
+  text-align: center;
+  font-family: "Gilroy-Bold", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+}
+
+.pricingIntroContainer > section > p {
+  color: rgba(255, 255, 255, 0.5);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-align: center;
+}
+
 .main_pricing_wrapper > section {
   display: flex;
   align-items: center;
@@ -329,6 +357,117 @@
   border-image: linear-gradient(to right, transparent, #34495e, transparent) 1; */
 }
 
+/* Table event pricing ------------------ */
+
+.eventPricing_table_wrapper {
+  width: 68vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.eventPricing_table_wrapper section {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* background-color: red; */
+}
+
+.table_back1 {
+  background: #212121;
+  color: #fff;
+  text-align: center;
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  padding: 14px;
+}
+.table_back2 {
+  border-bottom: 0.5px solid #424242;
+  background: #282828;
+  color: #fff;
+  /* text-align: center; */
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding: 14px;
+  padding-left: 43px;
+}
+.table_back3 {
+  border-bottom: 0.5px solid #505050;
+  background: #414141;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.table_back4 {
+  border-bottom: 0.5px solid #797979;
+  background: #5e5e5e;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table_back5 {
+  padding-left: 43px;
+  text-align: left;
+}
+
+.table_back6 {
+  color: #fff;
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.tick_table_pricing {
+  width: 24px;
+  height: 24px;
+  background-color: #00ff29;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tick_table_pricing > svg {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.table_pricing_button {
+  width: 85%;
+  padding: 14px;
+  box-sizing: border-box;
+  color: #a7a7a7;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border: none;
+  background: unset;
+  margin: 0 auto;
+  display: block;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.table_pricing_button:hover {
+  transform: scale(1.05);
+}
+
 @media (max-width: 600px) {
   .main_pricing_wrapper {
     padding: 40px 0;
@@ -356,6 +495,7 @@
     font-weight: 800;
     font-size: 24px;
     line-height: 29px;
+    text-align: center;
   }
 
   .text02_pricing_box {
@@ -392,7 +532,7 @@
     margin-bottom: 35px;
   }
 
-  .points_section_pricing_card{
+  .points_section_pricing_card {
     gap: 10px;
   }
 
@@ -460,5 +600,55 @@
     font-weight: 500;
     font-size: 12px;
     line-height: 150%;
+  }
+
+  /* tabel event lrcing */
+
+  .mobile_eventOutside_wrapper_table_pricing {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .eventPricing_table_wrapper {
+    width: 91vw;
+  }
+
+  .eventPricing_table_wrapper > section {
+    grid-template-columns: 55% 45%;
+  }
+
+  .table_back1 {
+    font-size: 16px;
+  }
+
+  .table_back2 {
+    font-size: 12px;
+    padding-left: 16px;
+  }
+
+  .table_back5 {
+    padding-left: 16px;
+  }
+
+  .table_back6 {
+    font-size: 16px;
+  }
+
+  .tick_table_pricing {
+    width: 16px;
+    height: 16px;
+    border-radius: 16px;
+  }
+
+  .tick_table_pricing > svg{
+    font-size: 12px;
+  }
+
+  .table_pricing_button{
+    font-size: 14px;
+    width: 100%;
   }
 }

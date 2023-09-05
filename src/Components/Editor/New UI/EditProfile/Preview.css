@@ -8,6 +8,10 @@
     width: 90%;
 }
 
+.perview_demo_mobile_view_edit_profile *::-webkit-scrollbar{
+    display: none;
+}
+
 .perview_demo_mobile_view_edit_profile > div{
     width: 100%;
     display: flex;

@@ -23,7 +23,6 @@ import third from "./home_images/third.webp";
 import fourth from "./home_images/fourth.webp";
 import fifth from "./home_images/fifth.webp";
 import eight from "./home_images/eight.webp";
-import nine from "./home_images/nine.webp";
 import muscle from "./icons/muscle.svg";
 import {
   FaLinkedinIn,
@@ -49,15 +48,14 @@ import "swiper/css/navigation";
 // import required modules
 import { Autoplay, EffectFlip } from "swiper/modules";
 import { LoadThree } from "../../../Modals/Loading";
-import Cards from "./Cards.js"
-import Laptop from "./Laptop.js"
-import Arrow from "./Arrow.js"
-import UserDashboard2 from "../../../User Dashboard2/UserDashboard";
+import Cards from "./Cards.js";
+import Laptop from "./Laptop.js";
+import Arrow from "./Arrow.js";
+import { MainNewFooter } from "../../../Footer/Footer";
 
-const UserDashboard = lazy(() =>
-  import("../../../User Dashboard/UserDashboard")
+const UserDashboard2 = lazy(() =>
+  import("../../../User Dashboard2/UserDashboard")
 );
-
 
 const FAQDetails = [
   {
@@ -552,7 +550,6 @@ const MainLanding = (props) => {
       <div>
         <div className="home_page_outer" id="landing_page_imp_div">
           <NavbarForPage />
-
           <div
             className="home_page_outer_first_body"
             style={{
@@ -604,91 +601,91 @@ const MainLanding = (props) => {
             </div>
           </div>
 
-            <div
-              className="home_page_outer_first_body"
-              style={{ backgroundImage: `url(${second})` }}
+          <div
+            className="home_page_outer_first_body"
+            style={{ backgroundImage: `url(${second})` }}
+          >
+            <motion.div
+              className="home_page_outer_second_body_01"
+              initial="from"
+              whileInView="to"
+              variants={textVariant01()}
             >
-              <motion.div
-                className="home_page_outer_second_body_01"
-                initial="from"
-                whileInView="to"
-                variants={textVariant01()}
-              >
-                Why
-                <span> Anchors?</span>
-              </motion.div>
-              <motion.div
-                className="home_page_outer_second_body_02"
-                initial="from"
-                whileInView="to"
-                variants={textVariant01(1.7)}
-              >
-                Unlock a full-stack solution to monetize your expertise and
-                skills like never before.
-              </motion.div>
+              Why
+              <span> Anchors?</span>
+            </motion.div>
+            <motion.div
+              className="home_page_outer_second_body_02"
+              initial="from"
+              whileInView="to"
+              variants={textVariant01(1.7)}
+            >
+              Unlock a full-stack solution to monetize your expertise and skills
+              like never before.
+            </motion.div>
 
-              <div className="home_page_outer_second_body_02_card">
-                <Cards />
+            <div className="home_page_outer_second_body_02_card">
+              <Cards />
+            </div>
+          </div>
+
+          <div
+            className="home_page_outer_first_body"
+            id="third"
+            style={{ backgroundImage: `url(${third})` }}
+          >
+            <motion.div
+              className="home_page_outer_second_body_01"
+              initial="from"
+              whileInView="to"
+              variants={textVariant01()}
+            >
+              Supported Upload Formats
+            </motion.div>
+            <motion.div
+              className="home_page_outer_second_body_02"
+              style={{ width: "40%" }}
+              initial="from"
+              whileInView="to"
+              variants={textVariant01(1.7)}
+            >
+              Your knowledge, your way - choose the perfect format to share your
+              skills!
+            </motion.div>
+            <div className="home_page_outer_second_body_02_laptop">
+              <Laptop />
+            </div>
+          </div>
+
+          <div
+            className="home_page_outer_first_body"
+            style={{ backgroundImage: `url(${fourth})` }}
+          >
+            <div className="home_page_outer_second_body_001">
+              <div className="home_page_outer_second_body_001_top">
+                <motion.div
+                  className="home_page_outer_second_body_01"
+                  initial="from"
+                  whileInView="to"
+                  variants={textVariant01()}
+                >
+                  Anchor Yourself, Stand Out
+                </motion.div>
+                <motion.div
+                  className="home_page_outer_second_body_02"
+                  style={{ width: "80%", marginLeft: "40px" }}
+                  initial="from"
+                  whileInView="to"
+                  variants={textVariant01(1.7)}
+                >
+                  The pathway to hop on board and join us!
+                </motion.div>
+              </div>
+              <div className="home_page_outer_second_body_arrow_001">
+                <Arrow />
               </div>
             </div>
-
-            <div
-              className="home_page_outer_first_body"
-              id="third"
-              style={{ backgroundImage: `url(${third})` }}
-            >
-              <motion.div
-                className="home_page_outer_second_body_01"
-                initial="from"
-                whileInView="to"
-                variants={textVariant01()}
-              >
-                Supported Upload Formats
-              </motion.div>
-              <motion.div
-                className="home_page_outer_second_body_02"
-                style={{ width: "40%" }}
-                initial="from"
-                whileInView="to"
-                variants={textVariant01(1.7)}
-              >
-                Your knowledge, your way - choose the perfect format to share
-                your skills!
-              </motion.div>
-              <div className="home_page_outer_second_body_02_laptop">
-                <Laptop />
-              </div>
-            </div>
-
-            <div
-              className="home_page_outer_first_body"
-              style={{ backgroundImage: `url(${fourth})` }}
-            >
-              <div className="home_page_outer_second_body_001">
-                <div className="home_page_outer_second_body_001_top">
-                  <motion.div
-                    className="home_page_outer_second_body_01"
-                    initial="from"
-                    whileInView="to"
-                    variants={textVariant01()}
-                  >
-                    Anchor Yourself, Stand Out
-                  </motion.div>
-                  <motion.div
-                    className="home_page_outer_second_body_02"
-                    style={{ width: "80%", marginLeft: "40px" }}
-                    initial="from"
-                    whileInView="to"
-                    variants={textVariant01(1.7)}
-                  >
-                    The pathway to hop on board and join us!
-                  </motion.div>
-                </div>
-                <div className="home_page_outer_second_body_arrow_001">
-                  <Arrow />
-                </div>
-              </div>
-            </div>
+          </div>
 
           <div
             className="home_page_outer_first_body"
@@ -1120,103 +1117,7 @@ const MainLanding = (props) => {
                   : ""}
               </div>
             </div>
-
-            <div
-              className="home_page_outer_first_body3"
-              style={{ backgroundImage: `url(${nine})` }}
-            >
-              <div className="home_page_outer_nine_body_020">anchors</div>
-              <div className="home_page_outer_nine_body_0201">
-                <div className="home_page_outer_nine_body_021">
-                  <div
-                    className="home_page_outer_nine_body_021_individual"
-                    onClick={() => {
-                      window.open("https://events.anchors.in/");
-                    }}
-                  >
-                    Events
-                  </div>
-                  <div
-                    className="home_page_outer_nine_body_021_individual"
-                    onClick={() => {
-                      window.open("/earning-predictor");
-                    }}
-                  >
-                    EPA
-                  </div>
-                  <div
-                    className="home_page_outer_nine_body_021_individual"
-                    onClick={() => {
-                      window.open("/pricing");
-                    }}
-                  >
-                    Pricing
-                  </div>
-                </div>
-                <div className="home_page_outer_nine_body_022">
-                  <div
-                    className="home_page_outer_nine_body_0212_individual"
-                    onClick={() => {
-                      window.open("/privacy-policy");
-                    }}
-                  >
-                    Privacy Policy
-                  </div>
-                  <div
-                    className="home_page_outer_nine_body_0212_individual"
-                    onClick={() => {
-                      window.open("/termsConditions");
-                    }}
-                  >
-                    Terms & Conditions
-                  </div>
-                  <div
-                    className="home_page_outer_nine_body_0212_individual"
-                    onClick={() => {
-                      window.open("/aboutUs");
-                    }}
-                  >
-                    About Us
-                  </div>
-                  <div
-                    className="home_page_outer_nine_body_0212_individual"
-                    onClick={() => {
-                      window.open("/contactUs");
-                    }}
-                  >
-                    Contact Us
-                  </div>
-                  <div
-                    className="home_page_outer_nine_body_0212_individual"
-                    onClick={() => {
-                      window.open("/refundPolicy");
-                    }}
-                  >
-                    Refund Policy
-                  </div>
-                </div>
-                <button
-                  className="home_page_outer_fifth_body_03_middle_down_button"
-                  onClick={() => {
-                    handleStart();
-                    mixpanel.track("join anchors footer");
-                  }}
-                >
-                  Join Our Exclusive Community
-                </button>
-                <img
-                  src={anchor}
-                  style={{
-                    width: "161.464px",
-                    margin: "0 auto",
-                    marginTop: "40px",
-                    cursor: "pointer",
-                    height: "44px",
-                  }}
-                />
-              </div>
-            </div>
-            <div></div>
+            <MainNewFooter handleButton={handleStart} />
           </div>
         </div>
       </div>

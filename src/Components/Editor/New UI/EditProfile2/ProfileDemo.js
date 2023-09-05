@@ -1,4 +1,3 @@
-import { Navbar2 } from "../../../Layouts/Navbar User/Navbar";
 
 import InstagramIcon from "../../../../Utils/Icons/instagram.svg";
 import fbIcon from "../../../../Utils/Icons/fb.svg";

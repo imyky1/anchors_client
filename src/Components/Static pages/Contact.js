@@ -3,7 +3,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Navbar from "../Layouts/Navbar Creator/Navbar";
-import Footer from "../Footer/Footer";
+import { MainNewFooter } from "../Footer/Footer";
 
 
 const ContactSection = () => {
@@ -37,7 +37,7 @@ const ContactSection = () => {
         </div>
       </div>
 
-      <Footer />
+      <MainNewFooter onEvents={true} />
     </>
   );
 };

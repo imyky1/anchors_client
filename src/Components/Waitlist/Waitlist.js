@@ -4,13 +4,12 @@ import "./Waitlist.css";
 import { SuperSEO } from "react-super-seo";
 import { toast, ToastContainer } from "react-toastify";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import logo from "../Main Page/Images/logo-beta.png";
+import logo from "../../Utils/Images/logo-invite-only.png";
 import CreatorInfo from "../Modals/CreatorProfile/Modal1";
 import { creatorContext } from "../../Context/CreatorState";
 import HelpModal from "../Modals/ModalType01/HelpModal";
 import mixpanel from "mixpanel-browser";
 import { Footer3 } from "../Footer/Footer2";
-import himanshu from "../../Utils/Images/himanshuk.png";
 import SignupModal from "../Modals/ModalType01/SignupModal";
 import Confetti from "react-confetti";
 
@@ -45,7 +44,7 @@ const CreatorsWaitlist = [
     link: "https://www.linkedin.com/in/himanshushekhar16/",
   },
   {
-    cimg: himanshu,
+    cimg: "https://anchors-assets.s3.ap-south-1.amazonaws.com/websiteImages/himanshuk.png",
     cname: "Himanshu Kumar",
     tag: "130K Followers",
     link: "https://www.linkedin.com/in/himanshukumarmahuri/",
@@ -62,7 +61,7 @@ const WaitlistHero = ({ wNumber }) => {
         a spot opens up and you can claim your spot.
       </p>
       <div>
-        <img src={require("../../Utils/Images/creatorCombined.png")} alt="" />
+        <img src="https://anchors-assets.s3.ap-south-1.amazonaws.com/websiteImages/creatorCombined.png" alt="" />
         {wNumber && <span>+{wNumber - 5}</span>}
       </div>
       {wNumber && <span>{`${wNumber - 1} Creators Ahead`}</span>}
@@ -239,7 +238,7 @@ const WailtistInviteCodeSection = () => {
       )}
 
       <div className="waitlist_invite_section" id="inviteCodeAccess">
-        {window.screen.width > 600 && <img src={require("../../Utils/Images/rocketicon.png")} alt="" />}
+        {window.screen.width > 600 && <img src="https://anchors-assets.s3.ap-south-1.amazonaws.com/websiteImages/rocketicon.png" alt="" />}
         <h1>Do you have the Invite Code</h1>
         <section>
           <input

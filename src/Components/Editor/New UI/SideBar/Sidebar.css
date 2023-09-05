@@ -8,13 +8,21 @@
   left: 0;
   top: 0;
   border-right: 1px solid rgba(0, 0, 0, 0.05);
+  padding-left: 16px;
+  box-sizing: border-box;
+  padding-top: 13px;
+}
+
+.logo_sidebar {
+  width: 132px;
+  cursor: pointer;
 }
 
 /* main part sidebar------------------------------ */
 
 .sidebar_main_box > div {
-  width: 85%;
-  margin: auto;
+  width: 88%;
+  /* margin: auto; */
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -43,8 +51,8 @@
   padding-left: 15px;
 }
 
-.sidebar_main_box > div > div > span img{
-    margin-right: 5px;
+.sidebar_main_box > div > div > span img {
+  margin-right: 5px;
 }
 
 /* text styles sidebar ------------------------------------------------ */
@@ -76,7 +84,7 @@
   /* background-color: red; */
 }
 
-.creator_sidebar_image{
+.creator_sidebar_image {
   width: 60px;
   height: 60px;
   filter: drop-shadow(1px 3px 9px rgba(0, 0, 0, 0.15));
@@ -89,10 +97,8 @@
   margin-top: 5px;
 }
 
-
-
-.reviews_from_sidebar:hover{
-    color: #0083FE;
+.reviews_from_sidebar:hover {
+  color: #0083fe;
 }
 
 /* sidebar navigation ------------------------------------------------------- */
@@ -136,11 +142,10 @@
   height: 24px;
 }
 
-.sidebar_navigation_active{
+.sidebar_navigation_active {
   background: #e1e1e1;
   color: #000000;
 }
-
 
 /* invite section sidebar -------------------------------------------------------- */
 

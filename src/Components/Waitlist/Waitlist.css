@@ -3,7 +3,7 @@
 .waitlist_wrapper {
   width: 100%;
   height: 100vh;
-  background-color: #232426;
+  background-color: #101010;
 }
 
 /* Navbar wailtist ------------------------------------------ */
@@ -13,13 +13,12 @@
   align-items: center;
   width: 100%;
   box-sizing: border-box;
-  padding: 10px 60px;
+  padding: 10px 8%;
   justify-content: space-between;
 }
 
 .logo_waitlist {
-  width: 196px;
-  height: 35px;
+  width: 132px;
   cursor: pointer;
 }
 
@@ -660,7 +659,7 @@
   }
 
   .logo_waitlist{
-    width: 150px;
+    width: 100px;
     height: unset;
   }
 

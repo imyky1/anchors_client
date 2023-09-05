@@ -3,7 +3,6 @@ import "./Navbar.css";
 import React, { useContext, useEffect, useState } from "react";
 import User_login from "../../Login/Users/User_login";
 import { useNavigate } from "react-router-dom";
-import Hamburger from "hamburger-react";
 import { userContext } from "../../../Context/UserState";
 import { toast } from "react-toastify";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -73,7 +72,7 @@ function Navbar({ slug, open, close }) {
       <section className="top_header_creator_profile">
         <img
           className="logo_main_page"
-          src={require("../../../Utils/Images/logo-beta.png")}
+          src={require("../../../Utils/Images/logo-invite-only.png")}
           alt=""
           onClick={handleLogoClick}
         />

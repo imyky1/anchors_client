@@ -112,6 +112,7 @@
 .navbar_home_page_outer > img {
   /* display: none; */
   width: 132.107px;
+  cursor: pointer;
 }
 
 .home_page_outer_first_body_001 {
@@ -870,4 +871,35 @@
 .landing_page__eligibility_popup_new_ui > section > button:hover{
   background-color: #f00;
   border: 1px solid #f00;
+}
+
+
+
+@media (max-width: 600px) {
+
+  .home_page_outer_first_body3 {
+    padding: 22px 0;
+    width: 100vw;
+  }
+
+  .home_page_outer_nine_body_020{
+    font-size: 40px;
+  }
+
+  .home_page_outer_nine_body_021_individual{
+    font-size: 12px;
+  }
+
+  .home_page_outer_nine_body_0212_individual{
+    font-size: 12px;
+    text-align: center;
+    line-height: 15px;
+  }
+
+  .home_page_outer_nine_body_022{
+    width: 95vw;
+    gap: 4%;
+  }
+
+
 }

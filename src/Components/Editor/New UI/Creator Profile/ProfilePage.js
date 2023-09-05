@@ -452,6 +452,11 @@ function ProfilePage() {
                   {services.res
                     ?.filter((e1) => {
                       return e1?.status === 1;
+                    }).sort((a, b) => {
+                      return b?.downloads - a?.downloads;
+                    })
+                    ?.sort((a, b) => {
+                      return b?.smrp - a?.smrp;
                     })
                     ?.map((e, i) => {
                       return (

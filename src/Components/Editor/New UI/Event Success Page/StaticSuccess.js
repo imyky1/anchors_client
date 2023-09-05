@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import "./Success.css";
 
 import { BsWhatsapp, BsInstagram } from "react-icons/bs";
-import { AiOutlineArrowRight } from "react-icons/ai";
 import { FaLinkedinIn, FaFacebookF } from "react-icons/fa";
 import { IoCopy } from "react-icons/io5";
 
@@ -10,17 +9,8 @@ import bronze from "../../../../Utils/Icons/bronze-trophy.svg";
 import silver from "../../../../Utils/Icons/silver-trophy.svg";
 import gold from "../../../../Utils/Icons/gold-trophy.svg";
 import { Navbar2 } from "../../../Layouts/Navbar User/Navbar";
-import tick from "../../../../Utils/Icons/tick.svg";
-import { userContext } from "../../../../Context/UserState";
-import { useNavigate, useParams } from "react-router-dom";
-import { host } from "../../../../config/config";
-import { ToastContainer, toast } from "react-toastify";
-import ServiceContext from "../../../../Context/services/serviceContext";
-import {
-  FacebookShareButton,
-  WhatsappShareButton,
-  LinkedinShareButton,
-} from "react-share";
+import { ToastContainer } from "react-toastify";
+
 
 function TableComponent({ userComponent, name, points, index }) {
   return (
@@ -82,7 +72,7 @@ function StaticSuccess() {
             <section className="left_benefit_section_hero_success">
               <div className="banner_success_page">
                 <img
-                  src={require("../Sample Page/images/Banner (8).png")}
+                  src="https://anchors-assets.s3.ap-south-1.amazonaws.com/websiteImages/Banner (8).png"
                   alt="Event Banner"
                 />
               </div>
