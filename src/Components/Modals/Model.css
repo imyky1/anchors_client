@@ -102,7 +102,7 @@
 .logout_model_logout {
   width: 100vw;
   height: 100vh;
-  background-color: #a0a0a039;
+  background-color: #d1d1d1;
   position: fixed;
   z-index: 9999;
   display: grid;
@@ -120,51 +120,67 @@
 .model_main_box {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  background-color: white;
   width: 530px;
   height: 300px;
-  /* margin-top: 20vh; */
-  /* margin-left: 17vw; */
-  border: 2px solid rgb(110, 108, 108);
-  border-radius: 9px;
+  padding: 40px 80px;
+  border-radius: 10px;
+  background: #f7f4f2;
+  box-sizing: border-box;
 }
 
 .model_question {
-  font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
-  color: grey;
+  color: #121212;
+  text-align: center;
+  font-family: Inter;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
 
 .model_gyan {
-  font-size: 1.1rem;
-  width: 350px;
-  margin-top: -20px;
-  color: rgb(138, 135, 135);
+  margin-top: -76px;
   text-align: center;
+  color: #666;
+  text-align: center;
+  font-family: Inter;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .model_buttons {
   display: flex;
   justify-content: space-between;
-  width: 80%;
+  width: 100%;
 }
 
 .model_button {
   width: 157px;
   height: 47px;
-  font-size: 1.2rem;
+  color: var(--success-green-700, #047857);
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
   background-color: white;
-  border-radius: 5px;
-  border: 2px solid #808080ba;
+  border-radius: 4px;
+  border: 1px solid var(--success-green-700, #047857);
+  box-shadow: 0px 4px 8px 0px rgba(31, 31, 31, 0.1);
   cursor: pointer;
   transition: transform 0.5s ease;
 }
 
 .model_button:nth-child(2) {
-  border: 2px solid red;
+  border-radius: 4px;
+  border: 1px solid #f00;
+  box-shadow: 0px 4px 8px 0px rgba(31, 31, 31, 0.1);
   color: red;
 }
 
@@ -1405,27 +1421,30 @@
 
 @media (max-width: 600px) {
   .model_main_box {
-    width: 90vw;
+    width: 93vw;
     height: max-content;
     position: absolute;
     margin-left: 0;
     text-align: center;
+    padding: 10px 20px;
   }
 
   .model_question {
-    font-size: 1.2rem;
+    font-size: 18px;
     margin: 16px 0;
   }
 
   .model_gyan {
-    font-size: 1.1rem;
+    font-size: 14px;
     width: 80%;
     margin: 3px 0;
   }
 
   .model_buttons button {
-    width: 22vw;
+    width: 17vw;
     margin: 20px 0;
+    font-size: 14px;
+    height: 37px;
   }
 
   .fb_modal {
@@ -1974,27 +1993,26 @@
     height: 40px;
   }
 
-  .sharing_link_section_thanks_modal{
+  .sharing_link_section_thanks_modal {
     flex-direction: column;
   }
 
-  .sharing_link_section_thanks_modal > section{
+  .sharing_link_section_thanks_modal > section {
     width: 88vw;
   }
 
-  .sharing_link_section_thanks_modal > section input{
+  .sharing_link_section_thanks_modal > section input {
     font-size: 12px;
   }
 
-  .sharing_link_section_thanks_modal > section svg{
+  .sharing_link_section_thanks_modal > section svg {
     font-size: 16px;
   }
 
-  .sharing_link_section_thanks_modal > div{
+  .sharing_link_section_thanks_modal > div {
     width: 100%;
     justify-content: flex-end;
   }
-
 }
 
 @media screen and (max-width: 650px) {

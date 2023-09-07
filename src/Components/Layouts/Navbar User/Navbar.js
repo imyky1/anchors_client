@@ -9,6 +9,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import PNGIMG from "../../../Utils/Images/default_user.png";
 import { RxDashboard } from "react-icons/rx";
 import { FiLogOut } from "react-icons/fi";
+import { BsPerson } from "react-icons/bs";
 
 function Navbar({ slug, open, close }) {
   const [openModel, setOpenModel] = useState(false); // opens user login
@@ -40,9 +41,7 @@ function Navbar({ slug, open, close }) {
 
   // the user details-----------
   useEffect(() => {
-    if (
-      localStorage.getItem("jwtToken")
-    ) {
+    if (localStorage.getItem("jwtToken")) {
       getUserDetails(localStorage.getItem("isUser") === "").then((e) => {
         if (e.success) {
           setUserDetails(e?.user);
@@ -94,7 +93,7 @@ function Navbar({ slug, open, close }) {
               alt={userDetails?.name}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
-                currentTarget.src = PNGIMG
+                currentTarget.src = PNGIMG;
               }}
               className="navbar_user_profile"
               onClick={(e) => {
@@ -143,14 +142,22 @@ function Navbar({ slug, open, close }) {
   );
 }
 
-export const Navbar2 = ({ slug, open, close, noAccount=false,backgroundDark = false,noCloseLogin=false }) => {
+export const Navbar2 = ({
+  slug,
+  open,
+  close,
+  noAccount = false,
+  backgroundDark = false,
+  noCloseLogin = false,
+}) => {
   const [openModel, setOpenModel] = useState(false); // opens user login
   const [openUserMenu, setOpenUserMenu] = useState(false); // opens hamburger menu
   const [userDetails, setUserDetails] = useState({});
+  const [userIsCreator, setUserIsCreator] = useState(false);
   const navigate = useNavigate();
 
   // User context ---------------
-  const { getUserDetails } = useContext(userContext);
+  const { getUserDetails, userSignInAsCreator } = useContext(userContext);
 
   // controlls the closing of user menu
   openUserMenu &&
@@ -158,7 +165,6 @@ export const Navbar2 = ({ slug, open, close, noAccount=false,backgroundDark = fa
       setOpenUserMenu(false);
       // window.screen.width < 600 && enableScroll();
     });
-
 
   // Functions --------------------
   const handleLogoClick = () => {
@@ -179,31 +185,31 @@ export const Navbar2 = ({ slug, open, close, noAccount=false,backgroundDark = fa
     navigate("/logout");
   };
 
-  // diabeling the scroll in mobile
-  // function disableScroll() {
-  //   // Get the current page scroll position
-  //   let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  //   let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+  const handleCreatorMode = async () => {
+    mixpanel.track("Creator Mode");
 
-  //   // if any scroll is attempted,
-  //   // set this to the previous value
-  //   window.onscroll = function () {
-  //     window.scrollTo(scrollLeft, scrollTop);
-  //   };
-  // }
-
-  // function enableScroll() {
-  //   window.onscroll = function () {};
-  // }
+    if (localStorage.getItem("isUser") !== "") {
+      let data = await userSignInAsCreator();
+      localStorage.removeItem("isUser");
+      localStorage.removeItem("jwtToken");
+      localStorage.removeItem("user");
+      localStorage.removeItem("url");
+      localStorage.setItem("jwtToken", data?.token);
+      localStorage.setItem("c_id", userDetails?.name);
+      localStorage.setItem("from", "userSide");
+      localStorage.setItem("isUser", "");
+      navigate("/dashboard");
+    } else {
+      navigate("/dashboard");
+    }
+  };
 
   // the user details-----------
   useEffect(() => {
-    if (
-      localStorage.getItem("jwtToken") &&
-      localStorage.getItem("isUser") === "true"
-    ) {
-      getUserDetails().then((e) => {
+    if (localStorage.getItem("jwtToken")) {
+      getUserDetails(localStorage.getItem("isUser") === "").then((e) => {
         if (e?.success) {
+          setUserIsCreator(e?.isCreator);
           setUserDetails(e?.user);
         } else {
           toast.info("You are not login properly. Please login again!!");
@@ -229,17 +235,20 @@ export const Navbar2 = ({ slug, open, close, noAccount=false,backgroundDark = fa
         }}
       />
 
-      <div className="header_section_new_ui_event_page" style={backgroundDark ? {backgroundColor:"#101010"} : {}}>
+      <div
+        className="header_section_new_ui_event_page"
+        style={backgroundDark ? { backgroundColor: "#101010" } : {}}
+      >
         <div>
-        <img
-          src={require("../../../Utils/Images/logo-invite-only.png")}
-          alt=""
-          onClick={handleLogoClick}
+          <img
+            src={require("../../../Utils/Images/logo-invite-only.png")}
+            alt=""
+            onClick={handleLogoClick}
           />
-          </div>
+        </div>
 
-        {localStorage.getItem("isUser") !== "" && (!noAccount ?  
-          (!localStorage.getItem("jwtToken") ? (
+        {!noAccount ? (
+          !localStorage.getItem("jwtToken") ? (
             <button
               onClick={() => {
                 mixpanel.track("Clicked Login button", {
@@ -256,7 +265,7 @@ export const Navbar2 = ({ slug, open, close, noAccount=false,backgroundDark = fa
               alt={userDetails?.name}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
-                currentTarget.src = PNGIMG
+                currentTarget.src = PNGIMG;
               }}
               className="navbar_user_profile"
               onClick={(e) => {
@@ -265,7 +274,10 @@ export const Navbar2 = ({ slug, open, close, noAccount=false,backgroundDark = fa
                 // window.screen.width < 600 && disableScroll();
               }}
             />
-          )) : "" )}
+          )
+        ) : (
+          ""
+        )}
 
         {openUserMenu && (
           <section
@@ -277,19 +289,24 @@ export const Navbar2 = ({ slug, open, close, noAccount=false,backgroundDark = fa
             <span
               onClick={() => {
                 mixpanel.track("Visit Dashboard");
-                navigate("/");
+                navigate("/user/dashboard");
               }}
             >
-              <RxDashboard/> Dashboard
+              <RxDashboard /> Dashboard
             </span>
-            <span onClick={userlogout}><FiLogOut/> Logout</span>
+            {userIsCreator && window.screen.width > 600 && (
+              <span onClick={handleCreatorMode}>
+                <BsPerson /> Creator Mode
+              </span>
+            )}
+            <span onClick={userlogout}>
+              <FiLogOut /> Logout
+            </span>
           </section>
         )}
       </div>
-
     </>
   );
-}
-
+};
 
 export default Navbar;

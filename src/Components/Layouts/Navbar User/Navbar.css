@@ -92,7 +92,7 @@
 
 .listing_options_navbar {
   position: absolute;
-  width: 120px;
+  width: 125px;
   /* height: 65px; */
   padding: 12px 20px;
   top: 93%;
@@ -115,7 +115,7 @@
   font-weight: 400;
   line-height: normal;
   cursor: pointer;
-  width: 90%;
+  width: 100%;
 
   display: flex;
   align-items: center;
@@ -233,11 +233,12 @@
   .listing_options_navbar{
     right: 5%;
     padding: 10px 6px;
+    width: 120px;
   }
 
   .listing_options_navbar > span{
     font-size: 12px;
-    width: 70%;
+    width: 78%;
   }
 
 

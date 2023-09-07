@@ -435,6 +435,7 @@
   font-size: 12px;
   line-height: 20px;
   color: #ffffff;
+  z-index: 99999;
 }
 
 /* Media qiuerries */

@@ -2,6 +2,7 @@
 
 .sidebar_main_box {
   width: 268px;
+  min-width: 244px;
   background: #f7f7f8;
   height: 100vh;
   position: sticky;

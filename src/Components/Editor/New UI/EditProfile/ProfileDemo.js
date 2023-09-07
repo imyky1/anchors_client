@@ -85,8 +85,8 @@ const PreviewDemo = ({
         {/* Deatils section for mobile --------- */}
         <section>
           <p
-            className="text_creator_profile_page-02"
-            style={{ fontSize: "12px" }}
+            className="text_creator_profile_page-04"
+            style={{ fontSize: "12px",width:"100%",wordWrap:"break-word" }}
           >
             {tagLine}
           </p>
@@ -167,7 +167,7 @@ const PreviewDemo = ({
           <p
             className="text_creator_profile_page-04"
             id="about_creator_profile_live_demo"
-            style={{ fontSize: "14px",width:"100%",wordWrap:"break-word" }}
+            style={{ fontSize: "12px",width:"100%",wordWrap:"break-word" }}
           >
             {about
               ? (document.getElementById(

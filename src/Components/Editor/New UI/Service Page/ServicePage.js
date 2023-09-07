@@ -695,7 +695,7 @@ function ServicePage(props) {
   };
 
   const goToDashboardClick = () => {
-    navigate("/");
+    navigate("/user/dashboard");
     mixpanel.track("Go to dashboard");
   };
 

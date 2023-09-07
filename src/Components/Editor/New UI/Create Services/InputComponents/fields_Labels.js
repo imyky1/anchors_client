@@ -215,7 +215,7 @@ function UploadField03(props) {
         accept={props.FileType}
       />
       <label htmlFor={props.id} className="input_type_04">
-        {fileName ? (
+        {(fileName || props?.disabled) ? (
           <i class="fa-solid fa-rotate fa-lg"></i>
         ) : (
           <i className="fa-solid fa-plus fa-lg"></i>
@@ -358,6 +358,7 @@ function Dropdown01(props) {
       <div
         className="dropdown_input_01"
         onClick={() => {
+          console.log("hello")
           setOpenDropDown(!OpenDropDown);
         }}
       >
@@ -365,7 +366,8 @@ function Dropdown01(props) {
           type="text"
           className="input_type_01"
           placeholder={props.placeholder}
-          disabled={true}
+          // disabled={true}
+          readOnly={true}
           name={props.name}
           id={props.id}
           value={dropValue}

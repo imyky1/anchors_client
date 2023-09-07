@@ -24,7 +24,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Cropper from "react-easy-crop";
 import { SuperSEO } from "react-super-seo";
-import mixpanel from "mixpanel-browser";
+import mixpanel, { alias } from "mixpanel-browser";
 import { FiSend } from "react-icons/fi";
 import CreateServiceDemo from "./CreateServiceDemo";
 
@@ -526,19 +526,9 @@ function Create({
                   gap: "25px",
                   display: "grid",
                   gridTemplateColumns: "repeat(2,1fr)",
-                  marginBottom: "32px",
+                  // marginBottom: "32px",
                 }}
               >
-                <UploadField3
-                  label="Upload Banner Image"
-                  id="bannerimage"
-                  info="File Size Limit 15 MB Formats - jpg,png"
-                  FileType=".jpg,.png,.jpeg"
-                  required={true}
-                  onChange={setBannerImage}
-                  disabled={defaultbanner}
-                  onChangeFunction={handleChangeFileBanner}
-                />
                 <UploadField3
                   label={`Upload your ${
                     CreateType === "pdf"
@@ -571,18 +561,31 @@ function Create({
                       : ""
                   }
                 />
+
+                <UploadField3
+                  label="Upload Banner Image"
+                  id="bannerimage"
+                  info={defaultbanner ?  "Using default Banner" :"File Size Limit 15 MB Formats - jpg,png"}
+                  FileType=".jpg,.png,.jpeg"
+                  required={true}
+                  onChange={setBannerImage}
+                  disabled={defaultbanner}
+                  onChangeFunction={handleChangeFileBanner}
+                />
+                
               </section>
 
               <section
                 style={{
                   width: "100%",
-                  display: "flex",
-                  flexDirection: "row-reverse",
-                  justifyContent: "space-between",
                   marginBottom: "32px",
-                  height:"36px"
+                  height:"36px",
+                  display:"flex",
+                  flexDirection:'row-reverse',
+                  justifyContent:"space-between"
                 }}
               >
+
                 <RadioField1
                   label="Use Default Image"
                   onChange={(e) => {
@@ -591,6 +594,7 @@ function Create({
                   }}
                   id="defaultimageradio"
                 />
+
 
                 {(BannerImage ||
                   defaultbanner) && (
@@ -695,6 +699,7 @@ function Create({
                         ? "Number of items"
                         : "Number of Pages"
                     }
+                    type="number"
                     placeholder={
                       CreateType === "video"
                         ? "in minutes"

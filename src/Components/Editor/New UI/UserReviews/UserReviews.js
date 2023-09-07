@@ -14,7 +14,7 @@ import { LoadTwo } from "../../../Modals/Loading";
 import "./UserReview.css";
 import { SuperSEO } from "react-super-seo";
 import { ToastContainer, toast } from "react-toastify";
-import { Button1 } from "../Create Services/InputComponents/buttons";
+import { Button1, Button2 } from "../Create Services/InputComponents/buttons";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -85,7 +85,7 @@ const UserReviews = ({creatorSlug}) => {
   };
 
   const handleCopyLink = () =>{
-    navigator.clipboard.writeText(`https:www.anchors.in/c/${creatorSlug}`)
+    navigator.clipboard.writeText(`https:www.anchors.in/${creatorSlug}`)
     toast.info("Copied link successfully",{
       position:"top-center",
       autoClose:2000
@@ -236,14 +236,19 @@ const UserReviews = ({creatorSlug}) => {
               </TableBody>
             </Table>
           </TableContainer>
-        </div>
 
+          {dummyData && <div className="opacity-layer-over-table">
+            
+          </div>}
         {dummyData && (
           <div className="cta_dummy_data">
             <span>{firstService ? `This is sample data, Share your profile page with your audience to get reviews ` :`This is sample data , start creating your first service for your data`}</span>
-        <Button1 text={firstService ? `Copy Profile Page Link` :`Create your First Service` } icon={!firstService && <AiOutlinePlus size={18} width={30}/>} width="268px" onClick={()=>{firstService ? handleCopyLink() : navigate("/dashboard")}}/>
+        <Button2 text={firstService ? `Copy Profile Page Link` :`Create your First Service` } icon={!firstService && <AiOutlinePlus size={18} width={30}/>} width="268px" onClick={()=>{firstService ? handleCopyLink() : navigate("/dashboard")}}/>
       </div>
         )}
+
+        </div>
+
       </div>
       <SuperSEO title="Anchors - User reviews" />
       <ToastContainer/>

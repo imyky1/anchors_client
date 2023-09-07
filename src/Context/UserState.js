@@ -325,8 +325,27 @@ const UserState = (props) => {
     return json;
   };
 
-  // get last user details for a service for social proof
 
+  // signin user as creator -----------
+  const userSignInAsCreator = async () => {
+    // USER LOGIN IS REQUIRED
+    const response = await fetch(
+      `${host}/api/user/userSignInAsCreator`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+      }
+    );
+    const json = await response.json();
+    return json;
+  };
+
+  // get last user details for a service for social proof
   const lastUser = async (id) => {
     const response = await fetch(`${host}/api/user/recentuserdetail/${id}`, {
       method: "GET",
@@ -371,7 +390,8 @@ const UserState = (props) => {
         addSubscriber,
         getUserDetails,
         checkUserOrderPlaced,
-        updateUserInfo
+        updateUserInfo,
+        userSignInAsCreator
       }}
     >
       {props.children}

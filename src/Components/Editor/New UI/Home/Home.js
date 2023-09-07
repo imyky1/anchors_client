@@ -32,6 +32,7 @@ import FirstTimeModal from "../../../Modals/FirstTimeModal";
 import Stats from "../Stats/stats";
 import NoMobileScreen from "../../../Layouts/Error Pages/NoMobileScreen";
 import EditEvent from "../Edit Services/EditEvent";
+import ServiceStats2 from "../ServiceStats/ServiceStats2";
 
 function Home(props) {
   const location = useLocation();
@@ -68,6 +69,7 @@ function Home(props) {
 
   // useeffct to give direction to the flow to users + creator + developers
   useEffect(() => {
+
     // for users only
     if (
       localStorage.getItem("isUser") === "true" &&
@@ -131,39 +133,39 @@ function Home(props) {
         });
       });
 
-      const script = document.createElement("script");
-      script.innerHTML = `
-        (function (w, d, s, c, r, a, m) {
-          w["KiwiObject"] = r;
-          w[r] =
-            w[r] ||
-            function () {
-              (w[r].q = w[r].q || []).push(arguments);
-            };
-          w[r].l = 1 * new Date();
-          a = d.createElement(s);
-          m = d.getElementsByTagName(s)[0];
-          a.async = 1;
-          a.src = c;
-          m.parentNode.insertBefore(a, m);
-        })(
-          window,
-          document,
-          "script",
-          "https://app.interakt.ai/kiwi-sdk/kiwi-sdk-17-prod-min.js?v=" +
-            new Date().getTime(),
-          "kiwi"
-        );
-        window.addEventListener("load", function () {
-          kiwi.init("", "5iLlXa3nOrSCBGdtkweRO8tws2xujgB0", {});
-        });
-      `;
-      document.body.appendChild(script);
+      // const script = document.createElement("script");
+      // script.innerHTML = `
+      //   (function (w, d, s, c, r, a, m) {
+      //     w["KiwiObject"] = r;
+      //     w[r] =
+      //       w[r] ||
+      //       function () {
+      //         (w[r].q = w[r].q || []).push(arguments);
+      //       };
+      //     w[r].l = 1 * new Date();
+      //     a = d.createElement(s);
+      //     m = d.getElementsByTagName(s)[0];
+      //     a.async = 1;
+      //     a.src = c;
+      //     m.parentNode.insertBefore(a, m);
+      //   })(
+      //     window,
+      //     document,
+      //     "script",
+      //     "https://app.interakt.ai/kiwi-sdk/kiwi-sdk-17-prod-min.js?v=" +
+      //       new Date().getTime(),
+      //     "kiwi"
+      //   );
+      //   window.addEventListener("load", function () {
+      //     kiwi.init("", "5iLlXa3nOrSCBGdtkweRO8tws2xujgB0", {});
+      //   });
+      // `;
+      // document.body.appendChild(script);
 
-      return () => {
-        // Clean up the script when the component is unmounted
-        document.body.removeChild(script);
-      };
+      // return () => {
+      //   // Clean up the script when the component is unmounted
+      //   document.body.removeChild(script);
+      // };
     }
     // eslint-disable-next-line
   }, [localStorage.getItem("jwtToken")]);

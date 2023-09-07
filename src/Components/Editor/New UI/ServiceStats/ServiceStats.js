@@ -16,6 +16,7 @@ import { host } from "../../../../config/config";
 import { LoadTwo } from "../../../Modals/Loading";
 import { toast, ToastContainer } from "react-toastify";
 import { HiInformationCircle } from "react-icons/hi";
+import ServiceStats2 from "./ServiceStats2";
 
 const TooltipBox = ({ text }) => <div className="tooltip-box" style={{top:"30px"}}>{text}</div>;
 
@@ -162,6 +163,10 @@ const ServiceStats = (props) => {
   useEffect(() => {
     handler();
   }, [serviceInfo, eventInfo]);
+
+  if(serviceType === "event"){
+    return <ServiceStats2 progress={props?.progress}/>
+  }
 
   return (
     <>

@@ -747,11 +747,11 @@ function UserDashboard2(props) {
       setOpenUserLoginModal(true);
     } else {
       setOpenLoading(true);
-      getallcreatorsofuser().then(() => {
+      getallcreatorsofuser(localStorage.getItem("isUser") === "").then(() => {
         setOpenLoading(false);
       });
-      getalleventsofuser().then((e) => {});
-      getallordersofuser().then(() => {
+      getalleventsofuser(localStorage.getItem("isUser") === "").then((e) => {});
+      getallordersofuser(localStorage.getItem("isUser") === "").then(() => {
         setOpenLoading(false);
       });
     }

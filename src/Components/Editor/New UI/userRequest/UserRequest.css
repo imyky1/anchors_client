@@ -54,4 +54,5 @@
 .userrequest-table {
   padding-bottom: 2vh;
   -webkit-user-select: none;
+  position: relative;
 }

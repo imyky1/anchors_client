@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { LoadTwo } from "../../../Modals/Loading";
 import { Email_Model2 } from "../../../Modals/Email_Modal";
 import { ChangeStatus } from "../../../Modals/ServiceSuccess/Modal2";
-import { Button1 } from "../Create Services/InputComponents/buttons";
+import { Button1, Button2 } from "../Create Services/InputComponents/buttons";
 import {
   AiOutlineCalendar,
   AiOutlineClockCircle,
@@ -228,122 +228,124 @@ const EventsSectionData = ({ liveData = [{}], upcomingData = [{}] }) => {
 
   return (
     <>
-   {(liveData?.length !== 0 || upcomingData?.length !== 0) && <div
-      className="user_dashboard_event_data_section_wrapper"
-      style={{ marginTop: "20px", background: "unset", padding: "unset" }}
-    >
-      {liveData?.length !== 0 && (
-        <section className="live_events_wrapper_user_dashboard_page">
-          {liveData?.map((e, index) => {
-            return (
-              <div>
-                <span>&bull; Live</span>
-
-                <section>
-                  <img
-                    src={
-                      e?.simg ??
-                      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/No_sign.svg/300px-No_sign.svg.png"
-                    }
-                    alt=""
-                  />
-
-                  <div>
-                    <span
-                      onClick={() => {
-                        window.open(`https://www.anchors.in/e/${e?.slug}`);
-                      }}
-                    >
-                      {e?.sname}
-                    </span>
-                    <button
-                      onClick={() => {
-                        window.open(e?.meetlink);
-                        mixpanel.track("Event Join Now", {
-                          slug: e?.slug,
-                        });
-                      }}
-                    >
-                      Join Now
-                    </button>
-                  </div>
-                </section>
-
-                <div></div>
-              </div>
-            );
-          })}
-        </section>
-      )}
-
-      {upcomingData?.length !== 0 && (
-        <section
-          className="upcoming_events_wrapper_user_dashboard_page"
-          style={{ width: "100%" }}
+      {(liveData?.length !== 0 || upcomingData?.length !== 0) && (
+        <div
+          className="user_dashboard_event_data_section_wrapper"
+          style={{ marginTop: "20px", background: "unset", padding: "unset" }}
         >
-          <div>
-            <span>
-              <BsFillCalendar3WeekFill />
-              Upcoming Events
-            </span>
-          </div>
-
-          <section>
-            {upcomingData?.map((e, index) => {
-              return (
-                <div
-                  className="upcoming_event_cards_user_dashboard_event_page"
-                  key={index}
-                >
-                  <img
-                    src={
-                      e?.simg ??
-                      "https://www.pngitem.com/pimgs/m/123-1236078_straight-line-transparent-straight-white-line-no-background.png"
-                    }
-                    alt=""
-                  />
-                  <span
-                    onClick={() => {
-                      window.open(`https://www.anchors.in/e/${e?.slug}`);
-                    }}
-                  >
-                    {e?.sname}
-                  </span>
-
+          {liveData?.length !== 0 && (
+            <section className="live_events_wrapper_user_dashboard_page">
+              {liveData?.map((e, index) => {
+                return (
                   <div>
-                    <span>
-                      <BsPersonFill />
-                      {`${e?.registrations} Registrations`}
-                    </span>
-                    <span>
-                      <AiOutlineCalendar />
-                      {getDate(e?.startDate)}
-                    </span>
-                    <span>
-                      <AiOutlineClockCircle />
-                      {`${convertTime(e?.time?.startTime)} - ${convertTime(
-                        e?.time?.endTime
-                      )}`}
-                    </span>
-                  </div>
+                    <span>&bull; Live</span>
 
-                  <button
-                    onClick={() => {
-                      navigate(`/dashboard/editevent/${e.slug}`);
-                      mixpanel.track("Upcoming Edit Event", {
-                        slug: e?.slug,
-                      });
-                    }}
-                  >
-                    Edit Event
-                  </button>
-                </div>
-              );
-            })}
-          </section>
-        </section>
+                    <section>
+                      <img
+                        src={
+                          e?.simg ??
+                          "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/No_sign.svg/300px-No_sign.svg.png"
+                        }
+                        alt=""
+                      />
+
+                      <div>
+                        <span
+                          onClick={() => {
+                            window.open(`https://www.anchors.in/e/${e?.slug}`);
+                          }}
+                        >
+                          {e?.sname}
+                        </span>
+                        <button
+                          onClick={() => {
+                            window.open(e?.meetlink);
+                            mixpanel.track("Event Join Now", {
+                              slug: e?.slug,
+                            });
+                          }}
+                        >
+                          Join Now
+                        </button>
+                      </div>
+                    </section>
+
+                    <div></div>
+                  </div>
+                );
+              })}
+            </section>
+          )}
+
+          {upcomingData?.length !== 0 && (
+            <section
+              className="upcoming_events_wrapper_user_dashboard_page"
+              style={{ width: "100%" }}
+            >
+              <div>
+                <span>
+                  <BsFillCalendar3WeekFill />
+                  Upcoming Events
+                </span>
+              </div>
+
+              <section>
+                {upcomingData?.map((e, index) => {
+                  return (
+                    <div
+                      className="upcoming_event_cards_user_dashboard_event_page"
+                      key={index}
+                    >
+                      <img
+                        src={
+                          e?.simg ??
+                          "https://www.pngitem.com/pimgs/m/123-1236078_straight-line-transparent-straight-white-line-no-background.png"
+                        }
+                        alt=""
+                      />
+                      <span
+                        onClick={() => {
+                          window.open(`https://www.anchors.in/e/${e?.slug}`);
+                        }}
+                      >
+                        {e?.sname}
+                      </span>
+
+                      <div>
+                        <span>
+                          <BsPersonFill />
+                          {`${e?.registrations} Registrations`}
+                        </span>
+                        <span>
+                          <AiOutlineCalendar />
+                          {getDate(e?.startDate)}
+                        </span>
+                        <span>
+                          <AiOutlineClockCircle />
+                          {`${convertTime(e?.time?.startTime)} - ${convertTime(
+                            e?.time?.endTime
+                          )}`}
+                        </span>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          navigate(`/dashboard/editevent/${e.slug}`);
+                          mixpanel.track("Upcoming Edit Event", {
+                            slug: e?.slug,
+                          });
+                        }}
+                      >
+                        Edit Event
+                      </button>
+                    </div>
+                  );
+                })}
+              </section>
+            </section>
+          )}
+        </div>
       )}
-    </div>}
     </>
   );
 };
@@ -877,30 +879,35 @@ function ServiceDetailPage(props) {
               </TableBody>
             </Table>
           </TableContainer>
-        </div>
 
-        {(selected === "events"
-          ? dummyData?.EventDummy
-          : dummyData?.ServiceDummy) && (
-          <div className="cta_dummy_data">
-            <span>
-              This is sample data , start creating your first{" "}
-              {selected === "events" ? "event" : "service"} for your data
-            </span>
-            <Button1
-              text={
-                selected === "events"
-                  ? "Create your First Event"
-                  : "Create your First Service"
-              }
-              icon={<AiOutlinePlus size={18} width={30} />}
-              width="268px"
-              onClick={() => {
-                navigate("/dashboard");
-              }}
-            />
-          </div>
-        )}
+          {(selected === "events"
+            ? dummyData?.EventDummy
+            : dummyData?.ServiceDummy) && (
+            <div className="opacity-layer-over-table"></div>
+          )}
+
+          {(selected === "events"
+            ? dummyData?.EventDummy
+            : dummyData?.ServiceDummy) && (
+            <div className="cta_dummy_data">
+              <span>
+                The current table contains sample data, and this is the way in
+                which your data will be presented.
+              </span>
+              <Button2
+                text={
+                  selected === "events"
+                    ? "Create your First Event"
+                    : "Create your First Service"
+                }
+                icon={<AiOutlinePlus size={18} width={30} />}
+                onClick={() => {
+                  navigate("/dashboard");
+                }}
+              />
+            </div>
+          )}
+        </div>
       </div>
       <ToastContainer />
 

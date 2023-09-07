@@ -373,8 +373,10 @@ const LinkedinState = (props) => {
         email,
         photo,
         location: userdata,
+        joinedFrom : localStorage.getItem("url")
       }),
     });
+    localStorage.getItem("joinedFromPage")
     localStorage.removeItem("from");
     const res = await response.json();
     if (res.success) {

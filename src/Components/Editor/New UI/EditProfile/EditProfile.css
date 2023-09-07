@@ -208,6 +208,6 @@
 }
 
 .live_preview_modal_design > section > img {
-  width: 42vh;
-  height: 85vh;
+  width: 360px;
+  /* height: 85vh; */
 }

@@ -610,6 +610,33 @@ const ServiceState = (props) => {
     return json;
   };
 
+
+  const getReferDetails=async(eventID,isCreator)=>{
+    const response=await fetch(`${host}/api/event/referaldetails/${eventID}?creator=${isCreator ?? false}`,{method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "jwt-token": localStorage.getItem("jwtToken"),
+      
+    },
+  })
+  const json = await response.json();
+  return json;
+
+  }
+
+  const getTransactionEventDetails=async(eventID)=>{
+    const response=await fetch(`${host}/api/event/transaction/${eventID}`,{method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "jwt-token": localStorage.getItem("jwtToken"),
+      
+    },
+  })
+  const json = await response.json();
+  return json;
+
+  }
+
   return (
     <ServiceContext.Provider
       value={{
@@ -652,7 +679,9 @@ const ServiceState = (props) => {
         getLeaderBoardData,
         UploadEventSpeakersProfile,
         getalleventsLiveandUpcoming,
-        latestEvents
+        latestEvents,
+        getReferDetails,
+        getTransactionEventDetails
       }}
     >
       {" "}

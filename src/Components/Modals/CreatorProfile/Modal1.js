@@ -29,7 +29,7 @@ function Modal1({
       <div
         className="creator_modal_info"
         onClick={(e) => e?.stopPropagation()}
-        style={!moreInfo ? { height: "290px" } : {}}
+        style={!moreInfo ? { height: "327px" } : {}}
       >
         <section className="profile_section_creator_info">
           <LazyLoadImage
@@ -104,6 +104,14 @@ function Modal1({
               View Public Profile
             </div>
           )}
+            <div
+              onClick={() => {
+                navigate("/user/dashboard");
+                mixpanel.track("User Mode");
+              }}
+            >
+              User Mode
+            </div>
           {moreInfo && (
             <div
               onClick={() => {

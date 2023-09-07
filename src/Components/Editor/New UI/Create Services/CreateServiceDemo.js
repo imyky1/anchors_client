@@ -50,7 +50,7 @@ const CreateServiceDemo = ({
   }, [sdesc]);
 
   return (
-    <div className="perview_demo_mobile_view_edit_profile">
+    <div className="perview_demo_mobile_view_edit_profile" style={{height:"85vh"}}>
       <div>
         {/* Navbar */}
         <section className="live_demo_navbar_section">
@@ -169,6 +169,8 @@ const CreateServiceDemo = ({
                   </p>
                 </div>
               </section>
+
+              <section style={{width:"100vw",height:"100px"}}></section>
             </div>
           </section>
         </section>

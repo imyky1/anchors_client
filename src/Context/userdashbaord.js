@@ -10,10 +10,11 @@ const UserDashboardState = (props) => {
 
   const [totaluserorders, setTotalUserOrders] = useState(0);
   const [eventsUser, setEventsUser] = useState([]);
+
   // get all creators the user has subbed to
-  const getallcreatorsofuser = async () => {
+  const getallcreatorsofuser = async (isCreator) => {
     // USER LOGIN IS REQUIRED
-    const response = await fetch(`${host}/api/userdashboard/getallcreators`, {
+    const response = await fetch(`${host}/api/userdashboard/getallcreators?creator=${isCreator ?? false}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -27,9 +28,9 @@ const UserDashboardState = (props) => {
     return json.success;
   };
   // get all user orders the user has placed to
-  const getallordersofuser = async () => {
+  const getallordersofuser = async (isCreator) => {
     // USER LOGIN IS REQUIRED
-    const response = await fetch(`${host}/api/userdashboard/getalluserorders`, {
+    const response = await fetch(`${host}/api/userdashboard/getalluserorders?creator=${isCreator ?? false}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -48,9 +49,9 @@ const UserDashboardState = (props) => {
 
 
   // get all user orders the user has placed to
-  const getalleventsofuser = async () => {
+  const getalleventsofuser = async (isCreator) => {
     // USER LOGIN IS REQUIRED
-    const response = await fetch(`${host}/api/userdashboard/getalleventuserorders`, {
+    const response = await fetch(`${host}/api/userdashboard/getalleventuserorders?creator=${isCreator ?? false}`, {
       method: "GET",
       headers: {
         Accept: "application/json",

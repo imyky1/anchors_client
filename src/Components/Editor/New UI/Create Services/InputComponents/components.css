@@ -25,7 +25,7 @@
   justify-content: center;
 }
 
-.upload_default_wrapper{
+.upload_default_wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -53,15 +53,14 @@
   margin-right: 10px;
 }
 
-.label_type_03{
-  font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 13px;
-line-height: 16px;
-color: rgba(0, 0, 0, 0.5);
-margin-top: 10px;
-
+.label_type_03 {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-top: 10px;
 }
 
 /* input type --------------------------------------------- */
@@ -87,7 +86,7 @@ margin-top: 10px;
   outline: #2196f3 solid 1px;
 }
 
-.verifiedComponent01{
+.verifiedComponent01 {
   position: absolute;
   right: 13px;
   top: 66%;
@@ -145,7 +144,7 @@ margin-top: 10px;
   margin-left: -3px;
 }
 
-.input_type_04{
+.input_type_04 {
   height: 49px;
   width: 100%;
   display: flex;
@@ -319,6 +318,31 @@ input:checked + .slider_type_01:before {
   gap: 10px;
 }
 
+.button_02_css {
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #fff;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  border-radius: 8px;
+  background: var(--neutral-gray-800, #1e293b);
+  border: none;
+  width: max-content;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.button_02_css:hover{
+  transform: scale(1.03);
+}
+
 /* tags section --------------------------------------------------- */
 
 .tags01_box {
@@ -359,8 +383,6 @@ input:checked + .slider_type_01:before {
   margin-left: 10px;
 }
 
-
-
 /* Ck editor css ------------ */
 
 .ck-editor__editable_inline {
@@ -368,20 +390,20 @@ input:checked + .slider_type_01:before {
   padding: 0 12px !important;
 }
 
-.quill-editor{
-  height:100%;
+.quill-editor {
+  height: 100%;
   width: 100%;
   background-color: white;
   border-radius: 10px;
 }
 
-.ql-container{
+.ql-container {
   min-height: 90px;
   border-radius: 0 0 5px 5px;
   border: 0.5px solid rgba(0, 0, 0, 0.3);
 }
 
-.ql-toolbar{
+.ql-toolbar {
   border-radius: 5px 5px 0 0;
   border: 0.5px solid rgba(0, 0, 0, 0.3);
 }

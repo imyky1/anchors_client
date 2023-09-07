@@ -72,6 +72,7 @@ const FeedbackState = (props) => {
         body: JSON.stringify({
           rating,
           desc: description,
+          isCreator : localStorage.getItem("isUser") === ""
         }),
       }
     );
