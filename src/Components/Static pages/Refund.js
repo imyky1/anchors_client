@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../Layouts/Navbar Creator/Navbar";
 import { MainNewFooter } from "../Footer/Footer";
-
+import "./Static.css"
 
 const RefundObj = [
   {

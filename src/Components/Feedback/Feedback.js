@@ -6,7 +6,6 @@ import { ToastContainer, toast } from "react-toastify";
 import ServiceContext from "../../Context/services/serviceContext";
 import "react-toastify/dist/ReactToastify.css";
 import User_login from "../Login/Users/User_login";
-import { Cross as Hamburger } from "hamburger-react";
 import { SuperSEO } from "react-super-seo";
 
 function Feedback(props) {
@@ -263,7 +262,7 @@ function Feedback(props) {
                       className="fa-solid fa-caret-down"
                       onClick={handledropdown}
                     ></i>
-                    <Hamburger
+                    {/* <Hamburger
                       className="hamburger-react"
                       size={20}
                       onToggle={(toggled) => {
@@ -278,7 +277,7 @@ function Feedback(props) {
                           // close a menu
                         }
                       }}
-                    />
+                    /> */}
                     <button className="user_logout" onClick={userlogout}>
                       Logout
                     </button>

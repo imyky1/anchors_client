@@ -420,7 +420,7 @@ function Create({
           <section className="heading_create_box">
             <div>
               <h1 className="create_text_01">
-                What is your{" "}
+                {/* What is your{" "}
                 {CreateType === "pdf"
                   ? "PDF"
                   : CreateType === "excel"
@@ -430,15 +430,16 @@ function Create({
                   : CreateType === "event"
                   ? "Event"
                   : ""}{" "}
-                about?
+                about? */}
+                Share your expertise!
               </h1>
               <p className="create_text_02">
                 {CreateType === "pdf"
-                  ? "You can upload helpful study material, interview questions, food recipes etc."
+                  ? "Guides, summaries, tips & more"
                   : CreateType === "excel"
-                  ? "You can upload helpful study material, interview questions prep, list of companies hiring, etc"
+                  ? "Finances, Jobs, Tips & more!"
                   : CreateType === "video"
-                  ? "You can upload gorgeous art, DIY tutorials, Fashion Ideas etc."
+                  ? "Webinars, workshops, Q&A!"
                   : ""}
               </p>
             </div>
@@ -470,7 +471,7 @@ function Create({
                 id="sname"
                 required={true}
                 value={data?.sname}
-                placeholder="Enter Title Here"
+                placeholder="Keep it catchy"
                 onChange={handleChange}
               />
 
@@ -509,7 +510,7 @@ function Create({
                   />
 
                   <TextField1
-                    label="Selling Price "
+                    label="Discounted Price"
                     placeholder="Min 99"
                     name="ssp"
                     id="ssp"
@@ -530,11 +531,11 @@ function Create({
                 }}
               >
                 <UploadField3
-                  label={`Upload your ${
+                  label={`Upload ${
                     CreateType === "pdf"
-                      ? "Document"
+                      ? "PDF"
                       : CreateType === "excel"
-                      ? "Sheet"
+                      ? "Excel"
                       : CreateType === "video"
                       ? "Video"
                       : ""
@@ -563,7 +564,7 @@ function Create({
                 />
 
                 <UploadField3
-                  label="Upload Banner Image"
+                  label="Upload Banner"
                   id="bannerimage"
                   info={defaultbanner ?  "Using default Banner" :"File Size Limit 15 MB Formats - jpg,png"}
                   FileType=".jpg,.png,.jpeg"
@@ -618,22 +619,22 @@ function Create({
               </section>
 
               <Editor1
-                label={`Describe your ${
+                label={`Add ${
                   CreateType === "pdf"
-                    ? "Document"
+                    ? "document"
                     : CreateType === "excel"
-                    ? "Sheet"
+                    ? "sheet"
                     : CreateType === "video"
-                    ? "Video"
+                    ? "video"
                     : ""
-                }`}
-                placeholder={`Caption your ${
+                } description`}
+                placeholder={`Summarize your ${
                   CreateType === "pdf"
-                    ? "Document"
+                    ? "document"
                     : CreateType === "excel"
-                    ? "Sheet"
+                    ? "excel"
                     : CreateType === "video"
-                    ? "Video"
+                    ? "video"
                     : ""
                 }`}
                 info="A brief description gives your audience some context"
@@ -677,15 +678,16 @@ function Create({
                 <div className="left_section_form" style={{ width: "100%" }}>
                   <Editor1
                     name="sdesc"
-                    label={`Describe your ${
-                      CreateType === "pdf"
-                        ? "Document"
-                        : CreateType === "excel"
-                        ? "Sheet"
-                        : CreateType === "video"
-                        ? "Video"
-                        : ""
-                    }`}
+                    // label={`Describe your ${
+                    //   CreateType === "pdf"
+                    //     ? "Document"
+                    //     : CreateType === "excel"
+                    //     ? "Sheet"
+                    //     : CreateType === "video"
+                    //     ? "Video"
+                    //     : ""
+                    // }`}
+                    label="Add additional information"
                     placeholder="Mention guidelines how your content can be useful for your audience"
                     Content={data.sdesc}
                     setContent={(e) => setdata({ ...data, sdesc: e })}

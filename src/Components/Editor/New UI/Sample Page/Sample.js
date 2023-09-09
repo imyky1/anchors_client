@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Sample.css";
+import "../Event Page/Event"
 import { Navbar2 } from "../../../Layouts/Navbar User/Navbar";
 import { mix, motion } from "framer-motion";
 

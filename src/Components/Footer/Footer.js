@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Footer.css";
+import "../Editor/New UI/Main Page/Main.css"
 import { Link, useNavigate } from "react-router-dom";
 import mixpanel from "mixpanel-browser";
 import HelpModal from "../Modals/ModalType01/HelpModal";

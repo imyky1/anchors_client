@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Waitlist.css";
+import "../Pricing/Pricing.css"
 import { SuperSEO } from "react-super-seo";
 import { toast, ToastContainer } from "react-toastify";
 import { LazyLoadImage } from "react-lazy-load-image-component";

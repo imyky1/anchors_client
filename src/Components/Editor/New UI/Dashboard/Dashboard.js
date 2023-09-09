@@ -112,11 +112,10 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
       <div className="main_dashboard_conatiner2">
         <div className="stepper_outside_wrapper_dashboard">
           <h2 className="text_01_dashboard">
-            Hi {allCreatorInfo?.name?.split(" ")[0]}, Welcome to anchors!
+          Welcome {allCreatorInfo?.name?.split(" ")[0]}!
           </h2>
           <span className="text_02_dashboard" style={{ textAlign: "left" }}>
-            Begin your anchors journey by following the milestones outlined
-            below to get started!
+          Your creative journey starts here. Explore premium content and events!
           </span>
 
           <section>
@@ -260,7 +259,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
               }}
               className="dashboard_options"
             >
-              Share a PDF
+              Share PDF
             </div>
             <div
               onClick={() => {
@@ -269,7 +268,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
               }}
               className="dashboard_options"
             >
-              Share an Excelsheet
+              Share Excel
             </div>
             {/* <div
               onClick={() => {
@@ -287,7 +286,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
               }}
               className="dashboard_options"
             >
-              Create an Event
+              Host Event
             </div>
           </section>
         </div>

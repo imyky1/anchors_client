@@ -4,6 +4,7 @@ import { SuperSEO } from "react-super-seo";
 import "./Privacy.css";
 import Navbar from "../Layouts/Navbar Creator/Navbar";
 import { MainNewFooter } from "../Footer/Footer";
+import "../Static pages/Static.css"
 
 const PrivacyObj = [
   {

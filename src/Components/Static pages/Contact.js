@@ -4,7 +4,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Navbar from "../Layouts/Navbar Creator/Navbar";
 import { MainNewFooter } from "../Footer/Footer";
-
+import "./Static.css"
 
 const ContactSection = () => {
   return (

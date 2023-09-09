@@ -2,6 +2,7 @@ import React from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import PNGIMG from "../../../../../Utils/Images/default_user.png";
 import { RiStarSFill } from "react-icons/ri";
+import "../ServicePage.css"
 
 // Review Section -----------------
 const ReviewsSection = (data) => {

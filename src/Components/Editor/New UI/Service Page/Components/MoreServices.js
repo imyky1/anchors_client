@@ -4,6 +4,7 @@ import ExcelIcon from "../../../../../Utils/Icons/excel-service.svg";
 import VideoIcon from "../../../../../Utils/Icons/video-service.svg";
 import DocIcon from "../../../../../Utils/Icons/doc-service.svg";
 import { useNavigate } from "react-router-dom";
+import "../ServicePage.css"
 
 
 const MoreServices = (data) => {

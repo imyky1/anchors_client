@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Moment from "moment";
 import { SuperSEO } from "react-super-seo";
+import "../../../Earning Potential/Predictor.css"
 
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { host } from "../../../../config/config";

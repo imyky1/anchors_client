@@ -31,7 +31,7 @@ function LoadingOne({ open }) {
 }
 
 // For user side pages
-function LoadingTwo({ open }) {
+function LoadingTwo({ open = true }) {
 
   useEffect(() => {
     // Set a 5-second timeout

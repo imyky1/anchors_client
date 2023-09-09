@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./components.css";
 import { useEffect } from "react";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import 'react-quill/dist/quill.snow.css';
 
 // text field -------------------------
 function fields_Labels1(props) {
@@ -48,30 +48,6 @@ function EditorText01(props) {
         {props?.label}{" "}
         {props?.required && <span style={{ color: "red" }}>*</span>}
       </span>
-      {/* <CKEditor
-        editor={ClassicEditor}
-        data={props?.Content ? props?.Content : ""}
-        config={{
-          placeholder: props?.placeholder,
-          toolbar: [
-            "|",
-            "bold",
-            "italic",
-            "blockQuote",
-            "link",
-            "numberedList",
-            "bulletedList",
-            "imageUpload",
-            "|",
-            "undo",
-            "redo",
-          ],
-        }}
-        onChange={(event, editor) => {
-          const data = editor.getData();
-          props?.setContent(data);
-        }}
-      /> */}
       <ReactQuill
         theme="snow"
         value={props?.Content}

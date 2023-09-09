@@ -10,6 +10,7 @@ import topmateIcon from "../../../../Utils/Icons/topmate.svg";
 import linkedinIcon from "../../../../Utils/Icons/linkedin.svg";
 import {
   AiOutlineArrowRight,
+  AiOutlineClockCircle,
   AiOutlineDown,
   AiOutlineUp,
 } from "react-icons/ai";
@@ -30,47 +31,109 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Navbar2 } from "../../../Layouts/Navbar User/Navbar";
 import { Footer3 } from "../../../Footer/Footer2";
 import Request_Modal from "../../../Modals/Request_Modal";
+import { AiOutlineFire } from "react-icons/ai";
 
-// Code Spliting -------------------------
-// const { ReviewCards } = lazy(() =>
-//   import("../Service Page/Components/ReviewsSection")
-// );
-// const { ServiceCards } = lazy(() =>
-//   import("../Service Page/Components/MoreServices")
-// );
+import { ReviewCards } from "../Service Page/Components/ReviewsSection";
+import { ServiceCards } from "../Service Page/Components/MoreServices";
+import { MdOutlineLaptop } from "react-icons/md";
+import "react-toastify/dist/ReactToastify.css";
 
-import {ReviewCards} from "../Service Page/Components/ReviewsSection"
-import {ServiceCards} from "../Service Page/Components/MoreServices"
+const convertTime = (inputTime) => {
+  if (inputTime) {
+    var timeParts = inputTime?.split(":");
+    var hours = parseInt(timeParts[0]);
+    var minutes = parseInt(timeParts[1]);
 
-const ExtraCard = () => {
+    var period = hours >= 12 ? "PM" : "AM";
+    hours = hours > 12 ? hours - 12 : hours;
+
+    var convertedTime =
+      hours.toString().padStart(2, "0") +
+      ":" +
+      minutes.toString().padStart(2, "0") +
+      " " +
+      period;
+
+    return convertedTime;
+  }
+};
+
+const getDate = (date) => {
+  let d = new Date(date);
+
+  let newDate = d.toDateString().split(" ");
+
+  return newDate[2] + " " + newDate[1];
+};
+
+const ExtraCard = ({ data, type }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="extra_card_new_profile_page">
-      <section>Most Popular Services</section>
+      <section>
+        {type === "event" ? (
+          <>
+            <MdOutlineLaptop color="#EF4444" /> Event
+          </>
+        ) : (
+          <>
+            <AiOutlineFire color="#EF4444" /> Most Popular Service{" "}
+          </>
+        )}
+      </section>
 
       <div className="extra_card_profile_details">
-        <LazyLoadImage
-          src="https://images.pexels.com/photos/255379/pexels-photo-255379.jpeg?cs=srgb&dl=pexels-miguel-%C3%A1-padri%C3%B1%C3%A1n-255379.jpg&fm=jpg"
-          alt=""
-        />
+        <LazyLoadImage src={data?.simg} alt="" />
 
         <section>
-          <h2>DSA Interview question for 2023</h2>
+          <h2>{data?.sname}</h2>
           <div>
-            <span>
-              <img src={TrendIcon} alt="" />
-              985 times
-            </span>
-            <span>
-              <img src={DocIcon} alt="" />
-              28 Pages
-            </span>
+            {type === "event" ? (
+              <span>
+                <AiOutlineClockCircle color="#EF4444" />
+                {getDate(data?.startDate) +
+                  " | " +
+                  convertTime(data?.time?.startTime) +
+                  " - " +
+                  convertTime(data?.time?.endTime)}
+              </span>
+            ) : (
+              <>
+                {data?.downloads ? (
+                  <span>
+                    <img src={TrendIcon} alt="" />
+                    {data?.downloads} times
+                  </span>
+                ) : (
+                  ""
+                )}
+
+                {data?.noOfPage && (
+                  <span>
+                    <img src={DocIcon} alt="" />
+                    {data?.noOfPage} Pages
+                  </span>
+                )}
+              </>
+            )}
           </div>
 
-          <section>Free</section>
+          <section
+            style={data?.isPaid ? { color: "#EF4444" } : { color: "#10B981" }}
+          >
+            {data?.isPaid ? "Paid" : "Free"}
+          </section>
         </section>
 
         <span>
-          <AiOutlineArrowRight />
+          <AiOutlineArrowRight
+            onClick={() => {
+              navigate(
+                type === "event" ? `/e/${data?.slug}` : `/s/${data?.slug}`
+              );
+            }}
+          />
         </span>
       </div>
     </div>
@@ -86,11 +149,16 @@ function ProfilePage() {
   const [UserDetails, setUserDetails] = useState();
   const [creatorRatingData, setCreatorRatingData] = useState(0); // creator rating data
   const [moreAbout, setMoreAbout] = useState(false);
+  const [UpcomingExtraCardData, setUpcomingExtraCardData] = useState();
 
   //   Contexts ----------------------
   const { services, getallservicesusingid } = useContext(ServiceContext);
-  const { getcreatoridUsingSlug, basicCreatorInfo, basicCdata } =
-    useContext(creatorContext);
+  const {
+    getcreatoridUsingSlug,
+    basicCreatorInfo,
+    basicCdata,
+    getCreatorUpcomingData,
+  } = useContext(creatorContext);
   const { getallfeedback, feedbacks, getRatingCreator } =
     useContext(feedbackcontext);
   const { getUserDetails } = useContext(userContext);
@@ -110,6 +178,9 @@ function ProfilePage() {
           setCreatorRatingData(e);
         });
         getallservicesusingid(data).then(() => {});
+        getCreatorUpcomingData(data).then((e) => {
+          setUpcomingExtraCardData(e);
+        });
       });
     };
     toast.promise(
@@ -230,83 +301,90 @@ function ProfilePage() {
                   <p className="text_creator_profile_page-02">
                     {basicCreatorInfo?.tagLine}
                   </p>
-                  <div style={{display:"flex",flexDirection:"row-reverse",width:"max-content",gap:"20px"}}>
-                  <div className="social-icons-new-creator-page">
-                    {basicCreatorInfo?.linkedInLink?.length !== 0 && (
-                      <div
-                        onClick={() => {
-                          mixpanel.track("Linkedin redirect");
-                          window.open(basicCreatorInfo?.linkedInLink);
-                        }}
-                      >
-                        <img src={linkedinIcon} alt="" />
-                      </div>
-                    )}
-
-                    {basicCreatorInfo?.fbLink?.length !== 0 && (
-                      <div
-                        onClick={() => {
-                          mixpanel.track("Fb redirect");
-                          window.open(basicCreatorInfo?.fbLink);
-                        }}
-                      >
-                        <img src={fbIcon} alt="" />
-                      </div>
-                    )}
-
-                    {basicCreatorInfo?.instaLink?.length !== 0 && (
-                      <div
-                        onClick={() => {
-                          mixpanel.track("Instagram redirect");
-                          window.open(basicCreatorInfo?.instaLink);
-                        }}
-                      >
-                        <img src={InstagramIcon} alt="" />
-                      </div>
-                    )}
-
-                    {basicCreatorInfo?.teleLink?.length !== 0 && (
-                      <div
-                        onClick={() => {
-                          mixpanel.track("Telegram redirect");
-                          window.open(basicCreatorInfo?.teleLink);
-                        }}
-                      >
-                        <img src={TelgramIcon} alt="" />
-                      </div>
-                    )}
-
-                    {basicCreatorInfo?.ytLink?.length !== 0 && (
-                      <div
-                        onClick={() => {
-                          mixpanel.track("Youtube redirect");
-                          window.open(basicCreatorInfo?.ytLink);
-                        }}
-                      >
-                        <img src={YoutubeIcon} alt="" />
-                      </div>
-                    )}
-
-                    {basicCreatorInfo?.topmateLink?.length !== 0 && (
-                      <div
-                        onClick={() => {
-                          mixpanel.track("Topmate redirect");
-                          window.open(basicCreatorInfo?.topmateLink);
-                        }}
-                      >
-                        <img src={topmateIcon} alt="" />
-                      </div>
-                    )}
-                  </div>
-                  <button
-                    className="button01_new_crator_profile"
-                    onClick={() => {
-                      mixpanel.track("Request Resources");
-                      setOpenModelRequest(true);
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row-reverse",
+                      width: "max-content",
+                      gap: "20px",
                     }}
                   >
-                    Request Resource
-                  </button>{" "}
+                    <div className="social-icons-new-creator-page">
+                      {basicCreatorInfo?.linkedInLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Linkedin redirect");
+                            window.open(basicCreatorInfo?.linkedInLink);
+                          }}
+                        >
+                          <img src={linkedinIcon} alt="" />
+                        </div>
+                      )}
+
+                      {basicCreatorInfo?.fbLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Fb redirect");
+                            window.open(basicCreatorInfo?.fbLink);
+                          }}
+                        >
+                          <img src={fbIcon} alt="" />
+                        </div>
+                      )}
+
+                      {basicCreatorInfo?.instaLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Instagram redirect");
+                            window.open(basicCreatorInfo?.instaLink);
+                          }}
+                        >
+                          <img src={InstagramIcon} alt="" />
+                        </div>
+                      )}
+
+                      {basicCreatorInfo?.teleLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Telegram redirect");
+                            window.open(basicCreatorInfo?.teleLink);
+                          }}
+                        >
+                          <img src={TelgramIcon} alt="" />
+                        </div>
+                      )}
+
+                      {basicCreatorInfo?.ytLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Youtube redirect");
+                            window.open(basicCreatorInfo?.ytLink);
+                          }}
+                        >
+                          <img src={YoutubeIcon} alt="" />
+                        </div>
+                      )}
+
+                      {basicCreatorInfo?.topmateLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Topmate redirect");
+                            window.open(basicCreatorInfo?.topmateLink);
+                          }}
+                        >
+                          <img src={topmateIcon} alt="" />
+                        </div>
+                      )}
+                    </div>
+                    <button
+                      className="button01_new_crator_profile"
+                      onClick={() => {
+                        mixpanel.track("Request Resources");
+                        setOpenModelRequest(true);
+                      }}
+                    >
+                      Request Resource
+                    </button>{" "}
                   </div>
                 </>
               )}
@@ -315,7 +393,7 @@ function ProfilePage() {
 
           {/* Deatils section for mobile --------- */}
           {window.screen.width < 600 && (
-            <section>
+            <section style={{ width: "100%" }}>
               <p className="text_creator_profile_page-02">
                 {basicCreatorInfo?.tagLine}
               </p>
@@ -431,63 +509,124 @@ function ProfilePage() {
           </section>
 
           {/* most popular section ---------------  */}
-          {/* <section className="extra_cards_section_new_creator_profile">
-            <ExtraCard />
-            <ExtraCard />
-          </section> */}
+          {UpcomingExtraCardData &&
+            (window.screen.width > 600
+              ? ((UpcomingExtraCardData?.service &&
+                  Object.keys(UpcomingExtraCardData?.service)?.length !== 0) ||
+                  (UpcomingExtraCardData?.event &&
+                    Object.keys(UpcomingExtraCardData?.event)?.length !==
+                      0)) && (
+                  <section className="extra_cards_section_new_creator_profile">
+                    {Object.keys(UpcomingExtraCardData?.service)?.length !==
+                      0 && (
+                      <ExtraCard
+                        data={UpcomingExtraCardData?.service}
+                        type="service"
+                      />
+                    )}
+                    {Object.keys(UpcomingExtraCardData?.event)?.length !==
+                      0 && (
+                      <ExtraCard
+                        data={UpcomingExtraCardData?.event}
+                        type="event"
+                      />
+                    )}
+                  </section>
+                )
+              : UpcomingExtraCardData &&
+                Object.keys(UpcomingExtraCardData?.event).length !== 0 && (
+                  <section className="extra_cards_mobile_view_new_creator_profile">
+                    <h4>{UpcomingExtraCardData?.event?.sname}</h4>
+                    <span>
+                      <AiOutlineClockCircle color="#94A3B8" />
+                      {getDate(UpcomingExtraCardData?.event?.startDate) +
+                        " | " +
+                        convertTime(
+                          UpcomingExtraCardData?.event?.time?.startTime
+                        ) +
+                        " - " +
+                        convertTime(
+                          UpcomingExtraCardData?.event?.time?.endTime
+                        )}
+                    </span>
+                    <div>
+                      <span
+                        style={
+                          UpcomingExtraCardData?.event?.isPaid
+                            ? { color: "#EF4444" }
+                            : { color: "#10B981" }
+                        }
+                      >
+                        {UpcomingExtraCardData?.event?.isPaid ? "Paid" : "Free"}
+                      </span>
+
+                      <p
+                        onClick={() => {
+                          navigate(`/e/${UpcomingExtraCardData?.event?.slug}`);
+                        }}
+                      >
+                        Explore
+                        <span>
+                          <AiOutlineArrowRight />
+                        </span>
+                      </p>
+                    </div>
+                  </section>
+                ))}
 
           {/* other services or events */}
-            {services?.res?.filter((e1) => {
-              return e1?.status === 1;
-            })?.length !== 0 && (
-              <section className="other_services_new_creator_profile">
-                <section>
-                  <h3 className="text_creator_profile_page-05">Service List</h3>
-                  {/* <div className="filter_option_new_creator_profile">
+          {services?.res?.filter((e1) => {
+            return e1?.status === 1;
+          })?.length !== 0 && (
+            <section className="other_services_new_creator_profile">
+              <section>
+                <h3 className="text_creator_profile_page-05">Service List</h3>
+                {/* <div className="filter_option_new_creator_profile">
                 Event <AiOutlineDown />
               </div> */}
-                </section>
-
-                <div>
-                  {services.res
-                    ?.filter((e1) => {
-                      return e1?.status === 1;
-                    }).sort((a, b) => {
-                      return b?.downloads - a?.downloads;
-                    })
-                    ?.sort((a, b) => {
-                      return b?.smrp - a?.smrp;
-                    })
-                    ?.map((e, i) => {
-                      return (
-                        <ServiceCards
-                          {...e}
-                          key={i}
-                          onClick={() => {
-                            mixpanel.track("Explore resources");
-                            navigate(`/s/${e?.slug}`);
-                          }}
-                        />
-                      );
-                    })}
-                </div>
               </section>
-            )}
 
-            {/* user reviews */}
-            {feedbacks?.filter((e) => e?.status === 1)?.length !== 0 && (
-              <section className="other_reviews_new_creator_profile">
-                <h3 className="text_creator_profile_page-05">User Reviews</h3>
+              <div>
+                {services.res
+                  ?.filter((e1) => {
+                    return e1?.status === 1;
+                  })
+                  .sort((a, b) => {
+                    return b?.downloads - a?.downloads;
+                  })
+                  ?.sort((a, b) => {
+                    return b?.smrp - a?.smrp;
+                  })
+                  ?.map((e, i) => {
+                    return (
+                      <ServiceCards
+                        {...e}
+                        key={i}
+                        onClick={() => {
+                          mixpanel.track("Explore resources");
+                          navigate(`/s/${e?.slug}`);
+                        }}
+                      />
+                    );
+                  })}
+              </div>
+            </section>
+          )}
 
-                <div>
-                  {feedbacks
-                    ?.filter((e) => e?.status === 1)
-                    ?.map((e, i) => {
-                      return <ReviewCards {...e} key={i} />;
-                    })}
-                </div>
-              </section>
-            )}
+          {/* user reviews */}
+          {feedbacks?.filter((e) => e?.status === 1)?.length !== 0 && (
+            <section className="other_reviews_new_creator_profile">
+              <h3 className="text_creator_profile_page-05">User Reviews</h3>
+
+              <div>
+                {feedbacks
+                  ?.filter((e) => e?.status === 1)
+                  ?.map((e, i) => {
+                    return <ReviewCards {...e} key={i} />;
+                  })}
+              </div>
+            </section>
+          )}
         </div>
 
         <Footer3 />

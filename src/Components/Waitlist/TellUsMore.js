@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Waitlist.css";
+import "../Signup/Signup.css"
+import "../Earning Potential/Models.css"
 import { SuperSEO } from "react-super-seo";
 import { toast, ToastContainer } from "react-toastify";
 import { creatorContext } from "../../Context/CreatorState";

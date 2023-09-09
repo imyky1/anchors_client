@@ -3,9 +3,9 @@
     gap: 3vw;
     margin-top: 5vh;
     margin-bottom: 5vh;
-}
-
-.userreview_detail1 {
+  }
+  
+  .userreview_detail1 {
     width: 222px;
     border-radius: 10px;
     height: 81px;
@@ -21,65 +21,87 @@
     border: 1px solid rgba(0, 0, 0, 0.05);
     box-shadow: 0px 4px 50px rgba(0, 0, 0, 0.1);
     border-radius: 13px;
-}
-
-.userreview_detail_svg {
+  }
+  
+  .userreview_detail_svg {
     background: #ececf0;
     padding: 10px 10px 6px 10px;
     border-radius: 6px;
-}
-
-.userreview_detailedno h3 {
+  }
+  
+  .userreview_detailedno h3 {
     padding-top: 5px;
     font-weight: 600;
     font-size: 18px;
     line-height: 19px;
-
+  
     color: #000000;
-}
-
-.userreview_detailedno span {
+  }
+  
+  .userreview_detailedno span {
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
-
+  
     color: rgba(0, 0, 0, 0.3);
-
+  
     /* Inside auto layout */
-
+  
     flex: none;
     order: 0;
     flex-grow: 0;
-}
-
-.userrequest-table {
+  }
+  
+  .userrequest-table {
     padding-bottom: 2vh;
     -webkit-user-select: none;
-}
-
-.servicelist-categories {
+  }
+  
+  .servicelist-categories2 {
     display: flex;
-    gap: 2.5vw;
     margin-top: 6vh;
-}
-
-.servicelist-catItem {
+    text-wrap: nowrap;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .servicelist-catItem {
     padding-bottom: 15px;
     padding-left: 5px;
     padding-right: 5px;
-}
-
-.servicelist-catItem:hover {
+  }
+  
+  .servicelist-catItem:hover {
     padding-bottom: 13px;
     border-bottom: 2px solid black;
     cursor: pointer;
-}
-.selectedlist {
+  }
+  .selectedlist {
     padding-bottom: 13px;
     border-bottom: 2px solid black;
     cursor: pointer;
-}
-.margin-bottom{
+  }
+  .margin-bottom {
     margin-bottom: 40px;
-}
+  }
+  
+  .service_event_date_wise_arrange {
+    display: flex;
+    flex-direction: row;
+    gap: 2.5vw;
+  }
+  
+  .filter_service_event_payment {
+        gap: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+  }
+  
+  .filter_service_event_payment select {
+    padding: 6px;
+    border-radius: 2px;
+  }

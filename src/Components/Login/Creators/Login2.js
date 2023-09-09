@@ -11,6 +11,7 @@ import { ImLinkedin2 } from "react-icons/im";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Pagination} from 'swiper/modules';
+import "../../Signup/Signup.css"
 
 function Login2() {
 

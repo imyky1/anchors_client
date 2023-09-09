@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import "./Success.css";
-
+import "../Sample Page/Sample.css"
 import { BsWhatsapp, BsInstagram } from "react-icons/bs";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { FaLinkedinIn, FaFacebookF } from "react-icons/fa";

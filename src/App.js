@@ -4,51 +4,12 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import ServiceState from "./Context/services/ServiceState";
-import Creators_login from "./Components/Login/Creators/Login2";
-import CreatorState from "./Context/CreatorState";
-import UserState from "./Context/UserState";
-import { useState } from "react";
-import LoadingBar from "react-top-loading-bar";
-import Feedback from "./Components/Feedback/Feedback";
-import LinkedinState from "./Context/LinkedinState";
-import FeedbackState from "./Context/FeedbackState";
-import Privacy from "./Components/Privacy Policy/Privacy";
-import Logout_Model from "./Components/Modals/Logout_Model";
-import UserCount from "./Developers/Count/UserCount";
+import { Suspense, lazy, useState } from "react";
 import mixpanel from "mixpanel-browser";
 import { mixPanelToken } from "./config/config.js";
-import Main from "./Components/Main Page/Main";
-import View from "./Developers/Dashboard/View";
-import Login from "./Developers/Login/Login";
-import PaymentState from "./Context/PaymentState";
-import Redirect_serv from "./Components/Redirect_serv";
-import Test from "./Components/Editor/Test";
-import EmailState from "./Context/EmailState";
-import Pricing from "./Components/Pricing/Pricing";
-import Sitemap from "./Components/sitemap/Sitemap";
-import WorkshopFeedback from "./Components/Feedback/Workshopfeedback";
-import UserDashboardState from "./Context/userdashbaord";
-import Signup from "./Components/Signup/Signup";
-import ExcelViewer from "./Components/Editor/excelviewer/ExcelViewer";
-import PDFReader from "./Components/Editor/pdfViewer/Components/PDFReader";
-import VideoDisplay from "./Components/Editor/VideoDisplay/VideoDisplay";
-import HomeUI from "./Components/Editor/New UI/Home/Home";
 import PDFReaderPreview from "./Components/Editor/pdfViewer/pdfViewerPreview/Components/PDFReader";
-import Seo from "./Utils/Seo";
-import UserDashboard from "./Components/User Dashboard/UserDashboard";
-import Predictor from "./Components/Earning Potential/Predictor";
-import PredictorData from "./Components/Earning Potential/PredictorData";
-import EPAState from "./Context/EPAState";
 import { SkeletonTheme } from "react-loading-skeleton";
-import Event from "./Components/Editor/New UI/Event Page/Event";
-import About from "./Components/Static pages/About";
-import RefundPolicy from "./Components/Static pages/Refund";
-import Contact from "./Components/Static pages/Contact";
-import TermsAndConditions from "./Components/Static pages/Terms";
-import Success from "./Components/Editor/New UI/Event Success Page/Success";
-import Sample from "./Components/Editor/New UI/Sample Page/Sample";
-import StaticSuccess from "./Components/Editor/New UI/Event Success Page/StaticSuccess";
+import LoadingBar from "react-top-loading-bar"
 
 // import fonts ---------------------
 import "./fonts/Gilroy-Black.ttf";
@@ -57,14 +18,55 @@ import "./fonts/Gilroy-Medium.ttf";
 import "./fonts/Gilroy-Light.ttf";
 import "./fonts/Gilroy-SemiBold.ttf";
 import "./fonts/Gilroy-Regular.ttf";
-import ServicePage from "./Components/Editor/New UI/Service Page/ServicePage";
-import ProfilePage from "./Components/Editor/New UI/Creator Profile/ProfilePage";
-import PreviewPage from "./Components/Editor/New UI/Service Page/PreviewPage";
-import Upload from "./Developers/Upload/Upload";
-import Creator from "./Components/ApprovedCreators/Creator.js";
-import MainLanding from "./Components/Editor/New UI/Main Page/Main";
-import UserDashboard2 from "./Components/User Dashboard2/UserDashboard";
-import EventPricing from "./Components/Pricing/EventPricing";
+
+// Pages lazy loading or code spilliting -------------------
+import ServiceState from "./Context/services/ServiceState"
+import CreatorState from "./Context/CreatorState"
+import UserState from "./Context/UserState"
+import LinkedinState from "./Context/LinkedinState"
+import FeedbackState from "./Context/FeedbackState"
+import PaymentState from "./Context/PaymentState"
+import EmailState from "./Context/EmailState"
+import EPAState from "./Context/EPAState"
+import UserDashboardState from "./Context/userdashbaord"
+import { LoadThree } from "./Components/Modals/Loading";
+import Seo from "./Utils/Seo"
+import Main from "./Components/Main Page/Main"
+
+const Creators_login = lazy(()=>import("./Components/Login/Creators/Login2"))
+const Feedback = lazy(()=>import("./Components/Feedback/Feedback"))
+const Privacy = lazy(()=>import("./Components/Privacy Policy/Privacy"))
+const Logout_Model = lazy(()=>import("./Components/Modals/Logout_Model"))
+const UserCount = lazy(()=>import("./Developers/Count/UserCount"))
+const View = lazy(()=>import("./Developers/Dashboard/View"))
+const Login = lazy(()=>import("./Developers/Login/Login"))
+const Redirect_serv = lazy(()=>import("./Components/Redirect_serv"))
+const Test = lazy(()=>import("./Components/Editor/Test"))
+const Pricing = lazy(()=>import("./Components/Pricing/Pricing"))
+const Sitemap = lazy(()=>import("./Components/sitemap/Sitemap"))
+const Signup = lazy(()=>import("./Components/Signup/Signup"))
+const ExcelViewer = lazy(()=>import("./Components/Editor/excelviewer/ExcelViewer"))
+const PDFReader = lazy(()=>import("./Components/Editor/pdfViewer/Components/PDFReader"))
+const VideoDisplay = lazy(()=>import("./Components/Editor/VideoDisplay/VideoDisplay"))
+const HomeUI = lazy(()=>import("./Components/Editor/New UI/Home/Home"))
+const Predictor = lazy(()=>import("./Components/Earning Potential/Predictor"))
+const PredictorData = lazy(()=>import("./Components/Earning Potential/PredictorData"))
+const Event = lazy(()=>import("./Components/Editor/New UI/Event Page/Event"))
+const About = lazy(()=>import("./Components/Static pages/About"))
+const RefundPolicy = lazy(()=>import("./Components/Static pages/Refund"))
+const Contact = lazy(()=>import("./Components/Static pages/Contact"))
+const TermsAndConditions = lazy(()=>import("./Components/Static pages/Terms"))
+const Success = lazy(()=>import("./Components/Editor/New UI/Event Success Page/Success"))
+const Sample = lazy(()=>import("./Components/Editor/New UI/Sample Page/Sample"))
+const StaticSuccess = lazy(()=>import("./Components/Editor/New UI/Event Success Page/StaticSuccess"))
+const ServicePage = lazy(()=> import ("./Components/Editor/New UI/Service Page/ServicePage"))
+const ProfilePage = lazy(()=> import ("./Components/Editor/New UI/Creator Profile/ProfilePage"))
+const PreviewPage = lazy(()=> import ("./Components/Editor/New UI/Service Page/PreviewPage"))
+const Upload = lazy(()=> import ("./Developers/Upload/Upload"))
+const Creator = lazy(()=> import ("./Components/ApprovedCreators/Creator.js"))
+const MainLanding = lazy(()=> import ("./Components/Editor/New UI/Main Page/Main"))
+const EventPricing = lazy(()=> import ("./Components/Pricing/EventPricing"))
+const UserDashboard2 = lazy(() => import('./Components/User Dashboard2/UserDashboard'));
 
 mixpanel.init(mixPanelToken, { debug: true });
 
@@ -78,7 +80,6 @@ function App() {
   return (
     <>
       <Seo />
-
       <SkeletonTheme baseColor="#313131" highlightColor="#525252">
         <Router>
           <LinkedinState>
@@ -91,6 +92,7 @@ function App() {
                         <FeedbackState>
                           <UserDashboardState>
                             <LoadingBar color="#f11946" progress={progress} />
+                            <Suspense fallback={<LoadThree/>}> 
                             <Routes>
                               {/* Landing Page routes ---------------------------------------------------------- */}
                               <Route
@@ -224,12 +226,12 @@ function App() {
                                 path="/feedback"
                                 element={<Feedback progress={changeprogress} />}
                               ></Route>
-                              <Route
+                              {/* <Route
                                 path="/feedback/workshop/:id"
                                 element={
                                   <WorkshopFeedback progress={changeprogress} />
                                 }
-                              ></Route>
+                              ></Route> */}
                               {/* Logout routes ---------------------------------------------------------------------------- */}
                               <Route
                                 path="/logout"
@@ -292,6 +294,7 @@ function App() {
                                 }
                               />
                             </Routes>
+                            </Suspense>
                           </UserDashboardState>
                         </FeedbackState>
                       </EPAState>

@@ -1,5 +1,6 @@
 import React, { useEffect, lazy, Suspense } from "react";
 import "./Main.css";
+import "../Pricing/Pricing.css"
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -32,7 +33,6 @@ import UserDashboard2 from "../User Dashboard2/UserDashboard";
 const Modal1 = lazy(() => import("../Modals/ModalType01/Modal1"));
 const Modal2 = lazy(() => import("../Modals/ModalType01/Modal2"));
 const NavbarCreator = lazy(() => import("../Layouts/Navbar Creator/Navbar"));
-const UserDashboard = lazy(() => import("../User Dashboard/UserDashboard"));
 
 const whyanchors = [
   {

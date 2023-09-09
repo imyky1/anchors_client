@@ -1,7 +1,5 @@
 import React from "react";
 import "./Modal.css";
-import { createPopup } from '@typeform/embed'
-import '@typeform/embed/build/css/popup.css'
 import mixpanel from "mixpanel-browser";
 import { useNavigate } from "react-router-dom";
 

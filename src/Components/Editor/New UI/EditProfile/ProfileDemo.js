@@ -7,6 +7,7 @@ import linkedinIcon from "../../../../Utils/Icons/linkedin.svg";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import PNGIMG from "../../../../Utils/Images/default_user.png";
 import { RiStarSFill } from "react-icons/ri";
+import "../Creator Profile/ProfilePage.css"
 
 import "./Preview.css";
 import { useEffect } from "react";

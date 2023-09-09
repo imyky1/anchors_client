@@ -1,10 +1,5 @@
 import React from "react";
 import "./ServiceStats2.css";
-import ICON1 from "./Icons/1.svg";
-import ICON2 from "./Icons/2.svg";
-import ICON3 from "./Icons/3.svg";
-import ICON4 from "./Icons/4.svg";
-import ICON5 from "./Icons/5.svg";
 import { useContext, useMemo, useState } from "react";
 import { useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
