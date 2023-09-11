@@ -3,7 +3,7 @@
 .sidebar_main_box {
   width: 268px;
   min-width: 244px;
-  background: #f7f7f8;
+  background: #121212;
   height: 100vh;
   position: sticky;
   left: 0;
@@ -64,7 +64,7 @@
   font-weight: 700;
   font-size: 16px;
   line-height: 19px;
-  color: #000000;
+  color: #FFFFFF;
 }
 
 .text_sidebar_02 {
@@ -73,7 +73,7 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 15px;
-  color: rgba(0, 0, 0, 0.3);
+  color: #D0D0D0;
 }
 
 /* creator profile sidebar------------------------------------ */
@@ -125,7 +125,7 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
-  color: rgba(0, 0, 0, 0.5);
+  color: #E1E1E1;
   cursor: pointer;
   border-radius: 8px;
   box-sizing: border-box;
@@ -134,18 +134,19 @@
 }
 
 .sidebar_navigation > a:hover {
-  color: #000000;
+  color: #F8F8F8;
 }
 
 .sidebar_navigation > a img {
   margin-right: 15px;
   width: 24px;
   height: 24px;
+  color: #F8F8F8;
 }
 
 .sidebar_navigation_active {
-  background: #e1e1e1;
-  color: #000000;
+  background: #212121;
+  color: #F8F8F8;
 }
 
 /* invite section sidebar -------------------------------------------------------- */
@@ -167,7 +168,7 @@
   font-weight: 600;
   font-size: 16px;
   line-height: 19px;
-  color: #000000;
+  color: #F8F8F8;
   text-transform: uppercase;
 }
 
@@ -177,7 +178,7 @@
   font-weight: 400;
   font-size: 11px;
   line-height: 13px;
-  color: rgba(0, 0, 0, 0.5);
+  color: #D0D0D0;
   margin-top: 8px;
 }
 
@@ -186,7 +187,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  background: #ffffff;
+  background: #212121;
   border-radius: 9px;
   margin-top: 12px;
   font-family: "Inter";
@@ -194,7 +195,7 @@
   font-weight: 600;
   font-size: 16px;
   line-height: 19px;
-  color: rgba(0, 0, 0, 0.5);
+  color: #F8F8F8;
   padding-left: 10px;
   box-sizing: border-box;
   cursor: pointer;

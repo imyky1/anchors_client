@@ -2,7 +2,16 @@ import React, { useState } from "react";
 import "./components.css";
 import { useEffect } from "react";
 import ReactQuill from "react-quill";
-import 'react-quill/dist/quill.snow.css';
+import "react-quill/dist/quill.snow.css";
+import { HiOutlineUpload } from "react-icons/hi";
+import { FaExchangeAlt } from "react-icons/fa";
+import { AiFillInfoCircle } from "react-icons/ai";
+
+const TooltipBox = ({ text }) => (
+  <div className="tooltip-component-box" style={{ top: "30px" }}>
+    {text}
+  </div>
+);
 
 // text field -------------------------
 function fields_Labels1(props) {
@@ -55,7 +64,7 @@ function EditorText01(props) {
           props?.setContent(e);
         }}
         className="quill-editor"
-        placeholder={props?.placeholder}
+        // placeholder={props?.placeholder}
       />
       <p className="label_type_03">{props.info}</p>
     </div>
@@ -90,9 +99,9 @@ function UploadField01(props) {
       />
       <label htmlFor={props.id} className="input_type_02">
         {fileName ? (
-          <i class="fa-solid fa-rotate fa-xl"></i>
+          <FaExchangeAlt color={"white"} size={22} />
         ) : (
-          <i className="fa-solid fa-plus fa-xl"></i>
+          <HiOutlineUpload color={"white"} size={22} />
         )}
         <span>{fileName ? "Replace" : "Browse"}</span>
         <p>{fileName ? fileName : props.info}</p>
@@ -147,9 +156,9 @@ function UploadField02(props) {
       />
       <label htmlFor={props.id} className="input_type_02">
         {fileName ? (
-          <i class="fa-solid fa-rotate fa-xl"></i>
+          <FaExchangeAlt color={"white"} size={22} />
         ) : (
-          <i className="fa-solid fa-plus fa-xl"></i>
+          <HiOutlineUpload color={"white"} size={22} />
         )}
         <span>{fileName ? "Replace" : "Browse"}</span>
         <p>
@@ -167,6 +176,7 @@ function UploadField02(props) {
 // upload new ui field
 function UploadField03(props) {
   const [fileName, setfileName] = useState();
+  const [isHovered, setIsHovered] = useState(false)
 
   const handleChange = (e) => {
     setfileName(e.target.files[0].name);
@@ -179,9 +189,21 @@ function UploadField03(props) {
   return (
     // Normal type -1 text field used in create
     <div className="textfiled_container_01">
-      <span className="label_type_01">
+      <span className="label_type_04">
         {props.label}{" "}
+        {props?.helperText && (
+          <AiFillInfoCircle
+            size={20}
+            onMouseEnter={() => {
+              setIsHovered(true);
+            }}
+            onMouseLeave={() => {
+              setIsHovered(false);
+            }}
+          />
+        )}
         {props?.required && <span style={{ color: "red" }}>*</span>}
+        {isHovered && <TooltipBox text={props?.helperText} />}
       </span>
       <input
         type="file"
@@ -191,15 +213,15 @@ function UploadField03(props) {
         accept={props.FileType}
       />
       <label htmlFor={props.id} className="input_type_04">
-        {(fileName || props?.disabled) ? (
-          <i class="fa-solid fa-rotate fa-lg"></i>
+        {fileName || props?.disabled ? (
+          <FaExchangeAlt color={"white"} size={22} />
         ) : (
-          <i className="fa-solid fa-plus fa-lg"></i>
+          <HiOutlineUpload color={"white"} size={22} />
         )}
       </label>
       <p className="label_type_03">
         {fileName
-          ? (fileName.split(".")[0].slice(0, 15) + "." + fileName.split(".")[1])
+          ? fileName.split(".")[0].slice(0, 15) + "." + fileName.split(".")[1]
           : props.info}
       </p>
     </div>
@@ -334,7 +356,7 @@ function Dropdown01(props) {
       <div
         className="dropdown_input_01"
         onClick={() => {
-          console.log("hello")
+          console.log("hello");
           setOpenDropDown(!OpenDropDown);
         }}
       >
@@ -373,6 +395,29 @@ function Dropdown01(props) {
   );
 }
 
+function Select01(props) {
+  return (
+    // Normal type -1 text field used in create
+    <div className="textfiled_container_02">
+      {props?.value?.map((e, i) => {
+        return (
+          <span
+            className={`select_button_type_01 ${
+              props?.defaultValue === e ? "select_button_type_01_active" : ""
+            }`}
+            key={i}
+            onClick={() => {
+              props.selectedValue(e);
+            }}
+          >
+            {e}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
+
 export const TextField1 = fields_Labels1;
 export const Editor1 = EditorText01;
 export const UploadField1 = UploadField01;
@@ -382,3 +427,4 @@ export const RadioField1 = fields_Labels3;
 export const SocialFields = fields_Labels4;
 export const Tags1 = Tags01;
 export const Dropdown1 = Dropdown01;
+export const Select1 = Select01;

@@ -19,7 +19,7 @@
   font-weight: 600;
   font-size: 30px;
   line-height: 38px;
-  color: #000000;
+  color: #F8F8F8;
 }
 
 .text_02_dashboard {
@@ -28,7 +28,7 @@
   font-weight: 300;
   font-size: 15px;
   line-height: 18px;
-  color: rgba(0, 0, 0, 0.6);
+  color: #D0D0D0;
   margin-bottom: 25px;
 }
 
@@ -41,8 +41,7 @@
 .dashboard_options {
   width: 373px;
   height: 88px;
-  background: #ffffff;
-  border: 0.5px solid rgba(0, 0, 0, 0.2);
+  border: 0.5px solid #D0D0D0;
   border-radius: 13px;
   display: flex;
   align-items: center;
@@ -52,14 +51,14 @@
   font-weight: 700;
   font-size: 15px;
   line-height: 18px;
-  color: #000000;
+  color: #F8F8F8;
   cursor: pointer;
   margin-bottom: 20px;
 }
 
 .dashboard_options:hover {
-  background: #000000;
-  color: #ffffff;
+  color: #000000;
+  background-color: #ffffff;
 }
 
 /* main container box 2 */
@@ -129,7 +128,7 @@
 }
 
 .each_step_stepper_dashboard > span {
-  color: var(--neutral-gray-500, #64748b);
+  color: #D0D0D0;
   font-family: "Gilroy-Bold", sans-serif;
   font-size: 12px;
   font-style: normal;
@@ -147,4 +146,5 @@
   position: relative;
   bottom: 8px;
   right: 27px;
+  background-color: #D0D0D0;
 }

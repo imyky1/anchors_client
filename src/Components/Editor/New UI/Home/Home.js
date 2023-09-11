@@ -12,7 +12,7 @@ import Dashboard from "../Dashboard/Dashboard";
 import Navbar from "../Navbar/Navbar";
 import ServiceDetailPage from "../ServiceDetail/ServiceList";
 import Sidebar from "../SideBar/Sidebar";
-import Create from "../Create Services/Create";
+import Create from "../Create Services/Create2";
 import EditProfile from "../EditProfile/EditProfile";
 import UserReviews from "../UserReviews/UserReviews";
 import UserRequest from "../userRequest/UserRequest";

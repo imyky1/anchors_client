@@ -39,18 +39,18 @@ const CreateServiceDemo = ({
     }
   }, [ldesc]);
 
-  useEffect(() => {
-    let doc = document.querySelector("#short_desc_service_page");
-    if (sdesc) {
-      if (doc) {
-        doc.innerHTML = "";
-        doc.innerHTML = sdesc;
-      }
-    } else {
-      doc.innerHTML =
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic, facilis!";
-    }
-  }, [sdesc]);
+  // useEffect(() => {
+  //   let doc = document.querySelector("#short_desc_service_page");
+  //   if (sdesc) {
+  //     if (doc) {
+  //       doc.innerHTML = "";
+  //       doc.innerHTML = sdesc;
+  //     }
+  //   } else {
+  //     doc.innerHTML =
+  //       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic, facilis!";
+  //   }
+  // }, [sdesc]);
 
   return (
     <div className="perview_demo_mobile_view_edit_profile" style={{height:"85vh"}}>
@@ -130,7 +130,7 @@ const CreateServiceDemo = ({
 
               <section
                 className="description_section_new_service_page"
-                style={{ gap: "20px", minHeight: "auto", padding: "16px 8px" }}
+                style={{ gap: "20px", minHeight: "200px", padding: "16px 8px" }}
               >
                 <div>
                   <h2
@@ -154,7 +154,7 @@ const CreateServiceDemo = ({
                   </p>
                 </div>
 
-                <div>
+                {/* <div>
                   <h2
                     className="text_type_02_new_service_page"
                     style={{ fontSize: "16px" }}
@@ -170,10 +170,10 @@ const CreateServiceDemo = ({
                     Obcaecati illo culpa nobis vero fugit eius magnam eaque
                     architecto atque quaerat?
                   </p>
-                </div>
+                </div> */}
               </section>
 
-              <section style={{width:"100vw",height:"100px"}}></section>
+              <section style={{width:"100vw",height:"120px"}}></section>
             </div>
           </section>
         </section>

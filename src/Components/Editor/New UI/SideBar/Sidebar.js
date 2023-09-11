@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Sidebar.css";
-import logo from "../../../../Utils/Images/logo-invite-only-black.png";
+import logo from "../../../../Utils/Images/logo-invite-only.png";
 import Globe from "../Images and svgs/Globe.svg";
 import svg1 from "../Images and svgs/dashboard.svg";
 import svg2 from "../Images and svgs/Diamond.svg";

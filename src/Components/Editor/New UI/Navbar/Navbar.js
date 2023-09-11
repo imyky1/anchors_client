@@ -44,9 +44,11 @@ function Navbar({ ChangeModalState, ModalState, userData, alternateInfo }) {
         }}
       />
 
-      <span onClick={()=>{mixpanel.track("Playbook");window.open("https://go.anchors.in/anchors-guide")}}>GuideBook</span>
+      {/* <span onClick={()=>{mixpanel.track("Playbook");window.open("https://go.anchors.in/anchors-guide")}}>Book</span> */}
 
         {/* <span onClick={()=>{mixpanel.track("Connect with Us");window.open(generateMailtoLink())}}>Connect with us</span> */}
+
+        <span className="fancy_navbar_link01" onClick={()=>{mixpanel.track("Guide");window.open("https://go.anchors.in/anchors-guide","_blank")}}>Guide</span>
 
         <span className="fancy_navbar_link01" onClick={()=>{mixpanel.track("Host your event");window.open("https://www.anchors.in/hostevent","_blank")}}>Host Event</span>
 
