@@ -120,7 +120,7 @@ function Sample() {
         opacity: 1,
         transition: {
           duration: index * 1,
-          ease: "ease",
+          // ease: "ease",
         },
       },
     };
@@ -134,7 +134,7 @@ function Sample() {
       opacity: 1,
       transition: {
         duration: 0.85,
-        ease: "ease",
+        // ease: "ease",
       },
     },
   };

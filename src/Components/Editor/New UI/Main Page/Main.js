@@ -112,7 +112,7 @@ const textVariant01 = (timedelay = 0.85) => {
       opacity: 1,
       transition: {
         duration: timedelay,
-        ease: "ease",
+        // ease: "ease",
       },
     },
   };

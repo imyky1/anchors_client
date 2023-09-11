@@ -27,7 +27,6 @@ import PNGIMG from "../../../../Utils/Images/default_user.png";
 import { FiDownload } from "react-icons/fi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import mixpanel from "mixpanel-browser";
-import { mix } from "framer-motion";
 
 function TableComponent({ userComponent, name, points, index }) {
   return (

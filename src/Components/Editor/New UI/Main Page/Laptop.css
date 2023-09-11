@@ -46,6 +46,7 @@
   padding: 10px;
   width: 21vw;
   transform: translateX(-130%) translateY(-35px) scale(0.8);
+  background: transparent;
 }
 
 #item-3:checked ~ .cards_laptop_homepage #selector-1,
@@ -54,6 +55,7 @@
   padding: 10px;
   width: 21vw;
   transform: translateX(130%) translateY(-35px) scale(0.8);
+  background: transparent;
 }
 
 #item-1:checked ~ .cards_laptop_homepage #selector-1,
@@ -67,6 +69,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  background: transparent;
 }
 .laptop_images_heading {
   padding-top: 37px;

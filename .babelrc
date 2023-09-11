@@ -1,0 +1,8 @@
+{
+    "presets": ["@babel/preset-react"],
+    "plugins": [
+      // Add the plugin to your list of plugins
+      "@babel/plugin-proposal-private-property-in-object"
+    ]
+  }
+  

@@ -4,7 +4,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import { Suspense, lazy, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import mixpanel from "mixpanel-browser";
 import { mixPanelToken } from "./config/config.js";
 import PDFReaderPreview from "./Components/Editor/pdfViewer/pdfViewerPreview/Components/PDFReader";
@@ -32,6 +32,8 @@ import UserDashboardState from "./Context/userdashbaord"
 import { LoadThree } from "./Components/Modals/Loading";
 import Seo from "./Utils/Seo"
 import Main from "./Components/Main Page/Main"
+import MainLanding from "./Components/Editor/New UI/Main Page/Main"
+import Sample from "./Components/Editor/New UI/Sample Page/Sample"
 
 const Creators_login = lazy(()=>import("./Components/Login/Creators/Login2"))
 const Feedback = lazy(()=>import("./Components/Feedback/Feedback"))
@@ -57,21 +59,138 @@ const RefundPolicy = lazy(()=>import("./Components/Static pages/Refund"))
 const Contact = lazy(()=>import("./Components/Static pages/Contact"))
 const TermsAndConditions = lazy(()=>import("./Components/Static pages/Terms"))
 const Success = lazy(()=>import("./Components/Editor/New UI/Event Success Page/Success"))
-const Sample = lazy(()=>import("./Components/Editor/New UI/Sample Page/Sample"))
 const StaticSuccess = lazy(()=>import("./Components/Editor/New UI/Event Success Page/StaticSuccess"))
 const ServicePage = lazy(()=> import ("./Components/Editor/New UI/Service Page/ServicePage"))
 const ProfilePage = lazy(()=> import ("./Components/Editor/New UI/Creator Profile/ProfilePage"))
 const PreviewPage = lazy(()=> import ("./Components/Editor/New UI/Service Page/PreviewPage"))
 const Upload = lazy(()=> import ("./Developers/Upload/Upload"))
 const Creator = lazy(()=> import ("./Components/ApprovedCreators/Creator.js"))
-const MainLanding = lazy(()=> import ("./Components/Editor/New UI/Main Page/Main"))
 const EventPricing = lazy(()=> import ("./Components/Pricing/EventPricing"))
 const UserDashboard2 = lazy(() => import('./Components/User Dashboard2/UserDashboard'));
 
 mixpanel.init(mixPanelToken, { debug: true });
 
+// Various script loading --------------
+function loadGoogleTagManager() {
+  // Create a script element
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://www.googletagmanager.com/gtag/js?id=G-LCHM48D5F0';
+
+  // Add an onload callback to ensure the script has loaded
+  script.onload = () => {
+    // You can initialize Google Tag Manager or any other setup here
+    // For example, initializing GTM:
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      window.dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'G-LCHM48D5F0');
+  };
+
+  // Append the script to the document's head
+  document.head.appendChild(script);
+}
+
+// Function to load Clarity
+function loadClarity() {
+  // Create a script element
+  const script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.async = true;
+  script.innerHTML = `
+    (function(c, l, a, r, i, t, y) {
+      c[a] =
+        c[a] ||
+        function() {
+          (c[a].q = c[a].q || []).push(arguments);
+        };
+      t = l.createElement(r);
+      t.async = 1;
+      t.src = 'https://www.clarity.ms/tag/h24wmzm6la';
+      y = l.getElementsByTagName(r)[0];
+      y.parentNode.insertBefore(t, y);
+    })(window, document, 'clarity', 'script', 'h24wmzm6la');
+  `;
+
+  script.onload = function () {
+    console.log('Clarity script loaded successfully.');
+  };
+
+  // Append the script to the document's head
+  const head = document.getElementsByTagName('head')[0];
+  head.appendChild(script);
+}
+
+function loadFontAwesome() {
+  // Create a script element
+  const script = document.createElement('script');
+  script.src = 'https://kit.fontawesome.com/79f672096d.js';
+  script.crossOrigin = 'anonymous';
+
+  // Append the script to the document's head
+  const head = document.getElementsByTagName('head')[0];
+  head.appendChild(script);
+}
+
+// Function to load Easebuzz
+function loadEasebuzz() {
+  // Create a script element
+  const script = document.createElement('script');
+  script.src = 'https://ebz-static.s3.ap-south-1.amazonaws.com/easecheckout/easebuzz-checkout.js';
+
+  // Append the script to the document's head
+  const head = document.getElementsByTagName('head')[0];
+  head.appendChild(script);
+}
+
+// Function to load Hotjar
+function loadHotjar() {
+  // Create a script element
+  const script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.async = true;
+  script.innerHTML = `
+    (function(h, o, t, j, a, r) {
+      h.hj =
+        h.hj ||
+        function() {
+          (h.hj.q = h.hj.q || []).push(arguments);
+        };
+      h._hjSettings = { hjid: 3256165, hjsv: 6 };
+      a = o.getElementsByTagName('head')[0];
+      r = o.createElement('script');
+      r.async = 1;
+      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+  `;
+
+  script.onload = function () {
+    console.log('Hotjar script loaded successfully.');
+  };
+
+  // Append the script to the document's head
+  const head = document.getElementsByTagName('head')[0];
+  head.appendChild(script);
+}
+
 function App() {
   const [progress, setprogress] = useState(0);
+
+
+  // load script after the primary pages load ------------
+  useEffect(() => {
+    window.onload = function () {
+      loadGoogleTagManager();
+      loadClarity();
+      loadFontAwesome();
+      loadEasebuzz();
+      loadHotjar();
+    };
+  }, []);
+
 
   const changeprogress = (progress) => {
     setprogress(progress);
