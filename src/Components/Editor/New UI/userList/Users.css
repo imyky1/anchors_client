@@ -1,0 +1,11 @@
+
+.service_image_wrapper_userlist{
+    width: 29vw;
+    height: 14.5vw;
+}
+
+.service_image_wrapper_userlist > img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}

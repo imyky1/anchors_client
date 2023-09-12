@@ -52,6 +52,7 @@ import Cards from "./Cards.js";
 import Laptop from "./Laptop.js";
 import Arrow from "./Arrow.js";
 import { MainNewFooter } from "../../../Footer/Footer";
+import { toast } from "react-toastify";
 
 const UserDashboard2 = lazy(() =>
   import("../../../User Dashboard2/UserDashboard")
@@ -548,577 +549,586 @@ const MainLanding = (props) => {
       )}
 
       <div>
-        <div className="home_page_outer" id="landing_page_imp_div">
-          <NavbarForPage />
-          <div
-            className="home_page_outer_first_body"
-            style={{
-              backgroundImage: `url(${first})`,
-            }}
-          >
-            <div className="home_page_earning_potenial_outer_01">
-              <div
-                className="home_page_outer_first_body_001"
-                style={{ backgroundSize: "auto" }}
-              >
-                <motion.div
-                  className="home_page_outer_first_body_01"
-                  initial="from"
-                  animate="to"
-                  variants={textVariant01()}
-                >
-                  Monetise
-                </motion.div>
-                <motion.span
-                  initial="from"
-                  animate="to"
-                  variants={textVariant01(1.7)}
-                >
-                  As You Thrive
-                </motion.span>
-                <motion.div
-                  className="home_page_outer_first_body_02"
-                  initial="from"
-                  animate="to"
-                  variants={textVariant01(2.4)}
-                >
-                  An Exclusive Platform for the Creator’s Community. Empower
-                  your Creator's growth with our community.
-                </motion.div>
-                <motion.button
-                  className="home_page_outer_first_body_03"
-                  onClick={() => {
-                    handleStart();
-                    mixpanel.track("Join Now");
-                  }}
-                  initial="from"
-                  animate="to"
-                  variants={textVariant01(3.4)}
-                >
-                  Join Now
-                </motion.button>
-              </div>
-            </div>
-          </div>
-
-          <div
-            className="home_page_outer_first_body"
-            style={{ backgroundImage: `url(${second})` }}
-          >
-            <motion.div
-              className="home_page_outer_second_body_01"
-              initial="from"
-              whileInView="to"
-              variants={textVariant01()}
-            >
-              Why
-              <span> Anchors?</span>
-            </motion.div>
-            <motion.div
-              className="home_page_outer_second_body_02"
-              initial="from"
-              whileInView="to"
-              variants={textVariant01(1.7)}
-            >
-              Unlock a full-stack solution to monetize your expertise and skills
-              like never before.
-            </motion.div>
-
-            <div className="home_page_outer_second_body_02_card">
-              <Cards />
-            </div>
-          </div>
-
-          <div
-            className="home_page_outer_first_body"
-            id="third"
-            style={{ backgroundImage: `url(${third})` }}
-          >
-            <motion.div
-              className="home_page_outer_second_body_01"
-              initial="from"
-              whileInView="to"
-              variants={textVariant01()}
-            >
-              Supported Upload Formats
-            </motion.div>
-            <motion.div
-              className="home_page_outer_second_body_02"
-              style={{ width: "40%" }}
-              initial="from"
-              whileInView="to"
-              variants={textVariant01(1.7)}
-            >
-              Your knowledge, your way - choose the perfect format to share your
-              skills!
-            </motion.div>
-            <div className="home_page_outer_second_body_02_laptop">
-              <Laptop />
-            </div>
-          </div>
-
-          <div
-            className="home_page_outer_first_body"
-            style={{ backgroundImage: `url(${fourth})` }}
-          >
-            <div className="home_page_outer_second_body_001">
-              <div className="home_page_outer_second_body_001_top">
-                <motion.div
-                  className="home_page_outer_second_body_01"
-                  initial="from"
-                  whileInView="to"
-                  variants={textVariant01()}
-                >
-                  Anchor Yourself, Stand Out
-                </motion.div>
-                <motion.div
-                  className="home_page_outer_second_body_02"
-                  style={{ width: "80%", marginLeft: "40px" }}
-                  initial="from"
-                  whileInView="to"
-                  variants={textVariant01(1.7)}
-                >
-                  The pathway to hop on board and join us!
-                </motion.div>
-              </div>
-              <div className="home_page_outer_second_body_arrow_001">
-                <Arrow />
-              </div>
-            </div>
-          </div>
-
-          <div
-            className="home_page_outer_first_body"
-            style={{ backgroundImage: `url(${fifth})` }}
-            id="eligibility"
-            ref={EligibilityRef}
-          >
-            <motion.div
-              className="home_page_outer_second_body_01"
-              initial="from"
-              whileInView="to"
-              variants={textVariant01()}
-            >
-              Do you have what it takes ?
-            </motion.div>
-            <motion.div
-              className="home_page_outer_second_body_02"
-              style={{ paddingTop: "20px" }}
-              initial="from"
-              whileInView="to"
-              variants={textVariant01(1.7)}
-            >
-              Unlocking the full potential of the creator economy through
-              boundless innovation and sustainable growth
-            </motion.div>
-            <div className="home_page_outer_fifth_body_01">
-              <div className="home_page_outer_sixth_body_020">
-                <motion.div
-                  className="home_page_outer_sixth_body_02"
-                  initial="from"
-                  whileInView="to"
-                  variants={fadeInFromLeft()}
-                  viewport={{ once: true }}
-                >
-                  Check Your Eligibility
-                </motion.div>
-              </div>
-              <motion.div
-                className="home_page_outer_fifth_body_03"
-                initial="from"
-                whileInView="to"
-                variants={fadeInFromRight()}
-                viewport={{ once: true }}
-              >
-                <section className="home_page_outer_fifth_body_03_heading">
-                  Please select your social media platform
-                </section>
-                <div className="home_page_outer_fifth_body_03_middle">
-                  <div className="home_page_outer_fifth_body_03_middle_button_group">
-                    <div className="home_page_outer_fifth_body_03_middle_button_group_row">
-                      <button
-                        className={`home_page_outer_fifth_body_03_middle_button ${
-                          platform === 1 &&
-                          "home_page_outer_fifth_body_03_middle_button_active"
-                        }`}
-                        onClick={() => {
-                          setPlatform(1);
-                        }}
-                      >
-                        <FaLinkedinIn />
-                        LinkedIn
-                      </button>
-                      <button
-                        className={`home_page_outer_fifth_body_03_middle_button ${
-                          platform === 2 &&
-                          "home_page_outer_fifth_body_03_middle_button_active"
-                        }`}
-                        onClick={() => {
-                          setPlatform(2);
-                        }}
-                      >
-                        <FaInstagram />
-                        Instagram
-                      </button>
-                    </div>
-                    <div className="home_page_outer_fifth_body_03_middle_button_group_row">
-                      <button
-                        className={`home_page_outer_fifth_body_03_middle_button ${
-                          platform === 3 &&
-                          "home_page_outer_fifth_body_03_middle_button_active"
-                        }`}
-                        onClick={() => {
-                          setPlatform(3);
-                        }}
-                      >
-                        <FaTelegram />
-                        Telegram
-                      </button>
-                      <button
-                        className={`home_page_outer_fifth_body_03_middle_button ${
-                          platform === 4 &&
-                          "home_page_outer_fifth_body_03_middle_button_active"
-                        }`}
-                        onClick={() => {
-                          setPlatform(4);
-                        }}
-                      >
-                        <FaYoutube />
-                        Youtube
-                      </button>
-                    </div>
-                  </div>
-                  <div className="home_page_outer_fifth_body_03_middle_down_input">
-                    <input
-                      placeholder="Enter your number of followers"
-                      className="home_page_outer_fifth_body_03_middle_down_input_textarea"
-                      value={followers}
-                      onChange={(e) => {
-                        setFollowers(e.target.value);
-                      }}
-                    />
-                    <button
-                      className="home_page_outer_fifth_body_03_middle_down_button"
-                      onClick={handleCheckEligibility}
-                    >
-                      Check
-                    </button>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-
-          <div
-            className="home_page_outer_first_body"
-            style={{ backgroundImage: `url(${fifth})` }}
-          >
-            <div className="home_page_outer_fifth_body_01">
-              <motion.div
-                className="home_page_outer_sixth_body_020"
-                initial="from"
-                whileInView="to"
-                variants={fadeInFromLeft()}
-                viewport={{ once: true }}
-              >
-                <div className="home_page_outer_sixth_body_02">
-                  Creators Who Trust Us
-                </div>
-                <div className="home_page_outer_sixth_body_021">
-                  Creators and Trust: The Winning Combination
-                </div>
-              </motion.div>
-
-              <Tilt
-                options={defaultOptions}
-                style={{ height: "87vh", width: "32vw" }}
-              >
-                <Swiper
-                  effect={"flip"}
-                  loop={true}
-                  autoplay={{
-                    delay: 2500,
-                    disableOnInteraction: true,
-                    pauseOnMouseEnter: true,
-                  }}
-                  modules={[Autoplay, EffectFlip]}
-                  className="mySwiper"
-                >
-                  <SwiperSlide>
-                    <motion.div
-                      className="home_page_outer_sixth_body_01"
-                      initial="from"
-                      whileInView="to"
-                      variants={fadeInFromRight()}
-                      viewport={{ once: true }}
-                    >
-                      {/* <img src={require("./Images/himanshu1.jpg")} /> */}
-                      <LazyLoadImage
-                        src={require("./Images/himanshu1.jpeg")}
-                        alt=""
-                      />
-                      <div className="home_page_outer_sixth_body_03">
-                        <div className="home_page_outer_sixth_body_03_inside">
-                          <section className="home_page_outer_sixth_body_03_creator_name">
-                            Himanshu Shekhar
-                          </section>
-                          <section className="home_page_outer_sixth_body_03_creator_desc">
-                            LinkedIn 71k Followers
-                          </section>
-                        </div>
-                        <FaLinkedinIn
-                          color="white"
-                          className="home_page_outer_sixth_body_03_creator_desc_image"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            mixpanel.track(
-                              "Clicked Social Media of Creators on Main Page",
-                              {
-                                creator: "Himanshu Shekhar",
-                              }
-                            );
-                            window.open(
-                              "https://www.linkedin.com/in/himanshushekhar16/"
-                            );
-                          }}
-                        />
-                      </div>
-                      <div className="home_page_outer_sixth_body_04">
-                        “Anchors has played a crucial role in helping me
-                        monetize my content and expand my audience's reach!”
-                      </div>
-                      <button
-                        className="home_page_outer_sixth_body_05_button"
-                        onClick={() => {
-                          mixpanel.track("Clicked Explore on Main Page", {
-                            creator: "Himanshu Shekhar",
-                          });
-                          navigate("/himanshu-shekhar");
-                        }}
-                      >
-                        Explore
-                        <BsArrowRight />
-                      </button>
-                    </motion.div>
-                  </SwiperSlide>
-
-                  <SwiperSlide>
-                    <motion.div
-                      className="home_page_outer_sixth_body_01"
-                      initial="from"
-                      whileInView="to"
-                      variants={fadeInFromRight()}
-                      viewport={{ once: true }}
-                    >
-                      <LazyLoadImage
-                        src={require("./Images/himanshu2.jpeg")}
-                        alt=""
-                      />
-                      <div className="home_page_outer_sixth_body_03">
-                        <div className="home_page_outer_sixth_body_03_inside">
-                          <section className="home_page_outer_sixth_body_03_creator_name">
-                            Himanshu Kumar
-                          </section>
-                          <section className="home_page_outer_sixth_body_03_creator_desc">
-                            LinkedIn 164k Followers
-                          </section>
-                        </div>
-                        <FaLinkedinIn
-                          color="white"
-                          className="home_page_outer_sixth_body_03_creator_desc_image"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            mixpanel.track(
-                              "Clicked Social Media of Creators on Main Page",
-                              {
-                                creator: "Himanshu Kumar",
-                              }
-                            );
-                            window.open(
-                              "https://www.linkedin.com/in/himanshukumarmahuri/"
-                            );
-                          }}
-                        />
-                      </div>
-                      <div className="home_page_outer_sixth_body_04">
-                        “Monetising my content and increasing my audience size
-                        has become attainable thanks to Anchors!”
-                      </div>
-                      <button
-                        className="home_page_outer_sixth_body_05_button"
-                        onClick={() => {
-                          mixpanel.track("Clicked Explore on Main Page", {
-                            creator: "Himanshu Kumar",
-                          });
-                          navigate("/himanshu-kumar");
-                        }}
-                      >
-                        Explore
-                        <BsArrowRight />
-                      </button>
-                    </motion.div>
-                  </SwiperSlide>
-                </Swiper>
-              </Tilt>
-            </div>
-          </div>
-
-          <div
-            className="home_page_outer_first_body"
-            style={{ backgroundImage: `url(${fifth})` }}
-          >
-            <div className="home_page_outer_fifth_body_01">
-              <motion.div
-                className="home_page_outer_sixth_body_020"
-                initial="from"
-                whileInView="to"
-                variants={fadeInFromLeft()}
-                viewport={{ once: true }}
-              >
-                <div className="home_page_outer_sixth_body_02">
-                  Discover your earning potential
-                </div>
-                <div className="home_page_outer_sixth_body_021">
-                  Turn your Youtube expertise into a lucrative income through
-                  resource sharing
-                </div>
-              </motion.div>
-              <motion.div
-                className="home_page_right_frame_seven_01"
-                initial="from"
-                whileInView="to"
-                variants={fadeInFromRight()}
-                viewport={{ once: true }}
-              >
-                <section className="home_page_right_frame_seven_01_upper_desc">
-                  Paste Your Youtube Link Here
-                </section>
-                <div className="home_page_outer_fifth_body_03_middle_down_input">
-                  <input
-                    placeholder="Youtube.com/c/be-anchors"
-                    className="home_page_outer_fifth_body_03_middle_down_input_textarea"
-                    onChange={handleChangePredictor}
-                  />
-                  <button
-                    className="home_page_outer_fifth_body_03_middle_down_button"
-                    onClick={handleSubmitEaarningPredictor}
-                  >
-                    Check
-                  </button>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-
-          <div
-            className="home_page_outer_first_body"
-            style={{ backgroundImage: `url(${eight})`, paddingTop: "20px" }}
-          >
-            <div className="home_page_outer_eight_body_020">
-              <motion.div
-                className="home_page_outer_eight_body_02"
-                initial="from"
-                whileInView="to"
-                variants={textVariant01()}
-              >
-                Frequently Asked Questions
-              </motion.div>
-
-              <div className="faq_section-new_main_page_table">
-                {FAQDetails?.map((e, i) => {
-                  return (
-                    <motion.div
-                      className="faq_section-new_main_page_table_item"
-                      key={i}
-                      variants={faqVariant(i)}
-                      initial="from" // here default type is tween and not spring because it has duration
-                      whileInView="to"
-                      viewport={{ once: true }}
-                    >
-                      <div
-                        className="faq_section-new_main_page_table_item-header"
-                        onClick={handleFAQClick}
-                        id={`FAQ${i}`}
-                      >
-                        {e?.question}
-                      </div>
-                      <div className="faq_section-new_main_page_table_item-body">
-                        <div className="faq_section-new_main_page_table_item-body-content">
-                          {e?.answer}
-                        </div>
-                      </div>
-                      {/* <!-- /.accordion-item-body --> */}
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-
-          <div className="home_page_outer_first_body2">
+        <NavbarForPage />
+        <div
+          className="home_page_outer_first_body"
+          style={{
+            backgroundImage: `url(${first})`,
+          }}
+        >
+          <div className="home_page_earning_potenial_outer_01">
             <div
-              className="home_page_outer_first_body3"
-              style={{ backgroundImage: `url(${fourth})`, minHeight: "100vh" }}
+              className="home_page_outer_first_body_001"
+              style={{ backgroundSize: "auto" }}
             >
               <motion.div
-                className="home_page_outer_sixth_body_02"
-                style={{ fontSize: "50px" }}
+                className="home_page_outer_first_body_01"
+                initial="from"
+                animate="to"
+                variants={textVariant01()}
+              >
+                Monetise
+              </motion.div>
+              <motion.span
+                initial="from"
+                animate="to"
+                variants={textVariant01(1.7)}
+              >
+                As You Thrive
+              </motion.span>
+              <motion.div
+                className="home_page_outer_first_body_02"
+                initial="from"
+                animate="to"
+                variants={textVariant01(2.4)}
+              >
+                An invite-only platform for premium creators. <br />
+                Tap into our thriving ecosystem to monetize your expertise and
+                grow with our community.
+              </motion.div>
+              <motion.button
+                className="home_page_outer_first_body_03"
+                onClick={() => {
+                  handleStart();
+                  mixpanel.track("Join Now");
+                }}
+                initial="from"
+                animate="to"
+                variants={textVariant01(3.4)}
+              >
+                Join Now
+              </motion.button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="home_page_outer_first_body"
+          style={{ backgroundImage: `url(${second})` }}
+        >
+          <motion.div
+            className="home_page_outer_second_body_01"
+            initial="from"
+            whileInView="to"
+            variants={textVariant01()}
+          >
+            Why
+            <span> anchors?</span>
+          </motion.div>
+          <motion.div
+            className="home_page_outer_second_body_02"
+            initial="from"
+            whileInView="to"
+            variants={textVariant01(1.7)}
+          >
+            Unlock Innovative Ways to Monetize Your Skills & Expertise like
+            Never Before
+          </motion.div>
+
+          <div className="home_page_outer_second_body_02_card">
+            <Cards />
+          </div>
+        </div>
+
+        <div
+          className="home_page_outer_first_body"
+          id="third"
+          style={{ backgroundImage: `url(${third})` }}
+        >
+          <motion.div
+            className="home_page_outer_second_body_01"
+            initial="from"
+            whileInView="to"
+            variants={textVariant01()}
+          >
+            Supported Content
+          </motion.div>
+          <motion.div
+            className="home_page_outer_second_body_02"
+            style={{ width: "40%" }}
+            initial="from"
+            whileInView="to"
+            variants={textVariant01(1.7)}
+          >
+            Your Expertise, Your Way - choose what best showcases your skills!
+          </motion.div>
+          <div className="home_page_outer_second_body_02_laptop">
+            <Laptop />
+          </div>
+        </div>
+
+        <div
+          className="home_page_outer_first_body"
+          style={{ backgroundImage: `url(${fourth})` }}
+        >
+          <div className="home_page_outer_second_body_001">
+            <div className="home_page_outer_second_body_001_top">
+              <motion.div
+                className="home_page_outer_second_body_01"
                 initial="from"
                 whileInView="to"
                 variants={textVariant01()}
               >
-                Wall of Love
+                Stand Out. Anchor Yourself.
               </motion.div>
               <motion.div
-                className="home_page_outer_sixth_body_021"
+                className="home_page_outer_second_body_02"
+                style={{ width: "80%", marginLeft: "40px" }}
                 initial="from"
                 whileInView="to"
                 variants={textVariant01(1.7)}
               >
-                Check out the delightful words from our cherished clients!
+                Your exclusive access to join our select community awaits!
               </motion.div>
-
-              <div className="home_page_outer_sixth_body_card_group_outer_grid_row">
-                {feedbackData
-                  ? feedbackData
-                      ?.filter((e1) => {
-                        return e1?.userID?.name;
-                      })
-                      .map((e, index) => {
-                        return (
-                          <motion.div
-                            key={e?.userID}
-                            className="home_page_outer_sixth_body_card_group"
-                            variants={feedbackVariant(index)}
-                            initial="from" // here default type is tween and not spring because it has duration
-                            whileInView="to"
-                            viewport={{ once: true }}
-                          >
-                            <div className="home_page_outer_sixth_body_card_group_header">
-                              <LazyLoadImage
-                                src={e?.userID?.photo}
-                                className="your-creator-class"
-                                onError={({ currentTarget }) => {
-                                  currentTarget.onerror = null; // prevents looping
-                                  currentTarget.src = PNGIMG;
-                                }}
-                                alt="userimag"
-                              />
-                              <span className="your-span-class">
-                                {e?.userID?.name}
-                              </span>
-                            </div>
-                            <div className="home_page_outer_sixth_body_card_group_desc your-description-class">
-                              {e?.desc}
-                            </div>
-                          </motion.div>
-                        );
-                      })
-                  : ""}
-              </div>
             </div>
-            <MainNewFooter handleButton={handleStart} />
+            <div className="home_page_outer_second_body_arrow_001">
+              <Arrow />
+            </div>
           </div>
+        </div>
+
+        <div
+          className="home_page_outer_first_body"
+          style={{ backgroundImage: `url(${fifth})` }}
+          id="eligibility"
+          ref={EligibilityRef}
+        >
+          <motion.div
+            className="home_page_outer_second_body_01"
+            initial="from"
+            whileInView="to"
+            variants={textVariant01()}
+          >
+            Empower Yourself for Success
+          </motion.div>
+          <motion.div
+            className="home_page_outer_second_body_02"
+            style={{ paddingTop: "20px" }}
+            initial="from"
+            whileInView="to"
+            variants={textVariant01(1.7)}
+          >
+            Unlocking the full potential of the creator economy through
+            boundless innovation and sustainable growth
+          </motion.div>
+          <div className="home_page_outer_fifth_body_01">
+            <div className="home_page_outer_sixth_body_020">
+              <motion.div
+                className="home_page_outer_sixth_body_02"
+                initial="from"
+                whileInView="to"
+                variants={fadeInFromLeft()}
+                viewport={{ once: true }}
+              >
+                Check Your Eligibility
+              </motion.div>
+            </div>
+            <motion.div
+              className="home_page_outer_fifth_body_03"
+              initial="from"
+              whileInView="to"
+              variants={fadeInFromRight()}
+              viewport={{ once: true }}
+            >
+              <section className="home_page_outer_fifth_body_03_heading">
+                Select Your Primary Social Media Platform
+              </section>
+              <div className="home_page_outer_fifth_body_03_middle">
+                <div className="home_page_outer_fifth_body_03_middle_button_group">
+                  <div className="home_page_outer_fifth_body_03_middle_button_group_row">
+                    <button
+                      className={`home_page_outer_fifth_body_03_middle_button ${
+                        platform === 1 &&
+                        "home_page_outer_fifth_body_03_middle_button_active"
+                      }`}
+                      onClick={() => {
+                        setPlatform(1);
+                      }}
+                    >
+                      <FaLinkedinIn />
+                      LinkedIn
+                    </button>
+                    <button
+                      className={`home_page_outer_fifth_body_03_middle_button ${
+                        platform === 2 &&
+                        "home_page_outer_fifth_body_03_middle_button_active"
+                      }`}
+                      onClick={() => {
+                        setPlatform(2);
+                      }}
+                    >
+                      <FaInstagram />
+                      Instagram
+                    </button>
+                  </div>
+                  <div className="home_page_outer_fifth_body_03_middle_button_group_row">
+                    <button
+                      className={`home_page_outer_fifth_body_03_middle_button ${
+                        platform === 3 &&
+                        "home_page_outer_fifth_body_03_middle_button_active"
+                      }`}
+                      onClick={() => {
+                        setPlatform(3);
+                      }}
+                    >
+                      <FaTelegram />
+                      Telegram
+                    </button>
+                    <button
+                      className={`home_page_outer_fifth_body_03_middle_button ${
+                        platform === 4 &&
+                        "home_page_outer_fifth_body_03_middle_button_active"
+                      }`}
+                      onClick={() => {
+                        setPlatform(4);
+                      }}
+                    >
+                      <FaYoutube />
+                      Youtube
+                    </button>
+                  </div>
+                </div>
+                <div className="home_page_outer_fifth_body_03_middle_down_input">
+                  <input
+                    placeholder="Enter your number of followers"
+                    className="home_page_outer_fifth_body_03_middle_down_input_textarea"
+                    value={followers}
+                    onChange={(e) => {
+                      console.log(platform);
+                      if (platform === 0) {
+                        toast.info(
+                          "Select Your Primary Social Media Platform",
+                          {
+                            position: "top-center",
+                            autoClose: 1500,
+                          }
+                        );
+                      } else {
+                        setFollowers(e.target.value);
+                      }
+                    }}
+                  />
+                  <button
+                    className="home_page_outer_fifth_body_03_middle_down_button"
+                    onClick={handleCheckEligibility}
+                  >
+                    Check
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        <div
+          className="home_page_outer_first_body"
+          style={{ backgroundImage: `url(${fifth})` }}
+        >
+          <div className="home_page_outer_fifth_body_01">
+            <motion.div
+              className="home_page_outer_sixth_body_020"
+              initial="from"
+              whileInView="to"
+              variants={fadeInFromLeft()}
+              viewport={{ once: true }}
+            >
+              <div className="home_page_outer_sixth_body_02">
+                Creators Who Trust Us
+              </div>
+              <div className="home_page_outer_sixth_body_021">
+              Discover What Our Creators Have to Say
+              </div>
+            </motion.div>
+
+            <Tilt
+              options={defaultOptions}
+              style={{ height: "87vh", width: "32vw" }}
+            >
+              <Swiper
+                effect={"flip"}
+                loop={true}
+                autoplay={{
+                  delay: 2500,
+                  disableOnInteraction: true,
+                  pauseOnMouseEnter: true,
+                }}
+                modules={[Autoplay, EffectFlip]}
+                className="mySwiper"
+              >
+                <SwiperSlide>
+                  <motion.div
+                    className="home_page_outer_sixth_body_01"
+                    initial="from"
+                    whileInView="to"
+                    variants={fadeInFromRight()}
+                    viewport={{ once: true }}
+                  >
+                    {/* <img src={require("./Images/himanshu1.jpg")} /> */}
+                    <LazyLoadImage
+                      src={require("./Images/himanshu1.jpeg")}
+                      alt=""
+                    />
+                    <div className="home_page_outer_sixth_body_03">
+                      <div className="home_page_outer_sixth_body_03_inside">
+                        <section className="home_page_outer_sixth_body_03_creator_name">
+                          Himanshu Shekhar
+                        </section>
+                        <section className="home_page_outer_sixth_body_03_creator_desc">
+                          LinkedIn 71k Followers
+                        </section>
+                      </div>
+                      <FaLinkedinIn
+                        color="white"
+                        className="home_page_outer_sixth_body_03_creator_desc_image"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          mixpanel.track(
+                            "Clicked Social Media of Creators on Main Page",
+                            {
+                              creator: "Himanshu Shekhar",
+                            }
+                          );
+                          window.open(
+                            "https://www.linkedin.com/in/himanshushekhar16/"
+                          );
+                        }}
+                      />
+                    </div>
+                    <div className="home_page_outer_sixth_body_04">
+                      “anchors has played a crucial role in helping me monetize
+                      my content and expand my audience's reach!”
+                    </div>
+                    <button
+                      className="home_page_outer_sixth_body_05_button"
+                      onClick={() => {
+                        mixpanel.track("Clicked Explore on Main Page", {
+                          creator: "Himanshu Shekhar",
+                        });
+                        navigate("/himanshu-shekhar");
+                      }}
+                    >
+                      Explore
+                      <BsArrowRight />
+                    </button>
+                  </motion.div>
+                </SwiperSlide>
+
+                <SwiperSlide>
+                  <motion.div
+                    className="home_page_outer_sixth_body_01"
+                    initial="from"
+                    whileInView="to"
+                    variants={fadeInFromRight()}
+                    viewport={{ once: true }}
+                  >
+                    <LazyLoadImage
+                      src={require("./Images/himanshu2.jpeg")}
+                      alt=""
+                    />
+                    <div className="home_page_outer_sixth_body_03">
+                      <div className="home_page_outer_sixth_body_03_inside">
+                        <section className="home_page_outer_sixth_body_03_creator_name">
+                          Himanshu Kumar
+                        </section>
+                        <section className="home_page_outer_sixth_body_03_creator_desc">
+                          LinkedIn 164k Followers
+                        </section>
+                      </div>
+                      <FaLinkedinIn
+                        color="white"
+                        className="home_page_outer_sixth_body_03_creator_desc_image"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          mixpanel.track(
+                            "Clicked Social Media of Creators on Main Page",
+                            {
+                              creator: "Himanshu Kumar",
+                            }
+                          );
+                          window.open(
+                            "https://www.linkedin.com/in/himanshukumarmahuri/"
+                          );
+                        }}
+                      />
+                    </div>
+                    <div className="home_page_outer_sixth_body_04">
+                      “Monetising my content and increasing my audience size has
+                      become attainable thanks to anchors!”
+                    </div>
+                    <button
+                      className="home_page_outer_sixth_body_05_button"
+                      onClick={() => {
+                        mixpanel.track("Clicked Explore on Main Page", {
+                          creator: "Himanshu Kumar",
+                        });
+                        navigate("/himanshu-kumar");
+                      }}
+                    >
+                      Explore
+                      <BsArrowRight />
+                    </button>
+                  </motion.div>
+                </SwiperSlide>
+              </Swiper>
+            </Tilt>
+          </div>
+        </div>
+
+        <div
+          className="home_page_outer_first_body"
+          style={{ backgroundImage: `url(${fifth})` }}
+        >
+          <div className="home_page_outer_fifth_body_01">
+            <motion.div
+              className="home_page_outer_sixth_body_020"
+              initial="from"
+              whileInView="to"
+              variants={fadeInFromLeft()}
+              viewport={{ once: true }}
+            >
+              <div className="home_page_outer_sixth_body_02">
+                Discover your earning potential
+              </div>
+              <div className="home_page_outer_sixth_body_021">
+                Turn your Youtube expertise into a lucrative income through
+                resource sharing
+              </div>
+            </motion.div>
+            <motion.div
+              className="home_page_right_frame_seven_01"
+              initial="from"
+              whileInView="to"
+              variants={fadeInFromRight()}
+              viewport={{ once: true }}
+            >
+              <section className="home_page_right_frame_seven_01_upper_desc">
+                Paste Your Youtube Link Here
+              </section>
+              <div className="home_page_outer_fifth_body_03_middle_down_input">
+                <input
+                  placeholder="Youtube.com/c/be-anchors"
+                  className="home_page_outer_fifth_body_03_middle_down_input_textarea"
+                  onChange={handleChangePredictor}
+                />
+                <button
+                  className="home_page_outer_fifth_body_03_middle_down_button"
+                  onClick={handleSubmitEaarningPredictor}
+                >
+                  Check
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        <div
+          className="home_page_outer_first_body"
+          style={{ backgroundImage: `url(${eight})`, paddingTop: "20px" }}
+        >
+          <div className="home_page_outer_eight_body_020">
+            <motion.div
+              className="home_page_outer_eight_body_02"
+              initial="from"
+              whileInView="to"
+              variants={textVariant01()}
+            >
+              Frequently Asked Questions
+            </motion.div>
+
+            <div className="faq_section-new_main_page_table">
+              {FAQDetails?.map((e, i) => {
+                return (
+                  <motion.div
+                    className="faq_section-new_main_page_table_item"
+                    key={i}
+                    variants={faqVariant(i)}
+                    initial="from" // here default type is tween and not spring because it has duration
+                    whileInView="to"
+                    viewport={{ once: true }}
+                  >
+                    <div
+                      className="faq_section-new_main_page_table_item-header"
+                      onClick={handleFAQClick}
+                      id={`FAQ${i}`}
+                    >
+                      {e?.question}
+                    </div>
+                    <div className="faq_section-new_main_page_table_item-body">
+                      <div className="faq_section-new_main_page_table_item-body-content">
+                        {e?.answer}
+                      </div>
+                    </div>
+                    {/* <!-- /.accordion-item-body --> */}
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        <div className="home_page_outer_first_body2">
+          <div
+            className="home_page_outer_first_body3"
+            style={{ backgroundImage: `url(${fourth})`, minHeight: "100vh" }}
+          >
+            <motion.div
+              className="home_page_outer_sixth_body_02"
+              style={{ fontSize: "50px" }}
+              initial="from"
+              whileInView="to"
+              variants={textVariant01()}
+            >
+              Wall of Love
+            </motion.div>
+            <motion.div
+              className="home_page_outer_sixth_body_021"
+              initial="from"
+              whileInView="to"
+              variants={textVariant01(1.7)}
+            >
+              Check out the delightful words from our cherished clients!
+            </motion.div>
+
+            <div className="home_page_outer_sixth_body_card_group_outer_grid_row">
+              {feedbackData
+                ? feedbackData
+                    ?.filter((e1) => {
+                      return e1?.userID?.name;
+                    })
+                    .map((e, index) => {
+                      return (
+                        <motion.div
+                          key={e?.userID}
+                          className="home_page_outer_sixth_body_card_group"
+                          variants={feedbackVariant(index)}
+                          initial="from" // here default type is tween and not spring because it has duration
+                          whileInView="to"
+                          viewport={{ once: true }}
+                        >
+                          <div className="home_page_outer_sixth_body_card_group_header">
+                            <LazyLoadImage
+                              src={e?.userID?.photo}
+                              className="your-creator-class"
+                              onError={({ currentTarget }) => {
+                                currentTarget.onerror = null; // prevents looping
+                                currentTarget.src = PNGIMG;
+                              }}
+                              alt="userimag"
+                            />
+                            <span className="your-span-class">
+                              {e?.userID?.name}
+                            </span>
+                          </div>
+                          <div className="home_page_outer_sixth_body_card_group_desc your-description-class">
+                            {e?.desc}
+                          </div>
+                        </motion.div>
+                      );
+                    })
+                : ""}
+            </div>
+          </div>
+          <MainNewFooter handleButton={handleStart} />
         </div>
       </div>
     </>

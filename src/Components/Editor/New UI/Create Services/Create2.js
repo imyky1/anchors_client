@@ -44,9 +44,7 @@ const FirstPage = ({
   handleChangeFileBanner,
   paid,
   setpaid,
-  draftCreated,
   onSubmit,
-  updateTheDraft,
 }) => {
   return (
     <>
@@ -150,7 +148,7 @@ const FirstPage = ({
                   ? ".mp4,.avi"
                   : ""
               }
-              helperText = "For example, crypto tips, book summaries, podcast recos, study notes, project guides etc."
+              helperText="For example, crypto tips, book summaries, podcast recos, study notes, project guides etc."
             />
 
             <UploadField3
@@ -208,11 +206,9 @@ const FirstPage = ({
         <Button1
           text="Save and Next"
           icon={<AiOutlineArrowRight />}
-          onClick={() => {
-            draftCreated?.status ? updateTheDraft("save") : onSubmit("save");
-          }}
+          onClick={onSubmit}
         />
-    </section>
+      </section>
     </>
   );
 };
@@ -225,10 +221,8 @@ const SecondPage = ({
   setAllowDownload,
   allowDownload,
   CreateType,
-  draftCreated,
-  updateTheDraft,
   onSubmit,
-  setCurrentPage
+  setCurrentPage,
 }) => {
   return (
     <>
@@ -254,7 +248,6 @@ const SecondPage = ({
                 ? "video"
                 : ""
             }`}
-            info="A brief description gives your audience some context"
             Content={Content}
             required={true}
             setContent={(e) => setContent(e)}
@@ -315,17 +308,15 @@ const SecondPage = ({
         <Button1
           text="Publish"
           icon={<AiOutlineArrowRight />}
+          onClick={onSubmit}
+        />
+        <Button3
+          text="Previous"
+          icon={<AiOutlineArrowLeft />}
           onClick={() => {
-            draftCreated?.status ? updateTheDraft("save") : onSubmit("save");
+            setCurrentPage(1);
           }}
         />
-          <Button3
-            text="Previous"
-            icon={<AiOutlineArrowLeft />}
-            onClick={() => {
-              setCurrentPage(1)
-            }}
-          />
       </section>
     </>
   );
@@ -348,7 +339,7 @@ function Create({
   const [CreateType, setCreateType] = useState(); // decides the type of document choosed in query
   const [draftCreated, setDraftCreated] = useState({
     status: false,
-    service: {},
+    serviceID: null,
   }); // checks if the draft is created or not --------
   const [showPopup, setshowPopup] = useState({
     open: false,
@@ -375,10 +366,10 @@ function Create({
   // service Context --------------------------------------------------
   const {
     getslugcount,
-    addservice,
+    addBasicService,
+    addFinalService,
     UploadDocuments,
     Uploadfile,
-    updateService,
     getserviceinfo,
     serviceInfo,
   } = useContext(ServiceContext);
@@ -493,174 +484,34 @@ function Create({
   // responsible for generating slug
   const process = () => {
     let slug = data.sname.split(" ").join("-"); // creates the slug from the name
-    //getslugcount(slug.toLowerCase());  // checks if similar slug already exists -----
     return slug;
   };
 
-  // reupdate the draft ----------
-  const updateTheDraft = async (buttonType) => {
+  // form submission ----------------------------------------------------------
+
+  // Page two submisson ------------
+  const onSubmitSecondForm = async () => {
+    setOpenLoading(true); // true on loader
     progress(0);
-    setOpenLoading(true);
-    if (data.sname.length > 1 && Content.length > 10) {
-      try {
-        var banner;
-        if (BannerImage || defaultbanner) {
-          // to check if the creator has uploaded banner image o upload
-          if (defaultbanner) {
-            if (FinalDefaultBannerFormData instanceof FormData) {
-              banner = await Uploadfile(FinalDefaultBannerFormData);
-            } else {
-              toast.info(
-                `Save the default banner design from the Edit Option`,
-                {
-                  position: "top-center",
-                  autoClose: 2500,
-                }
-              );
-              setOpenLoading(false);
-              return null;
-            }
-          } else {
-            banner = await Uploadfile(data1); /// uplaoding banner and files on s3
-          }
-        } else {
-          banner = { url: draftCreated?.service?.simg };
-        }
-        if (ServiceDoc) {
-          /// to check if the creator want soto to change the document or not
-          var docs = await UploadDocuments(data2);
-        } else {
-          docs = { result: { Location: draftCreated?.service?.surl } };
-        }
-        const newData = {
-          ...data,
-          ldesc: Content,
-          Tags,
-          simg: banner?.url,
-          surl: docs?.result?.Location,
-          isPaid: paid === "Free" ? false : true,
-          smrp: paid === "Free" ? 0 : data.smrp,
-          ssp: paid === "Free" ? 0 : data.ssp,
-          allowDownload,
-          noOfPage,
-          status: buttonType === "preview" ? 2 : 1,
-        };
-        updateService(draftCreated?.service?._id, newData).then((e) => {
-          if (e?.success) {
-            setDraftCreated({ status: true, service: e?.service }); // to know that document is already created
+    if (draftCreated?.serviceID) {
+      if (Content?.length > 10) {
+        try {
+          progress(75);
+          let json = await addFinalService(
+            draftCreated?.serviceID,
+            Content,
+            allowDownload,
+            noOfPage
+          );
+          if (json?.success) {
             setOpenLoading(false);
             setshowPopup({
               open: true,
-              link:
-                buttonType === "preview"
-                  ? `/s/preview/${e.service.slug}`
-                  : e?.shortLink,
-              buttonType,
+              link: json?.shortLink,
             });
           } else {
-            toast.error(
-              "Some error occured, Although we have saved your service as draft",
-              {
-                position: "top-center",
-                autoClose: 3000,
-              }
-            );
-          }
-        });
-      } catch (error) {
-        setOpenLoading(false);
-        toast.error(`Server side error please try after some time`, {
-          position: "top-center",
-          autoClose: 2000,
-        });
-      }
-    } else {
-      setOpenLoading(false);
-      toast.info("Fill all the required fileds", {
-        position: "top-center",
-        autoClose: 3000,
-      });
-    }
-    setOpenLoading(false);
-    progress(100);
-  };
-
-  // form submission ----------------------------------------------------------
-  const onSubmit = async (buttonType) => {
-    let slug = process();
-    let SlugCount = await getslugcount(slug.toLowerCase());
-    setOpenLoading(true); // true on loader
-    progress(0);
-    if (
-      data.sname.length > 1 &&
-      ServiceDoc &&
-      paid &&
-      (BannerImage || defaultbanner)
-    ) {
-      if (Content?.length > 10) {
-        try {
-          var banner;
-          if (defaultbanner) {
-            if (FinalDefaultBannerFormData instanceof FormData) {
-              banner = await Uploadfile(FinalDefaultBannerFormData);
-            } else {
-              toast.info(
-                `Save the default banner design from the Edit Option`,
-                {
-                  position: "top-center",
-                  autoClose: 2500,
-                }
-              );
-              setOpenLoading(false);
-              return null;
-            }
-          } else {
-            banner = await Uploadfile(data1); /// uplaoding banner and files on s3
-          }
-          var doc = await UploadDocuments(data2);
-          if (banner?.success && doc?.success) {
-            progress(75);
-            let json = await addservice(
-              data.sname,
-              data.sdesc,
-              Content,
-              SlugCount === 0
-                ? slug.toLowerCase()
-                : slug.toLowerCase().concat("--", `${SlugCount}`),
-              banner?.url,
-              doc?.result?.Location,
-              Tags,
-              CreateType === "excel" ? 1 : CreateType === "video" ? 2 : 0, // type for pdf is 0 and excel is 1 and video is 2
-              paid === "Free" ? false : true,
-              paid === "Free" ? 0 : data.smrp,
-              paid === "Free" ? 0 : data.ssp,
-              allowDownload,
-              noOfPage,
-              buttonType === "preview" ? 2 : 1
-            );
-            if (json?.success) {
-              if (buttonType === "preview") {
-                setDraftCreated({ status: true, service: json?.service }); // to know that document is already created
-              }
-              setOpenLoading(false);
-              setshowPopup({
-                open: true,
-                link:
-                  buttonType === "preview"
-                    ? `/s/preview/${json.service.slug}`
-                    : json?.shortLink,
-                buttonType,
-              });
-            } else {
-              setOpenLoading(false);
-              toast.error(`Service Not Created Please Try Again`, {
-                position: "top-center",
-                autoClose: 2000,
-              });
-            }
-          } else {
             setOpenLoading(false);
-            toast.error(`Facing issues while uploading files and images`, {
+            toast.error(`Service Not Created Please Try Again`, {
               position: "top-center",
               autoClose: 2000,
             });
@@ -678,6 +529,92 @@ function Create({
         toast.info("Descibe your service properly", {
           position: "top-center",
           autoClose: 3000,
+        });
+      }
+    } else {
+      setOpenLoading(false);
+      toast.error("Something wrong happened, try recreating the service", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+    }
+    progress(100);
+  };
+
+  // Page one submisson ------------
+  const onSubmitFormOne = async () => {
+    let slug = process();
+    let SlugCount = await getslugcount(slug.toLowerCase(),draftCreated?.serviceID);
+    setOpenLoading(true); // true on loader
+    progress(0);
+    if (
+      data.sname.length > 1 &&
+      ServiceDoc &&
+      paid &&
+      (BannerImage || defaultbanner)
+    ) {
+      try {
+        var banner;
+        //  means that the banner and the doc uploaded already is not saved earlier
+        if (defaultbanner) {
+          if (FinalDefaultBannerFormData instanceof FormData) {
+            banner = await Uploadfile(FinalDefaultBannerFormData);
+          } else {
+            toast.info(`Save the default banner design from the Edit Option`, {
+              position: "top-center",
+              autoClose: 2500,
+            });
+            setOpenLoading(false);
+            return null;
+          }
+        } else {
+          banner = await Uploadfile(data1); /// uplaoding banner and files on s3
+        }
+        var doc = await UploadDocuments(data2);
+        if (banner?.success && doc?.success) {
+          progress(75);
+          let json = await addBasicService(
+            draftCreated?.serviceID,
+            data.sname,
+            data.sdesc,
+            Content,
+            Tags,
+            CreateType === "excel" ? 1 : CreateType === "video" ? 2 : 0, // type for pdf is 0 and excel is 1 and video is 2
+            paid === "Free" ? false : true,
+            paid === "Free" ? 0 : data.smrp,
+            paid === "Free" ? 0 : data.ssp,
+            allowDownload,
+            noOfPage,
+            banner?.url,
+            doc?.result?.Location,
+            SlugCount === 0
+              ? slug.toLowerCase()
+              : slug.toLowerCase().concat("--", `${SlugCount}`),
+          );
+          if (json?.success) {
+            setCurrentPage(currentPage + 1);
+            setDraftCreated({ status: true, serviceID: json?.serviceID }); // to know that document is already created
+            setOpenLoading(false);
+          } else {
+            setOpenLoading(false);
+            toast.error(`Service Not Created Please Try Again`, {
+              position: "top-center",
+              autoClose: 2000,
+            });
+          }
+        } else {
+          setOpenLoading(false);
+          toast.error(`Facing issues while uploading files and images`, {
+            position: "top-center",
+            autoClose: 2000,
+          });
+        }
+      } catch (error) {
+        setOpenLoading(false);
+        console.log(error);
+        toast.error(`Server side error please try after some time`, {
+          position: "top-center",
+          autoClose: 2000,
         });
       }
     } else {
@@ -756,28 +693,22 @@ function Create({
               handleChangeFileBanner={handleChangeFileBanner}
               paid={paid}
               setpaid={setpaid}
-              draftCreated={draftCreated}
-              onSubmit={() => {
-                setCurrentPage(currentPage + 1);
-              }}
-              updateTheDraft={updateTheDraft}
+              onSubmit={onSubmitFormOne}
             />
           )}
 
           {/* Second Page ---- */}
           {currentPage === 2 && (
             <SecondPage
-            Content={Content}
-            setContent={setContent}
-            setNoOfPages={setNoOfPages}
-            noOfPage={noOfPage}
-            setAllowDownload={setAllowDownload}
-            allowDownload={allowDownload}
-            CreateType={CreateType}
-            draftCreated={draftCreated}
-            updateTheDraft={updateTheDraft}
-            onSubmit={onSubmit}
-            setCurrentPage={setCurrentPage}
+              Content={Content}
+              setContent={setContent}
+              setNoOfPages={setNoOfPages}
+              noOfPage={noOfPage}
+              setAllowDownload={setAllowDownload}
+              allowDownload={allowDownload}
+              CreateType={CreateType}
+              onSubmit={onSubmitSecondForm}
+              setCurrentPage={setCurrentPage}
             />
           )}
         </div>

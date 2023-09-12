@@ -10,14 +10,14 @@
     font-weight: 600;
     font-size: 30px;
     line-height: 36px;
-    color: #000000;
+    color: #F8F8F8;
     margin-bottom: 5px;
     -webkit-user-select: none;
   }
   
   .servicelist_wrap_span {
     font-weight: 400px;
-    color: #00000080;
+    color: #D0D0D0;
     -webkit-user-select: none;
   }
   
@@ -25,6 +25,7 @@
     display: flex;
     gap: 2.5vw;
     margin-top: 6vh;
+    color: #D0D0D0;
   }
   
   .servicelist-catItem {
@@ -35,12 +36,12 @@
   
   .servicelist-catItem:hover {
     padding-bottom: 13px;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid white;
     cursor: pointer;
   }
   .selectedlist {
     padding-bottom: 13px;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid white;
     cursor: pointer;
   }
   
@@ -95,13 +96,13 @@
   }
   .servicelist_getdate {
     display: block;
-    color: black;
   }
   
   .MuiTableHead-root {
     border-radius: 8px 6px 0px 0px;
-    background: var(--neutral-gray-800, #1e293b);
+    background: #282828;
     color: white;
+    border-bottom: unset;
   }
   
   .MuiTableCell-head {
@@ -110,11 +111,11 @@
   
   .MuiTableBody-root {
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
-    background: var(--neutral-gray-100, #f1f5f9);
+    background: #212121;
   }
   
   .MuiTableCell-body {
-    color: var(--neutral-gray-800, #1e293b) !important;
+    color: var(--neutral-gray-800, #f8f8f8) !important;
     font-family: "Inter" !important;
     font-size: 12px !important;
     font-style: normal !important;

@@ -165,7 +165,7 @@ const ServiceStats = (props) => {
     handler();
   }, [serviceInfo, eventInfo]);
 
-  if(serviceType === "event"){
+  if(serviceType === "event" || serviceType === "download"){
     return <ServiceStats2 progress={props?.progress}/>
   }
 

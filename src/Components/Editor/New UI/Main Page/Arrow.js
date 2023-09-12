@@ -21,7 +21,7 @@ const containerVariant = (index) => {
   return {
     from: {
       opacity: 0,
-      x: "500px"
+      x: "500px",
     },
     to: {
       opacity: 1,
@@ -36,9 +36,9 @@ const containerVariant = (index) => {
 
 const Arrow = () => {
   const data = [
-    "Submit an Application to join Anchors.",
-    "Our team will evaluate your profile.",
-    "Finally, become a proud member of Anchors!",
+    {text:"Apply to join", bold:"anchors"},
+    {text:"Our team reviews your profile"},
+    {text:"Receive approval to join our community!"},
   ];
 
   return (
@@ -59,7 +59,7 @@ const Arrow = () => {
                 alt="Arrow"
               />
 
-              <div className="inside_arrow_images-text">{e}</div>
+              <div className="inside_arrow_images-text">{e?.text} <b>{e?.bold}</b></div>
             </motion.div>
           );
         })}

@@ -15,6 +15,8 @@ import { creatorContext } from "../../../../Context/CreatorState";
 import { LoadTwo } from "../../../Modals/Loading";
 import { SuperSEO } from "react-super-seo";
 import Moment from "moment";
+import { BsArrowRight } from "react-icons/bs";
+import { SlGraph } from "react-icons/sl";
 
 function Users(props) {
   const { slug } = useParams();
@@ -111,14 +113,16 @@ function Users(props) {
           .split("+")[0];
 
   // hides the email -----------------------
-  const hiddenEmail = (email) => {
-    let email2 =
-      email?.split("@")[0].length > 6
-        ? email?.split("@")[0].substr(0, 5) + "....@" + email?.split("@")[1]
-        : email?.split("@")[0].substr(0, 3) + "....@" + email?.split("@")[1];
+  // const hiddenEmail = (email) => {
+  //   let email2 =
+  //     email?.split("@")[0].length > 6
+  //       ? email?.split("@")[0].substr(0, 5) + "....@" + email?.split("@")[1]
+  //       : email?.split("@")[0].substr(0, 3) + "....@" + email?.split("@")[1];
 
-    return email2;
-  };
+  //   return email2;
+  // };
+  const totalAmount = allUserDetails.reduce((acc, ele) => acc + (ele?.amount || 0), 0);
+
 
   return (
     <>
@@ -127,58 +131,76 @@ function Users(props) {
       {/* it can be seen only if the user is approved ----------------------------- */}
       {approvedUser && (
         <div className="servicelist-wrapper">
-          <div className="servicestat_heading">
-            <div className="servicestat_leftheading">
-              <h1 style={{margin:"5px"}}>List of users</h1>
-              <span className="servicelist_wrap_span">
-              List of users who have {serviceType === "download" ? "accessed the Service" : "registered for the Event"}
-              </span>
-              <div className="servicestat_product" style={{marginTop:"40px"}}>
-                <div className="servicestat_span1">
-                  {serviceType === "event" ? "Event" : "Service"} Name:
-                </div>
-                <span className="servicestat_span2">
-                  {serviceType === "download"
-                    ? serviceInfo?.service?.sname
-                    : eventInfo?.event?.sname}
-                </span>
-              </div>
-              <div className="servicestat_product">
-                <div className="servicestat_span1">
-                  {serviceType === "event" ? "Event" : "Service"} Created on:
-                </div>
-                <span className="servicestat_span2"> {date + " " + time}</span>
-              </div>
-              <div className="servicestat_product">
-                <div className="servicestat_span1">Amount:</div>
-                <span className="servicestat_span2">
-                  {serviceType === "download"
-                    ? serviceInfo?.service?.isPaid
-                      ? "Paid" + ` (₹ ${serviceInfo?.service?.ssp})`
-                      : "Free"
-                    : "₹ " + eventInfo?.event?.ssp}
-                </span>
-              </div>
-            </div>
-
-            <div className="servicestat_rightheading">
-              <button
-                className="servicestat_button"
-                onClick={() => {
+           <div className="serivce_heading_00">
+            <h1>
+              User List for {serviceType === "event" ? "Event" : "Service"}
+            </h1>
+            <div className="serivce_heading_01">
+              <div className="service_image_wrapper_userlist">
+              <img
+                src={
                   serviceType === "download"
-                    ? navigate(`/dashboard/servicestats/${slug}`)
-                    : navigate(`/dashboard/servicestats/${slug}?type=event`);
-                }}
-              >
-                Detailed {serviceType === "download" ? "Service" : "Event"} Analysis
-              </button>
+                  ? serviceInfo?.service?.simg
+                  : eventInfo?.event?.simg
+                }
+                />
+                </div>
+              <div className="serivce_heading_02">
+                <section>
+                  <span>
+                    {" "}
+                    {serviceType === "download"
+                      ? serviceInfo?.service?.sname
+                      : eventInfo?.event?.sname}
+                  </span>
+                  <span style={{ fontSize: "16px", fontWeight: "400" }}>
+                    {date + " " + time}
+                  </span>
+                  <span style={{ fontSize: "16px", fontWeight: "400" }}>
+                    {serviceType === "download"
+                      ? serviceInfo?.service?.isPaid
+                        ? "Paid" + ` (₹ ${serviceInfo?.service?.ssp})`
+                        : "Free"
+                      : "₹ " + eventInfo?.event?.ssp}
+                  </span>
+                </section>
+                <div className="serivce_heading_03">
+                    <button
+                      onClick={() => {
+                        serviceType === "download"
+                          ? navigate(
+                              `/dashboard/serviceStats/${slug}?type=download`
+                            )
+                          : navigate(
+                              `/dashboard/serviceStats/${slug}?type=event`
+                            );
+                      }}
+                    >
+                      <SlGraph />
+                      Detailed {serviceType === "event" ? "Event" : "Service"} Analysis
+                    </button>
+                  <span
+                    onClick={() => {
+                      serviceType === "download"
+                        ? window.open(`/s/${slug}`)
+                        : window.open(`/e/${slug}`);
+                    }}
+                  >
+                    {serviceType === "download"
+                      ? "Service Details"
+                      : "Event Details"}
+                    <BsArrowRight style={{ paddingLeft: "8px" }} />
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 
           <div className="userrequest-table">
+
             <TableContainer component={Paper}>
               <Table>
-                <TableHead>
+                <TableHead style={{ background: '#282828'}}>
                   <TableRow>
                     <TableCell align="center">S.No</TableCell>
                     <TableCell align="center">Name</TableCell>
@@ -188,18 +210,18 @@ function Users(props) {
                     <TableCell align="center">{serviceType === "download" ? "Ordered" : "Registered"} on</TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody>
+                <TableBody style= {{background: '#212121',color:"#D0D0D0" }}>
                   {allUserDetails?.length !== 0
                     ? allUserDetails?.map((elem, i) => {
                         return (
                           <>
                             <TableRow key={i}>
-                              <TableCell align="center">{i + 1}</TableCell>
-                              <TableCell align="center">
+                              <TableCell align="center" color="#D0D0D0">{i + 1}</TableCell>
+                              <TableCell align="center" color="#D0D0D0">
                                 {elem?.userID?.name ? elem?.userID?.name : "--"}
                               </TableCell>
-                              <TableCell align="center">
-                                {hiddenEmail(elem?.userID?.email)}
+                              <TableCell align="center" color="#D0D0D0" >
+                              {elem?.userID?.email >= 1 ? elem?.userID?.email : "---"}
                               </TableCell>
                               <TableCell align="center">
                                 {elem?.userID?.location?.city
@@ -208,6 +230,7 @@ function Users(props) {
                               </TableCell>
                               <TableCell align="center">
                                 {elem?.amount}
+
                               </TableCell>
                               <TableCell align="center">
                                 {renderdate1(elem?.orderDate)}

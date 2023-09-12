@@ -7,7 +7,7 @@ const ServiceState = (props) => {
   const eventInitial = [];
   const [services, setServices] = useState(servicesInitial);
   const [events, setEvents] = useState(eventInitial);
-  const [latestEvents,setLatestEvents] = useState(eventInitial)
+  const [latestEvents, setLatestEvents] = useState(eventInitial);
   const [eventInfo, setEventInfo] = useState(eventInitial);
   const [getallsubscriber, setgetallsubs] = useState({});
   const [totalsubscount, setTotalSubscount] = useState({});
@@ -52,7 +52,7 @@ const ServiceState = (props) => {
         tags: data.Tags,
         allowDownload: data.allowDownload,
         noOfPages: data.noOfPage,
-        status:data.status,
+        status: data.status,
       }),
     });
     const json = await response.json();
@@ -76,14 +76,12 @@ const ServiceState = (props) => {
     }
   };
 
-  // 4. Adding services from the respective data from /createservice endpoint
-  const addservice = async (
+  // 4. Adding Basic services from the respective data from /createBasicService endpoint
+  const addBasicService = async (
+    serviceID,
     sname,
     sdesc,
     ldesc,
-    slug,
-    simg,
-    surl,
     tags,
     stype,
     isPaid,
@@ -91,31 +89,59 @@ const ServiceState = (props) => {
     ssp,
     allowDownload,
     noOfPage,
-    status
+    simg,
+    surl,
+    slug,
   ) => {
-    const response = await fetch(`${host}/api/services/createservice`, {
+    const response = await fetch(`${host}/api/services/createBasicService`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "jwt-token": localStorage.getItem("jwtToken"),
       },
 
-
       body: JSON.stringify({
+        serviceID,
         sname: sname,
         sdesc: sdesc,
         ldesc: ldesc,
-        slug: slug,
+        slug,
         tags: tags,
-        simg: simg,
-        surl: surl,
+        simg,
+        surl,
         stype: stype,
         isPaid: isPaid,
         smrp: smrp,
         ssp: ssp,
         allowDownload,
         noOfPages: noOfPage,
-        status
+      }),
+    });
+    const json = await response.json();
+    return json;
+  };
+
+  // 4. Adding services from the respective data from /createservice endpoint
+  const addFinalService = async (
+    serviceID,
+    ldesc,
+    allowDownload,
+    noOfPage,
+    status
+  ) => {
+    const response = await fetch(`${host}/api/services/createFinalService`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
+
+      body: JSON.stringify({
+        serviceID,
+        ldesc: ldesc,
+        allowDownload,
+        noOfPages: noOfPage,
+        status,
       }),
     });
     const json = await response.json();
@@ -130,7 +156,10 @@ const ServiceState = (props) => {
         "Content-Type": "application/json",
         "jwt-token": localStorage.getItem("jwtToken"),
       },
-      body: JSON.stringify({ status: status, serviceType : serviceType ? serviceType : "document" }),
+      body: JSON.stringify({
+        status: status,
+        serviceType: serviceType ? serviceType : "document",
+      }),
     });
     const json = await response.json();
     return json.success;
@@ -242,13 +271,13 @@ const ServiceState = (props) => {
   };
 
   //6. get slug count for services
-  const getslugcount = async (slug) => {
+  const getslugcount = async (slug,exceptID = null) => {
     const response = await fetch(`${host}/api/services/getslugcount`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ slug: slug }),
+      body: JSON.stringify({ slug: slug, exceptID }),
     });
     const json = await response.json();
 
@@ -317,6 +346,24 @@ const ServiceState = (props) => {
     return json.users;
   };
 
+
+  // Service transaction details
+
+  const getTransactionServiceDetails=async(serviceID)=>{
+    const response=await fetch(`${host}/api/services/transaction/${serviceID}`,{method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "jwt-token": localStorage.getItem("jwtToken"),
+
+    },
+  })
+  const json = await response.json();
+  return json;
+
+  }
+
+
+
   /*---------Event FETCHES FROM HERE ----------------------------------------------------------------------------------------------------- */
 
   // 4. Adding events from the respective data from /createevent endpoint
@@ -339,7 +386,7 @@ const ServiceState = (props) => {
     videoLink,
     speakerDetails
   ) => {
-    console.log(simg)
+    console.log(simg);
     const response = await fetch(`${host}/api/event/createEvent`, {
       method: "POST",
       headers: {
@@ -365,7 +412,7 @@ const ServiceState = (props) => {
         maxCapacity,
         meetlink,
         videoLink,
-        speakerDetails
+        speakerDetails,
       }),
     });
     const json = await response.json();
@@ -425,10 +472,13 @@ const ServiceState = (props) => {
   //5. Upload event speakers profile to url form on aws s3
   const UploadEventSpeakersProfile = async (data) => {
     try {
-      const response = await fetch(`${host}/api/file/upload/s3/event/speakers`, {
-        method: "POST",
-        body: data,
-      });
+      const response = await fetch(
+        `${host}/api/file/upload/s3/event/speakers`,
+        {
+          method: "POST",
+          body: data,
+        }
+      );
       const json = await response.json();
       return json;
     } catch (error) {
@@ -468,16 +518,19 @@ const ServiceState = (props) => {
 
   // get all the events live and upcoming events data ------------------
   const getalleventsLiveandUpcoming = async () => {
-    const response = await fetch(`${host}/api/event/getalleventsLiveandUpcoming`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "jwt-token": localStorage.getItem("jwtToken"),
-      },
-    });
+    const response = await fetch(
+      `${host}/api/event/getalleventsLiveandUpcoming`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+      }
+    );
     const json = await response.json();
     if (json.success) {
-      setLatestEvents(json)
+      setLatestEvents(json);
     } else {
       console.log("Some error Occured");
     }
@@ -598,8 +651,40 @@ const ServiceState = (props) => {
   };
 
   // get leaderboard Data for event ----------------
-  const getLeaderBoardData = async (eventID,isCreator) => {
-    const response = await fetch(`${host}/api/event/leaderboard/${eventID}?creator=${isCreator ?? false}`, {
+  const getLeaderBoardData = async (eventID, isCreator) => {
+    const response = await fetch(
+      `${host}/api/event/leaderboard/${eventID}?creator=${isCreator ?? false}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+      }
+    );
+    const json = await response.json();
+    return json;
+  };
+
+  const getReferDetails = async (eventID, isCreator) => {
+    const response = await fetch(
+      `${host}/api/event/referaldetails/${eventID}?creator=${
+        isCreator ?? false
+      }`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+      }
+    );
+    const json = await response.json();
+    return json;
+  };
+
+  const getTransactionEventDetails = async (serviceID) => {
+    const response = await fetch(`${host}/api/event/transaction/${serviceID}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -609,33 +694,6 @@ const ServiceState = (props) => {
     const json = await response.json();
     return json;
   };
-
-
-  const getReferDetails=async(eventID,isCreator)=>{
-    const response=await fetch(`${host}/api/event/referaldetails/${eventID}?creator=${isCreator ?? false}`,{method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "jwt-token": localStorage.getItem("jwtToken"),
-      
-    },
-  })
-  const json = await response.json();
-  return json;
-
-  }
-
-  const getTransactionEventDetails=async(eventID)=>{
-    const response=await fetch(`${host}/api/event/transaction/${eventID}`,{method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "jwt-token": localStorage.getItem("jwtToken"),
-      
-    },
-  })
-  const json = await response.json();
-  return json;
-
-  }
 
   return (
     <ServiceContext.Provider
@@ -658,7 +716,8 @@ const ServiceState = (props) => {
         getallservicesusingid,
         getallservices,
         geteventinfo,
-        addservice,
+        addBasicService,
+        addFinalService,
         deleteService,
         Uploadfile,
         UploadVideo,
@@ -681,7 +740,8 @@ const ServiceState = (props) => {
         getalleventsLiveandUpcoming,
         latestEvents,
         getReferDetails,
-        getTransactionEventDetails
+        getTransactionEventDetails,
+        getTransactionServiceDetails
       }}
     >
       {" "}

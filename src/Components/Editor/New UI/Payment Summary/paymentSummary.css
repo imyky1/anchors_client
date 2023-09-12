@@ -56,6 +56,7 @@
   .userrequest-table {
     padding-bottom: 2vh;
     -webkit-user-select: none;
+    margin-top: 40px;
   }
   
   .servicelist-categories2 {
@@ -66,23 +67,7 @@
     width: 100%;
     justify-content: space-between;
   }
-  
-  .servicelist-catItem {
-    padding-bottom: 15px;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-  
-  .servicelist-catItem:hover {
-    padding-bottom: 13px;
-    border-bottom: 2px solid black;
-    cursor: pointer;
-  }
-  .selectedlist {
-    padding-bottom: 13px;
-    border-bottom: 2px solid black;
-    cursor: pointer;
-  }
+
   .margin-bottom {
     margin-bottom: 40px;
   }
@@ -91,6 +76,7 @@
     display: flex;
     flex-direction: row;
     gap: 2.5vw;
+    color: white;
   }
   
   .filter_service_event_payment {

@@ -16,199 +16,209 @@ import { GiPlainCircle } from "react-icons/gi";
 
 const TooltipBox = ({ text }) => {
   return (
-
     <div className="tooltip-box" style={{ top: "30px" }}>
-    {text}
-  </div>
-    )
-  };
+      {text}
+    </div>
+  );
+};
 
 const TableRef = ({ totalrefer, referdata }) => {
   return (
     <>
-     { (totalrefer?.combinedOrders[0]?.totalrefer + totalrefer?.combinedOrders[1]?.totalrefer + totalrefer?.combinedOrders[2]?.totalrefer > 0) && <div className="referal_top_list_00">
-        <h1>Top 3 Referral</h1>
-        <div className="referal_top_list_000">
-          {totalrefer?.combinedOrders[0]?.totalrefer > 0 && <div className="referal_top_list_01">
-            <div className="referal_top_list_02">
- <div
-                className="referal_top_list_profile"
-                style={{ border: "6px solid #D8B500" }}
-              >
-                <img
-                  src={totalrefer?.combinedOrders[0]?.user?.userID?.photo}
-                  alt="Profile"
-                  style={{
-                    display: "block",
-                    zIndex: "1",
-                    // position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "100%",
-                  }}
-                />
-              </div>
-              <div className="referal_top_list_profile_circle_00">
-                <GiPlainCircle
-                  className="referal_top_list_profile_circle"
-                  style={{ color: "#D8B500" }}
-                />
-                <span style={{ position: "absolute" }}>1</span>
-              </div>
-              <section>
-                <div className="referal_top_list_02_referal_details">
-                  <span> {totalrefer?.combinedOrders[0]?.totalrefer}</span>
-                  <span style={{ fontSize: "12px" }}>Total Referrals</span>
-                  <span
-                    style={{
-                      fontSize: "16px",
-                      color: "#fff",
-                      marginTop: "32px",
-                    }}
+      {totalrefer?.combinedOrders[0]?.totalrefer +
+        totalrefer?.combinedOrders[1]?.totalrefer +
+        totalrefer?.combinedOrders[2]?.totalrefer >
+        0 && (
+        <div className="referal_top_list_00">
+          <h1>Top 3 Referral</h1>
+          <div className="referal_top_list_000">
+            {totalrefer?.combinedOrders[0]?.totalrefer > 0 && (
+              <div className="referal_top_list_01">
+                <div className="referal_top_list_02">
+                  <div
+                    className="referal_top_list_profile"
+                    style={{ border: "6px solid #D8B500" }}
                   >
-                    {totalrefer?.combinedOrders[0]?.user?.userID?.name}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "#fff",
-                      marginTop: "12px",
-                    }}
-                  >
-                    {totalrefer?.combinedOrders[0]?.user?.userID?.email}
-                  </span>
+                    <img
+                      src={totalrefer?.combinedOrders[0]?.user?.userID?.photo}
+                      alt="Profile"
+                      style={{
+                        display: "block",
+                        zIndex: "1",
+                        // position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "100%",
+                      }}
+                    />
+                  </div>
+                  <div className="referal_top_list_profile_circle_00">
+                    <GiPlainCircle
+                      className="referal_top_list_profile_circle"
+                      style={{ color: "#D8B500" }}
+                    />
+                    <span style={{ position: "absolute" }}>1</span>
+                  </div>
+                  <section>
+                    <div className="referal_top_list_02_referal_details">
+                      <span> {totalrefer?.combinedOrders[0]?.totalrefer}</span>
+                      <span style={{ fontSize: "12px" }}>Total Referrals</span>
+                      <span
+                        style={{
+                          fontSize: "16px",
+                          color: "#fff",
+                          marginTop: "32px",
+                        }}
+                      >
+                        {totalrefer?.combinedOrders[0]?.user?.userID?.name}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "#fff",
+                          marginTop: "12px",
+                        }}
+                      >
+                        {totalrefer?.combinedOrders[0]?.user?.userID?.email}
+                      </span>
+                    </div>
+                  </section>
                 </div>
-              </section>
-            </div>
-          </div>}
-          {totalrefer?.combinedOrders[1]?.totalrefer > 0 && <div className="referal_top_list_01">
-            <div className="referal_top_list_02">
-              <div
-                className="referal_top_list_profile"
-                style={{ border: "6px solid #C0C0C0" }}
-              >
-                <img
-                  src={totalrefer?.combinedOrders[1]?.user?.userID?.photo}
-                  alt="Profile"
-                  style={{
-                    display: "block",
-                    zIndex: "1",
-                    // position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "100%",
-                  }}
-                />
               </div>
+            )}
+            {totalrefer?.combinedOrders[1]?.totalrefer > 0 && (
+              <div className="referal_top_list_01">
+                <div className="referal_top_list_02">
+                  <div
+                    className="referal_top_list_profile"
+                    style={{ border: "6px solid #C0C0C0" }}
+                  >
+                    <img
+                      src={totalrefer?.combinedOrders[1]?.user?.userID?.photo}
+                      alt="Profile"
+                      style={{
+                        display: "block",
+                        zIndex: "1",
+                        // position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "100%",
+                      }}
+                    />
+                  </div>
 
-              <div
-                className="referal_top_list_profile_circle_00"
-                style={{ right: "44%" }}
-              >
-                <GiPlainCircle
-                  className="referal_top_list_profile_circle"
-                  style={{ color: "#C0C0C0" }}
-                />
-                <span style={{ position: "absolute" }}>2</span>
-              </div>
-              <section style={{ left: "1%" }}>
-                <div className="referal_top_list_02_referal_details">
-                  <span style={{ color: "#C0C0C0" }}>
-                    {" "}
-                    {totalrefer?.combinedOrders[1]?.totalrefer}
-                  </span>
-                  <span style={{ fontSize: "12px", color: "#C0C0C0" }}>
-                    Total Referrals
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "16px",
-                      color: "#fff",
-                      marginTop: "32px",
-                    }}
+                  <div
+                    className="referal_top_list_profile_circle_00"
+                    style={{ right: "44%" }}
                   >
-                    {totalrefer?.combinedOrders[1]?.user?.userID?.name}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "#fff",
-                      marginTop: "12px",
-                    }}
-                  >
-                    {totalrefer?.combinedOrders[1]?.user?.userID?.email}
-                  </span>
+                    <GiPlainCircle
+                      className="referal_top_list_profile_circle"
+                      style={{ color: "#C0C0C0" }}
+                    />
+                    <span style={{ position: "absolute" }}>2</span>
+                  </div>
+                  <section style={{ left: "1%" }}>
+                    <div className="referal_top_list_02_referal_details">
+                      <span style={{ color: "#C0C0C0" }}>
+                        {" "}
+                        {totalrefer?.combinedOrders[1]?.totalrefer}
+                      </span>
+                      <span style={{ fontSize: "12px", color: "#C0C0C0" }}>
+                        Total Referrals
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "16px",
+                          color: "#fff",
+                          marginTop: "32px",
+                        }}
+                      >
+                        {totalrefer?.combinedOrders[1]?.user?.userID?.name}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "#fff",
+                          marginTop: "12px",
+                        }}
+                      >
+                        {totalrefer?.combinedOrders[1]?.user?.userID?.email}
+                      </span>
+                    </div>
+                  </section>
                 </div>
-              </section>
-            </div>
-          </div>}
-          {totalrefer?.combinedOrders[2]?.totalrefer > 0 && <div className="referal_top_list_01">
-            <div className="referal_top_list_02">
-              <div
-                className="referal_top_list_profile"
-                style={{ border: "6px solid #A97142" }}
-              >
-                <img
-                  src={totalrefer?.combinedOrders[2]?.user?.userID?.photo}
-                  alt="Profile"
-                  style={{
-                    display: "block",
-                    zIndex: "1",
-                    // position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "100%",
-                  }}
-                />
               </div>
+            )}
+            {totalrefer?.combinedOrders[2]?.totalrefer > 0 && (
+              <div className="referal_top_list_01">
+                <div className="referal_top_list_02">
+                  <div
+                    className="referal_top_list_profile"
+                    style={{ border: "6px solid #A97142" }}
+                  >
+                    <img
+                      src={totalrefer?.combinedOrders[2]?.user?.userID?.photo}
+                      alt="Profile"
+                      style={{
+                        display: "block",
+                        zIndex: "1",
+                        // position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "100%",
+                      }}
+                    />
+                  </div>
 
-              <div
-                className="referal_top_list_profile_circle_00"
-                style={{ right: "43%" }}
-              >
-                <GiPlainCircle
-                  className="referal_top_list_profile_circle"
-                  style={{ color: "#A97142" }}
-                />
-                <span style={{ position: "absolute" }}>3</span>
-              </div>
-              <section style={{ left: "2%" }}>
-                <div className="referal_top_list_02_referal_details">
-                  <span style={{ color: "#A97142" }}>
-                    {" "}
-                    {totalrefer?.combinedOrders[2]?.totalrefer}
-                  </span>
-                  <span style={{ fontSize: "12px", color: "#A97142" }}>
-                    Total Referrals
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "16px",
-                      color: "#fff",
-                      marginTop: "32px",
-                    }}
+                  <div
+                    className="referal_top_list_profile_circle_00"
+                    style={{ right: "43%" }}
                   >
-                    {totalrefer?.combinedOrders[2]?.user?.userID?.name}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "#fff",
-                      marginTop: "12px",
-                    }}
-                  >
-                    {totalrefer?.combinedOrders[2]?.user?.userID?.email}
-                  </span>
+                    <GiPlainCircle
+                      className="referal_top_list_profile_circle"
+                      style={{ color: "#A97142" }}
+                    />
+                    <span style={{ position: "absolute" }}>3</span>
+                  </div>
+                  <section style={{ left: "2%" }}>
+                    <div className="referal_top_list_02_referal_details">
+                      <span style={{ color: "#A97142" }}>
+                        {" "}
+                        {totalrefer?.combinedOrders[2]?.totalrefer}
+                      </span>
+                      <span style={{ fontSize: "12px", color: "#A97142" }}>
+                        Total Referrals
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "16px",
+                          color: "#fff",
+                          marginTop: "32px",
+                        }}
+                      >
+                        {totalrefer?.combinedOrders[2]?.user?.userID?.name}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "#fff",
+                          marginTop: "12px",
+                        }}
+                      >
+                        {totalrefer?.combinedOrders[2]?.user?.userID?.email}
+                      </span>
+                    </div>
+                  </section>
                 </div>
-              </section>
-            </div>
-          </div>}
+              </div>
+            )}
+          </div>
         </div>
-      </div>}
+      )}
       {
         <div className="service_table_00">
           <table>
-            <tr style={{ background: "#e1e1e1" }}>
+            <tr style={{ background: "#282828" }}>
               <th
                 style={{
                   display: "flex",
@@ -434,7 +444,7 @@ const TableinfoTrans = ({ totalTransactionDetails }) => {
     <>
       <div className="service_table_00">
         <table>
-          <tr style={{ background: "#e1e1e1" }}>
+          <tr style={{ background: "#282828" }}>
             <th
               style={{
                 display: "flex",
@@ -584,14 +594,12 @@ const TableinfoTrans = ({ totalTransactionDetails }) => {
   );
 };
 
-const Tableinfo = ({ data }) => {
+const Tableinfo = ({ data, dataType, slug }) => {
   const [isHovered, setIsHovered] = useState({
     tip1: false,
     tip2: false,
     tip0: false,
   });
-
-  const navigate = useNavigate();
 
   const viewMore = (todo) => {
     return (
@@ -604,9 +612,15 @@ const Tableinfo = ({ data }) => {
             alignItems: "center",
           }}
           onClick={() => {
-            window.open(
-              `${window.location.pathname}?type=event&get=${todo}`
-            );
+            if (todo === "totalSuccessfullRegister") {
+              window.open(
+                `/dashboard/viewUserDetails/${slug}?type=${dataType}`
+              );
+            } else {
+              window.open(
+                `${window.location.pathname}?type=${dataType}&get=${todo}`
+              );
+            }
           }}
         >
           View More <BsArrowRight style={{ paddingLeft: "4px" }} />{" "}
@@ -619,7 +633,7 @@ const Tableinfo = ({ data }) => {
     <>
       <div className="service_table_00">
         <table>
-          <tr style={{ background: "#e1e1e1" }}>
+          <tr style={{ background: "#282828" }}>
             <th
               style={{
                 display: "flex",
@@ -657,7 +671,7 @@ const Tableinfo = ({ data }) => {
                 <tr
                   style={{
                     borderRadius: "0px",
-                    borderBottom: "0.5px solid #DADADA",
+                    borderBottom: "0.5px solid #A0A0A0",
                   }}
                   className={val?.ViewMore ? "hoverable-row" : ""}
                   key={key}
@@ -670,7 +684,13 @@ const Tableinfo = ({ data }) => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <span style={{ display: "flex", alignItems: "center",position:"relative" }}>
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        position: "relative",
+                      }}
+                    >
                       {val.MetricsName}{" "}
                       {val?.infoIcon && (
                         <AiOutlineInfoCircle
@@ -683,14 +703,16 @@ const Tableinfo = ({ data }) => {
                             setIsHovered({ ...isHovered, [`tip${key}`]: true });
                           }}
                           onMouseLeave={() => {
-                            setIsHovered({ ...isHovered, [`tip${key}`]: false });
+                            setIsHovered({
+                              ...isHovered,
+                              [`tip${key}`]: false,
+                            });
                           }}
                         />
                       )}
-
-                      {isHovered?.[`tip${key}`]  && (
-                      <TooltipBox text={val?.infotext} />
-                    )}
+                      {isHovered?.[`tip${key}`] && (
+                        <TooltipBox text={val?.infotext} />
+                      )}
                     </span>
                     {val?.ViewMore && viewMore(val?.urlquery)}
                   </td>
@@ -731,19 +753,40 @@ const ReturnTable = ({
   totalTransactionDetails,
   totalrefer,
   referdata,
+  dataType,
+  slug,
 }) => {
   if (type === "totalTransaction") {
-    return <TableinfoTrans totalTransactionDetails={totalTransactionDetails} />;
+    return (
+      <TableinfoTrans
+        totalTransactionDetails={totalTransactionDetails}
+        dataType={dataType}
+      />
+    );
   } else if (type === "totalReferral") {
-    return <TableRef totalrefer={totalrefer} referdata={referdata} />;
+    return (
+      <TableRef
+        totalrefer={totalrefer}
+        referdata={referdata}
+        dataType={dataType}
+      />
+    );
+    // } else if (type === "totalSuccessfullRegister") {
+    //   return (
+    //     <TableinfoTrans
+    //       totalTransactionDetails={totalTransactionDetails?.filter((e) => {
+    //         return e?.status === 1;
+    //       })}
+    //       dataType={dataType}
+    //     />
+    //   );
   } else {
-    return <Tableinfo data={data} />;
+    return <Tableinfo data={data} dataType={dataType} slug={slug} />;
   }
 };
 
 const ServiceStats2 = (props) => {
   const { slug } = useParams();
-  const [tabletype, setTabletype] = useState("general");
 
   const navigate = useNavigate();
   const {
@@ -755,63 +798,8 @@ const ServiceStats2 = (props) => {
     getLeaderBoardData,
     getReferDetails,
     getTransactionEventDetails,
+    getTransactionServiceDetails,
   } = useContext(ServiceContext);
-  const [serviceType, setServiceType] = useState();
-  const [eventDetailsPage, setEventDetailsPage] = useState("general");
-  const [referal, setReferal] = useState();
-  const [totalrefer, setTotalRefer] = useState();
-  const [totalTransactionDetails, setTotalTransactionDetails] = useState();
-  const [approvedUser, setapprovedUser] = useState(false); // check if user searching is appropriate
-  const [openLoading, setopenLoading] = useState(false);
-  const [isHovered, setIsHovered] = useState({
-    tip1: false,
-    tip2: false,
-    tip3: false,
-    tip4: false,
-    tip5: false,
-  });
-
-  useEffect(() => {
-    // Loading mixpanel ------
-    // mixpanel.track("Page Visit");
-
-    // if (params.get("placedOrder") === "success") {
-    //   setOpenSuccessModal(true);
-    // }
-
-    geteventinfo(slug).then((id) => {
-      if (!id[0]) {
-        // handles any irregular slug
-        navigate("/");
-        return null;
-      }
-      getLeaderBoardData(id[1], localStorage.getItem("isUser") === "").then(
-        (e) => {
-          if (e?.success) {
-            const sortedData = e.data.sort((a, b) => b.points - a.points);
-            //  console.log('sort',sortedData);
-            setReferal(sortedData);
-            // setReferal(e.data);
-            // setLeaderBoardData(e);
-          }
-        }
-      );
-
-      getReferDetails(id[1], localStorage.getItem("isUser") === "").then(
-        (e) => {
-          if (e?.success) {
-            setTotalRefer(e);
-          }
-        }
-      );
-
-      getTransactionEventDetails(id[1]).then((e) => {
-        if (e?.success) {
-          setTotalTransactionDetails(e?.data);
-        }
-      });
-    });
-  }, []);
 
   // custom hook to get querries
   function useQuery() {
@@ -819,6 +807,149 @@ const ServiceStats2 = (props) => {
     return useMemo(() => new URLSearchParams(search), [search]);
   }
   const query = useQuery();
+
+  const [serviceType, setServiceType] = useState();
+  const [eventDetailsPage, setEventDetailsPage] = useState("general");
+  const [referal, setReferal] = useState();
+  const [servicetransaction, setServiceTransaction] = useState();
+  const [totalrefer, setTotalRefer] = useState();
+  const [totalTransactionDetails, setTotalTransactionDetails] = useState();
+  const [approvedUser, setapprovedUser] = useState(false); // check if user searching is appropriate
+  const [openLoading, setopenLoading] = useState(false);
+
+  useEffect(() => {
+    props.progress(0);
+    if (query.get("type") === "event") {
+      setServiceType("event");
+      geteventinfo(slug).then((e) => {
+        compareJWT(e[0]?._id).then((result) => {
+          if (result) {
+            setapprovedUser(true);
+
+            // Leaderboard Data ------
+            getLeaderBoardData(
+              e[1],
+              localStorage.getItem("isUser") === ""
+            ).then((e) => {
+              if (e?.success) {
+                const sortedData = e.data.sort((a, b) => b.points - a.points);
+                //  console.log('sort',sortedData);
+                setReferal(sortedData);
+                // setReferal(e.data);
+                // setLeaderBoardData(e);
+              }
+            });
+
+            // Refer data ----------
+            getReferDetails(e[1], localStorage.getItem("isUser") === "").then(
+              (e) => {
+                if (e?.success) {
+                  setTotalRefer(e);
+                }
+              }
+            );
+
+            // Transaction data -----
+            getTransactionEventDetails(e[1]).then((e) => {
+              if (e?.success) {
+                setTotalTransactionDetails(e?.data);
+              }
+            });
+
+            props.progress(100);
+          } else {
+            navigate("/dashboard/mycontents");
+          }
+        });
+      });
+    } else {
+      setServiceType("download");
+      getserviceinfo(slug).then((e) => {
+        compareJWT(e[0]?._id).then((result) => {
+          if (result) {
+            setapprovedUser(true);
+
+            // get transaction data --------
+            getTransactionServiceDetails(
+              e[1],
+              localStorage.getItem("isUser") === ""
+            ).then((e) => {
+              if (e?.success) {
+                setServiceTransaction(e?.data);
+              }
+            });
+
+            props.progress(100);
+          } else {
+            navigate("/dashboard/mycontents");
+          }
+        });
+      });
+    }
+
+    if (query.get("get")) {
+      setEventDetailsPage(query.get("get"));
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   // Loading mixpanel ------
+  //   // mixpanel.track("Page Visit");
+
+  //   // if (params.get("placedOrder") === "success") {
+  //   //   setOpenSuccessModal(true);
+  //   // }
+
+  //   geteventinfo(slug).then((id) => {
+  //     if (!id[0]) {
+  //       // handles any irregular slug
+  //       navigate("/");
+  //       return null;
+  //     }
+  //     getLeaderBoardData(id[1], localStorage.getItem("isUser") === "").then(
+  //       (e) => {
+  //         if (e?.success) {
+  //           const sortedData = e.data.sort((a, b) => b.points - a.points);
+  //           //  console.log('sort',sortedData);
+  //           setReferal(sortedData);
+  //           // setReferal(e.data);
+  //           // setLeaderBoardData(e);
+  //         }
+  //       }
+  //     );
+
+  //     getReferDetails(id[1], localStorage.getItem("isUser") === "").then(
+  //       (e) => {
+  //         if (e?.success) {
+  //           setTotalRefer(e);
+  //         }
+  //       }
+  //     );
+
+  //     getTransactionEventDetails(id[1]).then((e) => {
+  //       if (e?.success) {
+  //         setTotalTransactionDetails(e?.data);
+  //       }
+  //     });
+  //   });
+
+  //   getserviceinfo(slug).then((id) => {
+  //     if (!id[0]) {
+  //       // handles any irregular slug
+  //       navigate("/");
+  //       return null;
+  //     }
+
+  //     getTransactionServiceDetails(
+  //       id[1],
+  //       localStorage.getItem("isUser") === ""
+  //     ).then((e) => {
+  //       if (e?.success) {
+  //         setServiceTransaction(e);
+  //       }
+  //     });
+  //   });
+  // }, []);
 
   // getting data from analytics(google) data from the db
   const [bounceRate, setBounceRate] = useState(0);
@@ -863,6 +994,7 @@ const ServiceStats2 = (props) => {
       setAvgTime(response?.result?.avgTime);
     }
   };
+
   useEffect(() => {
     setopenLoading(true);
     if (slug) {
@@ -871,41 +1003,6 @@ const ServiceStats2 = (props) => {
       });
     }
   }, [slug, serviceType]);
-
-  // Checking if the user is only able to check its data not others-------------------
-  useEffect(() => {
-    props.progress(0);
-    if (query.get("type") === "event") {
-      setServiceType("event");
-      geteventinfo(slug).then((e) => {
-        compareJWT(e[0]?._id).then((e) => {
-          if (e) {
-            setapprovedUser(true);
-            props.progress(100);
-          } else {
-            navigate("/dashboard/mycontents");
-          }
-        });
-      });
-
-      // decides which event page to dispaly in details
-      if (query.get("get")) {
-        setEventDetailsPage(query.get("get"));
-      }
-    } else {
-      setServiceType("download");
-      getserviceinfo(slug).then((e) => {
-        compareJWT(e[0]?._id).then((e) => {
-          if (e) {
-            setapprovedUser(true);
-            props.progress(100);
-          } else {
-            navigate("/dashboard/mycontents");
-          }
-        });
-      });
-    }
-  }, []);
 
   // mixpanel api------------------------------
   const handler = async () => {
@@ -947,22 +1044,32 @@ const ServiceStats2 = (props) => {
   }, [serviceInfo, eventInfo]);
 
   const totalReferConversion =
-    (eventInfo?.event?.registrations * 100) / mixpaneldata?.valueunique;
+    serviceType === "download"
+      ? (serviceInfo?.service?.downloads * 100) / mixpaneldata?.valueunique
+      : (eventInfo?.event?.registrations * 100) / mixpaneldata?.valueunique;
 
+  const totalDetails =
+    serviceType === "download"
+      ? servicetransaction?.length
+      : totalTransactionDetails?.length;
+  const totalRegister =
+    serviceType === "download"
+      ? serviceInfo?.service?.downloads
+      : eventInfo?.event?.registrations;
   const data = [
     {
       MetricsName: "Total Visitor",
       Users: mixpaneldata?.valuenotunique,
       Comment: "",
       infoIcon: true,
-      infotext:"Number of times your Event Page was checked out"
+      infotext: "Number of times your Event Page was checked out",
     },
     {
       MetricsName: "Total Unique Visitor",
       Users: mixpaneldata?.valueunique,
       Comment: "",
       infoIcon: true,
-      infotext:"Number of Unique Visits on your Event Page"
+      infotext: "Number of Unique Visits on your Event Page",
     },
     // {
     //   MetricsName: "Total Signed up for the event",
@@ -971,25 +1078,30 @@ const ServiceStats2 = (props) => {
     // },
     {
       MetricsName: "Total Transaction ( Failed and dropped )",
-      Users: totalTransactionDetails?.length,
+      Users: totalDetails,
       Comment: "Check list of users and call them for better conversion",
       ViewMore: true,
-      urlquery:"totalTransaction"
+      urlquery: "totalTransaction",
     },
     {
-      MetricsName: "Total Register for the event",
-      Users: eventInfo?.event?.registrations,
+      MetricsName: `Total Register for the event`,
+      Users: totalRegister,
       Comment: `Conversion Rate is ${totalReferConversion.toFixed(
         2
       )}%. It's more than standard.`,
       ViewMore: true,
-      urlquery:"totalReferral"
+      urlquery: "totalReferral",
     },
     {
       MetricsName: "Total User Register through Referral",
       Users: totalrefer?.combinedOrders?.length,
-      Comment: `${(totalrefer?.combinedOrders?.length/eventInfo?.event?.registrations * 100).toFixed(0)}% of users register through referral`,
+      Comment: `${(
+        (totalrefer?.combinedOrders?.length / eventInfo?.event?.registrations) *
+        100
+      ).toFixed(0)}% of users register through referral`,
     },
+    // },
+
     // {
     //   MetricsName: "Total Traffic Generated by User by sharing ( Link Clicks )",
     //   Users: 519,
@@ -1002,13 +1114,36 @@ const ServiceStats2 = (props) => {
     // },
   ];
 
-  const registerData = [
+  const serviceData = [
     {
-      Rank: "1",
-      ProfilePic: "2",
-      TotalReferral: "2",
-      Name: "3",
-      Email: "",
+      MetricsName: "Total Visitor",
+      Users: mixpaneldata?.valuenotunique,
+      Comment: "",
+      infoIcon: true,
+      infotext: "Number of times your Service Page was checked out",
+    },
+    {
+      MetricsName: "Total Unique Visitor",
+      Users: mixpaneldata?.valueunique,
+      Comment: "",
+      infoIcon: true,
+      infotext: "Number of Unique Visits on your Service Page",
+    },
+    {
+      MetricsName: "Total Transaction ( Failed and dropped )",
+      Users: totalDetails,
+      Comment: "Check list of users and call them for better conversion",
+      ViewMore: true,
+      urlquery: "totalTransaction",
+    },
+    {
+      MetricsName: `Total Register for the service`,
+      Users: totalRegister,
+      Comment: `Conversion Rate is ${totalReferConversion.toFixed(
+        2
+      )}%. It's more than standard.`,
+      ViewMore: true,
+      urlquery: "totalSuccessfullRegister",
     },
   ];
 
@@ -1050,35 +1185,71 @@ const ServiceStats2 = (props) => {
       {approvedUser && (
         <div className="servicestat_wrapper">
           <div className="serivce_heading_00">
-            <h1>Detailed Event Analysis</h1>
-
+            <h1>
+              {eventDetailsPage === "totalTransaction"
+                ? "Total Transaction Details"
+                : (eventDetailsPage === "totalSuccessfullRegister" || eventDetailsPage === "totalReferral")
+                ? `User List for ${
+                    serviceType === "event" ? "Event" : "Service"
+                  }`
+                : `Detailed ${
+                    serviceType === "event" ? "Event" : "Service"
+                  } Analysis`}
+            </h1>
             <div className="serivce_heading_01">
-              <img src={eventInfo?.event?.simg} />
+              <img
+                src={
+                  serviceType === "download"
+                    ? serviceInfo?.service?.simg
+                    : eventInfo?.event?.simg
+                }
+              />
               <div className="serivce_heading_02">
                 <section>
-                  <span>{eventInfo?.event?.sname}</span>
+                  <span>
+                    {" "}
+                    {serviceType === "download"
+                      ? serviceInfo?.service?.sname
+                      : eventInfo?.event?.sname}
+                  </span>
                   <span style={{ fontSize: "16px", fontWeight: "400" }}>
                     {date + " " + time}
                   </span>
                   <span style={{ fontSize: "16px", fontWeight: "400" }}>
-                    {"₹ " + eventInfo?.event?.ssp}
+                    {serviceType === "download"
+                      ? serviceInfo?.service?.isPaid
+                        ? "Paid" + ` (₹ ${serviceInfo?.service?.ssp})`
+                        : "Free"
+                      : "₹ " + eventInfo?.event?.ssp}
                   </span>
                 </section>
                 <div className="serivce_heading_03">
-                  {eventDetailsPage !== "totalReferral" && <button
-                    onClick={() => {
-                      navigate(`/dashboard/viewUserDetails/${slug}?type=event`);
-                    }}
-                  >
-                    <AiOutlineUser />
-                    Check Registered Users
-                  </button>}
+                  {eventDetailsPage !== "totalReferral" && (
+                    <button
+                      onClick={() => {
+                        serviceType === "download"
+                          ? navigate(
+                              `/dashboard/viewUserDetails/${slug}?type=download`
+                            )
+                          : navigate(
+                              `/dashboard/viewUserDetails/${slug}?type=event`
+                            );
+                      }}
+                    >
+                      <AiOutlineUser />
+                      List of Users
+                    </button>
+                  )}
                   <span
                     onClick={() => {
-                      window.open(`/e/${slug}`);
+                      serviceType === "download"
+                        ? window.open(`/s/${slug}`)
+                        : window.open(`/e/${slug}`);
                     }}
                   >
-                    Event Details{" "}
+                    {serviceType === "download"
+                      ? "Service Details"
+                      : "Event Details"}
                     <BsArrowRight style={{ paddingLeft: "8px" }} />
                   </span>
                 </div>
@@ -1088,10 +1259,16 @@ const ServiceStats2 = (props) => {
 
           <ReturnTable
             type={eventDetailsPage}
-            data={data}
-            totalrefer={totalrefer}
-            totalTransactionDetails={totalTransactionDetails}
-            referdata={referdata}
+            data={serviceType === "event" ? data : serviceData}
+            totalrefer={serviceType === "event" ? totalrefer : []}
+            totalTransactionDetails={
+              serviceType === "event"
+                ? totalTransactionDetails
+                : servicetransaction
+            }
+            referdata={serviceType === "event" ? referdata : []}
+            dataType={serviceType}
+            slug={slug}
           />
         </div>
       )}

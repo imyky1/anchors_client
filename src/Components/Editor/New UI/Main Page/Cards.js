@@ -56,16 +56,19 @@ const containerVariant = (index) => {
 function SliderCarousel() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [initialDelayPassed, setInitialDelayPassed] = useState(false);
-  const location = useLocation()
+  const location = useLocation();
+  const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(()=>{
-    setInitialDelayPassed(false)
-  },[location])
+  useEffect(() => {
+    setInitialDelayPassed(false);
+  }, [location]);
 
   useEffect(() => {
     const initialDelay = 2500; // 5 seconds in milliseconds
 
-    if (!initialDelayPassed) {
+    if (isHovered) {
+      // do nothing remain as it is
+    } else if (!initialDelayPassed) {
       const delayTimeout = setTimeout(() => {
         setInitialDelayPassed(true);
       }, initialDelay);
@@ -77,17 +80,13 @@ function SliderCarousel() {
       const interval = setInterval(() => {
         const nextSlide = (activeSlide + 1) % 4;
         setActiveSlide(nextSlide);
-      }, 2000);
+      }, 1500);
 
       return () => {
         clearInterval(interval);
       };
     }
-  }, [activeSlide, initialDelayPassed]);
-
-
-
-
+  }, [activeSlide, initialDelayPassed, isHovered]);
 
   const slideLabels = ["s1", "s2", "s3", "s4"];
 
@@ -96,7 +95,7 @@ function SliderCarousel() {
       img: <MdGroups style={{ color: "white", fontSize: "80px" }} />,
       title: "Exclusive Creator Community",
       description:
-        "anchors is an invite-only exclusive platform for premium creators.",
+        "Join a quality-driven community of creators to connect, collaborate, and grow together.",
     },
     {
       img: stock_graph,
@@ -108,11 +107,11 @@ function SliderCarousel() {
       img: percentage,
       title: "Offer Free/Paid Content",
       description:
-        "Complete control on your service whether you want to use free/paid content.",
+        "Enjoy full control, offering both free and paid content options on our platform",
     },
     {
       img: audience,
-      title: "Know your Audience",
+      title: "Audience Insight",
       description:
         "Strengthen your bond with the audience by taking their requests and learning about their preferences.",
     },
@@ -140,6 +139,12 @@ function SliderCarousel() {
               initial="from" // here default type is tween and not spring because it has duration
               whileInView="to"
               viewport={{ once: true }}
+              onMouseOver={() => {
+                setIsHovered(true);
+              }}
+              onMouseLeave={() => {
+                setIsHovered(false);
+              }}
             >
               {typeof slideContents[index].img === "string" ? (
                 <img

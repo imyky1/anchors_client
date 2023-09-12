@@ -757,7 +757,7 @@ function ServiceDetailPage(props) {
                               });
                             }}
                           >
-                            <TbSend size={22} color="black" />
+                            <TbSend size={22} color="white" />
                           </span>
                         </TableCell>
                         <TableCell align="center">

@@ -19,7 +19,7 @@
   font-weight: 600;
   font-size: 30px;
   line-height: 38px;
-  color: #F8F8F8;
+  color: #f8f8f8;
 }
 
 .text_02_dashboard {
@@ -28,7 +28,7 @@
   font-weight: 300;
   font-size: 15px;
   line-height: 18px;
-  color: #D0D0D0;
+  color: #d0d0d0;
   margin-bottom: 25px;
 }
 
@@ -41,24 +41,43 @@
 .dashboard_options {
   width: 373px;
   height: 88px;
-  border: 0.5px solid #D0D0D0;
+  border: 0.5px solid #d0d0d0;
   border-radius: 13px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.dashboard_options:hover{
+  background-color: #ffffff;
+
+}
+
+.dashboard_options:hover > span  {
+  color: #000000;
+}
+
+.dashboard_options > span {
   font-family: "Inter";
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
   line-height: 18px;
-  color: #F8F8F8;
-  cursor: pointer;
-  margin-bottom: 20px;
+  color: #f8f8f8;
 }
 
-.dashboard_options:hover {
-  color: #000000;
-  background-color: #ffffff;
+.dashboard_options > p {
+  color: #888;
+  font-family: "Gilroy-Regular",sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 /* main container box 2 */
@@ -68,11 +87,11 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 0 14%;
+  padding-top: 16px;
   box-sizing: border-box;
-  height: 91vh;
-  gap: 100px;
+  gap: 140px;
 }
 
 .stepper_outside_wrapper_dashboard {
@@ -113,26 +132,27 @@
   width: 40px;
   height: 40px;
   border-radius: 40px;
-  border: 1px solid #64748b;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .changeBackgroundToBlackDashboard {
-  background-color: #121212;
+  background-color: #666666;
+  border: 1px solid #666666;
 }
 
 .changeBackgroundToGreyDashboard {
-  background: #64748b;
+  background: #d0d0d0;
+  border: 1px solid #d0d0d0;
 }
 
 .each_step_stepper_dashboard > span {
-  color: #D0D0D0;
+  color: #d0d0d0;
   font-family: "Gilroy-Bold", sans-serif;
   font-size: 12px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: bold;
   line-height: normal;
   position: relative;
   top: 10px;
@@ -146,5 +166,5 @@
   position: relative;
   bottom: 8px;
   right: 27px;
-  background-color: #D0D0D0;
+  background: #d0d0d0;
 }

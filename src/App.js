@@ -10,6 +10,7 @@ import { mixPanelToken } from "./config/config.js";
 import PDFReaderPreview from "./Components/Editor/pdfViewer/pdfViewerPreview/Components/PDFReader";
 import { SkeletonTheme } from "react-loading-skeleton";
 import LoadingBar from "react-top-loading-bar"
+import 'react-toastify/dist/ReactToastify.css';
 
 // import fonts ---------------------
 import "./fonts/Gilroy-Black.ttf";
@@ -34,6 +35,7 @@ import Seo from "./Utils/Seo"
 import Main from "./Components/Main Page/Main"
 import MainLanding from "./Components/Editor/New UI/Main Page/Main"
 import Sample from "./Components/Editor/New UI/Sample Page/Sample"
+import { ToastContainer } from "react-toastify";
 
 const Creators_login = lazy(()=>import("./Components/Login/Creators/Login2"))
 const Feedback = lazy(()=>import("./Components/Feedback/Feedback"))
@@ -425,6 +427,7 @@ function App() {
           </LinkedinState>
         </Router>
       </SkeletonTheme>
+      <ToastContainer theme="dark" limit={1}/>
     </>
   );
 }

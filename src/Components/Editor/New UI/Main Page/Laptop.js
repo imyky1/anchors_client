@@ -40,21 +40,22 @@ const Laptop = () => {
     {
       image: pdf,
       heading: "PDF",
-      desc: "Notes, Interview Questions, Question Banks, etc",
+      desc: "Interview Questions, Top 10 Lists, Question Banks, etc.",
     },
     {
       image: video,
       heading: "Events & Webinars",
-      desc: "Host exceptional events and webinars",
+      desc: "Host Webinars, workshops, Q&A!",
     },
     {
       image: excel,
       heading: "Excel Sheet",
-      desc: "Study schedules, Mind maps, Resource Lists, etc",
+      desc: "Study schedules, Mind maps, Resource Lists, etc.",
     },
   ];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [initialDelayPassed, setInitialDelayPassed] = useState(false);
+  const [isHovered, setIsHovered] = useState(false)
 
   const location = useLocation()
   
@@ -69,7 +70,10 @@ const Laptop = () => {
   useEffect(() => {
     const initialDelay = 1000; // 5 seconds in milliseconds
 
-    if (!initialDelayPassed) {
+    if(isHovered){
+      // do nothing remain as it is
+    }
+    else if (!initialDelayPassed) {
       const delayTimeout = setTimeout(() => {
         setInitialDelayPassed(true);
       }, initialDelay);
@@ -84,7 +88,7 @@ const Laptop = () => {
         clearInterval(intervalId);
       };
     }
-  }, [currentIndex, initialDelayPassed]);
+  }, [currentIndex, initialDelayPassed , isHovered]);
 
   return (
     <div className="container__slider_laptop_home">
@@ -115,7 +119,7 @@ const Laptop = () => {
                 whileInView="to"
                 viewport={{ once: true }}
               >
-                <img src={slider.image} alt={`Image ${index + 1}`} />
+                <img src={slider.image} alt={`Image ${index + 1}`} onMouseOver={()=>{setIsHovered(true)}} onMouseLeave={()=>{setIsHovered(false)}}/>
                 {currentIndex === index && (
                   <>
                     <div className="laptop_images_heading">

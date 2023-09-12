@@ -11,13 +11,14 @@ import { LoadTwo } from "../../../Modals/Loading";
 import Confetti from "react-confetti";
 import { ToastContainer, toast } from "react-toastify";
 import EventModel from "../../../Modals/EventModal/Event_popup";
+import { MdAttachMoney, MdDone } from "react-icons/md";
 
 const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
   const navigate = useNavigate();
   const [loadConfetti, setLoadConfetti] = useState(false);
   const [loader, setLoader] = useState(false);
   const [stepperData, setStepperData] = useState({});
-  const [openEventPopup, setOpenEventPopup] = useState(false)
+  const [openEventPopup, setOpenEventPopup] = useState(false);
 
   const {
     updateStepperStatus,
@@ -52,6 +53,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
         "Created First Post": 1,
         "Acquired Paid User": 1,
         "Acquired Free User": 1,
+        "Setup Payment Account": 1,
       });
     }
   }, [basicNav]);
@@ -88,7 +90,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
           //     autoClose: 4000,
           //   }
           // );
-          console.log("Congrats")
+          console.log("Congrats");
           setTimeout(() => {
             // window.location.reload()
             setLoadConfetti(false);
@@ -107,15 +109,22 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
         <Confetti width={window.screen.width} height={window.screen.height} />
       )}
 
-      {openEventPopup && <EventModel onClose = {()=>{setOpenEventPopup(false)}}/>}
+      {openEventPopup && (
+        <EventModel
+          onClose={() => {
+            setOpenEventPopup(false);
+          }}
+        />
+      )}
 
       <div className="main_dashboard_conatiner2">
         <div className="stepper_outside_wrapper_dashboard">
           <h2 className="text_01_dashboard">
-          Welcome {allCreatorInfo?.name?.split(" ")[0]}!
+            Welcome {allCreatorInfo?.name?.split(" ")[0]}!
           </h2>
           <span className="text_02_dashboard" style={{ textAlign: "left" }}>
-          Your creative journey starts here. Explore premium content and events!
+            Your creative journey starts here. Explore premium content and
+            events.
           </span>
 
           <section>
@@ -127,25 +136,17 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
                   "changeBackgroundToBlackDashboard"
                 }
               >
-                <BsFillPersonFill
-                  color={
-                    stepperData && stepperData["Updated Profile Page"] === 1
-                      ? "white"
-                      : "#64748B"
-                  }
-                  size={21}
-                />
+                {stepperData && stepperData["Updated Profile Page"] === 1 ? (
+                  <MdDone color="#FFFFFF" size={21} />
+                ) : (
+                  <BsFillPersonFill color="#D0D0D0" size={21} />
+                )}
               </div>
               <span>Updated Profile Page</span>
             </div>
 
-            <div
-              className={`horizonal_bar_stepper_dashboard ${
-                stepperData && stepperData["Updated Profile Page"] === 1
-                  ? "changeBackgroundToBlackDashboard"
-                  : "changeBackgroundToGreyDashboard"
-              }`}
-            ></div>
+            <div className={`horizonal_bar_stepper_dashboard`}></div>
+
             <div className="each_step_stepper_dashboard">
               <div
                 className={
@@ -154,25 +155,17 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
                   "changeBackgroundToBlackDashboard"
                 }
               >
-                <CgFileDocument
-                  color={
-                    stepperData && stepperData["Created First Post"] === 1
-                      ? "white"
-                      : "#64748B"
-                  }
-                  size={21}
-                />
+                {stepperData && stepperData["Created First Post"] === 1 ? (
+                  <MdDone color="#FFFFFF" size={21} />
+                ) : (
+                  <CgFileDocument color="#D0D0D0" size={21} />
+                )}
               </div>
               <span>Created First Post</span>
             </div>
 
-            <div
-              className={`horizonal_bar_stepper_dashboard ${
-                stepperData && stepperData["Created First Post"] === 1
-                  ? "changeBackgroundToBlackDashboard"
-                  : "changeBackgroundToGreyDashboard"
-              }`}
-            ></div>
+            <div className={`horizonal_bar_stepper_dashboard`}></div>
+
             <div className="each_step_stepper_dashboard">
               <div
                 className={
@@ -181,26 +174,18 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
                   "changeBackgroundToBlackDashboard"
                 }
               >
-                <BiRupee
-                  color={
-                    stepperData && stepperData["Acquired Paid User"] === 1
-                      ? "white"
-                      : "#64748B"
-                  }
-                  size={21}
-                />
+                {stepperData && stepperData["Acquired Paid User"] === 1 ? (
+                  <MdDone color="#FFFFFF" size={21} />
+                ) : (
+                  <BiRupee color="#D0D0D0" size={21} />
+                )}
               </div>
               <span>Acquired Paid User</span>
             </div>
 
-            <div
-              className={`horizonal_bar_stepper_dashboard ${
-                stepperData && stepperData["Acquired Paid User"] === 1
-                  ? "changeBackgroundToBlackDashboard"
-                  : "changeBackgroundToGreyDashboard"
-              }`}
-            ></div>
-            <div className="each_step_stepper_dashboard">
+            <div className={`horizonal_bar_stepper_dashboard`}></div>
+
+            {/* <div className="each_step_stepper_dashboard">
               <div
                 className={
                   stepperData &&
@@ -211,46 +196,58 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
                 <BiGift
                   color={
                     stepperData && stepperData["Acquired Free User"] === 1
-                      ? "white"
-                      : "#64748B"
+                      ? "#FFFFFF"
+                      : "#D0D0D0"
                   }
                   size={21}
                 />
               </div>
               <span>Acquired Free User</span>
-            </div>
-
-            <div
-              className={`horizonal_bar_stepper_dashboard ${
-                stepperData && stepperData["Acquired Free User"] === 1
-                  ? "changeBackgroundToBlackDashboard"
-                  : "changeBackgroundToGreyDashboard"
-              }`}
-            ></div>
+            </div> */}
             <div className="each_step_stepper_dashboard">
               <div
                 className={reviews > 0 && "changeBackgroundToBlackDashboard"}
               >
-                <BsFillStarFill
-                  color={reviews > 0 ? "white" : "#64748B"}
-                  size={21}
-                />
+                {reviews > 0 ? (
+                  <MdDone color="#FFFFFF" size={21} />
+                ) : (
+                  <BsFillStarFill color="#D0D0D0" size={21} />
+                )}
               </div>
               <span>Earned Review</span>
+            </div>
+
+            <div className={`horizonal_bar_stepper_dashboard`}></div>
+
+            <div className="each_step_stepper_dashboard">
+              <div
+                className={
+                  stepperData &&
+                  stepperData["Setup Payment Account"] === 1 &&
+                  "changeBackgroundToBlackDashboard"
+                }
+              >
+                {stepperData && stepperData["Setup Payment Account"] === 1 ? (
+                  <MdDone color="#FFFFFF" size={21} />
+                ) : (
+                  <MdAttachMoney color="#D0D0D0" size={21} />
+                )}
+              </div>
+              <span>Setup Payment Account</span>
             </div>
           </section>
         </div>
 
         <div className="main_dashboard_design_box">
-          <h2 className="text_01_dashboard">Create your post</h2>
+          {/* <h2 className="text_01_dashboard">Create your post</h2> */}
           {/* <span className="text_02_dashboard">
             You can upload Excel sheets, Important Document, Notes, Interview
             Questions & Videos
           </span> */}
-          <span className="text_02_dashboard">
+          {/* <span className="text_02_dashboard">
             You can upload Excel sheets, Important Document, Notes & Interview
             Questions.
-          </span>
+          </span> */}
           <section>
             <div
               onClick={() => {
@@ -259,7 +256,9 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
               }}
               className="dashboard_options"
             >
-              Share PDF
+              <span>Share PDF</span>
+
+              <p>Guides, Summaries, Notes & more!</p>
             </div>
             <div
               onClick={() => {
@@ -268,7 +267,8 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
               }}
               className="dashboard_options"
             >
-              Share Excel
+              <span>Share Excel</span>
+              <p>Finances, Jobs, Skincare Tips & more!</p>
             </div>
             {/* <div
               onClick={() => {
@@ -281,12 +281,14 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
             </div> */}
             <div
               onClick={() => {
-                setOpenEventPopup(true)
+                setOpenEventPopup(true);
                 mixpanel.track("Share a event");
               }}
               className="dashboard_options"
             >
-              Host Event
+              <span>Host Event</span>
+
+              <p>Webinars, Workshops, Q&A!</p>
             </div>
           </section>
         </div>

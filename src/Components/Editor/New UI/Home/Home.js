@@ -33,6 +33,7 @@ import FirstTimeModal from "../../../Modals/FirstTimeModal";
 import Stats from "../Stats/stats";
 import NoMobileScreen from "../../../Layouts/Error Pages/NoMobileScreen";
 import EditEvent from "../Edit Services/EditEvent";
+import ServiceStats2 from "../ServiceStats/ServiceStats2";
 
 function Home(props) {
   const location = useLocation();
@@ -430,7 +431,7 @@ function Home(props) {
 
                       <Route
                         path="servicestats/:slug"
-                        element={<ServiceStats progress={props.progress} />}
+                        element={<ServiceStats2 progress={props.progress} />}
                       />
                       <Route
                         path="paymentSummary"

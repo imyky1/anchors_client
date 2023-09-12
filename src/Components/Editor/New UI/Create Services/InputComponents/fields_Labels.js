@@ -6,6 +6,9 @@ import "react-quill/dist/quill.snow.css";
 import { HiOutlineUpload } from "react-icons/hi";
 import { FaExchangeAlt } from "react-icons/fa";
 import { AiFillInfoCircle } from "react-icons/ai";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const TooltipBox = ({ text }) => (
   <div className="tooltip-component-box" style={{ top: "30px" }}>
@@ -64,7 +67,7 @@ function EditorText01(props) {
           props?.setContent(e);
         }}
         className="quill-editor"
-        // placeholder={props?.placeholder}
+        placeholder={props?.placeholder}
       />
       <p className="label_type_03">{props.info}</p>
     </div>
@@ -176,7 +179,7 @@ function UploadField02(props) {
 // upload new ui field
 function UploadField03(props) {
   const [fileName, setfileName] = useState();
-  const [isHovered, setIsHovered] = useState(false)
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleChange = (e) => {
     setfileName(e.target.files[0].name);
@@ -254,19 +257,80 @@ function fields_Labels3(props) {
 }
 
 // social fields --------------------------------------------
+// function fields_Labels4(props) {
+//   return (
+//     // Normal type -1 text field used in create
+//     <div className="textfiled_container_01">
+//       <input
+//         type="text"
+//         className="input_type_01"
+//         placeholder={props.placeholder}
+//         value={props.value}
+//         name={props.name}
+//         id={props.id}
+//         onChange={props.onChange}
+//       />
+//     </div>
+//   );
+// }
+
+// Social fields ---------------
 function fields_Labels4(props) {
   return (
     // Normal type -1 text field used in create
-    <div className="textfiled_container_01">
+    <div className="textfield_container_03">
+      {props.icons && (
+        <i
+          style={{
+            color: "gray",
+          }}
+        >
+          {props?.icons}
+        </i>
+      )}
       <input
         type="text"
-        className="input_type_01"
+        className="input_type_03"
         placeholder={props.placeholder}
         value={props.value}
         name={props.name}
         id={props.id}
         onChange={props.onChange}
       />
+    </div>
+  );
+}
+
+// date picker ---------
+function DatePicker01(props) {
+  console.log(props)
+  return (
+    // Normal type -1 text field used in create
+    <div className="textfiled_container_01">
+      <span className="label_type_01">
+        {props.label}{" "}
+        {props?.anchorLink && (
+          <a
+            href={props?.anchorLink?.url}
+            target="_blank"
+            rel="noreferrer"
+            style={{ textDecoration: "underLine" }}
+          >
+            {props?.anchorLink?.text}
+          </a>
+        )}-
+        {props?.required && <span style={{ color: "red" }}>*</span>}
+      </span>
+
+      <div className="textfield_container_03">
+        <DatePicker
+          selected={Date.now()}
+          id={props?.id}
+          name={props?.name}
+          onChange={(date) => props?.onChange(date)}
+          placeholderText={props?.placeholder}
+        />
+      </div>
     </div>
   );
 }
@@ -428,3 +492,4 @@ export const SocialFields = fields_Labels4;
 export const Tags1 = Tags01;
 export const Dropdown1 = Dropdown01;
 export const Select1 = Select01;
+export const DatePicker1 = DatePicker01;
