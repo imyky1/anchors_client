@@ -53,12 +53,11 @@
   margin-bottom: 20px;
 }
 
-.dashboard_options:hover{
+.dashboard_options:hover {
   background-color: #ffffff;
-
 }
 
-.dashboard_options:hover > span  {
+.dashboard_options:hover > span {
   color: #000000;
 }
 
@@ -73,7 +72,7 @@
 
 .dashboard_options > p {
   color: #888;
-  font-family: "Gilroy-Regular",sans-serif;
+  font-family: "Gilroy-Regular", sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -143,7 +142,6 @@
 }
 
 .changeBackgroundToGreyDashboard {
-  background: #d0d0d0;
   border: 1px solid #d0d0d0;
 }
 
@@ -167,4 +165,259 @@
   bottom: 8px;
   right: 27px;
   background: #d0d0d0;
+}
+
+/* CHECLIST -------------- */
+
+.checklist_outside_wrapper {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.checklist_main_container {
+  width: 32vw;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  background: #212121;
+  height: 100vh;
+  gap: 20px;
+  animation: fadeInFromRight 0.5s ease forwards;
+}
+
+@keyframes fadeInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.first_checklist_section_dashboard {
+  border-radius: 0px 0px 20px 20px;
+  background: #282828;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 44px;
+  position: relative;
+}
+
+.first_checklist_section_dashboard > svg {
+  position: absolute;
+  font-size: 24px;
+  right: 24px;
+  top: 24px;
+  color: #d0d0d0;
+  cursor: pointer;
+}
+
+.first_checklist_section_dashboard > svg:hover {
+  color: red;
+}
+
+.first_checklist_section_dashboard > h1 {
+  color: #f8f8f8;
+  font-family: "Gilroy-Bold", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+}
+
+.first_checklist_section_dashboard > p {
+  color: #d0d0d0;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.first_checklist_section_dashboard > span {
+  color: #fff;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 20px;
+}
+
+.checklist_main_container > section {
+  display: flex;
+  width: 100%;
+  padding: 0 20px;
+  flex-direction: column;
+  box-sizing: border-box;
+  gap: 8px;
+  height: 100%;
+  overflow: auto;
+  padding-bottom: 40px;
+}
+
+.checklist_main_container > section::-webkit-scrollbar{
+  display: none;
+}
+
+.checklist_card_container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-radius: 4px;
+  background: #282828;
+  padding: 12px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.top_body_checklist_header {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  position: relative;
+}
+
+.top_body_checklist_header::after {
+  content: "\002B";
+  font-size: 1.3rem;
+  position: absolute;
+  right: 1rem;
+  cursor: pointer;
+  color: white;
+}
+
+.top_body_checklist_header.active_body_checklist_header::after {
+  content: "\2212";
+  color: "white";
+}
+
+.top_body_checklist_header span {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.top_body_checklist_header h2 {
+  color: #e0e0e0;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.top_body_checklist_header > svg {
+  font-size: 25px;
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+}
+
+.bottom_body_checklist_header {
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  margin-top: 10px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.bottom_body_checklist_header > span {
+  color: #d0d0d0;
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.bottom_body_checklist_header > p {
+  color: #a7a7a7;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-style: italic;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.bottom_body_checklist_header > ul {
+  color: #666;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding-left: 10px;
+  display: flex;
+  gap: 4px;
+  flex-direction: column;
+}
+
+.bottom_body_checklist_header > div {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.bottom_body_checklist_header > div button {
+  color: #f8f8f8;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 8px 20px;
+  cursor: pointer;
+}
+
+.checklist_button_desgin_dashboard {
+  color: #fff;
+  text-align: center;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  padding: 12px 20px;
+  background: #212121;
+
+  position: absolute;
+  right: 80px;
+  bottom: 105px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.checklist_button_desgin_dashboard:hover{
+  transform: scale(1.05)
 }

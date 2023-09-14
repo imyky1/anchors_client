@@ -45,6 +45,7 @@ const FirstPage = ({
   paid,
   setpaid,
   onSubmit,
+  setdata
 }) => {
   return (
     <>
@@ -55,6 +56,7 @@ const FirstPage = ({
             value={["Paid", "Free"]}
             selectedValue={(e) => {
               setpaid(e);
+              setdata({...data,ssp:0,smrp:0})
             }}
             defaultValue={paid}
           />
@@ -549,10 +551,10 @@ function Create({
     progress(0);
     if (
       data.sname.length > 1 &&
-      ServiceDoc &&
-      paid &&
+      ServiceDoc && paid &&
       (BannerImage || defaultbanner)
     ) {
+      if(data?.ssp <= data?.smrp){
       try {
         var banner;
         //  means that the banner and the doc uploaded already is not saved earlier
@@ -617,6 +619,14 @@ function Create({
           autoClose: 2000,
         });
       }
+    }
+    else{
+      setOpenLoading(false);
+        toast.error(`Pricing is invalid`, {
+          position: "top-center",
+          autoClose: 2000,
+        });
+    }
     } else {
       setOpenLoading(false);
       toast.info("Fill all the Mandatory Fields", {
@@ -681,6 +691,7 @@ function Create({
           {currentPage === 1 && (
             <FirstPage
               data={data}
+              setdata={setdata}
               handleChange={handleChange}
               setDefaultBanner={setDefaultBanner}
               BannerImage={BannerImage}

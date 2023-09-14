@@ -34,6 +34,7 @@ import Stats from "../Stats/stats";
 import NoMobileScreen from "../../../Layouts/Error Pages/NoMobileScreen";
 import EditEvent from "../Edit Services/EditEvent";
 import ServiceStats2 from "../ServiceStats/ServiceStats2";
+import Template from "../Sharing Template/Sharing";
 
 function Home(props) {
   const location = useLocation();
@@ -444,6 +445,11 @@ function Home(props) {
                       <Route
                         path="viewUserDetails/:slug"
                         element={<Users progress={props.progress} />}
+                      />
+
+                      <Route
+                        path="shareTemplate/:slug"
+                        element={<Template progress={props.progress} />}
                       />
 
                       {/* exception  Route for false input ---------------------------------------------------- */}

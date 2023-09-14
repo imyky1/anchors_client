@@ -9,22 +9,19 @@
     width: 222px;
     border-radius: 10px;
     height: 81px;
-    /* background-color: white; */
     display: flex;
     flex-direction: row;
     padding-left: 2%;
-    gap: 13%;
+    gap: 8%;
     justify-content: flex-start;
     align-items: center;
-    /* box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.233); */
-    background: #f8f8f8;
+    background: #212121;
     border: 1px solid rgba(0, 0, 0, 0.05);
     box-shadow: 0px 4px 50px rgba(0, 0, 0, 0.1);
     border-radius: 13px;
   }
   
   .userreview_detail_svg {
-    background: #ececf0;
     padding: 10px 10px 6px 10px;
     border-radius: 6px;
   }
@@ -34,8 +31,7 @@
     font-weight: 600;
     font-size: 18px;
     line-height: 19px;
-  
-    color: #000000;
+    color: #d0d0d0;
   }
   
   .userreview_detailedno span {
@@ -43,8 +39,7 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
-  
-    color: rgba(0, 0, 0, 0.3);
+    color: #f8f8f8;
   
     /* Inside auto layout */
   
@@ -84,10 +79,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #d0d0d0;
   
   }
   
   .filter_service_event_payment select {
     padding: 6px;
     border-radius: 2px;
+  }
+
+
+  .userreview_detailedno{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }

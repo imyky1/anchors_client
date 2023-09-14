@@ -70,13 +70,13 @@ function PaymentInfo() {
       <div className="payment_info_main_container">
         <section className="headers_section_paymentInfo">
           <h1 className="text_type01_payment_info">Account Details</h1>
-          <button
+          <Button1
             onClick={() => {
               navigate("/dashboard/paymentSummary");
             }}
-          >
-            Earnings Summary
-          </button>
+            text="Earnings Summary"
+          />
+            
         </section>
 
         <section className="main_details_section_paymentInfo">

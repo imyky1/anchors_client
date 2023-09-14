@@ -10,7 +10,7 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const TooltipBox = ({ text }) => (
+export const TooltipBox = ({ text }) => (
   <div className="tooltip-component-box" style={{ top: "30px" }}>
     {text}
   </div>

@@ -6,15 +6,12 @@ import {
   TableHead,
   Table,
   TableRow,
-  Icon,
   tableCellClasses,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ICON from "./startIcon.svg";
-import React, { useContext, useEffect, useState } from "react";
-import { creatorContext } from "../../../../Context/CreatorState";
+import React, { useEffect, useState } from "react";
 import { LoadTwo } from "../../../Modals/Loading";
-import ShowReviewModel from "../../../Modals/ShowReviewModel";
 import "./paymentSummary.css";
 import { host } from "../../../../config/config";
 import moment from "moment";
@@ -22,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { SuperSEO } from "react-super-seo";
 import { Button1 } from "../Create Services/InputComponents/buttons";
 import mixpanel from "mixpanel-browser";
+import { BiCommentAdd } from "react-icons/bi";
 
 const PaymentSummary = () => {
   const navigate = useNavigate();
@@ -162,17 +160,17 @@ const PaymentSummary = () => {
         <section className="headers_section_paymentInfo">
           <h1 className="text_type01_payment_info">Earnings Summary</h1>
           <Button1
-          text="Account Details"
-          onClick={() => {
-            navigate("/dashboard/paymentInfo");
-            mixpanel.track("Account Details");
-          }}
-        />
+            text="Account Details"
+            onClick={() => {
+              navigate("/dashboard/paymentInfo");
+              mixpanel.track("Account Details");
+            }}
+          />
         </section>
         <div className="usereview_details">
           <div className="userreview_detail1">
             <div className="userreview_detail_svg">
-              <img src={ICON} />
+              <BiCommentAdd color="#d0d0d0" size={30}/>
             </div>
             <div className="userreview_detailedno">
               {filterType === "service" ? (
@@ -189,7 +187,7 @@ const PaymentSummary = () => {
           </div>
           <div className="userreview_detail1">
             <div className="userreview_detail_svg">
-              <img src={ICON} />
+            <BiCommentAdd color="#d0d0d0" size={30}/>
             </div>
             <div className="userreview_detailedno">
               <h3>₹ {withdrawal}</h3>
@@ -198,7 +196,7 @@ const PaymentSummary = () => {
           </div>
           <div className="userreview_detail1">
             <div className="userreview_detail_svg">
-              <img src={ICON} />
+            <BiCommentAdd color="#d0d0d0" size={30}/>
             </div>
             <div className="userreview_detailedno">
               {filterType === "service" ? (

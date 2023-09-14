@@ -10,9 +10,14 @@ import ServiceContext from "../../../../Context/services/serviceContext";
 import { host } from "../../../../config/config";
 import { LoadTwo } from "../../../Modals/Loading";
 import { toast, ToastContainer } from "react-toastify";
-import { AiOutlineUser, AiOutlineInfoCircle } from "react-icons/ai";
+import {
+  AiOutlineUser,
+  AiOutlineInfoCircle,
+  AiOutlineCalendar,
+} from "react-icons/ai";
 import { BsArrowRight } from "react-icons/bs";
 import { GiPlainCircle } from "react-icons/gi";
+import { BiRupee } from "react-icons/bi";
 
 const TooltipBox = ({ text }) => {
   return (
@@ -594,7 +599,7 @@ const TableinfoTrans = ({ totalTransactionDetails }) => {
   );
 };
 
-const Tableinfo = ({ data, dataType, slug }) => {
+const Tableinfo = ({ data, dataType, slug ,removeTotalTransColumn }) => {
   const [isHovered, setIsHovered] = useState({
     tip1: false,
     tip2: false,
@@ -666,7 +671,7 @@ const Tableinfo = ({ data, dataType, slug }) => {
             </th>
           </tr>
           {data &&
-            data?.map((val, key) => {
+            data?.filter((e)=>{return !e?.removeObj})?.map((val, key) => {
               return (
                 <tr
                   style={{
@@ -781,7 +786,7 @@ const ReturnTable = ({
     //     />
     //   );
   } else {
-    return <Tableinfo data={data} dataType={dataType} slug={slug} />;
+    return <Tableinfo data={data} dataType={dataType} slug={slug}/>;
   }
 };
 
@@ -810,6 +815,7 @@ const ServiceStats2 = (props) => {
 
   const [serviceType, setServiceType] = useState();
   const [eventDetailsPage, setEventDetailsPage] = useState("general");
+  const [lastupdate, setLastUpdate] = useState();
   const [referal, setReferal] = useState();
   const [servicetransaction, setServiceTransaction] = useState();
   const [totalrefer, setTotalRefer] = useState();
@@ -892,7 +898,6 @@ const ServiceStats2 = (props) => {
     }
   }, []);
 
-  // useEffect(() => {
   //   // Loading mixpanel ------
   //   // mixpanel.track("Page Visit");
 
@@ -1032,6 +1037,7 @@ const ServiceStats2 = (props) => {
               valueunique: data?.response?.uniquevisits,
               valuenotunique: data?.response?.Totalvisits,
             });
+            setLastUpdate(data?.response?.updatedOn);
             setopenLoading(false);
             return data?.response;
           });
@@ -1082,6 +1088,7 @@ const ServiceStats2 = (props) => {
       Comment: "Check list of users and call them for better conversion",
       ViewMore: true,
       urlquery: "totalTransaction",
+      removeObj:!eventInfo?.event?.isPaid
     },
     {
       MetricsName: `Total Register for the event`,
@@ -1128,13 +1135,13 @@ const ServiceStats2 = (props) => {
       Comment: "",
       infoIcon: true,
       infotext: "Number of Unique Visits on your Service Page",
-    },
-    {
+    },{
       MetricsName: "Total Transaction ( Failed and dropped )",
       Users: totalDetails,
       Comment: "Check list of users and call them for better conversion",
       ViewMore: true,
       urlquery: "totalTransaction",
+      removeObj:!serviceInfo?.service?.isPaid
     },
     {
       MetricsName: `Total Register for the service`,
@@ -1188,7 +1195,8 @@ const ServiceStats2 = (props) => {
             <h1>
               {eventDetailsPage === "totalTransaction"
                 ? "Total Transaction Details"
-                : (eventDetailsPage === "totalSuccessfullRegister" || eventDetailsPage === "totalReferral")
+                : eventDetailsPage === "totalSuccessfullRegister" ||
+                  eventDetailsPage === "totalReferral"
                 ? `User List for ${
                     serviceType === "event" ? "Event" : "Service"
                   }`
@@ -1213,14 +1221,18 @@ const ServiceStats2 = (props) => {
                       : eventInfo?.event?.sname}
                   </span>
                   <span style={{ fontSize: "16px", fontWeight: "400" }}>
-                    {date + " " + time}
+                    <AiOutlineCalendar /> {date + " " + time}
                   </span>
-                  <span style={{ fontSize: "16px", fontWeight: "400" }}>
+                  <span
+                    style={{
+                      fontSize: "16px",
+                      fontWeight: "400",
+                    }}
+                  >
+                    <BiRupee/>
                     {serviceType === "download"
-                      ? serviceInfo?.service?.isPaid
-                        ? "Paid" + ` (₹ ${serviceInfo?.service?.ssp})`
-                        : "Free"
-                      : "₹ " + eventInfo?.event?.ssp}
+                      ? serviceInfo?.service?.ssp * serviceInfo?.service?.downloads
+                      : eventInfo?.event?.ssp * eventInfo?.event?.registrations}
                   </span>
                 </section>
                 <div className="serivce_heading_03">
@@ -1255,6 +1267,10 @@ const ServiceStats2 = (props) => {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="serivce_heading_updated_time">
+            <p>last updated on:{new Date(lastupdate).toLocaleString()}</p>
           </div>
 
           <ReturnTable

@@ -699,7 +699,7 @@ const MainLanding = (props) => {
             whileInView="to"
             variants={textVariant01()}
           >
-            Empower Yourself for Success
+            Do you have what it takes?
           </motion.div>
           <motion.div
             className="home_page_outer_second_body_02"
@@ -708,8 +708,7 @@ const MainLanding = (props) => {
             whileInView="to"
             variants={textVariant01(1.7)}
           >
-            Unlocking the full potential of the creator economy through
-            boundless innovation and sustainable growth
+            Empower Yourself for Success
           </motion.div>
           <div className="home_page_outer_fifth_body_01">
             <div className="home_page_outer_sixth_body_020">

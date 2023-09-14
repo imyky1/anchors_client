@@ -1,0 +1,114 @@
+.template_wrapper_00 {
+  display: flex;
+  padding: 40px 80px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  background: #121212;
+}
+
+.template_wrapper_00 > span > h1 {
+  color: #fff;
+  font-family: "Gilroy-SemiBold", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.template_wrapper_00 > span > p {
+  color: #e0e0e0;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.template_wrapper_00_sharing {
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  border-radius: 12px;
+  width: 90%;
+}
+
+.template_wrapper_00_sharing > span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 4px;
+  color: #fff;
+  font-family: "Gilroy-Bold", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.template_wrapper_00_sharing > section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.Card_wrapper_01 {
+  width: 390px;
+  display: flex;
+  position: relative;
+  min-height: 504px;
+  padding: 20px;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 12px;
+  background: #282828;
+}
+
+.Card_wrapper_01 > img {
+  width: 100%;
+  object-fit: cover;
+  min-height: 100px;
+}
+
+.Card_wrapper_01 > section {
+  color: #fff;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  margin-bottom: 50px;
+}
+
+
+.Card_wrapper_01 > button {
+  position: absolute;
+  bottom: 20px;
+  width: 90%;
+  display: flex;
+  padding: 12px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  border-radius: 4px;
+  background: #666;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+.Card_wrapper_01 > button:hover {
+  background: darkgray;
+}
+.template_wrapper_00_sharing > span {
+  color: #e0e0e0;
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 20px; /* 125% */
+}

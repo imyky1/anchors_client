@@ -537,6 +537,29 @@ const CreatorState = (props) => {
     }
   };
 
+  // Check Checklist status ------------
+  const checkChecklistStatus = async () => {
+    try {
+      const response = await fetch(
+        `${host}/api/creator/creatorChecklistChecker`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+            "jwt-token": localStorage.getItem("jwtToken"),
+          },
+        }
+      );
+
+      const json = await response.json();
+      return json;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // update Stepper status ------------
   const updateStepperStatus = async () => {
     try {
@@ -707,7 +730,8 @@ const CreatorState = (props) => {
         getEventReg,
         getMaxEvent,
         getViewsStats,
-        getCreatorUpcomingData
+        getCreatorUpcomingData,
+        checkChecklistStatus
       }}
     >
       {props.children}

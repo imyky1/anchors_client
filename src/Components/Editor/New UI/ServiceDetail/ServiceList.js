@@ -2,30 +2,23 @@ import React, { useContext, useEffect, useState } from "react";
 import "./ServiceList.css";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { SuperSEO } from "react-super-seo";
-import {
-  Table,
-  TableContainer,
-  TableBody,
-  TableHead,
-  TableRow,
-  TableCell,
-  Paper,
-} from "@mui/material";
-import UserIcon from "./Icons/User.svg";
-import CopyIcon from "./Icons/Copy.svg";
-import ChartIcon from "./Icons/Chart-pie.svg";
-import Option from "./Icons/Option.svg";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { LoadTwo } from "../../../Modals/Loading";
 import { Email_Model2 } from "../../../Modals/Email_Modal";
 import { ChangeStatus } from "../../../Modals/ServiceSuccess/Modal2";
-import { Button1, Button2 } from "../Create Services/InputComponents/buttons";
+import { Button2 } from "../Create Services/InputComponents/buttons";
 import {
   AiOutlineCalendar,
   AiOutlineClockCircle,
   AiOutlinePlus,
 } from "react-icons/ai";
+import {
+  BiCoinStack,
+  BiDotsVerticalRounded,
+  BiRupee,
+  BiStats,
+} from "react-icons/bi";
 import mixpanel from "mixpanel-browser";
 import {
   BsFillCalendar3WeekFill,
@@ -36,11 +29,318 @@ import {
 } from "react-icons/bs";
 import { IoCopy } from "react-icons/io5";
 import { TbSend } from "react-icons/tb";
-import {
-  LinkedinShareButton,
-  TelegramShareButton,
-  WhatsappShareButton,
-} from "react-share";
+import { HiDownload } from "react-icons/hi";
+import { MdDateRange } from "react-icons/md";
+import { LinkedinShareButton, TelegramShareButton } from "react-share";
+import { TooltipBox } from "../Create Services/InputComponents/fields_Labels";
+
+const ContentCard = ({
+  i,
+  _id,
+  simg,
+  sname,
+  downloads,
+  date,
+  slug,
+  isPaid,
+  ssp,
+  startDate,
+  selected,
+  registrations,
+  eventCode,
+  copyURL,
+  dummyData,
+  setShareModalData,
+  stype,
+  status,
+  setOpenOption,
+  setCurrSelected,
+  setChangeStatus,
+  deleteService,
+  setOpenModel,
+  OpenOption,
+  revArray,
+  setIsHoveredTooltip,
+}) => {
+  const navigate = useNavigate();
+
+  const openOptionsPopup = (i) => {
+    document.getElementById(`servicelist_options${i}`).style.display = "flex";
+    setOpenOption(i);
+  };
+
+  const removeOptionPopup = () => {
+    if (OpenOption !== 0) {
+      revArray.map((elem, i) => {
+        return (document.getElementById(
+          `servicelist_options${i + 1}`
+        ).style.display = "none");
+      });
+      document.getElementById(
+        `servicelist_options${OpenOption}`
+      ).style.display = "none";
+      setOpenOption(0);
+    }
+  };
+
+  const getDatelist = (date) => {
+    let ll = date?.slice(0, date.toString().length - 5);
+    const datenew = ll?.split("T");
+    if (datenew) {
+      return datenew[0];
+    }
+  };
+
+  const getDatelist2 = (date) => {
+    let ll = date?.slice(0, date.toString().length - 5);
+    const datenew = ll?.split("T");
+    if (datenew) {
+      return datenew[1];
+    }
+  };
+
+  const handleCheckClick = async () => {
+    setCurrSelected({ copyURL, status });
+    removeOptionPopup(); // removes popup ------------------------------
+    if (status) {
+      // means now it is checked ------------
+      setChangeStatus(0);
+      const success = await deleteService(
+        _id,
+        0,
+        selected === "events" ? "event" : "document"
+      ); // changing status of the service / eevent
+      if (success) {
+        setOpenModel(true);
+        status = false; // manually changing its value--------------
+      } else {
+        toast.error("Some error occured", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      }
+    } else {
+      // means now it is unchecked-----------------
+      setChangeStatus(1);
+      const success = await deleteService(
+        _id,
+        1,
+        selected === "events" ? "event" : "document"
+      );
+      if (success) {
+        setOpenModel(true);
+        status = true; // manually changing its value--------------
+      } else {
+        toast.error("Some error occured", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      }
+    }
+  };
+
+  return (
+    <div className="mycontent_card_for_service">
+      <img
+        src={simg}
+        alt=""
+        onClick={() => {
+          selected === "events"
+            ? window.open(`/e/${slug}`)
+            : window.open(`/s/${slug}`);
+        }}
+      />
+      <section>
+        <div
+          style={{
+            display: "flex",
+            gap: "8px",
+            flexDirection: "column",
+            width: "100%",
+          }}
+        >
+          <h2
+            onClick={() => {
+              selected === "events"
+                ? window.open(`/e/${slug}`)
+                : window.open(`/s/${slug}`);
+            }}
+          >
+            {sname}
+          </h2>
+
+          <div className="props_mycontent_card_service">
+            <span
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                mixpanel.track("Downloads");
+                selected === "events"
+                  ? !dummyData.EventDummy &&
+                    registrations !== 0 &&
+                    window.open(
+                      `/dashboard/viewUserDetails/${slug}?type=event`,
+                      "_blank"
+                    )
+                  : !dummyData.ServiceDummy &&
+                    downloads !== 0 &&
+                    window.open(`/dashboard/viewUserDetails/${slug}`, "_blank");
+              }}
+            >
+              <HiDownload /> {selected === "events" ? registrations : downloads}
+            </span>
+            <span>
+              <MdDateRange />{" "}
+              {getDatelist(selected === "events" ? startDate : date)}{" "}
+              {getDatelist2(selected === "events" ? startDate : date)}
+            </span>
+            <span>
+              <BiRupee /> {ssp}
+            </span>
+            <span>
+              <BiCoinStack /> {isPaid ? "Paid" : "Free"}
+            </span>
+          </div>
+        </div>
+
+        <div className="buttons_div_section_mycontent_card">
+          <button
+            onClick={() => {
+              mixpanel.track("Analysis");
+              selected === "events"
+                ? !dummyData.EventDummy &&
+                  window.open(
+                    `/dashboard/serviceStats/${slug}?type=event`,
+                    "_blank"
+                  )
+                : !dummyData.ServiceDummy &&
+                  window.open(`/dashboard/serviceStats/${slug}`, "_blank");
+            }}
+          >
+            <BiStats /> Detailed Service Analysis
+          </button>
+          <button
+            onClick={() => {
+              const pattern = /go\.anchors\.in/;
+              selected === "events"
+                ? setShareModalData({
+                    open: true,
+                    sname: sname,
+                    slug: slug,
+                    simg: simg,
+                    isEvent: selected === "events",
+                    eventCode: eventCode,
+                    link: copyURL
+                      ? pattern.test(copyURL)
+                        ? copyURL
+                        : selected === "events"
+                        ? `https://www.anchors.in/e/${slug}`
+                        : `https://www.anchors.in/s/${slug}`
+                      : selected === "events"
+                      ? `https://www.anchors.in/e/${slug}`
+                      : `https://www.anchors.in/s/${slug}`,
+                  })
+                : window.open(`/dashboard/shareTemplate/${slug}`);
+            }}
+          >
+            Share <TbSend />
+          </button>
+        </div>
+
+        <BiDotsVerticalRounded
+          onClick={() =>
+            selected === "events"
+              ? !dummyData.EventDummy && openOptionsPopup(i + 1)
+              : !dummyData.ServiceDummy && openOptionsPopup(i + 1)
+          }
+        />
+
+        {/* content card_popup */}
+        <div
+          className="servicelist_optionspopup"
+          id={`servicelist_options${i + 1}`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="servicelist_wrap">
+            <div className="servicelist_popuptop">
+              {(selected !== "events" || new Date(startDate) > new Date()) && (
+                <div
+                  className="modaloptions_servicelist"
+                  onClick={() => {
+                    selected === "events"
+                      ? navigate(`/dashboard/editevent/${slug}`)
+                      : navigate(
+                          `/dashboard/editservice/${slug}/${
+                            stype === 2
+                              ? "video"
+                              : stype === 1
+                              ? "excel"
+                              : "pdf"
+                          }`
+                        );
+                  }}
+                >
+                  Edit {selected === "events" ? "Event" : "Service"}
+                </div>
+              )}
+
+              {selected !== "events" && (
+                <div
+                  className="modaloptions_servicelist"
+                  onClick={() => {
+                    navigate(
+                      `/dashboard/createservice?type=${
+                        stype === 2 ? "video" : stype === 1 ? "excel" : "pdf"
+                      }&duplicate=${slug}`
+                    );
+                    mixpanel.track("Duplicate Service", {
+                      service: slug,
+                    });
+                  }}
+                >
+                  Duplicate Service
+                </div>
+              )}
+              {/* <div
+                                  className="modaloptions_servicelist"
+                                  onClick={() => {
+                                    setCurrSelected(elem);
+                                    setOpenModel2(true);
+                                  }}
+                                >
+                                  Notify Users
+                                </div> */}
+              {selected !== "events" && (
+                <div
+                  className="modaloptions_servicelist"
+                  onClick={() => {
+                    selected === "events"
+                      ? navigate(`/dashboard/servicereviews/${slug}?type=event`)
+                      : navigate(`/dashboard/servicereviews/${slug}`);
+                  }}
+                >
+                  User Reviews
+                </div>
+              )}
+              {/* <div className="modaloptions_servicelist_status">
+                Active Status
+                <span onClick={() => handleCheckClick()}>
+                  <label className="switch_type_01">
+                    <input
+                      id={`checkbox_${i + 1}`}
+                      type="checkbox"
+                      checked={status}
+                    />
+                    <span className="slider_type_01 round_type_01"></span>
+                  </label>
+                </span>
+              </div> */}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
 
 const PopupModal = ({
   slug,
@@ -373,6 +673,13 @@ function ServiceDetailPage(props) {
     ServiceDummy: false,
     EventDummy: false,
   });
+  const navigate = useNavigate();
+  const [openModel, setOpenModel] = useState(false); // change status modal -----------
+  const [openModel2, setOpenModel2] = useState(false); // email modal -----------------------
+  const [changeStatus, setChangeStatus] = useState(1); // current status of changed element --------------
+  const [isHoveredTooltip, setIsHoveredTooltip] = useState(false);
+  const [NotifyEmailSent, setNotifyEmailSent] = useState(false);
+  const [currselected, setCurrSelected] = useState(null); // selected options of a which service / event --------------
 
   useEffect(() => {
     setOpenLoading(true);
@@ -416,29 +723,10 @@ function ServiceDetailPage(props) {
     } else {
       setrevArray(list);
     }
-  }, [services, selected]);
+  }, [services, selected, currselected]);
 
   const [OpenOption, setOpenOption] = useState(0);
 
-  const getDatelist = (date) => {
-    let ll = date?.slice(0, date.toString().length - 5);
-    const datenew = ll?.split("T");
-    if (datenew) {
-      return datenew[0];
-    }
-  };
-
-  const getDatelist2 = (date) => {
-    let ll = date?.slice(0, date.toString().length - 5);
-    const datenew = ll?.split("T");
-    if (datenew) {
-      return datenew[1];
-    }
-  };
-  const openOptionsPopup = (i) => {
-    document.getElementById(`servicelist_options${i}`).style.display = "flex";
-    setOpenOption(i);
-  };
   const removeOptionPopup = () => {
     if (OpenOption !== 0) {
       revArray.map((elem, i) => {
@@ -450,56 +738,6 @@ function ServiceDetailPage(props) {
         `servicelist_options${OpenOption}`
       ).style.display = "none";
       setOpenOption(0);
-    }
-  };
-
-  const navigate = useNavigate();
-  const [openModel, setOpenModel] = useState(false); // change status modal -----------
-  const [openModel2, setOpenModel2] = useState(false); // email modal -----------------------
-  const [changeStatus, setChangeStatus] = useState(1); // current status of changed element --------------
-  const [NotifyEmailSent, setNotifyEmailSent] = useState(false);
-  const [currselected, setCurrSelected] = useState(null); // selected options of a which service / event --------------
-
-  const handleCheckClick = async (elem) => {
-    setCurrSelected(elem);
-    removeOptionPopup(); // removes popup ------------------------------
-    props.progress(0);
-    if (elem.status) {
-      // means now it is checked ------------
-      setChangeStatus(0);
-      const success = await deleteService(
-        elem._id,
-        0,
-        selected === "events" ? "event" : "document"
-      ); // changing status of the service / eevent
-      if (success) {
-        setOpenModel(true);
-        props.progress(100);
-        elem.status = false; // manually changing its value--------------
-      } else {
-        toast.error("Some error occured", {
-          position: "top-center",
-          autoClose: 2000,
-        });
-      }
-    } else {
-      // means now it is unchecked-----------------
-      setChangeStatus(1);
-      const success = await deleteService(
-        elem._id,
-        1,
-        selected === "events" ? "event" : "document"
-      );
-      if (success) {
-        setOpenModel(true);
-        props.progress(100);
-        elem.status = true; // manually changing its value--------------
-      } else {
-        toast.error("Some error occured", {
-          position: "top-center",
-          autoClose: 2000,
-        });
-      }
     }
   };
 
@@ -603,8 +841,51 @@ function ServiceDetailPage(props) {
           />
         )}
 
+        <section
+          className="content_cards_main_wrapper_servicelist"
+          onMouseEnter={() => {
+            (selected === "events"
+              ? dummyData?.EventDummy
+              : dummyData?.ServiceDummy) && setIsHoveredTooltip(true);
+          }}
+          onMouseLeave={() => {
+            (selected === "events"
+              ? dummyData?.EventDummy
+              : dummyData?.ServiceDummy) && setIsHoveredTooltip(false);
+          }}
+        >
+          {revArray?.map((elem, i) => {
+            return (
+              <ContentCard
+                {...elem}
+                i={i}
+                dummyData={dummyData}
+                setShareModalData={setShareModalData}
+                selected={selected}
+                setOpenOption={setOpenOption}
+                setCurrSelected={setCurrSelected}
+                setChangeStatus={setChangeStatus}
+                deleteService={deleteService}
+                setOpenModel={setOpenModel}
+                OpenOption={OpenOption}
+                revArray={revArray}
+              />
+            );
+          })}
+
+          {(selected === "events"
+            ? dummyData?.EventDummy
+            : dummyData?.ServiceDummy) &&
+            isHoveredTooltip && (
+              <div className="opacity-layer-over-table">
+                The current table contains sample data, and this is the way in
+                which your data will be presented.
+              </div>
+            )}
+        </section>
+
         <div className="servicelist-table">
-          <TableContainer component={Paper}>
+          {/* <TableContainer component={Paper}>
             <Table aria-aria-label="Services Table">
               <TableHead>
                 <TableRow>
@@ -839,7 +1120,7 @@ function ServiceDetailPage(props) {
                                 >
                                   Notify Users
                                 </div> */}
-                                {selected !== "events" && (
+          {/* {selected !== "events" && (
                                   <div
                                     className="modaloptions_servicelist"
                                     onClick={() => {
@@ -878,22 +1159,15 @@ function ServiceDetailPage(props) {
                 })}
               </TableBody>
             </Table>
-          </TableContainer>
-
-          {(selected === "events"
-            ? dummyData?.EventDummy
-            : dummyData?.ServiceDummy) && (
-            <div className="opacity-layer-over-table"></div>
-          )}
-
+          </TableContainer> */}{" "}
           {(selected === "events"
             ? dummyData?.EventDummy
             : dummyData?.ServiceDummy) && (
             <div className="cta_dummy_data">
-              <span>
+              {/* <span>
                 The current table contains sample data, and this is the way in
                 which your data will be presented.
-              </span>
+              </span> */}
               <Button2
                 text={
                   selected === "events"

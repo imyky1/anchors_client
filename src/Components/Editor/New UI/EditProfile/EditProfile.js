@@ -184,8 +184,7 @@ const EditProfile = (props) => {
     if (
       data?.name &&
       data?.tagLine &&
-      data?.dob &&
-      sample_number?.length === 10
+      data?.dob 
     ) {
       var profile = previewSourceOne && (await Uploadfile(data1));
       const newData = {

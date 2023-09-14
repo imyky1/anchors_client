@@ -136,7 +136,6 @@ function Users(props) {
               User List for {serviceType === "event" ? "Event" : "Service"}
             </h1>
             <div className="serivce_heading_01">
-              <div className="service_image_wrapper_userlist">
               <img
                 src={
                   serviceType === "download"
@@ -144,7 +143,6 @@ function Users(props) {
                   : eventInfo?.event?.simg
                 }
                 />
-                </div>
               <div className="serivce_heading_02">
                 <section>
                   <span>

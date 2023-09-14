@@ -64,6 +64,8 @@
     border-radius: 8px;
     height: 121px;
     width: 122px;
+    min-width: 122px;
+    
 }
 
 .live_demo_main_creator_details > div{
