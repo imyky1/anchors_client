@@ -268,7 +268,6 @@ export const CreateEventDemo = ({
   ctagline,
   seatCapacity,
   eventSeatCapacity,
-  multipleSpeakers,
   speakersArray,
   speakersImagesArray
 }) => {
@@ -525,7 +524,7 @@ export const CreateEventDemo = ({
                   </section>
                 </div>
               </section>
-              {(multipleSpeakers && speakersArray[0]?.name) ? (
+              {(speakersArray[0]?.name) ? (
                 <section className="scrollable_section_event" style={{alignItems:"center"}}>
                   <section
                     className="right_stable_side_top"
@@ -603,7 +602,7 @@ export const CreateEventDemo = ({
                   Reserve your spot
                 </h2>
                 <span style={{ fontSize: "22px" }}>
-                  {paid ? (
+                  {paid === "Paid" ? (
                     <>
                       ₹{ssp} <span style={{ fontSize: "14px" }}>{smrp}</span>
                     </>

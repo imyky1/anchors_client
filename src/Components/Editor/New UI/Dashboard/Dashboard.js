@@ -284,13 +284,13 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
         <Confetti width={window.screen.width} height={window.screen.height} />
       )}
 
-      {openEventPopup && (
+      {/* {openEventPopup && (
         <EventModel
           onClose={() => {
             setOpenEventPopup(false);
           }}
         />
-      )}
+      )} */}
 
       {openCheckListPopup && <CheckListPopup toClose={()=>{setOpenCheckListPopup(false)}}/>}
 
@@ -462,7 +462,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
             </div> */}
             <div
               onClick={() => {
-                setOpenEventPopup(true);
+                navigate("createevent")
                 mixpanel.track("Share a event");
               }}
               className="dashboard_options"

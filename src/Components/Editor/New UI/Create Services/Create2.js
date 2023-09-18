@@ -3,14 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "./Create2.css";
 import { Button1, Button3 } from "./InputComponents/buttons";
 import {
-  Dropdown1,
   Editor1,
   RadioField1,
   Select1,
-  Tags1,
   TextField1,
-  UploadField1,
-  UploadField2,
   UploadField3,
 } from "./InputComponents/fields_Labels";
 import ServiceContext from "../../../../Context/services/serviceContext";
@@ -19,14 +15,13 @@ import SuccessService from "../../../Modals/ServiceSuccess/Modal";
 import { LoadTwo } from "../../../Modals/Loading";
 
 // imports for image cropping
-import getCroppedImg, { generateDownload } from "../../../helper/imageresize";
-import { Button, Modal, Slider } from "@mui/material";
+import getCroppedImg from "../../../helper/imageresize";
+import { Modal, Slider } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Cropper from "react-easy-crop";
 import { SuperSEO } from "react-super-seo";
-import mixpanel, { alias } from "mixpanel-browser";
-import { FiSend } from "react-icons/fi";
+import mixpanel from "mixpanel-browser";
 import CreateServiceDemo from "./CreateServiceDemo";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 

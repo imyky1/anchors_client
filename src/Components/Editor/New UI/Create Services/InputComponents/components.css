@@ -24,6 +24,13 @@
   display: flex;
   align-items: flex-start;
   position: relative;
+  /* gap: 26px; */
+  flex-direction: column;
+}
+
+.textfiled_container_02 > section{
+  display: flex;
+  align-items: center;
   gap: 26px;
 }
 
@@ -122,6 +129,10 @@
   font-size: 14px;
   line-height: 17px;
   color: #ffffff;
+}
+
+.input_type_01[type="time"]::-webkit-calendar-picker-indicator{
+  filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(130deg) brightness(95%) contrast(80%);
 }
 
 .input_type_01::placeholder {
@@ -558,4 +569,12 @@ input:checked + .slider_type_01:before {
 
 .react-datepicker-wrapper input:focus {
   outline: none;
+}
+
+.react-datepicker-wrapper{
+  width: 100%;
+}
+
+.react-datepicker-wrapper input{
+  width: 100%;
 }

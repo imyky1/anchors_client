@@ -39,8 +39,8 @@ function fields_Labels1(props) {
         type={props?.type ? props?.type : "text"}
         className="input_type_01"
         placeholder={props.placeholder}
-        value={props.value}
-        onChange={props.onChange}
+        value={props?.value}
+        onChange={props?.onChange}
         name={props.name}
         id={props.id}
       />
@@ -182,8 +182,8 @@ function UploadField03(props) {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleChange = (e) => {
-    setfileName(e.target.files[0].name);
-    props?.onChange(e.target.files[0]);
+    setfileName(e?.target.files[0]?.name);
+    props?.onChange(e?.target.files[0]);
     if (props?.onChangeFunction) {
       props?.onChangeFunction(e);
     }
@@ -303,7 +303,6 @@ function fields_Labels4(props) {
 
 // date picker ---------
 function DatePicker01(props) {
-  console.log(props)
   return (
     // Normal type -1 text field used in create
     <div className="textfiled_container_01">
@@ -318,15 +317,18 @@ function DatePicker01(props) {
           >
             {props?.anchorLink?.text}
           </a>
-        )}-
+        )}
         {props?.required && <span style={{ color: "red" }}>*</span>}
       </span>
 
       <div className="textfield_container_03">
         <DatePicker
-          selected={Date.now()}
+          selected={props?.value ?? Date.now()}
+          showYearDropdown
           id={props?.id}
           name={props?.name}
+          dateFormat="dd-MM-yyyy"
+          minDate={new Date()}
           onChange={(date) => props?.onChange(date)}
           placeholderText={props?.placeholder}
         />
@@ -334,6 +336,7 @@ function DatePicker01(props) {
     </div>
   );
 }
+
 
 // tags section ------------------------------
 function Tags01(props) {
@@ -463,21 +466,28 @@ function Select01(props) {
   return (
     // Normal type -1 text field used in create
     <div className="textfiled_container_02">
-      {props?.value?.map((e, i) => {
-        return (
-          <span
-            className={`select_button_type_01 ${
-              props?.defaultValue === e ? "select_button_type_01_active" : ""
-            }`}
-            key={i}
-            onClick={() => {
-              props.selectedValue(e);
-            }}
-          >
-            {e}
-          </span>
-        );
-      })}
+      <span className="label_type_01">
+        {props?.label}{" "}
+        {props?.required && <span style={{ color: "red" }}>*</span>}
+      </span>
+
+      <section>
+        {props?.value?.map((e, i) => {
+          return (
+            <span
+              className={`select_button_type_01 ${
+                props?.defaultValue === e ? "select_button_type_01_active" : ""
+              }`}
+              key={i}
+              onClick={() => {
+                props.selectedValue(e);
+              }}
+            >
+              {e}
+            </span>
+          );
+        })}
+      </section>
     </div>
   );
 }

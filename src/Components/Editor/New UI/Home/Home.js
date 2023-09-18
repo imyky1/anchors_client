@@ -35,6 +35,7 @@ import NoMobileScreen from "../../../Layouts/Error Pages/NoMobileScreen";
 import EditEvent from "../Edit Services/EditEvent";
 import ServiceStats2 from "../ServiceStats/ServiceStats2";
 import Template from "../Sharing Template/Sharing";
+import CreateEvent2 from "../Create Services/CreateEvent2";
 
 function Home(props) {
   const location = useLocation();
@@ -319,7 +320,7 @@ function Home(props) {
                       <Route
                         path="createevent"
                         element={
-                          <CreateEvent
+                          <CreateEvent2
                             progress={props.progress}
                             openDefaultBanner={() => {
                               setOpenDefaultBannerModal(true);
