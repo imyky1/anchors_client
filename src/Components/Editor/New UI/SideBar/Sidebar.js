@@ -13,27 +13,35 @@ import { toast } from "react-toastify";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import ProfileInfoWarn from "../../../Modals/ServiceSuccess/Modal1";
 import mixpanel from "mixpanel-browser";
+import { TooltipBox } from "../Create Services/InputComponents/fields_Labels";
 
 function Sidebar({ userData, moreInfo, alternateInfo }) {
   const localtion = useLocation();
   const navigate = useNavigate();
-  const [showPopup, setshowPopup] = useState(false)    // handle profile warn feature ---------------------
+  const [showPopup, setshowPopup] = useState(false); // handle profile warn feature ---------------------
+
+  const [isHoveredBadge, setIsHoveredBadge] = useState(false);
 
   const handleClickNotFilledInviteCode = () => {
     if (!userData?.inviteCode) {
-      setshowPopup(true)
+      setshowPopup(true);
     }
   };
 
-
   return (
     <>
-      {showPopup && <ProfileInfoWarn toClose={()=>{setshowPopup(false)}} />}
+      {showPopup && (
+        <ProfileInfoWarn
+          toClose={() => {
+            setshowPopup(false);
+          }}
+        />
+      )}
       <div className="sidebar_main_box">
         <img
           onClick={() => {
             navigate("/");
-            mixpanel.track("header logo")
+            mixpanel.track("header logo");
           }}
           src={logo}
           alt=""
@@ -63,28 +71,60 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
                 }}
               />
               <div>
-                <p className="text_sidebar_01">{alternateInfo?.name ?? userData?.name}</p>
+                <p className="text_sidebar_01">
+                  {alternateInfo?.name ?? userData?.name}
+                </p>
                 <div className="text_sidebar_02">
-                  {moreInfo?.Rating !== 0 && <span style={{marginRight:"12px"}}>
-                    <i className="fa-solid fa-star"></i>{" "}
-                    {moreInfo?.Rating}
-                  </span>}
+                  {moreInfo?.Rating !== 0 && (
+                    <span style={{ marginRight: "12px" }}>
+                      <i className="fa-solid fa-star"></i> {moreInfo?.Rating}
+                    </span>
+                  )}
                   <span
                     className="reviews_from_sidebar"
                     onClick={() => {
                       navigate("reviews");
-                      mixpanel.track("dashboard Reviews")
+                      mixpanel.track("dashboard Reviews");
                     }}
                   >
                     {moreInfo?.Reviews} Reviews
                   </span>
                 </div>
+                {userData?.inviteCode && <section className="badges_sidebar_dashboard">
+                  <span>
+                    <img
+                      src={require("../../../../Utils/Images/black-badge.png")}
+                      onMouseOver={() => {
+                        setIsHoveredBadge(true);
+                      }}
+                      onMouseLeave={() => {
+                        setIsHoveredBadge(false);
+                      }}
+                    />
+
+                    {isHoveredBadge && (
+                      <TooltipBox
+                        text="You need at least 10 paid users to Unlock This Badge!
+                        "
+                        // points={[
+                        //   "Creating your first Paid Service",
+                        //   "Receiving 1000 reviews for a Service",
+                        //   "Consistently posting 3 paid Services",
+                        //   "Earning over 500 rupees from your Service",
+                        //   "Receiving 100 reviews for a Service ",
+                        // ]}
+                        top="40px"
+                        left="50px"
+                      />
+                    )}
+                  </span>
+                </section>}
               </div>
             </section>
             <span
               onClick={() => {
                 window.open(`/${userData?.slug}`);
-                mixpanel.track("Public profile link")
+                mixpanel.track("Public profile link");
               }}
             >
               <img src={Globe} alt="" />
@@ -112,20 +152,24 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
                 localtion.pathname === "/dashboard/mycontents" &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
-
-              onClick={()=>{mixpanel.track("My content")}}
-              >
+              onClick={() => {
+                mixpanel.track("My content");
+              }}
+            >
               <img src={svg2} alt="" />
               My Content
             </Link>
             <Link
               to="paymentSummary"
               className={`${
-                (localtion.pathname === "/dashboard/paymentInfo" || localtion.pathname === "/dashboard/paymentSummary") &&
+                (localtion.pathname === "/dashboard/paymentInfo" ||
+                  localtion.pathname === "/dashboard/paymentSummary") &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
-              onClick={()=>{mixpanel.track("Payment")}}
-              >
+              onClick={() => {
+                mixpanel.track("Payment");
+              }}
+            >
               <img src={svg3} alt="" />
               Payment
             </Link>
@@ -135,7 +179,9 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
                 localtion.pathname === "/dashboard/requests" &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
-              onClick={()=>{mixpanel.track("Requests")}}
+              onClick={() => {
+                mixpanel.track("Requests");
+              }}
             >
               <img src={svg4} alt="" />
               Requests
@@ -143,7 +189,8 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
             <Link
               to="stats"
               className={`${
-                (localtion.pathname === "/dashboard/stats" || localtion.pathname.includes("/dashboard/serviceStats")) &&
+                (localtion.pathname === "/dashboard/stats" ||
+                  localtion.pathname.includes("/dashboard/serviceStats")) &&
                 "sidebar_navigation_active"
               } sidebar_navigation_normal`}
             >
@@ -156,10 +203,22 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
         {userData?.inviteCode && (
           <section className="invite_sidebar">
             <h3>INVITE CODE</h3>
-            <span>Share & avail EXCLUSIVE <a href="https://go.anchors.in/invite-code-benefit" target="_blank" style={{color:"unset"}}>benefits</a>!*<br/>-limited time offer</span>
+            <span>
+              Share & avail EXCLUSIVE{" "}
+              <a
+                href="https://go.anchors.in/invite-code-benefit"
+                target="_blank"
+                style={{ color: "unset" }}
+              >
+                benefits
+              </a>
+              !*
+              <br />
+              -limited time offer
+            </span>
             <div
               onClick={() => {
-                mixpanel.track("copy invite code")
+                mixpanel.track("copy invite code");
                 toast.info("Invite Code Copied Successfully", {
                   position: "top-center",
                   autoClose: 1500,

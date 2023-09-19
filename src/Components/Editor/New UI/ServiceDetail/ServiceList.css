@@ -64,13 +64,13 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgb(79, 78, 78);
+  background-color: #121212c4;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  font-weight: 600;
-  color: #ffffff;
+  font-size: 16px;
+  font-weight: 400;
+  color: #d0d0d0;
   
 }
 
@@ -294,7 +294,7 @@
   box-sizing: border-box;
   padding: 20px;
   border-radius: 16px;
-  background: #fff;
+  background: #212121;
   box-shadow: 0px 0px 8px 0px rgba(18, 18, 18, 0.1);
 }
 
@@ -306,13 +306,13 @@
 
 .upcoming_events_wrapper_user_dashboard_page > div span {
   border-radius: 4px;
-  background: #64748b;
+  background: #282828;
   padding: 8px 16px;
   display: flex;
   align-items: center;
   gap: 8px;
 
-  color: #fff;
+  color: #d0d0d0;
   font-family: "Inter";
   font-size: 20px;
   font-style: normal;
@@ -342,7 +342,7 @@
   padding: 20px;
   box-sizing: border-box;
   border-radius: 16px;
-  background: #fff;
+  background: #282828;
   box-shadow: 0px 0px 8px 0px rgba(18, 18, 18, 0.1);
   gap: 20px;
   display: flex;
@@ -358,7 +358,7 @@
 }
 
 .upcoming_event_cards_user_dashboard_event_page > span {
-  color: var(--neutral-gray-800, #1e293b);
+  color: #f8f8f8;
   font-family: "Inter";
   font-size: 20px;
   font-style: normal;
@@ -376,7 +376,7 @@
   align-items: flex-start;
   flex-direction: column;
   gap: 10px;
-  color: var(--neutral-gray-600, #475569);
+  color: #d0d0d0;
   font-family: "Inter";
   font-size: 16px;
   font-style: normal;
@@ -397,8 +397,8 @@
   padding: 12px 20px;
   box-sizing: border-box;
   border-radius: 4px;
-  background: #f00;
-  color: #fff;
+  background: transparent;
+  color: #a0a0a0;
   font-family: "Inter";
   font-size: 16px;
   font-style: normal;
@@ -406,14 +406,14 @@
   line-height: normal;
   border: none;
   cursor: pointer;
-  border: 1px solid #fff;
-  bottom: 40px;
+  border: 1px solid #a0a0a0;
+  bottom: 30px;
   position: absolute;
 }
 
 .upcoming_event_cards_user_dashboard_event_page > button:hover {
-  background: white;
-  color: #f00;
+  background: red;
+  color: #f8f8f8;
   border: 1px solid red;
 }
 
@@ -594,12 +594,12 @@
 }
 
 .mycontent_card_for_service > section > div h2 {
-  color: #666;
+  color: #d0d0d0;
   font-family: "Gilroy-SemiBold", sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: bold;
-  line-height: normal;
+  line-height: 24px;
   width: 90%;
   cursor: pointer;
 }
@@ -647,7 +647,7 @@
   gap: 10px;
   padding: 12px 20px;
 
-  color: #fff;
+  color: #d0d0d0;
   font-family: "Gilroy-Regular", sans-serif;
   font-size: 16px;
   font-style: normal;

@@ -14,6 +14,7 @@ import EventModel from "../../../Modals/EventModal/Event_popup";
 import { MdAttachMoney, MdDone, MdOutlineDone } from "react-icons/md";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import {RxCross2} from "react-icons/rx"
+import {TbChecklist} from "react-icons/tb"
 
 const ChecklistContent = [
   {
@@ -228,7 +229,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
         "Updated Profile Page": 1, // approved only when the creator fills the profile
         "Created First Post": 1,
         "Acquired Paid User": 1,
-        "Acquired Free User": 1,
+        // "Acquired Free User": 1,
         "Setup Payment Account": 1,
       });
     }
@@ -259,13 +260,13 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
       setLoadConfetti(true);
       updateStepperStatus().then((e) => {
         if (e.success) {
-          // toast.success(
-          //   "Congrats You have successfully completed your first Milestone",
-          //   {
-          //     position: "top-center",
-          //     autoClose: 4000,
-          //   }
-          // );
+          toast.success(
+            "Congrats You have successfully completed your first Milestone",
+            {
+              position: "top-center",
+              autoClose: 2000,
+            }
+          );
           setTimeout(() => {
             // window.location.reload()
             setLoadConfetti(false);
@@ -474,7 +475,7 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews }) => {
           </section>
         </div>
 
-        <button className="checklist_button_desgin_dashboard" onClick={()=>{setOpenCheckListPopup(true)}}>Checklist</button>
+        <button className="checklist_button_desgin_dashboard" onClick={()=>{setOpenCheckListPopup(true)}}><TbChecklist size={24} color="#D0D0D0"/> Checklist</button>
       </div>
 
       <SuperSEO title="Anchors - Dashboard" />

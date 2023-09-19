@@ -9,7 +9,6 @@ import {
   tableCellClasses,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import ICON from "./startIcon.svg";
 import React, { useEffect, useState } from "react";
 import { LoadTwo } from "../../../Modals/Loading";
 import "./paymentSummary.css";
@@ -20,6 +19,7 @@ import { SuperSEO } from "react-super-seo";
 import { Button1 } from "../Create Services/InputComponents/buttons";
 import mixpanel from "mixpanel-browser";
 import { BiCommentAdd } from "react-icons/bi";
+import { Table1 } from "../Create Services/InputComponents/fields_Labels";
 
 const PaymentSummary = () => {
   const navigate = useNavigate();
@@ -170,7 +170,7 @@ const PaymentSummary = () => {
         <div className="usereview_details">
           <div className="userreview_detail1">
             <div className="userreview_detail_svg">
-              <BiCommentAdd color="#d0d0d0" size={30}/>
+              <BiCommentAdd color="#d0d0d0" size={30} />
             </div>
             <div className="userreview_detailedno">
               {filterType === "service" ? (
@@ -187,7 +187,7 @@ const PaymentSummary = () => {
           </div>
           <div className="userreview_detail1">
             <div className="userreview_detail_svg">
-            <BiCommentAdd color="#d0d0d0" size={30}/>
+              <BiCommentAdd color="#d0d0d0" size={30} />
             </div>
             <div className="userreview_detailedno">
               <h3>₹ {withdrawal}</h3>
@@ -196,7 +196,7 @@ const PaymentSummary = () => {
           </div>
           <div className="userreview_detail1">
             <div className="userreview_detail_svg">
-            <BiCommentAdd color="#d0d0d0" size={30}/>
+              <BiCommentAdd color="#d0d0d0" size={30} />
             </div>
             <div className="userreview_detailedno">
               {filterType === "service" ? (
@@ -257,157 +257,63 @@ const PaymentSummary = () => {
           </div>
         </div>
         <div className="userrequest-table">
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center">Sr.No</TableCell>
-                  {sort === 0 ? (
-                    <TableCell align="center">
-                      {" "}
-                      {filterType === "service" ? "Service Name" : "Event Name"}
-                    </TableCell>
-                  ) : (
-                    ""
-                  )}
-                  <TableCell align="center">Created on</TableCell>
-                  <TableCell align="center">Earning (INR)</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {filterType === "service" ? (
-                  <>
-                    {sort === 1
-                      ? Object.keys(tablevalues).map((elem, i) => {
-                          var value = tablevalues[elem];
-                          return (
-                            <StyledTableRow
-                              key={i}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                              <StyledTableCell
-                                align="center"
-                                component="th"
-                                scope="row"
-                              >
-                                {i + 1}{" "}
-                              </StyledTableCell>
-                              <StyledTableCell align="center">
-                                {elem}
-                              </StyledTableCell>
-                              <StyledTableCell align="center">
-                                {value}
-                              </StyledTableCell>
-                            </StyledTableRow>
-                          );
-                        })
-                      : service_data.map((elem, i) => (
-                          <StyledTableRow
-                            key={i}
-                            sx={{
-                              "&:last-child td, &:last-child th": { border: 0 },
-                            }}
-                          >
-                            <StyledTableCell
-                              align="center"
-                              component="th"
-                              scope="row"
-                            >
-                              {i + 1}{" "}
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                              {elem.service_name}
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                              {moment(elem.date).fromNow()}
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                              {elem.earning}
-                            </StyledTableCell>
-                          </StyledTableRow>
-                        ))}
-                  </>
-                ) : (
-                  <>
-                    {sort === 1
-                      ? Object.keys(eventTable).map((elem, i) => {
-                          var value = eventTable[elem];
-                          return (
-                            <StyledTableRow
-                              key={i}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                              <StyledTableCell
-                                align="center"
-                                component="th"
-                                scope="row"
-                              >
-                                {i + 1}{" "}
-                              </StyledTableCell>
-                              <StyledTableCell align="center">
-                                {elem}
-                              </StyledTableCell>
-                              <StyledTableCell align="center">
-                                {value}
-                              </StyledTableCell>
-                            </StyledTableRow>
-                          );
-                        })
-                      : event_data.map((elem, i) => (
-                          <StyledTableRow
-                            key={i}
-                            sx={{
-                              "&:last-child td, &:last-child th": { border: 0 },
-                            }}
-                          >
-                            <StyledTableCell
-                              align="center"
-                              component="th"
-                              scope="row"
-                            >
-                              {i + 1}{" "}
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                              {elem.event_name}
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                              {moment(elem.date).fromNow()}
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                              {elem.earning}
-                            </StyledTableCell>
-                          </StyledTableRow>
-                        ))}
-                  </>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
+          <Table1
+            headArray={
+              sort === 1
+                ? ["Sr.No", "Date", "Earning (INR)"]
+                : [
+                    "Sr.No",
+                    filterType === "service" ? "Service Name" : "Event Name",
+                    "Created on",
+                    "Earning (INR)",
+                  ]
+            }
+            bodyArray={
+              filterType === "service"
+                ? sort === 1
+                  ? Object.keys(tablevalues).map((elem, i) => {
+                      return [i + 1, elem, tablevalues[elem]];
+                    })
+                  : service_data.map((elem, i) => {
+                      return [
+                        i + 1,
+                        elem.service_name,
+                        moment(elem.date).fromNow(),
+                        elem.earning,
+                      ];
+                    })
+                : sort === 1
+                ? Object.keys(eventTable).map((elem, i) => {
+                    return [i + 1, elem, eventTable[elem]];
+                  })
+                : event_data.map((elem, i) => {
+                    return [
+                      i + 1,
+                      elem.event_name,
+                      moment(elem?.date).fromNow(),
+                      elem.earning,
+                    ];
+                  })
+            }
+            gridConfig={sort === 1 ? "20% 40% 40%" : "15% 30% 30% 25%"}
+          />
 
-        {dummyData && (
-          <div className="cta_dummy_data">
-            <span>
-              this is dummy data , start creating your first service for your
-              data
-            </span>
-            <Button1
-              text="Create your First Service"
-              width="268px"
-              onClick={() => {
-                navigate("/dashboard");
-              }}
-            />
-          </div>
-        )}
+          {dummyData && (
+            <div className="cta_dummy_data">
+              <span>
+                this is dummy data , start creating your first service for your
+                data
+              </span>
+              <Button1
+                text="Create your First Service"
+                width="268px"
+                onClick={() => {
+                  navigate("/dashboard");
+                }}
+              />
+            </div>
+          )}
+        </div>
       </div>
       <SuperSEO title="Anchors - Payment Summary" />
     </>

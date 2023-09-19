@@ -277,84 +277,90 @@ export const CreatorFeedbackModal = ({ open, onClose }) => {
   }
 
   return (
-    <div
-      className="outer_class_creator_feedback"
-      onClick={(e) => {
-        e?.stopPropagation();
-      }}
-    >
-      <div className="outer_class_creator_feedback01">
-        <div className="outer_class_creator_feedback01_first">
-          Empowering Creators - Your voice is significant. We actively listen.
-          <section>How well do you like us overall?</section>
-          <i
-            class="fa-solid fa-xmark fa-lg chnageStatusModalCross"
-            onClick={() => {
-              onClose();
-            }}
-          ></i>
-        </div>
-        <section className="rating_section_feedback_modal ">
-          <section>
-            {Array(selectedStars?.filled)
-              .fill(selectedStars?.filled)
-              .map((e, i) => {
-                return (
-                  <div className="rating_fb_container" key={i}>
-                    <AiFillStar
-                      className="selected_star"
-                      size={20}
-                      onClick={() => handleratingclick(i)}
-                    />
-                  </div>
-                );
-              })}
-            {Array(selectedStars?.unfilled)
-              .fill(selectedStars?.unfilled)
-              .map((e, i) => {
-                return (
-                  <div className="rating_fb_container" key={i}>
-                    <AiFillStar
-                      className="unselected_star"
-                      size={20}
-                      onClick={() =>
-                        handleratingclick(i + selectedStars?.filled)
-                      }
-                    />
-                  </div>
-                );
-              })}
+    <div className="model_outside_wrapper_success_modal">
+      <div
+        className="outer_class_creator_feedback"
+        onClick={(e) => {
+          e?.stopPropagation();
+        }}
+      >
+        <div className="outer_class_creator_feedback01">
+          <div className="outer_class_creator_feedback01_first">
+            Empowering Creators - Your voice is significant. We actively listen.
+            <section>How well do you like us overall?</section>
+            <i
+              class="fa-solid fa-xmark fa-lg chnageStatusModalCross"
+              onClick={() => {
+                onClose();
+              }}
+            ></i>
+          </div>
+          <section className="rating_section_feedback_modal ">
+            <section>
+              {Array(selectedStars?.filled)
+                .fill(selectedStars?.filled)
+                .map((e, i) => {
+                  return (
+                    <div className="rating_fb_container" key={i}>
+                      <AiFillStar
+                        className="selected_star"
+                        size={20}
+                        onClick={() => handleratingclick(i)}
+                      />
+                    </div>
+                  );
+                })}
+              {Array(selectedStars?.unfilled)
+                .fill(selectedStars?.unfilled)
+                .map((e, i) => {
+                  return (
+                    <div className="rating_fb_container" key={i}>
+                      <AiFillStar
+                        className="unselected_star"
+                        size={20}
+                        onClick={() =>
+                          handleratingclick(i + selectedStars?.filled)
+                        }
+                      />
+                    </div>
+                  );
+                })}
+            </section>
           </section>
-        </section>
-      </div>
-      <div className="outer_class_creator_feedback02">
-        <div className="outer_class_creator_feedback02_textarea">
-          <section>Please share your experience</section>
-          <textarea
-            style={{
-              backgroundColor: "color: var(--neutral-gray-500, #64748B)", // Replace with your desired background color
-              height: "120px",
-              padding: "20px",
-              borderRadius: "8px",
-              border: "1px solid var(--neutral-gray-500, #64748B)",
-              background: "#212121",
-            }}
-            value={feedback}
-            onChange={(e) => {
-              setfeedback(e.target.value);
-            }}
-            placeholder="Please share your experience"
-          ></textarea>
         </div>
-        <div
-          style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
-        >
-          <button
-            className="outer_class_creator_feedback02_button"
-            onClick={handleSubmit}
+        <div className="outer_class_creator_feedback02">
+          <div className="outer_class_creator_feedback02_textarea">
+            <section>Please share your experience</section>
+            <textarea
+              style={{
+                backgroundColor: "color: var(--neutral-gray-500, #64748B)", // Replace with your desired background color
+                height: "120px",
+                padding: "20px",
+                borderRadius: "8px",
+                border: "1px solid var(--neutral-gray-500, #64748B)",
+                background: "#212121",
+              }}
+              value={feedback}
+              onChange={(e) => {
+                setfeedback(e.target.value);
+              }}
+              placeholder="Please share your experience"
+            ></textarea>
+          </div>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
           >
-            Submit
-          </button>
+            <button
+              className="outer_class_creator_feedback02_button"
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </div>
     </div>

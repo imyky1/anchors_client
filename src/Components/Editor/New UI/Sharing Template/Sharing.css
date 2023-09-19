@@ -12,7 +12,7 @@
   font-family: "Gilroy-SemiBold", sans-serif;
   font-size: 24px;
   font-style: normal;
-  font-weight: bold;
+  font-weight: 600;
   margin-bottom: 8px;
 }
 
@@ -57,7 +57,7 @@
   width: 390px;
   display: flex;
   position: relative;
-  min-height: 504px;
+  min-height: 470px;
   padding: 20px;
   flex-direction: column;
   gap: 20px;
@@ -74,12 +74,12 @@
 .Card_wrapper_01 > section {
   color: #fff;
   font-family: "Gilroy-Regular", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   margin-bottom: 50px;
+  line-height: 20px; /* 142.857% */
 }
-
 
 .Card_wrapper_01 > button {
   position: absolute;
@@ -102,13 +102,23 @@
   outline: none;
 }
 .Card_wrapper_01 > button:hover {
-  background: darkgray;
+  background: #d0d0d0;
+  color: black;
 }
 .template_wrapper_00_sharing > span {
+  color: #d0d0d0;
+  font-family: "Gilroy-Bold", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.template_wrapper_00_sharing > p {
   color: #e0e0e0;
   font-family: "Gilroy-Medium", sans-serif;
   font-size: 16px;
   font-style: normal;
-  font-weight: bold;
+  font-weight: 400;
   line-height: 20px; /* 125% */
 }

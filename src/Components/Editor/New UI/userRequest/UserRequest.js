@@ -1,12 +1,4 @@
-import {
-  Paper,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  Table,
-  TableRow,
-} from "@mui/material";
+
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SuperSEO } from "react-super-seo";
@@ -14,11 +6,12 @@ import { creatorContext } from "../../../../Context/CreatorState";
 import { LoadTwo } from "../../../Modals/Loading";
 import { Button1, Button2 } from "../Create Services/InputComponents/buttons";
 import "./UserRequest.css";
-import { AiOutlinePlus ,AiFillGift} from "react-icons/ai";
+import { AiOutlinePlus, AiFillGift } from "react-icons/ai";
 import { MdShoppingCart } from "react-icons/md";
 import { FaClipboardList } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import mixpanel from "mixpanel-browser";
+import { Table1 } from "../Create Services/InputComponents/fields_Labels";
 
 const UserRequest = ({ creatorSlug }) => {
   const navigate = useNavigate();
@@ -68,7 +61,7 @@ const UserRequest = ({ creatorSlug }) => {
         <div className="usereview_details">
           <div className="userreview_detail1">
             <div className="userreview_detail_svg">
-              <FaClipboardList color="#d0d0d0" size={30}/>
+              <FaClipboardList color="#d0d0d0" size={30} />
             </div>
             <div className="userreview_detailedno">
               <span>Total Requests</span>
@@ -77,7 +70,7 @@ const UserRequest = ({ creatorSlug }) => {
           </div>
           <div className="userreview_detail1">
             <div className="userreview_detail_svg">
-              <MdShoppingCart color="#d0d0d0" size={30}/>
+              <MdShoppingCart color="#d0d0d0" size={30} />
             </div>
             <div className="userreview_detailedno">
               <span>Ready to Pay</span>
@@ -86,7 +79,7 @@ const UserRequest = ({ creatorSlug }) => {
           </div>
           <div className="userreview_detail1">
             <div className="userreview_detail_svg">
-             <AiFillGift color="#d0d0d0" size={30}/>
+              <AiFillGift color="#d0d0d0" size={30} />
             </div>
             <div className="userreview_detailedno">
               <span>Free Resources</span>
@@ -96,53 +89,35 @@ const UserRequest = ({ creatorSlug }) => {
         </div>
         {openLoading && <LoadTwo open={openLoading} />}
 
-        <div className="userrequest-table" onMouseEnter={() => {
-              dummyData && setIsHoveredTooltip(true);
-            }}
-            onMouseLeave={() => {
-              dummyData && setIsHoveredTooltip(false);
-            }}>
-          <TableContainer
-            component={Paper}
-          >
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center">Sr.No</TableCell>
-                  <TableCell align="center">Name</TableCell>
-                  <TableCell align="center">Resources Requested</TableCell>
-                  <TableCell align="center">Ready to pay</TableCell>
-                  {/* <TableCell>Amount</TableCell> */}
-                  <TableCell align="center">Requested date</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {querries?.length !== 0
-                  ? querries?.map((elem, i) => {
-                      return (
-                        <>
-                          <TableRow key={i}>
-                            <TableCell align="center">{i + 1}</TableCell>
-                            <TableCell align="center">
-                              {elem.user.name ? elem.user.name : "--"}
-                            </TableCell>
-                            <TableCell align="center">{elem.desc}</TableCell>
-                            <TableCell align="center">
-                              {elem.willPay === true ? "Yes" : "No"}
-                            </TableCell>
-                            <TableCell align="center">
-                              {renderdate1(elem.date)}
-                              <br></br>
-                              {renderdate2(elem.date)}
-                            </TableCell>
-                          </TableRow>
-                        </>
-                      );
-                    })
-                  : ""}
-              </TableBody>
-            </Table>
-          </TableContainer>
+        <div
+          className="userrequest-table"
+          onMouseEnter={() => {
+            dummyData && setIsHoveredTooltip(true);
+          }}
+          onMouseLeave={() => {
+            dummyData && setIsHoveredTooltip(false);
+          }}
+        >
+          <Table1
+            headArray={[
+              "Sr.No",
+              "Name",
+              "Resources Requested",
+              "Ready to pay",
+              "Requested date",
+            ]}
+            bodyArray={querries?.map((elem, i) => {
+              return [
+                i + 1,
+                elem.user.name ? elem.user.name : "--",
+                elem.desc,
+                elem.willPay === true ? "Yes" : "No",
+                <p>{renderdate1(elem.date)} <br></br>
+                {renderdate2(elem.date)}</p>,
+              ];
+            })}
+            gridConfig="8% 23% 29% 18% 22%"
+          />
 
           {dummyData && isHoveredTooltip && (
             <div className="opacity-layer-over-table">

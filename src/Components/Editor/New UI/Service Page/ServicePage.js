@@ -761,7 +761,7 @@ function ServicePage(props) {
             {/* Service Banner in aspect ratio -------- */}
             <div>
               <LazyLoadImage
-                src={serviceInfo?.service?.simg}
+                src={window.screen.width < 600 ? (serviceInfo?.service?.mobileSimg ?? serviceInfo?.service?.simg) : serviceInfo?.service?.simg}
                 alt="servicebanner"
               />
             </div>

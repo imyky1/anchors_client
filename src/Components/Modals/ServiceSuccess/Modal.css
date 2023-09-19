@@ -160,6 +160,19 @@
 
 /* Congrats popup ----------------- */
 
+.model_outside_wrapper_success_modal {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .congratualtion_popup_outer {
   animation: popoutModal 0.5s ease-in-out forwards;
   background-color: #121212;
@@ -176,6 +189,29 @@
   z-index: 99999999999;
   left: 0;
   bottom: 0;
+}
+
+.new_congratualtion_popup_outer {
+  animation: fadeInFromZero 0.5s ease-in-out forwards;
+  background-color: #121212;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 80px;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 800px;
+  z-index: 99999999999;
+}
+
+@keyframes fadeInFromZero {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .congratualtion_popup_inside {
@@ -218,12 +254,34 @@
   font-weight: 400;
 }
 
+.new_congratualtion_popup_inside_symbol_middle {
+  color: #f8f8f8;
+  text-align: center;
+  font-family: "Gilroy-SemiBold", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.new_congratualtion_popup_inside_symbol_middle > section {
+  color: #d0d0d0;
+  text-align: center;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 8px;
+}
+
 .congratualtion_popup_inside_symbol_last {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 40px;
   align-self: stretch;
+  margin-top: 20px;
 }
 
 .congratualtion_popup_inside_symbol_last_01 {
@@ -260,7 +318,7 @@
   border: none;
 }
 
-.chnageStatusModalCross{
+.chnageStatusModalCross {
   color: grey;
   position: absolute;
   right: 40px;
@@ -268,8 +326,31 @@
   cursor: pointer;
 }
 
-.chnageStatusModalCross:hover{
+.chnageStatusModalCross:hover {
   color: red;
+}
+
+.button_serviceModal_creation01 {
+  padding: 12px 40px;
+  border-radius: 4px;
+  background: #212121;
+  box-shadow: 0px 4px 8px 0px rgba(31, 31, 31, 0.1);
+  border: none;
+  color: #fff;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.button_serviceModal_creation01:hover {
+  background-color: #282828;
 }
 
 @media screen and (max-width: 660px) {

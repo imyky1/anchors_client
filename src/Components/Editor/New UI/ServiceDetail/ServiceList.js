@@ -38,6 +38,7 @@ const ContentCard = ({
   i,
   _id,
   simg,
+  mobileSimg,
   sname,
   downloads,
   date,
@@ -60,7 +61,6 @@ const ContentCard = ({
   setOpenModel,
   OpenOption,
   revArray,
-  setIsHoveredTooltip,
 }) => {
   const navigate = useNavigate();
 
@@ -80,22 +80,6 @@ const ContentCard = ({
         `servicelist_options${OpenOption}`
       ).style.display = "none";
       setOpenOption(0);
-    }
-  };
-
-  const getDatelist = (date) => {
-    let ll = date?.slice(0, date.toString().length - 5);
-    const datenew = ll?.split("T");
-    if (datenew) {
-      return datenew[0];
-    }
-  };
-
-  const getDatelist2 = (date) => {
-    let ll = date?.slice(0, date.toString().length - 5);
-    const datenew = ll?.split("T");
-    if (datenew) {
-      return datenew[1];
     }
   };
 
@@ -142,7 +126,7 @@ const ContentCard = ({
   return (
     <div className="mycontent_card_for_service">
       <img
-        src={simg}
+        src={mobileSimg ?? simg}
         alt=""
         onClick={() => {
           selected === "events"
@@ -154,7 +138,7 @@ const ContentCard = ({
         <div
           style={{
             display: "flex",
-            gap: "8px",
+            gap: "16px",
             flexDirection: "column",
             width: "100%",
           }}
@@ -190,8 +174,9 @@ const ContentCard = ({
             </span>
             <span>
               <MdDateRange />{" "}
-              {getDatelist(selected === "events" ? startDate : date)}{" "}
-              {getDatelist2(selected === "events" ? startDate : date)}
+              {new Date(
+                selected === "events" ? startDate : date
+              ).toLocaleString()}
             </span>
             <span>
               <BiRupee /> {ssp}

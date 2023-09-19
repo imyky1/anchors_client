@@ -10,9 +10,16 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-export const TooltipBox = ({ text }) => (
-  <div className="tooltip-component-box" style={{ top: "30px" }}>
-    {text}
+export const TooltipBox = ({ text, top, left, points = [] }) => (
+  <div className="tooltip-component-box" style={{ top, left } ?? {}}>
+    <b>{text}</b>
+    {points.length > 0 && (
+      <ul>
+        {points?.map((e, i) => {
+          return <li key={i}>{e}</li>;
+        })}
+      </ul>
+    )}
   </div>
 );
 
@@ -256,24 +263,6 @@ function fields_Labels3(props) {
   );
 }
 
-// social fields --------------------------------------------
-// function fields_Labels4(props) {
-//   return (
-//     // Normal type -1 text field used in create
-//     <div className="textfiled_container_01">
-//       <input
-//         type="text"
-//         className="input_type_01"
-//         placeholder={props.placeholder}
-//         value={props.value}
-//         name={props.name}
-//         id={props.id}
-//         onChange={props.onChange}
-//       />
-//     </div>
-//   );
-// }
-
 // Social fields ---------------
 function fields_Labels4(props) {
   return (
@@ -336,7 +325,6 @@ function DatePicker01(props) {
     </div>
   );
 }
-
 
 // tags section ------------------------------
 function Tags01(props) {
@@ -492,6 +480,33 @@ function Select01(props) {
   );
 }
 
+function Table01({ headArray = [], bodyArray = [], gridConfig }) {
+
+  return (
+    <div className="table_component_wrapper01">
+      {/* table head --------- */}
+      <section style={{ gridTemplateColumns: gridConfig }}>
+        {headArray?.map((e) => {
+          return <span key={e}>{e}</span>;
+        })}
+      </section>
+
+      {/* table body */}
+      <div>
+        {bodyArray?.map((elem, i) => {
+          return (
+            <div className="table_component_body01" style={{ gridTemplateColumns: gridConfig }}>
+              {elem && elem?.map((e,i)=>{
+                return <span>{e}</span>
+              })}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export const TextField1 = fields_Labels1;
 export const Editor1 = EditorText01;
 export const UploadField1 = UploadField01;
@@ -503,3 +518,4 @@ export const Tags1 = Tags01;
 export const Dropdown1 = Dropdown01;
 export const Select1 = Select01;
 export const DatePicker1 = DatePicker01;
+export const Table1 = Table01;

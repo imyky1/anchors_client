@@ -90,6 +90,7 @@ const ServiceState = (props) => {
     allowDownload,
     noOfPage,
     simg,
+    mobileSimg,
     surl,
     slug,
   ) => {
@@ -108,6 +109,7 @@ const ServiceState = (props) => {
         slug,
         tags: tags,
         simg,
+        mobileSimg,
         surl,
         stype: stype,
         isPaid: isPaid,

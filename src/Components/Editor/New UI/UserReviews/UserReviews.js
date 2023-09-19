@@ -1,12 +1,4 @@
-import {
-  Paper,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  Table,
-  TableRow,
-} from "@mui/material";
+
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { creatorContext } from "../../../../Context/CreatorState";
 import ShowReviewModel from "../../../Modals/ShowReviewModel";
@@ -19,6 +11,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BiCommentAdd } from "react-icons/bi";
+import { Table1 } from "../Create Services/InputComponents/fields_Labels";
 
 const UserReviews = ({ creatorSlug }) => {
   const navigate = useNavigate();
@@ -105,7 +98,7 @@ const UserReviews = ({ creatorSlug }) => {
         <div className="usereview_details">
           <div className="userreview_detail1">
             <div className="userreview_detail_svg">
-            <BiCommentAdd color="#d0d0d0" size={30}/>
+              <BiCommentAdd color="#d0d0d0" size={30} />
             </div>
             <div className="userreview_detailedno">
               <span>Total Reviews</span>
@@ -116,7 +109,7 @@ const UserReviews = ({ creatorSlug }) => {
           </div>
           <div className="userreview_detail1">
             <div className="userreview_detail_svg">
-            <BiCommentAdd color="#d0d0d0" size={30}/>
+              <BiCommentAdd color="#d0d0d0" size={30} />
             </div>
             <div className="userreview_detailedno">
               <span>5 Star Reviews</span>
@@ -129,7 +122,7 @@ const UserReviews = ({ creatorSlug }) => {
           </div>
           <div className="userreview_detail1">
             <div className="userreview_detail_svg">
-            <BiCommentAdd color="#d0d0d0" size={30}/>
+              <BiCommentAdd color="#d0d0d0" size={30} />
             </div>
             <div className="userreview_detailedno">
               <span>1 Star Reviews</span>
@@ -156,62 +149,39 @@ const UserReviews = ({ creatorSlug }) => {
             dummyData && setIsHoveredTooltip(false);
           }}
         >
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell align="center">S.No</TableCell>
-                  <TableCell align="center">Name</TableCell>
-                  <TableCell align="center">Service Name</TableCell>
-                  <TableCell align="center">Ratings</TableCell>
-                  <TableCell align="center">Review</TableCell>
-                  <TableCell align="center">Review Date</TableCell>
-                  <TableCell align="center">Display on Your Page</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {feedbacks?.map((elem, i) => {
-                  return (
-                    <>
-                      <TableRow key={i}>
-                        <TableCell align="center">{i + 1}</TableCell>
-                        <TableCell align="center">
-                          {elem.user.name ? elem.user.name : "--"}
-                        </TableCell>
-                        <TableCell align="center">{elem.sname}</TableCell>
-                        <TableCell align="center">{elem.rating}</TableCell>
-                        <TableCell align="center">{elem.desc}</TableCell>
-                        <TableCell align="center">{elem.date}</TableCell>
-                        <TableCell align="center">
-                          <span>
-                            {/* <label className="switch2">
-                                       <input
-                                        type="checkbox"
-                                        id={`checkbox_${i + 1}`}
-                                        checked={elem.status}
-                                      />
-                                      <span className="slider2 round2"></span>
-                                    </label> */}
-                            <label className="switch_type_01">
-                              <input
-                                id={`checkbox_${i + 1}`}
-                                type="checkbox"
-                                checked={elem.status}
-                                onChange={() =>
-                                  !dummyData && handleCheckClick(elem)
-                                }
-                              />
-                              <span className="slider_type_01 round_type_01"></span>
-                            </label>
-                          </span>
-                        </TableCell>
-                      </TableRow>
-                    </>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <Table1
+            headArray={[
+              "Sr.No",
+              "Name",
+              "Service Name",
+              "Ratings",
+              "Review",
+              "Review Date",
+              "Display on Your Page",
+            ]}
+            bodyArray={feedbacks?.map((elem, i) => {
+              return [
+                i + 1,
+                elem?.user?.name ? elem?.user?.name : "--",
+                elem?.sname,
+                elem?.rating,
+                elem?.desc ? elem?.desc : "---",
+                elem?.date,
+                <span>
+                  <label className="switch_type_01">
+                    <input
+                      id={`checkbox_${i + 1}`}
+                      type="checkbox"
+                      checked={elem.status}
+                      onChange={() => !dummyData && handleCheckClick(elem)}
+                    />
+                    <span className="slider_type_01 round_type_01"></span>
+                  </label>
+                </span>,
+              ];
+            })}
+            gridConfig="4% 15% 20% 11% 24% 12% 13%"
+          />
 
           {dummyData && isHoveredTooltip && (
             <div className="opacity-layer-over-table">

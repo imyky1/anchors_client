@@ -80,16 +80,18 @@
 
 .outer {
   width: 1079px;
-  height: 540px;
+  height: 380px;
   position: relative;
 }
 
-.outer > div{
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    z-index: 99999;
+.outer > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  z-index: 99999;
+  height: 100%;
+  width: 100%;
 }
 
 .outer > img {
@@ -105,7 +107,7 @@
   align-items: center;
 
   margin-left: 80px;
-  margin-top: 136px;
+  margin-top: 61px;
 }
 
 .type_text {
@@ -130,8 +132,9 @@
   margin-left: 80px;
 }
 .creator_name {
-  margin-left: 80px;
-  margin-top: 80px;
+  position: absolute;
+  bottom: 40px;
+  left: 80px;
   border-radius: 4px;
 
   display: inline-flex;
@@ -148,13 +151,122 @@
 
 .outer_01 {
   flex-direction: column;
+  height: 100%;
+  position: relative;
 }
 
 .right_image {
-  margin-top: 150px;
-  margin-left: 59px;
+  position: absolute;
+  top: 70px;
+  right: 85px;
   width: 240px;
   height: 240px;
   flex-shrink: 0;
   fill: var(--neutral-gray-200, #e2e8f0);
+}
+
+.mobile_banner_right_image > img{
+  width: 100%;
+  height: 100%;
+}
+
+/*  mobile banner -------- */
+
+.mobile_banner {
+  width: 328px;
+  height: 164px;
+  z-index: -10;
+  position: absolute;
+}
+
+.mobile_banner > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  z-index: 99999;
+  height: 100%;
+  width: 100%;
+}
+
+.mobile_banner > img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.mobile_banner_type_01 {
+  display: inline-flex;
+  align-items: center;
+
+  margin-left: 16px;
+  margin-top: 16px;
+}
+
+.mobile_banner_type_01 > img{
+  width: 16px;
+  height: 16px;
+}
+
+.mobile_banner_type_text {
+  color: var(--neutral-gray-400, #94a3b8);
+  padding-left: 4px;
+  font-family: "Inter";
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
+}
+
+.mobile_banner_type_title {
+  width: 180px;
+  color: var(--neutral-gray-100, #f1f5f9);
+  font-family: "Gilroy-Bold", "Inter";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  margin-top: 8px;
+  margin-left: 17px;
+}
+.mobile_banner_creator_name {
+  position: absolute;
+  bottom: 25px;
+  left: 17px;
+  border-radius: 4px;
+
+  display: inline-flex;
+  padding: 2px 4px;
+  align-items: center;
+  gap: 10px;
+  color: var(--neutral-gray-200, #e2e8f0);
+  font-family: "Inter";
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
+}
+
+.mobile_banner_outer_01 {
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+.mobile_banner_right_image {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  fill: var(--neutral-gray-200, #e2e8f0);
+  position: absolute;
+  top: 42px;
+  right: 32px;
+}
+
+
+.mobile_banner_right_image > img{
+  width: 100%;
+  height: 100%;
 }

@@ -49,8 +49,8 @@ const generateTemplates = (serviceInfo) => {
     ),
     Insta01: (
       <p>
-        🚀 Exciting News! ${serviceInfo?.service?.sname} 🚀 <br />
-        <br /> Hello y'all, <br /> I'm excited to introduce you to $
+        🚀 Exciting News! {serviceInfo?.service?.sname} 🚀 <br />
+        <br /> Hello y'all, <br /> I'm excited to introduce you to
         {serviceInfo?.service?.sname}, which is all about changing the game &
         creating impact. I hope that it will be helpful for you all. Tap the
         following URL to get all the details, and let's embark on this journey
@@ -146,7 +146,7 @@ const Card = ({ text, serviceInfo, id }) => {
 
   return (
     <div className="Card_wrapper_01">
-      <img src={serviceInfo?.service?.simg} />
+      <img src={serviceInfo?.service?.mobileSimg ?? serviceInfo?.service?.simg } />
       <section id={id}>{text}</section>
       <button
         onClick={() => {
@@ -212,7 +212,7 @@ const Template = () => {
               id="wAte02"
             />
           </section>
-          <span>Note : copy or edit If you want to change message.</span>
+          <p>Note : copy or edit If you want to change message.</p>
         </div>
         <div className="template_wrapper_00_sharing">
           <span style={{ background: "#282828", padding: "8px 20px" }}>
@@ -231,7 +231,7 @@ const Template = () => {
               id="link02"
             />
           </section>
-          <span>Note : copy or edit If you want to change message.</span>
+          <p>Note : copy or edit If you want to change message.</p>
         </div>
         <div className="template_wrapper_00_sharing">
           <span
@@ -255,7 +255,7 @@ const Template = () => {
               id="Insta02"
             />
           </section>
-          <span>Note : copy or edit If you want to change message.</span>
+          <p>Note : copy or edit If you want to change message.</p>
         </div>
         <div className="template_wrapper_00_sharing">
           <span style={{ background: "#282828", padding: "8px 20px" }}>
@@ -274,7 +274,7 @@ const Template = () => {
               id="wATe04"
             />
           </section>
-          <span>Note : copy or edit If you want to change message.</span>
+          <p>Note : copy or edit If you want to change message.</p>
         </div>
         <div className="template_wrapper_00_sharing">
           <span style={{ background: "#282828", padding: "8px 20px" }}>
@@ -293,7 +293,7 @@ const Template = () => {
               id="utube02"
             />
           </section>
-          <span>Note : copy or edit If you want to change message.</span>
+          <p>Note : copy or edit If you want to change message.</p>
         </div>
       </div>
     </div>

@@ -11,7 +11,9 @@ import {
 } from "./InputComponents/fields_Labels";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { toast } from "react-toastify";
-import SuccessService from "../../../Modals/ServiceSuccess/Modal";
+import SuccessService, {
+  CongratsServiceModal, NewCongratsServiceModal,
+} from "../../../Modals/ServiceSuccess/Modal";
 import { LoadTwo } from "../../../Modals/Loading";
 
 // imports for image cropping
@@ -40,7 +42,7 @@ const FirstPage = ({
   paid,
   setpaid,
   onSubmit,
-  setdata
+  setdata,
 }) => {
   return (
     <>
@@ -51,7 +53,7 @@ const FirstPage = ({
             value={["Paid", "Free"]}
             selectedValue={(e) => {
               setpaid(e);
-              setdata({...data,ssp:0,smrp:0})
+              setdata({ ...data, ssp: 0, smrp: 0 });
             }}
             defaultValue={paid}
           />
@@ -101,6 +103,8 @@ const FirstPage = ({
                     mixpanel.track("Edit Browse Banner");
                   }
                 }}
+
+                info = {defaultbanner ? "you have to edit banner again if you change your title" : null}
               />
             )}
           </section>
@@ -326,6 +330,7 @@ function Create({
   cname,
   FinalDefaultBannerFormData,
   defaultImageobjectUrl,
+  MobileFinalDefaultBannerFormData,
 }) {
   const navigate = useNavigate();
 
@@ -342,6 +347,7 @@ function Create({
     open: false,
     link: "",
     buttonType: "",
+    slug: "",
   }); // success popup data
 
   // Pages control state
@@ -367,6 +373,7 @@ function Create({
     addFinalService,
     UploadDocuments,
     Uploadfile,
+    UploadBanners,
     getserviceinfo,
     serviceInfo,
   } = useContext(ServiceContext);
@@ -505,6 +512,7 @@ function Create({
             setshowPopup({
               open: true,
               link: json?.shortLink,
+              slug: json?.service?.slug,
             });
           } else {
             setOpenLoading(false);
@@ -541,87 +549,96 @@ function Create({
   // Page one submisson ------------
   const onSubmitFormOne = async () => {
     let slug = process();
-    let SlugCount = await getslugcount(slug.toLowerCase(),draftCreated?.serviceID);
+    let SlugCount = await getslugcount(
+      slug.toLowerCase(),
+      draftCreated?.serviceID
+    );
     setOpenLoading(true); // true on loader
     progress(0);
     if (
       data.sname.length > 1 &&
-      ServiceDoc && paid &&
+      ServiceDoc &&
+      paid &&
       (BannerImage || defaultbanner)
     ) {
-      if(data?.ssp <= data?.smrp){
-      try {
-        var banner;
-        //  means that the banner and the doc uploaded already is not saved earlier
-        if (defaultbanner) {
-          if (FinalDefaultBannerFormData instanceof FormData) {
-            banner = await Uploadfile(FinalDefaultBannerFormData);
+      if (data?.ssp <= data?.smrp) {
+        try {
+          var banner = null;
+          var mobBanner = null;
+          //  means that the banner and the doc uploaded already is not saved earlier
+          if (defaultbanner) {
+            if (FinalDefaultBannerFormData instanceof FormData) {
+              banner = await UploadBanners(FinalDefaultBannerFormData);
+              mobBanner = await UploadBanners(MobileFinalDefaultBannerFormData);
+            } else {
+              toast.info(
+                `Save the default banner design from the Edit Option`,
+                {
+                  position: "top-center",
+                  autoClose: 2500,
+                }
+              );
+              setOpenLoading(false);
+              return null;
+            }
           } else {
-            toast.info(`Save the default banner design from the Edit Option`, {
-              position: "top-center",
-              autoClose: 2500,
-            });
-            setOpenLoading(false);
-            return null;
+            banner = await UploadBanners(data1); /// uplaoding banner and files on s3
           }
-        } else {
-          banner = await Uploadfile(data1); /// uplaoding banner and files on s3
-        }
-        var doc = await UploadDocuments(data2);
-        if (banner?.success && doc?.success) {
-          progress(75);
-          let json = await addBasicService(
-            draftCreated?.serviceID,
-            data.sname,
-            data.sdesc,
-            Content,
-            Tags,
-            CreateType === "excel" ? 1 : CreateType === "video" ? 2 : 0, // type for pdf is 0 and excel is 1 and video is 2
-            paid === "Free" ? false : true,
-            paid === "Free" ? 0 : data.smrp,
-            paid === "Free" ? 0 : data.ssp,
-            allowDownload,
-            noOfPage,
-            banner?.url,
-            doc?.result?.Location,
-            SlugCount === 0
-              ? slug.toLowerCase()
-              : slug.toLowerCase().concat("--", `${SlugCount}`),
-          );
-          if (json?.success) {
-            setCurrentPage(currentPage + 1);
-            setDraftCreated({ status: true, serviceID: json?.serviceID }); // to know that document is already created
-            setOpenLoading(false);
+          var doc = await UploadDocuments(data2);
+          if (banner?.success && doc?.success) {
+            progress(75);
+            let json = await addBasicService(
+              draftCreated?.serviceID,
+              data.sname,
+              data.sdesc,
+              Content,
+              Tags,
+              CreateType === "excel" ? 1 : CreateType === "video" ? 2 : 0, // type for pdf is 0 and excel is 1 and video is 2
+              paid === "Free" ? false : true,
+              paid === "Free" ? 0 : data.smrp,
+              paid === "Free" ? 0 : data.ssp,
+              allowDownload,
+              noOfPage,
+              banner?.result?.Location,
+              mobBanner?.result?.Location,
+              doc?.result?.Location,
+              SlugCount === 0
+                ? slug.toLowerCase()
+                : slug.toLowerCase().concat("--", `${SlugCount}`)
+            );
+            if (json?.success) {
+              setCurrentPage(currentPage + 1);
+              setDraftCreated({ status: true, serviceID: json?.serviceID }); // to know that document is already created
+              setOpenLoading(false);
+            } else {
+              setOpenLoading(false);
+              toast.error(`Service Not Created Please Try Again`, {
+                position: "top-center",
+                autoClose: 2000,
+              });
+            }
           } else {
             setOpenLoading(false);
-            toast.error(`Service Not Created Please Try Again`, {
+            toast.error(`Facing issues while uploading files and images`, {
               position: "top-center",
               autoClose: 2000,
             });
           }
-        } else {
+        } catch (error) {
           setOpenLoading(false);
-          toast.error(`Facing issues while uploading files and images`, {
+          console.log(error);
+          toast.error(`Server side error please try after some time`, {
             position: "top-center",
             autoClose: 2000,
           });
         }
-      } catch (error) {
+      } else {
         setOpenLoading(false);
-        console.log(error);
-        toast.error(`Server side error please try after some time`, {
-          position: "top-center",
-          autoClose: 2000,
-        });
-      }
-    }
-    else{
-      setOpenLoading(false);
         toast.error(`Pricing is invalid`, {
           position: "top-center",
           autoClose: 2000,
         });
-    }
+      }
     } else {
       setOpenLoading(false);
       toast.info("Fill all the Mandatory Fields", {
@@ -653,13 +670,10 @@ function Create({
       {openLoading && <LoadTwo open={openLoading} />}
 
       {showPopup?.open && (
-        <SuccessService
-          type={CreateType}
+        <NewCongratsServiceModal
+          type="service"
           link={showPopup?.link}
-          buttonType={showPopup?.buttonType}
-          onClose={() => {
-            setshowPopup({ ...showPopup, open: false });
-          }}
+          slug={showPopup?.slug}
         />
       )}
 

@@ -54,11 +54,12 @@
 }
 
 .dashboard_options:hover {
-  background-color: #ffffff;
+  background-color: #212121;
+  border: 0.5px solid #212121;
 }
 
 .dashboard_options:hover > span {
-  color: #000000;
+  color: red;
 }
 
 .dashboard_options > span {
@@ -407,12 +408,16 @@
   font-weight: 400;
   line-height: normal;
 
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
   padding: 12px 20px;
   background: #212121;
 
   position: absolute;
   right: 80px;
-  bottom: 105px;
+  bottom: 50px;
   border: none;
   cursor: pointer;
   transition: transform 0.3s ease;

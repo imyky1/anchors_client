@@ -47,9 +47,9 @@
   color: #0083fe;
   display: flex;
   align-items: center;
-  margin-top: 23px;
+  margin-top: 12px;
   cursor: pointer;
-  padding-left: 15px;
+  padding-left: 13px;
 }
 
 .sidebar_main_box > div > div > span img {
@@ -64,7 +64,7 @@
   font-weight: 700;
   font-size: 16px;
   line-height: 19px;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .text_sidebar_02 {
@@ -73,14 +73,13 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 15px;
-  color: #D0D0D0;
+  color: #d0d0d0;
 }
 
 /* creator profile sidebar------------------------------------ */
 
 .creator_sidebar_details {
   display: flex;
-  align-items: center;
   justify-content: flex-start;
   /* background-color: red; */
 }
@@ -125,7 +124,7 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
-  color: #E1E1E1;
+  color: #e1e1e1;
   cursor: pointer;
   border-radius: 8px;
   box-sizing: border-box;
@@ -134,19 +133,19 @@
 }
 
 .sidebar_navigation > a:hover {
-  color: #F8F8F8;
+  color: #f8f8f8;
 }
 
 .sidebar_navigation > a img {
   margin-right: 15px;
   width: 24px;
   height: 24px;
-  color: #F8F8F8;
+  color: #f8f8f8;
 }
 
 .sidebar_navigation_active {
   background: #212121;
-  color: #F8F8F8;
+  color: #f8f8f8;
 }
 
 /* invite section sidebar -------------------------------------------------------- */
@@ -168,7 +167,7 @@
   font-weight: 600;
   font-size: 16px;
   line-height: 19px;
-  color: #F8F8F8;
+  color: #f8f8f8;
   text-transform: uppercase;
 }
 
@@ -178,7 +177,7 @@
   font-weight: 400;
   font-size: 11px;
   line-height: 13px;
-  color: #D0D0D0;
+  color: #d0d0d0;
   margin-top: 8px;
 }
 
@@ -195,8 +194,31 @@
   font-weight: 600;
   font-size: 16px;
   line-height: 19px;
-  color: #F8F8F8;
+  color: #f8f8f8;
   padding-left: 10px;
   box-sizing: border-box;
   cursor: pointer;
+}
+
+/* badges ---- */
+
+.badges_sidebar_dashboard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.badges_sidebar_dashboard > span{
+  width: 40.883px;
+  position: relative;
+  position: relative;
+  left: -10px;
+}
+
+.badges_sidebar_dashboard > span img {
+  width: 100%;
+  cursor: pointer;
+  /* height: 28px; */
 }

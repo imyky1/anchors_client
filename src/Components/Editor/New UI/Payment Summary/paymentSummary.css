@@ -52,6 +52,7 @@
     padding-bottom: 2vh;
     -webkit-user-select: none;
     margin-top: 40px;
+    position: relative;
   }
   
   .servicelist-categories2 {
@@ -86,6 +87,8 @@
   .filter_service_event_payment select {
     padding: 6px;
     border-radius: 2px;
+    background: #212121;
+    color: #d0d0d0;
   }
 
 

@@ -3,7 +3,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { creatorContext } from "../../../../Context/CreatorState";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { LoadTwo } from "../../../Modals/Loading";
-import SuccessService from "../../../Modals/ServiceSuccess/Modal";
+import SuccessService, { NewCongratsServiceModal } from "../../../Modals/ServiceSuccess/Modal";
 import {
   DatePicker1,
   Editor1,
@@ -181,11 +181,7 @@ const EditProfile = (props) => {
     e.preventDefault();
     sample_number = sample_number?.toString();
 
-    if (
-      data?.name &&
-      data?.tagLine &&
-      data?.dob 
-    ) {
+    if (data?.name && data?.tagLine && data?.dob) {
       var profile = previewSourceOne && (await Uploadfile(data1));
       const newData = {
         ...data,
@@ -228,8 +224,8 @@ const EditProfile = (props) => {
   return (
     <>
       {showPopup?.open && (
-        <SuccessService
-          type="Profile Information"
+        <NewCongratsServiceModal
+          type="editProfile"
           firstTimeModalOpenDashboard={showPopup?.firstTimeModalOpenDashboard}
         />
       )}

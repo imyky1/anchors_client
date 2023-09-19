@@ -28,7 +28,7 @@
   flex-direction: column;
 }
 
-.textfiled_container_02 > section{
+.textfiled_container_02 > section {
   display: flex;
   align-items: center;
   gap: 26px;
@@ -131,8 +131,9 @@
   color: #ffffff;
 }
 
-.input_type_01[type="time"]::-webkit-calendar-picker-indicator{
-  filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(130deg) brightness(95%) contrast(80%);
+.input_type_01[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(130deg)
+    brightness(95%) contrast(80%);
 }
 
 .input_type_01::placeholder {
@@ -536,8 +537,8 @@ input:checked + .slider_type_01:before {
   border-radius: 4px;
   font-size: 14px;
   z-index: 1;
-  top: 100%;
-  left: 50%;
+  top: 30px;
+  left: 100%;
   transform: translateX(-50%);
   max-width: 200px; /* Adjust the maximum width as needed */
   width: max-content; /* Ensure the width only expands to fit the content */
@@ -548,6 +549,15 @@ input:checked + .slider_type_01:before {
   line-height: 20px;
   color: #ffffff;
   z-index: 99999;
+}
+
+.tooltip-component-box > ul {
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+.tooltip-component-box > ul li {
+  margin-bottom: 5px;
 }
 
 /* react date picker ----- */
@@ -563,7 +573,7 @@ input:checked + .slider_type_01:before {
   color: #ffffff;
 }
 
-.react-datepicker-wrapper input::placeholder{
+.react-datepicker-wrapper input::placeholder {
   color: #888888;
 }
 
@@ -571,10 +581,69 @@ input:checked + .slider_type_01:before {
   outline: none;
 }
 
-.react-datepicker-wrapper{
+.react-datepicker-wrapper {
   width: 100%;
 }
 
-.react-datepicker-wrapper input{
+.react-datepicker-wrapper input {
   width: 100%;
+}
+
+/* table component css ----------- */
+
+.table_component_wrapper01 {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* head of table */
+.table_component_wrapper01 > section {
+  width: 100%;
+  display: grid;
+  border-radius: 12px 12px 0px 0px;
+  background: #282828;
+  padding: 18px 12px;
+  box-sizing: border-box;
+  place-items: center;
+  column-gap: 4px;
+}
+
+.table_component_wrapper01 > section > span {
+  color: #f8f8f8;
+  text-align: center;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+}
+
+.table_component_wrapper01 > div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #212121;
+}
+
+.table_component_body01 {
+  width: 100%;
+  display: grid;
+  padding: 18px 12px;
+  border-bottom: 0.5px solid #414141;
+  box-sizing: border-box;
+  place-items: center;
+  column-gap: 4px;
+}
+
+.table_component_body01 > span {
+  color: #d0d0d0;
+  text-align: center;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 166.667% */
 }

@@ -2,7 +2,7 @@ import React, { Suspense, useContext, useEffect, useState } from "react";
 import "./Home.css";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { creatorContext } from "../../../../Context/CreatorState";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { feedbackcontext } from "../../../../Context/FeedbackState";
 import { linkedinContext } from "../../../../Context/LinkedinState";
 
@@ -16,7 +16,6 @@ import Create from "../Create Services/Create2";
 import EditProfile from "../EditProfile/EditProfile";
 import UserReviews from "../UserReviews/UserReviews";
 import UserRequest from "../userRequest/UserRequest";
-import ServiceStats from "../ServiceStats/ServiceStats";
 import Users from "../userList/Users";
 import PaymentSummary from "../Payment Summary/paymentSummary";
 import PaymentInfo from "../Payment Information/PaymentInfo";
@@ -28,7 +27,6 @@ import { CreatorFeedbackModal } from "../../../Modals/CreatorProfile/CreatorFeed
 
 import DefaultBanner from "../../../Modals/Default Banner/DefaultBanner";
 import TellUsMore from "../../../Waitlist/TellUsMore";
-import CreateEvent from "../Create Services/CreateEvent";
 import FirstTimeModal from "../../../Modals/FirstTimeModal";
 import Stats from "../Stats/stats";
 import NoMobileScreen from "../../../Layouts/Error Pages/NoMobileScreen";
@@ -48,6 +46,7 @@ function Home(props) {
   const [dataDefaultBanner, setDataDefaultBanner] = useState({
     fillingData: {},
     finalFormData: {},
+    mobileFinalFormData:{},
     objectUrl: null,
   });
   const [Rating, setRating] = useState("");
@@ -135,39 +134,6 @@ function Home(props) {
         });
       });
 
-      // const script = document.createElement("script");
-      // script.innerHTML = `
-      //   (function (w, d, s, c, r, a, m) {
-      //     w["KiwiObject"] = r;
-      //     w[r] =
-      //       w[r] ||
-      //       function () {
-      //         (w[r].q = w[r].q || []).push(arguments);
-      //       };
-      //     w[r].l = 1 * new Date();
-      //     a = d.createElement(s);
-      //     m = d.getElementsByTagName(s)[0];
-      //     a.async = 1;
-      //     a.src = c;
-      //     m.parentNode.insertBefore(a, m);
-      //   })(
-      //     window,
-      //     document,
-      //     "script",
-      //     "https://app.interakt.ai/kiwi-sdk/kiwi-sdk-17-prod-min.js?v=" +
-      //       new Date().getTime(),
-      //     "kiwi"
-      //   );
-      //   window.addEventListener("load", function () {
-      //     kiwi.init("", "5iLlXa3nOrSCBGdtkweRO8tws2xujgB0", {});
-      //   });
-      // `;
-      // document.body.appendChild(script);
-
-      // return () => {
-      //   // Clean up the script when the component is unmounted
-      //   document.body.removeChild(script);
-      // };
     }
     // eslint-disable-next-line
   }, [localStorage.getItem("jwtToken")]);
@@ -226,10 +192,11 @@ function Home(props) {
                   setOpenDefaultBannerModal(false);
                 }}
                 dataToRender={dataDefaultBanner?.fillingData}
-                setFinalData={(formdata, objectUrl) => {
+                setFinalData={(formdata,mobFormData,objectUrl) => {
                   setDataDefaultBanner({
                     ...dataDefaultBanner,
                     finalFormData: formdata,
+                    mobileFinalFormData:mobFormData,
                     objectUrl,
                   });
                 }}
@@ -311,6 +278,9 @@ function Home(props) {
                             defaultImageobjectUrl={dataDefaultBanner?.objectUrl}
                             FinalDefaultBannerFormData={
                               dataDefaultBanner?.finalFormData
+                            }
+                            MobileFinalDefaultBannerFormData={
+                              dataDefaultBanner?.mobileFinalFormData
                             }
                             cname={allCreatorInfo?.name}
                           />
@@ -470,7 +440,7 @@ function Home(props) {
             </div>
           ))}
       </Suspense>
-      <ToastContainer theme="dark" />
+      <ToastContainer theme="dark" limit={1} />
     </>
   );
 }
