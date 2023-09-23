@@ -14,11 +14,14 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import ProfileInfoWarn from "../../../Modals/ServiceSuccess/Modal1";
 import mixpanel from "mixpanel-browser";
 import { TooltipBox } from "../Create Services/InputComponents/fields_Labels";
+import { creatorContext } from "../../../../Context/CreatorState";
 
 function Sidebar({ userData, moreInfo, alternateInfo }) {
   const localtion = useLocation();
   const navigate = useNavigate();
   const [showPopup, setshowPopup] = useState(false); // handle profile warn feature ---------------------
+
+  const { checkAndUpdateBadgeStatus } = useContext(creatorContext);
 
   const [isHoveredBadge, setIsHoveredBadge] = useState(false);
 
@@ -27,6 +30,23 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
       setshowPopup(true);
     }
   };
+
+  useEffect(() => {
+    if (userData?.badges?.length < 1 || !userData?.badges && userData?.inviteCode) {
+      checkAndUpdateBadgeStatus().then((e) => {
+        if(e?.success){
+          toast.info("Congrats you have earned a badge", {
+            position: "top-center",
+            autoClose: 2500,
+          });
+          
+          setTimeout(() => {
+            window.location.reload();
+          }, 2500);
+        }
+      });
+    }
+  }, [userData]);
 
   return (
     <>
@@ -90,35 +110,40 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
                     {moreInfo?.Reviews} Reviews
                   </span>
                 </div>
-                {userData?.inviteCode && <section className="badges_sidebar_dashboard">
-                  <span>
-                    <img
-                      src={require("../../../../Utils/Images/black-badge.png")}
-                      onMouseOver={() => {
-                        setIsHoveredBadge(true);
-                      }}
-                      onMouseLeave={() => {
-                        setIsHoveredBadge(false);
-                      }}
-                    />
-
-                    {isHoveredBadge && (
-                      <TooltipBox
-                        text="You need at least 10 paid users to Unlock This Badge!
-                        "
-                        // points={[
-                        //   "Creating your first Paid Service",
-                        //   "Receiving 1000 reviews for a Service",
-                        //   "Consistently posting 3 paid Services",
-                        //   "Earning over 500 rupees from your Service",
-                        //   "Receiving 100 reviews for a Service ",
-                        // ]}
-                        top="40px"
-                        left="50px"
+                {userData?.inviteCode && (
+                  <section className="badges_sidebar_dashboard">
+                    <span>
+                      <img
+                        src={
+                          userData?.badges?.indexOf("10 Paid Users") >= 0
+                            ? require("../../../../Utils/Images/gold-badge.png")
+                            : require("../../../../Utils/Images/black-badge.png")
+                        }
+                        onMouseOver={() => {
+                          setIsHoveredBadge(true);
+                        }}
+                        onMouseLeave={() => {
+                          setIsHoveredBadge(false);
+                        }}
                       />
-                    )}
-                  </span>
-                </section>}
+
+                      {isHoveredBadge && (
+                        <TooltipBox
+                          text= {userData?.badges?.indexOf("10 Paid Users") >= 0 ? "Achieved for getting first 10 paid users" : "You need at least 10 paid users to Unlock This Badge!"}
+                          // points={[
+                          //   "Creating your first Paid Service",
+                          //   "Receiving 1000 reviews for a Service",
+                          //   "Consistently posting 3 paid Services",
+                          //   "Earning over 500 rupees from your Service",
+                          //   "Receiving 100 reviews for a Service ",
+                          // ]}
+                          top="40px"
+                          left="50px"
+                        />
+                      )}
+                    </span>
+                  </section>
+                )}
               </div>
             </section>
             <span

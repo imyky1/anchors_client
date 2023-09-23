@@ -561,7 +561,7 @@ function Create({
       paid &&
       (BannerImage || defaultbanner)
     ) {
-      if (data?.ssp <= data?.smrp) {
+      if ((data?.ssp <= data?.smrp && data?.smrp > 0) || (paid === "Free")) {
         try {
           var banner = null;
           var mobBanner = null;

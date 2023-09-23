@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Footer.css";
-import "../Editor/New UI/Main Page/Main.css"
+import "../Editor/New UI/Main Page/Main.css";
 import { Link, useNavigate } from "react-router-dom";
 import mixpanel from "mixpanel-browser";
 import HelpModal from "../Modals/ModalType01/HelpModal";
@@ -8,6 +8,7 @@ import nine from "../Editor/New UI/Main Page/home_images/nine.webp";
 import tenth from "../Editor/New UI/Main Page/home_images/tenth.webp";
 import anchor from "../../Utils/Images/logo-invite-only.png";
 import anchorEvents from "../../Utils/Images/logo-events.png";
+import { MdEventSeat } from "react-icons/md";
 //import { Modal, Fade, Typography, Box, Backdrop } from "@mui/material";
 
 function Footer() {
@@ -200,16 +201,29 @@ export const MainNewFooter = ({
   footerOptions1,
   noPrivacyPolicy = true,
   noRefund = true,
-  onEvents = false,  // 
-  useEventsLogo = false
+  onEvents = false, //
+  useEventsLogo = false,
+  hostEventButton = false,
 }) => {
   return (
     <>
       <div
         className="home_page_outer_first_body3"
-        style={{ backgroundImage: `url(${(window.screen.width > 600 && !onEvents) ? nine : tenth})` }}
+        style={{
+          backgroundImage: `url(${
+            window.screen.width > 600 && !onEvents ? nine : tenth
+          })`,
+        }}
       >
         <div className="home_page_outer_nine_body_020">anchors</div>
+        {hostEventButton && <button
+          onClick={() => {
+            window.open("/hostevent", "_self");
+            mixpanel.track("Host Your Own Event footer");
+          }}
+        >
+          <MdEventSeat /> Host Your Own Event
+        </button>}
         <div className="home_page_outer_nine_body_0201">
           {!footerOptions1 ? (
             <div className="home_page_outer_nine_body_021">
@@ -229,14 +243,16 @@ export const MainNewFooter = ({
               >
                 EPA
               </div>
-              {window.location.pathname !== "/pricing" && <div
-                className="home_page_outer_nine_body_021_individual"
-                onClick={() => {
-                  window.open("/pricing");
-                }}
-              >
-                Pricing
-              </div>}
+              {window.location.pathname !== "/pricing" && (
+                <div
+                  className="home_page_outer_nine_body_021_individual"
+                  onClick={() => {
+                    window.open("/pricing");
+                  }}
+                >
+                  Pricing
+                </div>
+              )}
             </div>
           ) : (
             <div className="home_page_outer_nine_body_021">
@@ -256,40 +272,47 @@ export const MainNewFooter = ({
           )}
 
           <div className="home_page_outer_nine_body_022">
-            {noPrivacyPolicy && window.location.pathname !== "/privacy-policy" && (
+            {noPrivacyPolicy &&
+              window.location.pathname !== "/privacy-policy" && (
+                <div
+                  className="home_page_outer_nine_body_0212_individual"
+                  onClick={() => {
+                    window.open("/privacy-policy");
+                  }}
+                >
+                  Privacy Policy
+                </div>
+              )}
+            {window.location.pathname !== "/termsConditions" && (
               <div
                 className="home_page_outer_nine_body_0212_individual"
                 onClick={() => {
-                  window.open("/privacy-policy");
+                  window.open("/termsConditions");
                 }}
               >
-                Privacy Policy
+                Terms & Conditions
               </div>
             )}
-            {window.location.pathname !== "/termsConditions" && <div
-              className="home_page_outer_nine_body_0212_individual"
-              onClick={() => {
-                window.open("/termsConditions");
-              }}
-            >
-              Terms & Conditions
-            </div>}
-            {window.location.pathname !== "/aboutUs" && <div
-              className="home_page_outer_nine_body_0212_individual"
-              onClick={() => {
-                window.open("/aboutUs");
-              }}
-            >
-              About Us
-            </div>}
-            {window.location.pathname !== "/contactUs" && <div
-              className="home_page_outer_nine_body_0212_individual"
-              onClick={() => {
-                window.open("/contactUs");
-              }}
-            >
-              Contact Us
-            </div>}
+            {window.location.pathname !== "/aboutUs" && (
+              <div
+                className="home_page_outer_nine_body_0212_individual"
+                onClick={() => {
+                  window.open("/aboutUs");
+                }}
+              >
+                About Us
+              </div>
+            )}
+            {window.location.pathname !== "/contactUs" && (
+              <div
+                className="home_page_outer_nine_body_0212_individual"
+                onClick={() => {
+                  window.open("/contactUs");
+                }}
+              >
+                Contact Us
+              </div>
+            )}
             {noRefund && window.location.pathname !== "/refundPolicy" && (
               <div
                 className="home_page_outer_nine_body_0212_individual"
@@ -315,7 +338,7 @@ export const MainNewFooter = ({
           <img
             src={useEventsLogo ? anchorEvents : anchor}
             style={{
-              width: window.screen.width > 600 ? "161.464px" :"81px",
+              width: window.screen.width > 600 ? "161.464px" : "81px",
               margin: "0 auto",
               marginTop: window.screen.width > 600 ? "40px" : "10px",
               cursor: "pointer",

@@ -447,7 +447,9 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
             case "LinkedIn":
               if (parseInt(formData?.followers) > 10000 && verifiedCode) {
                 updateStatus().then((e) => {
-                  setFormPassed(true);
+                  if(e?.success){
+                    setFormPassed(true);
+                  }
                 });
               } else {
                 window.open("/dashboard/waitlist", "_self");
@@ -456,7 +458,9 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
             case "Youtube":
               if (parseInt(formData?.followers) > 10000 && verifiedCode) {
                 updateStatus().then((e) => {
-                  setFormPassed(true);
+                  if(e?.success){
+                    setFormPassed(true);
+                  }
                 });
               } else {
                 window.open("/dashboard/waitlist", "_self");
@@ -465,7 +469,9 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
             case "Instagram":
               if (parseInt(formData?.followers) > 10000 && verifiedCode) {
                 updateStatus().then((e) => {
-                  setFormPassed(true);
+                  if(e?.success){
+                    setFormPassed(true);
+                  }
                 });
               } else {
                 window.open("/dashboard/waitlist", "_self");
@@ -474,7 +480,9 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
             case "Telegram":
               if (parseInt(formData?.followers) > 5000 && verifiedCode) {
                 updateStatus().then((e) => {
-                  setFormPassed(true);
+                  if(e?.success){
+                    setFormPassed(true);
+                  }
                 });
               } else {
                 window.open("/dashboard/waitlist", "_self");
@@ -483,7 +491,9 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
             case "Facebook":
               if (parseInt(formData?.followers) > 5000 && verifiedCode) {
                 updateStatus().then((e) => {
-                  setFormPassed(true);
+                  if(e?.success){
+                    setFormPassed(true);
+                  }
                 });
               } else {
                 window.open("/dashboard/waitlist", "_self");

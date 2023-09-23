@@ -318,7 +318,6 @@ const CreatorState = (props) => {
     });
     const json = await response.json();
     if (json.success) {
-      console.log(json);
       setallUserDetails(json.users);
     } else {
       //  toastify error
@@ -560,6 +559,28 @@ const CreatorState = (props) => {
     }
   };
 
+  const checkAndUpdateBadgeStatus = async () => {
+    try {
+      const response = await fetch(
+        `${host}/api/creator/checkAndUpdateBadgeStatus`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+            "jwt-token": localStorage.getItem("jwtToken"),
+          },
+        }
+      );
+
+      const json = await response.json();
+      return json;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // update Stepper status ------------
   const updateStepperStatus = async () => {
     try {
@@ -731,7 +752,8 @@ const CreatorState = (props) => {
         getMaxEvent,
         getViewsStats,
         getCreatorUpcomingData,
-        checkChecklistStatus
+        checkChecklistStatus,
+        checkAndUpdateBadgeStatus,
       }}
     >
       {props.children}

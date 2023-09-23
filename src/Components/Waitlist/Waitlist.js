@@ -136,9 +136,13 @@ const WailtistInviteCodeSection = () => {
                 setCodeApplied(true);
                 const result = CheckUpdation()
                 if(result){
-                  window.scrollTo(0,0)
-                  updateStatus()
-                  setFormPassed(true)
+                  updateStatus().then((e) => {
+                    console.log(e)
+                    if(e?.success){
+                      window.scrollTo(0,0)
+                      setFormPassed(true);
+                    }
+                  });
                 }
               } else {
                 toast.info("Couldn't update the Code, Please Try Again!!", {

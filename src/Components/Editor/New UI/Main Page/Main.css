@@ -89,6 +89,30 @@
   width: 100%;
 }
 
+.home_page_outer_first_body3 > button {
+  padding: 16px 32px;
+  border-radius: 70px;
+  border: 1px solid #d0d0d0;
+  background: #121212;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  color: #ddd;
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 20px auto;
+}
+
+.home_page_outer_first_body3 > button:hover{
+  background-color: #ff0000;
+  border: 1px solid #f00;
+}
+
 .home_page_outer_first_body_01 {
   color: #fff;
   text-align: center;
@@ -597,10 +621,10 @@
 .home_page_outer_nine_body_020 {
   color: #fff;
   text-align: center;
-  font-family: "Playfair Display", serif;
+  font-family: Sora;
   font-size: 136px;
   font-style: normal;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 100%; /* 136px */
   text-transform: lowercase;
 }
@@ -867,39 +891,42 @@
   margin-top: 20px;
 }
 
-
-.landing_page__eligibility_popup_new_ui > section > button:hover{
+.landing_page__eligibility_popup_new_ui > section > button:hover {
   background-color: #f00;
   border: 1px solid #f00;
 }
 
-
-
 @media (max-width: 600px) {
-
   .home_page_outer_first_body3 {
     padding: 22px 0;
     width: 100vw;
   }
 
-  .home_page_outer_nine_body_020{
+  .home_page_outer_nine_body_020 {
     font-size: 40px;
   }
 
-  .home_page_outer_nine_body_021_individual{
+  .home_page_outer_nine_body_021_individual {
     font-size: 12px;
   }
 
-  .home_page_outer_nine_body_0212_individual{
+  .home_page_outer_nine_body_0212_individual {
     font-size: 12px;
     text-align: center;
     line-height: 15px;
   }
 
-  .home_page_outer_nine_body_022{
+  .home_page_outer_nine_body_022 {
     width: 95vw;
     gap: 4%;
   }
 
+  .home_page_outer_first_body3 > button {
+    padding: 8px 20px;
+    font-size: 16px;
+  }
 
+  .home_page_outer_nine_body_0201{
+    margin-top: unset;
+  }
 }

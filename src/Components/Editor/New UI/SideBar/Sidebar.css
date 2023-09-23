@@ -211,10 +211,9 @@
 }
 
 .badges_sidebar_dashboard > span{
-  width: 40.883px;
+  width: 30.883px;
   position: relative;
-  position: relative;
-  left: -10px;
+  left: -6px;
 }
 
 .badges_sidebar_dashboard > span img {

@@ -1,32 +1,20 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Success.css";
-import "../Sample Page/Sample.css"
-import { BsWhatsapp, BsInstagram } from "react-icons/bs";
+import "../Sample Page/Sample.css";
+import { BsWhatsapp } from "react-icons/bs";
 import { AiOutlineArrowRight } from "react-icons/ai";
-import { FaLinkedinIn, FaFacebookF } from "react-icons/fa";
-import { IoCopy } from "react-icons/io5";
-
-import bronze from "../../../../Utils/Icons/bronze-trophy.svg";
-import silver from "../../../../Utils/Icons/silver-trophy.svg";
-import gold from "../../../../Utils/Icons/gold-trophy.svg";
+import { IoCopyOutline } from "react-icons/io5";
 import { Navbar2 } from "../../../Layouts/Navbar User/Navbar";
 import tick from "../../../../Utils/Icons/tick.svg";
 import { userContext } from "../../../../Context/UserState";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import ServiceContext from "../../../../Context/services/serviceContext";
-import {
-  FacebookShareButton,
-  WhatsappShareButton,
-  LinkedinShareButton,
-} from "react-share";
 import { paymentContext } from "../../../../Context/PaymentState";
-import { Footer3 } from "../../../Footer/Footer2";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import PNGIMG from "../../../../Utils/Images/default_user.png";
 import { FiDownload } from "react-icons/fi";
-import { MdKeyboardArrowDown } from "react-icons/md";
 import mixpanel from "mixpanel-browser";
+import { MainNewFooter } from "../../../Footer/Footer";
 
 function TableComponent({ userComponent, name, points, index }) {
   return (
@@ -47,6 +35,80 @@ function TableComponent({ userComponent, name, points, index }) {
     </div>
   );
 }
+
+const EventCountDown = ({ duration }) => {
+  const [time, setTime] = useState(duration);
+
+  const [finalData, setFinalData] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  function convertMilliseconds(milliseconds) {
+    // Calculate days, hours, minutes, and seconds
+    const days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
+    milliseconds %= 1000 * 60 * 60 * 24;
+
+    const hours = Math.floor(milliseconds / (1000 * 60 * 60));
+    milliseconds %= 1000 * 60 * 60;
+
+    const minutes = Math.floor(milliseconds / (1000 * 60));
+    milliseconds %= 1000 * 60;
+
+    const seconds = Math.floor(milliseconds / 1000);
+
+    return {
+      days: days,
+      hours: hours,
+      minutes: minutes,
+      seconds: seconds,
+    };
+  }
+
+  useEffect(() => {
+    setTime(duration);
+  }, [duration]);
+
+  useEffect(() => {
+    if (time) {
+      setTimeout(() => {
+        setTime(time - 1000);
+      }, 1000);
+      let data = convertMilliseconds(time);
+      setFinalData({ ...data });
+    }
+  }, [time]);
+
+  return (
+    <div className="event_countdown_event_success_page">
+      <h2>Event Starts In</h2>
+
+      <section>
+        <div>
+          <span>{finalData?.days}</span>
+          <p>DAYS</p>
+        </div>
+        <span>:</span>
+        <div>
+          <span>{finalData?.hours}</span>
+          <p>HOURS</p>
+        </div>
+        <span>:</span>
+        <div>
+          <span>{finalData?.minutes}</span>
+          <p>MINUTES</p>
+        </div>
+        <span>:</span>
+        <div>
+          <span>{finalData?.seconds}</span>
+          <p>SECONDS</p>
+        </div>
+      </section>
+    </div>
+  );
+};
 
 const SuccessModal = ({ onClose }) => {
   const handlebutton = () => {
@@ -84,7 +146,7 @@ function Success() {
   const [shareLink, setShareLink] = useState(); // stores the user data
   const [leaderBoardData, setLeaderBoardData] = useState();
   const [eligible, setEligible] = useState({ success: true, order: {} });
-  const [bannerData, setBannerData] = useState(); // event invite card banner data
+  const [countDownDuration, setCountDownDuration] = useState();
 
   // User Contexts --------------------
   const { getUserDetails } = useContext(userContext);
@@ -92,6 +154,22 @@ function Success() {
   const { geteventinfo, eventInfo, getLeaderBoardData } =
     useContext(ServiceContext);
   const params = new URLSearchParams(window.location.search);
+
+  // Countdonw timer difference
+  let getDateDiff = () => {
+    // Parse the given date string
+    let originalDate = new Date(eventInfo?.event?.startDate);
+    originalDate.setHours(eventInfo?.event?.time?.startTime?.split(":")[0]);
+    originalDate.setMinutes(eventInfo?.event?.time?.startTime?.split(":")[0]);
+
+    let currentDate = new Date();
+
+    if (currentDate > originalDate) {
+      setCountDownDuration(null);
+    } else {
+      setCountDownDuration(originalDate - currentDate);
+    }
+  };
 
   useEffect(() => {
     // Loading mixpanel ------
@@ -130,6 +208,8 @@ function Success() {
     ).then((e) => {
       setEligible(e);
     });
+
+    getDateDiff();
   }, [eventInfo]);
 
   // Fetches the user details
@@ -138,82 +218,23 @@ function Success() {
       getUserDetails(localStorage.getItem("isUser") === "").then((e) => {
         setUserDetails(e?.user);
         let value =
-          "https://open.anchors.in/" +
-          eventInfo?.event?.eventCode +
-          `/${e?.user?.referralCode}`;
+          eligible?.order?.shareShortUrl ??
+          "https://www.anchors.in/e/" +
+            slug +
+            `?referredFrom=${e?.user?.referralCode}`;
 
         setShareLink(value);
       });
     }
-  }, [localStorage.getItem("jwtToken"), eventInfo]);
-
-  const convertTime = (inputTime) => {
-    if (inputTime) {
-      var timeParts = inputTime?.split(":");
-      var hours = parseInt(timeParts[0]);
-      var minutes = parseInt(timeParts[1]);
-
-      var period = hours >= 12 ? "PM" : "AM";
-      hours = hours > 12 ? hours - 12 : hours;
-
-      var convertedTime =
-        hours.toString().padStart(2, "0") +
-        ":" +
-        minutes.toString().padStart(2, "0") +
-        " " +
-        period;
-
-      return convertedTime;
-    }
-  };
-
-  const getDate = (date) => {
-    let d = new Date(date);
-
-    let newDate = d.toDateString().split(" ");
-
-    return (
-      newDate[0] + " | " + newDate[1] + " " + newDate[2] + " " + newDate[3]
-    );
-  };
+  }, [localStorage.getItem("jwtToken"), eventInfo, eligible]);
 
   const handleDonwload = async (e) => {
-    mixpanel.track("Download Invite Banner")
+    mixpanel.track("Download Invite Banner");
     const link = document.createElement("a");
     link.href = eligible?.order?.eventBannerImage;
     link.download = `${userDetails?.name}.png`;
     link.click();
   };
-
-  // Handling the display of down arrow -------------------
-  const ref1 = useRef();
-  const [isArrowVisible, setIsArrowVisible] = useState(true);
-
-  // Intersection Observer callback
-  const handleIntersection = (entries) => {
-    const [entry] = entries;
-    setIsArrowVisible(entry.isIntersecting);
-  };
-
-  useEffect(() => {
-    const options = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.6, // Adjust this threshold to control visibility
-    };
-
-    const observer = new IntersectionObserver(handleIntersection, options);
-
-    if (ref1.current) {
-      observer.observe(ref1.current);
-    }
-
-    return () => {
-      if (ref1.current) {
-        observer.unobserve(ref1.current);
-      }
-    };
-  }, []);
 
   if (!localStorage.getItem("jwtToken") || !eligible?.success) {
     navigate(`/e/${slug}`);
@@ -240,17 +261,6 @@ function Success() {
       <ToastContainer theme="dark" />
 
       <div className="success_page_wrapper">
-        {window.screen.width > 600 && !isArrowVisible && (
-          <a
-            href="#eventDetails"
-            style={{ position: "fixed", right: "10vw", bottom: "100px" }}
-          >
-            <MdKeyboardArrowDown className="arrow_button_sample_page" onClick={()=>{
-              mixpanel.track("Downpointing Arrow")
-            }}/>
-          </a>
-        )}
-
         {/* main hero section details */}
         <section className="main_header_component_success_page">
           <Navbar2 />
@@ -258,7 +268,7 @@ function Success() {
           <div className="main_hero_details_benefits">
             <section className="left_benefit_section_hero_success">
               <div className="banner_success_page">
-                <img
+                <LazyLoadImage
                   src={
                     eligible?.order?.eventBannerImage ??
                     "https://wallpaperaccess.com/full/2439064.png"
@@ -270,10 +280,13 @@ function Success() {
                     eligible?.order?.eventBannerImage && handleDonwload(e)
                   }
                 >
-                  <FiDownload size={20} />
+                  <FiDownload
+                    size={20}
+                    style={{ position: "relative", left: "5px", bottom: "5px" }}
+                  />
                 </span>
               </div>
-              <h2>
+              {/* <h2>
                 Share with your friends and invite them using your unique
                 referral code.
               </h2>
@@ -305,9 +318,9 @@ function Success() {
                   color="black"
                   size={20}
                 />
-              </div>
+              </div> */}
 
-              <section>
+              {/* <section>
                 <BsWhatsapp
                   onClick={() => {
                     mixpanel.track("Share Invite Code on WhatsApp");
@@ -338,156 +351,39 @@ Catch you there`}
                 >
                   <FaLinkedinIn />
                 </LinkedinShareButton>
-                {/* <BsInstagram /> */}
                 <FacebookShareButton url={shareLink} quote={"Hello user"} onClick={()=>{
                     mixpanel.track("Share Invite Code on FaceBook")
                   }}>
                   <FaFacebookF />
                 </FacebookShareButton>
-              </section>
+              </section> */}
             </section>
 
-            <section className="right_benefit_section_hero_success">
-              <h1>Top Referral Benefits</h1>
-              <p id="benefits-success"></p>
-            </section>
+            {window.screen.width > 600 && (
+              <section className="right_benefit_section_hero_success">
+                <EventCountDown duration={countDownDuration} />
+              </section>
+            )}
           </div>
         </section>
 
-        {/* Leader Board Section */}
-
-        <section className="leaderboard_wrapper_success_page">
-          <h1>Leader Board</h1>
-
-          {/* main leader Boards toppers ------ */}
-
-          {leaderBoardData?.data?.length !== 0 && (
-            <div className="main_leader_board_toppers">
-              {/* silvertrophy */}
-              <section id="silver-trophy">
-                <div>
-                  <div
-                    className="topper_image_area"
-                    style={{ border: "4px solid #ccc" }}
-                  >
-                    <LazyLoadImage
-                      src={
-                        leaderBoardData?.data?.length > 1 &&
-                        leaderBoardData?.data[1]?.points !== 0
-                          ? leaderBoardData?.data[1]?.profile
-                          : "https://e-lect.net/wp-content/uploads/2010/08/Question-Mark.jpg"
-                      }
-                      alt=""
-                      onError={({ currentTarget }) => {
-                        currentTarget.onerror = null; // prevents looping
-                        currentTarget.src = PNGIMG;
-                      }}
-                    />
-                  </div>
-                  <span style={{ color: "#737373" }}>2</span>
-                </div>
-
-                <img src={silver} alt="silver" />
-
-                <h2>
-                  {leaderBoardData?.data &&
-                    leaderBoardData?.data[1]?.points !== 0 &&
-                    leaderBoardData?.data[1]?.name}
-                </h2>
-                <span>
-                  {leaderBoardData?.data &&
-                    leaderBoardData?.data[1]?.points !== 0 &&
-                    leaderBoardData?.data[1]?.points}
-                </span>
-              </section>
-
-              {/* gold trophy */}
-              <section id="gold-trophy">
-                <div>
-                  <div
-                    className="gold_image_area topper_image_area"
-                    style={{ border: "4px solid #CA9100" }}
-                  >
-                    <LazyLoadImage
-                      src={
-                        leaderBoardData?.data?.length > 0 &&
-                        leaderBoardData?.data[0]?.points !== 0
-                          ? leaderBoardData?.data[0]?.profile
-                          : "https://e-lect.net/wp-content/uploads/2010/08/Question-Mark.jpg"
-                      }
-                      alt=""
-                      onError={({ currentTarget }) => {
-                        currentTarget.onerror = null; // prevents looping
-                        currentTarget.src = PNGIMG;
-                      }}
-                    />
-                  </div>
-                  <span style={{ color: "#CA9100" }}>1</span>
-                </div>
-
-                <img src={gold} alt="gold" />
-
-                <h2>
-                  {leaderBoardData?.data &&
-                    leaderBoardData?.data[0]?.points !== 0 &&
-                    leaderBoardData?.data[0]?.name}
-                </h2>
-                <span>
-                  {leaderBoardData?.data &&
-                    leaderBoardData?.data[0]?.points !== 0 &&
-                    leaderBoardData?.data[0]?.points}
-                </span>
-              </section>
-
-              {/* bronze trophy */}
-              <section id="bronze-trophy">
-                <div>
-                  <div
-                    className="topper_image_area"
-                    style={{ border: "4px solid #EA9542" }}
-                  >
-                    <LazyLoadImage
-                      src={
-                        leaderBoardData?.data?.length > 2 &&
-                        leaderBoardData?.data[2]?.points !== 0
-                          ? leaderBoardData?.data[2]?.profile
-                          : "https://e-lect.net/wp-content/uploads/2010/08/Question-Mark.jpg"
-                      }
-                      onError={({ currentTarget }) => {
-                        currentTarget.onerror = null; // prevents looping
-                        currentTarget.src = PNGIMG;
-                      }}
-                    />
-                  </div>
-                  <span style={{ color: "#EA9542" }}>3</span>
-                </div>
-
-                <img src={bronze} alt="bronze" />
-
-                <h2>
-                  {leaderBoardData?.data &&
-                    leaderBoardData?.data[2]?.points !== 0 &&
-                    leaderBoardData?.data[2]?.name}
-                </h2>
-                <span>
-                  {leaderBoardData?.data &&
-                    leaderBoardData?.data[2]?.points !== 0 &&
-                    leaderBoardData?.data[2]?.points}
-                </span>
-              </section>
-            </div>
-          )}
+        <section className="referal_benefits_section_event_success_page">
+          <h1>Top Referral Benefits</h1>
+          <p id="benefits-success"></p>
         </section>
 
-        <section className="leaderboard_rest_data_success_page" ref={ref1}>
-          <p className="leaderboard_status_text_event_success">
-            {leaderBoardData?.text}
-          </p>
+        {(leaderBoardData?.data?.length > 3 ||
+          leaderBoardData?.showUserInExtra?.value) && (
+          <section className="leaderboard_rest_data_success_page">
+            <section>
+              <h1>Leader Board</h1>
+              <p className="leaderboard_status_text_event_success">
+                {leaderBoardData?.text}
+              </p>
+            </section>
 
-          {/* Table for other ranks ------------- */}
+            {/* Table for other ranks ------------- */}
 
-          {(leaderBoardData?.data?.length > 3 ||
-            leaderBoardData?.showUserInExtra?.value) && (
             <div className="leader_board_table_success">
               <section className="table_head_leaderboard_success">
                 <span>Rank</span>
@@ -495,7 +391,7 @@ Catch you there`}
                 <span>Referrals</span>
               </section>
 
-              {leaderBoardData?.data?.slice(3)?.map((element, i) => {
+              {leaderBoardData?.data?.map((element, i) => {
                 return (
                   <TableComponent
                     key={element?.id}
@@ -504,16 +400,80 @@ Catch you there`}
                       leaderBoardData?.showUserInExtra?.value ||
                       element?.points === 0
                         ? "--"
-                        : i + 4
+                        : i + 1
                     }
                     userComponent={element.isUser}
                   />
                 );
               })}
             </div>
-          )}
-          <Footer3 hostEventButton={true} />
-        </section>
+          </section>
+        )}
+
+        {/* Floater ------------- */}
+
+        <div className="floater_success_page_events">
+          <section
+            onClick={() => {
+              mixpanel.track("Copy Invite Code link");
+              navigator.clipboard.writeText(shareLink);
+              toast.success("Copied Link Successfully", {
+                position: "top-center",
+                autoClose: 2000,
+              });
+            }}
+          >
+            <input
+              type="text"
+              value={
+                shareLink?.length > 80
+                  ? shareLink?.slice(0, 80) + "..."
+                  : shareLink
+              }
+              readOnly
+            />
+            <IoCopyOutline
+              size={window.screen.width > 600 ? 30 : 20}
+              color="#D0D0D0"
+            />
+          </section>
+          <BsWhatsapp
+            size={window.screen.width > 600 ? 40 : 25}
+            color="#D0D0D0"
+            onClick={() => {
+              mixpanel.track("Share Invite Code on WhatsApp");
+              window.open(`https://api.whatsapp.com/send?text=Hey,%0A
+I just signed up for this amazing event, *${eventInfo?.event?.sname}*, and I thought you might be interested too!%0A%0A
+
+🎉 Join me by registering here: ${shareLink} %0A%0A
+
+Let's experience this together!%0A
+Catch you there`);
+            }}
+          />
+        </div>
+
+        <MainNewFooter
+          onEvents={true}
+          hostEventButton={true}
+          footerOptions1={[
+            {
+              title: "Event Pricing",
+              link: "https://www.anchors.in/eventpricing",
+            },
+            {
+              title: "Sample Event Page",
+              link: "https://www.anchors.in/e/how-to-become-a-product-manager",
+            },
+            {
+              title: "Sample Referral Page",
+              link: "https://www.anchors.in/static/success",
+            },
+          ]}
+          noPrivacyPolicy={false}
+          noRefund={false}
+          useEventsLogo={true}
+        />
       </div>
     </>
   );

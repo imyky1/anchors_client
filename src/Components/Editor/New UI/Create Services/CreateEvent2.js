@@ -85,7 +85,9 @@ const FirstPage = ({
             required={true}
             value={data?.date}
             placeholder="Select Event Date"
-            onChange={(date)=>{setdata({...data,date:date})}}
+            onChange={(date) => {
+              setdata({ ...data, date: date });
+            }}
           />
 
           <section
@@ -519,13 +521,7 @@ const SecondPage = ({
   );
 };
 
-function CreateEvent2({
-  progress,
-  cname,
-  ctagline,
-  crating,
-  cprofile,
-}) {
+function CreateEvent2({ progress, cname, ctagline, crating, cprofile }) {
   const params = new URLSearchParams(window.location.search);
 
   const [multipleSpeakers, setMultipleSpeakers] = useState(false); // tells if the evnt page has the multiple speaker option
@@ -556,6 +552,7 @@ function CreateEvent2({
     addEvent,
     getslugcountEvent,
     Uploadfile,
+    UploadBanners,
     UploadEventVideo,
     UploadEventSpeakersProfile,
   } = useContext(ServiceContext);
@@ -582,6 +579,7 @@ function CreateEvent2({
   const [BannerImage, setBannerImage] = useState();
   const [seatCapacity, setSeatCapacity] = useState("Enter Manually");
   const [EventVideo, setEventVideo] = useState();
+  const [controlSubmitButtonValue, setControlSubmitButtonValue] = useState(0);
 
   const handleChangeFileBanner = (e) => {
     mixpanel.track("Browse banner");
@@ -761,6 +759,10 @@ function CreateEvent2({
     return true;
   };
 
+  const timeToHours = (time) => {
+    return parseInt(time.split(":")[0]) * 60 + parseInt(time.split(":")[1]);
+  };
+
   // form submission ----------------------------------------------------------
   const onSubmit = async () => {
     const data1 = new FormData();
@@ -783,95 +785,116 @@ function CreateEvent2({
       data?.date &&
       data?.startTime &&
       data?.endTime &&
-      paid
+      paid &&
+      data?.eventSeatCapacity > 0
     ) {
-      if (checkSpeakers || !multipleSpeakers) {
-        if (Content?.length > 10) {
-          if (multipleSpeakers) {
-            await SaveSpeakerImages();
-          }
-          try {
-            let banner = { success: true, url: "" };
-            let eventVideo = { result: { Location: "" } };
+      if (timeToHours(data?.endTime) > timeToHours(data?.startTime)) {
+        if ((data?.ssp <= data?.smrp && data?.smrp > 0) || (paid === "Free")) {
+          if (checkSpeakers) {
+            if (Content?.length > 10) {
+              if (multipleSpeakers) {
+                await SaveSpeakerImages();
+              }
+              try {
+                let banner = { success: true, result: { Location: "" } };
+                let eventVideo = { result: { Location: "" } };
 
-            // Check for banner and saves if it is available
-            if (BannerImage) {
-              banner = await Uploadfile(data1); /// uplaoding banner and files on s3
-            } else {
-              // Generating a default Banner
-              banner = await saveTheBannerEvent();
-            }
+                // Check for banner and saves if it is available
+                if (BannerImage) {
+                  banner = await UploadBanners(data1); /// uplaoding banner and files on s3
+                } else {
+                  // Generating a default Banner
+                  banner = await saveTheBannerEvent();
+                }
 
-            // Check for video and saves if it is available
-            if (EventVideo) {
-              eventVideo = await UploadEventVideo(data2);
-              progress(50);
-            }
+                // Check for video and saves if it is available
+                if (EventVideo) {
+                  eventVideo = await UploadEventVideo(data2);
+                  progress(50);
+                }
 
-            if (banner?.success) {
-              progress(75);
-              let json = await addEvent(
-                data?.sname,
-                "", // sdesc no value
-                Content,
-                SlugCount === 0
-                  ? slug.toLowerCase()
-                  : slug.toLowerCase().concat("--", `${SlugCount}`),
-                banner?.url,
-                Tags,
-                data?.stype === "Offline" ? 0 : 1,
-                paid === "Free" ? false : true,
-                paid === "Free" ? 0 : data.smrp,
-                paid === "Free" ? 0 : data.ssp,
-                data?.date,
-                { startTime: data?.startTime, endTime: data?.endTime },
-                data?.benefits,
-                seatCapacity === "Enter Manually"
-                  ? data?.eventSeatCapacity
-                  : "Unlimited",
-                data?.meetlink,
-                eventVideo?.result?.Location,
-                speakersArray ?? null
-              );
+                if (banner?.success) {
+                  progress(75);
+                  let json = await addEvent(
+                    data?.sname,
+                    "", // sdesc no value
+                    Content,
+                    SlugCount === 0
+                      ? slug.toLowerCase()
+                      : slug.toLowerCase().concat("--", `${SlugCount}`),
+                    banner?.result?.Location,
+                    Tags,
+                    data?.stype === "Offline" ? 0 : 1,
+                    paid === "Free" ? false : true,
+                    paid === "Free" ? 0 : data.smrp,
+                    paid === "Free" ? 0 : data.ssp,
+                    data?.date,
+                    { startTime: data?.startTime, endTime: data?.endTime },
+                    data?.benefits,
+                    seatCapacity === "Enter Manually"
+                      ? data?.eventSeatCapacity
+                      : "Unlimited",
+                    data?.meetlink,
+                    eventVideo?.result?.Location,
+                    speakersArray[0]?.name ? speakersArray : null
+                  );
 
-              if (json?.success) {
-                //setservData(json.res);
+                  if (json?.success) {
+                    //setservData(json.res);
+                    setOpenLoading(false);
+                    setshowPopup({ open: true, link: json?.shortLink });
+                  } else {
+                    setOpenLoading(false);
+                    toast.error(`Event Not Created Please Try Again`, {
+                      position: "top-center",
+                      autoClose: 2000,
+                    });
+                  }
+                } else {
+                  setOpenLoading(false);
+                  toast.error(`Facing issues while uploading image`, {
+                    position: "top-center",
+                    autoClose: 2000,
+                  });
+                }
+              } catch (error) {
                 setOpenLoading(false);
-                setshowPopup({ open: true, link: json?.shortLink });
-              } else {
-                setOpenLoading(false);
-                toast.error(`Event Not Created Please Try Again`, {
-                  position: "top-center",
-                  autoClose: 2000,
-                });
+                if (controlSubmitButtonValue === 0) {
+                  onSubmit();
+                } else {
+                  toast.error(`Server side error please try after some time`, {
+                    position: "top-center",
+                    autoClose: 2000,
+                  });
+                }
+                setControlSubmitButtonValue(controlSubmitButtonValue + 1);
               }
             } else {
               setOpenLoading(false);
-              toast.error(`Facing issues while uploading image`, {
+              toast.info("Descibe your service properly", {
                 position: "top-center",
-                autoClose: 2000,
+                autoClose: 3000,
               });
             }
-          } catch (error) {
+          } else {
             setOpenLoading(false);
-            console.log(error);
-            toast.error(`Server side error please try after some time`, {
+            toast.info("Enter speaker details properly", {
               position: "top-center",
-              autoClose: 2000,
+              autoClose: 3000,
             });
           }
         } else {
           setOpenLoading(false);
-          toast.info("Descibe your service properly", {
+          toast.error(`Pricing is invalid`, {
             position: "top-center",
-            autoClose: 3000,
+            autoClose: 2000,
           });
         }
       } else {
         setOpenLoading(false);
-        toast.info("Enter speaker details properly", {
+        toast.error(`Timings are invalid`, {
           position: "top-center",
-          autoClose: 3000,
+          autoClose: 2000,
         });
       }
     } else {
@@ -977,19 +1000,16 @@ function CreateEvent2({
       const file = new File([blob], "banner2.png", { type: blob.type });
       const data1 = new FormData();
       data1.append("file", file);
-      let banner = await Uploadfile(data1);
+      let banner = await UploadBanners(data1);
       return banner;
     } catch (error) {
       console.log(error);
     }
   };
 
-
   useEffect(() => {
-    window.scrollTo(0,0)
-  }, [currentPage])
-  
-
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   return (
     <>

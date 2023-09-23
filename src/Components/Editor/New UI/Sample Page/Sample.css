@@ -84,7 +84,7 @@
 /* sample page fonts and buttons  */
 
 .header_sample_page01 {
-  color: #fff;
+  color: #f8f8f8;
   font-size: 40px;
   font-family: "Gilroy-Bold", sans-serif;
   font-style: normal;
@@ -92,7 +92,7 @@
 }
 
 .header_sample_page02 {
-  color: #fff;
+  color: #d0d0d0;
   text-align: center;
   font-size: 24px;
   font-family: "Gilroy-Regular", sans-serif;
@@ -295,6 +295,11 @@
     scroll-behavior: unset;
     scroll-snap-type: none;
   }
+
+  .sample_page_wrapper::-webkit-scrollbar{
+    display: none;
+  }
+
   .benefits_sample_page > h2 {
     font-size: 24px;
     width: 90vw;
@@ -323,7 +328,7 @@
   }
   .left_division_sample_page {
     width: 98%;
-    gap: 8px;
+    gap: 12px;
     align-items: center;
     margin-bottom: 40px;
   }
@@ -337,11 +342,11 @@
     display: flex;
   }
   .personalized_section_sample_page {
-    gap: 20px;
+    gap: 12px;
     padding-top: 126px;
     margin-bottom: 40px;
     height: fit-content;
-    padding-bottom: 40px;
+    padding-bottom: 120px;
     background: #161616;
     position: relative;
   }
@@ -385,7 +390,7 @@
   }
 
   .personalized_section_sample_page > div {
-    margin-bottom: 20px;
+    margin-bottom: 40px;
   }
   .sharing_section_sample_page > img {
     position: unset;
@@ -414,7 +419,7 @@
   }
   .sharing_section_sample_page > div {
     text-align: center;
-    gap: 20px;
+    gap: 12px;
     width: 78%;
     align-items: center;
   }
@@ -433,5 +438,9 @@
 
   .button_event_landing > span{
     font-size: 12px;
+  }
+
+  .arrow_button_sample_page{
+    bottom: 100px;
   }
 }

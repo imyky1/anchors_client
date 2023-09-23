@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Sample.css";
 import "../Event Page/Event";
 import { motion } from "framer-motion";
 
-import Banner1 from "./images/Banner (6).png";
-import Banner2 from "./images/Banner (8).png";
-import Banner3 from "./images/Banner (9).png";
-import Banner4 from "./images/Banner (10).png";
-import Banner5 from "./images/Banner (11).png";
+import Banner1 from "./images/Banner (6)-min.webp";
+import Banner2 from "./images/Banner (8)-min.webp";
+import Banner3 from "./images/Banner (9)-min.webp";
+import Banner4 from "./images/Banner (10)-min.webp";
+import Banner5 from "./images/Banner (11)-min.webp";
 import mixpanel from "mixpanel-browser";
 import { MdEventSeat, MdKeyboardArrowDown } from "react-icons/md";
 import { TbMapSearch } from "react-icons/tb";
@@ -91,6 +91,15 @@ const PersonalizedSection = () => {
         Give Your Attendees a Personalized Touch - Shareable Invite Cards They
         Can Proudly Share on Social Platforms!
       </p>
+      <button
+        className="button_sample_page01"
+        onClick={() => {
+          window.open("/static/success");
+          mixpanel.track("Explore a Sample 3");
+        }}
+      >
+        <TbMapSearch size={32} /> Explore a Sample
+      </button>
     </section>
   );
 };
@@ -102,18 +111,18 @@ function Sample() {
 
   const imgVariant = (scale = 1) => {
     return {
-    from: {
-      opacity: 0,
-      scale: 0.5,
-    },
-    to: {
-      opacity: 1,
-      scale: scale,
-      transition: {
-        duration: 1,
+      from: {
+        opacity: 0,
+        scale: 0.8,
       },
-    },
-  }
+      to: {
+        opacity: 1,
+        scale: scale,
+        transition: {
+          duration: 2,
+        },
+      },
+    };
   };
 
   const textVariant01 = (timedelay = 0.85) => {
@@ -138,13 +147,17 @@ function Sample() {
         className="main_header_component_event_page"
         style={{ position: "relative" }}
       >
-        <EventsNavbar noAccount={true} showPricingButton={false} backgroundDark = {true} />
+        <EventsNavbar
+          noAccount={true}
+          showPricingButton={false}
+          backgroundDark={true}
+        />
 
         {/* Main detail of the component */}
 
         <div className="main_title_event_box">
           <motion.h1
-            style={window.screen.width > 600 ?{ textTransform: "unset" } : {}}
+            style={window.screen.width > 600 ? { textTransform: "unset" } : {}}
             initial="from"
             animate="to"
             variants={textVariant01()}
@@ -199,7 +212,7 @@ function Sample() {
               className="button_sample_page01"
               onClick={() => {
                 window.open("https://go.anchors.in/PvlD");
-                mixpanel.track("Check out Offering 1");
+                mixpanel.track("Explore a Sample 1");
               }}
             >
               <TbMapSearch size={32} /> Explore a Sample
@@ -208,7 +221,7 @@ function Sample() {
           <div className="right_division_sample_page">
             <motion.img
               src={
-                "https://anchors-assets.s3.amazonaws.com/1695122959387-Device_-_Macbook_Air_(3).png"
+                "https://anchors-assets.s3.amazonaws.com/1695190934103-Device_-_Macbook_Air_(3)-min.webp"
               }
               alt=""
               variants={imgVariant(1)}
@@ -233,7 +246,7 @@ function Sample() {
             className="button_sample_page01"
             onClick={() => {
               window.open("/static/success");
-              mixpanel.track("Check out Offering 2");
+              mixpanel.track("Explore a Sample 2");
             }}
           >
             <TbMapSearch size={32} /> Explore a Sample
@@ -242,10 +255,10 @@ function Sample() {
         <div className="right_division_sample_page2">
           <motion.img
             src={
-              "https://anchors-assets.s3.amazonaws.com/1695122944764-iPhone_14_Pro_Mockup_2jkgcuakbau.png"
+              "https://anchors-assets.s3.amazonaws.com/1695190919240-iPhone_14_Pro_Mockup_2jkgcuakbau-min.webp"
             }
             alt=""
-            variants={imgVariant(window.screen.width < 600 ? 1.5 : 1 )}
+            variants={imgVariant(window.screen.width < 600 ? 1.5 : 1)}
             initial="from" // here default type is tween and not spring because it has duration
             whileInView="to"
             viewport={{ once: true }}
@@ -267,7 +280,7 @@ function Sample() {
             className="button_sample_page01"
             onClick={() => {
               window.open("/static/success");
-              mixpanel.track("Check out Offering 2");
+              mixpanel.track("Explore a Sample 4");
             }}
           >
             <TbMapSearch size={32} /> Explore a Sample
@@ -275,10 +288,10 @@ function Sample() {
         </div>
         <motion.img
           src={
-            "https://anchors-assets.s3.amazonaws.com/1695122928229-iPhone_14_Pro_Mockup_2_guccgadvhakl.png"
+            "https://anchors-assets.s3.amazonaws.com/1695190945857-iPhone_14_Pro_Mockup_2_guccgadvhakl-min.webp"
           }
           alt=""
-          variants={imgVariant(window.screen.width < 600 ? 1.5 : 1 )}
+          variants={imgVariant(window.screen.width < 600 ? 1.5 : 1)}
           initial="from" // here default type is tween and not spring because it has duration
           whileInView="to"
           viewport={{ once: true }}
@@ -299,29 +312,28 @@ function Sample() {
         >
           Yes, I'm ready!{" "}
         </button>
-
       </section>
 
-        <MainNewFooter
-          onEvents={true}
-          footerOptions1={[
-            {
-              title: "Event Pricing",
-              link: "https://www.anchors.in/eventpricing",
-            },
-            {
-              title: "Sample Event Page",
-              link: "https://www.anchors.in/e/how-to-become-a-product-manager",
-            },
-            {
-              title: "Sample Referral Page",
-              link: "https://www.anchors.in/static/success",
-            },
-          ]}
-          noPrivacyPolicy={false}
-          noRefund={false}
-          useEventsLogo={true}
-        />
+      <MainNewFooter
+        onEvents={true}
+        footerOptions1={[
+          {
+            title: "Event Pricing",
+            link: "https://www.anchors.in/eventpricing",
+          },
+          {
+            title: "Sample Event Page",
+            link: "https://www.anchors.in/e/how-to-become-a-product-manager",
+          },
+          {
+            title: "Sample Referral Page",
+            link: "https://www.anchors.in/static/success",
+          },
+        ]}
+        noPrivacyPolicy={false}
+        noRefund={false}
+        useEventsLogo={true}
+      />
     </div>
   );
 }
