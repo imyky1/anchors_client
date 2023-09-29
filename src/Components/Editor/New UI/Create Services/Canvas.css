@@ -1,369 +1,752 @@
-.personalized_card_wrapper {
-    width: 529px;
-    height: 298px; /* 9 divided by 16 multiplied by 100 to get the aspect ratio */
-    position: relative;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .personalized_card_wrapper > img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .texting_layer_banner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9;
-  }
-  
-  /* texts */
-  
-  .left_side_text {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    flex-direction: column;
-    max-width: 55%;
-    position: absolute;
-    top: 45px;
-    left: 31px;
-  }
-  
-  .left_side_text > h1 {
-    color: #fff;
-    font-family: "Gilroy-Black", sans-serif;
-    font-size: 25px;
-    font-style: normal;
-    font-weight: bold;
-    line-height: normal;
-    letter-spacing: 0.56px;
-  }
-  
-  .left_side_text > span {
-    color: #fff;
-    text-align: center;
-    font-family: "Gilroy-Bold", sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: 0.32px;
-  }
-  
-  
-  /* creator profile */
-  
-  .creator_profile_banner {
-    position: absolute;
-    right: 24px;
-    top: 70px;
-    display: flex;
-    align-items: flex-end;
-  }
-  
-  .text_box_creator_name {
-    border-radius: 4px;
-    background: linear-gradient(196deg, #810000 0%, #121212 100%);
-    padding: 4px 40px 4px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 2px;
-    position: relative;
-    left: 40px;
-    bottom: 7px;
-  }
-  
-  .text_box_creator_name > h4 {
-    color: #fff;
-    text-align: center;
-    font-family: "Gilroy-Bold", sans-serif;
-    font-size: 14px;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: 0.56px;
-  }
-  
-  .text_box_creator_name > span {
-    color: #fff;
-    text-align: center;
-    font-family: "Gilroy-Bold", sans-serif;
-    font-size: 10px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: 0.4px;
-  }
-  
-  .creator_image_cover_banner {
-    width: 120px;
-    height: 120px;
-    flex-shrink: 0;
-    border-radius: 120px;
-    border: 6px solid #c0c0c0;
-    overflow: hidden;
-    z-index: 9;
-  }
-  
-  .creator_image_cover_banner > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  /* User profile banner */
-  
-  .user_profile_banner {
-    position: absolute;
-    left: 24px;
-    bottom: 32px;
-    display: flex;
-    align-items: flex-end;
-    flex-direction: row-reverse;
-  }
-  
-  .text_box_user_name {
-    border-radius: 4px;
-    background: linear-gradient(96deg, #810000 0%, #121212 100%);
-    padding: 4px 20px 4px 25px;
-    position: relative;
-    right: 20px;
-    bottom: 7px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .text_box_user_name > span {
-    color: #fff;
-    font-family: "Gilroy-Bold", sans-serif;
-    font-size: 12px;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: 0.48px;
-    font-weight: bold;
-  }
-  
-  .user_image_cover_banner {
-    width: 60px;
-    height: 60px;
-    flex-shrink: 0;
-    border-radius: 120px;
-    border: 6px solid #c0c0c0;
-    overflow: hidden;
-    z-index: 9;
-  }
-  
-  .user_image_cover_banner > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .user_profile_banner > h3 {
-    color: #fff;
-    font-family: "Gilroy-Bold", sans-serif;
-    font-size: 12px;
-    font-style: normal;
-    line-height: normal;
-    position: absolute;
-    bottom: -14px;
-    left: 60px;
-    width: 100%;
-  }
-  
-  /* Date and Time Section ----------- */
-  
-  .date_time_section_banner {
-    position: absolute;
-    left: 24px;
-    bottom: 25px;
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    flex-direction: column;
-  }
-  
-  .date_time_section_banner > div {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .date_time_section_banner > div > span {
-    color: #fff;
-    text-align: center;
-    font-family: "Inter",sans-serif;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-  
-  .creator_profile_banner_multiple {
-    /* position: absolute; */
-    right: 19px;
-    top: 6px;
-    display: flex;
-    align-items: flex-end;
-  }
-  
-  .text_box_creator_name_multiple {
-    border-radius: 4px;
-    background: linear-gradient(90deg, #810000 0%, #121212 100%);
-    padding: 4px 40px 4px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 2px;
-    position: relative;
-    left: 40px;
-    bottom: 7px;
-  }
-  
-  .all_speaker_details_section {
-    top: 10px;
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-    left: 58%;
-    gap: 12px;
-  }
-  
-  .text_box_creator_name_multiple > h4 {
-    color: #fff;
-    text-align: center;
-    font-family: "Gilroy-Bold", sans-serif;
-    font-size: 14px;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: 0.56px;
-  }
-  
-  .text_box_creator_name_multiple > span {
-    color: #fff;
-    text-align: center;
-    font-family: "Gilroy-Bold", sans-serif;
-    font-size: 10px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: 0.4px;
-  }
-  
-  .creator_image_cover_banner_multiple {
-    width: 80px;
-    height: 80px;
-    flex-shrink: 0;
-    border-radius: 80px;
-    border: 3px solid #c0c0c0;
-    overflow: hidden;
-    z-index: 9;
-  }
-  
-  .creator_image_cover_banner_multiple > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  /* User profile banner */
-  
-  .user_profile_banner_multiple {
-    position: absolute;
-    left: 24px;
-    bottom: 32px;
-    display: flex;
-    align-items: flex-end;
-    flex-direction: row-reverse;
-  }
-  
-  .text_box_user_name_multiple {
-    border-radius: 4px;
-    background: linear-gradient(96deg, #810000 0%, #121212 100%);
-    padding: 4px 20px 4px 25px;
-    position: relative;
-    right: 20px;
-    bottom: 7px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .text_box_user_name_multiple > span {
-    color: #fff;
-    font-family: "Gilroy-Bold", sans-serif;
-    font-size: 12px;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: 0.48px;
-    font-weight: bold;
-  }
-  
-  .user_image_cover_banner_multiple {
-    width: 60px;
-    height: 60px;
-    flex-shrink: 0;
-    border-radius: 60px;
-    border: 3px solid #c0c0c0;
-    overflow: hidden;
-    z-index: 9;
-  }
-  
-  .user_image_cover_banner_multiple  > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .user_profile_banner_multiple > h3 {
-    color: #fff;
-    font-family: "Gilroy-Bold", sans-serif;
-    font-size: 12px;
-    font-style: normal;
-    line-height: normal;
-    position: absolute;
-    bottom: -14px;
-    left: 60px;
-    width: 100%;
-  }
-  
-  /* Date and Time Section ----------- */
-  
-  .date_time_section_banner_multiple {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
-    position: absolute;
-    left: 167px;
-    bottom: 106px;
-  }
-  
-  .date_time_section_banner_multiple > div {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .date_time_section_banner_multiple > div > span {
-    color: #fff;
-    text-align: center;
-    font-family: "Inter", sans-serif;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
-  
+
+
+/* new ui card ------------- */
+
+.event_invite_card_wrapper {
+  width: 650px;
+  height: 366.163px;
+  background: #121212;
+  /* background: linear-gradient(107deg, #231919 0.94%, #002F2C 47.59%, #121212 98.41%); */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.event_invite_card_wrapper > div {
+  width: 610px;
+  height: 326px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(93, 93, 93, 0.16) 63.02%
+  );
+  padding: 23px 32px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+}
+
+.event_invite_card_wrapper > div > div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.user_data_event_invite_card {
+  display: flex;
+  gap: 8px;
+}
+
+.user_data_event_invite_card > img {
+  width: 60px;
+  height: 60px;
+  border-radius: 60px;
+}
+
+.user_data_event_invite_card > div {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.user_data_event_invite_card > div > h4 {
+  color: #fff;
+  font-family: "Gilroy-SemiBold", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.8px;
+}
+
+.user_data_event_invite_card > div > span {
+  color: #fff;
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.48px;
+
+  border-radius: 4px;
+  background: var(
+    --New-2,
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(93, 93, 93, 0.4) 63.02%
+    )
+  );
+  padding: 4px 8px;
+}
+
+.event_title_data_event_invite_card {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
+  width: 350px;
+  position: absolute;
+  top: 129px;
+}
+
+.event_title_data_event_invite_card > h3 {
+  color: #fff;
+  font-family: "Gilroy-Black", sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: bolder;
+  line-height: normal;
+  letter-spacing: 0.56px;
+}
+
+.event_title_data_event_invite_card > span {
+  color: #a0a0a0;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+}
+
+/* date */
+
+.event_date_data_event_invite_card {
+  display: inline-flex;
+  padding: 8px 16px;
+  width: max-content;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  border-radius: 4px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(93, 93, 93, 0.24) 63.02%
+  );
+
+  color: #d0d0d0;
+  text-align: center;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.event_date_data_event_invite_card > span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* speaker data ------ */
+
+.event_speaker_data_event_invite_card {
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  bottom: 40px;
+}
+
+.event_speaker_data_event_invite_card > div {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  border-radius: 120px;
+  overflow: hidden;
+  padding: 6px;
+  z-index: 10;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), #5d5d5d3d);
+}
+
+.event_speaker_data_event_invite_card > div > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 120px;
+}
+
+.event_speaker_data_event_invite_card > span {
+  border-radius: 4px;
+  background: var(
+    --New-2,
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(93, 93, 93, 0.4) 63.02%
+    )
+  );
+  padding: 4px 50px 4px 10px;
+  color: #fff;
+  text-align: center;
+  font-family: "Gilroy-Bold", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  letter-spacing: 0.56px;
+  position: relative;
+  left: 50px;
+  bottom: 7px;
+  z-index: 4;
+}
+
+.event_speaker_data_event_invite_card > span > span {
+  color: #d0d0d0;
+  text-align: center;
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.4px;
+}
+
+/* opacity layer -------- */
+
+#invite-card-opacity-layer-160 {
+  width: 160px;
+  height: 160px;
+  border-radius: 160px;
+  flex-shrink: 0;
+  background-color: rgba(245, 134, 255, 0.1);
+  filter: blur(53px);
+  position: absolute;
+  right: 28px;
+  top: -6px;
+}
+
+#invite-card-opacity-layer-123 {
+  width: 123px;
+  height: 123px;
+  border-radius: 123px;
+  flex-shrink: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(108, 146, 243, 0.2) 13.35%,
+    rgba(253, 137, 255, 0.2) 90.3%
+  );
+  filter: blur(53px);
+  position: absolute;
+  left: 136px;
+  top: 1px;
+}
+
+#invite-card-opacity-layer-87 {
+  width: 87px;
+  height: 87px;
+  border-radius: 87px;
+  flex-shrink: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(108, 146, 243, 0.2) 13.35%,
+    rgba(253, 137, 255, 0.2) 90.3%
+  );
+  filter: blur(53px);
+  position: absolute;
+  left: 53px;
+  bottom: -52px;
+}
+
+/* multiple speaker invite card --------- */
+
+.event_invite_multiple_speakers_details_section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-direction: column;
+  position: absolute;
+  top: 132px;
+}
+
+.event_invite_multiple_speakers_details_section > h4 {
+  color: #fff;
+  text-align: center;
+  font-family: "Gilroy-SemiBold", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.64px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.event_invite_multiple_speakers_details_section > section {
+  display: flex;
+  align-items: flex-start;
+  gap: -100px;
+}
+
+.event_invite_multiple_speakers_details_section > section > div {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+
+  color: #ddd;
+  text-align: center;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.48px;
+  position: relative;
+
+  max-width: 85px;
+}
+
+.event_invite_multiple_speakers_details_section > section > div > div {
+  width: 80px;
+  height: 80px;
+  border-radius: 80px;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), #5d5d5d3d);
+  overflow: hidden;
+  padding: 6px;
+}
+
+.event_invite_multiple_speakers_details_section > section > div > div > img {
+  width: 100%;
+  height: 100%;
+  border-radius: 80px;
+  object-fit: cover;
+}
+
+.event_invite_multiple_speakers_details_section > section > div > span {
+  max-width: 58px;
+  text-align: center;
+  max-height: 28px;
+  overflow: hidden;
+}
+
+.event_title_data_event_invite_card_multiple_speakers {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
+  width: 322px;
+}
+
+.event_title_data_event_invite_card_multiple_speakers > h3 {
+  color: #fff;
+  font-family: "Gilroy-Bold", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  letter-spacing: 0.56px;
+  width: 95%;
+}
+
+.event_title_data_event_invite_card_multiple_speakers > span {
+  color: #a0a0a0;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+}
+
+.multiple_speakers_event_invite_card_userdata{
+  position: absolute;
+  bottom: 23px;
+}
+
+.multiple_speakers_event_invite_card_userdata > img{
+  width: 40px;
+  height: 40px;
+}
+
+.multiple_speakers_event_invite_card_userdata > div > h4{
+  font-size: 16px;
+}
+
+.multiple_speakers_event_invite_card_userdata > div > span{
+  font-size: 10px;
+}
+
+
+
+/* aksbdjabsjbdjkaskd=- ---------------------------------------- */
+
+
+/* new ui card ------------- */
+
+.event_invite_card_wrapper {
+  width: 650px;
+  height: 366.163px;
+  background: #121212;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.event_invite_card_wrapper > div {
+  width: 610px;
+  height: 326px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(93, 93, 93, 0.16) 63.02%
+  );
+  padding: 23px 32px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+}
+
+.event_invite_card_wrapper > div > div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.user_data_event_invite_card {
+  display: flex;
+  gap: 8px;
+}
+
+.user_data_event_invite_card > img {
+  width: 60px;
+  height: 60px;
+  border-radius: 60px;
+}
+
+.user_data_event_invite_card > div {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.user_data_event_invite_card > div > h4 {
+  color: #fff;
+  font-family: "Gilroy-SemiBold", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.8px;
+}
+
+.user_data_event_invite_card > div > span {
+  color: #fff;
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.48px;
+
+  border-radius: 4px;
+  background: var(
+    --New-2,
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(93, 93, 93, 0.4) 63.02%
+    )
+  );
+  padding: 4px 8px;
+}
+
+.event_title_data_event_invite_card {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
+  width: 350px;
+  position: absolute;
+  top: 129px;
+}
+
+.event_title_data_event_invite_card > h3 {
+  color: #fff;
+  font-family: "Gilroy-Black", sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: bolder;
+  line-height: normal;
+  letter-spacing: 0.56px;
+}
+
+.event_title_data_event_invite_card > span {
+  color: #a0a0a0;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+}
+
+.event_date_data_event_invite_card {
+  display: inline-flex;
+  padding: 8px 16px;
+  width: max-content;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  border-radius: 4px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(93, 93, 93, 0.24) 63.02%
+  );
+
+  color: #d0d0d0;
+  text-align: center;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.event_date_data_event_invite_card > span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.event_speaker_data_event_invite_card {
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  bottom: 40px;
+}
+
+.event_speaker_data_event_invite_card > div {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  border-radius: 120px;
+  overflow: hidden;
+  padding: 6px;
+  z-index: 10;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), #5d5d5d3d);
+}
+
+.event_speaker_data_event_invite_card > div > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 120px;
+}
+
+.event_speaker_data_event_invite_card > span {
+  border-radius: 4px;
+  background: var(
+    --New-2,
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(93, 93, 93, 0.4) 63.02%
+    )
+  );
+  padding: 4px 50px 4px 10px;
+  color: #fff;
+  text-align: center;
+  font-family: "Gilroy-Bold", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  letter-spacing: 0.56px;
+  position: relative;
+  left: 50px;
+  bottom: 7px;
+  z-index: 4;
+}
+
+.event_speaker_data_event_invite_card > span > span {
+  color: #d0d0d0;
+  text-align: center;
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.4px;
+}
+
+
+#invite-card-opacity-layer-160 {
+  width: 160px;
+  height: 160px;
+  border-radius: 160px;
+  flex-shrink: 0;
+  background-color: rgba(245, 134, 255, 0.1);
+  filter: blur(53px);
+  position: absolute;
+  right: 28px;
+  top: -6px;
+}
+
+#invite-card-opacity-layer-123 {
+  width: 123px;
+  height: 123px;
+  border-radius: 123px;
+  flex-shrink: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(108, 146, 243, 0.2) 13.35%,
+    rgba(253, 137, 255, 0.2) 90.3%
+  );
+  filter: blur(53px);
+  position: absolute;
+  left: 136px;
+  top: 1px;
+}
+
+#invite-card-opacity-layer-87 {
+  width: 87px;
+  height: 87px;
+  border-radius: 87px;
+  flex-shrink: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(108, 146, 243, 0.2) 13.35%,
+    rgba(253, 137, 255, 0.2) 90.3%
+  );
+  filter: blur(53px);
+  position: absolute;
+  left: 53px;
+  bottom: -52px;
+}
+
+
+.event_invite_multiple_speakers_details_section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-direction: column;
+  position: absolute;
+  top: 132px;
+}
+
+.event_invite_multiple_speakers_details_section > h4 {
+  color: #fff;
+  text-align: center;
+  font-family: "Gilroy-SemiBold", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.64px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.event_invite_multiple_speakers_details_section > section {
+  display: flex;
+  align-items: flex-start;
+  gap: -100px;
+}
+
+.event_invite_multiple_speakers_details_section > section > div {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+
+  color: #ddd;
+  text-align: center;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.48px;
+  position: relative;
+
+  max-width: 85px;
+}
+
+.event_invite_multiple_speakers_details_section > section > div > div {
+  width: 80px;
+  height: 80px;
+  border-radius: 80px;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), #5d5d5d3d);
+  overflow: hidden;
+  padding: 6px;
+}
+
+.event_invite_multiple_speakers_details_section > section > div > div > img {
+  width: 100%;
+  height: 100%;
+  border-radius: 80px;
+  object-fit: cover;
+}
+
+.event_invite_multiple_speakers_details_section > section > div > span {
+  max-width: 58px;
+  text-align: center;
+  max-height: 28px;
+  overflow: hidden;
+}
+
+.event_title_data_event_invite_card_multiple_speakers {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
+  width: 322px;
+}
+
+.event_title_data_event_invite_card_multiple_speakers > h3 {
+  color: #fff;
+  font-family: "Gilroy-Bold", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+  letter-spacing: 0.56px;
+  width: 95%;
+}
+
+.event_title_data_event_invite_card_multiple_speakers > span {
+  color: #a0a0a0;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.32px;
+}
+
+.multiple_speakers_event_invite_card_userdata{
+  position: absolute;
+  bottom: 23px;
+}
+
+.multiple_speakers_event_invite_card_userdata > img{
+  width: 40px;
+  height: 40px;
+}
+
+.multiple_speakers_event_invite_card_userdata > div > h4{
+  font-size: 16px;
+}
+
+.multiple_speakers_event_invite_card_userdata > div > span{
+  font-size: 10px;
+}

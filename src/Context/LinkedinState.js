@@ -111,12 +111,12 @@ const LinkedinState = (props) => {
   ) => {
     try {
       const userdata = await userIp();
-      let slugurl = name.split(" ").join("-");
+      let slugurl = name.split(" ").join("");
       const count = await getslugcountcreator(slugurl.toLowerCase());
       let slugurl2 =
         count === 0
           ? slugurl.toLowerCase()
-          : slugurl.toLowerCase().concat("--", `${count}`);
+          : slugurl.toLowerCase().concat("", `${count}`);
 
       const response = await fetch(`${host}/api/creator/newCreator`, {
         method: "POST",

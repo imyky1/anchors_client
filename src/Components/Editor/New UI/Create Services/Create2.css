@@ -390,3 +390,16 @@
   padding-bottom: 2vh;
   color: red;
 }
+
+.span_create_event_input {
+  color: #888;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}

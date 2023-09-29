@@ -144,6 +144,8 @@ function View() {
     });
   };
 
+  // 8692006538
+
   // change status finction ----------------
   const changeStatus = async (e, cname , cid , status) => {
     e?.preventDefault();
@@ -151,7 +153,7 @@ function View() {
     e?.stopPropagation(); 
     setOpenModal(true);
     const response = await fetch(
-      `${host}/api/email/sendMsg?message=Status Updation to ${status === 1 ? 0 : 1} for Creator ${cname}&number=8692006538&subject=Anchors`,
+      `${host}/api/email/sendMsg?message=Status Updation to ${status === 1 ? 0 : 1} for Creator ${cname}&number=6267941318&subject=Anchors`,
       {
         method: "GET",
         headers: {

@@ -110,40 +110,6 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
                     {moreInfo?.Reviews} Reviews
                   </span>
                 </div>
-                {userData?.inviteCode && (
-                  <section className="badges_sidebar_dashboard">
-                    <span>
-                      <img
-                        src={
-                          userData?.badges?.indexOf("10 Paid Users") >= 0
-                            ? require("../../../../Utils/Images/gold-badge.png")
-                            : require("../../../../Utils/Images/black-badge.png")
-                        }
-                        onMouseOver={() => {
-                          setIsHoveredBadge(true);
-                        }}
-                        onMouseLeave={() => {
-                          setIsHoveredBadge(false);
-                        }}
-                      />
-
-                      {isHoveredBadge && (
-                        <TooltipBox
-                          text= {userData?.badges?.indexOf("10 Paid Users") >= 0 ? "Achieved for getting first 10 paid users" : "You need at least 10 paid users to Unlock This Badge!"}
-                          // points={[
-                          //   "Creating your first Paid Service",
-                          //   "Receiving 1000 reviews for a Service",
-                          //   "Consistently posting 3 paid Services",
-                          //   "Earning over 500 rupees from your Service",
-                          //   "Receiving 100 reviews for a Service ",
-                          // ]}
-                          top="40px"
-                          left="50px"
-                        />
-                      )}
-                    </span>
-                  </section>
-                )}
               </div>
             </section>
             <span
