@@ -12,7 +12,6 @@ import Dashboard from "../Dashboard/Dashboard";
 import Navbar from "../Navbar/Navbar";
 import ServiceDetailPage from "../ServiceDetail/ServiceList";
 import Sidebar from "../SideBar/Sidebar";
-import Create from "../Create Services/Create2";
 import EditProfile from "../EditProfile/EditProfile";
 import UserReviews from "../UserReviews/UserReviews";
 import UserRequest from "../userRequest/UserRequest";
@@ -33,7 +32,8 @@ import NoMobileScreen from "../../../Layouts/Error Pages/NoMobileScreen";
 import EditEvent from "../Edit Services/EditEvent";
 import ServiceStats2 from "../ServiceStats/ServiceStats2";
 import Template from "../Sharing Template/Sharing";
-import CreateEvent2 from "../Create Services/CreateEvent2";
+import Create from "../Create Services/Create";
+import CreateEvent from "../Create Services/CreateEvent";
 
 function Home(props) {
   const location = useLocation();
@@ -290,7 +290,7 @@ function Home(props) {
                       <Route
                         path="createevent"
                         element={
-                          <CreateEvent2
+                          <CreateEvent
                             progress={props.progress}
                             openDefaultBanner={() => {
                               setOpenDefaultBannerModal(true);

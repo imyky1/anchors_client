@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
-// import "./Create.css";
 import "./Canvas.css";
-import { Button1 } from "./InputComponents/buttons";
+import "./Create.css"
+import { Button1, Button3 } from "./InputComponents/buttons";
 import {
   Dropdown1,
   Editor1,
   Tags1,
   TextField1,
   RadioField1,
-  UploadField2,
   UploadField3,
-  UploadField1,
+  Select1,
+  DatePicker1,
 } from "./InputComponents/fields_Labels";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { toast } from "react-toastify";
@@ -31,16 +31,525 @@ import { BsPlus } from "react-icons/bs";
 import PNGIMG from "../../../../Utils/Images/default_user.png";
 import { toBlob } from "html-to-image";
 import { CreateEventDemo } from "./CreateServiceDemo";
+import {
+  AiFillEye,
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
+} from "react-icons/ai";
+import { PersonalizedInviteeCard } from "../../../Modals/Default Banner/DefaultBanner";
+import { host } from "../../../../config/config";
 
-function CreateEvent({
-  progress,
-  openDefaultBanner,
-  setDefaultBannerData,
+const FirstPage = ({
+  data,
+  handleChange,
+  paid,
+  setpaid,
+  setCurrentPage,
+  setdata,
+}) => {
+  return (
+    <>
+      <section className="create_form_box">
+        {/* left side---------------------------------------------------------------------------- */}
+        <div className="left_section_form" style={{ width: "100%" }}>
+          <Select1
+            value={["Paid", "Free"]}
+            selectedValue={(e) => {
+              setpaid(e);
+              setdata({ ...data, ssp: 0, smrp: 0 });
+            }}
+            defaultValue={paid}
+          />
+
+          <TextField1
+            label="Title of Event"
+            name="sname"
+            id="sname"
+            required={true}
+            value={data?.sname}
+            placeholder="Enter Title Here"
+            onChange={handleChange}
+          />
+
+          {/* <TextField1
+            label="Event Date"
+            name="date"
+            type="date"
+            id="date"
+            required={true}
+            value={data?.date}
+            onChange={handleChange}
+          /> */}
+
+          <DatePicker1
+            label="Event Date"
+            name="date"
+            type="date"
+            id="date"
+            required={true}
+            value={data?.date}
+            placeholder="Select Event Date"
+            onChange={(date) => {
+              setdata({ ...data, date: date });
+            }}
+          />
+
+          <section
+            style={{
+              width: "100%",
+              gap: "10px",
+              display: "grid",
+              gridTemplateColumns: "repeat(2,1fr)",
+              marginBottom: "32px",
+            }}
+          >
+            <TextField1
+              label="Event Start Time"
+              name="startTime"
+              type="time"
+              id="startTime"
+              required={true}
+              value={data?.startTime}
+              placeholder="Enter Title Here"
+              onChange={handleChange}
+            />
+            <TextField1
+              label="Event End Time"
+              name="endTime"
+              type="time"
+              id="endTime"
+              required={true}
+              value={data?.endTime}
+              placeholder="Enter Title Here"
+              onChange={handleChange}
+            />
+          </section>
+
+          <Select1
+            label="Event Mode"
+            required={true}
+            value={["Online", "Offline"]}
+            selectedValue={(e) => {
+              setdata({ ...data, stype: e });
+            }}
+            defaultValue={data?.stype}
+          />
+
+          {paid === "Paid" && (
+            <section
+              style={{
+                width: "100%",
+                gap: "25px",
+                display: "grid",
+                gridTemplateColumns: "repeat(2,1fr)",
+                marginBottom: "32px",
+              }}
+            >
+              <TextField1
+                label="Set Maximum Price"
+                placeholder="Max 500"
+                name="smrp"
+                id="smrp"
+                value={data?.smrp}
+                required={true}
+                onChange={handleChange}
+              />
+
+              <TextField1
+                label="Discounted Price"
+                placeholder="Min 99"
+                name="ssp"
+                id="ssp"
+                required={true}
+                value={data?.ssp}
+                onChange={handleChange}
+              />
+            </section>
+          )}
+
+          <section
+            style={{
+              width: "100%",
+              gap: "25px",
+              display: "grid",
+              gridTemplateColumns: "repeat(2,1fr)",
+              marginBottom: "32px",
+            }}
+          >
+            <TextField1
+              label={data?.stype === "Offline" ? "Venue" : "Meet Link"}
+              name="meetlink"
+              id="meetlink"
+              required={true}
+              value={data?.meetlink}
+              placeholder="Enter Title Here"
+              onChange={handleChange}
+            />
+            <TextField1
+              label="No of Seats"
+              required={true}
+              type="text"
+              id="eventSeatCapacity"
+              name="eventSeatCapacity"
+              value={data?.eventSeatCapacity}
+              placeholder="Enter the number of seats in the event"
+              onChange={handleChange}
+            />
+          </section>
+        </div>
+      </section>
+
+      <section className="buttons_form">
+        <Button1
+          text="Next"
+          icon={<AiOutlineArrowRight />}
+          onClick={() => {
+            setCurrentPage(2);
+          }}
+        />
+      </section>
+    </>
+  );
+};
+
+const SecondPage = ({
+  data,
+  setdata,
+  setBannerImage,
+  handleChangeFileBanner,
+  setEventVideo,
+  Content,
+  setContent,
+  onSubmit,
+  setCurrentPage,
+  isSpeakerSelected,
+  allCreatorInfo,
+  handleChangeSpeakerImage,
+  handleSpeaker,
+  speakersArray,
+  speakersImagesArray,
+  handleAddSpeaker,
+  setImagePreview,
+  multipleSpeakers,
+  setZoom,
+  setCrop,
+  setCroppedArea,
+  handleSpeakerChange,
+  handleRemoveSpeaker,
   cname,
-  ctagline,
-  crating,
   cprofile,
-}) {
+}) => {
+  const [openInviteeCard, setopenInviteeCard] = useState(false);
+
+  return (
+    <>
+      <PersonalizedInviteeCard
+        open={openInviteeCard}
+        onClose={() => {
+          setopenInviteeCard(false);
+        }}
+        data={{ ...data, cname, cprofile }}
+        speakersArray={speakersArray}
+        speakersImagesArray={speakersImagesArray}
+      />
+
+      <section className="create_form_box">
+        {/* left side---------------------------------------------------------------------------- */}
+        <div className="left_section_form" style={{ width: "100%" }}>
+          {
+            <div className="create_speaker_toggle">
+              Are you a speaker too? <span style={{ color: "red" }}>*</span>
+              <RadioField1
+                onChange={(value) => handleSpeaker(value)}
+                value={isSpeakerSelected}
+              />
+            </div>
+          }
+
+          {isSpeakerSelected && (
+            <div className="map_speaker_details_field">
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  gap: "40px",
+                }}
+              >
+                <div className="map_speaker_details_field_inside">
+                  <div className="map_speaker_details_field_inside_frame">
+                    <div className="create_text_04">
+                      Add Speaker Details{" "}
+                      <span style={{ color: "red" }}>*</span>
+                    </div>
+                    <TextField1
+                      label="Name"
+                      name="name"
+                      id="name"
+                      placeholder="Enter name"
+                      value={allCreatorInfo?.name}
+                    />
+
+                    <UploadField3
+                      label="Profile Image"
+                      id={`speakerImage0`}
+                      info={
+                        isSpeakerSelected
+                          ? "Profile Image Selected"
+                          : "File Size Limit 15 MB Formats - jpg,png"
+                      }
+                      onChange={() => {
+                        return null;
+                      }}
+                      FileType=".jpg,.png,.jpeg"
+                      onChangeFunction={(e) => handleChangeSpeakerImage(e, 0)}
+                    />
+
+                    {speakersImagesArray[0] && (
+                      <Button
+                        variant="outlined"
+                        onClick={() => {
+                          setZoom(1);
+                          setCrop({ x: 0, y: 0 });
+                          setCroppedArea(null);
+                          setImagePreview({
+                            value: true,
+                            indexToCrop: 1,
+                          });
+                        }}
+                        className="imageresizeopenerbutton"
+                      >
+                        Preview Image and Resize
+                      </Button>
+                    )}
+                  </div>
+                  <div className="create_speaker_toggle_spacing0">
+                    <TextField1
+                      label="Designation"
+                      name="designation"
+                      id="designation"
+                      placeholder="Enter designation"
+                      value={allCreatorInfo?.tagLine}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {(isSpeakerSelected
+            ? speakersArray.length > 1
+            : speakersArray.length > 0) && (
+            <div className="map_speaker_details_field">
+              {(isSpeakerSelected
+                ? speakersArray?.slice(1)
+                : speakersArray
+              )?.map((speaker, index) => (
+                <div
+                  key={index}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    gap: "40px",
+                    marginBottom: "40px",
+                  }}
+                >
+                  <div className="map_speaker_details_field_inside">
+                    <div className="map_speaker_details_field_inside_frame">
+                      <div className="create_text_04">
+                        Add Speaker Details{" "}
+                        <span style={{ color: "red" }}>*</span>
+                      </div>
+                      <TextField1
+                        label="Name"
+                        name="name"
+                        value={
+                          isSpeakerSelected
+                            ? speakersArray[index + 1]?.name
+                            : speakersArray[index]?.name
+                        }
+                        id={`name${isSpeakerSelected ? index + 1 : index}`}
+                        placeholder="Enter name"
+                        onChange={(e) => {
+                          handleSpeakerChange(
+                            e.target.value,
+                            isSpeakerSelected ? index + 1 : index,
+                            e.target.name
+                          );
+                        }}
+                      />
+
+                      <UploadField3
+                        label="Profile Image"
+                        id={`speakerImage${
+                          isSpeakerSelected ? index + 1 : index
+                        }`}
+                        info="File Size Limit 15 MB Formats - jpg,png"
+                        FileType=".jpg,.png,.jpeg"
+                        onChange={() => {
+                          return null;
+                        }}
+                        onChangeFunction={(e) =>
+                          handleChangeSpeakerImage(
+                            e,
+                            isSpeakerSelected ? index + 1 : index
+                          )
+                        }
+                      />
+
+                      {speakersImagesArray[
+                        isSpeakerSelected ? index + 1 : index
+                      ] && (
+                        <Button
+                          variant="outlined"
+                          onClick={() => {
+                            setZoom(1);
+                            setCrop({ x: 0, y: 0 });
+                            setCroppedArea(null);
+                            setImagePreview({
+                              value: true,
+                              indexToCrop: isSpeakerSelected
+                                ? index + 2
+                                : index + 1,
+                            });
+                          }}
+                          className="imageresizeopenerbutton"
+                        >
+                          Preview Image and Resize
+                        </Button>
+                      )}
+                    </div>
+                    <div className="create_speaker_toggle_spacing0">
+                      <TextField1
+                        label="Designation"
+                        name="designation"
+                        value={
+                          isSpeakerSelected
+                            ? speakersArray[index + 1]?.designation
+                            : speakersArray[index]?.designation
+                        }
+                        id={`designation${
+                          isSpeakerSelected ? index + 1 : index
+                        }`}
+                        placeholder="Enter designation"
+                        onChange={(e) =>
+                          handleSpeakerChange(
+                            e.target.value,
+                            isSpeakerSelected ? index + 1 : index,
+                            e.target.name
+                          )
+                        }
+                      />
+
+                      <Button1
+                        text="Remove Speaker"
+                        onClick={() =>
+                          handleRemoveSpeaker(
+                            isSpeakerSelected ? index + 1 : index
+                          )
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {speakersArray.length < 3 && (
+            <div
+              className="create_text_04"
+              onClick={handleAddSpeaker}
+              style={{ cursor: "pointer" }}
+            >
+              Add Speaker
+              <BsPlus
+                style={{
+                  marginBottom: "-3px",
+                  fontSize: "17px",
+                  marginLeft: "-1px",
+                  fontWeight: "bolder",
+                }}
+              />{" "}
+            </div>
+          )}
+
+          <Editor1
+            label={`Describe your Event`}
+            placeholder={`Caption your Event`}
+            info="A brief description gives your audience some context"
+            Content={Content}
+            required={true}
+            setContent={(e) => setContent(e)}
+          />
+
+          <Editor1
+            label={`Benefits of leaderboard`}
+            placeholder={`Caption your Event`}
+            info="A brief description gives your audience some context"
+            Content={data?.benefits}
+            id="benefits"
+            required={true}
+            setContent={(e) => setdata({ ...data, benefits: e })}
+          />
+
+          <section
+            style={{
+              width: "100%",
+              gap: "25px",
+              display: "grid",
+              gridTemplateColumns: "repeat(2,1fr)",
+              marginBottom: "32px",
+            }}
+          >
+            <UploadField3
+              label="Upload Banner Image"
+              id="asdas"
+              info="File Size Limit 15 MB Formats - jpg,png"
+              FileType=".jpg,.png,.jpeg"
+              onChange={setBannerImage}
+              onChangeFunction={handleChangeFileBanner}
+            />
+            <UploadField3
+              label={`Upload your Preview Video`}
+              id="asd1515"
+              onChange={setEventVideo}
+              info="File Size Limit 500 MB Formats -Avi,mp4"
+              FileType=".mp4,.avi,.mov"
+            />
+          </section>
+
+          <span
+            className="span_create_event_input"
+            onClick={() => {
+              setopenInviteeCard(true);
+            }}
+          >
+            <AiFillEye size={16} /> Preview Personalized Attendee Card
+          </span>
+        </div>
+      </section>
+
+      <section className="buttons_form">
+        <Button1
+          text="Publish"
+          icon={<AiOutlineArrowRight />}
+          onClick={onSubmit}
+        />
+        <Button3
+          text="Previous"
+          icon={<AiOutlineArrowLeft />}
+          onClick={() => {
+            setCurrentPage(1);
+          }}
+        />
+      </section>
+    </>
+  );
+};
+
+function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
   const params = new URLSearchParams(window.location.search);
 
   const [multipleSpeakers, setMultipleSpeakers] = useState(false); // tells if the evnt page has the multiple speaker option
@@ -50,11 +559,10 @@ function CreateEvent({
 
   const [showPopup, setshowPopup] = useState({ open: false, link: "" }); // success popup data
 
-  const [paid, setpaid] = useState(); // decides the form acc to paid or free service type
+  const [paid, setpaid] = useState("Paid"); // decides the form acc to paid or free service type
   const [openLoading, setOpenLoading] = useState(false); // controlls the loader
 
-  // saving for preview in live eevnt
-  const [showimg, setShowimg] = useState({});
+  const [currentPage, setCurrentPage] = useState(1); // deciding the form to shows
 
   // state for image cropping
   const [imagetocrop, setImageToCrop] = useState([]); // first is banner image , rest are sepaker's profile image
@@ -67,18 +575,12 @@ function CreateEvent({
   const [defaultbanner, setDefaultBanner] = useState(false); // decides wheter to user checked the default banner-----
   const htmlElementRef = useRef(null);
 
-  // Multiple speaker handling -----------------
-  useEffect(() => {
-    if (params.get("type") === "multiplespeakers") {
-      setMultipleSpeakers(true);
-    }
-  }, []);
-
   // service Context --------------------------------------------------
   const {
     addEvent,
     getslugcountEvent,
     Uploadfile,
+    UploadBanners,
     UploadEventVideo,
     UploadEventSpeakersProfile,
   } = useContext(ServiceContext);
@@ -103,8 +605,9 @@ function CreateEvent({
   const [Tags, setTags] = useState([]);
   const [Content, setContent] = useState();
   const [BannerImage, setBannerImage] = useState();
-  const [seatCapacity, setSeatCapacity] = useState("");
+  const [seatCapacity, setSeatCapacity] = useState("Enter Manually");
   const [EventVideo, setEventVideo] = useState();
+  const [controlSubmitButtonValue, setControlSubmitButtonValue] = useState(0);
 
   const handleChangeFileBanner = (e) => {
     mixpanel.track("Browse banner");
@@ -181,26 +684,50 @@ function CreateEvent({
   const handleSpeaker = (value) => {
     setIsSpeakerSelected(!isSpeakerSelected);
     if (value) {
-      let newArray = speakersArray;
-      newArray[0] = {
+      // Create a new array with the same length as the original array
+      const shiftedArray = [];
+      const shiftedArray2 = [];
+      imagetocrop.splice(1, 0, "");
+
+      // Insert the new element at the beginning
+      shiftedArray[0] = {
         name: allCreatorInfo?.name,
         designation: allCreatorInfo?.tagLine,
         profile: allCreatorInfo?.profile,
         isCreator: true,
       };
-      setSpeakersArray(newArray);
+
+      // Shift elements to the left in speaker array data
+      for (let i = 1; i < speakersArray.length + 1; i++) {
+        shiftedArray[i] = speakersArray[i - 1];
+        shiftedArray2[i] = speakersImagesArray[i - 1];
+      }
+
+      if (shiftedArray.length > 3) {
+        shiftedArray.pop();
+      }
+
+      if (shiftedArray2.length > 3) {
+        shiftedArray2.pop();
+      }
+
+      setSpeakersArray(shiftedArray);
+      setSpeakersImagesArray(shiftedArray2);
     } else {
       if (speakersArray.length === 1) {
         setSpeakersArray([{}]);
+        setSpeakersImagesArray([]);
       } else {
         setSpeakersArray(speakersArray.slice(1));
+        setSpeakersImagesArray(speakersImagesArray.slice(1));
       }
+      setImageToCrop(imagetocrop.slice(0, 1).concat(imagetocrop.slice(2)));
     }
   };
 
   // changes handling in input field ---------------------------------
   const handleChange = (e) => {
-    setdata({ ...data, [e.target.name]: e.target.value });
+    setdata({ ...data, [e?.target?.name]: e?.target?.value });
   };
 
   const handleSpeakerChange = (value, index, field) => {
@@ -233,6 +760,16 @@ function CreateEvent({
   };
 
   const checkSpeakersData = () => {
+    if (speakersArray.length === 0) {
+      setMultipleSpeakers(false);
+      return true;
+    }
+
+    if (Object.keys(speakersArray[0]).length === 0) {
+      setMultipleSpeakers(false);
+      return true;
+    }
+
     for (let index = 0; index < speakersArray.length; index++) {
       const element = speakersArray[index];
       if (
@@ -243,9 +780,15 @@ function CreateEvent({
         (!speakersImagesArray[index] && (index !== 0 || !isSpeakerSelected))
       ) {
         return false;
+      } else {
+        setMultipleSpeakers(true);
       }
     }
     return true;
+  };
+
+  const timeToHours = (time) => {
+    return parseInt(time.split(":")[0]) * 60 + parseInt(time.split(":")[1]);
   };
 
   // form submission ----------------------------------------------------------
@@ -270,95 +813,116 @@ function CreateEvent({
       data?.date &&
       data?.startTime &&
       data?.endTime &&
-      paid
+      paid &&
+      data?.eventSeatCapacity > 0
     ) {
-      if (checkSpeakers || !multipleSpeakers) {
-        if (Content?.length > 10) {
-          if (multipleSpeakers) {
-            await SaveSpeakerImages();
-          }
-          try {
-            let banner = { success: true, url: "" };
-            let eventVideo = { result: { Location: "" } };
+      if (timeToHours(data?.endTime) > timeToHours(data?.startTime)) {
+        if (
+          (parseInt(data?.ssp) <= parseInt(data?.smrp) &&
+            parseInt(data?.smrp) > 0) ||
+          paid === "Free"
+        ) {
+          if (checkSpeakers) {
+            if (Content?.length > 10) {
+              if (multipleSpeakers) {
+                await SaveSpeakerImages();
+              }
+              try {
+                let banner = { success: true, result: { Location: "" } };
+                let eventVideo = { result: { Location: "" } };
 
-            // Check for banner and saves if it is available
-            if (BannerImage) {
-              banner = await Uploadfile(data1); /// uplaoding banner and files on s3
-            } else {
-              // Generating a default Banner
-              banner = await saveTheBannerEvent();
-            }
+                // Check for banner and saves if it is available
+                if (BannerImage) {
+                  banner = await UploadBanners(data1); /// uplaoding banner and files on s3
+                } else {
+                  // Generating a default Banner
+                  banner = await saveTheBannerEvent();
+                }
 
-            // Check for video and saves if it is available
-            if (EventVideo) {
-              eventVideo = await UploadEventVideo(data2);
-              progress(50);
-            }
+                // Check for video and saves if it is available
+                if (EventVideo) {
+                  eventVideo = await UploadEventVideo(data2);
+                  progress(50);
+                }
 
-            if (banner?.success) {
-              progress(75);
-              let json = await addEvent(
-                data?.sname,
-                "", // sdesc no value
-                Content,
-                SlugCount === 0
-                  ? slug.toLowerCase()
-                  : slug.toLowerCase().concat("--", `${SlugCount}`),
-                banner?.url,
-                Tags,
-                data?.stype === "Offline" ? 0 : 1,
-                paid === "Free" ? false : true,
-                paid === "Free" ? 0 : data.smrp,
-                paid === "Free" ? 0 : data.ssp,
-                data?.date,
-                { startTime: data?.startTime, endTime: data?.endTime },
-                data?.benefits,
-                seatCapacity === "Enter Manually"
-                  ? data?.eventSeatCapacity
-                  : "Unlimited",
-                data?.meetlink,
-                eventVideo?.result?.Location,
-                multipleSpeakers ? speakersArray : null
-              );
+                if (banner?.success) {
+                  progress(75);
+                  let json = await addEvent(
+                    data?.sname,
+                    "", // sdesc no value
+                    Content,
+                    SlugCount === 0
+                      ? slug.toLowerCase()
+                      : slug.toLowerCase().concat("--", `${SlugCount}`),
+                    banner?.result?.Location,
+                    Tags,
+                    data?.stype === "Offline" ? 0 : 1,
+                    paid === "Free" ? false : true,
+                    paid === "Free" ? 0 : data.smrp,
+                    paid === "Free" ? 0 : data.ssp,
+                    data?.date,
+                    { startTime: data?.startTime, endTime: data?.endTime },
+                    data?.benefits,
+                    seatCapacity === "Enter Manually"
+                      ? data?.eventSeatCapacity
+                      : "Unlimited",
+                    data?.meetlink,
+                    eventVideo?.result?.Location,
+                    speakersArray[0]?.name ? speakersArray : null
+                  );
 
-              if (json?.success) {
-                //setservData(json.res);
+                  if (json?.success) {
+                    //setservData(json.res);
+                    setOpenLoading(false);
+                    setshowPopup({ open: true, link: json?.shortLink });
+                  } else {
+                    setOpenLoading(false);
+                    toast.error(`Event Not Created Please Try Again`, {
+                      position: "top-center",
+                      autoClose: 2000,
+                    });
+                  }
+                } else {
+                  setOpenLoading(false);
+                  toast.error(`Facing issues while uploading image`, {
+                    position: "top-center",
+                    autoClose: 2000,
+                  });
+                }
+              } catch (error) {
                 setOpenLoading(false);
-                setshowPopup({ open: true, link: json?.shortLink });
-              } else {
-                setOpenLoading(false);
-                toast.error(`Event Not Created Please Try Again`, {
+                console.log(error);
+                toast.error(`Server side error please try after some time`, {
                   position: "top-center",
                   autoClose: 2000,
                 });
               }
             } else {
               setOpenLoading(false);
-              toast.error(`Facing issues while uploading image`, {
+              toast.info("Descibe your service properly", {
                 position: "top-center",
-                autoClose: 2000,
+                autoClose: 3000,
               });
             }
-          } catch (error) {
+          } else {
             setOpenLoading(false);
-            console.log(error);
-            toast.error(`Server side error please try after some time`, {
+            toast.info("Enter speaker details properly", {
               position: "top-center",
-              autoClose: 2000,
+              autoClose: 3000,
             });
           }
         } else {
           setOpenLoading(false);
-          toast.info("Descibe your service properly", {
+          toast.error(`Pricing is invalid`, {
             position: "top-center",
-            autoClose: 3000,
+            autoClose: 2000,
           });
         }
       } else {
         setOpenLoading(false);
-        toast.info("Enter speaker details properly", {
+        toast.error(`Timings are invalid`, {
           position: "top-center",
-          autoClose: 3000,
+          autoClose: 2000,
         });
       }
     } else {
@@ -382,17 +946,17 @@ function CreateEvent({
       .slice(0, index)
       .concat(speakersArray.slice(index + 1));
 
-    setSpeakersArray(finalArr);
-  };
+    let finalArr2 = speakersImagesArray
+      .slice(0, index)
+      .concat(speakersImagesArray.slice(index + 1));
 
-  //Edit control of default banner button ------------
-  const EditOptionDefaultBanner = () => {
-    setDefaultBannerData({
-      sname: data?.sname,
-      cname: cname,
-      type: "Event",
-    });
-    openDefaultBanner();
+    let finalArr3 = imagetocrop
+      .slice(0, index + 1)
+      .concat(speakersImagesArray.slice(index + 2));
+
+    setSpeakersArray(finalArr);
+    setSpeakersImagesArray(finalArr2);
+    setImageToCrop(finalArr3);
   };
 
   // Default banner fucntion -------------
@@ -450,7 +1014,7 @@ function CreateEvent({
         if (element) {
           dataURI = await getImageDataUri(element);
         } else {
-          dataURI = allCreatorInfo?.profile;
+          dataURI = `${host}/api/file/proxyImage?imageUrl=${allCreatorInfo?.profile}`
         }
         imgtag.src = dataURI;
       }
@@ -464,12 +1028,16 @@ function CreateEvent({
       const file = new File([blob], "banner2.png", { type: blob.type });
       const data1 = new FormData();
       data1.append("file", file);
-      let banner = await Uploadfile(data1);
+      let banner = await UploadBanners(data1);
       return banner;
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
   // event banner color code -------
   let colorCodes = [
@@ -488,119 +1056,12 @@ function CreateEvent({
         <CongratsServiceModal type="Event" link={showPopup?.link} />
       )}
 
-      {/* Banners default ------- */}
-      {/* <div className="default_previewer_wrapper" style={{ zIndex: "100" }}> */}
-      {/* Html banner ------------------------------- */}
-      {/* {multipleSpeakers ? (
-          <div className="personalized_card_wrapper" ref={htmlElementRef}>
-            <img src={require("./back2.jpeg")} alt="background" />
-            <div className="texting_layer_banner">
-              <section className="left_side_text">
-                <h1>{data?.sname}</h1>
-                <span>
-                  by{" "}
-                  {speakersArray?.map((e, index) => {
-                    return (
-                      <span key={index}>
-                        {" "}
-                        {`${e?.name?.split(" ")[0]}${
-                          index !== speakersArray?.length - 2 &&
-                          index !== speakersArray?.length - 1
-                            ? ", "
-                            : ""
-                        } ${index === speakersArray?.length - 2 ? "&" : ""}`}
-                      </span>
-                    );
-                  })}
-                </span>
-              </section>
-
-              <section className="date_time_section_banner">
-                <div>
-                  <img src={DateIcon} alt="" />
-                  <span>{getDate(data?.date)}</span>
-                </div>
-                <div>
-                  <img src={TimeIcon} alt="" />
-                  <span>{`${convertTime(data?.startTime)} - 
-          ${convertTime(data?.endTime)}`}</span>
-                </div>
-              </section>
-
-              <div className="all_speaker_details_section">
-                {speakersArray?.map((e, i) => {
-                  return (
-                    <section
-                      className="creator_profile_banner_multiple"
-                      key={i}
-                    >
-                      <div className="text_box_creator_name_multiple">
-                        <h4>Speaker</h4>
-                        <span>{e?.name}</span>
-                      </div>
-                      <div className="creator_image_cover_banner_multiple">
-                        <img
-                          id={`speakersBannerImage${i}`}
-                          src=""
-                          alt=""
-                          onError={({ currentTarget }) => {
-                            currentTarget.onerror = null; // prevents looping
-                            currentTarget.src = PNGIMG;
-                          }}
-                        />
-                      </div>
-                    </section>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="personalized_card_wrapper" ref={htmlElementRef}>
-            <img src={require("./back.png")} alt="background" />
-            <div className="texting_layer_banner">
-              <section className="left_side_text">
-                <h1>{data?.sname}</h1>
-                <span>by {allCreatorInfo?.name}</span>
-              </section>
-
-              <section className="creator_profile_banner">
-                <div className="text_box_creator_name">
-                  <h4>Speaker</h4>
-                  <span>{allCreatorInfo?.name}</span>
-                </div>
-                <div className="creator_image_cover_banner">
-                  <img
-                    src={allCreatorInfo?.profile}
-                    alt=""
-                    onError={({ currentTarget }) => {
-                      currentTarget.onerror = null; // prevents looping
-                      currentTarget.src = PNGIMG;
-                    }}
-                  />
-                </div>
-              </section>
-
-              <section className="date_time_section_banner">
-                <div>
-                  <img src={DateIcon} alt="" />
-                  <span>{getDate(data?.date)}</span>
-                </div>
-                <div>
-                  <img src={TimeIcon} alt="" />
-                  <span>{`${convertTime(data?.startTime)} - 
-            ${convertTime(data?.endTime)}`}</span>
-                </div>
-              </section>
-            </div>
-          </div>
-        )}
-      </div> */}
-
-      <div className="default_previewer_wrapper" style={{ zIndex: "100" }}>
+      {/* default banner */}
+      <div className="default_previewer_wrapper" style={{ zIndex: "-10" }}>
         {/* Html banner ------------------------------- */}
         <section
           className="event_invite_card_wrapper"
+          ref={htmlElementRef}
           style={{
             background:
               colorCodes[Math.floor(Math.random() * colorCodes.length)],
@@ -616,7 +1077,10 @@ function CreateEvent({
               <>
                 <div>
                   {/* event title section ----------- */}
-                  <section className="event_title_data_event_invite_card_multiple_speakers">
+                  <section
+                    className="event_title_data_event_invite_card_multiple_speakers"
+                    style={{ position: "unset", margin: "auto" }}
+                  >
                     <h3>{data?.sname}</h3>
 
                     <span>Hosted by {allCreatorInfo?.name}</span>
@@ -776,6 +1240,7 @@ function CreateEvent({
                       {speakersArray?.map((speaker, index) => {
                         return (
                           <div
+                            key={index}
                             style={{
                               left: `${
                                 (speakersArray.length - (index + 1)) * 10
@@ -787,13 +1252,14 @@ function CreateEvent({
                           >
                             <div>
                               <img
+                                id={`speakersBannerImage${index}`}
                                 src={
                                   speakersImagesArray[index]
                                     ? URL.createObjectURL(
                                         speakersImagesArray[index]
                                       )
                                     : speaker?.isCreator
-                                    ? data?.cprofile
+                                    ? `${host}/api/file/proxyImage?imageUrl=${allCreatorInfo?.profile}`
                                     : PNGIMG
                                 }
                                 alt=""
@@ -812,7 +1278,10 @@ function CreateEvent({
                 <div>
                   {/* event title section ----------- */}
 
-                  <section className="event_title_data_event_invite_card">
+                  <section
+                    className="event_title_data_event_invite_card"
+                    style={{ position: "unset", margin: "auto" }}
+                  >
                     <h3>{data?.sname}</h3>
 
                     <span>Hosted by {allCreatorInfo?.name}</span>
@@ -964,7 +1433,7 @@ function CreateEvent({
                     </span>
                     <div>
                       <img
-                        src={allCreatorInfo?.profile}
+                        src={`${host}/api/file/proxyImage?imageUrl=${allCreatorInfo?.profile}`}
                         alt=""
                         onError={({ currentTarget }) => {
                           currentTarget.onerror = null; // prevents looping
@@ -983,859 +1452,57 @@ function CreateEvent({
       <div className="create_service_outside_wrapper">
         <div className="main_create_container_new_conatiner_live_demo">
           {/* Heading of the create section ------------------------ */}
-          <section className="heading_create_box">
-            <div>
-              <h1 className="create_text_01">What is your Event about?</h1>
-              <p className="create_text_02">
-                You can create events and workshops
-              </p>
-            </div>
-            {/* <button
-              onClick={() => {
-                mixpanel.track("Preview Sample Page");
-                window.open(
-                  "https://www.anchors.in/e/how-to-become-a-product-manager"
-                );
-              }}
-            >
-              <FiSend /> Preview Sample Page
-            </button> */}
-          </section>
-
-          {/* form section of create container ---------------------------------------- */}
-          {/* <section className="create_form_box_event">
-            <div className="main_box_1_create_form">
-              <div className="left_section_form">
-                <TextField1
-                  label="Title of Event"
-                  name="sname"
-                  id="sname"
-                  required={true}
-                  placeholder="Enter Title Here"
-                  onChange={handleChange}
-                />
-                {paid === "Paid" && (
-                  <TextField1
-                    label="Set Maximum Price"
-                    placeholder="Max 500"
-                    name="smrp"
-                    id="smrp"
-                    required={true}
-                    onChange={handleChange}
-                  />
-                )}
-                <UploadField2
-                  label="Upload Banner Image"
-                  id="asdas"
-                  info="File Size Limit 15 MB Formats - jpg,png"
-                  FileType=".jpg,.png,.jpeg"
-                  onChange={setBannerImage}
-                  onChangeFunction={handleChangeFileBanner}
-                />
-                {BannerImage || defaultbanner ? (
-                  <>
-                    {" "}
-                    <Button
-                      variant="outlined"
-                      onClick={() => {
-                        if (defaultbanner) {
-                          EditOptionDefaultBanner();
-                          mixpanel.track("Edit default banner");
-                        } else {
-                          setZoom(1);
-                          setCrop({ x: 0, y: 0 });
-                          setCroppedArea(null);
-                          setImagePreview({ value: true, indexToCrop: 0 });
-                          mixpanel.track("Edit Browse Banner");
-                        }
-                      }}
-                      className="imageresizeopenerbutton"
-                    >
-                      {defaultbanner
-                        ? "Edit default Banner"
-                        : "Preview Image and Resize"}
-                    </Button>
-                    <br />
-                  </>
-                ) : (
-                  ""
-                )}
+          {currentPage === 1 && (
+            <section className="heading_create_box">
+              <div>
+                <h1 className="create_text_01">Host an Event!</h1>
+                <p className="create_text_02">Webinars, workshops, Q&A!</p>
               </div>
-              <div className="right_section_form">
-                <Dropdown1
-                  label="Is it paid/free?"
-                  placeholder="Choose a service type"
-                  value={["Free", "Paid"]}
-                  required={true}
-                  selectedValue={(e) => {
-                    setpaid(e);
-                  }}
-                  onClick={() => {
-                    mixpanel.track(`${paid} Service`);
-                  }}
-                />
-                {paid === "Paid" && (
-                  <TextField1
-                    label="Selling Price "
-                    placeholder="Min 99"
-                    name="ssp"
-                    id="ssp"
-                    required={true}
-                    onChange={handleChange}
-                  />
-                )}
-                <UploadField1
-                  label={`Upload your Preview Video`}
-                  id="asd1515"
-                  onChange={setEventVideo}
-                  info="File Size Limit 500 MB Formats -Avi,mp4"
-                  FileType=".mp4,.avi,.mov"
-                />
-              </div>
-            </div>
+            </section>
+          )}
 
-            {isSpeakerSelected && (
-              <div className="map_speaker_details_field">
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    gap: "40px",
-                    marginBottom: "30px",
-                  }}
-                >
-                  <div className="map_speaker_details_field_inside">
-                    <div className="map_speaker_details_field_inside_frame">
-                      <div className="create_text_04">Speaker Details</div>
-                      <TextField1
-                        label="Name"
-                        name="name"
-                        id="name"
-                        placeholder="Enter name"
-                        value={allCreatorInfo?.name}
-                      />
+          {/* First Section ------------- */}
+          {currentPage === 1 && (
+            <FirstPage
+              data={data}
+              handleChange={handleChange}
+              paid={paid}
+              setpaid={setpaid}
+              setCurrentPage={setCurrentPage}
+              setdata={setdata}
+            />
+          )}
 
-                      <UploadField2
-                        label="Profile Image"
-                        id={`speakerImage0`}
-                        onChange={(e)=>{return null}}
-                        info={
-                          isSpeakerSelected
-                            ? "Profile Image Selected"
-                            : "File Size Limit 15 MB Formats - jpg,png"
-                        }
-                        FileType=".jpg,.png,.jpeg"
-                        onChangeFunction={(e) => handleChangeSpeakerImage(e, 0)}
-                      />
-
-                      {speakersImagesArray[0] && (
-                        <Button1
-                          text={"Preview Image and Resize"}
-                          onClick={() => {
-                            setZoom(1);
-                            setCrop({ x: 0, y: 0 });
-                            setCroppedArea(null);
-                            setImagePreview({
-                              value: true,
-                              indexToCrop: 1,
-                            });
-                          }}
-                        />
-                      )}
-
-                    </div>
-                    <div className="create_speaker_toggle_spacing0">
-                      <div className="create_speaker_toggle">
-                        I am the speaker
-                        <RadioField1
-                          onChange={(value) => handleSpeaker(value)}
-                          value={isSpeakerSelected}
-                        />
-                      </div>
-                      <TextField1
-                        label="Designation"
-                        name="designation"
-                        id="designation"
-                        placeholder="Enter designation"
-                        value={allCreatorInfo?.tagLine}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {multipleSpeakers && (
-              <div className="map_speaker_details_field">
-                {(isSpeakerSelected
-                  ? speakersArray?.slice(1)
-                  : speakersArray
-                )?.map((speaker, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "flex-start",
-                      gap: "40px",
-                      marginBottom: "30px",
-                    }}
-                  >
-                    <div className="map_speaker_details_field_inside">
-                      <div className="map_speaker_details_field_inside_frame">
-                        <div className="create_text_04">Speaker Details</div>
-                        <TextField1
-                          label="Name"
-                          name="name"
-                          id={`name${isSpeakerSelected ? index + 1 : index}`}
-                          placeholder="Enter name"
-                          onChange={(e) => {
-                            handleSpeakerChange(
-                              e.target.value,
-                              isSpeakerSelected ? index + 1 : index,
-                              e.target.name
-                            );
-                          }}
-                        />
-
-                        <UploadField2
-                          label="Profile Image"
-                          id={`speakerImage${
-                            isSpeakerSelected ? index + 1 : index
-                          }`}
-                          info="File Size Limit 15 MB Formats - jpg,png"
-                          FileType=".jpg,.png,.jpeg"
-                          onChange={(e)=>{return null}}
-                          onChangeFunction={(e) =>
-                            handleChangeSpeakerImage(
-                              e,
-                              isSpeakerSelected ? index + 1 : index
-                            )
-                          }
-                        />
-
-                        {speakersImagesArray[
-                          isSpeakerSelected ? index + 1 : index
-                        ] && (
-                          <Button
-                            variant="outlined"
-                            onClick={() => {
-                              setZoom(1);
-                              setCrop({ x: 0, y: 0 });
-                              setCroppedArea(null);
-                              setImagePreview({
-                                value: true,
-                                indexToCrop: isSpeakerSelected
-                                  ? index + 2
-                                  : index + 1,
-                              });
-                            }}
-                            className="imageresizeopenerbutton"
-                          >
-                            Preview Image and Resize
-                          </Button>
-                        )}
-                      </div>
-                      <div className="create_speaker_toggle_spacing0">
-                        {index === 0 && !isSpeakerSelected && (
-                          <div className="create_speaker_toggle">
-                            I am the speaker
-                            <RadioField1
-                              onChange={(value) => handleSpeaker(value)}
-                              value={isSpeakerSelected}
-                            />
-                          </div>
-                        )}
-                        <TextField1
-                          label="Designation"
-                          name="designation"
-                          id={`designation${
-                            isSpeakerSelected ? index + 1 : index
-                          }`}
-                          placeholder="Enter designation"
-                          onChange={(e) =>
-                            handleSpeakerChange(
-                              e.target.value,
-                              isSpeakerSelected ? index + 1 : index,
-                              e.target.name
-                            )
-                          }
-                        />
-
-                        {(index !== 0 || isSpeakerSelected) && (
-                          <Button1
-                            text="Remove Speaker"
-                            onClick={() =>
-                              handleRemoveSpeaker(
-                                isSpeakerSelected ? index + 1 : index
-                              )
-                            }
-                          />
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-            {multipleSpeakers && speakersArray.length < 3 && (
-              <div className="create_text_04" onClick={handleAddSpeaker}>
-                Add Speaker
-                <BsPlus
-                  style={{
-                    marginBottom: "-3px",
-                    fontSize: "17px",
-                    marginLeft: "-1px",
-                    fontWeight: "bolder",
-                    cursor: "pointer",
-                  }}
-                />{" "}
-              </div>
-            )}
-
-            <div className="main_box_1_create_form1">
-              <div className="left_section_form">
-                <Dropdown1
-                  label="Is it Online/Offline?"
-                  placeholder="Choose the mode of event"
-                  value={["Online", "Offline"]}
-                  required={true}
-                  defaultValue="Online"
-                  id="stype"
-                  selectedValue={(e) => {
-                    setdata({ ...data, stype: e });
-                  }}
-                  onClick={() => {
-                    mixpanel.track(`${paid} Service`);
-                  }}
-                />
-
-                <TextField1
-                  label="Event Date"
-                  name="date"
-                  type="date"
-                  id="date"
-                  required={true}
-                  onChange={handleChange}
-                />
-
-                <Editor1
-                  label={`Benefits of leaderboard`}
-                  placeholder={`Caption your Event`}
-                  info="A brief description gives your audience some context"
-                  Content={data?.benefits}
-                  id="benefits"
-                  required={true}
-                  setContent={(e) => setdata({ ...data, benefits: e })}
-                />
-
-                <Editor1
-                  label={`Describe your Event`}
-                  placeholder={`Caption your Event`}
-                  info="A brief description gives your audience some context"
-                  Content={Content}
-                  required={true}
-                  setContent={(e) => setContent(e)}
-                />
-              </div>
-              <div className="right_section_form">
-                <TextField1
-                  label={data.stype === "Offline" ? "Venue" : "Meet Link"}
-                  name="meetlink"
-                  id="meetlink"
-                  required={true}
-                  placeholder="Enter Title Here"
-                  onChange={handleChange}
-                />
-
-                <section
-                  style={{
-                    width: "100%",
-                    gap: "10px",
-                    display: "grid",
-                    gridTemplateColumns: "repeat(2,1fr)",
-                    marginBottom: "32px",
-                  }}
-                >
-                  <TextField1
-                    label="Event Start Time"
-                    name="startTime"
-                    type="time"
-                    id="startTime"
-                    required={true}
-                    placeholder="Enter Title Here"
-                    onChange={handleChange}
-                  />
-                  <TextField1
-                    label="Event End Time"
-                    name="endTime"
-                    type="time"
-                    id="endTime"
-                    required={true}
-                    placeholder="Enter Title Here"
-                    onChange={handleChange}
-                  />
-                </section>
-
-                <Tags1
-                  label="Add Relevant Tags"
-                  placeholder="Press Enter to add tags"
-                  info="This will help in easy search and recommendation"
-                  tags={Tags}
-                  id="eventTags"
-                  name="eventTags"
-                  setTags={setTags}
-                />
-
-                <Dropdown1
-                  label="Max Capacity?"
-                  placeholder="Choose the capacity of the event"
-                  value={["Unlimited", "Enter Manually"]}
-                  required={true}
-                  defaultValue="Unlimited"
-                  selectedValue={(e) => {
-                    setSeatCapacity(e);
-                  }}
-                  onClick={() => {
-                    mixpanel.track(`${paid} Service`);
-                  }}
-                />
-
-                {seatCapacity === "Enter Manually" && (
-                  <TextField1
-                    label="No of Seats"
-                    type="text"
-                    id="eventSeatCapacity"
-                    name="eventSeatCapacity"
-                    value={data?.eventSeatCapacity}
-                    placeholder="Enter the number of seats in the event"
-                    onChange={handleChange}
-                  />
-                )}
-              </div>
-            </div>
-          </section> */}
-
-          <section className="create_form_box_event">
-            <div className="main_box_1_create_form">
-              <div className="left_section_form" style={{ width: "100%" }}>
-                <TextField1
-                  label="Title of Event"
-                  name="sname"
-                  id="sname"
-                  required={true}
-                  placeholder="Enter Title Here"
-                  onChange={handleChange}
-                />
-                <Dropdown1
-                  label="Is it paid/free?"
-                  placeholder="Choose a service type"
-                  value={["Free", "Paid"]}
-                  required={true}
-                  selectedValue={(e) => {
-                    setpaid(e);
-                  }}
-                  onClick={() => {
-                    mixpanel.track(`${paid} Service`);
-                  }}
-                />
-
-                {paid === "Paid" && (
-                  <section
-                    style={{
-                      width: "100%",
-                      gap: "10px",
-                      display: "grid",
-                      gridTemplateColumns: "repeat(2,1fr)",
-                      marginBottom: "32px",
-                    }}
-                  >
-                    <TextField1
-                      label="Set Maximum Price"
-                      placeholder="Max 500"
-                      name="smrp"
-                      id="smrp"
-                      required={true}
-                      onChange={handleChange}
-                    />
-
-                    <TextField1
-                      label="Selling Price "
-                      placeholder="Min 99"
-                      name="ssp"
-                      id="ssp"
-                      required={true}
-                      onChange={handleChange}
-                    />
-                  </section>
-                )}
-
-                {isSpeakerSelected && (
-                  <div className="map_speaker_details_field">
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "flex-start",
-                        gap: "40px",
-                        marginBottom: "30px",
-                      }}
-                    >
-                      <div className="map_speaker_details_field_inside">
-                        <div className="map_speaker_details_field_inside_frame">
-                          <div className="create_text_04">Speaker Details</div>
-                          <TextField1
-                            label="Name"
-                            name="name"
-                            id="name"
-                            placeholder="Enter name"
-                            value={allCreatorInfo?.name}
-                          />
-
-                          <UploadField3
-                            label="Profile Image"
-                            id={`speakerImage0`}
-                            info={
-                              isSpeakerSelected
-                                ? "Profile Image Selected"
-                                : "File Size Limit 15 MB Formats - jpg,png"
-                            }
-                            onChange={() => {
-                              return null;
-                            }}
-                            FileType=".jpg,.png,.jpeg"
-                            onChangeFunction={(e) =>
-                              handleChangeSpeakerImage(e, 0)
-                            }
-                          />
-
-                          {speakersImagesArray[0] && (
-                            <Button
-                              variant="outlined"
-                              onClick={() => {
-                                setZoom(1);
-                                setCrop({ x: 0, y: 0 });
-                                setCroppedArea(null);
-                                setImagePreview({
-                                  value: true,
-                                  indexToCrop: 1,
-                                });
-                              }}
-                              className="imageresizeopenerbutton"
-                            >
-                              Preview Image and Resize
-                            </Button>
-                          )}
-                        </div>
-                        <div className="create_speaker_toggle_spacing0">
-                          <div className="create_speaker_toggle">
-                            I am the speaker
-                            <RadioField1
-                              onChange={(value) => handleSpeaker(value)}
-                              value={isSpeakerSelected}
-                            />
-                          </div>
-                          <TextField1
-                            label="Designation"
-                            name="designation"
-                            id="designation"
-                            placeholder="Enter designation"
-                            value={allCreatorInfo?.tagLine}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {multipleSpeakers && (
-                  <div className="map_speaker_details_field">
-                    {(isSpeakerSelected
-                      ? speakersArray?.slice(1)
-                      : speakersArray
-                    )?.map((speaker, index) => (
-                      <div
-                        key={index}
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "flex-start",
-                          gap: "40px",
-                          marginBottom: "30px",
-                        }}
-                      >
-                        <div className="map_speaker_details_field_inside">
-                          <div className="map_speaker_details_field_inside_frame">
-                            <div className="create_text_04">
-                              Speaker Details
-                            </div>
-                            <TextField1
-                              label="Name"
-                              name="name"
-                              id={`name${
-                                isSpeakerSelected ? index + 1 : index
-                              }`}
-                              placeholder="Enter name"
-                              onChange={(e) => {
-                                handleSpeakerChange(
-                                  e.target.value,
-                                  isSpeakerSelected ? index + 1 : index,
-                                  e.target.name
-                                );
-                              }}
-                            />
-
-                            <UploadField3
-                              label="Profile Image"
-                              id={`speakerImage${
-                                isSpeakerSelected ? index + 1 : index
-                              }`}
-                              info="File Size Limit 15 MB Formats - jpg,png"
-                              FileType=".jpg,.png,.jpeg"
-                              onChange={() => {
-                                return null;
-                              }}
-                              onChangeFunction={(e) =>
-                                handleChangeSpeakerImage(
-                                  e,
-                                  isSpeakerSelected ? index + 1 : index
-                                )
-                              }
-                            />
-
-                            {speakersImagesArray[
-                              isSpeakerSelected ? index + 1 : index
-                            ] && (
-                              <Button
-                                variant="outlined"
-                                onClick={() => {
-                                  setZoom(1);
-                                  setCrop({ x: 0, y: 0 });
-                                  setCroppedArea(null);
-                                  setImagePreview({
-                                    value: true,
-                                    indexToCrop: isSpeakerSelected
-                                      ? index + 2
-                                      : index + 1,
-                                  });
-                                }}
-                                className="imageresizeopenerbutton"
-                              >
-                                Preview Image and Resize
-                              </Button>
-                            )}
-                          </div>
-                          <div className="create_speaker_toggle_spacing0">
-                            {index === 0 && !isSpeakerSelected && (
-                              <div className="create_speaker_toggle">
-                                I am the speaker
-                                <RadioField1
-                                  onChange={(value) => handleSpeaker(value)}
-                                  value={isSpeakerSelected}
-                                />
-                              </div>
-                            )}
-                            <TextField1
-                              label="Designation"
-                              name="designation"
-                              id={`designation${
-                                isSpeakerSelected ? index + 1 : index
-                              }`}
-                              placeholder="Enter designation"
-                              onChange={(e) =>
-                                handleSpeakerChange(
-                                  e.target.value,
-                                  isSpeakerSelected ? index + 1 : index,
-                                  e.target.name
-                                )
-                              }
-                            />
-
-                            {(index !== 0 || isSpeakerSelected) && (
-                              <Button1
-                                text="Remove Speaker"
-                                onClick={() =>
-                                  handleRemoveSpeaker(
-                                    isSpeakerSelected ? index + 1 : index
-                                  )
-                                }
-                              />
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {multipleSpeakers && speakersArray.length < 3 && (
-                  <div
-                    className="create_text_04"
-                    onClick={handleAddSpeaker}
-                    style={{ marginTop: "-30px" }}
-                  >
-                    Add Speaker
-                    <BsPlus
-                      style={{
-                        marginBottom: "-3px",
-                        fontSize: "17px",
-                        marginLeft: "-1px",
-                        fontWeight: "bolder",
-                        cursor: "pointer",
-                      }}
-                    />{" "}
-                  </div>
-                )}
-
-                <Dropdown1
-                  label="Is it Online/Offline?"
-                  placeholder="Choose the mode of event"
-                  value={["Online", "Offline"]}
-                  required={true}
-                  defaultValue="Online"
-                  id="stype"
-                  selectedValue={(e) => {
-                    setdata({ ...data, stype: e });
-                  }}
-                  onClick={() => {
-                    mixpanel.track(`${paid} Service`);
-                  }}
-                />
-
-                <TextField1
-                  label={data.stype === "Offline" ? "Venue" : "Meet Link"}
-                  name="meetlink"
-                  id="meetlink"
-                  required={true}
-                  placeholder="Enter Title Here"
-                  onChange={handleChange}
-                />
-
-                <TextField1
-                  label="Event Date"
-                  name="date"
-                  type="date"
-                  id="date"
-                  required={true}
-                  onChange={handleChange}
-                />
-
-                <section
-                  style={{
-                    width: "100%",
-                    gap: "10px",
-                    display: "grid",
-                    gridTemplateColumns: "repeat(2,1fr)",
-                    marginBottom: "32px",
-                  }}
-                >
-                  <TextField1
-                    label="Event Start Time"
-                    name="startTime"
-                    type="time"
-                    id="startTime"
-                    required={true}
-                    placeholder="Enter Title Here"
-                    onChange={handleChange}
-                  />
-                  <TextField1
-                    label="Event End Time"
-                    name="endTime"
-                    type="time"
-                    id="endTime"
-                    required={true}
-                    placeholder="Enter Title Here"
-                    onChange={handleChange}
-                  />
-                </section>
-
-                <section
-                  style={{
-                    width: "100%",
-                    gap: "25px",
-                    display: "grid",
-                    gridTemplateColumns: "repeat(2,1fr)",
-                    marginBottom: "32px",
-                  }}
-                >
-                  <UploadField3
-                    label="Upload Banner Image"
-                    id="asdas"
-                    info="File Size Limit 15 MB Formats - jpg,png"
-                    FileType=".jpg,.png,.jpeg"
-                    onChange={setBannerImage}
-                    onChangeFunction={handleChangeFileBanner}
-                  />
-                  <UploadField3
-                    label={`Upload your Preview Video`}
-                    id="asd1515"
-                    onChange={setEventVideo}
-                    info="File Size Limit 500 MB Formats -Avi,mp4"
-                    FileType=".mp4,.avi,.mov"
-                  />
-                </section>
-
-                <Editor1
-                  label={`Benefits of leaderboard`}
-                  placeholder={`Caption your Event`}
-                  info="A brief description gives your audience some context"
-                  Content={data?.benefits}
-                  id="benefits"
-                  required={true}
-                  setContent={(e) => setdata({ ...data, benefits: e })}
-                />
-
-                <Editor1
-                  label={`Describe your Event`}
-                  placeholder={`Caption your Event`}
-                  info="A brief description gives your audience some context"
-                  Content={Content}
-                  required={true}
-                  setContent={(e) => setContent(e)}
-                />
-
-                <Tags1
-                  label="Add Relevant Tags"
-                  placeholder="Press Enter to add tags"
-                  info="This will help in easy search and recommendation"
-                  tags={Tags}
-                  id="eventTags"
-                  name="eventTags"
-                  setTags={setTags}
-                />
-
-                <Dropdown1
-                  label="Max Capacity?"
-                  placeholder="Choose the capacity of the event"
-                  value={["Unlimited", "Enter Manually"]}
-                  required={true}
-                  defaultValue="Unlimited"
-                  selectedValue={(e) => {
-                    setSeatCapacity(e);
-                  }}
-                  onClick={() => {
-                    mixpanel.track(`${paid} Service`);
-                  }}
-                />
-
-                {seatCapacity === "Enter Manually" && (
-                  <TextField1
-                    label="No of Seats"
-                    type="text"
-                    id="eventSeatCapacity"
-                    name="eventSeatCapacity"
-                    value={data?.eventSeatCapacity}
-                    placeholder="Enter the number of seats in the event"
-                    onChange={handleChange}
-                  />
-                )}
-              </div>
-            </div>
-          </section>
-
-          <section className="buttons_form">
-            <Button1 text="Save and Publish" onClick={onSubmit} />
-          </section>
+          {/* Second Page ---- */}
+          {currentPage === 2 && (
+            <SecondPage
+              data={data}
+              setdata={setdata}
+              setBannerImage={setBannerImage}
+              handleChangeFileBanner={handleChangeFileBanner}
+              setEventVideo={setEventVideo}
+              Content={Content}
+              setContent={setContent}
+              onSubmit={onSubmit}
+              setCurrentPage={setCurrentPage}
+              isSpeakerSelected={isSpeakerSelected}
+              allCreatorInfo={allCreatorInfo}
+              handleChangeSpeakerImage={handleChangeSpeakerImage}
+              handleSpeaker={handleSpeaker}
+              speakersArray={speakersArray}
+              speakersImagesArray={speakersImagesArray}
+              handleAddSpeaker={handleAddSpeaker}
+              multipleSpeakers={multipleSpeakers}
+              setImagePreview={setImagePreview}
+              setZoom={setZoom}
+              setCrop={setCrop}
+              setCroppedArea={setCroppedArea}
+              handleSpeakerChange={handleSpeakerChange}
+              handleRemoveSpeaker={handleRemoveSpeaker}
+              cname={cname}
+              cprofile={cprofile}
+            />
+          )}
         </div>
 
         <div className="live_preview_edit_profile_page">
@@ -1854,7 +1521,6 @@ function CreateEvent({
                 cprofile={cprofile}
                 crating={crating}
                 ctagline={ctagline}
-                multipleSpeakers={multipleSpeakers}
                 speakersArray={speakersArray}
                 speakersImagesArray={speakersImagesArray}
               />
