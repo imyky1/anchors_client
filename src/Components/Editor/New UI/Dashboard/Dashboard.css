@@ -420,9 +420,8 @@
   bottom: 50px;
   border: none;
   cursor: pointer;
-  transition: transform 0.3s ease;
 }
 
 .checklist_button_desgin_dashboard:hover{
-  transform: scale(1.05)
+  background-color: red;
 }

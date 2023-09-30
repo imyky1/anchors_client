@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { HiOutlineUpload } from "react-icons/hi";
-import { FaExchangeAlt } from "react-icons/fa";
+import { TfiReload } from "react-icons/tfi";
 import { AiFillInfoCircle } from "react-icons/ai";
 import DatePicker from "react-datepicker";
 
@@ -60,12 +60,26 @@ function fields_Labels1(props) {
 
 // Editor text field -------------------------
 function EditorText01(props) {
+  const [isHovered, setIsHovered] = useState(false)
+
   return (
     // Normal type -1 text field used in create
     <div className="textfiled_container_01">
-      <span className="label_type_01">
+      <span className="label_type_04">
         {props?.label}{" "}
+        {props?.helperText && (
+          <AiFillInfoCircle
+            size={20}
+            onMouseEnter={() => {
+              setIsHovered(true);
+            }}
+            onMouseLeave={() => {
+              setIsHovered(false);
+            }}
+          />
+        )}
         {props?.required && <span style={{ color: "red" }}>*</span>}
+        {isHovered && <TooltipBox text={props?.helperText} />}
       </span>
       <ReactQuill
         theme="snow"
@@ -109,7 +123,7 @@ function UploadField01(props) {
       />
       <label htmlFor={props.id} className="input_type_02">
         {fileName ? (
-          <FaExchangeAlt color={"white"} size={22} />
+          <TfiReload color={"white"} size={22} />
         ) : (
           <HiOutlineUpload color={"white"} size={22} />
         )}
@@ -166,7 +180,7 @@ function UploadField02(props) {
       />
       <label htmlFor={props.id} className="input_type_02">
         {fileName ? (
-          <FaExchangeAlt color={"white"} size={22} />
+          <TfiReload color={"white"} size={22} />
         ) : (
           <HiOutlineUpload color={"white"} size={22} />
         )}
@@ -224,7 +238,7 @@ function UploadField03(props) {
       />
       <label htmlFor={props.id} className="input_type_04">
         {fileName || props?.disabled ? (
-          <FaExchangeAlt color={"white"} size={22} />
+          <TfiReload color={"white"} size={22} />
         ) : (
           <HiOutlineUpload color={"white"} size={22} />
         )}

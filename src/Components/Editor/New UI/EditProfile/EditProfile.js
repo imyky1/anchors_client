@@ -3,7 +3,9 @@ import { toast, ToastContainer } from "react-toastify";
 import { creatorContext } from "../../../../Context/CreatorState";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { LoadTwo } from "../../../Modals/Loading";
-import SuccessService, { NewCongratsServiceModal } from "../../../Modals/ServiceSuccess/Modal";
+import SuccessService, {
+  NewCongratsServiceModal,
+} from "../../../Modals/ServiceSuccess/Modal";
 import {
   DatePicker1,
   Editor1,
@@ -31,6 +33,7 @@ import { RiTelegramLine, RiYoutubeLine } from "react-icons/ri";
 import Twitter from "./tweet.svg";
 import Topmate from "./topmate.svg";
 import { Button1, Button3 } from "../Create Services/InputComponents/buttons";
+import { host } from "../../../../config/config";
 
 const EditProfile = (props) => {
   const {
@@ -41,6 +44,7 @@ const EditProfile = (props) => {
     generateInviteCode,
     getTellUsMoreFormData,
   } = useContext(creatorContext);
+
   const { UploadBanners } = useContext(ServiceContext);
   const [showPopup, setshowPopup] = useState({
     open: false,
@@ -130,9 +134,6 @@ const EditProfile = (props) => {
     setImagePreview((prev) => !prev);
   };
 
-  const downloadcroppedimage = () => {
-    generateDownload(imagetocrop, croppedArea);
-  };
   const savecroppedImage = async () => {
     const img = await getCroppedImg(
       imagetocrop,
@@ -198,6 +199,10 @@ const EditProfile = (props) => {
         setTimeout(async () => {
           await generateInviteCode(); // generates invite code it not exists otherwise
         }, 1500);
+
+        // generated the seo banner and if already exists then not --------------
+        await generateCreatorSeoBanner();
+
         setOpenLoading(false);
         setshowPopup({
           open: true,
@@ -219,6 +224,45 @@ const EditProfile = (props) => {
     }
 
     props.progress(100);
+  };
+
+  // function to save the seo banner ------ -------------------
+  let generateCreatorSeoBanner = async () => {
+    const response = await fetch(host + "/api/seo/createCreatorSeobanner", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
+    });
+
+    const json = await response.json();
+
+    if (json?.success && !json?.already) {
+      const uint8Array = new Uint8Array(json?.buffer?.data);
+      const blob = new Blob([uint8Array]);
+      const file = new File([blob], "seoBanner.jpg", { type: "image/jpeg" }); // Replace 'image.jpg' and 'image/jpeg' with your desired filename and content type
+      let formData = new FormData();
+      formData.append("file", file);
+
+      const response2 = await fetch(host + "/api/file/upload/s3/banners", {
+        method: "POST",
+        body: formData,
+      });
+      const json2 = await response2.json();
+      await fetch(host + "/api/creator/updateSeoBannerImage", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+        body: JSON.stringify({ url: json2?.result?.Location }),
+      });
+    }
   };
 
   return (

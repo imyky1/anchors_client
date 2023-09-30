@@ -330,7 +330,7 @@ export const CreateEventDemo = ({
 
         <div
           className="event_page_outside_wrapper"
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "100%", height: "100%",background:"#000000" }}
         >
           <section
             className="main_header_component_event_page"
@@ -580,7 +580,7 @@ export const CreateEventDemo = ({
                       }}
                     />
                     <span>{cname}</span>
-                    <p>{ctagline}</p>
+                    <p style={{width:"70%"}}>{ctagline}</p>
                     <div>
                       <RiStarSFill size={16} /> {crating}/5
                     </div>

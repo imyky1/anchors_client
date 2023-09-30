@@ -64,7 +64,7 @@ const ChecklistContent = [
       "Collaborate with other creators.",
     ],
     buttonName: "Create an Event",
-    buttonLink: "/dashboard",
+    buttonLink: "/dashboard/createevent",
   },
   {
     title: "Monitor Your Progress",

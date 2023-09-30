@@ -96,14 +96,14 @@
   font-style: normal;
   font-weight: 400;
   border-radius: 4px;
-  background: #666;
+  border: 1px solid #A0A0A0;
+  background-color: transparent;
   cursor: pointer;
-  border: none;
-  outline: none;
 }
 .Card_wrapper_01 > button:hover {
-  background: #d0d0d0;
-  color: black;
+  background: red;
+  border: 1px solid red;
+  color: #f0f0f0;
 }
 .template_wrapper_00_sharing > span {
   color: #d0d0d0;

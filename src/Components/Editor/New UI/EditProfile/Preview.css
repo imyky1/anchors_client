@@ -6,6 +6,8 @@
     height: 94%;
     left: 17px;
     width: 90%;
+    border-radius: 30px;
+    overflow: hidden;
 }
 
 .perview_demo_mobile_view_edit_profile *::-webkit-scrollbar{
@@ -20,6 +22,8 @@
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+    padding: 0 13px;
+    box-sizing: border-box;
 }
 
 .perview_demo_mobile_view_edit_profile > div::-webkit-scrollbar{

@@ -8,6 +8,7 @@ import {
 } from "react-icons/ai";
 import { BsWhatsapp } from "react-icons/bs";
 import { FaTelegram } from "react-icons/fa";
+import { IoCopyOutline } from "react-icons/io5";
 import { useParams, useNavigate } from "react-router-dom";
 import ServiceContext from "../../../../Context/services/serviceContext";
 
@@ -22,7 +23,7 @@ const generateTemplates = (serviceInfo) => {
         I've got something for you!🔥 <br />
         <br /> One thing important to a content creator is to be able to create
         meaningful impact. On that note, I'm introducing my latest post,{" "}
-        {serviceInfo?.service?.sname} which I believe you'll find valuable.{" "}
+        <b>{serviceInfo?.service?.sname}</b> which I believe you'll find valuable.{" "}
         <br />
         <br /> Simply copy and paste the following URL to access it:{" "}
         <a href={clickableUrl} style={{ color: "grey" }}>
@@ -36,7 +37,7 @@ const generateTemplates = (serviceInfo) => {
       <p>
         Another day of doing something meaningful! 😇 <br />
         <br /> I'm excited to introduce my latest launch,{" "}
-        {serviceInfo?.service?.sname}, which took me hours of hard work. Not
+        <b>{serviceInfo?.service?.sname}</b>, which took me hours of hard work. Not
         only am I excited to see your response to it, but also full of hope that
         such things keep reaching the right people, helping them in any way or
         form. <br /> Here's the URL to access it:{" "}
@@ -49,9 +50,9 @@ const generateTemplates = (serviceInfo) => {
     ),
     Insta01: (
       <p>
-        🚀 Exciting News! {serviceInfo?.service?.sname} 🚀 <br />
+        🚀 Exciting News! <b>{serviceInfo?.service?.sname}</b> 🚀 <br />
         <br /> Hello y'all, <br /> I'm excited to introduce you to
-        {serviceInfo?.service?.sname}, which is all about changing the game &
+        <b>{serviceInfo?.service?.sname}</b>, which is all about changing the game &
         creating impact. I hope that it will be helpful for you all. Tap the
         following URL to get all the details, and let's embark on this journey
         of impact together:{" "}
@@ -64,7 +65,7 @@ const generateTemplates = (serviceInfo) => {
       <p>
         Hey insta fan,
         <br />
-        <br /> I've just launched {serviceInfo?.service?.sname} and it is the
+        <br /> I've just launched <b>{serviceInfo?.service?.sname}</b> and it is the
         ONLY thing you need to see on the internet today! Find more details via
         the following URL and let me know what more content you'd like from me:{" "}
         <a href={clickableUrl} style={{ color: "grey" }}>
@@ -76,7 +77,7 @@ const generateTemplates = (serviceInfo) => {
     wATe01: (
       <p>
         Hey there! <br />
-        <br /> I've just launched {serviceInfo?.service?.sname}, and I'm
+        <br /> I've just launched <b>{serviceInfo?.service?.sname}</b>, and I'm
         delighted to share it with you 😋 Your feedback is invaluable to me, so
         please check it out here{" "}
         <a href={clickableUrl} style={{ color: "grey" }}>
@@ -89,7 +90,7 @@ const generateTemplates = (serviceInfo) => {
     wATe02: (
       <p>
         Hi there! <br />
-        <br /> I've recently created {serviceInfo?.service?.sname}, and given
+        <br /> I've recently created <b>{serviceInfo?.service?.sname}</b>, and given
         our association, I'd love to hear your thoughts on it! Here's the URL:{" "}
         <a href={clickableUrl} style={{ color: "grey" }}>
           {clickableUrl}
@@ -102,7 +103,7 @@ const generateTemplates = (serviceInfo) => {
       <p>
         Hello, fantastic viewers,
         <br />
-        <br /> I'm elated to introduce you to {serviceInfo?.service?.sname}, a
+        <br /> I'm elated to introduce you to <b>{serviceInfo?.service?.sname}</b>, a
         project that's close to me. It offers a deep dive into the topics
         covered in the video. So join me on this journey and open the following
         URL to get started:{" "}
@@ -116,7 +117,7 @@ const generateTemplates = (serviceInfo) => {
     ),
     utube02: (
       <p>
-        Sharing a recent launch of {serviceInfo?.service?.sname} with you, which
+        Sharing a recent launch of <b>{serviceInfo?.service?.sname}</b> with you, which
         offers a deeper insight into the topics covered in the video. It is
         available via this link:{" "}
         <a href={clickableUrl} style={{ color: "grey" }}>
@@ -150,16 +151,10 @@ const Card = ({ text, serviceInfo, id }) => {
       <section id={id}>{text}</section>
       <button
         onClick={() => {
-          // toast.info("Copied link successfully");
-          // navigator.clipboard.writeText(
-          //   serviceInfo?.service?.copyURL.length > 7
-          //     ? serviceInfo?.service?.copyURL
-          //     : `https://www.anchors.in/s/${serviceInfo?.service?.slug}`
-          // );
           copyTemplate();
         }}
       >
-        Copy Template
+        Copy Template <IoCopyOutline size={20}/>
       </button>
     </div>
   );

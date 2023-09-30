@@ -14,18 +14,14 @@ import {
   AiOutlineUser,
   AiOutlineInfoCircle,
   AiOutlineCalendar,
+  AiOutlineReload,
 } from "react-icons/ai";
 import { BsArrowRight } from "react-icons/bs";
 import { GiPlainCircle } from "react-icons/gi";
 import { BiRupee } from "react-icons/bi";
-
-const TooltipBox = ({ text }) => {
-  return (
-    <div className="tooltip-box" style={{ top: "30px" }}>
-      {text}
-    </div>
-  );
-};
+import { IoCopyOutline } from "react-icons/io5";
+import { TooltipBox } from "../Create Services/InputComponents/fields_Labels";
+import mixpanel from "mixpanel-browser";
 
 const TableRef = ({ totalrefer, referdata }) => {
   return (
@@ -599,7 +595,7 @@ const TableinfoTrans = ({ totalTransactionDetails }) => {
   );
 };
 
-const Tableinfo = ({ data, dataType, slug ,removeTotalTransColumn }) => {
+const Tableinfo = ({ data, dataType, slug, removeTotalTransColumn }) => {
   const [isHovered, setIsHovered] = useState({
     tip1: false,
     tip2: false,
@@ -671,81 +667,88 @@ const Tableinfo = ({ data, dataType, slug ,removeTotalTransColumn }) => {
             </th>
           </tr>
           {data &&
-            data?.filter((e)=>{return !e?.removeObj})?.map((val, key) => {
-              return (
-                <tr
-                  style={{
-                    borderRadius: "0px",
-                    borderBottom: "0.5px solid #A0A0A0",
-                  }}
-                  className={val?.ViewMore ? "hoverable-row" : ""}
-                  key={key}
-                >
-                  <td
+            data
+              ?.filter((e) => {
+                return !e?.removeObj;
+              })
+              ?.map((val, key) => {
+                return (
+                  <tr
                     style={{
-                      display: "flex",
-                      width: "50%",
-                      alignItems: "flex-start",
-                      justifyContent: "space-between",
+                      borderRadius: "0px",
+                      borderBottom: "0.5px solid #A0A0A0",
                     }}
+                    className={val?.ViewMore ? "hoverable-row" : ""}
+                    key={key}
                   >
-                    <span
+                    <td
                       style={{
                         display: "flex",
-                        alignItems: "center",
-                        position: "relative",
+                        width: "50%",
+                        alignItems: "flex-start",
+                        justifyContent: "space-between",
                       }}
                     >
-                      {val.MetricsName}{" "}
-                      {val?.infoIcon && (
-                        <AiOutlineInfoCircle
-                          style={{
-                            paddingLeft: "8px",
-                            fontSize: "15px",
-                            alignItems: "center",
-                          }}
-                          onMouseEnter={() => {
-                            setIsHovered({ ...isHovered, [`tip${key}`]: true });
-                          }}
-                          onMouseLeave={() => {
-                            setIsHovered({
-                              ...isHovered,
-                              [`tip${key}`]: false,
-                            });
-                          }}
-                        />
-                      )}
-                      {isHovered?.[`tip${key}`] && (
-                        <TooltipBox text={val?.infotext} />
-                      )}
-                    </span>
-                    {val?.ViewMore && viewMore(val?.urlquery)}
-                  </td>
+                      <span
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          position: "relative",
+                        }}
+                      >
+                        {val.MetricsName}{" "}
+                        {val?.infoIcon && (
+                          <AiOutlineInfoCircle
+                            style={{
+                              paddingLeft: "8px",
+                              fontSize: "15px",
+                              alignItems: "center",
+                            }}
+                            onMouseEnter={() => {
+                              setIsHovered({
+                                ...isHovered,
+                                [`tip${key}`]: true,
+                              });
+                            }}
+                            onMouseLeave={() => {
+                              setIsHovered({
+                                ...isHovered,
+                                [`tip${key}`]: false,
+                              });
+                            }}
+                          />
+                        )}
+                        {isHovered?.[`tip${key}`] && (
+                          <TooltipBox text={val?.infotext} />
+                        )}
+                      </span>
+                      {val?.ViewMore && viewMore(val?.urlquery)}
+                    </td>
 
-                  <td
-                    style={{
-                      display: "flex",
-                      width: "9%",
-                      alignItems: "flex-start",
-                      justifyContent: "flex-start",
-                      // paddingLeft: key > 2 && key < 6 ? '7px' : 'none',
-                    }}
-                  >
-                    {val.Users}
-                  </td>
-                  <td
-                    style={{
-                      display: "flex",
-                      width: "41%",
-                      alignItems: "flex-start",
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    {val.Comment}
-                  </td>
-                </tr>
-              );
-            })}
+                    <td
+                      style={{
+                        display: "flex",
+                        width: "9%",
+                        alignItems: "flex-start",
+                        justifyContent: "flex-start",
+                        // paddingLeft: key > 2 && key < 6 ? '7px' : 'none',
+                      }}
+                    >
+                      {val.Users}
+                    </td>
+                    <td
+                      style={{
+                        display: "flex",
+                        width: "41%",
+                        alignItems: "flex-start",
+                        justifyContent: "flex-start",
+                      }}
+                    >
+                      {val.Comment}
+                    </td>
+                  </tr>
+                );
+              })}
         </table>
       </div>
     </>
@@ -786,7 +789,7 @@ const ReturnTable = ({
     //     />
     //   );
   } else {
-    return <Tableinfo data={data} dataType={dataType} slug={slug}/>;
+    return <Tableinfo data={data} dataType={dataType} slug={slug} />;
   }
 };
 
@@ -824,6 +827,8 @@ const ServiceStats2 = (props) => {
   const [openLoading, setopenLoading] = useState(false);
 
   useEffect(() => {
+    mixpanel.track("Page Visit");
+
     props.progress(0);
     if (query.get("type") === "event") {
       setServiceType("event");
@@ -897,64 +902,6 @@ const ServiceStats2 = (props) => {
       setEventDetailsPage(query.get("get"));
     }
   }, []);
-
-  //   // Loading mixpanel ------
-  //   // mixpanel.track("Page Visit");
-
-  //   // if (params.get("placedOrder") === "success") {
-  //   //   setOpenSuccessModal(true);
-  //   // }
-
-  //   geteventinfo(slug).then((id) => {
-  //     if (!id[0]) {
-  //       // handles any irregular slug
-  //       navigate("/");
-  //       return null;
-  //     }
-  //     getLeaderBoardData(id[1], localStorage.getItem("isUser") === "").then(
-  //       (e) => {
-  //         if (e?.success) {
-  //           const sortedData = e.data.sort((a, b) => b.points - a.points);
-  //           //  console.log('sort',sortedData);
-  //           setReferal(sortedData);
-  //           // setReferal(e.data);
-  //           // setLeaderBoardData(e);
-  //         }
-  //       }
-  //     );
-
-  //     getReferDetails(id[1], localStorage.getItem("isUser") === "").then(
-  //       (e) => {
-  //         if (e?.success) {
-  //           setTotalRefer(e);
-  //         }
-  //       }
-  //     );
-
-  //     getTransactionEventDetails(id[1]).then((e) => {
-  //       if (e?.success) {
-  //         setTotalTransactionDetails(e?.data);
-  //       }
-  //     });
-  //   });
-
-  //   getserviceinfo(slug).then((id) => {
-  //     if (!id[0]) {
-  //       // handles any irregular slug
-  //       navigate("/");
-  //       return null;
-  //     }
-
-  //     getTransactionServiceDetails(
-  //       id[1],
-  //       localStorage.getItem("isUser") === ""
-  //     ).then((e) => {
-  //       if (e?.success) {
-  //         setServiceTransaction(e);
-  //       }
-  //     });
-  //   });
-  // }, []);
 
   // getting data from analytics(google) data from the db
   const [bounceRate, setBounceRate] = useState(0);
@@ -1088,7 +1035,7 @@ const ServiceStats2 = (props) => {
       Comment: "Check list of users and call them for better conversion",
       ViewMore: true,
       urlquery: "totalTransaction",
-      removeObj:!eventInfo?.event?.isPaid
+      removeObj: !eventInfo?.event?.isPaid,
     },
     {
       MetricsName: `Total Register for the event`,
@@ -1135,13 +1082,14 @@ const ServiceStats2 = (props) => {
       Comment: "",
       infoIcon: true,
       infotext: "Number of Unique Visits on your Service Page",
-    },{
+    },
+    {
       MetricsName: "Total Transaction ( Failed and dropped )",
       Users: totalDetails,
-      Comment: "Check list of users and call them for better conversion",
+      // Comment: "Check list of users and call them for better conversion",
       ViewMore: true,
       urlquery: "totalTransaction",
-      removeObj:!serviceInfo?.service?.isPaid
+      removeObj: !serviceInfo?.service?.isPaid,
     },
     {
       MetricsName: `Total Register for the service`,
@@ -1191,24 +1139,33 @@ const ServiceStats2 = (props) => {
 
       {approvedUser && (
         <div className="servicestat_wrapper">
+
+          <section className="service_stats_page_title_section">
+          <h1>
+            {eventDetailsPage === "totalTransaction"
+              ? "Total Transaction Details"
+              : eventDetailsPage === "totalSuccessfullRegister" ||
+                eventDetailsPage === "totalReferral"
+              ? `User List for ${serviceType === "event" ? "Event" : "Service"}`
+              : `Detailed ${
+                  serviceType === "event" ? "Event" : "Service"
+                } Analysis`}
+          </h1>
+
+          <button onClick={() => {
+          toast.info("Copied link successfully",{position:"top-center",autoClose:1000});
+          navigator.clipboard.writeText(serviceType === "download" ? serviceInfo?.service?.copyURL : eventInfo?.event?.copyURL);
+        }}> 
+         <IoCopyOutline size={20}/> Tracking link
+          </button>
+          </section>
           <div className="serivce_heading_00">
-            <h1>
-              {eventDetailsPage === "totalTransaction"
-                ? "Total Transaction Details"
-                : eventDetailsPage === "totalSuccessfullRegister" ||
-                  eventDetailsPage === "totalReferral"
-                ? `User List for ${
-                    serviceType === "event" ? "Event" : "Service"
-                  }`
-                : `Detailed ${
-                    serviceType === "event" ? "Event" : "Service"
-                  } Analysis`}
-            </h1>
             <div className="serivce_heading_01">
               <img
                 src={
                   serviceType === "download"
-                    ? serviceInfo?.service?.simg
+                    ? serviceInfo?.service?.mobileSimg ??
+                      serviceInfo?.service?.simg
                     : eventInfo?.event?.simg
                 }
               />
@@ -1229,9 +1186,10 @@ const ServiceStats2 = (props) => {
                       fontWeight: "400",
                     }}
                   >
-                    <BiRupee/>
+                    <BiRupee />
                     {serviceType === "download"
-                      ? serviceInfo?.service?.ssp * serviceInfo?.service?.downloads
+                      ? serviceInfo?.service?.ssp *
+                        serviceInfo?.service?.downloads
                       : eventInfo?.event?.ssp * eventInfo?.event?.registrations}
                   </span>
                 </section>
@@ -1270,7 +1228,7 @@ const ServiceStats2 = (props) => {
           </div>
 
           <div className="serivce_heading_updated_time">
-            <p>last updated on:{new Date(lastupdate).toLocaleString()}</p>
+            <p><AiOutlineReload color="#f8f8f8" style={{cursor:"pointer"}} onClick={()=>{window.location.reload()}}/> last updated on:{new Date(lastupdate).toLocaleString()}</p>
           </div>
 
           <ReturnTable

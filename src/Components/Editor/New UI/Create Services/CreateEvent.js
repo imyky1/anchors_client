@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 import "./Canvas.css";
-import "./Create.css"
+import "./Create.css";
 import { Button1, Button3 } from "./InputComponents/buttons";
 import {
-  Dropdown1,
   Editor1,
-  Tags1,
   TextField1,
   RadioField1,
   UploadField3,
@@ -14,7 +12,9 @@ import {
 } from "./InputComponents/fields_Labels";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { toast } from "react-toastify";
-import { CongratsServiceModal } from "../../../Modals/ServiceSuccess/Modal";
+import {
+  NewCongratsServiceModal,
+} from "../../../Modals/ServiceSuccess/Modal";
 import { LoadTwo } from "../../../Modals/Loading";
 import { creatorContext } from "../../../../Context/CreatorState";
 // imports for image cropping
@@ -62,27 +62,17 @@ const FirstPage = ({
           />
 
           <TextField1
-            label="Title of Event"
+            label="Event Title"
             name="sname"
             id="sname"
             required={true}
             value={data?.sname}
-            placeholder="Enter Title Here"
+            placeholder="Keep it catchy"
             onChange={handleChange}
           />
 
-          {/* <TextField1
-            label="Event Date"
-            name="date"
-            type="date"
-            id="date"
-            required={true}
-            value={data?.date}
-            onChange={handleChange}
-          /> */}
-
           <DatePicker1
-            label="Event Date"
+            label="Date of Event"
             name="date"
             type="date"
             id="date"
@@ -104,7 +94,7 @@ const FirstPage = ({
             }}
           >
             <TextField1
-              label="Event Start Time"
+              label="Start Time"
               name="startTime"
               type="time"
               id="startTime"
@@ -114,7 +104,7 @@ const FirstPage = ({
               onChange={handleChange}
             />
             <TextField1
-              label="Event End Time"
+              label="End Time"
               name="endTime"
               type="time"
               id="endTime"
@@ -177,12 +167,16 @@ const FirstPage = ({
             }}
           >
             <TextField1
-              label={data?.stype === "Offline" ? "Venue" : "Meet Link"}
+              label="Location"
               name="meetlink"
               id="meetlink"
               required={true}
               value={data?.meetlink}
-              placeholder="Enter Title Here"
+              placeholder={
+                data?.stype === "Offline"
+                  ? "Enter Venue Details"
+                  : "Add Video Conferencing Link"
+              }
               onChange={handleChange}
             />
             <TextField1
@@ -192,7 +186,7 @@ const FirstPage = ({
               id="eventSeatCapacity"
               name="eventSeatCapacity"
               value={data?.eventSeatCapacity}
-              placeholder="Enter the number of seats in the event"
+              placeholder="Enter Maximum Capacity"
               onChange={handleChange}
             />
           </section>
@@ -286,17 +280,17 @@ const SecondPage = ({
                       label="Name"
                       name="name"
                       id="name"
-                      placeholder="Enter name"
+                      placeholder="Enter display name"
                       value={allCreatorInfo?.name}
                     />
 
                     <UploadField3
-                      label="Profile Image"
+                      label="Profile Picture"
                       id={`speakerImage0`}
                       info={
                         isSpeakerSelected
                           ? "Profile Image Selected"
-                          : "File Size Limit 15 MB Formats - jpg,png"
+                          : "File size limit - 15MB, Formats - jpg, jpeg, png"
                       }
                       onChange={() => {
                         return null;
@@ -325,10 +319,10 @@ const SecondPage = ({
                   </div>
                   <div className="create_speaker_toggle_spacing0">
                     <TextField1
-                      label="Designation"
+                      label="Tagline"
                       name="designation"
                       id="designation"
-                      placeholder="Enter designation"
+                      placeholder="Add a tagline"
                       value={allCreatorInfo?.tagLine}
                     />
                   </div>
@@ -370,7 +364,7 @@ const SecondPage = ({
                             : speakersArray[index]?.name
                         }
                         id={`name${isSpeakerSelected ? index + 1 : index}`}
-                        placeholder="Enter name"
+                        placeholder="Enter display name"
                         onChange={(e) => {
                           handleSpeakerChange(
                             e.target.value,
@@ -381,11 +375,11 @@ const SecondPage = ({
                       />
 
                       <UploadField3
-                        label="Profile Image"
+                        label="Profile Picture"
                         id={`speakerImage${
                           isSpeakerSelected ? index + 1 : index
                         }`}
-                        info="File Size Limit 15 MB Formats - jpg,png"
+                        info="File size limit - 15MB, Formats - jpg, jpeg, png"
                         FileType=".jpg,.png,.jpeg"
                         onChange={() => {
                           return null;
@@ -422,7 +416,7 @@ const SecondPage = ({
                     </div>
                     <div className="create_speaker_toggle_spacing0">
                       <TextField1
-                        label="Designation"
+                        label="Tagline"
                         name="designation"
                         value={
                           isSpeakerSelected
@@ -432,7 +426,7 @@ const SecondPage = ({
                         id={`designation${
                           isSpeakerSelected ? index + 1 : index
                         }`}
-                        placeholder="Enter designation"
+                        placeholder="Add a tagline"
                         onChange={(e) =>
                           handleSpeakerChange(
                             e.target.value,
@@ -476,8 +470,8 @@ const SecondPage = ({
           )}
 
           <Editor1
-            label={`Describe your Event`}
-            placeholder={`Caption your Event`}
+            label={`Add Event Description`}
+            placeholder={`Summarize your Event`}
             info="A brief description gives your audience some context"
             Content={Content}
             required={true}
@@ -485,10 +479,11 @@ const SecondPage = ({
           />
 
           <Editor1
-            label={`Benefits of leaderboard`}
-            placeholder={`Caption your Event`}
-            info="A brief description gives your audience some context"
+            label="Leaderboard Rewards Customization"
+            placeholder="Define top 3 benefits. Keep 'em creative!"
+            info="Rewarding top referrers encourages engagement"
             Content={data?.benefits}
+            helperText="Leaderboard ranks your audience by referrals. Rewarding top ones with benefits promotes engagement and competition"
             id="benefits"
             required={true}
             setContent={(e) => setdata({ ...data, benefits: e })}
@@ -504,18 +499,20 @@ const SecondPage = ({
             }}
           >
             <UploadField3
-              label="Upload Banner Image"
+              label="Upload a Banner"
               id="asdas"
-              info="File Size Limit 15 MB Formats - jpg,png"
+              info="File size limit - 15 MB, Format - jpg, jpeg, png"
+              helperText="this is visible on social media platforms when your event is shared"
               FileType=".jpg,.png,.jpeg"
               onChange={setBannerImage}
               onChangeFunction={handleChangeFileBanner}
             />
             <UploadField3
-              label={`Upload your Preview Video`}
+              label="Upload a Teaser"
               id="asd1515"
               onChange={setEventVideo}
-              info="File Size Limit 500 MB Formats -Avi,mp4"
+              helperText="helps engage a wider audience. Use an AI tool for ease."
+              info="File size limit - 500 MB, Format - mp4, avi"
               FileType=".mp4,.avi,.mov"
             />
           </section>
@@ -1014,7 +1011,7 @@ function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
         if (element) {
           dataURI = await getImageDataUri(element);
         } else {
-          dataURI = `${host}/api/file/proxyImage?imageUrl=${allCreatorInfo?.profile}`
+          dataURI = `${host}/api/file/proxyImage?imageUrl=${allCreatorInfo?.profile}`;
         }
         imgtag.src = dataURI;
       }
@@ -1053,7 +1050,11 @@ function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
       {openLoading && <LoadTwo open={openLoading} />}
 
       {showPopup?.open && (
-        <CongratsServiceModal type="Event" link={showPopup?.link} />
+        <NewCongratsServiceModal
+          type="event"
+          link={showPopup?.link}
+          slug={showPopup?.slug}
+        />
       )}
 
       {/* default banner */}

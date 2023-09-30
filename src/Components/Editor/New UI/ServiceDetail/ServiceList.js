@@ -7,16 +7,14 @@ import { useNavigate } from "react-router-dom";
 import { LoadTwo } from "../../../Modals/Loading";
 import { Email_Model2 } from "../../../Modals/Email_Modal";
 import { ChangeStatus } from "../../../Modals/ServiceSuccess/Modal2";
-import { Button2 } from "../Create Services/InputComponents/buttons";
+import { Button1, Button2 } from "../Create Services/InputComponents/buttons";
 import {
   AiOutlineCalendar,
   AiOutlineClockCircle,
   AiOutlinePlus,
 } from "react-icons/ai";
 import {
-  BiCoinStack,
   BiDotsVerticalRounded,
-  BiRupee,
   BiStats,
 } from "react-icons/bi";
 import mixpanel from "mixpanel-browser";
@@ -27,12 +25,9 @@ import {
   BsTelegram,
   BsWhatsapp,
 } from "react-icons/bs";
-import { IoCopy } from "react-icons/io5";
+import { IoCopy, IoCopyOutline } from "react-icons/io5";
 import { TbSend } from "react-icons/tb";
-import { HiDownload } from "react-icons/hi";
-import { MdDateRange } from "react-icons/md";
 import { LinkedinShareButton, TelegramShareButton } from "react-share";
-import { TooltipBox } from "../Create Services/InputComponents/fields_Labels";
 
 const ContentCard = ({
   i,
@@ -46,6 +41,7 @@ const ContentCard = ({
   isPaid,
   ssp,
   startDate,
+  time,
   selected,
   registrations,
   eventCode,
@@ -123,6 +119,18 @@ const ContentCard = ({
     }
   };
 
+  const getDateTime = () => {
+    let dateStr = new Date(selected === "events" ? startDate : date);
+
+    if (selected === "events") {
+      let timeStr = time?.startTime?.split(":");
+      dateStr.setHours(timeStr && timeStr[0]);
+      dateStr.setMinutes(timeStr && timeStr[1]);
+    }
+
+    return dateStr.toLocaleString();
+  };
+
   return (
     <div className="mycontent_card_for_service">
       <img
@@ -154,81 +162,92 @@ const ContentCard = ({
           </h2>
 
           <div className="props_mycontent_card_service">
-            <span
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                mixpanel.track("Downloads");
-                selected === "events"
-                  ? !dummyData.EventDummy &&
-                    registrations !== 0 &&
-                    window.open(
-                      `/dashboard/viewUserDetails/${slug}?type=event`,
-                      "_blank"
-                    )
-                  : !dummyData.ServiceDummy &&
-                    downloads !== 0 &&
-                    window.open(`/dashboard/viewUserDetails/${slug}`, "_blank");
-              }}
-            >
-              <HiDownload /> {selected === "events" ? registrations : downloads}
-            </span>
-            <span>
-              <MdDateRange />{" "}
-              {new Date(
-                selected === "events" ? startDate : date
-              ).toLocaleString()}
-            </span>
-            <span>
-              <BiRupee /> {ssp}
-            </span>
-            <span>
-              <BiCoinStack /> {isPaid ? "Paid" : "Free"}
-            </span>
-          </div>
-        </div>
+            <section>
+              <p
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  mixpanel.track("Downloads");
+                  selected === "events"
+                    ? !dummyData.EventDummy &&
+                      registrations !== 0 &&
+                      window.open(
+                        `/dashboard/viewUserDetails/${slug}?type=event`,
+                        "_blank"
+                      )
+                    : !dummyData.ServiceDummy &&
+                      downloads !== 0 &&
+                      window.open(
+                        `/dashboard/viewUserDetails/${slug}`,
+                        "_blank"
+                      );
+                }}
+              >
+                Sales :
+                <span>{selected === "events" ? registrations : downloads}</span>
+              </p>
+              <p>
+                Earnings : <span>{ssp * (downloads ?? registrations)}</span>
+              </p>
+              <p>
+                Created On :<span>{getDateTime()}</span>
+              </p>
+            </section>
 
-        <div className="buttons_div_section_mycontent_card">
-          <button
-            onClick={() => {
-              mixpanel.track("Analysis");
-              selected === "events"
-                ? !dummyData.EventDummy &&
-                  window.open(
-                    `/dashboard/serviceStats/${slug}?type=event`,
-                    "_blank"
-                  )
-                : !dummyData.ServiceDummy &&
-                  window.open(`/dashboard/serviceStats/${slug}`, "_blank");
-            }}
-          >
-            <BiStats /> Detailed Service Analysis
-          </button>
-          <button
-            onClick={() => {
-              const pattern = /go\.anchors\.in/;
-              selected === "events"
-                ? setShareModalData({
-                    open: true,
-                    sname: sname,
-                    slug: slug,
-                    simg: simg,
-                    isEvent: selected === "events",
-                    eventCode: eventCode,
-                    link: copyURL
-                      ? pattern.test(copyURL)
-                        ? copyURL
-                        : selected === "events"
-                        ? `https://www.anchors.in/e/${slug}`
-                        : `https://www.anchors.in/s/${slug}`
-                      : selected === "events"
-                      ? `https://www.anchors.in/e/${slug}`
-                      : `https://www.anchors.in/s/${slug}`,
-                  })
-                : window.open(`/dashboard/shareTemplate/${slug}`);
-            }}
-          >
-            Share <TbSend />
-          </button>
+            <div className="buttons_div_section_mycontent_card">
+              <button
+                onClick={() => {
+                  mixpanel.track("Tracking Link");
+                  toast.info("Copied Link Successfully")
+                  navigator.clipboard.writeText(copyURL);
+                }}
+              >
+                Tracking Link <IoCopyOutline/>
+              </button>
+
+              <button
+                onClick={() => {
+                  const pattern = /go\.anchors\.in/;
+                  selected === "events"
+                    ? setShareModalData({
+                        open: true,
+                        sname: sname,
+                        slug: slug,
+                        simg: simg,
+                        isEvent: selected === "events",
+                        eventCode: eventCode,
+                        link: copyURL
+                          ? pattern.test(copyURL)
+                            ? copyURL
+                            : selected === "events"
+                            ? `https://www.anchors.in/e/${slug}`
+                            : `https://www.anchors.in/s/${slug}`
+                          : selected === "events"
+                          ? `https://www.anchors.in/e/${slug}`
+                          : `https://www.anchors.in/s/${slug}`,
+                      })
+                    : window.open(`/dashboard/shareTemplate/${slug}`);
+                }}
+              >
+                Sharing Template <TbSend />
+              </button>
+
+              <button
+                onClick={() => {
+                  mixpanel.track("Analysis");
+                  selected === "events"
+                    ? !dummyData.EventDummy &&
+                      window.open(
+                        `/dashboard/serviceStats/${slug}?type=event`,
+                        "_blank"
+                      )
+                    : !dummyData.ServiceDummy &&
+                      window.open(`/dashboard/serviceStats/${slug}`, "_blank");
+                }}
+              >
+                <BiStats /> Detailed Service Analysis
+              </button>
+            </div>
+          </div>
         </div>
 
         <BiDotsVerticalRounded
@@ -473,7 +492,7 @@ const PopupModal = ({
           </div>
         </div>
       </div>
-      <ToastContainer />
+      <ToastContainer limit={1}/>
     </div>
   );
 };
@@ -588,13 +607,7 @@ const EventsSectionData = ({ liveData = [{}], upcomingData = [{}] }) => {
                         }
                         alt=""
                       />
-                      <span
-                        onClick={() => {
-                          window.open(`https://www.anchors.in/e/${e?.slug}`);
-                        }}
-                      >
-                        {e?.sname}
-                      </span>
+                      <span>{e?.sname}</span>
 
                       <div>
                         <span>
@@ -615,13 +628,13 @@ const EventsSectionData = ({ liveData = [{}], upcomingData = [{}] }) => {
 
                       <button
                         onClick={() => {
-                          navigate(`/dashboard/editevent/${e.slug}`);
-                          mixpanel.track("Upcoming Edit Event", {
+                          window.open(`https://www.anchors.in/e/${e?.slug}`);
+                          mixpanel.track("Upcoming View Event", {
                             slug: e?.slug,
                           });
                         }}
                       >
-                        Edit Event
+                        View Event
                       </button>
                     </div>
                   );
@@ -767,10 +780,23 @@ function ServiceDetailPage(props) {
       />
 
       <div className="servicelist-wrapper" onClick={() => removeOptionPopup()}>
-        <h1 className="headers_section_paymentInfo">My Content</h1>
-        <span className="servicelist_wrap_span">
-          Access and Manage your Content & Services
-        </span>
+        <section className="headers_section_paymentInfo ">
+          <div>
+            <h1 className="text_type01_payment_info">My Content</h1>
+            <span className="servicelist_wrap_span">
+              Access and Manage your Content & Services
+            </span>
+          </div>
+          <Button1
+            text="Create New Service"
+            rightIcon={<AiOutlinePlus size={24} />}
+            onClick={() => {
+              navigate("/dashboard");
+              mixpanel.track("Create new Service my content");
+            }}
+          />
+        </section>
+
         <div className="servicelist-categories">
           <div
             className={`servicelist-catItem ${
@@ -886,7 +912,9 @@ function ServiceDetailPage(props) {
                 }
                 icon={<AiOutlinePlus size={18} width={30} />}
                 onClick={() => {
-                  navigate("/dashboard");
+                  selected === "events"
+                    ? navigate("/dashboard/createevent")
+                    : navigate("/dashboard");
                 }}
               />
             </div>

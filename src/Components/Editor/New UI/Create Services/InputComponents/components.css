@@ -387,11 +387,11 @@ input:checked + .slider_type_01:before {
   justify-content: center;
   gap: 10px;
   background-color: transparent;
-  transition: transform 0.3s ease;
 }
 
 .button_01_css:hover {
-  transform: scale(1.03);
+  background-color: red;
+  border: 1px solid red;
 }
 
 .button_02_css {
@@ -412,11 +412,11 @@ input:checked + .slider_type_01:before {
   border: none;
   width: max-content;
   cursor: pointer;
-  transition: transform 0.3s ease;
 }
 
 .button_02_css:hover {
-  transform: scale(1.03);
+  background-color: red;
+  border: 1px solid red;
 }
 
 .button_03_css {
@@ -436,7 +436,7 @@ input:checked + .slider_type_01:before {
 }
 
 .button_03_css:hover {
-  transform: scale(1.03);
+  color: red;
 }
 
 /* tags section --------------------------------------------------- */

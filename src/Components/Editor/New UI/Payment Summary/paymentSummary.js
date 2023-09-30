@@ -1,14 +1,3 @@
-import {
-  Paper,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  Table,
-  TableRow,
-  tableCellClasses,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import { LoadTwo } from "../../../Modals/Loading";
 import "./paymentSummary.css";
@@ -19,23 +8,26 @@ import { SuperSEO } from "react-super-seo";
 import { Button1 } from "../Create Services/InputComponents/buttons";
 import mixpanel from "mixpanel-browser";
 import { BiCommentAdd } from "react-icons/bi";
-import { Table1 } from "../Create Services/InputComponents/fields_Labels";
+import {
+  Table1,
+  TooltipBox,
+} from "../Create Services/InputComponents/fields_Labels";
+import { HiInformationCircle } from "react-icons/hi";
 
 const PaymentSummary = () => {
   const navigate = useNavigate();
   const [openLoading, setopenLoading] = useState(false);
-  const [uorders, setUorders] = useState([]);
-  const [totalearning, setTotalEarning] = useState(0);
-  const [tablevalues, setTableValues] = useState({});
+  const [totalEarningServiceData, setTotalEarningServiceData] = useState(null);
+  const [totalEarningEventsData, setTotalEarningEventsData] = useState(null);
   const [withdrawal, setWithdrawal] = useState(0);
   const [sort, setSort] = useState(0);
-  const [service_data, set_service_data] = useState([]);
-  const [dummyData, setDummyData] = useState(false);
-  const [eventslist, setEventsList] = useState([]);
-  const [event_data, set_event_data] = useState([]);
   const [filterType, setFilterType] = useState("service");
-  const [eventearning, setEventEarning] = useState(0);
-  const [eventTable, setEventTable] = useState({});
+
+  const [isHovered, setIsHovered] = useState({
+    tip1: false,
+    tip2: false,
+    tip3: false,
+  });
 
   const gettotalearning = async () => {
     const response = await fetch(`${host}/payments/totalearning`, {
@@ -59,60 +51,14 @@ const PaymentSummary = () => {
     });
 
     const json = await response.json();
-    const jsonEvent = await responseEvent.json();
-    setEventsList(jsonEvent.eorders);
-    set_event_data(jsonEvent.sorders);
-
-    setUorders(json.uorders);
-    set_service_data(json.sorders);
-    setDummyData(json.dummy);
-    if (json.success) {
-      return json;
-    } else {
-      //console.log(json.error)
+    if (json?.success) {
+      setTotalEarningServiceData(json);
     }
-  };
 
-  const calculateTotalearning = () => {
-    uorders.map((el) => {
-      return setTotalEarning((prev) => prev + el.amount);
-    });
-  };
-
-  const calculateEventearning = () => {
-    eventslist.map((ev) => {
-      return setEventEarning((prev) => prev + ev.amount);
-    });
-  };
-
-  const createtablerecords = () => {
-    const counts = {};
-    uorders.map(function (x) {
-      return (counts[x.orderDate.slice(0, 10)] =
-        (counts[x.orderDate.slice(0, 10)] || 0) + x.amount);
-    });
-
-    // let sorted = counts.sort(function (a, b) {
-    //   // Turn your strings into dates, and then subtract them
-    //   // to get a value that is either negative, positive, or zero.
-    //   return new Date(b.) - new Date(a[0]);
-    // });
-    // console.log(sorted);
-    // const keysSorted = Object.keys(counts).sort(function (a, b) {
-    //   return new Date(b) - new Date(a);
-    // });
-    // console.log(keysSorted);
-
-    setTableValues(counts);
-  };
-
-  const createeventrecords = () => {
-    const counts = {};
-    eventslist.map(function (x) {
-      return (counts[x.orderDate.slice(0, 10)] =
-        (counts[x.orderDate.slice(0, 10)] || 0) + x.amount);
-    });
-    setEventTable(counts);
+    const jsonEvent = await responseEvent.json();
+    if (jsonEvent?.success) {
+      setTotalEarningEventsData(jsonEvent);
+    }
   };
 
   useEffect(() => {
@@ -121,37 +67,6 @@ const PaymentSummary = () => {
       setopenLoading(false);
     });
   }, []);
-
-  useEffect(() => {
-    calculateTotalearning();
-    createtablerecords()?.then(() => {});
-  }, [uorders]);
-
-  useEffect(() => {
-    calculateEventearning();
-    createeventrecords()?.then(() => {});
-  }, [eventslist]);
-
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-    },
-  }));
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-    // hide last border
-    "&:last-child td, &:last-child th": {
-      border: 0,
-    },
-  }));
-  const style = { fontSize: "1.2em", paddingTop: "4.5px", paddingLeft: "10px" };
 
   return (
     <>
@@ -172,17 +87,28 @@ const PaymentSummary = () => {
             <div className="userreview_detail_svg">
               <BiCommentAdd color="#d0d0d0" size={30} />
             </div>
-            <div className="userreview_detailedno">
-              {filterType === "service" ? (
-                <>
-                  <h3>₹ {totalearning - (totalearning * 1) / 100}</h3>
-                </>
-              ) : (
-                <>
-                  <h3>₹ {eventearning - (eventearning * 1) / 100}</h3>
-                </>
-              )}
+            <div className="userreview_detailedno" >
+              <h3>
+                ₹{" "}
+                {(totalEarningServiceData?.totalCreatorServiceEarning +
+                  totalEarningEventsData?.totalCreatorEventsEarning) *
+                  0.9}
+              </h3>
               <span>Total Earning</span>
+
+              <HiInformationCircle
+                size={20}
+                color="grey"
+                style={{ cursor: "pointer",position:'absolute',right:"10px",top:'10px' }}
+                onMouseEnter={() => {
+                  setIsHovered({ ...isHovered, tip1: true });
+                }}
+                onMouseLeave={() => {
+                  setIsHovered({ ...isHovered, tip1: false });
+                }}
+              />
+
+              {isHovered?.tip1 && <TooltipBox text="Total Earning = Actual Earning - anchors Cut(10%)" />}
             </div>
           </div>
           <div className="userreview_detail1">
@@ -192,6 +118,20 @@ const PaymentSummary = () => {
             <div className="userreview_detailedno">
               <h3>₹ {withdrawal}</h3>
               <span>Amount Withdrawn</span>
+              
+              <HiInformationCircle
+                size={20}
+                color="grey"
+                style={{ cursor: "pointer",position:'absolute',right:"10px",top:'10px' }}
+                onMouseEnter={() => {
+                  setIsHovered({ ...isHovered, tip2: true });
+                }}
+                onMouseLeave={() => {
+                  setIsHovered({ ...isHovered, tip2: false });
+                }}
+              />
+
+              {isHovered?.tip2 && <TooltipBox text="Amount you have withdrawn" />}
             </div>
           </div>
           <div className="userreview_detail1">
@@ -199,21 +139,29 @@ const PaymentSummary = () => {
               <BiCommentAdd color="#d0d0d0" size={30} />
             </div>
             <div className="userreview_detailedno">
-              {filterType === "service" ? (
-                <>
-                  <h3>
-                    ₹ {totalearning - (totalearning * 1) / 100 - withdrawal}
-                  </h3>
-                </>
-              ) : (
-                <>
-                  <h3>
-                    ₹ {eventearning - (eventearning * 1) / 100 - withdrawal}
-                  </h3>
-                </>
-              )}
-
+              <h3>
+                ₹{" "}
+                {(totalEarningServiceData?.totalCreatorServiceEarning +
+                  totalEarningEventsData?.totalCreatorEventsEarning) *
+                  0.9 -
+                  withdrawal}
+              </h3>
               <span>Balance Amount</span>
+
+
+              <HiInformationCircle
+                size={20}
+                color="grey"
+                style={{ cursor: "pointer",position:'absolute',right:"10px",top:'10px' }}
+                onMouseEnter={() => {
+                  setIsHovered({ ...isHovered, tip3: true });
+                }}
+                onMouseLeave={() => {
+                  setIsHovered({ ...isHovered, tip3: false });
+                }}
+              />
+
+              {isHovered?.tip3 && <TooltipBox text="Net Balance = Total Earning - Withdrawn Amount" />}
             </div>
           </div>
         </div>
@@ -271,10 +219,16 @@ const PaymentSummary = () => {
             bodyArray={
               filterType === "service"
                 ? sort === 1
-                  ? Object.keys(tablevalues).map((elem, i) => {
-                      return [i + 1, elem, tablevalues[elem]];
-                    })
-                  : service_data.map((elem, i) => {
+                  ? Object.keys(totalEarningServiceData?.dateWiseData)?.map(
+                      (elem, i) => {
+                        return [
+                          i + 1,
+                          elem,
+                          totalEarningServiceData?.dateWiseData[elem],
+                        ];
+                      }
+                    )
+                  : totalEarningServiceData?.serviceWiseData?.map((elem, i) => {
                       return [
                         i + 1,
                         elem.service_name,
@@ -283,10 +237,16 @@ const PaymentSummary = () => {
                       ];
                     })
                 : sort === 1
-                ? Object.keys(eventTable).map((elem, i) => {
-                    return [i + 1, elem, eventTable[elem]];
-                  })
-                : event_data.map((elem, i) => {
+                ? Object.keys(totalEarningEventsData?.dateWiseData).map(
+                    (elem, i) => {
+                      return [
+                        i + 1,
+                        elem,
+                        totalEarningEventsData?.dateWiseData[elem],
+                      ];
+                    }
+                  )
+                : totalEarningEventsData?.eventsWiseData?.map((elem, i) => {
                     return [
                       i + 1,
                       elem.event_name,
@@ -297,22 +257,6 @@ const PaymentSummary = () => {
             }
             gridConfig={sort === 1 ? "20% 40% 40%" : "15% 30% 30% 25%"}
           />
-
-          {dummyData && (
-            <div className="cta_dummy_data">
-              <span>
-                this is dummy data , start creating your first service for your
-                data
-              </span>
-              <Button1
-                text="Create your First Service"
-                width="268px"
-                onClick={() => {
-                  navigate("/dashboard");
-                }}
-              />
-            </div>
-          )}
         </div>
       </div>
       <SuperSEO title="Anchors - Payment Summary" />

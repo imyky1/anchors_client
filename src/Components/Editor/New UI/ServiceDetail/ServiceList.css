@@ -16,9 +16,13 @@
 }
 
 .servicelist_wrap_span {
-  font-weight: 400px;
-  color: #d0d0d0;
   -webkit-user-select: none;
+  color: #d0d0d0;
+  font-family: "Gilroy-Light", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .servicelist-categories {
@@ -71,7 +75,6 @@
   font-size: 16px;
   font-weight: 400;
   color: #d0d0d0;
-  
 }
 
 .servicelistbannerimg {
@@ -201,7 +204,7 @@
   display: flex;
   align-items: center;
   border-radius: 16px;
-  background: #fff;
+  background: #212121;
   box-shadow: 0px 0px 8px 0px rgba(18, 18, 18, 0.1);
   padding: 20px;
   box-sizing: border-box;
@@ -258,10 +261,7 @@
 
 .live_events_wrapper_user_dashboard_page > div > section > div > span {
   cursor: pointer;
-}
-
-.live_events_wrapper_user_dashboard_page > div > section > div > span:hover {
-  color: purple;
+  color: #d0d0d0;
 }
 
 .live_events_wrapper_user_dashboard_page > div > section > div button {
@@ -579,7 +579,7 @@
   min-width: 320px;
   max-width: 320px;
   background-color: rgb(40, 40, 40);
-  object-fit: cover;
+  /* object-fit: cover; */
   cursor: pointer;
 }
 
@@ -614,30 +614,39 @@
 }
 
 .props_mycontent_card_service {
-  display: grid;
+  display: flex;
   width: 100%;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 13px;
+  justify-content: space-between;
 }
 
-.props_mycontent_card_service > span {
+.props_mycontent_card_service > section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.props_mycontent_card_service > section > p {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 
-  color: #666;
+  color: #fff;
   font-family: "Gilroy-Regular", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 }
 
+.props_mycontent_card_service > section > p > span {
+  color: #d0d0d0;
+}
+
 .buttons_div_section_mycontent_card {
   display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 11px;
 }
 
 .buttons_div_section_mycontent_card > button {
@@ -645,11 +654,11 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 12px 20px;
+  padding: 4px 8px;
 
   color: #d0d0d0;
   font-family: "Gilroy-Regular", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -659,13 +668,15 @@
   border: none;
 }
 
+.buttons_div_section_mycontent_card > button:hover{
+  background-color: red;
+}
 
-.content_cards_main_wrapper_servicelist{
+.content_cards_main_wrapper_servicelist {
   width: 100%;
   display: flex;
   margin-top: 20px;
   flex-direction: column;
   gap: 20px;
   position: relative;
-
 }

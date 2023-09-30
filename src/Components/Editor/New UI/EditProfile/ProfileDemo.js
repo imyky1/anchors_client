@@ -156,7 +156,7 @@ const PreviewDemo = ({
         {/* About Section ------------- */}
         <section
           className="about_section_new_creator_profile"
-          style={{ marginTop: "31px" , marginBottom:"30px" }}
+          style={{ marginTop: "31px" , marginBottom:"120px" }}
         >
           <h2
             className="text_creator_profile_page-03"

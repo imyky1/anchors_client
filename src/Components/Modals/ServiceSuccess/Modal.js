@@ -7,6 +7,8 @@ import { IoCopy } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import { MdOutlineEventSeat } from "react-icons/md";
 import { HiDocumentText } from "react-icons/hi2";
+import { AiOutlineArrowRight } from "react-icons/ai";
+import { TbCopy } from "react-icons/tb";
 
 // This modal is the modal for Success for creation of services and also success for edit profile
 
@@ -200,29 +202,52 @@ const NewCongratsServiceCreation = ({
 
   const Data = {
     service: {
-      text: "Uploaded successfully",
-      subtext: "Now its time to spread the word",
+      text: "Service Uploaded Successfully",
+      subtext: "Let's tell the world  about it!",
       button1: {
-        text: "Unique tracking link",
+        text: "Unique Tracking Link",
+        rightIcon : <TbCopy size={24}/>,
         action: () => {
           toast.info("Copied link successfully");
           navigator.clipboard.writeText(link);
         },
       },
       button2: {
-        text: "Get the message template",
+        text: "AI-Generated Templates",
+        rightIcon : <AiOutlineArrowRight size={24}/>,
         action: () => {
           navigate(`/dashboard/shareTemplate/${slug}`);
         },
       },
       svgColor: "#10B981",
     },
-    editProfile: {
-      text: "Your profile has been updated",
-      subtext: "Start selling your documents or events",
+   
+    event: {
+      text: "Event Created Successfully",
+      subtext: "Let's invite people to it now!",
       button1: {
-        text: "Create Event",
-        icon : <MdOutlineEventSeat size={24}/>,
+        text: "Unique Tracking Link",
+        rightIcon : <TbCopy size={24}/>,
+        action: () => {
+          toast.info("Copied link successfully");
+          navigator.clipboard.writeText(link);
+        },
+      },
+      button2: {
+        text: "Go to Events",
+        rightIcon : <AiOutlineArrowRight size={24}/>,
+        action: () => {
+          navigate(`/dashboard/mycontents`);
+        },
+      },
+      svgColor: "#10B981",
+    },
+    editProfile: {
+      text: "Your profile is now updated!",
+      subtext: "Let's start earning, shall we?",
+      button1: {
+        text: "Host Event",
+        leftIcon : <MdOutlineEventSeat size={24}/>,
         action: () => {
           firstTimeModalOpenDashboard
             ? window.open("/dashboard?firstTime=true", "_self")
@@ -230,15 +255,15 @@ const NewCongratsServiceCreation = ({
         },
       },
       button2: {
-        text: "Upload Document",
-        icon:<HiDocumentText size={24}/>,
+        text: "Create Service",
+        leftIcon:<HiDocumentText size={24}/>,
         action: () => {
           firstTimeModalOpenDashboard
             ? window.open("/dashboard?firstTime=true", "_self")
             : navigate("/dashboard", "_self");
         },
       },
-      svgColor: "#F8F8F8",
+      svgColor: "#10B981",
     },
   };
 
@@ -269,15 +294,17 @@ const NewCongratsServiceCreation = ({
               className="button_serviceModal_creation01"
               onClick={Data[type].button1.action}
             >
-              {Data[type].button1.icon && Data[type].button1.icon}
+              {Data[type].button1.leftIcon && Data[type].button1.leftIcon}
               {Data[type].button1.text}
+              {Data[type].button1.rightIcon && Data[type].button1.rightIcon}
             </button>
             <button
               className="button_serviceModal_creation01"
-              onClick={Data[type].button2.action}
+              onClick={Data[type]?.button2.action}
             >
-              {Data[type].button2.icon && Data[type].button2.icon}
+              {Data[type].button2.leftIcon && Data[type].button2.leftIcon}
               {Data[type].button2.text}
+              {Data[type].button2.rightIcon && Data[type].button2.rightIcon}
             </button>
           </div>
         </div>

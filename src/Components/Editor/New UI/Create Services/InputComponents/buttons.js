@@ -14,6 +14,7 @@ function Buttons1(props) {
         style={props?.height && { height: props?.height }}
         onClick={props.onClick}
       >
+        {props.rightIcon && props.rightIcon}
         {props.text}
         {props.icon && props.icon}
       </button>

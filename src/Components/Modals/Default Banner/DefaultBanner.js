@@ -229,7 +229,7 @@ function DefaultBanner2({ open, onClose, dataToRender, setFinalData }) {
   );
 }
 
-export const PersonalizedInviteeCard = ({
+export const PersonalizedInviteeCard= ({
   open,
   onClose,
   data,
@@ -468,7 +468,16 @@ export const PersonalizedInviteeCard = ({
 
                     {/* event speaker section ----------- */}
                     <section className="event_invite_multiple_speakers_details_section">
-                      <h4 style={{left:speakersArray.length > 0 ? (speakersArray?.length - 1)*5+ "px"  : ""}}>Speakers</h4>
+                      <h4
+                        style={{
+                          left:
+                            speakersArray.length > 0
+                              ? (speakersArray?.length - 1) * 5 + "px"
+                              : "",
+                        }}
+                      >
+                        Speakers
+                      </h4>
                       <section>
                         {speakersArray?.map((speaker, index) => {
                           return (
@@ -730,6 +739,5 @@ export const PersonalizedInviteeCard = ({
   );
 };
 
+
 export default DefaultBanner2;
-
-

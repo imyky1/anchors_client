@@ -51,5 +51,6 @@
 }
 
 .fancy_navbar_link01:hover{
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background-color: red;
+  border: 1px solid red;
 }
