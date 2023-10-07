@@ -273,7 +273,7 @@
   padding-bottom: 40px;
 }
 
-.checklist_main_container > section::-webkit-scrollbar{
+.checklist_main_container > section::-webkit-scrollbar {
   display: none;
 }
 
@@ -422,6 +422,73 @@
   cursor: pointer;
 }
 
-.checklist_button_desgin_dashboard:hover{
+.checklist_button_desgin_dashboard:hover {
   background-color: red;
+}
+
+@media (max-width: 600px) {
+  .main_dashboard_conatiner2 {
+    height: 100%;
+    padding: 20px 4%;
+    width: 100%;
+    gap: 20px;
+    position: relative;
+    padding-top: unset;
+  }
+
+  .stepper_outside_wrapper_dashboard {
+    gap: 4px;
+  }
+
+  .main_dashboard_design_box {
+    width: 100%;
+  }
+
+  .main_dashboard_design_box > section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .dashboard_options {
+    width: 100%;
+    margin: unset;
+    height: 61px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 0.5px solid #a0a0a0;
+  }
+
+  .dashboard_options > span {
+    color: #f8f8f8;
+    font-family: "Gilroy-Bold", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+  }
+
+  .dashboard_options > p{
+    font-size: 10px;
+  }
+
+  .text_01_dashboard {
+    color: #f8f8f8;
+    font-family: "Gilroy-Bold", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+  }
+
+  .text_02_dashboard {
+    color: #d0d0d0;
+    font-family: "Gilroy-Regular", sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin: unset;
+  }
 }

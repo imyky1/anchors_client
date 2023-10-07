@@ -13,12 +13,10 @@ import {
   AiOutlineClockCircle,
   AiOutlinePlus,
 } from "react-icons/ai";
-import {
-  BiDotsVerticalRounded,
-  BiStats,
-} from "react-icons/bi";
+import { BiDotsVerticalRounded, BiStats } from "react-icons/bi";
 import mixpanel from "mixpanel-browser";
 import {
+  BsArrowLeftShort,
   BsFillCalendar3WeekFill,
   BsLinkedin,
   BsPersonFill,
@@ -197,11 +195,11 @@ const ContentCard = ({
               <button
                 onClick={() => {
                   mixpanel.track("Tracking Link");
-                  toast.info("Copied Link Successfully")
+                  toast.info("Copied Link Successfully");
                   navigator.clipboard.writeText(copyURL);
                 }}
               >
-                Tracking Link <IoCopyOutline/>
+                Tracking Link <IoCopyOutline />
               </button>
 
               <button
@@ -492,7 +490,7 @@ const PopupModal = ({
           </div>
         </div>
       </div>
-      <ToastContainer limit={1}/>
+      <ToastContainer limit={1} />
     </div>
   );
 };
@@ -780,53 +778,65 @@ function ServiceDetailPage(props) {
       />
 
       <div className="servicelist-wrapper" onClick={() => removeOptionPopup()}>
-        <section className="headers_section_paymentInfo ">
-          <div>
-            <h1 className="text_type01_payment_info">My Content</h1>
-            <span className="servicelist_wrap_span">
-              Access and Manage your Content & Services
-            </span>
-          </div>
-          <Button1
-            text="Create New Service"
-            rightIcon={<AiOutlinePlus size={24} />}
-            onClick={() => {
-              navigate("/dashboard");
-              mixpanel.track("Create new Service my content");
-            }}
-          />
-        </section>
+        {/* MObile ui navbar ---------------- */}
+        {window.screen.width < 600 && (
+          <section className="navbar_ui_covering_section_mobile_active">
+            <BsArrowLeftShort size={22} onClick={()=>{
+              navigate(-1)
+            }}/>
+            My Content
+          </section>
+        )}
 
-        <div className="servicelist-categories">
-          <div
-            className={`servicelist-catItem ${
-              selected === "all" && "selectedlist"
-            }`}
-            onClick={() => setSelected("all")}
-          >
-            All (
-            {services?.typeDetails?.Document +
-              services?.typeDetails?.Excel +
-              services?.typeDetails?.Video}
-            )
-          </div>
-          <div
-            className={`servicelist-catItem ${
-              selected === "pdf" && "selectedlist"
-            }`}
-            onClick={() => setSelected("pdf")}
-          >
-            PDF ({services?.typeDetails?.Document})
-          </div>
-          <div
-            className={`servicelist-catItem ${
-              selected === "excel" && "selectedlist"
-            }`}
-            onClick={() => setSelected("excel")}
-          >
-            Excel Sheets ({services?.typeDetails?.Excel})
-          </div>
-          {/* <div
+        {window.screen.width > 600 && (
+          <>
+            <section className="headers_section_paymentInfo ">
+              <div>
+                <h1 className="text_type01_payment_info">My Content</h1>
+                <span className="servicelist_wrap_span">
+                  Access and Manage your Content & Services
+                </span>
+              </div>
+              <Button1
+                text="Create New Service"
+                rightIcon={<AiOutlinePlus size={24} />}
+                onClick={() => {
+                  navigate("/dashboard");
+                  mixpanel.track("Create new Service my content");
+                }}
+              />
+            </section>
+
+            <div className="servicelist-categories">
+              <div
+                className={`servicelist-catItem ${
+                  selected === "all" && "selectedlist"
+                }`}
+                onClick={() => setSelected("all")}
+              >
+                All (
+                {services?.typeDetails?.Document +
+                  services?.typeDetails?.Excel +
+                  services?.typeDetails?.Video}
+                )
+              </div>
+              <div
+                className={`servicelist-catItem ${
+                  selected === "pdf" && "selectedlist"
+                }`}
+                onClick={() => setSelected("pdf")}
+              >
+                PDF ({services?.typeDetails?.Document})
+              </div>
+              <div
+                className={`servicelist-catItem ${
+                  selected === "excel" && "selectedlist"
+                }`}
+                onClick={() => setSelected("excel")}
+              >
+                Excel Sheets ({services?.typeDetails?.Excel})
+              </div>
+              {/* <div
             className={`servicelist-catItem ${
               selected === "video" && "selectedlist"
             }`}
@@ -834,22 +844,24 @@ function ServiceDetailPage(props) {
           >
             Videos ({services?.typeDetails?.Video})
           </div> */}
-          <div
-            className={`servicelist-catItem ${
-              selected === "events" && "selectedlist"
-            }`}
-            onClick={() => setSelected("events")}
-          >
-            Events ({services?.typeDetails?.Events})
-          </div>
-        </div>
-        <div className="servicelist-linebreak"></div>
+              <div
+                className={`servicelist-catItem ${
+                  selected === "events" && "selectedlist"
+                }`}
+                onClick={() => setSelected("events")}
+              >
+                Events ({services?.typeDetails?.Events})
+              </div>
+            </div>
+            <div className="servicelist-linebreak"></div>
 
-        {selected === "events" && (
-          <EventsSectionData
-            liveData={latestEvents?.LiveEvents}
-            upcomingData={latestEvents?.UpcomingEvents}
-          />
+            {selected === "events" && (
+              <EventsSectionData
+                liveData={latestEvents?.LiveEvents}
+                upcomingData={latestEvents?.UpcomingEvents}
+              />
+            )}
+          </>
         )}
 
         <section

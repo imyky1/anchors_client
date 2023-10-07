@@ -668,7 +668,7 @@
   border: none;
 }
 
-.buttons_div_section_mycontent_card > button:hover{
+.buttons_div_section_mycontent_card > button:hover {
   background-color: red;
 }
 
@@ -679,4 +679,30 @@
   flex-direction: column;
   gap: 20px;
   position: relative;
+}
+
+@media (max-width: 600px) {
+  .servicelist-wrapper {
+    width: unset;
+    padding: unset;
+  }
+
+  .content_cards_main_wrapper_servicelist {
+    width: 91vw;
+    margin: 20px auto;
+  }
+
+  .mycontent_card_for_service {
+    flex-direction: column;
+    height: unset;
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .mycontent_card_for_service > img{
+    width: 100%;
+    min-width: unset;
+    max-width: unset;
+    height: unset;
+  }
 }

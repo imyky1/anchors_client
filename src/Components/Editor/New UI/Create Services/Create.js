@@ -11,8 +11,8 @@ import {
 } from "./InputComponents/fields_Labels";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { toast } from "react-toastify";
-import SuccessService, {
-  CongratsServiceModal, NewCongratsServiceModal,
+import {
+ NewCongratsServiceModal,
 } from "../../../Modals/ServiceSuccess/Modal";
 import { LoadTwo } from "../../../Modals/Loading";
 
@@ -26,6 +26,7 @@ import { SuperSEO } from "react-super-seo";
 import mixpanel from "mixpanel-browser";
 import CreateServiceDemo from "./CreateServiceDemo";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+import { BsArrowLeftShort } from "react-icons/bs";
 
 const FirstPage = ({
   data,
@@ -307,17 +308,17 @@ const SecondPage = ({
 
       <section className="buttons_form">
         <Button1
-          text="Publish"
+          text={window.screen.width > 600 ? "Publish" : "Save and Next"}
           icon={<AiOutlineArrowRight />}
           onClick={onSubmit}
         />
-        <Button3
+       {window.screen.width > 600 && <Button3
           text="Previous"
           icon={<AiOutlineArrowLeft />}
           onClick={() => {
             setCurrentPage(1);
           }}
-        />
+        />}
       </section>
     </>
   );
@@ -678,10 +679,25 @@ function Create({
       )}
 
       <div className="create_service_outside_wrapper">
+        {/* MObile ui navbar ---------------- */}
+        {window.screen.width < 600 && (
+          <section className="navbar_ui_covering_section_mobile_active">
+            <BsArrowLeftShort size={22} onClick={()=>{
+              if(currentPage === 1){
+                navigate(-1)
+              }
+              else{
+                setCurrentPage(currentPage-1)
+              }
+            }}/>
+            Share your expertise!
+          </section>
+        )}
+
         <div className="main_create_container_new_conatiner_live_demo">
           {/* Heading of the create section ------------------------ */}
 
-          <section className="heading_create_box">
+          {window.screen.width > 600 && <section className="heading_create_box">
             <div>
               <h1 className="create_text_01">Share your expertise!</h1>
               <p className="create_text_02">
@@ -694,7 +710,7 @@ function Create({
                   : ""}
               </p>
             </div>
-          </section>
+          </section>}
 
           {/* First Section ------------- */}
           {currentPage === 1 && (
@@ -734,7 +750,7 @@ function Create({
         </div>
 
         {/* Live preview Section ------------- */}
-        <div className="live_preview_edit_profile_page">
+       {window.screen.width > 600 && <div className="live_preview_edit_profile_page">
           <div className="live_preview_modal_design">
             <section>
               <img
@@ -751,7 +767,7 @@ function Create({
               />
             </section>
           </div>
-        </div>
+        </div>}
       </div>
 
       {openimagePreview && BannerImage ? (

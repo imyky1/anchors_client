@@ -108,7 +108,7 @@ const PaymentSummary = () => {
                 }}
               />
 
-              {isHovered?.tip1 && <TooltipBox text="Total Earning = Actual Earning - anchors Cut(10%)" />}
+              {isHovered?.tip1 && <TooltipBox text="Amount earned after the 10% platform fee" />}
             </div>
           </div>
           <div className="userreview_detail1">
@@ -131,7 +131,7 @@ const PaymentSummary = () => {
                 }}
               />
 
-              {isHovered?.tip2 && <TooltipBox text="Amount you have withdrawn" />}
+              {isHovered?.tip2 && <TooltipBox text="Total Amount withdrawn till date" />}
             </div>
           </div>
           <div className="userreview_detail1">
@@ -161,7 +161,7 @@ const PaymentSummary = () => {
                 }}
               />
 
-              {isHovered?.tip3 && <TooltipBox text="Net Balance = Total Earning - Withdrawn Amount" />}
+              {isHovered?.tip3 && <TooltipBox text="Total amount remaining in account. Can be withdrawn anytime." />}
             </div>
           </div>
         </div>

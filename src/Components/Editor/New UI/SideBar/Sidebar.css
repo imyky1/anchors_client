@@ -187,7 +187,7 @@
   justify-content: space-between;
   width: 100%;
   background: #212121;
-  border-radius: 9px;
+  border-radius: 6px;
   margin-top: 12px;
   font-family: "Inter";
   font-style: normal;
@@ -195,7 +195,7 @@
   font-size: 16px;
   line-height: 19px;
   color: #f8f8f8;
-  padding-left: 10px;
+  padding: 10px;
   box-sizing: border-box;
   cursor: pointer;
 }
@@ -210,7 +210,7 @@
   margin-top: 4px;
 }
 
-.badges_sidebar_dashboard > span{
+.badges_sidebar_dashboard > span {
   width: 30.883px;
   position: relative;
   left: -6px;
@@ -220,4 +220,71 @@
   width: 100%;
   cursor: pointer;
   /* height: 28px; */
+}
+
+/* mobile ui  */
+
+@media (max-width: 600px) {
+  .sidebar_main_box {
+    /* position: fixed;
+    bottom: 0; */
+    width: 100%;
+    height: unset;
+    min-width: unset;
+    left: unset;
+    top: unset;
+    bottom: 0;
+    background: #212121;
+    box-shadow: 0px -4px 4px 0px rgba(255, 255, 255, 0.1);
+    padding: unset;
+    z-index: 9999;
+  }
+
+  .logo_sidebar {
+    width: 91.741px;
+  }
+
+  .sidebar_navigation {
+    flex-direction: row;
+    padding: 12px 40px;
+    box-sizing: border-box;
+    margin: unset;
+    overflow: hidden;
+    border: unset;
+    justify-content: space-between;
+  }
+
+  .sidebar_navigation > a img {
+    margin: unset;
+  }
+
+  .sidebar_navigation_normal {
+    flex-direction: column;
+    padding: unset;
+    width: unset;
+    height: unset;
+    gap: 4px;
+    margin: unset;
+
+    color: #A0A0A0;
+    font-family: "Gilroy-Medium", sans-serif;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .sidebar_navigation_active{
+    background-color: unset;
+    color: #d0d0d0;
+  }
+
+
+  .invite_sidebar{
+    width: 92%;
+    bottom: 20px;
+    left: unset;
+  }
+
+  
 }

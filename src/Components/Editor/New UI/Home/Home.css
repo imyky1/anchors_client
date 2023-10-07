@@ -1,19 +1,99 @@
-
-
-.main_home_page_container{
-    width: 100%;
-    display: flex;
+.main_home_page_container {
+  width: 100%;
+  display: flex;
 }
 
-.right_side_home_page{
-    /* background-color: red;
+.right_side_home_page {
+  /* background-color: red;
     margin-left: 5px; */
-    min-width: 83%;
+  min-width: 83%;
 }
 
-.remaining{
+.remaining {
+  width: 100%;
+  background: #121212;
+  min-height: 95vh;
+  height: max-content;
+}
+
+/* mobile ui  */
+
+@media (max-width: 600px) {
+  .main_home_page_container {
+    height: 100vh;
+    overflow: hidden;
+    /* flex-direction: column-reverse; */
+  }
+
+  .right_side_home_page {
     width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    position: relative;
+  }
+
+  .mobile_ui_home_having_navigation {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    flex-direction: column-reverse;
+    display: flex;
+  }
+
+  .remaining {
+    min-height: unset;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* max-height: 81vh; */
+    top: 0;
+    position: absolute;
+  }
+
+  .remaining::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* navbar covering -------------- */
+
+  .navbar_ui_covering_section_mobile {
+    width: 100vw;
+    height: 69px;
+    position: sticky;
+    top: 0;
+    padding: 12px 4%;
+    box-sizing: border-box;
+  }
+
+  .navbar_ui_covering_section_mobile_active {
+    width: 100vw;
+    height: 69px;
+    position: sticky;
+    top: 0;
+    padding: 12px 4%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #d0d0d0;
+    text-align: center;
+    font-family: "Gilroy-Medium", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    min-height: 69px;
     background: #121212;
-    min-height: 95vh;
-    height: max-content;
+    box-shadow: 0px 1px 4px 0px rgba(255, 255, 255, 0.1);
+    z-index: 99;
+  }
+
+  .navbar_ui_covering_section_mobile_active > svg {
+    position: absolute;
+    left: 4%;
+  }
 }

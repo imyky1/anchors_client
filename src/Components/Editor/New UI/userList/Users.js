@@ -1,14 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import "./Users.css";
-import {
-  Paper,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  Table,
-  TableRow,
-} from "@mui/material";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { creatorContext } from "../../../../Context/CreatorState";

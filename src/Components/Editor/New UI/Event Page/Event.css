@@ -8,6 +8,30 @@
   scroll-behavior: smooth;
 }
 
+.arrow_button_sample_page {
+  color: white;
+  font-size: 35px;
+  margin-top: 20px;
+  animation: updownarrow 0.8s infinite ease-in-out;
+  cursor: pointer;
+  position: relative;
+  bottom: 40px;
+}
+
+@keyframes updownarrow {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(20px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
 /* Main section  hero section event page */
 
 .main_header_component_event_page {
@@ -38,7 +62,6 @@
   background: var(--success-green-600, #059669);
 
   font-size: 30px !important;
-
 }
 
 .main_title_event_box > h1 {
@@ -182,19 +205,26 @@
   font-weight: 400;
   line-height: normal;
   width: 80%;
+  max-height: 60vh;
+  overflow: auto;
+  padding-right: 20px;
 }
 
-.scrollable_section_event > p *{
+.scrollable_section_event > p::-webkit-scrollbar {
+  width: 2px;
+}
+
+.scrollable_section_event > p * {
   font: inherit !important;
   background-color: inherit !important;
   color: inherit !important;
 }
 
-.scrollable_section_event > p ul{
+.scrollable_section_event > p ul {
   padding-left: 20px;
 }
 
-.scrollable_section_event > p ol{
+.scrollable_section_event > p ol {
   padding-left: 20px;
 }
 
@@ -213,19 +243,33 @@
 
 .right_stable_side_top {
   position: absolute;
-  left: 22px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
   gap: 60px;
+  width: 83%;
+  margin: 0 auto;
+}
+
+.right_stable_side_top > h4 {
+  color: #fff;
+  text-align: center;
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  width: 100%;
+  text-align: center;
 }
 
 .right_stable_side_image {
   display: inline-flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   gap: 16px;
+  width: 100%;
   /* position: absolute; */
 }
 
@@ -233,6 +277,7 @@
   width: 80px;
   height: 80px;
   border-radius: 80px;
+  min-width: 80px;
 }
 
 .right_stable_side_image_desc {
@@ -244,13 +289,13 @@
 
 .right_stable_side_image_desc > span {
   color: #fff;
-  text-align: center;
+  /* text-align: center; */
   font-size: 20px;
   font-family: "Gilroy-Bold", sans-serif;
   font-style: normal;
   font-weight: bold;
   line-height: normal;
-  text-wrap: nowrap;
+  /* text-wrap: nowrap; */
 }
 
 .right_stable_side_image_desc > p {
@@ -271,6 +316,18 @@
   justify-content: center;
   text-align: center;
   color: white;
+}
+
+.right_side_creator_profile_event_page > h4 {
+  color: #fff;
+  text-align: center;
+  font-family: "Gilroy-Medium", sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  position: absolute;
+  top: -70px;
 }
 
 .right_side_creator_profile_event_page > img {
@@ -461,22 +518,20 @@
   color: rgba(255, 255, 255, 1);
 }
 
-.desc_mobile_view_event > p ul{
+.desc_mobile_view_event > p ul {
   padding-left: 22px;
 }
 
-.desc_mobile_view_event > p ol{
+.desc_mobile_view_event > p ol {
   padding-left: 22px;
 }
-
 
 @media (max-width: 600px) {
-
   .event_page_outside_wrapper::-webkit-scrollbar {
     display: none;
   }
 
-  .main_header_component_event_page{
+  .main_header_component_event_page {
     padding-bottom: 50px;
     box-sizing: border-box;
   }
@@ -487,7 +542,7 @@
     gap: 40px;
   }
 
-  .event_complete_tag{
+  .event_complete_tag {
     font-size: unset;
     font-size: 15px !important;
   }
@@ -567,6 +622,16 @@
     text-align: center;
   }
 
+  .right_side_creator_profile_event_page > h4 {
+    font-size: 16px;
+  }
+
+  .right_stable_side_top > h4 {
+    font-size: 16px;
+    position: relative;
+    bottom: 30px;
+  }
+
   .scrollable_section_event > span {
     font-size: 24px;
   }
@@ -607,7 +672,7 @@
   }
 
   .desc_mobile_view_event > p {
-    overflow: hidden;
+    overflow: auto;
     color: var(--neutral-gray-200, #e2e8f0);
     text-overflow: ellipsis;
     font-size: 16px;
@@ -615,16 +680,21 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    max-height: 80vh;
+    padding-right: 5px;
+    box-sizing: border-box;
+    width: 100%;
   }
 
+  .desc_mobile_view_event > p::-webkit-scrollbar {
+    width: 1px;
+  }
 
-  .desc_mobile_view_event > p *{
+  .desc_mobile_view_event > p * {
     font: inherit !important;
     background-color: inherit !important;
     color: inherit !important;
   }
-  
-
 
   .user_reviews_event {
     padding: 20px 16px;
@@ -680,7 +750,11 @@
     width: 100%;
   }
 
-  .end_frame_event_page{
+  .end_frame_event_page {
     height: 75vh;
+  }
+
+  .arrow_button_sample_page {
+    bottom: 100px;
   }
 }

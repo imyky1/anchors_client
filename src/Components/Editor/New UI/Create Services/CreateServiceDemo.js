@@ -2,7 +2,6 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "../EditProfile/Preview.css";
 import "../Service Page/ServicePage.css"
 import "../Event Page/Event.css"
-import "../Sample Page/Sample.css"
 import { useEffect } from "react";
 import { BsWhatsapp } from "react-icons/bs";
 

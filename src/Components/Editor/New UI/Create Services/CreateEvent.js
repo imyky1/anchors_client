@@ -26,7 +26,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import Cropper from "react-easy-crop";
 import { SuperSEO } from "react-super-seo";
 import mixpanel from "mixpanel-browser";
-import { BsPlus } from "react-icons/bs";
+import { BsArrowLeftShort, BsPlus } from "react-icons/bs";
 
 import PNGIMG from "../../../../Utils/Images/default_user.png";
 import { toBlob } from "html-to-image";
@@ -38,6 +38,7 @@ import {
 } from "react-icons/ai";
 import { PersonalizedInviteeCard } from "../../../Modals/Default Banner/DefaultBanner";
 import { host } from "../../../../config/config";
+import { useNavigate } from "react-router-dom";
 
 const FirstPage = ({
   data,
@@ -534,21 +535,20 @@ const SecondPage = ({
           icon={<AiOutlineArrowRight />}
           onClick={onSubmit}
         />
-        <Button3
+        {window.screen.width > 600 && <Button3
           text="Previous"
           icon={<AiOutlineArrowLeft />}
           onClick={() => {
             setCurrentPage(1);
           }}
-        />
+        />}
       </section>
     </>
   );
 };
 
 function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
-  const params = new URLSearchParams(window.location.search);
-
+  const navigate = useNavigate()
   const [multipleSpeakers, setMultipleSpeakers] = useState(false); // tells if the evnt page has the multiple speaker option
   const [speakersArray, setSpeakersArray] = useState([{}]);
   const [isSpeakerSelected, setIsSpeakerSelected] = useState(false);
@@ -604,7 +604,6 @@ function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
   const [BannerImage, setBannerImage] = useState();
   const [seatCapacity, setSeatCapacity] = useState("Enter Manually");
   const [EventVideo, setEventVideo] = useState();
-  const [controlSubmitButtonValue, setControlSubmitButtonValue] = useState(0);
 
   const handleChangeFileBanner = (e) => {
     mixpanel.track("Browse banner");
@@ -821,7 +820,7 @@ function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
         ) {
           if (checkSpeakers) {
             if (Content?.length > 10) {
-              if (multipleSpeakers) {
+              if (speakersArray[0]?.name) {
                 await SaveSpeakerImages();
               }
               try {
@@ -1451,9 +1450,24 @@ function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
       </div>
 
       <div className="create_service_outside_wrapper">
+        {/* MObile ui navbar ---------------- */}
+        {window.screen.width < 600 && (
+          <section className="navbar_ui_covering_section_mobile_active">
+            <BsArrowLeftShort size={22} onClick={()=>{
+              if(currentPage === 1){
+                navigate(-1)
+              }
+              else{
+                setCurrentPage(currentPage-1)
+              }
+            }}/>
+            Host an Event!
+          </section>
+        )}
+
         <div className="main_create_container_new_conatiner_live_demo">
           {/* Heading of the create section ------------------------ */}
-          {currentPage === 1 && (
+          {window.screen.width > 600 && currentPage === 1 && (
             <section className="heading_create_box">
               <div>
                 <h1 className="create_text_01">Host an Event!</h1>
@@ -1506,7 +1520,7 @@ function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
           )}
         </div>
 
-        <div className="live_preview_edit_profile_page">
+       {window.screen.width > 600 && <div className="live_preview_edit_profile_page">
           <div className="live_preview_modal_design">
             <section>
               <img
@@ -1527,7 +1541,7 @@ function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
               />
             </section>
           </div>
-        </div>
+        </div>}
       </div>
 
       {/* Live preview Section ------------- */}

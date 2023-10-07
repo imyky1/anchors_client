@@ -3,14 +3,13 @@ import "./Success.css";
 
 import { BsWhatsapp, BsInstagram } from "react-icons/bs";
 import { FaLinkedinIn, FaFacebookF } from "react-icons/fa";
-import { IoCopy } from "react-icons/io5";
+import { IoCopy, IoCopyOutline } from "react-icons/io5";
 
-import bronze from "../../../../Utils/Icons/bronze-trophy.svg";
-import silver from "../../../../Utils/Icons/silver-trophy.svg";
-import gold from "../../../../Utils/Icons/gold-trophy.svg";
 import { Navbar2 } from "../../../Layouts/Navbar User/Navbar";
 import { ToastContainer } from "react-toastify";
-
+import { MainNewFooter } from "../../../Footer/Footer";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { FiDownload } from "react-icons/fi";
 
 function TableComponent({ userComponent, name, points, index }) {
   return (
@@ -31,6 +30,80 @@ function TableComponent({ userComponent, name, points, index }) {
     </div>
   );
 }
+
+const EventCountDown = ({ duration }) => {
+  const [time, setTime] = useState(duration);
+
+  const [finalData, setFinalData] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  function convertMilliseconds(milliseconds) {
+    // Calculate days, hours, minutes, and seconds
+    const days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
+    milliseconds %= 1000 * 60 * 60 * 24;
+
+    const hours = Math.floor(milliseconds / (1000 * 60 * 60));
+    milliseconds %= 1000 * 60 * 60;
+
+    const minutes = Math.floor(milliseconds / (1000 * 60));
+    milliseconds %= 1000 * 60;
+
+    const seconds = Math.floor(milliseconds / 1000);
+
+    return {
+      days: days,
+      hours: hours,
+      minutes: minutes,
+      seconds: seconds,
+    };
+  }
+
+  useEffect(() => {
+    setTime(duration);
+  }, [duration]);
+
+  useEffect(() => {
+    if (time) {
+      setTimeout(() => {
+        setTime(time - 1000);
+      }, 1000);
+      let data = convertMilliseconds(time);
+      setFinalData({ ...data });
+    }
+  }, [time]);
+
+  return (
+    <div className="event_countdown_event_success_page">
+      <h2>Event Starts In</h2>
+
+      <section>
+        <div>
+          <span>{finalData?.days}</span>
+          <p>DAYS</p>
+        </div>
+        <span>:</span>
+        <div>
+          <span>{finalData?.hours}</span>
+          <p>HOURS</p>
+        </div>
+        <span>:</span>
+        <div>
+          <span>{finalData?.minutes}</span>
+          <p>MINUTES</p>
+        </div>
+        <span>:</span>
+        <div>
+          <span>{finalData?.seconds}</span>
+          <p>SECONDS</p>
+        </div>
+      </section>
+    </div>
+  );
+};
 
 function StaticSuccess() {
   const [leaderBoardData, setLeaderBoardData] = useState([
@@ -66,175 +139,136 @@ function StaticSuccess() {
       <div className="success_page_wrapper">
         {/* main hero section details */}
         <section className="main_header_component_success_page">
-          <Navbar2  noAccount={true}/>
+          <Navbar2 noAccount={true} />
 
           <div className="main_hero_details_benefits">
             <section className="left_benefit_section_hero_success">
               <div className="banner_success_page">
-                <img
-                  src="https://anchors-assets.s3.ap-south-1.amazonaws.com/websiteImages/Banner (8).png"
+                <LazyLoadImage
+                  src={require("../Sample Page/images/Banner1.webp")}
                   alt="Event Banner"
                 />
+                <span>
+                  <FiDownload
+                    size={20}
+                    style={{ position: "relative", left: "5px", bottom: "5px" }}
+                  />
+                </span>
               </div>
-              <h2>
-                Share with your friends and invite them using your unique
-                referral code.
-              </h2>
+            </section>
 
-              <div
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <input
-                  type="text"
-                  placeholder="Unique Referral link"
-                  disabled
-                />
-                <IoCopy
-                  style={{ position: "absolute", right: "10px" }}
-                  color="black"
-                  size={20}
-                />
-              </div>
-
-              <section>
-                <BsWhatsapp />
-                <FaLinkedinIn />
-                <BsInstagram />
-                <FaFacebookF />
+            {window.screen.width > 600 && (
+              <section className="right_benefit_section_hero_success">
+                <EventCountDown duration={2002320000} />
               </section>
-            </section>
-
-            <section className="right_benefit_section_hero_success">
-              <h1>Benefits</h1>
-              <p id="benefits-success">
-                <p>
-                  Exclusive benefits await those individuals who utilize their
-                  unique referral code to bring in the maximum number of
-                  attendees!&nbsp;
-                </p>
-                <p>&nbsp;</p>
-                <p>These benefits include:</p>
-                <p>&nbsp;</p>
-                <ol>
-                  <li>
-                    <strong>Rank 01</strong> - 100% refund for the Webinar!
-                  </li>
-                  <li>
-                    <strong>Rank 02</strong> - A 1:1, 15 min session with me!
-                  </li>
-                  <li>
-                    <strong>Rank 03</strong> - Access to my exclusive Interview
-                    Cheatsheet!
-                  </li>
-                </ol>
-              </p>
-            </section>
+            )}
           </div>
+        </section>
+
+        <section className="referal_benefits_section_event_success_page">
+          <h1>Top Referral Benefits</h1>
+          <p id="benefits-success">
+            <p>
+              Exclusive benefits await those individuals who utilize their
+              unique referral code to bring in the maximum number of
+              attendees!&nbsp;
+            </p>
+            <p>&nbsp;</p>
+            <p>These benefits include:</p>
+            <p>&nbsp;</p>
+            <ol>
+              <li>
+                <strong>Rank 01</strong> - 100% refund for the Webinar!
+              </li>
+              <li>
+                <strong>Rank 02</strong> - A 1:1, 15 min session with me!
+              </li>
+              <li>
+                <strong>Rank 03</strong> - Access to my exclusive Interview
+                Cheatsheet!
+              </li>
+            </ol>
+          </p>
         </section>
 
         {/* Leader Board Section */}
 
-        <section className="leaderboard_wrapper_success_page">
-          <h1>Leader Board</h1>
-
-          {/* main leader Boards toppers ------ */}
-
-          <div className="main_leader_board_toppers">
-            {/* silvertrophy */}
-            <section id="silver-trophy">
-              <div>
-                <div
-                  className="topper_image_area"
-                  style={{ border: "4px solid #ccc" }}
-                >
-                  <img src={leaderBoardData[1]?.profile} alt="" />
-                </div>
-                <span style={{ color: "#737373" }}>2</span>
-              </div>
-
-              <img src={silver} alt="silver" />
-
-              <h2>{leaderBoardData && leaderBoardData[1]?.name}</h2>
-              <span>{leaderBoardData && leaderBoardData[1]?.points}</span>
-            </section>
-
-            {/* gold trophy */}
-            <section id="gold-trophy">
-              <div>
-                <div
-                  className="gold_image_area topper_image_area"
-                  style={{ border: "4px solid #CA9100" }}
-                >
-                  <img
-                    src={
-                      leaderBoardData?.length > 0
-                        ? leaderBoardData[0]?.profile
-                        : "https://img.freepik.com/premium-photo/red-question-mark-isolated-white_3482-715.jpg?w=2000"
-                    }
-                    alt=""
-                  />
-                </div>
-                <span style={{ color: "#CA9100" }}>1</span>
-              </div>
-
-              <img src={gold} alt="gold" />
-
-              <h2>{leaderBoardData && leaderBoardData[0]?.name}</h2>
-              <span>{leaderBoardData && leaderBoardData[0]?.points}</span>
-            </section>
-
-            {/* bronze trophy */}
-            <section id="bronze-trophy">
-              <div>
-                <div
-                  className="topper_image_area"
-                  style={{ border: "4px solid #EA9542" }}
-                >
-                  <img
-                    src={
-                      leaderBoardData?.length > 2
-                        ? leaderBoardData[2]?.profile
-                        : "https://img.freepik.com/premium-photo/red-question-mark-isolated-white_3482-715.jpg?w=2000"
-                    }
-                  />
-                </div>
-                <span style={{ color: "#EA9542" }}>3</span>
-              </div>
-
-              <img src={bronze} alt="bronze" />
-
-              <h2>{leaderBoardData && leaderBoardData[2]?.name}</h2>
-              <span>{leaderBoardData && leaderBoardData[2]?.points}</span>
-            </section>
-          </div>
+        <section className="leaderboard_rest_data_success_page">
+          <section>
+            <h1>Leader Board</h1>
+            <p className="leaderboard_status_text_event_success">
+              {leaderBoardData?.text}
+            </p>
+          </section>
 
           {/* Table for other ranks ------------- */}
-        </section>
-        {leaderBoardData?.length > 2 && (
+
           <div className="leader_board_table_success">
             <section className="table_head_leaderboard_success">
               <span>Rank</span>
-              <span>User Name</span>
+              <span>User name</span>
               <span>Referrals</span>
             </section>
 
-            {leaderBoardData?.slice(3)?.map((element, i) => {
+            {leaderBoardData?.map((element, i) => {
               return (
                 <TableComponent
                   key={element?.id}
                   {...element}
-                  index={i + 4}
-                  userComponent={element.user}
+                  index={
+                    leaderBoardData?.showUserInExtra?.value ||
+                    element?.points === 0
+                      ? "--"
+                      : i + 1
+                  }
+                  userComponent={element.isUser}
                 />
               );
             })}
           </div>
-        )}
+        </section>
+
+        <div className="floater_success_page_events">
+          <section onClick={() => {}}>
+            <input
+              type="text"
+              value=""
+              readOnly
+              placeholder="Unique Referral link"
+            />
+            <IoCopyOutline
+              size={window.screen.width > 600 ? 30 : 20}
+              color="#D0D0D0"
+            />
+          </section>
+          <BsWhatsapp
+            size={window.screen.width > 600 ? 40 : 25}
+            color="#D0D0D0"
+            onClick={() => {}}
+          />
+        </div>
+
+        <MainNewFooter
+          onEvents={true}
+          hostEventButton={true}
+          footerOptions1={[
+            {
+              title: "Event Pricing",
+              link: "https://www.anchors.in/eventpricing",
+            },
+            {
+              title: "Sample Event Page",
+              link: "https://www.anchors.in/e/how-to-become-a-product-manager",
+            },
+            {
+              title: "Sample Referral Page",
+              link: "https://www.anchors.in/static/success",
+            },
+          ]}
+          noPrivacyPolicy={false}
+          noRefund={false}
+          useEventsLogo={true}
+        />
       </div>
     </>
   );

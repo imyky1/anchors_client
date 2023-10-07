@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Success.css";
-import "../Sample Page/Sample.css";
 import { BsWhatsapp } from "react-icons/bs";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { IoCopyOutline } from "react-icons/io5";
@@ -160,7 +159,7 @@ function Success() {
     // Parse the given date string
     let originalDate = new Date(eventInfo?.event?.startDate);
     originalDate.setHours(eventInfo?.event?.time?.startTime?.split(":")[0]);
-    originalDate.setMinutes(eventInfo?.event?.time?.startTime?.split(":")[0]);
+    originalDate.setMinutes(eventInfo?.event?.time?.startTime?.split(":")[1]);
 
     let currentDate = new Date();
 
@@ -459,7 +458,7 @@ Catch you there`);
           footerOptions1={[
             {
               title: "Event Pricing",
-              link: "https://www.anchors.in/eventpricing",
+              link: "https://events.anchors.in/pricing",
             },
             {
               title: "Sample Event Page",

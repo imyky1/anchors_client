@@ -239,3 +239,59 @@
   bottom: 2px;
 }
 
+
+@media (max-width:600px){
+
+  .edit_profile_outside_wrapper{
+    margin: unset;
+    flex-direction: column;
+  }
+
+  .edit_profile_outside_wrapper_left{
+    width: 92%;
+    margin: 0 auto;
+  }
+
+  .personalinfo_wrap{
+    width: 100%;
+    padding: unset;
+    padding-bottom: 60px;
+    padding-top: 20px;
+  }
+
+  .personalinfo_photocontainer{
+    justify-content: center;
+  }
+
+  .personalinfo_savebutton{
+    background-color: #121212;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 20px 4%;
+    left: 0;
+    box-sizing: border-box;
+  }
+
+  .personalinfo_savebutton > div{
+    width: 100%;
+  }
+
+  .personalinfo_socialwrap{
+    padding-top: 20px;
+  }
+
+  .personalinfo_socialwrap > h2{
+    font-size: 16px;
+  }
+
+  .personalinfo_socialwrap_01{
+    width: 100%;
+  }
+
+  .personalinfo_sociallinks{
+    grid-template-columns: 1fr 0.1fr;
+  }
+
+
+}

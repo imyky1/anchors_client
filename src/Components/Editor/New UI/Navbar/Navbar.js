@@ -2,8 +2,10 @@ import React from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "./Navbar.css";
 import mixpanel from "mixpanel-browser";
+import { useNavigate } from "react-router-dom";
 
 function Navbar({ ChangeModalState, ModalState, userData, alternateInfo }) {
+  const navigate = useNavigate();
   // handles the openeing of the creator modal
   const handleModalOpening = (e) => {
     e?.stopPropagation();
@@ -12,19 +14,29 @@ function Navbar({ ChangeModalState, ModalState, userData, alternateInfo }) {
   };
 
   const generateMailtoLink = () => {
-    const recipient = 'info@anchors.in';
-    const subject = '';
-    const body = '';
-  
+    const recipient = "info@anchors.in";
+    const subject = "";
+    const body = "";
+
     const mailtoLink = `mailto:${recipient}?subject=${encodeURIComponent(
       subject
     )}&body=${encodeURIComponent(body)}`;
-  
+
     return mailtoLink;
   };
 
   return (
     <div className="navbar_outside_container">
+    {window.screen.width < 600 && <img
+      onClick={() => {
+        navigate("/");
+        mixpanel.track("header logo");
+      }}
+      src={require("../../../../Utils/Images/logo-invite-only.png")}
+      alt=""
+      className="logo_sidebar"
+    />}
+
       <LazyLoadImage
         effect="blur"
         onClick={handleModalOpening}
@@ -46,12 +58,31 @@ function Navbar({ ChangeModalState, ModalState, userData, alternateInfo }) {
 
       {/* <span onClick={()=>{mixpanel.track("Playbook");window.open("https://go.anchors.in/anchors-guide")}}>Book</span> */}
 
-        {/* <span onClick={()=>{mixpanel.track("Connect with Us");window.open(generateMailtoLink())}}>Connect with us</span> */}
+      {/* <span onClick={()=>{mixpanel.track("Connect with Us");window.open(generateMailtoLink())}}>Connect with us</span> */}
 
-        <span className="fancy_navbar_link01" onClick={()=>{mixpanel.track("Guide");window.open("https://go.anchors.in/anchors-guide","_blank")}}>Guide</span>
+      {window.screen.width > 600 && (
+        <>
+          <span
+            className="fancy_navbar_link01"
+            onClick={() => {
+              mixpanel.track("Guide");
+              window.open("https://go.anchors.in/anchors-guide", "_blank");
+            }}
+          >
+            Guide
+          </span>
 
-        <span className="fancy_navbar_link01" onClick={()=>{mixpanel.track("Host your event");window.open("https://www.anchors.in/hostevent","_blank")}}>Host Event</span>
-
+          <span
+            className="fancy_navbar_link01"
+            onClick={() => {
+              mixpanel.track("Host your event");
+              window.open("https://www.anchors.in/hostevent", "_blank");
+            }}
+          >
+            Host Event
+          </span>
+        </>
+      )}
     </div>
   );
 }

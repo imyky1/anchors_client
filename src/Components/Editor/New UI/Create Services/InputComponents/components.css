@@ -647,3 +647,46 @@ input:checked + .slider_type_01:before {
   font-weight: 500;
   line-height: 20px; /* 166.667% */
 }
+
+
+@media (max-width:600px) {
+  
+  .label_type_01{
+    font-size: 12px;
+  }
+
+  .label_type_02{
+    font-size: 12px;
+  }
+
+  .label_type_03{
+    font-size: 10px;
+  }
+
+  .label_type_04{
+    font-size: 12px;
+  }
+
+  .input_type_01{
+    font-size: 10px;
+    height: unset;
+    padding: 16px 20px;
+  }
+
+  .input_type_03{
+    font-size: 10px;
+  }
+
+  .select_button_type_01{
+    padding: 10px 20px;
+  }
+
+
+  /* buttons ------ */
+
+  .button_01_css{
+    width: 100%;
+    font-size: 12px;
+  }
+
+}

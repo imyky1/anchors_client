@@ -87,6 +87,7 @@
   background-size: cover;
   background-position: center center;
   width: 100%;
+  scroll-snap-align: end;
 }
 
 .home_page_outer_first_body3 > button {

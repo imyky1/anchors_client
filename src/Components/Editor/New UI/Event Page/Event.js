@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Footer3 } from "../../../Footer/Footer2";
 import "./Event.css";
+import "../../../Earning Potential/Models.css";
 import { RiStarSFill } from "react-icons/ri";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -17,6 +17,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { RiCheckDoubleLine } from "react-icons/ri";
 import { host } from "../../../../config/config";
 import { useCookies } from "react-cookie";
+import { MainNewFooter } from "../../../Footer/Footer";
 
 const ReviewCard = ({ name, rating, photo, desc }) => {
   return (
@@ -209,34 +210,6 @@ function Event() {
   // Contexts data ===============================
   const { geteventinfo, eventInfo } = useContext(ServiceContext);
 
-  // Handling the display of the speakers -------------------
-  // const [isSpeakerVisible, setIsSpeakerVisible] = useState(true);
-  // // Intersection Observer callback
-  // const handleIntersection = (entries) => {
-  //   const [entry] = entries;
-  //   setIsSpeakerVisible(entry.isIntersecting);
-  // };
-
-  // useEffect(() => {
-  //   const options = {
-  //     root: null,
-  //     rootMargin: "0px",
-  //     threshold: 0.6, // Adjust this threshold to control visibility
-  //   };
-
-  //   const observer = new IntersectionObserver(handleIntersection, options);
-
-  //   if (ref1.current) {
-  //     observer.observe(ref1.current);
-  //   }
-
-  //   return () => {
-  //     if (ref1.current) {
-  //       observer.unobserve(ref1.current);
-  //     }
-  //   };
-  // }, []);
-
   const { getRatingCreator, getallfeedback, feedbacks } =
     useContext(feedbackcontext);
 
@@ -321,7 +294,7 @@ function Event() {
   // Scroll to top ----------
   useEffect(() => {
     // after user login takes the user to the reserve area
-    if (localStorage.getItem("session")) {
+    if (localStorage.getItem("session") && localStorage.getItem("jwtToken")) {
       localStorage.removeItem("session");
       getUserDetails(localStorage.getItem("isUser") === "").then((e) => {
         if (!e?.user?.verifiedNumber) {
@@ -342,14 +315,13 @@ function Event() {
         eventInfo?.event?.ldesc;
     }
 
-    
-    if(eventInfo?.event?.c_id?._id){
+    if (eventInfo?.event?.c_id?._id) {
       getRatingCreator(eventInfo?.event?.c_id?._id).then((e) => {
         // getting the creator's rating
         setCreatorRatingData(e);
         setLoader(false);
       });
-      
+
       getallfeedback(eventInfo?.event?.c_id?._id);
     }
 
@@ -917,7 +889,7 @@ function Event() {
         {window.screen.width > 600 ? (
           <section className="event_desc_screen">
             <div className="left_side_scrollable" id="eventDetails">
-            <section className={`scrollable_section_event`}>
+              <section className={`scrollable_section_event`}>
                 <h2>About</h2>
                 <p className="description-event-page"></p>
               </section>
@@ -959,7 +931,7 @@ function Event() {
                   </span>
                 </section>
               )}
-              
+
               {!eventFinished && (
                 <section
                   className={`scrollable_section_event`}
@@ -1010,14 +982,16 @@ function Event() {
               {eventInfo?.event?.speakerDetails &&
                 eventInfo?.event?.speakerDetails?.length !== 0 && (
                   <div className="right_stable_side_top">
+                    <h4>Speakers</h4>
                     {eventInfo?.event?.speakerDetails?.map((speaker, index) => (
                       <div className="right_stable_side_image" key={index}>
                         <img
                           src={
-                            speaker?.profile ??
-                            (speaker?.isCreator
+                            speaker?.profile
+                              ? speaker?.profile
+                              : speaker?.isCreator
                               ? eventInfo?.creator?.profile
-                              : PNGIMG)
+                              : PNGIMG
                           }
                           alt=""
                           onError={({ currentTarget }) => {
@@ -1037,8 +1011,9 @@ function Event() {
               {(!eventInfo?.event?.speakerDetails ||
                 eventInfo?.event?.speakerDetails?.length === 0) && (
                 <section className="right_side_creator_profile_event_page">
+                  <h4>Speaker</h4>
                   <img
-                    src={eventInfo?.creator?.profile}
+                    src={eventInfo?.creator?.profile ?? PNGIMG}
                     alt=""
                     onError={({ currentTarget }) => {
                       currentTarget.onerror = null; // prevents looping
@@ -1057,7 +1032,7 @@ function Event() {
         ) : (
           <section className="event_desc_screen">
             <div className="left_side_scrollable">
-              <section className="scrollable_section_event" >
+              <section className="scrollable_section_event">
                 <div>
                   <section>
                     <h2>Mode</h2>
@@ -1102,15 +1077,17 @@ function Event() {
                       className="right_stable_side_top"
                       style={{ width: "62%", gap: "30px" }}
                     >
+                      <h4>Speakers</h4>
                       {eventInfo?.event?.speakerDetails?.map(
                         (speaker, index) => (
                           <div className="right_stable_side_image" key={index}>
                             <img
                               src={
-                                speaker?.profile ??
-                                (speaker?.isCreator
+                                speaker?.profile
+                                  ? speaker?.profile
+                                  : speaker?.isCreator
                                   ? eventInfo?.creator?.profile
-                                  : PNGIMG)
+                                  : PNGIMG
                               }
                               alt=""
                               onError={({ currentTarget }) => {
@@ -1132,8 +1109,9 @@ function Event() {
                 eventInfo?.event?.speakerDetails?.length === 0) && (
                 <section className="scrollable_section_event">
                   <section className="right_side_creator_profile_event_page">
+                    <h4>Speaker</h4>
                     <img
-                      src={eventInfo?.creator?.profile}
+                      src={eventInfo?.creator?.profile ?? PNGIMG}
                       alt=""
                       onError={({ currentTarget }) => {
                         currentTarget.onerror = null; // prevents looping
@@ -1252,7 +1230,27 @@ function Event() {
           </section>
         </section>
 
-        <Footer3 hostEventButton={true} />
+        <MainNewFooter
+          onEvents={true}
+          hostEventButton={true}
+          footerOptions1={[
+            {
+              title: "Event Pricing",
+              link: "https://events.anchors.in/pricing",
+            },
+            {
+              title: "Sample Event Page",
+              link: "https://www.anchors.in/e/how-to-become-a-product-manager",
+            },
+            {
+              title: "Sample Referral Page",
+              link: "https://www.anchors.in/static/success",
+            },
+          ]}
+          noPrivacyPolicy={false}
+          noRefund={false}
+          useEventsLogo={true}
+        />
       </div>
 
       <ToastContainer theme="dark" />

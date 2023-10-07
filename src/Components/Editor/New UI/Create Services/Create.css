@@ -403,3 +403,48 @@
   gap: 4px;
   cursor: pointer;
 }
+
+@media (max-width:600px){
+
+
+  .create_service_outside_wrapper{
+    margin: unset;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+  }
+
+  .main_create_container_new_conatiner_live_demo{
+    width: 92%;
+    padding: unset;
+  }
+
+  .buttons_form{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: #121212;
+    margin: unset;
+    padding: 20px 4%;
+    box-sizing: border-box;
+  }
+
+  .buttons_form > div{
+    width: 100%;
+  }
+
+  .create_form_box{
+    padding-bottom: 100px;
+    padding-top: 20px;
+  }
+
+  /* event side css ---- */
+
+  .create_speaker_toggle{
+    font-size: 12px;
+  }
+
+  .create_text_04{
+    font-size: 12px;
+  }
+}
