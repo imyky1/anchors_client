@@ -897,6 +897,12 @@
   border: 1px solid #f00;
 }
 
+.productHunt_floater_landing_page{
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+}
+
 @media (max-width: 600px) {
   .home_page_outer_first_body3 {
     padding: 22px 0;
@@ -930,4 +936,10 @@
   .home_page_outer_nine_body_0201{
     margin-top: unset;
   }
+
+  .productHunt_floater_landing_page{
+    right: 20px;
+    bottom: 20px;
+  }
+  
 }

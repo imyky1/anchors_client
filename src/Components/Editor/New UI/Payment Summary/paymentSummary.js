@@ -13,6 +13,7 @@ import {
   TooltipBox,
 } from "../Create Services/InputComponents/fields_Labels";
 import { HiInformationCircle } from "react-icons/hi";
+import { BsArrowLeftShort } from "react-icons/bs";
 
 const PaymentSummary = () => {
   const navigate = useNavigate();
@@ -72,7 +73,21 @@ const PaymentSummary = () => {
     <>
       {openLoading && <LoadTwo open={openLoading} />}
       <div className="servicelist-wrapper">
-        <section className="headers_section_paymentInfo">
+         {/* MObile ui navbar ---------------- */}
+         {window.screen.width < 600 && (
+            <section className="navbar_ui_covering_section_mobile_active">
+              <BsArrowLeftShort
+                size={22}
+                onClick={() => {
+                    navigate(-1)
+                }}
+              />
+              Earnings Summary
+            </section>
+          )}
+
+
+        {window.screen.width > 600 && <section className="headers_section_paymentInfo">
           <h1 className="text_type01_payment_info">Earnings Summary</h1>
           <Button1
             text="Account Details"
@@ -81,7 +96,7 @@ const PaymentSummary = () => {
               mixpanel.track("Account Details");
             }}
           />
-        </section>
+        </section>}
         <div className="usereview_details">
           <div className="userreview_detail1">
             <div className="userreview_detail_svg">
@@ -107,9 +122,8 @@ const PaymentSummary = () => {
                   setIsHovered({ ...isHovered, tip1: false });
                 }}
               />
-
-              {isHovered?.tip1 && <TooltipBox text="Amount earned after the 10% platform fee" />}
             </div>
+            {isHovered?.tip1 && <TooltipBox text="Amount earned after the 10% platform fee" />}
           </div>
           <div className="userreview_detail1">
             <div className="userreview_detail_svg">
@@ -131,8 +145,8 @@ const PaymentSummary = () => {
                 }}
               />
 
-              {isHovered?.tip2 && <TooltipBox text="Total Amount withdrawn till date" />}
             </div>
+              {isHovered?.tip2 && <TooltipBox text="Total Amount withdrawn till date" />}
           </div>
           <div className="userreview_detail1">
             <div className="userreview_detail_svg">
@@ -161,8 +175,8 @@ const PaymentSummary = () => {
                 }}
               />
 
-              {isHovered?.tip3 && <TooltipBox text="Total amount remaining in account. Can be withdrawn anytime." />}
             </div>
+              {isHovered?.tip3 && <TooltipBox text="Total amount remaining in account. Can be withdrawn anytime." />}
           </div>
         </div>
         {openLoading && <LoadTwo open={openLoading} />}

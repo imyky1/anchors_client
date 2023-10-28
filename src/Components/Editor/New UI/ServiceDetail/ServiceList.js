@@ -35,6 +35,7 @@ const ContentCard = ({
   sname,
   downloads,
   date,
+  createdOn,
   slug,
   isPaid,
   ssp,
@@ -55,7 +56,9 @@ const ContentCard = ({
   setOpenModel,
   OpenOption,
   revArray,
+  earning
 }) => {
+
   const navigate = useNavigate();
 
   const openOptionsPopup = (i) => {
@@ -118,14 +121,7 @@ const ContentCard = ({
   };
 
   const getDateTime = () => {
-    let dateStr = new Date(selected === "events" ? startDate : date);
-
-    if (selected === "events") {
-      let timeStr = time?.startTime?.split(":");
-      dateStr.setHours(timeStr && timeStr[0]);
-      dateStr.setMinutes(timeStr && timeStr[1]);
-    }
-
+    let dateStr = new Date(selected === "events" ? createdOn : date);
     return dateStr.toLocaleString();
   };
 
@@ -144,7 +140,7 @@ const ContentCard = ({
         <div
           style={{
             display: "flex",
-            gap: "16px",
+            gap: window.screen.width > 600 ? "16px" : "8px",
             flexDirection: "column",
             width: "100%",
           }}
@@ -184,7 +180,7 @@ const ContentCard = ({
                 <span>{selected === "events" ? registrations : downloads}</span>
               </p>
               <p>
-                Earnings : <span>{ssp * (downloads ?? registrations)}</span>
+                Earnings : <span>{earning}</span>
               </p>
               <p>
                 Created On :<span>{getDateTime()}</span>
@@ -205,25 +201,26 @@ const ContentCard = ({
               <button
                 onClick={() => {
                   const pattern = /go\.anchors\.in/;
-                  selected === "events"
-                    ? setShareModalData({
-                        open: true,
-                        sname: sname,
-                        slug: slug,
-                        simg: simg,
-                        isEvent: selected === "events",
-                        eventCode: eventCode,
-                        link: copyURL
-                          ? pattern.test(copyURL)
-                            ? copyURL
-                            : selected === "events"
-                            ? `https://www.anchors.in/e/${slug}`
-                            : `https://www.anchors.in/s/${slug}`
-                          : selected === "events"
-                          ? `https://www.anchors.in/e/${slug}`
-                          : `https://www.anchors.in/s/${slug}`,
-                      })
-                    : window.open(`/dashboard/shareTemplate/${slug}`);
+                  selected === "events" ?
+                    // ? setShareModalData({
+                    //     open: true,
+                    //     sname: sname,
+                    //     slug: slug,
+                    //     simg: simg,
+                    //     isEvent: selected === "events",
+                    //     eventCode: eventCode,
+                    //     link: copyURL
+                    //       ? pattern.test(copyURL)
+                    //         ? copyURL
+                    //         : selected === "events"
+                    //         ? `https://www.anchors.in/e/${slug}`
+                    //         : `https://www.anchors.in/s/${slug}`
+                    //       : selected === "events"
+                    //       ? `https://www.anchors.in/e/${slug}`
+                    //       : `https://www.anchors.in/s/${slug}`,
+                    //   })
+                     window.open(`/dashboard/shareTemplate/${slug}?type=event`) 
+                    : window.open(`/dashboard/shareTemplate/${slug}`)
                 }}
               >
                 Sharing Template <TbSend />
@@ -238,23 +235,24 @@ const ContentCard = ({
                         `/dashboard/serviceStats/${slug}?type=event`,
                         "_blank"
                       )
+                      
                     : !dummyData.ServiceDummy &&
                       window.open(`/dashboard/serviceStats/${slug}`, "_blank");
                 }}
               >
-                <BiStats /> Detailed Service Analysis
+                {window.screen.width > 600 ? <> <BiStats /> Detailed Service Analysis </> : <>Detailed Service Analysis <BiStats /> </>}
               </button>
             </div>
           </div>
         </div>
 
-        <BiDotsVerticalRounded
+       {window.screen.width > 600 && <BiDotsVerticalRounded
           onClick={() =>
             selected === "events"
               ? !dummyData.EventDummy && openOptionsPopup(i + 1)
               : !dummyData.ServiceDummy && openOptionsPopup(i + 1)
           }
-        />
+        />}
 
         {/* content card_popup */}
         <div
@@ -353,7 +351,6 @@ const PopupModal = ({
   isEvent,
   eventCode,
 }) => {
-  console.log(eventCode);
 
   let message = isEvent
     ? `Greetings! Delighted to announce my event on ${sname}. Join for an unforgettable experience you won't want to miss!`
@@ -665,6 +662,7 @@ function ServiceDetailPage(props) {
   } = useContext(ServiceContext);
   const [revArray, setrevArray] = useState([]);
   const [selected, setSelected] = useState(0);
+  const [ServicesEarningData, setServicesEarningData] = useState({})
   const [dummyData, setdummyData] = useState({
     ServiceDummy: false,
     EventDummy: false,
@@ -695,6 +693,8 @@ function ServiceDetailPage(props) {
       ServiceDummy: services?.Servicedummy,
       EventDummy: services?.Eventdummy,
     });
+
+    setServicesEarningData({...services?.ServicesEarning})
     let list = services?.res;
     if (selected === "pdf") {
       setrevArray(
@@ -883,7 +883,7 @@ function ServiceDetailPage(props) {
                 {...elem}
                 i={i}
                 dummyData={dummyData}
-                setShareModalData={setShareModalData}
+                // setShareModalData={setShareModalData}
                 selected={selected}
                 setOpenOption={setOpenOption}
                 setCurrSelected={setCurrSelected}
@@ -892,6 +892,7 @@ function ServiceDetailPage(props) {
                 setOpenModel={setOpenModel}
                 OpenOption={OpenOption}
                 revArray={revArray}
+                earning = {ServicesEarningData[elem?._id] ?? 0 }
               />
             );
           })}

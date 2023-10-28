@@ -201,11 +201,9 @@ function Event() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const ref1 = useRef();
-  const params = new URLSearchParams(location.search);
+  const aboutEventPage = useRef()
 
-  // Show creator or not ---------------------------------
-  const [showCreator, setShowCreator] = useState(true);
+  const params = new URLSearchParams(location.search);
 
   // Contexts data ===============================
   const { geteventinfo, eventInfo } = useContext(ServiceContext);
@@ -310,8 +308,8 @@ function Event() {
   // Getting some data from the eventInfo --------
   useEffect(() => {
     setLoader(true);
-    if (document.querySelectorAll(".description-event-page")) {
-      document.querySelectorAll(".description-event-page")[0].innerHTML =
+    if (aboutEventPage.current) {
+      aboutEventPage.current.innerHTML =
         eventInfo?.event?.ldesc;
     }
 
@@ -323,20 +321,6 @@ function Event() {
       });
 
       getallfeedback(eventInfo?.event?.c_id?._id);
-    }
-
-    // cheking if we need to show creator -----------
-    if (eventInfo?.event?.speakerDetails?.length !== 0) {
-      for (
-        let index = 0;
-        index < eventInfo?.event?.speakerDetails?.length;
-        index++
-      ) {
-        const element = eventInfo?.event?.speakerDetails[index];
-        if (element?.isCreator) {
-          setShowCreator(false);
-        }
-      }
     }
 
     // If event is finshed ------------------
@@ -881,7 +865,7 @@ function Event() {
         {window.screen.width < 600 && (
           <section className="desc_mobile_view_event" id="eventDetails">
             <h2>About</h2>
-            <p className="description-event-page"></p>
+            <p className="description-event-page" ref={aboutEventPage}></p>
           </section>
         )}
 
@@ -891,12 +875,11 @@ function Event() {
             <div className="left_side_scrollable" id="eventDetails">
               <section className={`scrollable_section_event`}>
                 <h2>About</h2>
-                <p className="description-event-page"></p>
+                <p className="description-event-page" ref={aboutEventPage}></p>
               </section>
               <section
                 className={`scrollable_section_event
                 }`}
-                ref={ref1}
               >
                 <h2>Mode</h2>
                 <span>

@@ -1,100 +1,166 @@
 .usereview_details {
-    display: flex;
-    gap: 3vw;
-    margin-top: 5vh;
-    margin-bottom: 5vh;
-  }
-  
-  .userreview_detail1 {
-    width: 222px;
-    border-radius: 10px;
-    height: 81px;
-    display: flex;
-    flex-direction: row;
-    padding-left: 2%;
-    gap: 8%;
-    justify-content: flex-start;
-    align-items: center;
-    background: #212121;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    box-shadow: 0px 4px 50px rgba(0, 0, 0, 0.1);
-    border-radius: 13px;
-    position: relative;
-  }
-  
-  .userreview_detail_svg {
-    padding: 10px 10px 6px 10px;
-    border-radius: 6px;
-  }
-  
-  .userreview_detailedno h3 {
-    padding-top: 5px;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 19px;
-    color: #d0d0d0;
-  }
-  
-  .userreview_detailedno span {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    color: #f8f8f8;
-  
-    /* Inside auto layout */
-  
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-  }
-  
+  display: flex;
+  gap: 3vw;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+
+.userreview_detail1 {
+  width: 222px;
+  border-radius: 10px;
+  height: 81px;
+  display: flex;
+  flex-direction: row;
+  padding-left: 2%;
+  gap: 8%;
+  justify-content: flex-start;
+  align-items: center;
+  background: #212121;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 4px 50px rgba(0, 0, 0, 0.1);
+  border-radius: 13px;
+  position: relative;
+}
+
+.userreview_detail_svg {
+  padding: 10px 10px 6px 10px;
+  border-radius: 6px;
+}
+
+.userreview_detailedno h3 {
+  padding-top: 5px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 19px;
+  color: #d0d0d0;
+}
+
+.userreview_detailedno span {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #f8f8f8;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.userrequest-table {
+  padding-bottom: 2vh;
+  -webkit-user-select: none;
+  margin-top: 40px;
+  position: relative;
+}
+
+.servicelist-categories2 {
+  display: flex;
+  margin-top: 6vh;
+  text-wrap: nowrap;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.margin-bottom {
+  margin-bottom: 40px;
+}
+
+.service_event_date_wise_arrange {
+  display: flex;
+  flex-direction: row;
+  gap: 2.5vw;
+  color: white;
+}
+
+.filter_service_event_payment {
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d0d0d0;
+}
+
+.filter_service_event_payment select {
+  padding: 6px;
+  border-radius: 2px;
+  background: #212121;
+  color: #d0d0d0;
+}
+
+.userreview_detailedno {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+@media (max-width: 600px) {
   .userrequest-table {
-    padding-bottom: 2vh;
-    -webkit-user-select: none;
-    margin-top: 40px;
-    position: relative;
+    width: 92vw;
+    overflow-x: auto;
+    margin: 20px 0;
   }
-  
-  .servicelist-categories2 {
-    display: flex;
-    margin-top: 6vh;
-    text-wrap: nowrap;
-    align-items: center;
+
+  .userrequest-table::-webkit-scrollbar {
+    display: none;
+  }
+
+  .usereview_details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 92vw;
+    row-gap: 20px;
+    column-gap: 16px;
+  }
+
+  .userreview_detail1 {
     width: 100%;
-    justify-content: space-between;
-  }
-
-  .margin-bottom {
-    margin-bottom: 40px;
-  }
-  
-  .service_event_date_wise_arrange {
-    display: flex;
-    flex-direction: row;
-    gap: 2.5vw;
-    color: white;
-  }
-  
-  .filter_service_event_payment {
-        gap: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #d0d0d0;
-  
-  }
-  
-  .filter_service_event_payment select {
-    padding: 6px;
-    border-radius: 2px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 4px;
     background: #212121;
-    color: #d0d0d0;
+    padding: unset;
+    height: 72px;
   }
 
+  .userreview_detail1:nth-child(1) {
+    grid-column: span 2;
+  }
+
+  .userreview_detail_svg {
+    display: none;
+  }
 
   .userreview_detailedno{
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+    gap: 8px;
   }
+
+  .userreview_detailedno span{
+    font-size: 12px;
+    color: #A0A0A0;
+  }
+
+  .userreview_detailedno h3{
+    font-size: 20px;
+  }
+
+
+  .filter_service_event_payment{
+    display: none;
+  }
+
+  .margin-bottom{
+    margin-bottom: 10px;
+  }
+
+  .servicelist-categories2{
+    width: 92vw;
+  }
+
+  
+  
+}

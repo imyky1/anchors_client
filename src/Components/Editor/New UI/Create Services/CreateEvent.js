@@ -12,9 +12,7 @@ import {
 } from "./InputComponents/fields_Labels";
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { toast } from "react-toastify";
-import {
-  NewCongratsServiceModal,
-} from "../../../Modals/ServiceSuccess/Modal";
+import { NewCongratsServiceModal, StaticSampleDataModal } from "../../../Modals/ServiceSuccess/Modal";
 import { LoadTwo } from "../../../Modals/Loading";
 import { creatorContext } from "../../../../Context/CreatorState";
 // imports for image cropping
@@ -40,6 +38,10 @@ import { PersonalizedInviteeCard } from "../../../Modals/Default Banner/DefaultB
 import { host } from "../../../../config/config";
 import { useNavigate } from "react-router-dom";
 
+const timeToHours = (time) => {
+  return parseInt(time.split(":")[0]) * 60 + parseInt(time.split(":")[1]);
+};
+
 const FirstPage = ({
   data,
   handleChange,
@@ -48,8 +50,65 @@ const FirstPage = ({
   setCurrentPage,
   setdata,
 }) => {
+  const [openSampleContent, setOpenSampleContent] = useState(false);
+
+  const handleSubmitFormOne = () => {
+    // warnings and the alerts -----------------
+    if (data.sname.length < 1) {
+      toast.info("Provide a title for your event.", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    } else if (!data?.date || !data?.startTime || !data?.endTime) {
+      toast.info("Choose a date and time for your event.", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    } else if (timeToHours(data?.endTime) <= timeToHours(data?.startTime)) {
+      toast.info("Timings are invalid for your event.", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    } else if (
+      parseInt(data?.ssp) > parseInt(data?.smrp) ||
+      parseInt(data?.smrp) < 0 ||
+      parseInt(data?.ssp) < 0 || (parseInt(data?.smrp) === 0 && paid !== "Free")
+    ) {
+      toast.info("Pricing is invalid for your event.", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    } else if (data?.stype === "Online" && !data?.meetlink) {
+      toast.info("Add an online meeting link for your event.", {
+        position: "top-center",
+        autoClose: 2500,
+      });
+    } else if (data?.stype === "Offline" && !data?.meetlink) {
+      toast.info("Add an address for your offline event.", {
+        position: "top-center",
+        autoClose: 2500,
+      });
+    } else if (!data?.eventSeatCapacity || parseInt(data?.eventSeatCapacity) <= 0) {
+      toast.info("Specify the number of seats in your event.", {
+        position: "top-center",
+        autoClose: 2500,
+      });
+    } else {
+      setCurrentPage(2);
+    }
+  };
+
   return (
     <>
+    {openSampleContent && (
+        <StaticSampleDataModal
+          type="pdfTitle"
+          onClose={() => {
+            setOpenSampleContent(false);
+          }}
+        />
+      )}
+
       <section className="create_form_box">
         {/* left side---------------------------------------------------------------------------- */}
         <div className="left_section_form" style={{ width: "100%" }}>
@@ -70,6 +129,17 @@ const FirstPage = ({
             value={data?.sname}
             placeholder="Keep it catchy"
             onChange={handleChange}
+            maxLength={65}
+            labelHelperText={{
+              text: (
+                <>
+                  (Sample) <AiFillEye size={16} />{" "}
+                </>
+              ),
+              action: () => {
+                setOpenSampleContent(true);
+              },
+            }}
           />
 
           <DatePicker1
@@ -168,7 +238,9 @@ const FirstPage = ({
             }}
           >
             <TextField1
-              label="Location"
+              label={
+                data?.stype === "Offline" ? "Enter Venue Address" : "Meet Link"
+              }
               name="meetlink"
               id="meetlink"
               required={true}
@@ -198,9 +270,7 @@ const FirstPage = ({
         <Button1
           text="Next"
           icon={<AiOutlineArrowRight />}
-          onClick={() => {
-            setCurrentPage(2);
-          }}
+          onClick={handleSubmitFormOne}
         />
       </section>
     </>
@@ -235,9 +305,19 @@ const SecondPage = ({
   cprofile,
 }) => {
   const [openInviteeCard, setopenInviteeCard] = useState(false);
+  const [openSampleContent, setOpenSampleContent] = useState(false);
 
   return (
     <>
+     {openSampleContent && (
+        <StaticSampleDataModal
+          type="eventDescription"
+          onClose={() => {
+            setOpenSampleContent(false);
+          }}
+        />
+      )}
+
       <PersonalizedInviteeCard
         open={openInviteeCard}
         onClose={() => {
@@ -477,6 +557,16 @@ const SecondPage = ({
             Content={Content}
             required={true}
             setContent={(e) => setContent(e)}
+            labelHelperText={{
+              text: (
+                <>
+                  (Sample) <AiFillEye size={16} />{" "}
+                </>
+              ),
+              action: () => {
+                setOpenSampleContent(true);
+              },
+            }}
           />
 
           <Editor1
@@ -535,20 +625,22 @@ const SecondPage = ({
           icon={<AiOutlineArrowRight />}
           onClick={onSubmit}
         />
-        {window.screen.width > 600 && <Button3
-          text="Previous"
-          icon={<AiOutlineArrowLeft />}
-          onClick={() => {
-            setCurrentPage(1);
-          }}
-        />}
+        {window.screen.width > 600 && (
+          <Button3
+            text="Previous"
+            icon={<AiOutlineArrowLeft />}
+            onClick={() => {
+              setCurrentPage(1);
+            }}
+          />
+        )}
       </section>
     </>
   );
 };
 
 function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [multipleSpeakers, setMultipleSpeakers] = useState(false); // tells if the evnt page has the multiple speaker option
   const [speakersArray, setSpeakersArray] = useState([{}]);
   const [isSpeakerSelected, setIsSpeakerSelected] = useState(false);
@@ -693,18 +785,28 @@ function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
         isCreator: true,
       };
 
-      // Shift elements to the left in speaker array data
-      for (let i = 1; i < speakersArray.length + 1; i++) {
-        shiftedArray[i] = speakersArray[i - 1];
-        shiftedArray2[i] = speakersImagesArray[i - 1];
-      }
+      if (
+        speakersArray.length === 1 &&
+        (speakersArray[0]?.name?.length === 0 || !speakersArray[0]?.name) &&
+        (speakersArray[0]?.tagLine?.length === 0 ||
+          !speakersArray[0]?.tagLine) &&
+        !speakersImagesArray[0]
+      ) {
+        console.log("hello");
+      } else {
+        // Shift elements to the left in speaker array data
+        for (let i = 1; i < speakersArray.length + 1; i++) {
+          shiftedArray[i] = speakersArray[i - 1];
+          shiftedArray2[i] = speakersImagesArray[i - 1];
+        }
 
-      if (shiftedArray.length > 3) {
-        shiftedArray.pop();
-      }
+        if (shiftedArray.length > 3) {
+          shiftedArray.pop();
+        }
 
-      if (shiftedArray2.length > 3) {
-        shiftedArray2.pop();
+        if (shiftedArray2.length > 3) {
+          shiftedArray2.pop();
+        }
       }
 
       setSpeakersArray(shiftedArray);
@@ -783,10 +885,6 @@ function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
     return true;
   };
 
-  const timeToHours = (time) => {
-    return parseInt(time.split(":")[0]) * 60 + parseInt(time.split(":")[1]);
-  };
-
   // form submission ----------------------------------------------------------
   const onSubmit = async () => {
     const data1 = new FormData();
@@ -819,7 +917,7 @@ function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
           paid === "Free"
         ) {
           if (checkSpeakers) {
-            if (Content?.length > 10) {
+            if (Content?.length > 50) {
               if (speakersArray[0]?.name) {
                 await SaveSpeakerImages();
               }
@@ -895,14 +993,14 @@ function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
               }
             } else {
               setOpenLoading(false);
-              toast.info("Descibe your service properly", {
+              toast.info("Provide a description for your event.", {
                 position: "top-center",
                 autoClose: 3000,
               });
             }
           } else {
             setOpenLoading(false);
-            toast.info("Enter speaker details properly", {
+            toast.info("Include speaker details, including names and taglines.", {
               position: "top-center",
               autoClose: 3000,
             });
@@ -921,14 +1019,9 @@ function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
           autoClose: 2000,
         });
       }
-    } else {
-      setOpenLoading(false);
-      toast.info("Fill all the Mandatory Fields", {
-        position: "top-center",
-        autoClose: 3000,
-      });
-    }
-
+    } 
+    
+    setOpenLoading(false);
     progress(100);
   };
 
@@ -1453,14 +1546,16 @@ function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
         {/* MObile ui navbar ---------------- */}
         {window.screen.width < 600 && (
           <section className="navbar_ui_covering_section_mobile_active">
-            <BsArrowLeftShort size={22} onClick={()=>{
-              if(currentPage === 1){
-                navigate(-1)
-              }
-              else{
-                setCurrentPage(currentPage-1)
-              }
-            }}/>
+            <BsArrowLeftShort
+              size={22}
+              onClick={() => {
+                if (currentPage === 1) {
+                  navigate(-1);
+                } else {
+                  setCurrentPage(currentPage - 1);
+                }
+              }}
+            />
             Host an Event!
           </section>
         )}
@@ -1520,28 +1615,30 @@ function CreateEvent({ progress, cname, ctagline, crating, cprofile }) {
           )}
         </div>
 
-       {window.screen.width > 600 && <div className="live_preview_edit_profile_page">
-          <div className="live_preview_modal_design">
-            <section>
-              <img
-                src={require("../../../../Utils/Images/mobile-screen.png")}
-                alt=""
-              />
-              <CreateEventDemo
-                {...data}
-                paid={paid}
-                ldesc={Content}
-                seatCapacity={seatCapacity}
-                cname={cname}
-                cprofile={cprofile}
-                crating={crating}
-                ctagline={ctagline}
-                speakersArray={speakersArray}
-                speakersImagesArray={speakersImagesArray}
-              />
-            </section>
+        {window.screen.width > 600 && (
+          <div className="live_preview_edit_profile_page">
+            <div className="live_preview_modal_design">
+              <section>
+                <img
+                  src={require("../../../../Utils/Images/mobile-screen.png")}
+                  alt=""
+                />
+                <CreateEventDemo
+                  {...data}
+                  paid={paid}
+                  ldesc={Content}
+                  seatCapacity={seatCapacity}
+                  cname={cname}
+                  cprofile={cprofile}
+                  crating={crating}
+                  ctagline={ctagline}
+                  speakersArray={speakersArray}
+                  speakersImagesArray={speakersImagesArray}
+                />
+              </section>
+            </div>
           </div>
-        </div>}
+        )}
       </div>
 
       {/* Live preview Section ------------- */}

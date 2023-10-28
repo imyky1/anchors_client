@@ -61,7 +61,7 @@ const OTPVerificationModel = ({ onClose }) => {
 
   const verfiyOTP = async () => {
     if (formData?.otp?.length !== 6) {
-      toast.info("Enter a proper code", {
+      toast.info("Incorrect OTP. Please check and try again.", {
         position: "top-center",
         autoClose: 2000,
       });
@@ -78,7 +78,7 @@ const OTPVerificationModel = ({ onClose }) => {
           await fillTellUsMoreForm(formData?.number, true);
           onClose(formData?.number, true);
         } else {
-          toast.error("Invalid OTP!!!. Try again!!!", {
+          toast.error("Incorrect OTP. Please check and try again.", {
             position: "top-center",
             autoClose: 2000,
           });
@@ -115,7 +115,7 @@ const OTPVerificationModel = ({ onClose }) => {
         setCookie("ccoondfe", otpcode, { maxAge: 120 }); // valid for one minute
       }
     } else {
-      toast.error("Enter a proper mobile number", {
+      toast.error("Provide WhatsApp number to continue.", {
         position: "top-center",
         autoClose: 2000,
       });

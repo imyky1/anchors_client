@@ -126,14 +126,14 @@
   height: 300px;
   padding: 40px 80px;
   border-radius: 10px;
-  background: #f7f4f2;
+  background: #121212;
   box-sizing: border-box;
 }
 
 .model_question {
   font-weight: bold;
   text-align: center;
-  color: #121212;
+  color: #d0d0d0;
   text-align: center;
   font-family: Inter;
   font-size: 24px;
@@ -145,7 +145,7 @@
 .model_gyan {
   margin-top: -76px;
   text-align: center;
-  color: #666;
+  color: #a0a0a0;
   text-align: center;
   font-family: Inter;
   font-size: 17px;
@@ -163,18 +163,17 @@
 .model_button {
   width: 157px;
   height: 47px;
-  color: var(--success-green-700, #047857);
+  color: var(--success-green-700, #00cd93);
   font-family: Inter;
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  background-color: white;
+  background-color: transparent;
   border-radius: 4px;
   border: 1px solid var(--success-green-700, #047857);
   box-shadow: 0px 4px 8px 0px rgba(31, 31, 31, 0.1);
   cursor: pointer;
-  transition: transform 0.5s ease;
 }
 
 .model_button:nth-child(2) {
@@ -185,7 +184,9 @@
 }
 
 .model_button:hover {
-  transform: scale(1.05);
+  background-color: red;
+  color: white;
+  border: 1px solid red;
 }
 .model_button1_delete:hover {
   transform: scale(1.05);

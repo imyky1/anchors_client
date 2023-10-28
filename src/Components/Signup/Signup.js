@@ -31,7 +31,7 @@ function Signup() {
       localStorage.setItem("authFor", "signUp");
       window.open(`${host}/google/auth`, "_self");
     } else {
-      toast.info("Agree the terms and conditions to continue", {
+      toast.info("Agree to our Terms and Conditions to continue.", {
         position: "top-center",
         autoClose: 2000,
       });
@@ -46,7 +46,7 @@ function Signup() {
       localStorage.setItem("authFor", "signUp");
       window.open(`${host}/login/auth/linkedin`, "_self");
     } else {
-      toast.info("Agree the terms and conditions to continue", {
+      toast.info("Agree to our Terms and Conditions to continue.", {
         position: "top-center",
         autoClose: 2000,
       });

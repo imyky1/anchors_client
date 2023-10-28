@@ -353,7 +353,7 @@
 
 .upcoming_event_cards_user_dashboard_event_page > img {
   width: 100%;
-  height: 120px;
+  max-height: 120px;
   border-radius: 4px;
 }
 
@@ -571,15 +571,15 @@
   background: #212121;
   padding: 20px;
   box-sizing: border-box;
-  height: 200px;
+  height: 220px;
 }
 
 .mycontent_card_for_service > img {
-  height: 160px;
+  height: 180px;
   min-width: 320px;
   max-width: 320px;
   background-color: rgb(40, 40, 40);
-  /* object-fit: cover; */
+  object-fit: cover;
   cursor: pointer;
 }
 
@@ -685,6 +685,9 @@
   .servicelist-wrapper {
     width: unset;
     padding: unset;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
   }
 
   .content_cards_main_wrapper_servicelist {
@@ -704,5 +707,49 @@
     min-width: unset;
     max-width: unset;
     height: unset;
+  }
+
+  .props_mycontent_card_service{
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .buttons_div_section_mycontent_card{
+    align-items: unset;
+  }
+
+  .mycontent_card_for_service > section{
+    height: unset;
+  }
+
+  .props_mycontent_card_service > section{
+    flex-direction: row;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .props_mycontent_card_service > section p{
+    font-size: 12px;
+    gap: 6px;
+    color: #a0a0a0;
+  }
+
+  .props_mycontent_card_service > section > p > span {
+    color: #a0a0a0;
+  }
+
+  .buttons_div_section_mycontent_card > button{
+    padding: 12px 20px;
+    justify-content: space-between;
+  }
+
+  .mycontent_card_for_service > section > div > h2{
+    font-size: 16px;
+    color: #a0a0a0;
+  }
+
+  .servicelist-catItem {
+    font-size: 12px;
   }
 }

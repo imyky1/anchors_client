@@ -122,6 +122,7 @@ function Sidebar({ userData, moreInfo, alternateInfo }) {
                       <span>
                         <img
                           src={
+                            isHoveredBadge ? require("../../../../Utils/Images/gold-badge.png") :
                             userData?.badges?.indexOf("10 Paid Users") >= 0
                               ? require("../../../../Utils/Images/gold-badge.png")
                               : require("../../../../Utils/Images/black-badge.png")

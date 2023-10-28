@@ -124,54 +124,78 @@ const EligibilitySection = () => {
   const [openModalFail, setOpenModalFail] = useState(false);
 
   const handleCheckEligibility = () => {
-    if (platform !== 0 && followers !== "") {
-      mixpanel.track("Clicked Check Eligibility on Main Page", {
-        platform:
-          platform === 1
-            ? "Linkedin"
-            : platform === 2
-            ? "Youtube"
-            : platform === 3
-            ? "Telegram"
-            : platform === 4
-            ? "Instagram"
-            : "None",
-        followers,
-      });
-      switch (platform) {
-        case 1:
-          if (parseInt(followers) >= 10000) {
-            setOpenModalSuccess(true);
-          } else {
-            setOpenModalFail(true);
+    try {
+      if (platform !== 0 && (followers === "" || followers === 0)) {
+        toast.info("Add your followers count for the selected platform.", {
+          position: "top-center",
+          autoClose: 1500,
+        });
+      } else if (platform !== 0 && parseInt(followers) <= 0) {
+        toast.info(
+          "Followers count must be a positive whole number. Please enter a valid value.",
+          {
+            position: "top-center",
+            autoClose: 2500,
           }
-          break;
-        case 2:
-          if (parseInt(followers) >= 5000) {
-            setOpenModalSuccess(true);
-          } else {
-            setOpenModalFail(true);
-          }
-          break;
-        case 3:
-          if (parseInt(followers) >= 2000) {
-            setOpenModalSuccess(true);
-          } else {
-            setOpenModalFail(true);
-          }
-          break;
-        case 4:
-          if (parseInt(followers) >= 10000) {
-            setOpenModalSuccess(true);
-          } else {
-            setOpenModalFail(true);
-          }
-          break;
-        default:
-          break;
+        );
+      } else if (platform !== 0 && followers !== "") {
+        mixpanel.track("Clicked Check Eligibility on Main Page", {
+          platform:
+            platform === 1
+              ? "Linkedin"
+              : platform === 2
+              ? "Youtube"
+              : platform === 3
+              ? "Telegram"
+              : platform === 4
+              ? "Instagram"
+              : "None",
+          followers,
+        });
+        switch (platform) {
+          case 1:
+            if (parseInt(followers) >= 10000) {
+              setOpenModalSuccess(true);
+            } else {
+              setOpenModalFail(true);
+            }
+            break;
+          case 2:
+            if (parseInt(followers) >= 10000) {
+              setOpenModalSuccess(true);
+            } else {
+              setOpenModalFail(true);
+            }
+            break;
+          case 3:
+            if (parseInt(followers) >= 2000) {
+              setOpenModalSuccess(true);
+            } else {
+              setOpenModalFail(true);
+            }
+            break;
+          case 4:
+            if (parseInt(followers) >= 5000) {
+              setOpenModalSuccess(true);
+            } else {
+              setOpenModalFail(true);
+            }
+            break;
+          default:
+            break;
+        }
       }
+    } catch (error) {
+      toast.info(
+        "Oops! An issue occurred during eligibility check. Please retry or contact support.",
+        {
+          position: "top-center",
+          autoClose: 2500,
+        }
+      );
     }
   };
+
 
   return (
     <>
@@ -721,6 +745,22 @@ function Main(props) {
           <MainFAQs data={FAQDetails} />
 
           <Footer />
+
+          <div className="productHunt_floater_landing_page">
+        <a
+          href="https://www.producthunt.com/posts/events-2?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-events&#0045;2"
+          target="_blank"
+        >
+          <img
+            src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=418357&theme=light"
+            alt="Events - Get&#0032;50&#0037;&#0032;More&#0032;Conversion&#0032;with&#0032;70&#0037;&#0032;Less&#0032;Effort&#0032;in&#0032;your&#0032;events | Product Hunt"
+            style={window.screen.width > 600 ? {width: "250px", height: "54px"} : {width:"123px",height:"unset"}}
+            width="250"
+            height="54"
+          />
+        </a>
+      </div>
+      
         </div>
       </Suspense>
     </>

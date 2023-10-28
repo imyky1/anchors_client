@@ -12,7 +12,8 @@ import {
 import ServiceContext from "../../../../Context/services/serviceContext";
 import { toast } from "react-toastify";
 import {
- NewCongratsServiceModal,
+  NewCongratsServiceModal,
+  StaticSampleDataModal,
 } from "../../../Modals/ServiceSuccess/Modal";
 import { LoadTwo } from "../../../Modals/Loading";
 
@@ -25,7 +26,11 @@ import Cropper from "react-easy-crop";
 import { SuperSEO } from "react-super-seo";
 import mixpanel from "mixpanel-browser";
 import CreateServiceDemo from "./CreateServiceDemo";
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+import {
+  AiFillEye,
+  AiOutlineArrowLeft,
+  AiOutlineArrowRight,
+} from "react-icons/ai";
 import { BsArrowLeftShort } from "react-icons/bs";
 
 const FirstPage = ({
@@ -45,8 +50,19 @@ const FirstPage = ({
   onSubmit,
   setdata,
 }) => {
+  const [openSampleContent, setOpenSampleContent] = useState(false);
+
   return (
     <>
+      {openSampleContent && (
+        <StaticSampleDataModal
+          type="pdfTitle"
+          onClose={() => {
+            setOpenSampleContent(false);
+          }}
+        />
+      )}
+
       <section className="create_form_box">
         {/* left side---------------------------------------------------------------------------- */}
         <div className="left_section_form" style={{ width: "100%" }}>
@@ -67,6 +83,16 @@ const FirstPage = ({
             value={data?.sname}
             placeholder="Keep it catchy"
             onChange={handleChange}
+            labelHelperText={{
+              text: (
+                <>
+                  (Sample) <AiFillEye size={16} />{" "}
+                </>
+              ),
+              action: () => {
+                setOpenSampleContent(true);
+              },
+            }}
           />
 
           <section
@@ -104,8 +130,11 @@ const FirstPage = ({
                     mixpanel.track("Edit Browse Banner");
                   }
                 }}
-
-                info = {defaultbanner ? "you have to edit banner again if you change your title" : null}
+                info={
+                  defaultbanner
+                    ? "you have to edit banner again if you change your title"
+                    : null
+                }
               />
             )}
           </section>
@@ -226,8 +255,19 @@ const SecondPage = ({
   onSubmit,
   setCurrentPage,
 }) => {
+  const [openSampleContent, setOpenSampleContent] = useState(false);
+
   return (
     <>
+      {openSampleContent && (
+        <StaticSampleDataModal
+          type="pdfDescription"
+          onClose={() => {
+            setOpenSampleContent(false);
+          }}
+        />
+      )}
+
       <section className="create_form_box">
         {/* left side---------------------------------------------------------------------------- */}
         <div className="left_section_form" style={{ width: "100%" }}>
@@ -253,6 +293,16 @@ const SecondPage = ({
             Content={Content}
             required={true}
             setContent={(e) => setContent(e)}
+            labelHelperText={{
+              text: (
+                <>
+                  (Sample) <AiFillEye size={16} />{" "}
+                </>
+              ),
+              action: () => {
+                setOpenSampleContent(true);
+              },
+            }}
           />
 
           <section
@@ -312,13 +362,15 @@ const SecondPage = ({
           icon={<AiOutlineArrowRight />}
           onClick={onSubmit}
         />
-       {window.screen.width > 600 && <Button3
-          text="Previous"
-          icon={<AiOutlineArrowLeft />}
-          onClick={() => {
-            setCurrentPage(1);
-          }}
-        />}
+        {window.screen.width > 600 && (
+          <Button3
+            text="Previous"
+            icon={<AiOutlineArrowLeft />}
+            onClick={() => {
+              setCurrentPage(1);
+            }}
+          />
+        )}
       </section>
     </>
   );
@@ -498,7 +550,19 @@ function Create({
   const onSubmitSecondForm = async () => {
     setOpenLoading(true); // true on loader
     progress(0);
-    if (draftCreated?.serviceID) {
+
+    // warnings and the alerts -----------------
+    if (Content?.length < 10 || !Content) {
+      toast.info("Add a description for your digital product.", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    } else if (!noOfPage) {
+      toast.info("Specify the number of pages in your digital product.", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    } else if (draftCreated?.serviceID) {
       if (Content?.length > 10) {
         try {
           progress(75);
@@ -556,13 +620,33 @@ function Create({
     );
     setOpenLoading(true); // true on loader
     progress(0);
-    if (
+
+    // warnings and the alerts -----------------
+    if (data.sname.length < 1) {
+      toast.info("Provide a title to list a digital product.", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    } else if (!ServiceDoc) {
+      toast.info("Upload a document for your digital product.", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    } else if (!(BannerImage || defaultbanner)) {
+      toast.info(
+        "Upload a banner or select default banner for your digital product.",
+        {
+          position: "top-center",
+          autoClose: 2500,
+        }
+      );
+    } else if (
       data.sname.length > 1 &&
       ServiceDoc &&
       paid &&
       (BannerImage || defaultbanner)
     ) {
-      if ((data?.ssp <= data?.smrp && data?.smrp > 0) || (paid === "Free")) {
+      if ((data?.ssp <= data?.smrp && data?.smrp > 0) || paid === "Free") {
         try {
           var banner = null;
           var mobBanner = null;
@@ -641,13 +725,12 @@ function Create({
         });
       }
     } else {
-      setOpenLoading(false);
-      toast.info("Fill all the Mandatory Fields", {
+      toast.info("Something wrong happened, try recreating the service", {
         position: "top-center",
-        autoClose: 3000,
       });
     }
 
+    setOpenLoading(false);
     progress(100);
   };
 
@@ -682,14 +765,16 @@ function Create({
         {/* MObile ui navbar ---------------- */}
         {window.screen.width < 600 && (
           <section className="navbar_ui_covering_section_mobile_active">
-            <BsArrowLeftShort size={22} onClick={()=>{
-              if(currentPage === 1){
-                navigate(-1)
-              }
-              else{
-                setCurrentPage(currentPage-1)
-              }
-            }}/>
+            <BsArrowLeftShort
+              size={22}
+              onClick={() => {
+                if (currentPage === 1) {
+                  navigate(-1);
+                } else {
+                  setCurrentPage(currentPage - 1);
+                }
+              }}
+            />
             Share your expertise!
           </section>
         )}
@@ -697,20 +782,22 @@ function Create({
         <div className="main_create_container_new_conatiner_live_demo">
           {/* Heading of the create section ------------------------ */}
 
-          {window.screen.width > 600 && <section className="heading_create_box">
-            <div>
-              <h1 className="create_text_01">Share your expertise!</h1>
-              <p className="create_text_02">
-                {CreateType === "pdf"
-                  ? "Guides, summaries, tips & more"
-                  : CreateType === "excel"
-                  ? "Finances, Jobs, Tips & more!"
-                  : CreateType === "video"
-                  ? "Webinars, workshops, Q&A!"
-                  : ""}
-              </p>
-            </div>
-          </section>}
+          {window.screen.width > 600 && (
+            <section className="heading_create_box">
+              <div>
+                <h1 className="create_text_01">Share your expertise!</h1>
+                <p className="create_text_02">
+                  {CreateType === "pdf"
+                    ? "Guides, summaries, tips & more"
+                    : CreateType === "excel"
+                    ? "Finances, Jobs, Tips & more!"
+                    : CreateType === "video"
+                    ? "Webinars, workshops, Q&A!"
+                    : ""}
+                </p>
+              </div>
+            </section>
+          )}
 
           {/* First Section ------------- */}
           {currentPage === 1 && (
@@ -750,24 +837,26 @@ function Create({
         </div>
 
         {/* Live preview Section ------------- */}
-       {window.screen.width > 600 && <div className="live_preview_edit_profile_page">
-          <div className="live_preview_modal_design">
-            <section>
-              <img
-                src={require("../../../../Utils/Images/mobile-screen.png")}
-                alt=""
-              />
-              <CreateServiceDemo
-                {...data}
-                paid={paid}
-                ldesc={Content}
-                simg={defaultbanner ? defaultImageobjectUrl : showimg}
-                stype={CreateType}
-                noOfPage={noOfPage}
-              />
-            </section>
+        {window.screen.width > 600 && (
+          <div className="live_preview_edit_profile_page">
+            <div className="live_preview_modal_design">
+              <section>
+                <img
+                  src={require("../../../../Utils/Images/mobile-screen.png")}
+                  alt=""
+                />
+                <CreateServiceDemo
+                  {...data}
+                  paid={paid}
+                  ldesc={Content}
+                  simg={defaultbanner ? defaultImageobjectUrl : showimg}
+                  stype={CreateType}
+                  noOfPage={noOfPage}
+                />
+              </section>
+            </div>
           </div>
-        </div>}
+        )}
       </div>
 
       {openimagePreview && BannerImage ? (

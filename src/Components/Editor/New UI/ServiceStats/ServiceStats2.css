@@ -114,12 +114,12 @@
 }
 
 .service_stats_page_title_section > h1 {
-  color: #F8F8F8;
-font-family: "Gilroy-SemiBold",sans-serif;
-font-size: 24px;
-font-style: normal;
-font-weight: 600;
-line-height: normal;
+  color: #f8f8f8;
+  font-family: "Gilroy-SemiBold", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
 
 .service_stats_page_title_section > button {
@@ -140,7 +140,7 @@ line-height: normal;
   border: none;
 }
 
-.service_stats_page_title_section > button:hover{
+.service_stats_page_title_section > button:hover {
   background-color: red;
 }
 
@@ -209,7 +209,7 @@ line-height: normal;
   border: none;
 }
 
-.serivce_heading_03 > button:hover{
+.serivce_heading_03 > button:hover {
   background: red;
 }
 
@@ -221,7 +221,7 @@ line-height: normal;
   justify-content: center;
 }
 
-.serivce_heading_03 > span:hover{
+.serivce_heading_03 > span:hover {
   color: red;
 }
 
@@ -415,4 +415,85 @@ height: 100%; */
   font-weight: 400;
   line-height: normal;
   gap: 8px;
+}
+
+@media (max-width: 600px) {
+
+  .serivce_heading_00 {
+    padding: 8px 12px ;
+    width: 92vw;
+    box-sizing: border-box;
+    margin-top: 10px;
+    border-radius: 8px;
+    box-shadow: unset;
+  }
+  .servicestat_wrapper {
+    padding: unset;
+    width: 100vw;
+    align-items: center;
+    position: relative;
+    padding-bottom: 50px;
+}
+
+  .serivce_heading_01 {
+    height: 120px;
+    position: relative;
+  }
+
+  .serivce_heading_01 > img {
+    width: 92px;
+    height: 46px;
+    min-width: unset;
+  }
+
+  .serivce_heading_03{
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+  }
+
+  .serivce_heading_02 > section  > span{
+    font-size: 12px !important;
+  }
+
+  .serivce_heading_03 > button {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .serivce_heading_03 > span{
+    font-size: 12px;
+  }
+
+  .service_table_00{
+    width: 92vw;
+  }
+
+
+  .serivce_heading_updated_time{
+    position: absolute;
+    bottom: 10px;
+    right: 4%;
+  }
+
+  .serivce_heading_updated_time > p{
+    font-size: 12px;
+  }
+
+
+  .service_table_00 > table > tr > th{
+    font-size: 12px;
+  }
+
+  .service_table_00 > table > tr > td{
+    font-size: 10px;
+    gap: 9px;
+    flex-direction: column;
+  }
+
+  .service_table_00 > table > tr > td > h2{
+    font-size: 10px;
+  }
+
 }

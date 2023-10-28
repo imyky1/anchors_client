@@ -214,18 +214,55 @@
   width: 2px;
 }
 
+.scrollable_section_event > p h1 {
+  font-size: 40px !important;
+  font-weight: bold !important;
+  font-family: "Gilroy-SemiBold", sans-serif !important;
+  line-height: 56px !important;
+  margin-bottom: 4px !important;
+}
+
+.scrollable_section_event > p h2 {
+  font-family: "Gilroy-SemiBold", sans-serif !important;
+  font-size: 32px !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  margin-bottom: 4px !important;
+}
+
+.scrollable_section_event > p h3 {
+  font-family: "Gilroy-SemiBold", sans-serif !important;
+  font-size: 28px !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+}
+
+.scrollable_section_event > p h4 {
+  font-size: 24px !important;
+}
+
 .scrollable_section_event > p * {
   font: inherit !important;
   background-color: inherit !important;
   color: inherit !important;
 }
 
+.scrollable_section_event > p li{
+   margin-bottom: 5px;
+}
+
 .scrollable_section_event > p ul {
-  padding-left: 20px;
+  padding-left: 30px;
+  font-size: 18px !important;
 }
 
 .scrollable_section_event > p ol {
-  padding-left: 20px;
+  padding-left: 30px;
+  font-size: 18px !important;
+}
+
+.scrollable_section_event > p b{
+  font-weight: bold !important;
 }
 
 .right_stable_side {
@@ -694,6 +731,37 @@
     font: inherit !important;
     background-color: inherit !important;
     color: inherit !important;
+  }
+
+  .desc_mobile_view_event > p h1 {
+    font-size: 22px !important;
+    font-weight: bold !important;
+    font-family: "Gilroy-SemiBold", sans-serif !important;
+    line-height: 26px !important;
+    margin-bottom: 4px !important;
+  }
+  
+  .desc_mobile_view_event > p h2 {
+    font-family: "Gilroy-SemiBold", sans-serif !important;
+    font-size: 20px !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    margin-bottom: 4px !important;
+  }
+  
+  .desc_mobile_view_event > p h3 {
+    font-family: "Gilroy-SemiBold", sans-serif !important;
+    font-size: 18px !important;
+    font-style: normal !important;
+    font-weight: 500 !important;
+  }
+  
+  .desc_mobile_view_event > p h4 {
+    font-size: 17px !important;
+  }
+
+  .desc_mobile_view_event > p b{
+    font-weight: bold !important;
   }
 
   .user_reviews_event {

@@ -30,17 +30,12 @@ function fields_Labels1(props) {
     <div className="textfiled_container_01">
       <span className="label_type_01">
         {props.label}{" "}
-        {props?.anchorLink && (
-          <a
-            href={props?.anchorLink?.url}
-            target="_blank"
-            rel="noreferrer"
-            style={{ textDecoration: "underLine" }}
-          >
-            {props?.anchorLink?.text}
-          </a>
-        )}
         {props?.required && <span style={{ color: "red" }}>*</span>}
+        {props?.labelHelperText && 
+          <p onClick={()=>{props?.labelHelperText?.action()}} className="helper_text_label_type_01"> 
+            {props?.labelHelperText?.text}
+          </p>
+        }
       </span>
       <input
         type={props?.type ? props?.type : "text"}
@@ -50,6 +45,7 @@ function fields_Labels1(props) {
         onChange={props?.onChange}
         name={props.name}
         id={props.id}
+        maxLength={props?.maxLength}
       />
       {props?.verifiedComp && (
         <i className="fa-solid fa-square-check fa-xl verifiedComponent01"></i>
@@ -80,6 +76,11 @@ function EditorText01(props) {
         )}
         {props?.required && <span style={{ color: "red" }}>*</span>}
         {isHovered && <TooltipBox text={props?.helperText} />}
+        {props?.labelHelperText && 
+          <p onClick={()=>{props?.labelHelperText?.action()}} className="helper_text_label_type_01"> 
+            {props?.labelHelperText?.text}
+          </p>
+        }
       </span>
       <ReactQuill
         theme="snow"

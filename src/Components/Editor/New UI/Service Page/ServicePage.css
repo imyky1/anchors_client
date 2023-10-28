@@ -48,6 +48,35 @@
   background-color: transparent;
 }
 
+.text_type_03_new_service_page h1 {
+  font-size: 25px !important;
+  font-weight: bold !important;
+  font-family: "Gilroy-SemiBold", sans-serif !important;
+  line-height: 28px !important;
+  margin-bottom: 4px !important;
+}
+
+.text_type_03_new_service_page h2 {
+  font-family: "Gilroy-SemiBold", sans-serif !important;
+  font-size: 22px !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  margin-bottom: 4px !important;
+  line-height: 25px !important;
+}
+
+.text_type_03_new_service_page h3 {
+  font-family: "Gilroy-SemiBold", sans-serif !important;
+  font-size: 20px !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+}
+
+.text_type_03_new_service_page h4 {
+  font-size: 18px !important;
+}
+
+
 .text_type_03_new_service_page *{
   font: inherit !important;
   background-color: inherit !important;
@@ -56,10 +85,12 @@
 
 .text_type_03_new_service_page ul{
   padding-left: 20px;
+  font-size:14px;
 }
 
 .text_type_03_new_service_page ol{
   padding-left: 20px;
+  font-size:14px;
 }
 
 .text_type_03_new_service_page::-webkit-scrollbar {
@@ -549,6 +580,26 @@
   .text_type_03_new_service_page {
     font-size: 12px;
   }
+
+  .text_type_03_new_service_page h1 {
+    font-size: 20px !important;
+    line-height: 28px !important;
+  }
+  
+  .text_type_03_new_service_page h2 {
+    font-size: 18px !important;
+    line-height: 25px !important;
+  }
+  
+  .text_type_03_new_service_page h3 {
+    font-size: 16px !important;
+  }
+  
+  .text_type_03_new_service_page h4 {
+    font-size: 14px !important;
+  }
+
+
 
   .text_type_04_new_service_page {
     font-size: 16px;

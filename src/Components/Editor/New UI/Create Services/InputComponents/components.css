@@ -73,6 +73,15 @@
   margin-bottom: 6px;
 }
 
+.helper_text_label_type_01{
+  color: #FF0000;
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
 .label_type_02 {
   font-family: "Inter";
   font-style: normal;
@@ -689,4 +698,38 @@ input:checked + .slider_type_01:before {
     font-size: 12px;
   }
 
+
+  /* tables */
+
+  .table_component_wrapper01{
+    width: 200%;
+  }
+
+  .table_component_wrapper01 > section > span{
+    font-size: 12px;
+  }
+
+  .table_component_wrapper01 > section{
+    padding: 8px 12px;
+    border-radius: 8px 8px 0px 0px;
+  }
+
+  .table_component_body01 > span{
+    font-size: 10px;
+  }
+
+  .table_component_body01{
+    padding: 8px 12px;
+  }
+
+
+  /* tooltip */
+
+  .tooltip-component-box {
+    transform: unset;
+    left: unset;
+    right: 30px;
+    font-size: 10px;
+    max-width: 100px;
+  }
 }

@@ -33,19 +33,19 @@ function LoadingOne({ open }) {
 // For user side pages
 function LoadingTwo({ open = true }) {
 
-  useEffect(() => {
-    // Set a 5-second timeout
-    const timeoutId = setTimeout(() => {
-      toast.info("Loading took too long. Please refresh the page.", {
-        position: "top-center",
-      });
-    },4000);
+  // useEffect(() => {
+  //   // Set a 5-second timeout
+  //   const timeoutId = setTimeout(() => {
+  //     toast.info("Loading took too long. Please refresh the page.", {
+  //       position: "top-center",
+  //     });
+  //   },4000);
 
-    // Clean up the timeout when 'open' prop changes or the component unmounts
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [open]);
+  //   // Clean up the timeout when 'open' prop changes or the component unmounts
+  //   return () => {
+  //     clearTimeout(timeoutId);
+  //   };
+  // }, [open]);
 
   return (
     <div className="loadbar3">

@@ -190,7 +190,7 @@ const CreateServiceDemo = ({
             gap: "10px",
             padding: "16px",
             position: "absolute",
-            width: "100%",
+            width: "93%",
             zIndex: "999",
           }}
         >
@@ -621,7 +621,7 @@ export const CreateEventDemo = ({
               </section>
             </div>
 
-            <div
+            {/* <div
               className="right_stable_side"
               style={{
                 height: "100%",
@@ -638,7 +638,7 @@ export const CreateEventDemo = ({
                   width: "78%",
                 }}
               />
-            </div>
+            </div> */}
           </section>
         </div>
       </div>

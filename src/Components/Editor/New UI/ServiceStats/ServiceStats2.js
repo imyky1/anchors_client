@@ -16,11 +16,14 @@ import {
   AiOutlineCalendar,
   AiOutlineReload,
 } from "react-icons/ai";
-import { BsArrowRight } from "react-icons/bs";
+import { BsArrowLeftShort, BsArrowRight } from "react-icons/bs";
 import { GiPlainCircle } from "react-icons/gi";
 import { BiRupee } from "react-icons/bi";
 import { IoCopyOutline } from "react-icons/io5";
-import { TooltipBox } from "../Create Services/InputComponents/fields_Labels";
+import {
+  Table1,
+  TooltipBox,
+} from "../Create Services/InputComponents/fields_Labels";
 import mixpanel from "mixpanel-browser";
 
 const TableRef = ({ totalrefer, referdata }) => {
@@ -216,210 +219,29 @@ const TableRef = ({ totalrefer, referdata }) => {
           </div>
         </div>
       )}
-      {
-        <div className="service_table_00">
-          <table>
-            <tr style={{ background: "#282828" }}>
-              <th
-                style={{
-                  display: "flex",
-                  width: "11.5%",
-                  alignItems: "flex-start",
-                }}
-              >
-                Referral
-                <br />
-                Rank
-              </th>
-              <th
-                style={{
-                  display: "flex",
-                  width: "15.7%",
-                  alignItems: "flex-start",
-                }}
-              >
-                Name
-              </th>
-              <th
-                style={{
-                  display: "flex",
-                  width: "20.8%",
-                  alignItems: "flex-start",
-                }}
-              >
-                Email
-              </th>
-              <th
-                style={{
-                  display: "flex",
-                  width: "17.6%",
-                  alignItems: "flex-start",
-                }}
-              >
-                Registered
-                <br /> date
-              </th>
-              {/* <th
-                style={{
-                  display: "flex",
-                  width: "12.5%",
-                  alignItems: "flex-start",
-                }}
-              >
-                Total
-                <br />
-                Referral
-              </th> */}
-              <th
-                style={{
-                  display: "flex",
-                  width: "17.7%",
-                  alignItems: "flex-start",
-                }}
-              >
-                Joined from
-                <br /> Referral
-              </th>
-              {/* <th
-                  style={{
-                    display: "flex",
-                    width: "10.6%",
-                    alignItems: "flex-start",
-                  }}
-                >
-                  Email Sent
-                  <br />
-                  on
-                </th> */}
-              {/* <th
-                  style={{
-                    display: "flex",
-                    width: "11.7%",
-                    alignItems: "flex-start",
-                  }}
-                >
-                  WhatsApp
-                  <br /> Sent on
-                </th> */}
-              <th
-                style={{
-                  display: "flex",
-                  width: "15.7%",
-                  alignItems: "flex-start",
-                }}
-              >
-                Amount
-              </th>
-            </tr>
-
-            {referdata?.map((val, key) => {
-              return (
-                <tr
-                  style={{
-                    borderRadius: "0px",
-                    borderBottom: "0.5px solid #DADADA",
-                    alignItems: "center",
-                    justifyContent: "flex-start",
-                  }}
-                  key={key}
-                >
-                  <td
-                    style={{
-                      display: "flex",
-                      width: "11.5%",
-                      alignItems: "flex-start",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {val.rank}{" "}
-                  </td>
-
-                  <td
-                    style={{
-                      display: "flex",
-                      width: "15.7%",
-                      alignItems: "flex-start",
-                    }}
-                  >
-                    {val.name}
-                  </td>
-                  <td
-                    style={{
-                      display: "flex",
-                      width: "20.8%",
-                      alignItems: "center",
-                      flexDirection: "column",
-                      textAlign: "center",
-                    }}
-                  >
-                    <span>{val.email}</span>
-                    {/* <span>{val.email.split("@")[0]}</span>
-                      <span>@{val.email.split("@")[1]}</span> */}
-                  </td>
-
-                  <td
-                    style={{
-                      display: "flex",
-                      width: "17.6%",
-                      alignItems: "flex-start",
-                      textAlign: "center",
-                    }}
-                  >
-                    <span style={{ width: "67%" }}>{val.registerdate}</span>
-                  </td>
-                  {/* <td
-                    style={{
-                      display: "flex",
-                      width: "12.5%",
-                      alignItems: "flex-start",
-                    }}
-                  >
-                    {val.totalrefer}
-                  </td> */}
-                  <td
-                    style={{
-                      display: "flex",
-                      width: "17.7%",
-                      alignItems: "flex-start",
-                    }}
-                  >
-                    {val.joinedfromrefer}
-                  </td>
-                  {/* <td
-                      style={{
-                        display: "flex",
-                        width: "10.6%",
-                        alignItems: "flex-start",
-                        textAlign: "center",
-                      }}
-                    >
-                      <span style={{ width: "68%" }}>{val.emailsent}</span>
-                    </td>
-                    <td
-                      style={{
-                        display: "flex",
-                        width: "11.7%",
-                        alignItems: "flex-start",
-                        textAlign: "center",
-                      }}
-                    >
-                      <span style={{ width: "68%" }}>{val.whatsappsent}</span>
-                    </td> */}
-                  <td
-                    style={{
-                      display: "flex",
-                      width: "15.7%",
-                      alignItems: "flex-start",
-                    }}
-                  >
-                    {val.amount}
-                  </td>
-                </tr>
-              );
-            })}
-          </table>
-        </div>
-      }
+      <div className="userrequest-table">
+        <Table1
+          headArray={[
+            "Referral Rank",
+            "Name",
+            "Email ID",
+            "Registered Date",
+            "Joined from Referral",
+            "Amount",
+          ]}
+          bodyArray={referdata?.map((val, key) => {
+            return [
+              val.rank,
+              val.name,
+              val.email,
+              val.registerdate,
+              val.joinedfromrefer,
+              val.amount,
+            ];
+          })}
+          gridConfig="12% 20% 20% 20% 15% 15%"
+        />
+      </div>
     </>
   );
 };
@@ -443,154 +265,46 @@ const TableinfoTrans = ({ totalTransactionDetails }) => {
 
   return (
     <>
-      <div className="service_table_00">
-        <table>
-          <tr style={{ background: "#282828" }}>
-            <th
-              style={{
-                display: "flex",
-                width: "10%",
-                alignItems: "flex-start",
-              }}
-            >
-              S. No.
-            </th>
-            <th
-              style={{
-                display: "flex",
-                width: "17%",
-                alignItems: "flex-start",
-              }}
-            >
-              Name
-            </th>
-            <th
-              style={{
-                display: "flex",
-                width: "23%",
-                alignItems: "flex-start",
-              }}
-            >
-              Email
-            </th>
-            <th
-              style={{
-                display: "flex",
-                width: "23%",
-                alignItems: "flex-start",
-              }}
-            >
-              Status
-            </th>
-            <th
-              style={{
-                display: "flex",
-                width: "12%",
-                alignItems: "flex-start",
-              }}
-            >
-              Date & Time
-            </th>
-            <th
-              style={{
-                display: "flex",
-                width: "11%",
-                alignItems: "flex-start",
-              }}
-            >
-              Mobile
-            </th>
-          </tr>
-          {totalTransactionDetails?.map((val, key) => {
-            return (
-              <tr
-                style={{
-                  borderRadius: "0px",
-                  borderBottom: "0.5px solid #DADADA",
-                  //   justifyContent: "center",
-                }}
-                key={key}
-              >
-                <td
+        <div className="userrequest-table">
+          <Table1
+            headArray={[
+              "Sr. No",
+              "Name",
+              "Email ID",
+              "Status",
+              "Date & Time",
+              "Mobile",
+            ]}
+            bodyArray={totalTransactionDetails?.map((val, key) => {
+              return [
+                key + 1,
+                val?.userID?.name,
+                val?.userID?.email,
+                <span
                   style={{
-                    display: "flex",
-                    width: "10%",
+                    borderRadius: "50px",
+                    background: val?.status === 1 ? "#DCFFDF" : "#FFDADA",
+                    color: val?.status === 1 ? "#3F8706" : "#F00",
+                    padding: window.screen.width > 600 ? "4px 20px" : "2px 10px",
                     alignItems: "center",
-                    // justifyContent: "center",
-                  }}
-                >
-                  {key + 1}{" "}
-                </td>
-
-                <td
-                  style={{
+                    justifyContent: "center",
                     display: "flex",
-                    width: "17%",
-                    alignItems: "flex-start",
                   }}
                 >
-                  {val?.userID?.name}
-                </td>
-                <td
-                  style={{
-                    display: "flex",
-                    width: "23%",
-                    alignItems: "flex-start",
-                  }}
-                >
-                  {val?.userID?.email}
-                </td>
-
-                <td
-                  style={{
-                    display: "flex",
-                    width: "23%",
-                    alignItems: "flex-start",
-                    color: "#F00",
-                  }}
-                >
-                  <span
-                    style={{
-                      borderRadius: "50px",
-                      background: val?.status === 1 ? "#DCFFDF" : "#FFDADA",
-                      color: val?.status === 1 ? "#3F8706" : "#F00",
-                      padding: "4px 20px",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      display: "flex",
-                    }}
-                  >
-                    {val?.status === 1
-                      ? "Successfully Paid"
-                      : "Unsuccessfully Payment"}
-                  </span>
-                </td>
-                <td
-                  style={{
-                    display: "flex",
-                    width: "12%",
-                    alignItems: "flex-start",
-                  }}
-                >
-                  <span style={{ width: "77%", textAlign: "center" }}>
-                    {getDatelist(val?.orderDate)} <br />{" "}
-                    {getDatelist2(val?.orderDate)}
-                  </span>
-                </td>
-                <td
-                  style={{
-                    display: "flex",
-                    width: "11%",
-                    alignItems: "flex-start",
-                  }}
-                >
-                  {val?.userID?.phoneNumber ?? "--"}
-                </td>
-              </tr>
-            );
-          })}
-        </table>
-      </div>
+                  {val?.status === 1
+                    ? "Successfully Paid"
+                    : "Unsuccessfully Payment"}
+                </span>,
+                <span style={{ width: "77%", textAlign: "center" }}>
+                  {getDatelist(val?.orderDate)} <br />{" "}
+                  {getDatelist2(val?.orderDate)}
+                </span>,
+                val?.userID?.phoneNumber ?? "--",
+              ];
+            })}
+            gridConfig="7% 20% 22% 20% 15% 18%"
+          />
+        </div>
     </>
   );
 };
@@ -606,12 +320,6 @@ const Tableinfo = ({ data, dataType, slug, removeTotalTransColumn }) => {
     return (
       <>
         <h2
-          style={{
-            position: "relative",
-            right: "4%",
-            display: "flex",
-            alignItems: "center",
-          }}
           onClick={() => {
             if (todo === "totalSuccessfullRegister") {
               window.open(
@@ -638,7 +346,7 @@ const Tableinfo = ({ data, dataType, slug, removeTotalTransColumn }) => {
             <th
               style={{
                 display: "flex",
-                width: "50%",
+                width: window.screen.width > 600 ? "50%" : "80%",
                 alignItems: "flex-start",
                 justifyContent: "flex-start",
               }}
@@ -648,23 +356,25 @@ const Tableinfo = ({ data, dataType, slug, removeTotalTransColumn }) => {
             <th
               style={{
                 display: "flex",
-                width: "9%",
-                alignItems: "flex-start",
-                justifyContent: "flex-start",
+                width: window.screen.width > 600 ? "9%" : "20%",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
               Users
             </th>
-            <th
-              style={{
-                display: "flex",
-                width: "41%",
-                alignItems: "flex-start",
-                justifyContent: "flex-start",
-              }}
-            >
-              Comment
-            </th>
+            {window.screen.width > 600 && (
+              <th
+                style={{
+                  display: "flex",
+                  width: "41%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                Comment
+              </th>
+            )}
           </tr>
           {data &&
             data
@@ -684,7 +394,7 @@ const Tableinfo = ({ data, dataType, slug, removeTotalTransColumn }) => {
                     <td
                       style={{
                         display: "flex",
-                        width: "50%",
+                        width: window.screen.width > 600 ? "50%" : "80%",
                         alignItems: "flex-start",
                         justifyContent: "space-between",
                       }}
@@ -728,24 +438,26 @@ const Tableinfo = ({ data, dataType, slug, removeTotalTransColumn }) => {
                     <td
                       style={{
                         display: "flex",
-                        width: "9%",
-                        alignItems: "flex-start",
-                        justifyContent: "flex-start",
+                        width: window.screen.width > 600 ? "9%" : "20%",
+                        alignItems: "center",
+                        justifyContent: "center",
                         // paddingLeft: key > 2 && key < 6 ? '7px' : 'none',
                       }}
                     >
                       {val.Users}
                     </td>
-                    <td
-                      style={{
-                        display: "flex",
-                        width: "41%",
-                        alignItems: "flex-start",
-                        justifyContent: "flex-start",
-                      }}
-                    >
-                      {val.Comment}
-                    </td>
+                    {window.screen.width > 600 && (
+                      <td
+                        style={{
+                          display: "flex",
+                          width: "41%",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        {val.Comment}
+                      </td>
+                    )}
                   </tr>
                 );
               })}
@@ -1139,26 +851,60 @@ const ServiceStats2 = (props) => {
 
       {approvedUser && (
         <div className="servicestat_wrapper">
+          {/* MObile ui navbar ---------------- */}
+          {window.screen.width < 600 && (
+            <section className="navbar_ui_covering_section_mobile_active">
+              <BsArrowLeftShort
+                size={22}
+                onClick={() => {
+                  navigate(-1);
+                }}
+              />
+              {eventDetailsPage === "totalTransaction"
+                ? "Total Transaction Details"
+                : eventDetailsPage === "totalSuccessfullRegister" ||
+                  eventDetailsPage === "totalReferral"
+                ? `User List for ${
+                    serviceType === "event" ? "Event" : "Service"
+                  }`
+                : `Detailed ${
+                    serviceType === "event" ? "Event" : "Service"
+                  } Analysis`}
+            </section>
+          )}
 
-          <section className="service_stats_page_title_section">
-          <h1>
-            {eventDetailsPage === "totalTransaction"
-              ? "Total Transaction Details"
-              : eventDetailsPage === "totalSuccessfullRegister" ||
-                eventDetailsPage === "totalReferral"
-              ? `User List for ${serviceType === "event" ? "Event" : "Service"}`
-              : `Detailed ${
-                  serviceType === "event" ? "Event" : "Service"
-                } Analysis`}
-          </h1>
+          {window.screen.width > 600 && (
+            <section className="service_stats_page_title_section">
+              <h1>
+                {eventDetailsPage === "totalTransaction"
+                  ? "Total Transaction Details"
+                  : eventDetailsPage === "totalSuccessfullRegister" ||
+                    eventDetailsPage === "totalReferral"
+                  ? `User List for ${
+                      serviceType === "event" ? "Event" : "Service"
+                    }`
+                  : `Detailed ${
+                      serviceType === "event" ? "Event" : "Service"
+                    } Analysis`}
+              </h1>
 
-          <button onClick={() => {
-          toast.info("Copied link successfully",{position:"top-center",autoClose:1000});
-          navigator.clipboard.writeText(serviceType === "download" ? serviceInfo?.service?.copyURL : eventInfo?.event?.copyURL);
-        }}> 
-         <IoCopyOutline size={20}/> Tracking link
-          </button>
-          </section>
+              <button
+                onClick={() => {
+                  toast.info("Copied link successfully", {
+                    position: "top-center",
+                    autoClose: 1000,
+                  });
+                  navigator.clipboard.writeText(
+                    serviceType === "download"
+                      ? serviceInfo?.service?.copyURL
+                      : eventInfo?.event?.copyURL
+                  );
+                }}
+              >
+                <IoCopyOutline size={20} /> Tracking link
+              </button>
+            </section>
+          )}
           <div className="serivce_heading_00">
             <div className="serivce_heading_01">
               <img
@@ -1228,7 +974,16 @@ const ServiceStats2 = (props) => {
           </div>
 
           <div className="serivce_heading_updated_time">
-            <p><AiOutlineReload color="#f8f8f8" style={{cursor:"pointer"}} onClick={()=>{window.location.reload()}}/> last updated on:{new Date(lastupdate).toLocaleString()}</p>
+            <p>
+              <AiOutlineReload
+                color="#f8f8f8"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  window.location.reload();
+                }}
+              />{" "}
+              last updated on:{new Date(lastupdate).toLocaleString()}
+            </p>
           </div>
 
           <ReturnTable

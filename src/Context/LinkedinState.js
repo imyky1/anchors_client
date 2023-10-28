@@ -40,7 +40,7 @@ const LinkedinState = (props) => {
             LoginCreator(login.id, "", login.name, login.email, login.photo);
           }
         } else {
-          toast.error("Login Failed! Please Try Again", {
+          toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
             position: "top-center",
             autoClose: 1500,
           });
@@ -48,7 +48,7 @@ const LinkedinState = (props) => {
         }
       })
       .catch((error) => {
-        toast.error("Login Failed! Please Try Again", {
+        toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
           position: "top-center",
           autoClose: 1500,
         });
@@ -85,7 +85,7 @@ const LinkedinState = (props) => {
             LoginCreator("", login.id, login.name, login.email, login.photo);
           }
         } else {
-          toast.error("Login Failed! Please Try Again", {
+          toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
             position: "top-center",
             autoClose: 1500,
           });
@@ -93,7 +93,7 @@ const LinkedinState = (props) => {
         }
       })
       .catch((error) => {
-        toast.error("Login Failed! Please Try Again", {
+        toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
           position: "top-center",
           autoClose: 1500,
         });
@@ -162,7 +162,7 @@ const LinkedinState = (props) => {
           navigate("/login/creators");
         }, 2500);
       } else {
-        toast.error("Signup Failed! Please Try Again", {
+        toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
           position: "top-center",
           autoClose: 1500,
         });
@@ -172,7 +172,7 @@ const LinkedinState = (props) => {
       }
     } catch (error) {
       console.error(error);
-      toast.info("Some error occured, Check for help on Main Page", {
+      toast.info("Authentication issue with Google/LinkedIn. Retry or contact support.", {
         position: "top-center",
         autoClose: 1500,
       });
@@ -226,7 +226,7 @@ const LinkedinState = (props) => {
         
       } else if (!res.success && !res.already) {
         // account is not created------------
-        toast.error("No such account exists. First create one", {
+        toast.error("You're not registered. Sign up for an account.", {
           position: "top-center",
           autoClose: 2500,
         });
@@ -234,7 +234,7 @@ const LinkedinState = (props) => {
           navigate("/signup/creators");
         }, 2500);
       } else {
-        toast.error("Login Failed! Please Try Again", {
+        toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
           position: "top-center",
           autoClose: 1500,
         });
@@ -309,14 +309,14 @@ const LinkedinState = (props) => {
           setloginInfo(login);
           registerUserLogin(login.id, login.name, login.email, login.photo);
         } else {
-          toast.error("Login Failed! Please Try Again", {
+          toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
             position: "top-center",
             autoClose: 1500,
           });
         }
       })
       .catch((error) => {
-        toast.error("Login Failed! Please Try Again", {
+        toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
           position: "top-center",
           autoClose: 1500,
         });
@@ -343,14 +343,14 @@ const LinkedinState = (props) => {
           setloginInfo(login);
           registerUserLogin(login.id, login.name, login.email, login.photo);
         } else {
-          toast.error("Login Failed! Please Try Again", {
+          toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
             position: "top-center",
             autoClose: 1500,
           });
         }
       })
       .catch((error) => {
-        toast.error("Login Failed! Please Try Again", {
+        toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
           position: "top-center",
           autoClose: 1500,
         });
@@ -409,7 +409,7 @@ const LinkedinState = (props) => {
       // Perform any necessary navigation
       navigate(localStorage.getItem("url"));
     } else {
-      toast.error("Login Failed! Please Try Again", {
+      toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
         position: "top-center",
         autoClose: 1500,
       });
