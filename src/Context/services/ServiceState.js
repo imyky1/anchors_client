@@ -512,6 +512,7 @@ const ServiceState = (props) => {
         maxCapacity: data.maxCapacity,
         svideo: data.svideo,
         meetlink: data.meetlink,
+        certificateData: data.certificateData,
       }),
     });
     const json = await response.json();

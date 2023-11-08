@@ -631,7 +631,7 @@
   gap: 12px;
   flex-direction: column;
   position: absolute;
-  top: 132px;
+  top: 110px;
 }
 
 .event_invite_multiple_speakers_details_section > h4 {
@@ -674,9 +674,9 @@
 }
 
 .event_invite_multiple_speakers_details_section > section > div > div {
-  width: 80px;
-  height: 80px;
-  border-radius: 80px;
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
   background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), #5d5d5d3d);
   overflow: hidden;
   padding: 6px;
@@ -690,7 +690,7 @@
 }
 
 .event_invite_multiple_speakers_details_section > section > div > span {
-  max-width: 58px;
+  max-width: 80px;
   text-align: center;
   max-height: 28px;
   overflow: hidden;

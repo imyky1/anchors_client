@@ -552,8 +552,11 @@ const SecondPage = ({
 
           <Editor1
             label={`Add Event Description`}
-            placeholder={`Summarize your Event`}
-            info="A brief description gives your audience some context"
+            placeholder={`Pro-tip : The following topics, if covered, ensure a high conversion rate :
+- Objective of the event
+- Who's this for?
+- Urgency hook`}
+            // info="A brief description gives your audience some context"
             Content={Content}
             required={true}
             setContent={(e) => setContent(e)}
@@ -571,8 +574,12 @@ const SecondPage = ({
 
           <Editor1
             label="Leaderboard Rewards Customization"
-            placeholder="Define top 3 benefits. Keep 'em creative!"
-            info="Rewarding top referrers encourages engagement"
+            placeholder={`Keep it clear, concise & interesting. More incentives mean more referrals.
+For example:
+Rank 1: Personalized 20 min 1:1 with an expert
+Rank 2-5: 100% refund on event registration fee
+Rank 6-10: 30% refund on event registration fee`}
+            // info="Rewarding top referrers encourages engagement"
             Content={data?.benefits}
             helperText="Leaderboard ranks your audience by referrals. Rewarding top ones with benefits promotes engagement and competition"
             id="benefits"

@@ -34,6 +34,7 @@ import ServiceStats2 from "../ServiceStats/ServiceStats2";
 import Template from "../Sharing Template/Sharing";
 import Create from "../Create Services/Create";
 import CreateEvent from "../Create Services/CreateEvent";
+import SelectCertificate from "../../../EventCertifcates/SelectCertificate";
 
 function Home(props) {
   const location = useLocation();
@@ -197,7 +198,11 @@ function Home(props) {
 
               {/* page with navigation of sidebar and navbar */}
               <section className="mobile_ui_home_having_navigation">
-                {!["/dashboard/createservice","/dashboard/createevent","/dashboard/editprofile"].includes(location.pathname) && (
+                {![
+                  "/dashboard/createservice",
+                  "/dashboard/createevent",
+                  "/dashboard/editprofile",
+                ].includes(location.pathname) && (
                   <Sidebar
                     userData={basicNav}
                     moreInfo={{ ...creatorData, Rating }}
@@ -448,11 +453,16 @@ function Home(props) {
           ) : (
             // normal desktop ui
             <div className="main_home_page_container">
-              <Sidebar
-                userData={basicNav}
-                moreInfo={{ ...creatorData, Rating }}
-                alternateInfo={allCreatorInfo}
-              />
+              {/* Sidebar is only available in some pages --------------- */}
+              {!location.pathname.startsWith(
+                "/dashboard/eventCertificates/"
+              ) && (
+                <Sidebar
+                  userData={basicNav}
+                  moreInfo={{ ...creatorData, Rating }}
+                  alternateInfo={allCreatorInfo}
+                />
+              )}
               <HelpModal
                 open={openHelpModal}
                 toClose={() => {
@@ -712,6 +722,13 @@ function Home(props) {
                       <Route
                         path="shareTemplate/:slug"
                         element={<Template progress={props.progress} />}
+                      />
+
+                      <Route
+                        path="eventCertificates/:slug"
+                        element={
+                          <SelectCertificate progress={props.progress} />
+                        }
                       />
 
                       {/* exception  Route for false input ---------------------------------------------------- */}

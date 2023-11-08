@@ -6,7 +6,8 @@
 .right_side_home_page {
   /* background-color: red;
     margin-left: 5px; */
-  min-width: 83%;
+  /* min-width: 83%; */
+  width: 100%;
 }
 
 .remaining {

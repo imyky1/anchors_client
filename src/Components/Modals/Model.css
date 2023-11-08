@@ -102,12 +102,13 @@
 .logout_model_logout {
   width: 100vw;
   height: 100vh;
-  background-color: #d1d1d1;
+  background-color: #8c8c8c57;
   position: fixed;
   z-index: 9999;
   display: grid;
   place-items: center;
   top: 0;
+  left: 0;
 }
 .logout_model_logout_workshop {
   width: 100vw;

@@ -258,6 +258,7 @@ export const CreateEventDemo = ({
   ssp,
   paid,
   stype,
+  meetlink,
   date,
   startTime,
   endTime,
@@ -419,6 +420,58 @@ export const CreateEventDemo = ({
                 zIndex: "99",
               }}
             >
+               {stype === "Offline" && (
+               <section
+               className="scrollable_section_event"
+               id="eventDetails"
+               style={{ alignItems: "center" }}
+             >
+               <div
+                 style={{
+                   alignItems: "center",
+                   display: "flex",
+                   flexDirection: "column",
+                   gap: "35px",
+                 }}
+               >
+                    <section
+                    style={{
+                      alignItems: "center",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "16px",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <h2
+                      style={{
+                        fontSize: "24px",
+                        textAlign: "center",
+                      }}
+                    >Mode</h2>
+                      <span style={spanStyle}>Offline</span>
+                    </section>
+                    <section
+                    style={{
+                      alignItems: "center",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "16px",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <h2
+                      style={{
+                        fontSize: "24px",
+                        textAlign: "center",
+                      }}
+                    >Venue</h2>
+                      <span style={spanStyle}>{meetlink}</span>
+                    </section>
+                  </div>
+                </section>
+              )}
+
               <section
                 className="scrollable_section_event"
                 id="eventDetails"
@@ -432,7 +485,7 @@ export const CreateEventDemo = ({
                     gap: "35px",
                   }}
                 >
-                  <section
+                  {stype === "Online" && <section
                     style={{
                       alignItems: "center",
                       display: "flex",
@@ -452,7 +505,7 @@ export const CreateEventDemo = ({
                     <span style={spanStyle}>
                       {stype !== "Online" ? "Offline" : "Online"}
                     </span>
-                  </section>
+                  </section>}
                   <section
                     style={{
                       alignItems: "center",
@@ -527,7 +580,7 @@ export const CreateEventDemo = ({
                 <section className="scrollable_section_event" style={{alignItems:"center"}}>
                   <section
                     className="right_stable_side_top"
-                    style={{ width: "62%", gap: "30px",
+                    style={{ width: "75%", gap: "30px",
                     // display: "flex",
                     // alignItems: "center",
                     // justifyContent: "center",

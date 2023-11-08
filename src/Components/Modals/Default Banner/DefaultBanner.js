@@ -484,7 +484,7 @@ export const PersonalizedInviteeCard= ({
                             <div
                               style={{
                                 left: `${
-                                  (speakersArray.length - (index + 1)) * 10
+                                  (speakersArray.length - (index + 1)) * 4
                                 }px`,
                                 zIndex: `${
                                   (speakersArray.length - (index + 1)) * 4

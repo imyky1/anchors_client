@@ -639,46 +639,29 @@ const EaseBuzzPage = () => {
   );
 };
 
-// function ScreenshotCapture({ url = "https://www.anchors.in/yuvraj-singh", selector=".main_creator_details_creator_page" }) {
-//   async function captureScreenshot() {
-//     try {
-//       const browser = await puppeteer.launch();
-//       const page = await browser.newPage();
 
-//       // Navigate to the URL
-//       await page.goto(url);
+const TestProxy = () =>{
 
-//       // Wait for the element specified by the selector to appear
-//       await page.waitForSelector(selector);
+const [binaryData, setbinaryData] = useState()
 
-//       // Get the dimensions and position of the element
-//       const elementHandle = await page.$(selector);
-//       const clip = await elementHandle.boundingBox();
+useEffect(() => {
+  fetch("http://localhost:5000/api/file/proxyImage?imageUrl=https://anchors-files.s3.ap-south-1.amazonaws.com/banners/1695043558064-image.png",{
+    method:"GET"
+  }).then((e)=>{
+    e.json()
+  }).then((e2)=>{
+    console.log(e2)
+  })
+}, [])
 
-//       // Capture a screenshot of the specified element
-//       const screenshotBuffer = await page.screenshot({ clip });
 
-//       // Close the browser
-//       await browser.close();
 
-//       // Do something with the screenshot, e.g., save or display it
-//       // For demonstration purposes, let's just log the screenshot buffer
-//       console.log(screenshotBuffer);
-//     } catch (error) {
-//       console.error('Error capturing screenshot:', error);
-//     }
-//   }
 
-//   useEffect(() => {
-//     // Optional: You can trigger the screenshot capture when the component mounts
-//     // captureScreenshot();
-//   }, []);
+  return (
+    <div>
+      hello
+    </div>
+  )
+}
 
-//   return (
-//     <div>
-//       <button onClick={captureScreenshot}>Capture Screenshot</button>
-//     </div>
-//   );
-// }
-
-export default EaseBuzzPage;
+export default TestProxy;

@@ -310,6 +310,13 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
             setVerifiedCode(true);
             setVerifiedCodeModal(true);
           } else {
+            toast.error(
+              "Invalid invite code. Enter a valid code or leave it empty.",
+              {
+                position: "top-center",
+                autoClose: 1500,
+              }
+            );
             setIncorrectCode(true);
           }
         } else {
@@ -323,17 +330,17 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
         }
       });
 
-      toast.promise(
-        process,
-        {
-          pending: "Please Wait..",
-          error: "Try Again by reloading the page!",
-        },
-        {
-          position: "top-center",
-          autoClose: 2000,
-        }
-      );
+      // toast.promise(
+      //   process,
+      //   {
+      //     pending: "Please Wait..",
+      //     error: "Try Again by reloading the page!",
+      //   },
+      //   {
+      //     position: "top-center",
+      //     autoClose: 2000,
+      //   }
+      // );
     }
   };
 
@@ -365,7 +372,31 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
 
   const handleSubmit = async () => {
     try {
-      if (
+
+      const platform = getPlatformFromURL(formData?.socialLink);
+
+      if(formData?.socialLink === "" || !formData?.socialLink){
+        toast.error("Add a link to at least one social media platform to continue", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      }
+
+      else if(formData?.socialLink !== "" && platform === "Unknown"){
+        toast.error("Invalid social media link. Please enter a valid link.", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      }
+
+      else if(parseInt(formData?.followers <= 0) || formData?.followers?.length < 1 || !formData?.followers){
+        toast.error("Follower count must be a positive whole number. Please enter a valid value.", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+      }
+
+      else if (
         formData?.contactNumber?.toString().length > 1 &&
         formData?.verifiedContact &&
         formData?.followers?.length > 1 &&
@@ -383,7 +414,7 @@ const FormTellUsMore = ({ prevClick, setVerifiedCodeModal }) => {
           });
           return true;
         }
-        const platform = getPlatformFromURL(formData?.socialLink);
+
 
         fillTellUsMoreForm(
           // saving the data in tell us more in database

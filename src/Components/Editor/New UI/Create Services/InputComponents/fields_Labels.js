@@ -31,13 +31,19 @@ function fields_Labels1(props) {
       <span className="label_type_01">
         {props.label}{" "}
         {props?.required && <span style={{ color: "red" }}>*</span>}
-        {props?.labelHelperText && 
-          <p onClick={()=>{props?.labelHelperText?.action()}} className="helper_text_label_type_01"> 
+        {props?.labelHelperText && (
+          <p
+            onClick={() => {
+              props?.labelHelperText?.action();
+            }}
+            className="helper_text_label_type_01"
+          >
             {props?.labelHelperText?.text}
           </p>
-        }
+        )}
       </span>
       <input
+        style={props?.height ? { height: props?.height ,  } : {}}
         type={props?.type ? props?.type : "text"}
         className="input_type_01"
         placeholder={props.placeholder}
@@ -56,7 +62,7 @@ function fields_Labels1(props) {
 
 // Editor text field -------------------------
 function EditorText01(props) {
-  const [isHovered, setIsHovered] = useState(false)
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     // Normal type -1 text field used in create
@@ -76,11 +82,16 @@ function EditorText01(props) {
         )}
         {props?.required && <span style={{ color: "red" }}>*</span>}
         {isHovered && <TooltipBox text={props?.helperText} />}
-        {props?.labelHelperText && 
-          <p onClick={()=>{props?.labelHelperText?.action()}} className="helper_text_label_type_01"> 
+        {props?.labelHelperText && (
+          <p
+            onClick={() => {
+              props?.labelHelperText?.action();
+            }}
+            className="helper_text_label_type_01"
+          >
             {props?.labelHelperText?.text}
           </p>
-        }
+        )}
       </span>
       <ReactQuill
         theme="snow"
@@ -496,7 +507,6 @@ function Select01(props) {
 }
 
 function Table01({ headArray = [], bodyArray = [], gridConfig }) {
-
   return (
     <div className="table_component_wrapper01">
       {/* table head --------- */}
@@ -510,14 +520,47 @@ function Table01({ headArray = [], bodyArray = [], gridConfig }) {
       <div>
         {bodyArray?.map((elem, i) => {
           return (
-            <div className="table_component_body01" style={{ gridTemplateColumns: gridConfig }}>
-              {elem && elem?.map((e,i)=>{
-                return <span>{e}</span>
-              })}
+            <div
+              className="table_component_body01"
+              style={{ gridTemplateColumns: gridConfig }}
+            >
+              {elem &&
+                elem?.map((e, i) => {
+                  return <span>{e}</span>;
+                })}
             </div>
           );
         })}
       </div>
+    </div>
+  );
+}
+
+function TextArea01(props) {
+  return (
+    // Normal type -1 text field used in create
+    <div className="textfiled_container_01">
+      <span className="label_type_01">
+        {props?.label}{" "}
+        {/* {props?.required && <span style={{ color: "red" }}>*</span>}
+        {props?.labelHelperText && 
+          <p onClick={()=>{props?.labelHelperText?.action()}} className="helper_text_label_type_01"> 
+            {props?.labelHelperText?.text}
+          </p>
+        } */}
+      </span>
+      <textarea
+        className="textarea_type_01"
+        placeholder={props?.placeholder}
+        value={props?.value}
+        onChange={props?.onChange}
+        name={props?.name}
+        id={props?.id}
+      />
+
+      {/* {props?.verifiedComp && (
+        <i className="fa-solid fa-square-check fa-xl verifiedComponent01"></i>
+      )} */}
     </div>
   );
 }
@@ -534,3 +577,4 @@ export const Dropdown1 = Dropdown01;
 export const Select1 = Select01;
 export const DatePicker1 = DatePicker01;
 export const Table1 = Table01;
+export const TextArea1 = TextArea01;

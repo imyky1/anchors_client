@@ -576,8 +576,8 @@
 
 .mycontent_card_for_service > img {
   height: 180px;
-  min-width: 320px;
-  max-width: 320px;
+  min-width: 360px;
+  max-width: 360px;
   background-color: rgb(40, 40, 40);
   object-fit: cover;
   cursor: pointer;
@@ -641,6 +641,27 @@
 .props_mycontent_card_service > section > p > span {
   color: #d0d0d0;
 }
+
+.props_mycontent_card_service > section > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 4px 8px;
+
+  color: #FF2E2E;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  cursor: pointer;
+  border-radius: 4px;
+  background: #282828;
+  border: none;
+  margin-top: 20px;
+}
+
 
 .buttons_div_section_mycontent_card {
   display: flex;

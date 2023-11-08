@@ -487,13 +487,42 @@ input:checked + .slider_type_01:before {
   margin-left: 10px;
 }
 
+/* textarea type --------------------------------------------- */
+.textarea_type_01 {
+  background: transparent;
+  border: 0.5px solid #475569;
+  border-radius: 5px;
+  /* width: 465px; */
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+  padding: 2px 12px;
+  box-sizing: border-box;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+}
+
+.textarea_type_01::placeholder {
+  color: #888888;
+}
+
+.textarea_type_01:focus {
+  outline: #2196f3 solid 1px;
+}
+
 /* Ck editor css ------------ */
 
 .quill-editor {
-  height: 100%;
+  height: 120px;
   width: 100%;
   color: #ffffff;
   border-radius: 10px;
+  margin-bottom: 37px;
 }
 
 .ql-editor.ql-blank::before {
@@ -731,5 +760,10 @@ input:checked + .slider_type_01:before {
     right: 30px;
     font-size: 10px;
     max-width: 100px;
+  }
+
+
+  .ql-editor{
+    font-size: 10px;
   }
 }

@@ -201,7 +201,7 @@ function Event() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const aboutEventPage = useRef()
+  const aboutEventPage = useRef();
 
   const params = new URLSearchParams(location.search);
 
@@ -309,8 +309,7 @@ function Event() {
   useEffect(() => {
     setLoader(true);
     if (aboutEventPage.current) {
-      aboutEventPage.current.innerHTML =
-        eventInfo?.event?.ldesc;
+      aboutEventPage.current.innerHTML = eventInfo?.event?.ldesc;
     }
 
     if (eventInfo?.event?.c_id?._id) {
@@ -877,13 +876,16 @@ function Event() {
                 <h2>About</h2>
                 <p className="description-event-page" ref={aboutEventPage}></p>
               </section>
-              <section
-                className={`scrollable_section_event
-                }`}
-              >
+              <section className={`scrollable_section_event`}>
                 <h2>Mode</h2>
                 <span>
                   {eventInfo?.event?.stype === 0 ? "Offline" : "Online"}
+
+                  {eventInfo?.event?.stype === 0 && (
+                    <p className="offline_location_eventPage">
+                      <b>Venue :</b> {eventInfo?.event?.meetlink}
+                    </p>
+                  )}
                 </span>
               </section>
               <section className={`scrollable_section_event`}>
@@ -1015,14 +1017,31 @@ function Event() {
         ) : (
           <section className="event_desc_screen">
             <div className="left_side_scrollable">
+              {eventInfo?.event?.stype === 0 && (
+                <section className="scrollable_section_event">
+                  <div>
+                    <section>
+                      <h2>Mode</h2>
+                      <span>Offline</span>
+                    </section>
+                    <section>
+                      <h2>Venue</h2>
+                      <span>{eventInfo?.event?.meetlink}</span>
+                    </section>
+                  </div>
+                </section>
+              )}
+              
               <section className="scrollable_section_event">
                 <div>
-                  <section>
-                    <h2>Mode</h2>
-                    <span>
-                      {eventInfo?.event?.stype === 0 ? "Offline" : "Online"}
-                    </span>
-                  </section>
+                  {eventInfo?.event?.stype !== 0 && (
+                    <section>
+                      <h2>Mode</h2>
+                      <span>
+                        {eventInfo?.event?.stype === 0 ? "Offline" : "Online"}
+                      </span>
+                    </section>
+                  )}
                   <section>
                     <h2>Date</h2>
                     <span>{getDate(eventInfo?.event?.startDate)}</span>
@@ -1109,7 +1128,7 @@ function Event() {
                   </section>
                 </section>
               )}
-              \
+
               {!eventFinished && (
                 <section className="scrollable_section_event" id="reserveSeat">
                   <h2>Reserve your spot</h2>

@@ -17,6 +17,7 @@ import { BiDotsVerticalRounded, BiStats } from "react-icons/bi";
 import mixpanel from "mixpanel-browser";
 import {
   BsArrowLeftShort,
+  BsFillBrushFill,
   BsFillCalendar3WeekFill,
   BsLinkedin,
   BsPersonFill,
@@ -26,6 +27,7 @@ import {
 import { IoCopy, IoCopyOutline } from "react-icons/io5";
 import { TbSend } from "react-icons/tb";
 import { LinkedinShareButton, TelegramShareButton } from "react-share";
+import { DeleteModal } from "../../../Modals/Logout_Model";
 
 const ContentCard = ({
   i,
@@ -56,10 +58,12 @@ const ContentCard = ({
   setOpenModel,
   OpenOption,
   revArray,
-  earning
+  earning,
+  setOpenDeleteModal
 }) => {
-
   const navigate = useNavigate();
+
+  const [statusForCurrent, setStatusForCurrent] = useState(status);
 
   const openOptionsPopup = (i) => {
     document.getElementById(`servicelist_options${i}`).style.display = "flex";
@@ -81,9 +85,8 @@ const ContentCard = ({
   };
 
   const handleCheckClick = async () => {
-    setCurrSelected({ copyURL, status });
     removeOptionPopup(); // removes popup ------------------------------
-    if (status) {
+    if (statusForCurrent === 1) {
       // means now it is checked ------------
       setChangeStatus(0);
       const success = await deleteService(
@@ -93,7 +96,7 @@ const ContentCard = ({
       ); // changing status of the service / eevent
       if (success) {
         setOpenModel(true);
-        status = false; // manually changing its value--------------
+        setStatusForCurrent(0); // manually changing its value--------------
       } else {
         toast.error("Some error occured", {
           position: "top-center",
@@ -110,7 +113,7 @@ const ContentCard = ({
       );
       if (success) {
         setOpenModel(true);
-        status = true; // manually changing its value--------------
+        setStatusForCurrent(1); // manually changing its value--------------
       } else {
         toast.error("Some error occured", {
           position: "top-center",
@@ -185,6 +188,16 @@ const ContentCard = ({
               <p>
                 Created On :<span>{getDateTime()}</span>
               </p>
+
+              {selected === "events" && <button
+                onClick={() => {
+                  mixpanel.track("Customise Certificate");
+                  navigate(`/dashboard/eventCertificates/${slug}`)
+                }}
+              >
+               <BsFillBrushFill/> Customise Certificate 
+              </button>}
+
             </section>
 
             <div className="buttons_div_section_mycontent_card">
@@ -201,26 +214,26 @@ const ContentCard = ({
               <button
                 onClick={() => {
                   const pattern = /go\.anchors\.in/;
-                  selected === "events" ?
-                    // ? setShareModalData({
-                    //     open: true,
-                    //     sname: sname,
-                    //     slug: slug,
-                    //     simg: simg,
-                    //     isEvent: selected === "events",
-                    //     eventCode: eventCode,
-                    //     link: copyURL
-                    //       ? pattern.test(copyURL)
-                    //         ? copyURL
-                    //         : selected === "events"
-                    //         ? `https://www.anchors.in/e/${slug}`
-                    //         : `https://www.anchors.in/s/${slug}`
-                    //       : selected === "events"
-                    //       ? `https://www.anchors.in/e/${slug}`
-                    //       : `https://www.anchors.in/s/${slug}`,
-                    //   })
-                     window.open(`/dashboard/shareTemplate/${slug}?type=event`) 
-                    : window.open(`/dashboard/shareTemplate/${slug}`)
+                  selected === "events"
+                    ? // ? setShareModalData({
+                      //     open: true,
+                      //     sname: sname,
+                      //     slug: slug,
+                      //     simg: simg,
+                      //     isEvent: selected === "events",
+                      //     eventCode: eventCode,
+                      //     link: copyURL
+                      //       ? pattern.test(copyURL)
+                      //         ? copyURL
+                      //         : selected === "events"
+                      //         ? `https://www.anchors.in/e/${slug}`
+                      //         : `https://www.anchors.in/s/${slug}`
+                      //       : selected === "events"
+                      //       ? `https://www.anchors.in/e/${slug}`
+                      //       : `https://www.anchors.in/s/${slug}`,
+                      //   })
+                      window.open(`/dashboard/shareTemplate/${slug}?type=event`)
+                    : window.open(`/dashboard/shareTemplate/${slug}`);
                 }}
               >
                 Sharing Template <TbSend />
@@ -235,24 +248,36 @@ const ContentCard = ({
                         `/dashboard/serviceStats/${slug}?type=event`,
                         "_blank"
                       )
-                      
                     : !dummyData.ServiceDummy &&
                       window.open(`/dashboard/serviceStats/${slug}`, "_blank");
                 }}
               >
-                {window.screen.width > 600 ? <> <BiStats /> Detailed Service Analysis </> : <>Detailed Service Analysis <BiStats /> </>}
+                {window.screen.width > 600 ? (
+                  <>
+                    {" "}
+                    <BiStats /> Detailed Service Analysis{" "}
+                  </>
+                ) : (
+                  <>
+                    Detailed Service Analysis <BiStats />{" "}
+                  </>
+                )}
               </button>
             </div>
           </div>
         </div>
 
-       {window.screen.width > 600 && <BiDotsVerticalRounded
-          onClick={() =>
-            selected === "events"
-              ? !dummyData.EventDummy && openOptionsPopup(i + 1)
-              : !dummyData.ServiceDummy && openOptionsPopup(i + 1)
-          }
-        />}
+        {window.screen.width > 600 && (
+          <BiDotsVerticalRounded
+            onClick={() =>
+              {setCurrSelected({ copyURL, status, _id , selected });
+              selected === "events"
+                ? !dummyData.EventDummy && openOptionsPopup(i + 1)
+                : !dummyData.ServiceDummy && openOptionsPopup(i + 1)
+            }
+            }
+          />
+        )}
 
         {/* content card_popup */}
         <div
@@ -309,6 +334,15 @@ const ContentCard = ({
                                 >
                                   Notify Users
                                 </div> */}
+              <div
+                className="modaloptions_servicelist"
+                onClick={() => {
+                  setOpenDeleteModal(true)
+                  removeOptionPopup();
+                }}
+              >
+                Delete Service
+              </div>
               {selected !== "events" && (
                 <div
                   className="modaloptions_servicelist"
@@ -321,19 +355,19 @@ const ContentCard = ({
                   User Reviews
                 </div>
               )}
-              {/* <div className="modaloptions_servicelist_status">
+              <div className="modaloptions_servicelist_status">
                 Active Status
                 <span onClick={() => handleCheckClick()}>
                   <label className="switch_type_01">
                     <input
                       id={`checkbox_${i + 1}`}
                       type="checkbox"
-                      checked={status}
+                      checked={statusForCurrent}
                     />
                     <span className="slider_type_01 round_type_01"></span>
                   </label>
                 </span>
-              </div> */}
+              </div>
             </div>
           </div>
         </div>
@@ -351,7 +385,6 @@ const PopupModal = ({
   isEvent,
   eventCode,
 }) => {
-
   let message = isEvent
     ? `Greetings! Delighted to announce my event on ${sname}. Join for an unforgettable experience you won't want to miss!`
     : `Greetings! Here's my document on the topic ${sname}, I believe you'll find it highly informative and beneficial.`;
@@ -661,8 +694,9 @@ function ServiceDetailPage(props) {
     latestEvents,
   } = useContext(ServiceContext);
   const [revArray, setrevArray] = useState([]);
-  const [selected, setSelected] = useState(0);
-  const [ServicesEarningData, setServicesEarningData] = useState({})
+  const [selected, setSelected] = useState("all");
+  const [ServicesEarningData, setServicesEarningData] = useState({});
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
   const [dummyData, setdummyData] = useState({
     ServiceDummy: false,
     EventDummy: false,
@@ -681,11 +715,10 @@ function ServiceDetailPage(props) {
     getalleventsLiveandUpcoming().then(() => {});
 
     getallservices().then(() => {
-      setSelected("all");
       setOpenLoading(false);
     });
     // eslint-disable-next-line
-  }, []);
+  }, [openDeleteModal === false]);
 
   // no need of reversing the array of serices it is inverted from backend
   useEffect(() => {
@@ -694,7 +727,7 @@ function ServiceDetailPage(props) {
       EventDummy: services?.Eventdummy,
     });
 
-    setServicesEarningData({...services?.ServicesEarning})
+    setServicesEarningData({ ...services?.ServicesEarning });
     let list = services?.res;
     if (selected === "pdf") {
       setrevArray(
@@ -739,6 +772,8 @@ function ServiceDetailPage(props) {
 
   return (
     <>
+      {openDeleteModal && <DeleteModal onClose={()=>{setOpenDeleteModal(false)}} data={currselected}/>}
+
       {openLoading && <LoadTwo open={openLoading} />}
 
       {/* Change Status Modal ----------------------------------------- */}
@@ -781,9 +816,12 @@ function ServiceDetailPage(props) {
         {/* MObile ui navbar ---------------- */}
         {window.screen.width < 600 && (
           <section className="navbar_ui_covering_section_mobile_active">
-            <BsArrowLeftShort size={22} onClick={()=>{
-              navigate(-1)
-            }}/>
+            <BsArrowLeftShort
+              size={22}
+              onClick={() => {
+                navigate(-1);
+              }}
+            />
             My Content
           </section>
         )}
@@ -892,7 +930,8 @@ function ServiceDetailPage(props) {
                 setOpenModel={setOpenModel}
                 OpenOption={OpenOption}
                 revArray={revArray}
-                earning = {ServicesEarningData[elem?._id] ?? 0 }
+                earning={ServicesEarningData[elem?._id] ?? 0}
+                setOpenDeleteModal={setOpenDeleteModal}
               />
             );
           })}
