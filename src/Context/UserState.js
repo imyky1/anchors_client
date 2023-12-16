@@ -4,6 +4,10 @@ import { host } from "../config/config";
 export const userContext = createContext();
 
 const UserState = (props) => {
+
+  const [handleUserLoginForm, setHandleUserLoginForm] = useState(false)
+
+
   // ROUTE 1 : USER SIGN up
   //const userSignup = async( name, email, password, location) =>{
   //    const response = await fetch(`${host}/api/user/createuser`, {
@@ -109,6 +113,25 @@ const UserState = (props) => {
       console.error("Some error occured");
     }
   };
+
+  const checkUserIsLogined = async (email) =>{
+    const response = await fetch(
+      `${host}/api/user/isUserLogined`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+        body: JSON.stringify({
+          email
+        }),
+      }
+    );
+    const json = await response.json();
+    return json?.success
+  }
 
   // ROUTE 3 : USER ORDER
   const userPlaceOrder = async (
@@ -378,6 +401,8 @@ const UserState = (props) => {
     return json.success;
   };
 
+
+
   return (
     <userContext.Provider
       value={{
@@ -391,7 +416,10 @@ const UserState = (props) => {
         getUserDetails,
         checkUserOrderPlaced,
         updateUserInfo,
-        userSignInAsCreator
+        userSignInAsCreator,
+        setHandleUserLoginForm,
+        handleUserLoginForm,
+        checkUserIsLogined
       }}
     >
       {props.children}

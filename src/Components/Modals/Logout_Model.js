@@ -27,7 +27,7 @@ function Logout_Model() {
       localStorage.removeItem("from");
       localStorage.removeItem("user");
       mixpanel.reset();
-      navigate(localStorage.getItem("url"));
+      window.open(localStorage.getItem("url"),"_self");
     }
     toast.success("Logged Out successfully", {
       position: "top-center",

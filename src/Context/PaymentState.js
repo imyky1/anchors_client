@@ -185,6 +185,78 @@ const PaymentState = (props) => {
     return json.key;
   };
 
+   // Create user order stripe ----------------
+   const createUserOrderStripe = async (
+    orderFrom,
+    orderFor,
+    amount,
+    sname,
+    slug,
+    referralCode,
+    id
+  ) => {
+    try {
+      const response = await fetch(
+        `${host}/api/payment/userOrder/createOrderStripe/${id}`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+            "jwt-token": localStorage.getItem("jwtToken"),
+          },
+          body: JSON.stringify({
+            orderFrom,
+            orderFor,
+            amount,
+            sname,
+            slug,
+            referralCode,
+          }),
+        }
+      );
+      const json = await response.json();
+      return json;
+
+    } catch (error) {
+      toast.error("Some Error from Stripe", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    }
+  };
+
+
+   // Create user order stripe ----------------
+   const checkPaymentOrderStripe = async (
+    orderFrom,
+    paymentId
+  ) => {
+    try {
+      const response = await fetch(
+        `${host}/api/payment/checkStripeOrderStatus/${paymentId}?orderFrom=${orderFrom}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+            "jwt-token": localStorage.getItem("jwtToken"),
+          }
+        }
+      );
+      const json = await response.json();
+      return json;
+
+    } catch (error) {
+      toast.error("Some Error from Stripe", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+    }
+  };
+
   return (
     <paymentContext.Provider
       value={{
@@ -196,6 +268,8 @@ const PaymentState = (props) => {
         informLarkBot,
         createUserOrderEaseBuzz,
         easeBuzzApiKey,
+        createUserOrderStripe,
+        checkPaymentOrderStripe
       }}
     >
       {props.children}

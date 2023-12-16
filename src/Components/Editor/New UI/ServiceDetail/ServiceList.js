@@ -7,13 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { LoadTwo } from "../../../Modals/Loading";
 import { Email_Model2 } from "../../../Modals/Email_Modal";
 import { ChangeStatus } from "../../../Modals/ServiceSuccess/Modal2";
-import { Button1, Button2 } from "../Create Services/InputComponents/buttons";
+import { Button1, Button2, Button4 } from "../Create Services/InputComponents/buttons";
 import {
   AiOutlineCalendar,
   AiOutlineClockCircle,
   AiOutlinePlus,
 } from "react-icons/ai";
-import { BiDotsVerticalRounded, BiStats } from "react-icons/bi";
+import { BiDotsVerticalRounded, BiShow, BiStats } from "react-icons/bi";
 import mixpanel from "mixpanel-browser";
 import {
   BsArrowLeftShort,
@@ -28,6 +28,30 @@ import { IoCopy, IoCopyOutline } from "react-icons/io5";
 import { TbSend } from "react-icons/tb";
 import { LinkedinShareButton, TelegramShareButton } from "react-share";
 import { DeleteModal } from "../../../Modals/Logout_Model";
+import { Certificate } from "../../../EventCertifcates/SelectCertificate";
+
+const CertitficatePreview = ({certificateData,eventData,onClose}) =>{
+  return (
+    <div className="logout_model_logout">
+      <section className="certificate_preview_system">
+      <h1 className="text_type01_payment_info">Your Certificate</h1>
+
+      <Certificate 
+      scale={0.8}
+      origin="center"
+      data={{name:certificateData?.name,para:certificateData?.para}}
+      background={certificateData?.certificate}
+      signURL={certificateData?.sign}
+      signStyle={certificateData?.signStyle}
+      eventData={eventData}
+      />
+
+
+      <Button4 text="Close" onClick={onClose}/>
+      </section>
+    </div>
+  )
+}
 
 const ContentCard = ({
   i,
@@ -59,7 +83,9 @@ const ContentCard = ({
   OpenOption,
   revArray,
   earning,
-  setOpenDeleteModal
+  setOpenDeleteModal,
+  certificateData,
+  setCertificatePreviewData
 }) => {
   const navigate = useNavigate();
 
@@ -189,14 +215,29 @@ const ContentCard = ({
                 Created On :<span>{getDateTime()}</span>
               </p>
 
-              {selected === "events" && <button
+              {selected === "events" && 
+              (certificateData ? 
+              <button
+              onClick={() => {
+                mixpanel.track("Certificate Preview");
+                setCertificatePreviewData({open:true,certificateData,eventData:{
+                  sname: sname,
+                  date: startDate,
+                }})
+              }}
+            >
+             <BiShow/> Certificate Preview
+            </button>
+            :
+              
+              <button
                 onClick={() => {
                   mixpanel.track("Customise Certificate");
                   navigate(`/dashboard/eventCertificates/${slug}`)
                 }}
               >
                <BsFillBrushFill/> Customise Certificate 
-              </button>}
+              </button>)}
 
             </section>
 
@@ -708,6 +749,7 @@ function ServiceDetailPage(props) {
   const [isHoveredTooltip, setIsHoveredTooltip] = useState(false);
   const [NotifyEmailSent, setNotifyEmailSent] = useState(false);
   const [currselected, setCurrSelected] = useState(null); // selected options of a which service / event --------------
+  const [certificatePreviewData, setCertificatePreviewData] = useState({open:false})
 
   useEffect(() => {
     setOpenLoading(true);
@@ -775,6 +817,8 @@ function ServiceDetailPage(props) {
       {openDeleteModal && <DeleteModal onClose={()=>{setOpenDeleteModal(false)}} data={currselected}/>}
 
       {openLoading && <LoadTwo open={openLoading} />}
+
+      {certificatePreviewData?.open && <CertitficatePreview {...certificatePreviewData} onClose={()=>{setCertificatePreviewData({...certificatePreviewData,open:false})}}/>}
 
       {/* Change Status Modal ----------------------------------------- */}
 
@@ -932,6 +976,7 @@ function ServiceDetailPage(props) {
                 revArray={revArray}
                 earning={ServicesEarningData[elem?._id] ?? 0}
                 setOpenDeleteModal={setOpenDeleteModal}
+                setCertificatePreviewData={setCertificatePreviewData}
               />
             );
           })}

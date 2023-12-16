@@ -47,6 +47,7 @@ const CreatorState = (props) => {
           teleLink: info.teleLink,
           topmateLink: info.topmateLink,
           dob: info.dob,
+          slug:info?.username
         }),
       }
     );
@@ -601,6 +602,53 @@ const CreatorState = (props) => {
     }
   };
 
+  // Set a goal from dashboard ------------
+  const setAGoalForCreator = async (data) => {
+    try {
+      const response = await fetch(
+        `${host}/api/creator/creatorSetGoal`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+            "jwt-token": localStorage.getItem("jwtToken"),
+          },
+          body:JSON.stringify(data)
+        }
+      );
+
+      const json = await response.json();
+      return json;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Get all goal from dashboard ------------
+  const getAllGoalForCreator = async () => {
+    try {
+      const response = await fetch(
+        `${host}/api/creator/creatorGetAllGoals`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+            "jwt-token": localStorage.getItem("jwtToken"),
+          }
+        }
+      );
+
+      const json = await response.json();
+      return json;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // Statistics -----------------------------------------------------------------------------------
 
   //get order stats
@@ -754,6 +802,8 @@ const CreatorState = (props) => {
         getCreatorUpcomingData,
         checkChecklistStatus,
         checkAndUpdateBadgeStatus,
+        getAllGoalForCreator,
+        setAGoalForCreator
       }}
     >
       {props.children}

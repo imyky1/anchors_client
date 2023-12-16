@@ -110,6 +110,7 @@ const NewCongratsServiceCreation = ({
   type,
   slug,
   firstTimeModalOpenDashboard,
+  onClose
 }) => {
   const navigate = useNavigate();
 
@@ -179,6 +180,19 @@ const NewCongratsServiceCreation = ({
       svgColor: "#10B981",
       crossLink: "/dashboard/editprofile",
     },
+    setGoal:{
+      text: "Congratulations",
+      subtext: "You Have Successfully Set Your Goal",
+      button1: {
+        text: "Continue",
+        rightIcon: <AiOutlineArrowRight size={24} />,
+        action: () => {
+          onClose()
+        },
+      },
+      svgColor: "#10B981",
+      crossLink: "/dashboard",
+    }
   };
 
   return (
@@ -196,30 +210,33 @@ const NewCongratsServiceCreation = ({
             <BiCheckCircle
               className="congratualtion_popup_inside_symbol_design"
               size={66}
-              color={Data[type].svgColor}
+              color={Data[type]?.svgColor}
             />
           </div>
           <div className="new_congratualtion_popup_inside_symbol_middle">
-            {Data[type].text}
-            <section>{Data[type].subtext}</section>
+            {Data[type]?.text}
+            <section>{Data[type]?.subtext}</section>
           </div>
           <div className="congratualtion_popup_inside_symbol_last">
+          {Data[type]?.button1 &&
             <button
               className="button_serviceModal_creation01"
-              onClick={Data[type].button1.action}
+              onClick={Data[type]?.button1.action}
             >
-              {Data[type].button1.leftIcon && Data[type].button1.leftIcon}
-              {Data[type].button1.text}
-              {Data[type].button1.rightIcon && Data[type].button1.rightIcon}
-            </button>
+              {Data[type]?.button1?.leftIcon && Data[type]?.button1?.leftIcon}
+              {Data[type]?.button1?.text}
+              {Data[type]?.button1?.rightIcon && Data[type]?.button1?.rightIcon}
+            </button>}
+
+            {Data[type]?.button2 &&
             <button
               className="button_serviceModal_creation01"
-              onClick={Data[type]?.button2.action}
+              onClick={Data[type]?.button2?.action}
             >
-              {Data[type].button2.leftIcon && Data[type].button2.leftIcon}
-              {Data[type].button2.text}
-              {Data[type].button2.rightIcon && Data[type].button2.rightIcon}
-            </button>
+              {Data[type]?.button2?.leftIcon && Data[type]?.button2?.leftIcon}
+              {Data[type]?.button2?.text}
+              {Data[type]?.button2?.rightIcon && Data[type]?.button2?.rightIcon}
+            </button>}
           </div>
         </div>
       </div>

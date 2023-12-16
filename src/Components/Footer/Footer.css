@@ -183,26 +183,23 @@
 }
 
 .footer_user_side_anchors2 > button {
-  padding: 16px 32px;
-  border-radius: 70px;
-  border: 1px solid #d0d0d0;
-  background: #121212;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 
-  color: #ddd;
-  font-family: "Gilroy-Medium", sans-serif;
-  font-size: 24px;
+  color: var(--neutral-gray-400, #94a3b8);
+  font-family: "Inter";
+  font-size: 16px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   line-height: normal;
+  background-color: transparent;
+  border: none;
 }
 
-.footer_user_side_anchors2 > button:hover{
-  background-color: #ff0000;
-  border: 1px solid #f00;
+.footer_user_side_anchors2 > button:hover {
+  color: #ff0000;
 }
 
 .footer-section_logo_02 > svg {
@@ -346,10 +343,9 @@
     font-size: 10px;
   }
 
-  .footer_user_side_anchors2 > button{
+  .footer_user_side_anchors2 > button {
     font-size: 12px;
     padding: 4px 12px;
     gap: 8px;
   }
-
 }

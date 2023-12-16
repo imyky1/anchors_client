@@ -74,7 +74,7 @@
 }
 
 .helper_text_label_type_01{
-  color: #FF0000;
+  color: #FF5C5C;
   margin-left: 8px;
   display: inline-flex;
   align-items: center;
@@ -96,10 +96,13 @@
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 16px;
   color: #a0a0a0;
   margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .label_type_04 {
@@ -279,6 +282,8 @@ div.ck-editor.ck.ck-reset {
   position: absolute;
   top: 70px;
   z-index: 99;
+  max-height: 250px;
+  overflow-y: auto;
 }
 
 .dropdown_menu_options > span {
@@ -286,10 +291,11 @@ div.ck-editor.ck.ck-reset {
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 17px;
   color: #2c1e1e;
   height: 36px;
+  min-height: 36px;
   margin-bottom: 2px;
   display: flex;
   align-items: center;
@@ -298,6 +304,7 @@ div.ck-editor.ck.ck-reset {
   border-radius: 10px;
   padding: 0 12px;
   box-sizing: border-box;
+  gap: 8px;
 }
 
 .dropdown_menu_options > span:hover {
@@ -448,6 +455,26 @@ input:checked + .slider_type_01:before {
   color: red;
 }
 
+.button_04_css{
+  min-width: 164px;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 17px;
+  color: #FAFAFA;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #FF5C5C;
+  border: none;
+}
+
+
 /* tags section --------------------------------------------------- */
 
 .tags01_box {
@@ -518,11 +545,11 @@ input:checked + .slider_type_01:before {
 /* Ck editor css ------------ */
 
 .quill-editor {
-  height: 120px;
+  min-height: 135px;
   width: 100%;
   color: #ffffff;
   border-radius: 10px;
-  margin-bottom: 37px;
+  /* margin-bottom: 37px; */
 }
 
 .ql-editor.ql-blank::before {
@@ -531,9 +558,9 @@ input:checked + .slider_type_01:before {
 }
 
 .ql-container {
-  min-height: 90px;
   border-radius: 0 0 5px 5px;
   border: 0.5px solid #9a9a9a !important;
+  min-height: 116px;
 }
 
 .ql-toolbar {

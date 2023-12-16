@@ -41,15 +41,21 @@
 .sidebar_main_box > div > div > span {
   font-family: "Inter";
   font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: 400;
+  font-size: 12px;
   line-height: 17px;
   color: #0083fe;
   display: flex;
   align-items: center;
+  gap: 8px;
   margin-top: 12px;
   cursor: pointer;
-  padding-left: 13px;
+  border-radius: 4px;
+  padding: 8px 12px;
+  border: 1px solid #0083fe;
+  width: 100%;
+  box-sizing: border-box;
+  justify-content: space-between;
 }
 
 .sidebar_main_box > div > div > span img {
@@ -266,7 +272,7 @@
     gap: 4px;
     margin: unset;
 
-    color: #A0A0A0;
+    color: #a0a0a0;
     font-family: "Gilroy-Medium", sans-serif;
     font-size: 10px;
     font-style: normal;
@@ -274,17 +280,77 @@
     line-height: normal;
   }
 
-  .sidebar_navigation_active{
+  .sidebar_navigation_active {
     background-color: unset;
     color: #d0d0d0;
   }
 
-
-  .invite_sidebar{
+  .invite_sidebar {
     width: 92%;
     bottom: 20px;
     left: unset;
   }
+}
 
-  
+
+
+
+/*  sidebar 2 css */
+
+.sidebar2_main_box{
+  background: #121212;
+  height: 100vh;
+  position: sticky;
+  left: 0;
+  top: 0;
+  border-right: 1px solid #212121;
+  padding-left: 16px;
+  box-sizing: border-box;
+  padding-top: 13px;
+  padding:20px;
+}
+
+.sidebar2_navigation{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+
+.sidebar2_main_box > div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.sidebar2_navigation_normal{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e1e1e1;
+  cursor: pointer;
+  border-radius: 4px;
+  box-sizing: border-box;
+  text-decoration: none;
+  padding: 8px;
+  position: relative;
+}
+
+.sidebar2_navigation_normal > img{
+  width: 20px;
+  height: 20px;
+}
+
+.sidebar2_navigation_normal:hover{
+  background-color: #212121;
+}
+
+
+.sidebar2_navigation_active{
+  background-color: #212121 !important;
 }

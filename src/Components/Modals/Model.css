@@ -237,11 +237,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent !important;
+  background: transparent;
+}
+
+.loading_strip_container{
+  border-radius: 8px;
+background: var(--natural-900, #212121);
+padding: 40px 40px;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.loading_strip_container > span{
+  color: var(--natural-50, #FAFAFA);
+font-family: "Inter";
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+width: 200px;
 }
 
 .load2 {
-  width: 2rem !important;
+  width: 2rem ;
 }
 
 .fb_modal {

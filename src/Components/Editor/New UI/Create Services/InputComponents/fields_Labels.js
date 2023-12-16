@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import "./components.css";
 import { useEffect } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import ReactQuill, { Quill } from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import ImageResize from 'quill-image-resize-module-react';
+import BlotFormatter from 'quill-blot-formatter';
 import { HiOutlineUpload } from "react-icons/hi";
 import { TfiReload } from "react-icons/tfi";
 import { AiFillInfoCircle } from "react-icons/ai";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+Quill.register('modules/imageResize', ImageResize);
+Quill.register('modules/blotFormatter', BlotFormatter);
 
 export const TooltipBox = ({ text, top, left, points = [] }) => (
   <div className="tooltip-component-box" style={{ top, left } ?? {}}>
@@ -56,6 +60,7 @@ function fields_Labels1(props) {
       {props?.verifiedComp && (
         <i className="fa-solid fa-square-check fa-xl verifiedComponent01"></i>
       )}
+      <p className="label_type_03" style={{color:props?.infoColor}}>{props.info}</p>
     </div>
   );
 }
@@ -101,8 +106,33 @@ function EditorText01(props) {
         }}
         className="quill-editor"
         placeholder={props?.placeholder}
+
+        modules={{
+          toolbar: [
+            [{ size: [] }],
+            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+            [
+              { list: 'ordered' },
+              { list: 'bullet' },
+              { indent: '-1' },
+              { indent: '+1' }
+            ],
+            ['link', 'image', 'video'],
+            ['clean']
+          ],
+          clipboard: {
+            // toggle to add extra line breaks when pasting HTML:
+            matchVisual: false
+          },
+          imageResize: {
+            parchment: Quill.import('parchment'),
+            modules: ['Resize', 'DisplaySize']
+          },
+          blotFormatter: {}
+      }}
+
       />
-      <p className="label_type_03">{props.info}</p>
+      <p className="label_type_03" style={props?.infoStyle} onClick={props?.infoClick}>{props.info}</p>
     </div>
   );
 }
@@ -437,7 +467,6 @@ function Dropdown01(props) {
       <div
         className="dropdown_input_01"
         onClick={() => {
-          console.log("hello");
           setOpenDropDown(!OpenDropDown);
         }}
       >
@@ -460,13 +489,14 @@ function Dropdown01(props) {
               <span
                 key={i}
                 onClick={() => {
-                  setdropValue(e);
+                  setdropValue(e?.text ?? e);
                   setOpenDropDown(false);
-                  props.selectedValue(e);
-                  props.onClick();
+                  props?.selectedValue(e?.text ?? e);
+                  // props?.onClick();
                 }}
               >
-                {e}
+                {e?.icon}
+                {e?.text ?? e}
               </span>
             );
           })}

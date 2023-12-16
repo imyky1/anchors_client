@@ -39,10 +39,10 @@ function Login2() {
     window.open(`${host}/login/auth/linkedin`, "_self");
   };
 
-  if(localStorage.getItem("jwtToken") && localStorage.getItem("isUser")=== ""){
-    window.open("/dashboard","_self")
-    return null;
-  }
+  // if(localStorage.getItem("jwtToken") && localStorage.getItem("isUser")=== ""){
+  //   window.open("/dashboard","_self")
+  //   return null;
+  // }
 
 
   return (

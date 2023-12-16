@@ -9,6 +9,7 @@ export const linkedinContext = createContext();
 const LinkedinState = (props) => {
   const navigate = useNavigate();
   const [loginInfo, setloginInfo] = useState({});
+  const [verifiedData, setVerifiedData] = useState(null);
   const [truecallervalue, settruecallervalue] = useState({});
 
   const creatorLinkedinLogin = async () => {
@@ -40,18 +41,24 @@ const LinkedinState = (props) => {
             LoginCreator(login.id, "", login.name, login.email, login.photo);
           }
         } else {
-          toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
-            position: "top-center",
-            autoClose: 1500,
-          });
+          toast.error(
+            "Authentication issue with Google/LinkedIn. Retry or contact support.",
+            {
+              position: "top-center",
+              autoClose: 1500,
+            }
+          );
           navigate("/login/creators");
         }
       })
       .catch((error) => {
-        toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
-          position: "top-center",
-          autoClose: 1500,
-        });
+        toast.error(
+          "Authentication issue with Google/LinkedIn. Retry or contact support.",
+          {
+            position: "top-center",
+            autoClose: 1500,
+          }
+        );
         navigate("/login/creators");
       });
   };
@@ -85,18 +92,24 @@ const LinkedinState = (props) => {
             LoginCreator("", login.id, login.name, login.email, login.photo);
           }
         } else {
-          toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
-            position: "top-center",
-            autoClose: 1500,
-          });
+          toast.error(
+            "Authentication issue with Google/LinkedIn. Retry or contact support.",
+            {
+              position: "top-center",
+              autoClose: 1500,
+            }
+          );
           navigate("/login/creators");
         }
       })
       .catch((error) => {
-        toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
-          position: "top-center",
-          autoClose: 1500,
-        });
+        toast.error(
+          "Authentication issue with Google/LinkedIn. Retry or contact support.",
+          {
+            position: "top-center",
+            autoClose: 1500,
+          }
+        );
         navigate("/login/creators");
       });
   };
@@ -112,11 +125,11 @@ const LinkedinState = (props) => {
     try {
       const userdata = await userIp();
       let slugurl = name.split(" ").join("");
-      const count = await getslugcountcreator(slugurl.toLowerCase());
+      const data = await getslugcountcreator(slugurl.toLowerCase());
       let slugurl2 =
-        count === 0
+        data?.count === 0
           ? slugurl.toLowerCase()
-          : slugurl.toLowerCase().concat("", `${count}`);
+          : slugurl.toLowerCase().concat("", `${data?.count}`);
 
       const response = await fetch(`${host}/api/creator/newCreator`, {
         method: "POST",
@@ -162,20 +175,26 @@ const LinkedinState = (props) => {
           navigate("/login/creators");
         }, 2500);
       } else {
-        toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
-          position: "top-center",
-          autoClose: 1500,
-        });
+        toast.error(
+          "Authentication issue with Google/LinkedIn. Retry or contact support.",
+          {
+            position: "top-center",
+            autoClose: 1500,
+          }
+        );
         setTimeout(() => {
           navigate("/signup/creators");
         }, 1500);
       }
     } catch (error) {
       console.error(error);
-      toast.info("Authentication issue with Google/LinkedIn. Retry or contact support.", {
-        position: "top-center",
-        autoClose: 1500,
-      });
+      toast.info(
+        "Authentication issue with Google/LinkedIn. Retry or contact support.",
+        {
+          position: "top-center",
+          autoClose: 1500,
+        }
+      );
       setTimeout(() => {
         navigate("/");
       }, 1500);
@@ -223,7 +242,6 @@ const LinkedinState = (props) => {
         } else {
           navigate("/dashboard/waitlist");
         }
-        
       } else if (!res.success && !res.already) {
         // account is not created------------
         toast.error("You're not registered. Sign up for an account.", {
@@ -234,10 +252,13 @@ const LinkedinState = (props) => {
           navigate("/signup/creators");
         }, 2500);
       } else {
-        toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
-          position: "top-center",
-          autoClose: 1500,
-        });
+        toast.error(
+          "Authentication issue with Google/LinkedIn. Retry or contact support.",
+          {
+            position: "top-center",
+            autoClose: 1500,
+          }
+        );
         setTimeout(() => {
           navigate("/login/creators");
         }, 1500);
@@ -263,7 +284,7 @@ const LinkedinState = (props) => {
     const json = await response.json();
 
     if (json.success) {
-      return json.count;
+      return json;
     } else {
       console.log("Some error Occured");
     }
@@ -309,17 +330,23 @@ const LinkedinState = (props) => {
           setloginInfo(login);
           registerUserLogin(login.id, login.name, login.email, login.photo);
         } else {
-          toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
-            position: "top-center",
-            autoClose: 1500,
-          });
+          toast.error(
+            "Authentication issue with Google/LinkedIn. Retry or contact support.",
+            {
+              position: "top-center",
+              autoClose: 1500,
+            }
+          );
         }
       })
       .catch((error) => {
-        toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
-          position: "top-center",
-          autoClose: 1500,
-        });
+        toast.error(
+          "Authentication issue with Google/LinkedIn. Retry or contact support.",
+          {
+            position: "top-center",
+            autoClose: 1500,
+          }
+        );
       });
   };
 
@@ -343,21 +370,33 @@ const LinkedinState = (props) => {
           setloginInfo(login);
           registerUserLogin(login.id, login.name, login.email, login.photo);
         } else {
-          toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
-            position: "top-center",
-            autoClose: 1500,
-          });
+          toast.error(
+            "Authentication issue with Google/LinkedIn. Retry or contact support.",
+            {
+              position: "top-center",
+              autoClose: 1500,
+            }
+          );
         }
       })
       .catch((error) => {
-        toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
-          position: "top-center",
-          autoClose: 1500,
-        });
+        toast.error(
+          "Authentication issue with Google/LinkedIn. Retry or contact support.",
+          {
+            position: "top-center",
+            autoClose: 1500,
+          }
+        );
       });
   };
 
-  const registerUserLogin = async (id, name, email, photo) => {
+  const registerUserLogin = async (
+    id,
+    name,
+    email,
+    photo,
+    phoneNumber
+  ) => {
     const userdata = await userIp();
     const response = await fetch(`${host}/api/user/newUser`, {
       method: "POST",
@@ -367,18 +406,19 @@ const LinkedinState = (props) => {
         "Access-Control-Allow-Credentials": true,
       },
       body: JSON.stringify({
-        linkedinID: `${localStorage.getItem("from") === "google" ? "" : id}`,
-        googleID: `${localStorage.getItem("from") !== "google" ? "" : id}`,
+        linkedinID: `${localStorage.getItem("from") === "linkedin" ? id : ""}`,
+        googleID: `${localStorage.getItem("from") === "google" ? id : ""}`,
         name,
         email,
         photo,
         location: userdata,
-        joinedFrom : localStorage.getItem("url")
+        joinedFrom: localStorage.getItem("url"),
+        phoneNumber,
       }),
     });
-    localStorage.getItem("joinedFromPage")
     localStorage.removeItem("from");
     const res = await response.json();
+
     if (res.success) {
       // Determine if user is signing up or logging in
       const isSigningUp = !res.already;
@@ -407,12 +447,15 @@ const LinkedinState = (props) => {
       }
 
       // Perform any necessary navigation
-      navigate(localStorage.getItem("url"));
+      window.open(localStorage.getItem("url"), "_self");
     } else {
-      toast.error("Authentication issue with Google/LinkedIn. Retry or contact support.", {
-        position: "top-center",
-        autoClose: 1500,
-      });
+      toast.error(
+        "Authentication issue with Google/LinkedIn. Retry or contact support.",
+        {
+          position: "top-center",
+          autoClose: 1500,
+        }
+      );
     }
   };
 
@@ -550,6 +593,77 @@ const LinkedinState = (props) => {
     return json;
   };
 
+  // check and verify the user login ------------------------
+  const checkAndGetUserData = async () => {
+    const response = await fetch(
+      `${host}/login/verifyAndGetUser?type=${
+        localStorage.getItem("isUser") === "true"
+          ? "user"
+          : localStorage.getItem("isUser") === ""
+          ? "creator"
+          : ""
+      }`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+          "jwt-token": localStorage.getItem("jwtToken"),
+        },
+      }
+    );
+    const res = await response.json();
+
+    // no problem in accessing i.e user is verified
+    if (res?.success) {
+      setVerifiedData({
+        data: res?.data,
+        userType:
+          localStorage.getItem("isUser") === "true"
+            ? "user"
+            : localStorage.getItem("isUser") === ""
+            ? "creator"
+            : "",
+      });
+    } else {
+      if (res?.logout) {
+        // logout the user ----------------
+        if (localStorage.getItem("isUser") === "") {
+          localStorage.removeItem("isUser");
+          localStorage.removeItem("jwtToken");
+          localStorage.removeItem("from");
+          localStorage.removeItem("url");
+          localStorage.removeItem("user");
+          localStorage.removeItem("c_id");
+          mixpanel.reset();
+          navigate("/");
+        } else {
+          mixpanel.track("Clicked Logout By User");
+          localStorage.removeItem("isUser");
+          localStorage.removeItem("jwtToken");
+          localStorage.removeItem("from");
+          localStorage.removeItem("user");
+          mixpanel.reset();
+          navigate(localStorage.getItem("url"));
+        }
+
+        toast.info("You are not allowed, Please login again!!!", {
+          position: "top-center",
+          autoClose: 1500,
+        });
+      } else {
+        toast.error(
+          "Some error occured in verifying userdata, Please login again!!!",
+          {
+            position: "top-center",
+            autoClose: 1500,
+          }
+        );
+      }
+    }
+  };
+
   return (
     <linkedinContext.Provider
       value={{
@@ -562,6 +676,10 @@ const LinkedinState = (props) => {
         truecallerlogin,
         loginInfo,
         truecallervalue,
+        getslugcountcreator,
+        checkAndGetUserData,
+        verifiedData,
+        registerUserLogin,
       }}
     >
       {props.children}

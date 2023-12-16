@@ -1,7 +1,7 @@
 import mixpanel from "mixpanel-browser";
 import "./Navbar.css";
 import React, { useContext, useEffect, useState } from "react";
-import User_login from "../../Login/Users/User_login";
+import User_login, { Dataform, OtpForm } from "../../Login/Users/User_login";
 import { useNavigate } from "react-router-dom";
 import { userContext } from "../../../Context/UserState";
 import { toast } from "react-toastify";
@@ -154,10 +154,15 @@ export const Navbar2 = ({
   const [openUserMenu, setOpenUserMenu] = useState(false); // opens hamburger menu
   const [userDetails, setUserDetails] = useState({});
   const [userIsCreator, setUserIsCreator] = useState(false);
+
+  const [openDataForm, setOpenDataForm] = useState(false)
+
+  const [openOTP, setOpenOTP] = useState({open:false,data:null})
+
   const navigate = useNavigate();
 
   // User context ---------------
-  const { getUserDetails, userSignInAsCreator } = useContext(userContext);
+  const { getUserDetails, userSignInAsCreator, handleUserLoginForm } = useContext(userContext);
 
   // controlls the closing of user menu
   openUserMenu &&
@@ -218,6 +223,14 @@ export const Navbar2 = ({
     }
   }, []);
 
+
+  useEffect(() => {
+   if(handleUserLoginForm){
+    setOpenDataForm(true)
+   }
+  }, [handleUserLoginForm])
+  
+
   // by default opens the user login modal
   useEffect(() => {
     if (open) {
@@ -233,7 +246,18 @@ export const Navbar2 = ({
           !noCloseLogin && close && close();
           !noCloseLogin && setOpenModel(false);
         }}
+        setOpenDataForm={setOpenDataForm}
       />
+
+      <Dataform
+       open={openDataForm}
+       onClose={() => {
+         setOpenDataForm(false)
+       }}
+       setOpenOTP={setOpenOTP}
+      />
+
+      <OtpForm {...openOTP} />
 
       <div
         className="header_section_new_ui_event_page"

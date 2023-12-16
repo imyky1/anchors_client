@@ -175,7 +175,7 @@
 
 .otp_main_container_earning > section {
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: center;
   flex-direction: column;
   gap: 18px;

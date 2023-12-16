@@ -5,16 +5,24 @@ import "./Dashboard.css";
 import mixpanel from "mixpanel-browser";
 import { creatorContext } from "../../../../Context/CreatorState";
 import { BsFillPersonFill, BsFillStarFill } from "react-icons/bs";
-import { AiOutlineArrowRight } from "react-icons/ai";
-import { BiRupee } from "react-icons/bi";
+import { AiOutlineArrowRight, AiOutlineCalendar } from "react-icons/ai";
+import { BiCoinStack, BiRupee } from "react-icons/bi";
 import { CgFileDocument } from "react-icons/cg";
 import Confetti from "react-confetti";
 import { ToastContainer, toast } from "react-toastify";
 import { MdAttachMoney, MdDone, MdOutlineDone } from "react-icons/md";
 import { HiOutlineLightBulb } from "react-icons/hi";
-import { RxCross2 } from "react-icons/rx";
+import { RxCross2, RxPlusCircled } from "react-icons/rx";
 import { TbChecklist } from "react-icons/tb";
-import { IoCopyOutline } from "react-icons/io5";
+import { IoCopyOutline, IoPeopleSharp } from "react-icons/io5";
+import {
+  Dropdown1,
+  TextField1,
+} from "../Create Services/InputComponents/fields_Labels";
+import { Button4 } from "../Create Services/InputComponents/buttons";
+import { NewCongratsServiceModal } from "../../../Modals/ServiceSuccess/Modal";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const ChecklistContent = [
   {
@@ -86,6 +94,291 @@ const ChecklistContent = [
     buttonLink: "/dashboard/requests",
   },
 ];
+
+const GoalPopup = ({ setData, data, onClose, handleSetGoal }) => {
+  return (
+    <div className="logout_model_logout" onClick={onClose}>
+      <section
+        className="goal_create_popup_section_main"
+        onClick={(e) => {
+          e?.stopPropagation();
+        }}
+      >
+        <RxCross2
+          className="chnageStatusModalCross"
+          size={20}
+          style={{ top: "25px" }}
+          onClick={onClose}
+        />
+        <h2 className="text_01_dashboard">Create New Goal</h2>
+
+        <div className="goal_create_popup_content_div">
+          <div className="left_side_goal_create_popup">
+            <Dropdown1
+              placeholder="Select Goal Type"
+              value={[
+                {
+                  icon: <BiCoinStack size={16} />,
+                  text: "Revenue Generation",
+                },
+                {
+                  icon: <IoPeopleSharp size={16} />,
+                  text: "Number of audiences",
+                },
+              ]}
+              selectedValue={(e) => {
+                setData({ ...data, goalType: e });
+              }}
+              name="goalType"
+              id="goalType"
+            />
+            <TextField1
+              placeholder="Enter Goal Number"
+              onChange={(e) => {
+                setData({ ...data, goalNumber: e?.target?.value });
+              }}
+              name="goalNumber"
+              id="goalNumber"
+              type="number"
+            />
+            <Dropdown1
+              placeholder="Number of days"
+              value={new Array(60).fill(0).map((_, index) => {
+                return { icon: <AiOutlineCalendar />, text: index + 1 };
+              })}
+              selectedValue={(e) => {
+                setData({ ...data, days: e });
+              }}
+              name="days"
+              id="days"
+            />
+          </div>
+
+          <div className="right_side_goal_create_popup">
+            <GoalFrame {...data} />
+
+            <span>Goal Preview</span>
+          </div>
+        </div>
+
+        <Button4
+          text="Continue"
+          icon={<AiOutlineArrowRight />}
+          onClick={handleSetGoal}
+        />
+      </section>
+    </div>
+  );
+};
+
+const GoalFrame = ({
+  goalType = "Number of audiences",
+  createdAt = new Date(),
+  goalNumber = 299,
+  days = 10,
+  createCard = false,
+  openPopup,
+  percent,
+}) => {
+  const getDate = () => {
+    let date = new Date(createdAt);
+
+    const finalDate = new Date(date);
+    finalDate.setDate(date?.getDate() + days);
+
+    date = finalDate.toDateString().split(" ");
+
+    return date[2] + " " + date[1] + "' " + date[3];
+  };
+
+  return (
+    <div className="goal_frame_design_01_wrapper">
+      {createCard ? (
+        <p onClick={openPopup}>
+          <RxPlusCircled size={40} />
+          Create New Goal
+        </p>
+      ) : (
+        <>
+          <section>
+            {goalType === "Revenue Generation" ? (
+              <p>
+                ₹<span>{goalNumber}</span>
+              </p>
+            ) : (
+              <p>
+                <span>{goalNumber}</span>
+                audience
+              </p>
+            )}
+
+            <span>Till {getDate()}</span>
+          </section>
+
+          <div>
+            <div></div>
+            <div></div>
+            {percent ? percent + "%" : "--"}
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+const SetGoal = () => {
+  const { getAllGoalForCreator, setAGoalForCreator } =
+    useContext(creatorContext);
+
+  const [loader, setLoader] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [openSuccessPopup, setOpenSuccessPopup] = useState(false);
+
+  const [refetch, setRefetch] = useState(false);
+
+  const [data, setData] = useState({
+    goalType: null,
+    goalNumber: null,
+    days: null,
+  });
+
+  const [allGoals, setAllGoals] = useState([]);
+
+  const handleSetGoal = async () => {
+    if (
+      data?.goalType &&
+      data?.goalNumber &&
+      data?.goalNumber > 0 &&
+      data?.days
+    ) {
+      let result = await setAGoalForCreator(data);
+
+      if (result?.success) {
+        setOpenSuccessPopup(true);
+        setOpenPopup(false);
+        setRefetch(!refetch);
+      }
+    } else {
+      toast.error("Fill all the madatory fields", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    }
+  };
+
+  useEffect(() => {
+    setLoader(true);
+    getAllGoalForCreator().then((e) => {
+      setAllGoals(e?.goals);
+      setLoader(false);
+    });
+  }, [refetch]);
+
+  return (
+    <>
+      {openPopup && (
+        <GoalPopup
+          setData={setData}
+          data={data}
+          handleSetGoal={handleSetGoal}
+          onClose={() => {
+            setOpenPopup(false);
+          }}
+        />
+      )}
+
+      {openSuccessPopup && (
+        <NewCongratsServiceModal
+          type="setGoal"
+          onClose={() => {
+            setOpenSuccessPopup(false);
+          }}
+        />
+      )}
+
+      {!loader ? (
+        <div className="set_goal_outside_wrapper">
+          <h2 className="text_01_dashboard">What's Your Goal?</h2>
+
+          {allGoals?.length > 0 ? (
+            <div className="all_goal_cards_container">
+              {allGoals?.map((element, index) => {
+                return (
+                  <GoalFrame
+                    key={index}
+                    {...element?.goal}
+                    percent={element?.percent}
+                  />
+                );
+              })}
+              <GoalFrame
+                createCard={true}
+                openPopup={() => {
+                  setOpenPopup(true);
+                }}
+              />
+            </div>
+          ) : (
+            <>
+              <span className="text_02_dashboard" style={{ textAlign: "left" }}>
+                Set a target of what you want to achieve!
+              </span>
+
+              <section>
+                <Dropdown1
+                  placeholder="Select Goal Type"
+                  value={[
+                    {
+                      icon: <BiCoinStack size={16} />,
+                      text: "Revenue Generation",
+                    },
+                    {
+                      icon: <IoPeopleSharp size={16} />,
+                      text: "Number of audiences",
+                    },
+                  ]}
+                  selectedValue={(e) => {
+                    setData({ ...data, goalType: e });
+                  }}
+                  name="goalType"
+                  id="goalType"
+                />
+                <TextField1
+                  placeholder="Enter Goal Number"
+                  onChange={(e) => {
+                    setData({ ...data, goalNumber: e?.target?.value });
+                  }}
+                  name="goalNumber"
+                  id="goalNumber"
+                  type="number"
+                />
+                <Dropdown1
+                  placeholder="Number of days"
+                  value={new Array(60).fill(0).map((_, index) => {
+                    return { icon: <AiOutlineCalendar />, text: index + 1 };
+                  })}
+                  selectedValue={(e) => {
+                    setData({ ...data, days: e });
+                  }}
+                  name="days"
+                  id="days"
+                />
+
+                <Button4
+                  text="Continue"
+                  icon={<AiOutlineArrowRight />}
+                  onClick={handleSetGoal}
+                />
+              </section>
+            </>
+          )}
+        </div>
+      ) : (
+        <Skeleton width="60vw" height={212} />
+      )}
+    </>
+  );
+};
 
 const CheckListPopup = ({ toClose }) => {
   const navigate = useNavigate();
@@ -327,20 +620,70 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews, userData }) => {
       )}
 
       <div className="main_dashboard_conatiner2">
-
         {/* MObile ui navbar ---------------- */}
-        {window.screen.width < 600 && <section className="navbar_ui_covering_section_mobile">
+        {window.screen.width < 600 && (
+          <section className="navbar_ui_covering_section_mobile"></section>
+        )}
 
-        </section>}
+        {/* Set Goal -------------------- */}
+        <SetGoal />
 
+        {/* share experience cta -------------------- */}
+        <div className="main_dashboard_design_box">
+          <h2 className="text_01_dashboard">Share Your Expertise</h2>
+
+          <section>
+            <div
+              onClick={() => {
+                navigate("createservice?type=pdf");
+                mixpanel.track("Share a pdf");
+              }}
+              className="dashboard_options"
+            >
+              <span>Share PDF</span>
+
+              <p>Guides, Summaries, Notes & more!</p>
+            </div>
+            <div
+              onClick={() => {
+                navigate("createservice?type=excel");
+                mixpanel.track("Share a excel");
+              }}
+              className="dashboard_options"
+            >
+              <span>Share Excel</span>
+              <p>Finances, Jobs, Skincare Tips & more!</p>
+            </div>
+            {/* <div
+              onClick={() => {
+                navigate("createservice?type=video");
+                mixpanel.track("Share a video");
+              }}
+              className="dashboard_options"
+            >
+              Share a Video
+            </div> */}
+            <div
+              onClick={() => {
+                navigate("createevent");
+                mixpanel.track("Share a event");
+              }}
+              className="dashboard_options"
+            >
+              <span>Host Event</span>
+
+              <p>Webinars, Workshops, Q&A!</p>
+            </div>
+          </section>
+        </div>
+
+        {/* stepper --------------------  */}
         <div className="stepper_outside_wrapper_dashboard">
-          <h2 className="text_01_dashboard">
-            Welcome {allCreatorInfo?.name?.split(" ")[0]}!
-          </h2>
-          <span className="text_02_dashboard" style={{ textAlign: "left" }}>
+          <h2 className="text_01_dashboard">Stepper</h2>
+          {/* <span className="text_02_dashboard" style={{ textAlign: "left" }}>
             Your creative journey starts here. Explore premium content and
             events.
-          </span>
+          </span> */}
 
           {window.screen.width > 600 && (
             <section>
@@ -457,52 +800,6 @@ const DashboardStepper = ({ setOpenFirstTimeModal, reviews, userData }) => {
               </div>
             </section>
           )}
-        </div>
-
-        <div className="main_dashboard_design_box">
-          <section>
-            <div
-              onClick={() => {
-                navigate("createservice?type=pdf");
-                mixpanel.track("Share a pdf");
-              }}
-              className="dashboard_options"
-            >
-              <span>Share PDF</span>
-
-              <p>Guides, Summaries, Notes & more!</p>
-            </div>
-            <div
-              onClick={() => {
-                navigate("createservice?type=excel");
-                mixpanel.track("Share a excel");
-              }}
-              className="dashboard_options"
-            >
-              <span>Share Excel</span>
-              <p>Finances, Jobs, Skincare Tips & more!</p>
-            </div>
-            {/* <div
-              onClick={() => {
-                navigate("createservice?type=video");
-                mixpanel.track("Share a video");
-              }}
-              className="dashboard_options"
-            >
-              Share a Video
-            </div> */}
-            <div
-              onClick={() => {
-                navigate("createevent");
-                mixpanel.track("Share a event");
-              }}
-              className="dashboard_options"
-            >
-              <span>Host Event</span>
-
-              <p>Webinars, Workshops, Q&A!</p>
-            </div>
-          </section>
         </div>
 
         {window.screen.width < 600 && userData?.inviteCode && (

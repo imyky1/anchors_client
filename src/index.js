@@ -4,15 +4,27 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { CookiesProvider } from "react-cookie";
+import LinkedinState from "./Context/LinkedinState";
+import { BrowserRouter } from "react-router-dom";
+import UserState from "./Context/UserState";
+import SiteControlsState from "./Context/SiteControlsState";
 
 const rootElement = document.getElementById("root");
 
 ReactDOM.hydrate(
-    <CookiesProvider>
-    <App />
-    </CookiesProvider>,
-    rootElement
-    );
+  <CookiesProvider>
+    <BrowserRouter>
+    <SiteControlsState>
+      <LinkedinState>
+      <UserState>
+        <App />
+        </UserState>
+      </LinkedinState>
+      </SiteControlsState>
+    </BrowserRouter>
+  </CookiesProvider>,
+  rootElement
+);
 
 // if (rootElement.hasChildNodes()) {
 // ReactDOM.hydrate(

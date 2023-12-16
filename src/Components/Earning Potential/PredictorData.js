@@ -10,7 +10,6 @@ import { FinalScheduleModal, OtpModal, RequestModal } from "./RequestModel";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { EPAcontext } from "../../Context/EPAState";
-import "react-loading-skeleton/dist/skeleton.css";
 import { Footer3 } from "../Footer/Footer2";
 
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";

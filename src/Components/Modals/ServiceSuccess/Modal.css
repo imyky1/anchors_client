@@ -430,6 +430,67 @@
   line-height: normal;
 }
 
+/* gpt modal css -------- */
+
+.gpt_modal_header_section {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.gpt_modal_header_section > div > h1 {
+  color: #fff;
+  font-family: "Gilroy-Bold", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: bold;
+  line-height: normal;
+}
+
+.gpt_modal_header_section > div span {
+  color: var(--natural-500, #9e9e9e);
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 4px;
+}
+
+.gpt_modal_content_section {
+  width: 100%;
+  position: relative;
+  border-radius: 8px;
+  border: 1px solid var(--natural-800, #424242);
+  margin-top: 20px;
+  color: white;
+  overflow: hidden;
+}
+
+.gpt_modal_content_section > img{
+  width: 30px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+}
+
+.gpt_modal_content_section > div {
+  min-height: 240px;
+  max-height: 500px;
+  width: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.gpt_modal_content_section > svg {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 660px) {
   .serviceSuccess_container {
     width: 90%;

@@ -34,8 +34,9 @@ import Twitter from "./tweet.svg";
 import Topmate from "./topmate.svg";
 import { Button1, Button3 } from "../Create Services/InputComponents/buttons";
 import { host } from "../../../../config/config";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { BsArrowLeftShort } from "react-icons/bs";
+import { linkedinContext } from "../../../../Context/LinkedinState";
 
 const EditProfile = (props) => {
   const navigate = useNavigate();
@@ -47,6 +48,8 @@ const EditProfile = (props) => {
     generateInviteCode,
     getTellUsMoreFormData,
   } = useContext(creatorContext);
+
+  const {getslugcountcreator} = useContext(linkedinContext)
 
   const { UploadBanners } = useContext(ServiceContext);
   const [showPopup, setshowPopup] = useState({
@@ -66,14 +69,19 @@ const EditProfile = (props) => {
     dob: "",
     topmateLink: "",
     profile: "",
+    username: "",
   });
   const [phone, setPhone] = useState(0);
   const [Content, setContent] = useState();
   const [leftData, setLeftData] = useState(false);
   const [previewSourceOne, setPreviewSourceOne] = useState(""); // saves the data of file selected in the form
+  const [usernameAccepted, setUsernameAccepted] = useState(false)   // decides if the slug is accepted or not -------------
+  const [showUsernameInfo, setShowUsernameInfo] = useState(false)     // descides to show the info or not
+
   //Image preview and resize opening model
   const [openimagePreview, setImagePreview] = useState(false);
   const [imagetocrop, setImageToCrop] = useState(null);
+  const [openLoading, setOpenLoading] = useState(false);
 
   const data1 = new FormData();
   data1.append("file", previewSourceOne);
@@ -82,6 +90,7 @@ const EditProfile = (props) => {
     getAllCreatorInfo();
     // eslint-disable-next-line
   }, []);
+
 
   useEffect(() => {
     setdata({
@@ -96,21 +105,40 @@ const EditProfile = (props) => {
       });
     }
 
-    if (!allCreatorInfo?.phone) {
-      getTellUsMoreFormData().then((e) => {
-        if (e?.success) {
-          setPhone(e?.form?.contactNumber);
-        }
-      });
-    } else {
-      setPhone(allCreatorInfo?.phone);
-    }
+    // if (!allCreatorInfo?.phone) {
+    //   getTellUsMoreFormData().then((e) => {
+    //     if (e?.success) {
+    //       setPhone(e?.form?.contactNumber);
+    //     }
+    //   });
+    // } else {
+    //   setPhone(allCreatorInfo?.phone);
+    // }
 
     setContent(allCreatorInfo?.aboutMe);
     // eslint-disable-next-line
   }, [allCreatorInfo]);
 
-  const [openLoading, setOpenLoading] = useState(false);
+  useEffect(() => {
+    setdata({ ...data, username: basicNav?.slug });
+
+    if(basicNav?.slug?.length > 0){
+      setUsernameAccepted(true)
+    }
+
+    else{
+      let slugurl = basicNav?.name?.split(" ").join("");
+      getslugcountcreator(slugurl.toLowerCase()).then((result)=>{
+        let slugurl2 =
+        result?.count === 0
+        ? slugurl.toLowerCase()
+        : slugurl.toLowerCase().concat("", `${result?.count}`);
+        setdata({...data,username:slugurl2})
+      })
+    }
+
+  }, [basicNav])
+  
 
   // Change in values of input tags
   const handleChange = (e) => {
@@ -120,6 +148,26 @@ const EditProfile = (props) => {
   const changephone = (e) => {
     setPhone(e.target.value);
   };
+
+  const handleChangeUserName = async (e) =>{
+    let value = e.target.value.replace(/\//g, '').replace(/\?/g, '').replace(/\&/g, '').replace(/\@/g, '').split(" ").join("-")
+    setdata({...data,username:value})
+
+    if(e.target.value.length>0){
+      setShowUsernameInfo(true)
+      let res = await getslugcountcreator(value)
+      setUsernameAccepted(!res?.creatorExists)
+    }
+
+    else{
+      setUsernameAccepted(false)
+      setShowUsernameInfo(false)
+    }
+
+    if(e.target.value === basicNav?.slug || e.target.value === basicNav?.oldSlug){
+      setUsernameAccepted(true)
+    }
+  }
 
   // IMAGE RESIZE
   const [croppedArea, setCroppedArea] = useState(null);
@@ -185,37 +233,41 @@ const EditProfile = (props) => {
     e.preventDefault();
     sample_number = sample_number?.toString();
 
-    //  warning and alerts for the saveing the profile 
-    if(!data?.name){
-      toast.info("Add a display name for your profile.",{
-        position:"top-center",
-        autoClose:1500
-      })
-    }
-
-    else if(!data?.dob){
-      toast.info("Add your date of birth to continue.",{
-        position:"top-center",
-        autoClose:1500
-      })
-    }
-
-    else if(!data?.tagLine){
-      toast.info("Add a tagline to continue.",{
-        position:"top-center",
-        autoClose:1500
-      })
-    }
-
-
-    else if(!Content || Content?.length < 50){
-      toast.info("Add an 'About' description (min 50 Characters) to continue.",{
-        position:"top-center",
-        autoClose:1500
-      })
-    }
-
-    else if (data?.name && data?.tagLine && data?.dob && Content?.length > 50) {
+    //  warning and alerts for the saveing the profile
+    if (!data?.name) {
+      toast.info("Add a display name for your profile.", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    } else if (!data?.dob) {
+      toast.info("Add your date of birth to continue.", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    } else if (!usernameAccepted) {
+      toast.info("Input a proper username.", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    } else if (!data?.tagLine) {
+      toast.info("Add a tagline to continue.", {
+        position: "top-center",
+        autoClose: 1500,
+      });
+    } else if (!Content || Content?.length < 50) {
+      toast.info(
+        "Add an 'About' description (min 50 Characters) to continue.",
+        {
+          position: "top-center",
+          autoClose: 1500,
+        }
+      );
+    } else if (
+      data?.name &&
+      data?.tagLine &&
+      data?.dob &&
+      Content?.length > 50 && usernameAccepted
+    ) {
       var profile = previewSourceOne && (await UploadBanners(data1));
       const newData = {
         ...data,
@@ -248,13 +300,11 @@ const EditProfile = (props) => {
           autoClose: 2000,
         });
       }
-    } 
-
-    else{
-      toast.error("Some Error Occured",{
-        position:"top-center",
-        autoClose:1500
-      })
+    } else {
+      toast.error("Some Error Occured", {
+        position: "top-center",
+        autoClose: 1500,
+      });
     }
 
     setOpenLoading(false);
@@ -397,22 +447,24 @@ const EditProfile = (props) => {
         {/* MObile ui navbar ---------------- */}
         {window.screen.width < 600 && (
           <section className="navbar_ui_covering_section_mobile_active">
-            <BsArrowLeftShort size={22} onClick={()=>{
-              !leftData ?
-                navigate(-1)
-                :
-                setLeftData(false)
-            }}/>
-           {!leftData ? "Build Your Profile!" : "Grow Your Following!"}
+            <BsArrowLeftShort
+              size={22}
+              onClick={() => {
+                !leftData ? navigate(-1) : setLeftData(false);
+              }}
+            />
+            {!leftData ? "Build Your Profile!" : "Grow Your Following!"}
           </section>
         )}
 
         <div className="edit_profile_outside_wrapper_left">
           {!leftData && (
             <div className="personalinfo_wrap">
-              {window.screen.width > 600 && <div className="personalinfo_top">
-                <h1>Build Your Profile!</h1>
-              </div>}
+              {window.screen.width > 600 && (
+                <div className="personalinfo_top">
+                  <h1>Build Your Profile!</h1>
+                </div>
+              )}
               <div className="personalinfo_photosection">
                 <div className="personalinfo_photocontainer">
                   <div className="personalinfo_photo">
@@ -480,16 +532,6 @@ const EditProfile = (props) => {
                     placeholder="dd/mm/yyyy"
                     onChange={handleChange}
                   />
-
-                  {/* <DatePicker1
-                    label="Date Of Birth"
-                    placeholder="dd/mm/yyyy"
-                    onChange={(e)=>{setdata({...data,["dob"]:e})}}
-                    name="dob"
-                    id="dob"
-                    required={true}
-                    value={data?.dob !== "" && data?.dob}
-                  /> */}
                 </div>
                 <div className="perosnalinfo_rightform">
                   {/* <TextField1
@@ -501,6 +543,19 @@ const EditProfile = (props) => {
                 type="number"
                 onChange={changephone}
               /> */}
+                  <TextField1
+                    label="Username"
+                    name="username"
+                    id="username"
+                    color="white"
+                    required={true}
+                    value={data?.username}
+                    placeholder="Ex Product Manager"
+                    onChange={handleChangeUserName}
+                    info={showUsernameInfo ? (usernameAccepted ? `${data?.username} is available` : "Username name already taken") : null}
+                    infoColor={usernameAccepted ? "#34D399" : "#FF0000"}
+                    maxLength = {40}
+                  />
                   <TextField1
                     label="Tagline"
                     name="tagLine"
@@ -536,9 +591,7 @@ const EditProfile = (props) => {
             <div className="personalinfo_socialwrap_01">
               <div className="personalinfo_socialwrap">
                 {window.screen.width > 600 && <h2>Grow Your Following!</h2>}
-                <h2>
-                  Add Social Media Links
-                </h2>
+                <h2>Add Social Media Links</h2>
                 <div className="personalinfo_sociallinks">
                   <SocialFields
                     placeholder="https://www.linkedin.com/in/username"
@@ -706,13 +759,15 @@ const EditProfile = (props) => {
                 style={{ justifyContent: "space-between" }}
                 className="personalinfo_savebutton"
               >
-               {window.screen.width > 600 && <Button3
-                  text="Previous"
-                  icon={<AiOutlineArrowLeft />}
-                  onClick={() => {
-                    onNext();
-                  }}
-                />}
+                {window.screen.width > 600 && (
+                  <Button3
+                    text="Previous"
+                    icon={<AiOutlineArrowLeft />}
+                    onClick={() => {
+                      onNext();
+                    }}
+                  />
+                )}
                 <Button1
                   text="Save"
                   icon={<AiOutlineArrowRight />}
@@ -723,22 +778,24 @@ const EditProfile = (props) => {
           )}
         </div>
 
-        {window.screen.width > 600 && <div className="live_preview_edit_profile_page">
-          <div className="live_preview_modal_design">
-            <section>
-              <img
-                src={require("../../../../Utils/Images/mobile-screen.png")}
-                alt=""
-              />
-              <PreviewDemo
-                {...data}
-                newImage={showimg ?? basicNav?.photo}
-                about={Content}
-                {...props?.moreInfo}
-              />
-            </section>
+        {window.screen.width > 600 && (
+          <div className="live_preview_edit_profile_page">
+            <div className="live_preview_modal_design">
+              <section>
+                <img
+                  src={require("../../../../Utils/Images/mobile-screen.png")}
+                  alt=""
+                />
+                <PreviewDemo
+                  {...data}
+                  newImage={showimg ?? basicNav?.photo}
+                  about={Content}
+                  {...props?.moreInfo}
+                />
+              </section>
+            </div>
           </div>
-        </div>}
+        )}
       </div>
       <SuperSEO title="Anchors - Edit Profile" />
     </>

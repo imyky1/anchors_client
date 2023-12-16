@@ -153,6 +153,7 @@
   cursor: pointer;
 }
 
+
 @media (max-width: 600px) {
   .userModalWrapper{
     background-color: #00000066;

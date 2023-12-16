@@ -1,0 +1,226 @@
+.userModalWrapper {
+  background: rgba(255, 255, 255, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  z-index: 9999;
+  justify-content: center;
+}
+
+.userModalBox {
+  border-radius: 8px;
+  background: #121212;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  width: 368px;
+  padding: 40px;
+}
+
+/* user modal header ----------------- */
+
+.user_modal_header {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.user_modal_header > div {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.user_modal_header > div > h1 {
+  color: var(--neutral-gray-200, #e2e8f0);
+  font-family: "Inter";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.user_modal_header > div > span {
+  color: var(--neutral-gray-400, #94a3b8);
+  font-family: "Inter";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.user_modal_header > div > span span {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.user_modal_header > div > span span > svg {
+  cursor: pointer;
+}
+
+.user_modal_header > svg {
+  font-size: 24px;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.user_modal_header > svg:hover {
+  color: red;
+}
+
+/* buttons css ------------------- */
+.button_type_01_user_modal {
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  color: var(--neutral-gray-50, #f8fafc);
+  text-align: center;
+  font-family: "Inter";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.button_type_01_user_modal > svg {
+  font-size: 16px;
+}
+
+/* usermodal or ----------------------- */
+
+.userModal_or {
+  color: var(--neutral-gray-200, #e2e8f0);
+  text-align: center;
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.user_modal_buttons {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.userModal_termsCheck {
+  display: flex;
+  align-items: flex-start;
+  color: var(--neutral-gray-400, #94a3b8);
+  font-family: "Inter";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: 100%;
+  text-align: center;
+  gap: 8px;
+}
+
+.userModal_termsCheck > label {
+  text-align: left;
+}
+
+.userModal_termsCheck > label span {
+  color: var(--neutral-gray-300, #cbd5e1);
+  text-decoration-line: underline;
+}
+
+.userModalBox > p {
+  color: var(--neutral-gray-400, #94a3b8);
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.userModalBox > p span {
+  color: var(--primary-300, #ff5c5c);
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  cursor: pointer;
+}
+
+/*  data form css -------------------------------------- */
+
+.mobile_number_input_user_modal {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.mobile_number_input_user_modal > section {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.mobile_number_input_user_modal > section input {
+  background: transparent;
+  border: 0.5px solid #475569;
+  border-radius: 5px;
+  /* width: 465px; */
+  width: 100%;
+  height: 45px;
+  padding: 0 12px;
+  box-sizing: border-box;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+}
+
+.mobile_number_input_user_modal > section input::placeholder {
+  color: #888888;
+}
+
+.mobile_number_input_user_modal input:focus {
+  outline: none;
+}
+
+@media (max-width: 600px) {
+  .userModalBox {
+    width: 91vw;
+    box-sizing: border-box;
+    padding: 20px 16px;
+  }
+
+  .user_modal_header > div > span {
+    font-size: 12px;
+  }
+
+  .user_modal_buttons{
+    gap: 12px;
+  }
+}

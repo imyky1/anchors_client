@@ -35,6 +35,9 @@ import Template from "../Sharing Template/Sharing";
 import Create from "../Create Services/Create";
 import CreateEvent from "../Create Services/CreateEvent";
 import SelectCertificate from "../../../EventCertifcates/SelectCertificate";
+import mixpanel from "mixpanel-browser";
+import logo from "../../../../Utils/Images/logo-invite-only.png";
+import { siteControlContext } from "../../../../Context/SiteControlsState";
 
 function Home(props) {
   const location = useLocation();
@@ -58,66 +61,28 @@ function Home(props) {
     basicNav,
     getCreatorExtraDetails,
   } = useContext(creatorContext);
+
   const {
-    loginlinkedinUser,
-    usergooglelogin,
-    creatorLinkedinLogin,
-    creatorGoogleLogin,
+    verifiedData
   } = useContext(linkedinContext);
+
   const { getRatingCreator } = useContext(feedbackcontext);
+  const {setShortSidebar} = useContext(siteControlContext)
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    let array = ["/dashboard/createevent","/dashboard/createservice"]
+
+    if(array.includes(location.pathname)){
+      setShortSidebar(true)
+    }
+    else{
+      setShortSidebar(false)
+    }
+
   }, [location]);
-
-  // useeffct to give direction to the flow to users + creator + developers
-  useEffect(() => {
-    // for users only
-    if (
-      localStorage.getItem("isUser") === "true" &&
-      localStorage.getItem("from")
-    ) {
-      if (localStorage.getItem("jwtToken")) {
-        navigate(`${localStorage.getItem("url")}`);
-      } else if (localStorage.getItem("from") === "linkedin") {
-        loginlinkedinUser();
-      } else {
-        usergooglelogin();
-      }
-    }
-
-    // for creators only
-    else if (
-      localStorage.getItem("isUser") === "" &&
-      localStorage.getItem("from")
-    ) {
-      if (localStorage.getItem("jwtToken")) {
-        //getAllCreatorInfo().then((e) => {});
-      } else if (localStorage.getItem("from") === "linkedin") {
-        creatorLinkedinLogin();
-      } else {
-        creatorGoogleLogin();
-      }
-    }
-
-    // for developers only
-    else if (
-      localStorage.getItem("isDev") === "true" &&
-      localStorage.getItem("jwtTokenD")
-    ) {
-      console.log("Welcome Developers");
-    }
-
-    // not logined people
-    else {
-      if (localStorage.getItem("url")) {
-        navigate(`${localStorage.getItem("url")}`);
-      } else {
-        navigate("/");
-      }
-    }
-    // eslint-disable-next-line
-  }, []);
+  
 
   useEffect(() => {
     if (localStorage.getItem("jwtToken") && localStorage.getItem("c_id")) {
@@ -141,7 +106,7 @@ function Home(props) {
   return (
     <>
       {/* at /check the loader comes into role */}
-      {location.pathname === "/dashboard/check" && <LoadOne />}
+      {/* {location.pathname === "/dashboard/check" && <Check />} */}
 
       <Suspense fallback={<LoadThree />}>
         {localStorage.getItem("jwtToken") &&
@@ -456,11 +421,21 @@ function Home(props) {
               {/* Sidebar is only available in some pages --------------- */}
               {!location.pathname.startsWith(
                 "/dashboard/eventCertificates/"
-              ) && (
+              ) ? (
                 <Sidebar
                   userData={basicNav}
                   moreInfo={{ ...creatorData, Rating }}
                   alternateInfo={allCreatorInfo}
+                />
+              ) : (
+                <img
+                  onClick={() => {
+                    navigate("/");
+                    mixpanel.track("header logo");
+                  }}
+                  src={logo}
+                  alt=""
+                  className="logo_sidebar logo_nonSideBar"
                 />
               )}
               <HelpModal

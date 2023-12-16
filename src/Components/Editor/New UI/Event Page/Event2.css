@@ -1,0 +1,1049 @@
+.event_page_outside_wrapper {
+  width: 100vw;
+  background: #101010;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: ; */
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding-bottom: 100px;
+}
+
+/* hoc components css -------------------------- */
+
+.hoc1_wrraper_event_page {
+  width: 100%;
+  padding: 0 10%;
+  box-sizing: border-box;
+  background: #171e25;
+}
+
+.hoc2_wrraper_event_page {
+  width: 100%;
+  padding: 0 10%;
+  box-sizing: border-box;
+  background: #0d1117;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* sections css ------------------------------------- */
+
+.main_header_component_event_page {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-direction: column;
+  padding: 80px 0;
+}
+
+.event_details_section_event_page {
+  display: flex;
+  align-items: center;
+  height: max-content;
+  gap: 20px;
+  justify-content: space-between;
+  margin: 40px 0;
+  width: 100%;
+}
+
+.description_event_page_wrapper {
+  width: 100%;
+  margin: 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.speakers_event_page_wrapper {
+  width: 100%;
+  margin: 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.reviews_wrapper_event_page {
+  margin: 40px 0;
+  width: 100%;
+  gap: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* text types -----------------------------------------------  */
+
+.text_type01_event_page {
+  color: var(--neutral-gray-200, #e2e8f0);
+  text-align: center;
+  font-family: "Inter";
+  font-size: 82px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 92px; /* 112.195% */
+}
+
+.text_type02_event_page {
+  color: var(--neutral-gray-300, #cbd5e1);
+  text-align: center;
+  font-family: "Inter";
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.text_type07_event_page {
+  color: var(--neutral-gray-200, #e2e8f0);
+  font-family: "Inter";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.text_type03_event_page {
+  color: var(--neutral-gray-400, #94a3b8);
+  font-family: "Inter";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.text_type04_event_page {
+  color: var(--neutral-gray-200, #e2e8f0);
+  font-family: "Inter";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.text_type05_event_page {
+  color: var(--neutral-gray-200, #e2e8f0);
+  text-align: center;
+  font-family: "Inter";
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.text_type06_event_page {
+  color: var(--neutral-gray-200, #e2e8f0);
+  text-align: center;
+  font-family: "Inter";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.text_type06_event_page > span {
+  color: var(--neutral-gray-400, #94a3b8);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration-line: line-through;
+}
+
+.text_type08_event_page {
+  color: var(--neutral-gray-400, #94a3b8);
+  font-family: "Inter";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.text_type09_event_page {
+  color: var(--neutral-gray-200, #e2e8f0);
+  font-family: "Inter";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.text_type10_event_page {
+  color: var(--neutral-gray-400, #94a3b8);
+  font-family: "Inter";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* buttons  ---------------------------------------------- */
+
+.button_01_event_page {
+  border-radius: 4px;
+  background: var(--primary-300, #ff5c5c);
+  padding: 24px 40px;
+
+  color: var(--neutral-gray-50, #f8fafc);
+  text-align: center;
+  font-family: "Inter";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border: none;
+  cursor: pointer;
+  margin-top: 40px;
+  margin-bottom: 17px;
+}
+
+.button_01_event_page:hover{
+  background-color: #FF0000;
+}
+
+.button_02_event_page {
+  color: var(--neutral-gray-50, #f8fafc);
+  text-align: center;
+  font-family: "Inter";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  border-radius: 4px;
+  background: var(--primary-300, #ff5c5c);
+  padding: 12px 20px;
+  border: none;
+  cursor: pointer;
+  width: max-content;
+}
+
+.button_02_event_page:hover{
+  background-color: #FF0000;
+}
+
+/* other components css -------- ------------------------------------- */
+
+.arrow_button_sample_page {
+  color: white;
+  font-size: 35px;
+  margin-top: 20px;
+  animation: updownarrow 0.8s infinite ease-in-out;
+  cursor: pointer;
+  position: relative;
+  bottom: 40px;
+}
+
+@keyframes updownarrow {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(20px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.highlights_section_event_page {
+  display: grid;
+  width: 50%;
+  grid-template-areas:
+    "head head head head"
+    "box1 box1 box2 box2"
+    "box3 box3 box4 box4"
+    "box5 box5 box5 box5"
+    "box5 box5 box5 box5"
+    "box6 box6 box6 box6";
+  gap: 20px;
+}
+
+.highlight_card_design_event {
+  padding: 20px;
+  border-radius: 4px;
+  background: #14181f;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.highlight_card_design_event > svg {
+  font-size: 24px;
+  color: #94a3b8;
+}
+
+.highlight_card_design_event > section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reserve_event_page_section {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-direction: column;
+}
+
+.description_event_page_content {
+  color: var(--neutral-gray-400, #94a3b8);
+  font-family: "Inter";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 26px; /* 144.444% */
+  width: 100%;
+}
+
+.description_event_page_content h1 {
+  font-size: 30px !important;
+  font-weight: bold !important;
+  line-height: 56px !important;
+  margin-bottom: 12px !important;
+  color: #e2e8f0 !important;
+}
+
+.description_event_page_content h2 {
+  font-size: 28px !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  margin-bottom: 12px !important;
+  color: #e2e8f0 !important;
+}
+
+.description_event_page_content h3 {
+  font-size: 25px !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  color: #e2e8f0 !important;
+}
+
+.description_event_page_content h4 {
+  font-size: 22px !important;
+  color: #e2e8f0 !important;
+}
+
+.description_event_page_content * {
+  font: inherit !important;
+  background-color: inherit !important;
+  color: inherit !important;
+}
+
+.description_event_page_content li {
+  margin-bottom: 12px;
+}
+
+.description_event_page_content ul {
+  padding-left: 30px;
+}
+
+.description_event_page_content ol {
+  padding-left: 30px;
+}
+
+.description_event_page_content b {
+  font-weight: bold !important;
+  color: #e2e8f0 !important;
+}
+
+.description_event_page_content a {
+  color: #ff5c5c !important;
+}
+
+.description_event_page_content strong {
+  font-weight: bold !important;
+  color: #e2e8f0 !important;
+}
+
+.description_event_page_content i {
+  font-style: italic !important;
+}
+
+.speakers_event_page_wrapper > div {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.benefits_event_page_wrapper {
+  padding: 36px 16px;
+  border-radius: 4px;
+  background: #171e25;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.benefits_div_event_page {
+  color: var(--neutral-gray-400, #94a3b8);
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: 100%;
+  margin-bottom: 28px;
+}
+
+.benefits_div_event_page h1 {
+  font-size: 30px !important;
+  font-weight: bold !important;
+  line-height: 56px !important;
+  margin-bottom: 12px !important;
+  color: #e2e8f0 !important;
+}
+
+.benefits_div_event_page h2 {
+  font-size: 28px !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  margin-bottom: 12px !important;
+  color: #e2e8f0 !important;
+}
+
+.benefits_div_event_page h3 {
+  font-size: 25px !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  color: #e2e8f0 !important;
+}
+
+.benefits_div_event_page h4 {
+  font-size: 22px !important;
+  color: #e2e8f0 !important;
+}
+
+.benefits_div_event_page * {
+  font: inherit !important;
+  background-color: inherit !important;
+  color: inherit !important;
+}
+
+.benefits_div_event_page li {
+  margin-bottom: 12px;
+}
+
+.benefits_div_event_page ul {
+  padding-left: 30px;
+}
+
+.benefits_div_event_page ol {
+  padding-left: 30px;
+}
+
+.benefits_div_event_page b {
+  font-weight: bold !important;
+  color: #e2e8f0 !important;
+}
+
+.benefits_div_event_page a {
+  color: #ff5c5c !important;
+}
+
+.benefits_div_event_page strong {
+  font-weight: bold !important;
+  color: #e2e8f0 !important;
+}
+
+.benefits_div_event_page i {
+  font-style: italic !important;
+}
+
+.reviews_wrapper_event_page > div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reviews_wrapper_event_page > div > span {
+  color: var(--neutral-gray-200, #e2e8f0);
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.reviews_wrapper_event_page > div > span span {
+  color: var(--neutral-gray-400, #94a3b8);
+  font-family: "Inter";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.review_card_wrapper_event_page {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.hoster_details_event_page {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--neutral-gray-800, #1e293b);
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  color: var(--neutral-gray-400, #94a3b8);
+  text-align: center;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.hoster_details_event_page > p {
+  font-size: 16px;
+}
+
+.hoster_details_event_page > section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 14px;
+}
+
+.hoster_details_event_page > section div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hoster_details_event_page > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 24px;
+}
+
+.hoster_details_event_page > div svg {
+  cursor: pointer;
+}
+
+/* speakers card  --------------------------------------------------*/
+
+.speaker_card_event_page_wrapper {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 4px;
+  background: #14181f;
+  box-sizing: border-box;
+}
+
+.speaker_card_event_page_wrapper > h3 {
+  color: var(--neutral-gray-400, #94a3b8);
+  text-align: center;
+  font-family: "Inter";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.speaker_card_event_page_wrapper > section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  justify-content: center;
+}
+
+.speaker_card_event_page_wrapper > section > img {
+  width: 160px;
+  height: 160px;
+  border-radius: 160px;
+  object-fit: cover;
+}
+
+.speaker_card_event_page_wrapper > section > span {
+  color: var(--neutral-gray-100, #f1f5f9);
+  text-align: center;
+  font-family: "Inter";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.speaker_card_event_page_wrapper > p {
+  color: var(--neutral-gray-400, #94a3b8);
+  text-align: center;
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px; /* 112.5% */
+}
+
+.speaker_card_event_page_wrapper > span {
+  color: var(--neutral-gray-200, #e2e8f0);
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.speaker_card_event_page_wrapper > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.speaker_card_event_page_wrapper > div svg {
+  font-size: 24px;
+  color: #94a3b8;
+}
+
+/* review card css -------------------------------- */
+
+.review_card_event_page {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.review_card_event_page > div {
+  color: var(--neutral-gray-400, #94a3b8);
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding: 16px 20px;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 4px 4px 0px 0px;
+  background: #14181f;
+  box-shadow: 0px 0px 4px 0px rgba(18, 18, 18, 0.08);
+  max-height: 184px;
+  overflow: auto;
+  min-height: 100px;
+}
+
+.review_card_event_page > section {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  width: 100%;
+  padding: 16px 20px;
+  box-sizing: border-box;
+  border-radius: 0px 0px 4px 4px;
+  background: #21242a;
+}
+
+.review_card_event_page > section > img {
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  object-fit: cover;
+}
+
+.review_card_event_page > section > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.review_card_event_page > section > div span {
+  color: var(--neutral-gray-400, #94a3b8);
+  text-align: center;
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 12px; /* 75% */
+}
+
+.review_card_event_page > section > div p {
+  color: var(--neutral-gray-500, #64748b);
+  text-align: center;
+  font-family: "Inter";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; /* 100% */
+}
+
+/* desktop floater --------------------------------- */
+
+.desktop_floater_event_page {
+  border-radius: 8px;
+  background: var(--primary-300, #ff5c5c);
+  padding: 20px 40px;
+  width: 95%;
+  position: fixed;
+  bottom: 40px;
+  left: auto;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  animation: fadeInFromBottom 0.5s ease-in-out forwards;
+  cursor: pointer;
+}
+
+@keyframes fadeInFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(200px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.desktop_floater_event_page > span {
+  color: #fff;
+  font-family: "Inter";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.desktop_floater_event_page > div {
+  color: var(--success-50, #ecfdf5);
+  text-align: center;
+  font-family: "Gilroy-SemiBold", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.desktop_floater_event_page > div > span {
+  color: var(--natural-300, #e0e0e0);
+  text-align: center;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration-line: line-through;
+}
+
+.desktop_floater_event_page > div > svg {
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.PhoneInput{
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+
+  .event_page_outside_wrapper{
+    padding-bottom: 80px;
+  }
+
+  /* text types ------------ */
+
+  .text_type01_event_page {
+    font-size: 40px;
+    line-height: 40px; /* 100% */
+  }
+
+  .text_type02_event_page {
+    font-size: 16px;
+  }
+
+  .text_type07_event_page {
+    font-size: 20px;
+  }
+
+  .text_type03_event_page {
+    font-size: 12px;
+  }
+
+  .text_type04_event_page {
+    font-size: 14px;
+  }
+
+  .text_type05_event_page {
+    font-size: 20px;
+  }
+
+  .text_type06_event_page {
+    font-size: 20px;
+  }
+
+  .text_type06_event_page > span {
+    font-size: 14px;
+  }
+
+  .text_type08_event_page {
+    font-size: 14px;
+  }
+
+  .text_type09_event_page {
+    font-size: 16px;
+  }
+
+  /* hoc  */
+
+  .hoc1_wrraper_event_page {
+    padding: 0 4vw;
+  }
+
+  .hoc2_wrraper_event_page {
+    padding: 0 4vw;
+    gap: 20px;
+  }
+
+  /* main_seection ------------------------ */
+
+  .main_header_component_event_page {
+    gap: 20px;
+    padding-top: 13vh;
+    padding-bottom: 0;
+  }
+
+  .event_details_section_event_page {
+    gap: 40px;
+    margin: 20px 0;
+    flex-direction: column;
+  }
+
+  /* button css ------------------------------- */
+
+  .button_01_event_page {
+    padding: 16px 24px;
+    font-size: 16px;
+    margin-top: 14vh;
+    margin-bottom: 19vh;
+  }
+
+  .button_02_event_page {
+    font-size: 12px;
+    margin: auto;
+  }
+
+  /* other components css  */
+
+  .highlights_section_event_page {
+    width: 100%;
+    row-gap: 20px;
+    column-gap: 12px;
+  }
+
+  .highlight_card_design_event {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .highlight_card_design_event > svg {
+    font-size: 16px;
+  }
+
+  .highlight_card_design_event > section {
+    gap: 8px;
+  }
+
+  .reserve_event_page_section {
+    width: 100%;
+    gap: 20px;
+  }
+
+  .description_event_page_wrapper {
+    margin: 20px 0;
+  }
+
+  .description_event_page_content {
+    font-size: 14px;
+  }
+
+  .speakers_event_page_wrapper {
+    margin: 20px 0;
+  }
+
+  .speakers_event_page_wrapper > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .benefits_event_page_wrapper {
+    padding: 16px;
+    width: 100vw;
+  }
+
+  .benefits_div_event_page {
+    font-size: 12px;
+    margin-bottom: 0px;
+  }
+
+  .reviews_wrapper_event_page {
+    margin: unset;
+  }
+
+  .review_card_wrapper_event_page {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .review_card_wrapper_event_page::-webkit-scrollbar{
+    display: none;
+  }
+
+  .reviews_wrapper_event_page > div > span {
+    font-size: 12px;
+  }
+
+  .reviews_wrapper_event_page > div > span span {
+    font-size: 10px;
+  }
+
+  .hoster_details_event_page {
+    padding: 20px;
+    gap: 12px;
+  }
+
+  .hoster_details_event_page >  p{
+    font-size: 14px;
+  }
+
+  .hoster_details_event_page > section{
+    font-size: 12px;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .hoster_details_event_page > div svg{
+    font-size: 20px;
+  }
+
+  .hoster_details_event_page > div{
+    margin-top: 10px;
+  }
+
+  /* speaker card css ------------------------- */
+
+  .speaker_card_event_page_wrapper {
+    padding: 20px 12px;
+  }
+
+  .speaker_card_event_page_wrapper > h3 {
+    font-size: 16px;
+  }
+
+  .speaker_card_event_page_wrapper > section {
+    gap: 16px;
+  }
+
+  .speaker_card_event_page_wrapper > section > img {
+    width: 120px;
+    height: 120px;
+    border-radius: 120px;
+  }
+
+  .speaker_card_event_page_wrapper > section > span {
+    font-size: 20px;
+  }
+
+  .speaker_card_event_page_wrapper > p {
+    font-size: 12px;
+    line-height: 18px; /* 150% */
+    width: 80%;
+  }
+
+  /* review csrd ----------------- */
+
+  .review_card_event_page > div {
+    padding: 8px 12px;
+    font-size: 12px;
+    max-height: 136px;
+    min-width: 55vw;
+  }
+
+  .review_card_event_page > section {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .review_card_event_page > section img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .review_card_event_page > section div{
+    gap: 4px;
+  }
+
+
+  .review_card_event_page  > section div span{
+    font-size: 12px;
+  }
+
+  .review_card_event_page  > section div p{
+    font-size: 12px;
+  }
+
+  /* floater --------------- */
+
+  .desktop_floater_event_page {
+    width: 92%;
+    padding: 20px 16px;
+    bottom: 20px;
+  }
+
+  .desktop_floater_event_page > span {
+    font-size: 16px;
+  }
+
+  .desktop_floater_event_page > div {
+    font-size: 12px;
+  }
+
+  .desktop_floater_event_page > div > span {
+    font-size: 12px;
+  }
+
+  .desktop_floater_event_page > div > svg {
+    margin-left: 12px;
+  }
+}

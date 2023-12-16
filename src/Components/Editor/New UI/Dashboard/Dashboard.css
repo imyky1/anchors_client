@@ -17,7 +17,7 @@
   font-family: "Sora";
   font-style: normal;
   font-weight: 600;
-  font-size: 30px;
+  font-size: 20px;
   line-height: 38px;
   color: #f8f8f8;
 }
@@ -26,10 +26,10 @@
   font-family: "Inter";
   font-style: normal;
   font-weight: 300;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 18px;
   color: #d0d0d0;
-  margin-bottom: 25px;
+  /* margin-bottom: 25px; */
 }
 
 .main_dashboard_conatiner > div > section {
@@ -50,7 +50,6 @@
   text-align: center;
   gap: 8px;
   cursor: pointer;
-  margin-bottom: 20px;
 }
 
 .dashboard_options:hover {
@@ -88,17 +87,18 @@
   align-items: flex-start;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 0 14%;
-  padding-top: 16px;
+  padding: 20px 14%;
   box-sizing: border-box;
-  gap: 140px;
+  gap: 50px;
+  padding-bottom: 200px;
+  position: relative;
 }
 
 .stepper_outside_wrapper_dashboard {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  gap: 8px;
+  gap: 20px;
 }
 
 .stepper_outside_wrapper_dashboard > section {
@@ -110,7 +110,7 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  gap: 8px;
+  gap: 20px;
 }
 
 .main_dashboard_design_box > section {
@@ -417,13 +417,213 @@
 
   position: absolute;
   right: 80px;
-  bottom: 50px;
+  bottom: 60px;
   border: none;
   cursor: pointer;
 }
 
 .checklist_button_desgin_dashboard:hover {
   background-color: red;
+}
+
+/* set goal css -------------------------------- */
+
+.set_goal_outside_wrapper {
+  border-radius: 12px;
+  background: var(--natural-900, #212121);
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  max-width: 60vw;
+}
+
+.set_goal_outside_wrapper section {
+  display: flex;
+  gap: 20px;
+}
+
+.all_goal_cards_container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.all_goal_cards_container::-webkit-scrollbar {
+  display: none;
+}
+
+.goal_frame_design_01_wrapper {
+  width: 334px;
+  min-width: 334px;
+  height: 123px;
+  border-radius: 8px;
+  background: var(
+    --Glass,
+    linear-gradient(
+      154deg,
+      rgba(255, 251, 251, 0.2) 43.83%,
+      rgba(18, 18, 18, 0.2) 103.02%
+    )
+  );
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.goal_frame_design_01_wrapper > section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.goal_frame_design_01_wrapper > section > p {
+  color: #bdbdbd;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.goal_frame_design_01_wrapper > section > p span {
+  color: #fff;
+  font-family: Inter;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 40px; /* 100% */
+  margin-right: 4px;
+}
+
+.goal_frame_design_01_wrapper > section > span {
+  padding: 4px 12px;
+  border-radius: 4px;
+  background: var(--natural-900, #212121);
+
+  color: #fff;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.goal_frame_design_01_wrapper > div {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(
+    154deg,
+    rgba(255, 251, 251, 0.2) 43.83%,
+    rgba(18, 18, 18, 0.2) 103.02%
+  );
+  border-radius: 90px;
+
+  color: #fff;
+  font-family: "Gilroy-SemiBold", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 100% */
+}
+
+.goal_frame_design_01_wrapper > div div:nth-child(1) {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 80px;
+  background: linear-gradient(
+    154deg,
+    rgba(255, 251, 251, 0.2) 43.83%,
+    rgba(18, 18, 18, 0.2) 103.02%
+  );
+}
+
+.goal_frame_design_01_wrapper > div div:nth-child(2) {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  border-radius: 70px;
+  background: linear-gradient(
+    154deg,
+    rgba(255, 251, 251, 0.2) 43.83%,
+    rgba(18, 18, 18, 0.2) 103.02%
+  );
+}
+
+.goal_frame_design_01_wrapper > p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-direction: column;
+  width: 100%;
+
+  color: #fff;
+  font-family: "Gilroy-Regular", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 200% */
+  cursor: pointer;
+}
+
+/* goal popup ---------------------------- */
+
+.goal_create_popup_section_main {
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 8px;
+  background: var(--natural-900, #212121);
+  width: 60vw;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.goal_create_popup_content_div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.left_side_goal_create_popup {
+  width: 30vw;
+  margin-right: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.right_side_goal_create_popup {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+
+  color: var(--natural-400, #bdbdbd);
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 @media (max-width: 600px) {
@@ -469,7 +669,7 @@
     line-height: normal;
   }
 
-  .dashboard_options > p{
+  .dashboard_options > p {
     font-size: 10px;
   }
 

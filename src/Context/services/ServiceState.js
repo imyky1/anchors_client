@@ -698,6 +698,20 @@ const ServiceState = (props) => {
     return json;
   };
 
+
+  // chatgopt generated description
+  const generateAiDescription = async (title) => {
+    const response = await fetch(`${host}/ai/generateDescription?title=${title}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
+    });
+    const json = await response.json();
+    return json;
+  };
+
   return (
     <ServiceContext.Provider
       value={{
@@ -744,7 +758,8 @@ const ServiceState = (props) => {
         latestEvents,
         getReferDetails,
         getTransactionEventDetails,
-        getTransactionServiceDetails
+        getTransactionServiceDetails,
+        generateAiDescription
       }}
     >
       {" "}

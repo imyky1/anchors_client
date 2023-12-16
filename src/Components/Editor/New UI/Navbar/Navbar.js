@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "./Navbar.css";
 import mixpanel from "mixpanel-browser";
 import { useNavigate } from "react-router-dom";
+import { siteControlContext } from "../../../../Context/SiteControlsState";
 
 function Navbar({ ChangeModalState, ModalState, userData, alternateInfo }) {
   const navigate = useNavigate();
+  const { shortSidebar } = useContext(siteControlContext);
+
   // handles the openeing of the creator modal
   const handleModalOpening = (e) => {
     e?.stopPropagation();
@@ -24,6 +27,10 @@ function Navbar({ ChangeModalState, ModalState, userData, alternateInfo }) {
 
     return mailtoLink;
   };
+
+  if(shortSidebar){
+    return null;;
+  }
 
   return (
     <div className="navbar_outside_container">

@@ -15,7 +15,7 @@ import {
   NewCongratsServiceModal,
   StaticSampleDataModal,
 } from "../../../Modals/ServiceSuccess/Modal";
-import { LoadTwo } from "../../../Modals/Loading";
+import { LoadFour, LoadTwo } from "../../../Modals/Loading";
 
 // imports for image cropping
 import getCroppedImg from "../../../helper/imageresize";
@@ -32,6 +32,8 @@ import {
   AiOutlineArrowRight,
 } from "react-icons/ai";
 import { BsArrowLeftShort } from "react-icons/bs";
+import { SiOpenai } from "react-icons/si";
+import GptModal from "../../../Modals/GptModal";
 
 const FirstPage = ({
   data,
@@ -254,8 +256,42 @@ const SecondPage = ({
   CreateType,
   onSubmit,
   setCurrentPage,
+  sname
 }) => {
   const [openSampleContent, setOpenSampleContent] = useState(false);
+  const [openLoading, setOpenLoading] = useState(false);
+  const [useAI, setuseAI] = useState(true)
+
+  const {generateAiDescription} = useContext(ServiceContext)
+
+  const handleAIGeneration  = async () =>{
+    
+    if(!sname){
+      toast.error("Enter the service title",{
+        position:'top-center',
+        autoClose:1500
+      })
+      return 0;
+    }
+
+    setOpenLoading(true)
+    
+    let data = await generateAiDescription(sname)
+
+    if(data?.success){
+      setuseAI(false)
+      setOpenLoading(false)
+      setContent(data?.desc)
+    } 
+
+    else{
+      setOpenLoading(false)
+      toast.info("AI genration functionilty is facing some error, Try again later!!!",{
+        position:"top-center",
+        autoClose:2000
+      })
+    }
+  }
 
   return (
     <>
@@ -267,6 +303,8 @@ const SecondPage = ({
           }}
         />
       )}
+
+      {openLoading && <LoadFour/>}
 
       <section className="create_form_box">
         {/* left side---------------------------------------------------------------------------- */}
@@ -293,6 +331,16 @@ const SecondPage = ({
             Content={Content}
             required={true}
             setContent={(e) => setContent(e)}
+            info={
+              <>
+                <SiOpenai size={16} color={useAI ? "#FF5C5C" : "grey"} />
+                Click on to Generate description with AI
+              </>
+            }
+            infoStyle={{ color: useAI ? "#FF5C5C" : "grey", cursor: "pointer" }}
+            infoClick={() => {
+              useAI ? handleAIGeneration() : console.log("AI Cannot be used")
+            }}
             labelHelperText={{
               text: (
                 <>
@@ -832,6 +880,7 @@ function Create({
               CreateType={CreateType}
               onSubmit={onSubmitSecondForm}
               setCurrentPage={setCurrentPage}
+              sname={data?.sname}
             />
           )}
         </div>

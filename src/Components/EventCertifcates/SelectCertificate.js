@@ -19,7 +19,7 @@ let certData = {
   2: "linear-gradient(217deg, #DC2626 12.1%, #1000C3 88.03%)",
 };
 
-const Certificate = ({
+export const Certificate = ({
   scale,
   origin,
   data,
@@ -27,8 +27,10 @@ const Certificate = ({
   sign,
   signStyle,
   eventData,
+  background,
+  signURL
 }) => {
-  const [showSign, setShowSign] = useState();
+  const [showSign, setShowSign] = useState(signURL);
 
   useEffect(() => {
     if (sign) {
@@ -65,11 +67,11 @@ const Certificate = ({
     >
       <div
         className="elipse01_color_layer_certificate"
-        style={{ background: certData[certificate] }}
+        style={{ background: background ?? certData[certificate] }}
       ></div>
       <div
         className="elipse02_color_layer_certificate"
-        style={{ background: certData[certificate] }}
+        style={{ background: background ?? certData[certificate] }}
       ></div>
 
       <section>

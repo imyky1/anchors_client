@@ -41,7 +41,7 @@ export const Footer3 = ({ hostEventButton = false }) => {
           mixpanel.track("Host Your Own Event footer");
         }}
       >
-        <MdEventSeat /> Host Your Own Event
+        <MdEventSeat size={24}/> Host Your Own Event
       </button>
     </div>
   )

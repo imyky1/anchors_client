@@ -2,7 +2,6 @@
   background: #121212;
   width: 100vw;
   height: 100vh;
-  scroll-snap-type: y mandatory;
   overflow-y: auto;
   overflow-x: hidden;
   scroll-behavior: smooth;
@@ -16,6 +15,10 @@
   cursor: pointer;
   position: relative;
   bottom: 40px;
+}
+
+.PhoneInputCountrySelectArrow{
+  color: white !important;
 }
 
 @keyframes updownarrow {
@@ -220,7 +223,7 @@
   font-family: "Gilroy-SemiBold", sans-serif !important;
   line-height: 56px !important;
   margin-bottom: 12px !important;
-  color:#e0e0e0 !important;
+  color:#E2E8F0 !important;
 }
 
 .scrollable_section_event > p h2 {
@@ -229,7 +232,7 @@
   font-style: normal !important;
   font-weight: 600 !important;
   margin-bottom: 12px !important;
-  color:#e0e0e0 !important;
+  color:#E2E8F0 !important;
 }
 
 .scrollable_section_event > p h3 {
@@ -237,12 +240,12 @@
   font-size: 28px !important;
   font-style: normal !important;
   font-weight: 500 !important;
-  color:#e0e0e0 !important;
+  color:#E2E8F0 !important;
 }
 
 .scrollable_section_event > p h4 {
   font-size: 24px !important;
-  color:#e0e0e0 !important;
+  color:#E2E8F0 !important;
 }
 
 .scrollable_section_event > p * {
