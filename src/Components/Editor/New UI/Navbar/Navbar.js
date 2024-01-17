@@ -29,7 +29,7 @@ function Navbar({ ChangeModalState, ModalState, userData, alternateInfo }) {
   };
 
   if(shortSidebar){
-    return null;;
+    return null;
   }
 
   return (

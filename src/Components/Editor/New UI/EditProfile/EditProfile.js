@@ -575,6 +575,7 @@ const EditProfile = (props) => {
                   placeholder="Please describe yourself"
                   Content={Content}
                   setContent={(e) => setContent(e)}
+                  required={true}
                 />
               </div>
 

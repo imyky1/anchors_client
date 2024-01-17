@@ -6,50 +6,157 @@ import React, {
   useRef,
   useState,
 } from "react";
-import "./ServicePage.css";
-import { RiStarSFill } from "react-icons/ri";
-import { BsWhatsapp } from "react-icons/bs";
-import { AiOutlineArrowRight } from "react-icons/ai";
-import PNGIMG from "../../../../Utils/Images/default_user.png";
-
-// svgs import  ----------------
-
-import ExcelIcon from "../../../../Utils/Icons/excel-service.svg";
-import VideoIcon from "../../../../Utils/Icons/video-service.svg";
-import DocIcon from "../../../../Utils/Icons/doc-service.svg";
-import TrendIcon from "../../../../Utils/Icons/trend-service.svg";
-import FlagIcon from "../../../../Utils/Icons/flag-service.svg";
+import { Navbar2 } from "../../Components/Layouts/Navbar User/Navbar";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import ServiceContext from "../../../../Context/services/serviceContext";
-import { feedbackcontext } from "../../../../Context/FeedbackState";
+import ServiceContext from "../../Context/services/serviceContext";
+import { feedbackcontext } from "../../Context/FeedbackState";
+import "./Service.css";
+import { Footer3 } from "../../Components/Footer/Footer2";
+import PNGIMG from "../../Utils/Images/default_user.png";
+
+// icons ---------
+import { IoIosArrowRoundForward, IoMdStar } from "react-icons/io";
+import { CiLinkedin } from "react-icons/ci";
+import {
+  FaInstagram,
+  FaRegFileExcel,
+  FaRegFilePdf,
+  FaTelegram,
+} from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { IoBookOutline, IoTrendingUpOutline } from "react-icons/io5";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { RxDownload } from "react-icons/rx";
 import mixpanel from "mixpanel-browser";
-import { paymentContext } from "../../../../Context/PaymentState";
-import { userContext } from "../../../../Context/UserState";
+import { userContext } from "../../Context/UserState";
+import { paymentContext } from "../../Context/PaymentState";
 import { ToastContainer, toast } from "react-toastify";
-import { LoadThree } from "../../../Modals/Loading";
-import Seo from "../../../../Utils/Seo";
-import FeedbackModal from "../../../Modals/Feedback_Modal";
-import { Navbar2 } from "../../../Layouts/Navbar User/Navbar";
-import Thanks from "../../../Modals/Thanks";
-import { Footer3 } from "../../../Footer/Footer2";
+import Seo from "../../Utils/Seo";
+import { LoadThree } from "../../Components/Modals/Loading";
+import Thanks2 from "../../Components/Modals/Thanks";
+import { RiShareForwardFill } from "react-icons/ri";
 
 // Code Splitiing the imports ----------------
-const MoreServices = lazy(() => import("./Components/MoreServices"));
-const ReviewsSection = lazy(() => import("./Components/ReviewsSection"));
+const MoreServices = lazy(() =>
+  import("../../Components/Editor/New UI/Service Page/Components/MoreServices")
+);
+const ReviewsSection = lazy(() =>
+  import(
+    "../../Components/Editor/New UI/Service Page/Components/ReviewsSection"
+  )
+);
 
-// Main Service Page---------------------
-function ServicePage(props) {
+const CreatorCard = ({
+  name,
+  profile,
+  tagLine,
+  creatorRatingData,
+  slug,
+  cslug,
+  linkedInLink,
+  twitterLink,
+  fbLink,
+  teleLink,
+  instaLink,
+  ytLink,
+}) => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="creator_card_service_page_wrapper">
+      <section>
+        <LazyLoadImage
+          src={profile}
+          alt={name}
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null; // prevents looping
+            currentTarget.src = PNGIMG;
+          }}
+        />
+
+        <section>
+          <span>{name}</span>
+          {window.screen.width < 600 && <p>{tagLine}</p>}
+        </section>
+
+        <div>
+          <IoMdStar />
+          {creatorRatingData}/5
+        </div>
+      </section>
+
+      {window.screen.width > 600 && <p>{tagLine}</p>}
+
+      <div>
+        {linkedInLink && (
+          <CiLinkedin
+            onClick={() => {
+              window.open(linkedInLink);
+              mixpanel.track("Clicked linkedInLink on service page", {
+                creator: cslug,
+              });
+            }}
+          />
+        )}
+        {instaLink && (
+          <FaInstagram
+            onClick={() => {
+              window.open(instaLink);
+              mixpanel.track("Clicked instaLink on service page", {
+                creator: cslug,
+              });
+            }}
+          />
+        )}
+        {twitterLink && (
+          <FaXTwitter
+            onClick={() => {
+              window.open(twitterLink);
+              mixpanel.track("Clicked twitterLink on service page", {
+                creator: cslug,
+              });
+            }}
+          />
+        )}
+        {teleLink && (
+          <FaTelegram
+            onClick={() => {
+              window.open(teleLink);
+              mixpanel.track("Clicked teleLink on service page", {
+                creator: cslug,
+              });
+            }}
+          />
+        )}
+      </div>
+
+      <button
+        onClick={() => {
+          mixpanel.track("Clicked Creators profile on service page", {
+            service: slug,
+            creator: cslug,
+          });
+          navigate(`/${cslug}`);
+        }}
+      >
+        Explore more about Creator <IoIosArrowRoundForward size={24} />
+      </button>
+    </div>
+  );
+};
+
+const Service = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { slug } = useParams();
-  const creatorSectionDesktop = useRef(null);
-  const ldescServicePage = useRef(null)
-  const sdescServicePage = useRef(null)
 
-  // States
-  const [loader, setLoader] = useState(false); // loader states
+  // refs
+
+  const ldescServicePage = useRef(null);
+
+  // states ------------------------------
   const [openModel, setOpenModel] = useState(false);
+  const [loader, setLoader] = useState(false); // loader states
   const [creatorRatingData, setCreatorRatingData] = useState(0); // creator rating data
   const [alreadyOrderPlaced, setAlreadyOrderPlaced] = useState(false); // already user order placed or not
   const [UserDetails, setUserDetails] = useState(); // stores the user data
@@ -80,8 +187,7 @@ function ServicePage(props) {
     easeBuzzApiKey,
   } = useContext(paymentContext);
 
-  const { userPlaceOrder, getUserDetails } =
-    useContext(userContext);
+  const { userPlaceOrder, getUserDetails } = useContext(userContext);
 
   //Scroll to top automatically ---------------------------------------------
   useEffect(() => {
@@ -177,18 +283,11 @@ function ServicePage(props) {
   // filling some data in the page------------------
   useEffect(() => {
     if (ldescServicePage.current) {
-      ldescServicePage.current.innerHTML =
-        serviceInfo?.service?.ldesc;
-    }
-
-    if (sdescServicePage.current) {
-      sdescServicePage.current.innerHTML =
-        serviceInfo?.service?.sdesc;
+      ldescServicePage.current.innerHTML = serviceInfo?.service?.ldesc;
     }
 
     // eslint-disable-next-line
   }, [serviceInfo]);
-
 
   // Handling the payment responses
   const handlePaymentResponse = async (response, orderId) => {
@@ -540,357 +639,279 @@ function ServicePage(props) {
     <>
       {loader && <LoadThree open={loader} />}
 
-      {/* Feedback Modal -------------------- */}
-      {/* <FeedbackModal
-        open={fbModalDetails?.open}
+      {/* Thanks Modal popup ------------------------- */}
+      <Thanks2
+        open={openModelDownload}
         onClose={() => {
-          setFbModalDetails({ ...fbModalDetails, open: false });
+          setPaymentProcessing(false);
+          setOpenModelDownload(false);
         }}
-        name={fbModalDetails?.service?.sname}
-        slug={fbModalDetails?.service?.slug}
-        progress={props.progress}
-        serviceType
-        id={fbModalDetails?.service?._id}
-        UserDetails={UserDetails ? UserDetails : ""}
-      /> */}
+        copyURL={serviceInfo?.service?.copyURL}
+        slug={serviceInfo?.service?.slug}
+        name={serviceInfo?.service?.sname}
+        stype={serviceInfo?.service?.stype}
+        cname={serviceInfo?.service?.c_id?.name}
+      />
 
-      <div className="new_service_page_outer_wrapper">
+      <div className="new_service_page_outside_wrapper">
         <Navbar2
           slug={serviceInfo?.service?.c_id?.slug}
           open={openModel}
+          backgroundDark={true}
           close={() => {
             setOpenModel(false);
           }}
         />
 
-        {/* Thanks Modal popup ------------------------- */}
-        <Thanks
-          open={openModelDownload}
-          onClose={() => {
-            setPaymentProcessing(false);
-            setOpenModelDownload(false);
-          }}
-          copyURL={serviceInfo?.service?.copyURL}
-          slug={serviceInfo?.service?.slug}
-          name={serviceInfo?.service?.sname}
-          stype={serviceInfo?.service?.stype}
-          cname={serviceInfo?.service?.c_id?.name}
-        />
-
-        <div className="oneframe_new_service_page">
-          {/* Data Section Service Page */}
-
-          <section className="new_service_service_desc_container">
-            {/* Service Banner in aspect ratio -------- */}
-            <div>
-              <LazyLoadImage
-                src={window.screen.width < 600 ? (serviceInfo?.service?.mobileSimg ?? serviceInfo?.service?.simg) : serviceInfo?.service?.simg}
-                alt="servicebanner"
-              />
-            </div>
-
-            <section>
-              <div className="left_side_data_new_service_page">
-                <h1 className="text_type_01_new_service_page">
-                  {serviceInfo?.service?.sname}
-                </h1>
-
-                <section className="action_points_new_service_page">
-                  <section>
-                    <section>
-                      {serviceInfo?.service?.downloads > 10 ? (
-                        <span>
-                          {" "}
-                          <img src={TrendIcon} alt="" /> Accessed by{" "}
-                          {serviceInfo?.service?.downloads} people
-                        </span>
-                      ) : (
-                        ""
-                      )}
-                    </section>
-                    <section>
-                      {serviceInfo?.service?.noOfPages ? (
-                        <span>
-                          {" "}
-                          <img
-                            src={
-                              serviceInfo?.service?.stype === 1
-                                ? ExcelIcon
-                                : serviceInfo?.service?.stype === 2
-                                ? VideoIcon
-                                : DocIcon
-                            }
-                            alt=""
-                          />{" "}
-                          {serviceInfo?.service?.noOfPages} Pages
-                        </span>
-                      ) : (
-                        ""
-                      )}
-                    </section>
-                  </section>
-
-                  <div>
-                    {/* <img src={FlagIcon} alt="" /> */}
-                    <button
-                      onClick={() => {
-                        mixpanel.track("Shared On Whatsapp", {
-                          service: slug,
-                        });
-                        window.open(
-                          `https://api.whatsapp.com/send?text=Hey check this ${
-                            serviceInfo?.service?.stype === 1
-                              ? "sheet"
-                              : serviceInfo?.service?.stype === 2
-                              ? "video"
-                              : "document"
-                          } about *${serviceInfo?.service?.sname}*  by *${
-                            serviceInfo?.creator?.name
-                          }* out. I found it really helpful!. Check it out at https://www.anchors.in/s/${slug}?utm_medium=whatsapp&utm_source=wahtsapp&utm_campaign=company-question`
-                        );
-                      }}
-                    >
-                      <BsWhatsapp /> Share
-                    </button>
-                  </div>
-                </section>
-
-                <section
-                  className="description_section_new_service_page"
-                  style={
-                    window.screen.width > 600
-                      ? {
-                          minHeight: `${
-                            creatorSectionDesktop?.current?.clientHeight - 104
-                          }px`,
-                        }
-                      : {}
-                  }
-                >
-                  <div>
-                    <h2 className="text_type_02_new_service_page">
-                      Resource Description
-                    </h2>
-                    <p
-                      className="text_type_03_new_service_page"
-                      ref={ldescServicePage}
-                    ></p>
-                  </div>
-
-                  {serviceInfo?.service?.sdesc && (
-                    <div>
-                      <h2 className="text_type_02_new_service_page">
-                        Additional Information
-                      </h2>
-                      <p
-                        className="text_type_03_new_service_page"
-                        ref={sdescServicePage}
-                      ></p>
-                    </div>
-                  )}
-                </section>
-              </div>
-
-              {window.screen.width > 600 && (
-                <div
-                  className="right_side_data_new_service_page"
-                  ref={creatorSectionDesktop}
-                >
-                  <section className="pricing_section_new_service_page_card">
-                    {serviceInfo?.service?.isPaid && (
-                      <h3 className="text_type_04_new_service_page">
-                        ₹ {serviceInfo?.service?.ssp}
-                        <span style={{ marginLeft: "20px" }}>₹</span>{" "}
-                        <span style={{ textDecorationLine: "line-through" }}>
-                          {serviceInfo?.service?.smrp}
-                        </span>
-                      </h3>
-                    )}
-
-                    {/* <span className="text_type_05_new_service_page">
-                      {serviceInfo?.service?.download !== 0
-                        ? "30 people accessed this in last 7 days."
-                        : `Uploaded on : ${serviceInfo?.service?.date} `}
-                    </span> */}
-
-                    <button
-                      className="new_service_page_button_one"
-                      onClick={() => {
-                        alreadyOrderPlaced
-                          ? goToDashboardClick()
-                          : downloadService();
-                      }}
-                      disabled={paymentProcessing}
-                    >
-                      {alreadyOrderPlaced
-                        ? "Go to Dashboard"
-                        : paymentProcessing
-                        ? "Processing..."
-                        : "Get Access"}
-                    </button>
-                  </section>
-
-                  <section
-                    className="creator_details_new_service_page"
-                    onClick={() => {
-                      mixpanel.track(
-                        "Clicked Creators profile on service page",
-                        {
-                          service: slug,
-                          user: UserDetails ? UserDetails : "",
-                          creator: serviceInfo?.service?.c_id?.slug,
-                        }
-                      );
-                      navigate(`/${serviceInfo?.service?.c_id?.slug}`);
-                    }}
-                  >
-                    <LazyLoadImage
-                      src={serviceInfo?.creator?.profile}
-                      alt={serviceInfo?.creator?.name}
-                      onError={({ currentTarget }) => {
-                        currentTarget.onerror = null; // prevents looping
-                        currentTarget.src = PNGIMG;
-                      }}
-                    />
-                    <div>
-                      <h3>{serviceInfo?.creator?.name}</h3>
-                      {creatorRatingData && (
-                        <span>
-                          {" "}
-                          <RiStarSFill
-                            size={16}
-                            color="rgba(255, 214, 0, 1)"
-                          />{" "}
-                          {creatorRatingData}/5
-                        </span>
-                      )}
-
-                      <p>{serviceInfo?.creator?.tagLine}</p>
-                    </div>
-                  </section>
-                </div>
-              )}
-            </section>
-          </section>
-
-          <Suspense>
-            {/* User Review Section for mobile ------------------------- */}
-            {window.screen.width < 600 &&
-              feedbacks?.filter((e) => e?.status === 1)?.length !== 0 && (
-                <ReviewsSection
-                  data={feedbacks?.filter((e) => e?.status === 1)}
-                />
-              )}
-          </Suspense>
-
-          {/* Creator profile section mobile section ----------------- */}
+        <section>
+          {/* floater -------------------------- */}
 
           {window.screen.width < 600 && (
             <section
-              className="creator_details_new_service_page"
-              onClick={() => {
-                mixpanel.track("Clicked Creators profile on service page", {
-                  service: slug,
-                  user: UserDetails ? UserDetails : "",
-                  creator: serviceInfo?.service?.c_id?.slug,
-                });
-                navigate(`/${serviceInfo?.service?.c_id?.slug}`);
-              }}
-            >
-              <LazyLoadImage
-                src={serviceInfo?.creator?.profile}
-                alt={serviceInfo?.creator?.name}
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null; // prevents looping
-                  currentTarget.src = PNGIMG;
-                }}
-              />
-              <div>
-                <h3>{serviceInfo?.creator?.name}</h3>
-                <p>{serviceInfo?.creator?.tagLine}</p>
-              </div>
-
-              {creatorRatingData && (
-                <span>
-                  {" "}
-                  <RiStarSFill size={16} color="rgba(255, 214, 0, 1)" />{" "}
-                  {creatorRatingData}/5
-                </span>
-              )}
-            </section>
-          )}
-
-          {/* More services section ----------------- */}
-
-          <Suspense>
-            {services?.res?.filter((e) => {
-              return e?.status === 1 && e?.slug !== slug;
-            })?.length !== 0 &&
-              localStorage.getItem("jwtToken") && (
-                <MoreServices
-                  data={services?.res
-                    ?.filter((e1) => {
-                      return e1?.status === 1 && e1.slug !== slug;
-                    })
-                    .sort((a, b) => {
-                      return b?.downloads - a?.downloads;
-                    })
-                    ?.sort((a, b) => {
-                      return b?.smrp - a?.smrp;
-                    })}
-                />
-              )}
-          </Suspense>
-
-          {/* User Review Section for desktop ---------------- */}
-          <Suspense>
-            {window.screen.width > 600 &&
-              feedbacks?.filter((e) => e?.status === 1)?.length !== 0 && (
-                <ReviewsSection
-                  data={feedbacks?.filter((e) => e?.status === 1)}
-                />
-              )}
-          </Suspense>
-        </div>
-
-        {/* Cta for mobile screen ------------------ */}
-
-        {window.screen.width < 600 && (
-          <section className="mobile_cta_section_new_service_page">
-            <div>
-              {/* <span className="text_type_05_new_service_page">
-                30 people accessed this in last 7 days.
-              </span> */}
-
-              {serviceInfo?.service?.isPaid && (
-                <h3 className="text_type_04_new_service_page">
-                  ₹ {serviceInfo?.service?.ssp}
-                  <span style={{ marginLeft: "8px" }}>₹</span>{" "}
-                  <span style={{ textDecorationLine: "line-through" }}>
-                    {serviceInfo?.service?.smrp}
-                  </span>
-                </h3>
-              )}
-            </div>
-
-            <button
-              className="new_service_page_button_one"
+              className="floater_service_page_wrapper"
               onClick={() => {
                 alreadyOrderPlaced ? goToDashboardClick() : downloadService();
               }}
               disabled={paymentProcessing}
             >
-              {alreadyOrderPlaced
-                ? "Go to Dashboard"
-                : paymentProcessing
-                ? "Processing..."
-                : serviceInfo?.service?.isPaid
-                ? "Get Access"
-                : "Free Access"}
-              <AiOutlineArrowRight />
-            </button>
-          </section>
-        )}
+              <section>
+                {serviceInfo?.service?.downloads > 10 && (
+                  <p>
+                    <IoTrendingUpOutline /> Purchased by{" "}
+                    {serviceInfo?.service?.downloads} people
+                  </p>
+                )}
+
+                <span>
+                  {alreadyOrderPlaced
+                    ? "Go to Dashboard"
+                    : paymentProcessing
+                    ? "Processing..."
+                    : "Get Access"}
+                </span>
+              </section>
+
+              <div>
+                {serviceInfo?.service?.isPaid ? (
+                  <>
+                    {" "}
+                    ₹ {serviceInfo?.service?.ssp}
+                    <span style={{ textDecoration: "line-through" }}>
+                      {serviceInfo?.service?.smrp}
+                    </span>
+                  </>
+                ) : (
+                  "Free"
+                )}
+                <IoIosArrowRoundForward />
+              </div>
+            </section>
+          )}
+
+          {/* left side section ------------------------- */}
+          <div className="left_side_service_page_hoc">
+            {window.screen.width < 600 && (
+              <h2 className="text03_new_service_page">About Creator</h2>
+            )}
+            <CreatorCard
+              {...serviceInfo?.creator}
+              creatorRatingData={creatorRatingData}
+              slug={slug}
+              cslug={serviceInfo?.service?.c_id?.slug}
+            />
+          </div>
+
+          {/* right side section ------------------------- */}
+          <div className="right_side_service_page_hoc">
+            <section className="service_page_banner_wrapper">
+              <LazyLoadImage
+                src={
+                  window.screen.width < 600
+                    ? serviceInfo?.service?.mobileSimg ??
+                      serviceInfo?.service?.simg
+                    : serviceInfo?.service?.simg
+                }
+                alt="servicebanner"
+              />
+
+              <span>
+                {serviceInfo?.service?.stype === 1 ? (
+                  <FaRegFileExcel />
+                ) : (
+                  <FaRegFilePdf />
+                )}
+              </span>
+
+              <div
+                onClick={() => {
+                  mixpanel.track("Shared On Whatsapp", {
+                    service: slug,
+                  });
+                  window.open(
+                    `https://api.whatsapp.com/send?text=Hey check this ${
+                      serviceInfo?.service?.stype === 1
+                        ? "sheet"
+                        : serviceInfo?.service?.stype === 2
+                        ? "video"
+                        : "document"
+                    } about *${serviceInfo?.service?.sname}*  by *${
+                      serviceInfo?.creator?.name
+                    }* out. I found it really helpful!. Check it out at https://www.anchors.in/s/${slug}?utm_medium=whatsapp&utm_source=wahtsapp&utm_campaign=company-question`
+                  );
+                }}
+              >
+                <RiShareForwardFill />
+              </div>
+            </section>
+
+            <div>
+              {serviceInfo?.service?.downloads > 10 && (
+                <p className="text02_new_service_page">
+                  <IoTrendingUpOutline /> Purchased by{" "}
+                  {serviceInfo?.service?.downloads} people
+                </p>
+              )}
+
+              <h1 className="text01_new_service_page">
+                {serviceInfo?.service?.sname}
+              </h1>
+
+              <div className="tags_new_service_page_wrapper">
+                <div>
+                  <IoBookOutline />
+
+                  <section>
+                    <span>Content Type</span>
+                    <p>
+                      {serviceInfo?.service?.stype === 1
+                        ? "Excel"
+                        : serviceInfo?.service?.stype === 2
+                        ? "Video"
+                        : "Document"}
+                    </p>
+                  </section>
+                </div>
+                <div>
+                  <RxDownload />
+
+                  <section>
+                    <span>Download</span>
+                    <p>
+                      {serviceInfo?.service?.allowDownload
+                        ? "Allowed"
+                        : "Not Allowed"}
+                    </p>
+                  </section>
+                </div>
+                {serviceInfo?.service?.noOfPages ? (
+                  <div>
+                    <IoBookOutline />
+
+                    <section>
+                      <span>Number of pages</span>
+                      <p>{serviceInfo?.service?.noOfPages}</p>
+                    </section>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+
+              <div className="desc_section_wrapper_service_page">
+                <h2 className="text03_new_service_page">
+                  Resource Description
+                </h2>
+
+                <p
+                  className="text04_new_service_page"
+                  ref={ldescServicePage}
+                ></p>
+              </div>
+            </div>
+
+            <section className="extra_sections_wrapper_service_page">
+              {/* More services section ----------------- */}
+
+              <Suspense>
+                {services?.res?.filter((e) => {
+                  return e?.status === 1 && e?.slug !== slug;
+                })?.length !== 0 &&
+                  localStorage.getItem("jwtToken") && (
+                    <MoreServices
+                      background="#14181f"
+                      cardBackground="#171e25"
+                      data={services?.res
+                        ?.filter((e1) => {
+                          return e1?.status === 1 && e1.slug !== slug;
+                        })
+                        .sort((a, b) => {
+                          return b?.downloads - a?.downloads;
+                        })
+                        ?.sort((a, b) => {
+                          return b?.smrp - a?.smrp;
+                        })}
+                    />
+                  )}
+              </Suspense>
+
+              {/* User Review Section for desktop ---------------- */}
+              <Suspense>
+                {window.screen.width > 600 &&
+                  feedbacks?.filter((e) => e?.status === 1)?.length !== 0 && (
+                    <ReviewsSection
+                      background="#14181f"
+                      cardBackground="#171e25"
+                      data={feedbacks?.filter((e) => e?.status === 1)}
+                    />
+                  )}
+              </Suspense>
+            </section>
+
+            {/* floater -------------------------- */}
+
+            {window.screen.width > 600 && (
+              <section
+                className="floater_service_page_wrapper"
+                onClick={() => {
+                  alreadyOrderPlaced ? goToDashboardClick() : downloadService();
+                }}
+                disabled={paymentProcessing}
+              >
+                <section>
+                  {serviceInfo?.service?.downloads > 10 && (
+                    <p>
+                      <IoTrendingUpOutline /> Purchased by{" "}
+                      {serviceInfo?.service?.downloads} people
+                    </p>
+                  )}
+
+                  <span>
+                    {alreadyOrderPlaced
+                      ? "Go to Dashboard"
+                      : paymentProcessing
+                      ? "Processing..."
+                      : "Get Access"}
+                  </span>
+                </section>
+
+                <div>
+                  {serviceInfo?.service?.isPaid ? (
+                    <>
+                      {" "}
+                      ₹ {serviceInfo?.service?.ssp}
+                      <span style={{ textDecoration: "line-through" }}>
+                        {serviceInfo?.service?.smrp}
+                      </span>
+                    </>
+                  ) : (
+                    "Free"
+                  )}
+                  <IoIosArrowRoundForward />
+                </div>
+              </section>
+            )}
+          </div>
+        </section>
 
         <Footer3 />
       </div>
@@ -905,6 +926,6 @@ function ServicePage(props) {
       <ToastContainer theme="dark" />
     </>
   );
-}
+};
 
-export default ServicePage;
+export default Service;

@@ -7,14 +7,14 @@ import { useNavigate } from "react-router-dom";
 import "../ServicePage.css"
 
 
-const MoreServices = (data) => {
+const MoreServices = ({data,background,cardBackground}) => {
   return (
-    <section className="new_service_page_other_services_section">
+    <section className="new_service_page_other_services_section" style={{background:background ?? ""}}>
       <h2 className="text_type_06_new_service_page">More Services</h2>
 
       <div>
-        {data?.data?.map((e, i) => {
-          return <ServiceCards {...e} key={i} />;
+        {data?.map((e, i) => {
+          return <ServiceCards {...e} key={i} cardBackground={cardBackground}/>;
         })}
       </div>
     </section>
@@ -22,11 +22,11 @@ const MoreServices = (data) => {
 };
 
 // Each Service Card ---------------------
-export const ServiceCards = ({ sname, simg, mobileSimg, slug, stype }) => {
+export const ServiceCards = ({ sname, simg, mobileSimg, slug, stype , cardBackground }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="new_service_page_service_card">
+    <div className="new_service_page_service_card" style={{background:cardBackground??""}}>
       <LazyLoadImage src={mobileSimg ?? simg} alt={sname} />
       <h3>
         {sname.length > (window.screen.width > 600 ? 45 : 30)

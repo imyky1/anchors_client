@@ -5,14 +5,14 @@ import { RiStarSFill } from "react-icons/ri";
 import "../ServicePage.css"
 
 // Review Section -----------------
-const ReviewsSection = (data) => {
+const ReviewsSection = ({data,background,cardBackground}) => {
   return (
-    <section className="new_service_page_other_services_section">
+    <section className="new_service_page_other_services_section" style={{background:background ?? ""}}>
       <h2 className="text_type_06_new_service_page">User Reviews</h2>
 
       <div>
-        {data?.data?.map((e, i) => {
-          return <ReviewCards {...e} key={i} />;
+        {data?.map((e, i) => {
+          return <ReviewCards {...e} key={i} cardBackground={cardBackground}/>;
         })}
       </div>
     </section>
@@ -20,9 +20,9 @@ const ReviewsSection = (data) => {
 };
 
 // Each Review Card ---------------------
-export const ReviewCards = ({ name, desc, rating, photo }) => {
+export const ReviewCards = ({ name, desc, rating, photo,cardBackground }) => {
   return (
-    <div className="new_service_page_review_card">
+    <div className="new_service_page_review_card" style={{background:cardBackground ?? ""}}>
       <section>
         <LazyLoadImage
           src={photo}

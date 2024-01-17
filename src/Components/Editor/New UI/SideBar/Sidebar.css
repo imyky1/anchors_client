@@ -293,8 +293,6 @@
 }
 
 
-
-
 /*  sidebar 2 css */
 
 .sidebar2_main_box{
@@ -308,6 +306,11 @@
   box-sizing: border-box;
   padding-top: 13px;
   padding:20px;
+}
+
+.sidebar2_main_box > div > img{
+  width: 20px;
+  cursor: pointer;
 }
 
 .sidebar2_navigation{

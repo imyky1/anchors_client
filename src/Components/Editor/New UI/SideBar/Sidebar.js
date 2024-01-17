@@ -387,7 +387,8 @@ function SidebarShort({ setShortSidebar }) {
   return (
     <div className="sidebar2_main_box">
       <div>
-        <IoMenu size={24} color="#EEEEEE" style={{ cursor: "pointer" }} />
+        {/* <IoMenu size={24} color="#EEEEEE" style={{ cursor: "pointer" }} /> */}
+        <img src={require("../../../../Utils/Images/logo.png")} alt="anchors"/>
         <section className="sidebar2_navigation">
           <Link
             to=""

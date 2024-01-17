@@ -32,8 +32,8 @@ export const Footer3 = ({ hostEventButton = false }) => {
 
       <button
         style={
-          !(window.screen.width > 600 && hostEventButton)
-            ? { visibility: "hidden" }
+          !(hostEventButton)
+            ? window.screen.width > 600 ? { visibility: "hidden" } : {display:"none"}
             : {}
         }
         onClick={() => {

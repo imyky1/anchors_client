@@ -324,7 +324,7 @@
 }
 
 .container-buttons {
-  height: 12%;
+  height: max-content;
   display: block;
 }
 
@@ -351,7 +351,7 @@
 .button-preview {
   display: flex;
   padding-top: 2vh;
-  padding-bottom: 1.5vh;
+  padding-bottom: 0.5vh;
   background-color: rgb(226, 226, 226);
   align-items: center;
   justify-content: center;

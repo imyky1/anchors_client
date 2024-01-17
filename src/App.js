@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { Suspense, lazy, useContext, useEffect, useState } from "react";
 import mixpanel from "mixpanel-browser";
 import { mixPanelToken } from "./config/config.js";
@@ -8,13 +8,6 @@ import { SkeletonTheme } from "react-loading-skeleton";
 import LoadingBar from "react-top-loading-bar";
 import "react-toastify/dist/ReactToastify.css";
 
-// import fonts ---------------------
-import "./fonts/Gilroy-Black.ttf";
-import "./fonts/Gilroy-Bold.ttf";
-import "./fonts/Gilroy-Medium.ttf";
-import "./fonts/Gilroy-Light.ttf";
-import "./fonts/Gilroy-SemiBold.ttf";
-import "./fonts/Gilroy-Regular.ttf";
 
 // Pages lazy loading or code spilliting -------------------
 import ServiceState from "./Context/services/ServiceState";
@@ -35,6 +28,7 @@ import { ToastContainer } from "react-toastify";
 import CheckPayment from "./Components/CheckPayment/CheckPayment.js";
 import Check from "./Pages/Check.js";
 import ProtectedRoute from "./Components/ProtectedRoute.js";
+import Service from "./Pages/Service Page/Service.js";
 
 const Creators_login = lazy(() => import("./Components/Login/Creators/Login2"));
 const Feedback = lazy(() => import("./Components/Feedback/Feedback"));
@@ -54,9 +48,9 @@ const ExcelViewer = lazy(() =>
 const PDFReader = lazy(() =>
   import("./Components/Editor/pdfViewer/Components/PDFReader")
 );
-const VideoDisplay = lazy(() =>
-  import("./Components/Editor/VideoDisplay/VideoDisplay")
-);
+// const VideoDisplay = lazy(() =>
+//   import("./Components/Editor/VideoDisplay/VideoDisplay")
+// );
 const HomeUI = lazy(() => import("./Components/Editor/New UI/Home/Home"));
 const Predictor = lazy(() =>
   import("./Components/Earning Potential/Predictor")
@@ -77,15 +71,11 @@ const Success = lazy(() =>
 const StaticSuccess = lazy(() =>
   import("./Components/Editor/New UI/Event Success Page/StaticSuccess")
 );
-const ServicePage = lazy(() =>
-  import("./Components/Editor/New UI/Service Page/ServicePage")
-);
+
 const ProfilePage = lazy(() =>
   import("./Components/Editor/New UI/Creator Profile/ProfilePage")
 );
-const PreviewPage = lazy(() =>
-  import("./Components/Editor/New UI/Service Page/PreviewPage")
-);
+
 const Upload = lazy(() => import("./Developers/Upload/Upload"));
 const Creator = lazy(() => import("./Components/ApprovedCreators/Creator.js"));
 const EventPricing = lazy(() => import("./Components/Pricing/EventPricing"));
@@ -208,6 +198,7 @@ function App() {
   const { checkAndGetUserData, verifiedData } = useContext(linkedinContext);
 
   const { setHandleUserLoginForm } = useContext(userContext);
+  const location = useLocation()
 
   // load script after the primary pages load ------------
   useEffect(() => {
@@ -223,6 +214,7 @@ function App() {
       checkAndGetUserData();
     }
   }, []);
+
 
   const changeprogress = (progress) => {
     setprogress(progress);
@@ -291,13 +283,13 @@ function App() {
                           <Route
                             exact
                             path="/s/:slug"
-                            element={<ServicePage progress={changeprogress} />}
+                            element={<Service progress={changeprogress} />}
                           ></Route>
-                          <Route
+                          {/* <Route
                             exact
-                            path="/s/preview/:slug"
-                            element={<PreviewPage progress={changeprogress} />}
-                          ></Route>
+                            path="/tests/:slug"
+                            element={<Service progress={changeprogress} />}
+                          ></Route> */}
                           <Route
                             path="/e/:slug"
                             element={<Event progress={changeprogress} />}
@@ -439,13 +431,12 @@ function App() {
                               />
                             }
                           />
-                          <Route
+                          {/* <Route
                             path="/viewVideo"
                             element={
-                              <VideoDisplay /*url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls"*/
-                              />
+                              <VideoDisplay url="https://sample-videos.com/xls/Sample-Spreadsheet-5000-rows.xls" />
                             }
-                          />
+                          /> */}
                         </Routes>
                       </Suspense>
                     </UserDashboardState>

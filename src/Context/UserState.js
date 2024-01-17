@@ -4,9 +4,7 @@ import { host } from "../config/config";
 export const userContext = createContext();
 
 const UserState = (props) => {
-
-  const [handleUserLoginForm, setHandleUserLoginForm] = useState(false)
-
+  const [handleUserLoginForm, setHandleUserLoginForm] = useState(false);
 
   // ROUTE 1 : USER SIGN up
   //const userSignup = async( name, email, password, location) =>{
@@ -114,24 +112,21 @@ const UserState = (props) => {
     }
   };
 
-  const checkUserIsLogined = async (email) =>{
-    const response = await fetch(
-      `${host}/api/user/isUserLogined`,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-        },
-        body: JSON.stringify({
-          email
-        }),
-      }
-    );
+  const checkUserIsLogined = async (email) => {
+    const response = await fetch(`${host}/api/user/isUserLogined`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
+      },
+      body: JSON.stringify({
+        email,
+      }),
+    });
     const json = await response.json();
-    return json?.success
-  }
+    return json?.success;
+  };
 
   // ROUTE 3 : USER ORDER
   const userPlaceOrder = async (
@@ -242,7 +237,43 @@ const UserState = (props) => {
     createdOrderID,
     eventBannerImage
   ) => {
-    const response = await fetch(`${host}/api/user/event/neworder/${eventid}`, {
+    try {
+      const response = await fetch(
+        `${host}/api/user/event/neworder/${eventid}`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+            "jwt-token": localStorage.getItem("jwtToken"),
+          },
+          body: JSON.stringify({
+            amount,
+            status,
+            paymentData,
+            createdOrderID,
+            orderFrom: orderFrom ? orderFrom : "user",
+            referralCode,
+            eventBannerImage,
+          }),
+        }
+      );
+      const json = await response.json();
+      if (json.success) {
+        const res2 = await addSubscriber(creatorId, paidUser);
+        return json.success;
+      } else {
+        return json.success;
+      }
+    } catch (error) {
+      return false;
+    }
+  };
+
+  // Upadte user info-------------
+  const updateUserInfo = async (data) => {
+    const response = await fetch(`${host}/api/user/updateUserInfo`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -250,40 +281,8 @@ const UserState = (props) => {
         "Access-Control-Allow-Credentials": true,
         "jwt-token": localStorage.getItem("jwtToken"),
       },
-      body: JSON.stringify({
-        amount,
-        status,
-        paymentData,
-        createdOrderID,
-        orderFrom: orderFrom ? orderFrom : "user",
-        referralCode,
-        eventBannerImage
-      }),
+      body: JSON.stringify(data),
     });
-    const json = await response.json();
-    if (json.success) {
-      const res2 = await addSubscriber(creatorId, paidUser);
-      return json.success;
-    } else {
-      return json.success;
-    }
-  };
-
-  // Upadte user info-------------
-  const updateUserInfo = async (data) => {
-    const response = await fetch(
-      `${host}/api/user/updateUserInfo`,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-          "jwt-token": localStorage.getItem("jwtToken"),
-        },
-        body: JSON.stringify(data),
-      }
-    );
     const json = await response.json();
     if (json.success) {
       return json.success;
@@ -348,22 +347,18 @@ const UserState = (props) => {
     return json;
   };
 
-
   // signin user as creator -----------
   const userSignInAsCreator = async () => {
     // USER LOGIN IS REQUIRED
-    const response = await fetch(
-      `${host}/api/user/userSignInAsCreator`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
-          "jwt-token": localStorage.getItem("jwtToken"),
-        },
-      }
-    );
+    const response = await fetch(`${host}/api/user/userSignInAsCreator`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
+    });
     const json = await response.json();
     return json;
   };
@@ -401,8 +396,6 @@ const UserState = (props) => {
     return json.success;
   };
 
-
-
   return (
     <userContext.Provider
       value={{
@@ -419,7 +412,7 @@ const UserState = (props) => {
         userSignInAsCreator,
         setHandleUserLoginForm,
         handleUserLoginForm,
-        checkUserIsLogined
+        checkUserIsLogined,
       }}
     >
       {props.children}

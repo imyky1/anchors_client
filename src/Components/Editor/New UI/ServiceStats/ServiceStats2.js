@@ -26,7 +26,7 @@ import {
 } from "../Create Services/InputComponents/fields_Labels";
 import mixpanel from "mixpanel-browser";
 
-const TableRef = ({ totalrefer, referdata }) => {
+const TableRef = ({ totalrefer, referdata,isPaidEvent }) => {
   return (
     <>
       {totalrefer?.combinedOrders[0]?.totalrefer +
@@ -233,7 +233,7 @@ const TableRef = ({ totalrefer, referdata }) => {
             return [
               val.rank,
               val.name,
-              val.email,
+              <span style={isPaidEvent ? {} : {filter:"blur(6px)"}}>{isPaidEvent ? val.email : "xxxxxxxxxxxx"}</span>,
               val.registerdate,
               val.joinedfromrefer,
               val.amount,
@@ -248,21 +248,15 @@ const TableRef = ({ totalrefer, referdata }) => {
 
 const TableinfoTrans = ({ totalTransactionDetails }) => {
   const getDatelist = (date) => {
-    let ll = date?.slice(0, date.toString().length - 5);
-    const datenew = ll?.split("T");
-    if (datenew) {
-      return datenew[0];
-    }
+    let d1 = new Date(date)
+    return d1.toLocaleDateString()
   };
 
   const getDatelist2 = (date) => {
-    let ll = date?.slice(0, date.toString().length - 5);
-    const datenew = ll?.split("T");
-    if (datenew) {
-      return datenew[1];
-    }
+    let d1 = new Date(date)
+    return d1.toTimeString().split(" ")[0]
   };
-
+  
   return (
     <>
         <div className="userrequest-table">
@@ -475,6 +469,7 @@ const ReturnTable = ({
   referdata,
   dataType,
   slug,
+  isPaidEvent
 }) => {
   if (type === "totalTransaction") {
     return (
@@ -489,6 +484,7 @@ const ReturnTable = ({
         totalrefer={totalrefer}
         referdata={referdata}
         dataType={dataType}
+        isPaidEvent={isPaidEvent}
       />
     );
     // } else if (type === "totalSuccessfullRegister") {
@@ -999,6 +995,7 @@ const ServiceStats2 = (props) => {
             referdata={serviceType === "event" ? referdata : []}
             dataType={serviceType}
             slug={slug}
+            isPaidEvent={eventInfo?.event?.isPaid}
           />
         </div>
       )}

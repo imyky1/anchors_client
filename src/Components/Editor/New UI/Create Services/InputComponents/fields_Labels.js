@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import "./components.css";
 import { useEffect } from "react";
-import ReactQuill, { Quill } from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import ImageResize from 'quill-image-resize-module-react';
-import BlotFormatter from 'quill-blot-formatter';
+import ReactQuill, { Quill } from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import ImageResize from "quill-image-resize-module-react";
+import BlotFormatter from "quill-blot-formatter";
 import { HiOutlineUpload } from "react-icons/hi";
 import { TfiReload } from "react-icons/tfi";
 import { AiFillInfoCircle } from "react-icons/ai";
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-Quill.register('modules/imageResize', ImageResize);
-Quill.register('modules/blotFormatter', BlotFormatter);
+Quill.register("modules/imageResize", ImageResize);
+Quill.register("modules/blotFormatter", BlotFormatter);
 
 export const TooltipBox = ({ text, top, left, points = [] }) => (
   <div className="tooltip-component-box" style={{ top, left } ?? {}}>
@@ -28,39 +28,56 @@ export const TooltipBox = ({ text, top, left, points = [] }) => (
 );
 
 // text field -------------------------
-function fields_Labels1(props) {
+function Fields_Labels1(props) {
+  const [openTip, setOpenTip] = useState(false);
+
   return (
     // Normal type -1 text field used in create
     <div className="textfiled_container_01">
-      <span className="label_type_01">
-        {props.label}{" "}
-        {props?.required && <span style={{ color: "red" }}>*</span>}
-        {props?.labelHelperText && (
-          <p
-            onClick={() => {
-              props?.labelHelperText?.action();
-            }}
-            className="helper_text_label_type_01"
-          >
-            {props?.labelHelperText?.text}
-          </p>
+      <>
+        <span className="label_type_01">
+          {props.label}{" "}
+          {props?.required && <span style={{ color: "red" }}>*</span>}
+          {props?.labelHelperText && (
+            <p
+              onClick={() => {
+                props?.labelHelperText?.action();
+              }}
+              className="helper_text_label_type_01"
+            >
+              {props?.labelHelperText?.text}
+            </p>
+          )}
+        </span>
+        <input
+          onMouseEnter={() => {
+            props?.boxTooltip && setOpenTip(true);
+          }}
+          onMouseLeave={() => {
+            props?.boxTooltip && setOpenTip(false);
+          }}
+          style={props?.height ? { height: props?.height } : {}}
+          type={props?.type ? props?.type : "text"}
+          className="input_type_01"
+          placeholder={props.placeholder}
+          value={props?.value}
+          onChange={props?.onChange}
+          name={props.name}
+          id={props.id}
+          maxLength={props?.maxLength}
+          autoComplete={props?.autoComplete}
+        />
+        {props?.verifiedComp && (
+          <i className="fa-solid fa-square-check fa-xl verifiedComponent01"></i>
         )}
-      </span>
-      <input
-        style={props?.height ? { height: props?.height ,  } : {}}
-        type={props?.type ? props?.type : "text"}
-        className="input_type_01"
-        placeholder={props.placeholder}
-        value={props?.value}
-        onChange={props?.onChange}
-        name={props.name}
-        id={props.id}
-        maxLength={props?.maxLength}
-      />
-      {props?.verifiedComp && (
-        <i className="fa-solid fa-square-check fa-xl verifiedComponent01"></i>
+        <p className="label_type_03" style={{ color: props?.infoColor }}>
+          {props.info}
+        </p>
+      </>
+
+      {props?.boxTooltip && openTip && (
+        <section className="toolTipBox_textField">{props?.boxTooltip}</section>
       )}
-      <p className="label_type_03" style={{color:props?.infoColor}}>{props.info}</p>
     </div>
   );
 }
@@ -69,70 +86,88 @@ function fields_Labels1(props) {
 function EditorText01(props) {
   const [isHovered, setIsHovered] = useState(false);
 
+  const [openTip, setOpenTip] = useState(false);
+
   return (
     // Normal type -1 text field used in create
     <div className="textfiled_container_01">
-      <span className="label_type_04">
-        {props?.label}{" "}
-        {props?.helperText && (
-          <AiFillInfoCircle
-            size={20}
-            onMouseEnter={() => {
-              setIsHovered(true);
-            }}
-            onMouseLeave={() => {
-              setIsHovered(false);
-            }}
-          />
-        )}
-        {props?.required && <span style={{ color: "red" }}>*</span>}
-        {isHovered && <TooltipBox text={props?.helperText} />}
-        {props?.labelHelperText && (
-          <p
-            onClick={() => {
-              props?.labelHelperText?.action();
-            }}
-            className="helper_text_label_type_01"
-          >
-            {props?.labelHelperText?.text}
-          </p>
-        )}
-      </span>
-      <ReactQuill
-        theme="snow"
-        value={props?.Content}
-        onChange={(e) => {
-          props?.setContent(e);
-        }}
-        className="quill-editor"
-        placeholder={props?.placeholder}
-
-        modules={{
-          toolbar: [
-            [{ size: [] }],
-            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-            [
-              { list: 'ordered' },
-              { list: 'bullet' },
-              { indent: '-1' },
-              { indent: '+1' }
+      <>
+        <span className="label_type_04">
+          {props?.label}{" "}
+          {props?.helperText && (
+            <AiFillInfoCircle
+              size={20}
+              onMouseEnter={() => {
+                setIsHovered(true);
+              }}
+              onMouseLeave={() => {
+                setIsHovered(false);
+              }}
+            />
+          )}
+          {props?.required && <span style={{ color: "red" }}>*</span>}
+          {isHovered && <TooltipBox text={props?.helperText} />}
+          {props?.labelHelperText && (
+            <p
+              onClick={() => {
+                props?.labelHelperText?.action();
+              }}
+              className="helper_text_label_type_01"
+            >
+              {props?.labelHelperText?.text}
+            </p>
+          )}
+        </span>
+        <ReactQuill
+          onFocus={() => {
+            props?.boxTooltip && setOpenTip(true);
+          }}
+          onBlur={() => {
+            props?.boxTooltip && setOpenTip(false);
+          }}
+          theme="snow"
+          value={props?.Content}
+          onChange={(e) => {
+            props?.setContent(e);
+          }}
+          className="quill-editor"
+          placeholder={props?.placeholder}
+          modules={{
+            toolbar: [
+              [{ size: [] }],
+              ["bold", "italic", "underline", "strike", "blockquote"],
+              [
+                { list: "ordered" },
+                { list: "bullet" },
+                { indent: "-1" },
+                { indent: "+1" },
+              ],
+              ["link", "image", "video"],
+              ["clean"],
             ],
-            ['link', 'image', 'video'],
-            ['clean']
-          ],
-          clipboard: {
-            // toggle to add extra line breaks when pasting HTML:
-            matchVisual: false
-          },
-          imageResize: {
-            parchment: Quill.import('parchment'),
-            modules: ['Resize', 'DisplaySize']
-          },
-          blotFormatter: {}
-      }}
+            clipboard: {
+              // toggle to add extra line breaks when pasting HTML:
+              matchVisual: false,
+            },
+            imageResize: {
+              parchment: Quill.import("parchment"),
+              modules: ["Resize", "DisplaySize"],
+            },
+            blotFormatter: {},
+          }}
+        />
+        <p
+          className="label_type_03"
+          style={props?.infoStyle}
+          onClick={props?.infoClick}
+        >
+          {props.info}
+        </p>
+      </>
 
-      />
-      <p className="label_type_03" style={props?.infoStyle} onClick={props?.infoClick}>{props.info}</p>
+      {props?.boxTooltip && openTip && (
+        <section className="toolTipBox_textField">{props?.boxTooltip}</section>
+      )}
     </div>
   );
 }
@@ -369,13 +404,13 @@ function DatePicker01(props) {
       <div className="textfield_container_03">
         <DatePicker
           selected={props?.value ?? Date.now()}
-          showYearDropdown
           id={props?.id}
           name={props?.name}
           dateFormat="dd-MM-yyyy"
           minDate={new Date()}
           onChange={(date) => props?.onChange(date)}
           placeholderText={props?.placeholder}
+          autoComplete={props?.autoComplete}
         />
       </div>
     </div>
@@ -536,6 +571,36 @@ function Select01(props) {
   );
 }
 
+function Select02(props) {
+  return (
+    // Normal type -1 text field used in create
+    <div className="textfiled_container_02">
+      <span className="label_type_01">
+        {props?.label}{" "}
+        {props?.required && <span style={{ color: "red" }}>*</span>}
+      </span>
+
+      <section>
+        {props?.value?.map((e, i) => {
+          return (
+            <span
+              className={`select_button_type_02 ${
+                props?.defaultValue === e ? "select_button_type_02_active" : ""
+              }`}
+              key={i}
+              onClick={() => {
+                props.selectedValue(e);
+              }}
+            >
+              {e}
+            </span>
+          );
+        })}
+      </section>
+    </div>
+  );
+}
+
 function Table01({ headArray = [], bodyArray = [], gridConfig }) {
   return (
     <div className="table_component_wrapper01">
@@ -595,7 +660,7 @@ function TextArea01(props) {
   );
 }
 
-export const TextField1 = fields_Labels1;
+export const TextField1 = Fields_Labels1;
 export const Editor1 = EditorText01;
 export const UploadField1 = UploadField01;
 export const UploadField2 = UploadField02;
@@ -605,6 +670,7 @@ export const SocialFields = fields_Labels4;
 export const Tags1 = Tags01;
 export const Dropdown1 = Dropdown01;
 export const Select1 = Select01;
+export const Select2 = Select02;
 export const DatePicker1 = DatePicker01;
 export const Table1 = Table01;
 export const TextArea1 = TextArea01;

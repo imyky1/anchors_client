@@ -345,7 +345,7 @@ const EventsSectionData = ({ liveData, upcomingData }) => {
 
   return (
     <>
-      {liveData?.length !== 0 && (
+      {liveData && liveData?.length !== 0 && (
         <div className="user_dashboard_event_data_section_wrapper">
           <>
             <span className="live_events_wrapper_user_dashboard_page_live_event">
@@ -413,7 +413,7 @@ const EventsSectionData = ({ liveData, upcomingData }) => {
           </>
         </div>
       )}
-      {upcomingData?.length !== 0 && (
+      {upcomingData && upcomingData?.length !== 0 && (
         <div className="user_dashboard_event_data_section_wrapper">
           <section className="upcoming_events_wrapper_user_dashboard_page_outer_section">
             <div className="upcoming_events_wrapper_user_dashboard_page_outer_section_upper">
@@ -732,9 +732,16 @@ function UserDashboard2(props) {
     eventsUser,
   } = useContext(UserDashbaord);
 
-  // console.log('event',eventsUser);
 
   useEffect(() => {
+    const process = async() =>{
+        setOpenLoading(true);
+        await getallcreatorsofuser(localStorage.getItem("isUser") === "")
+        await getalleventsofuser(localStorage.getItem("isUser") === "")
+        await getallordersofuser(localStorage.getItem("isUser") === "")
+        setOpenLoading(false)
+    }
+    
     mixpanel.track("Page Visit");
 
     if (!localStorage.getItem("isUser") === "true") {
@@ -746,27 +753,10 @@ function UserDashboard2(props) {
     if (!localStorage.getItem("jwtToken")) {
       setOpenUserLoginModal(true);
     } else {
-      setOpenLoading(true);
-      getallcreatorsofuser(localStorage.getItem("isUser") === "").then(() => {
-        setOpenLoading(false);
-      });
-      getalleventsofuser(localStorage.getItem("isUser") === "").then((e) => {});
-      getallordersofuser(localStorage.getItem("isUser") === "").then(() => {
-        setOpenLoading(false);
-      });
+      process()
     }
   }, [location]);
 
-  useEffect(() => {
-    setOpenLoading(true);
-    getallcreatorsofuser().then(() => {
-      setOpenLoading(false);
-    });
-    getalleventsofuser().then((e) => {});
-    getallordersofuser().then(() => {
-      setOpenLoading(false);
-    });
-  }, []);
 
   // get the count for the selected creator
   useEffect(() => {
@@ -788,6 +778,7 @@ function UserDashboard2(props) {
   }, [selectedCreator]);
 
   // refresh the services every time the following options are changed
+
   useEffect(() => {
     getEventsArray();
     getServicesArray();
@@ -839,14 +830,11 @@ function UserDashboard2(props) {
 
   // COntrols the service in the user dashboard based on selected creator and the option
   const getServicesArray = () => {
-    setOpenLoading(true);
-
     let finalArr1 = alluserDocs?.filter((e) => {
       return e?.service?.sname && e?.service?.status !== 0;
     });
 
     if (selectedCreator?.id) {
-      setOpenLoading(false);
       setServicesArray(
         finalArr1?.filter((e) => {
           return (
@@ -855,17 +843,14 @@ function UserDashboard2(props) {
         })
       );
     } else {
-      setOpenLoading(false);
       setServicesArray(finalArr1);
     }
     // console.log(servicesArray);
   };
 
   const getEventsArray = () => {
-    setOpenLoading(true);
 
     if (selectedCreator?.id) {
-      setOpenLoading(false);
       setliveEventsArray(
         eventsUser?.LiveEvents?.filter((e) => {
           return (
@@ -882,7 +867,6 @@ function UserDashboard2(props) {
         })
       );
     } else {
-      setOpenLoading(false);
       setliveEventsArray(eventsUser?.LiveEvents);
       setUpcomingEventsArray(eventsUser?.UpcomingEvents);
     }

@@ -370,25 +370,8 @@ const ServiceState = (props) => {
 
   // 4. Adding events from the respective data from /createevent endpoint
   const addEvent = async (
-    sname,
-    sdesc,
-    ldesc,
-    slug,
-    simg,
-    tags,
-    stype,
-    isPaid,
-    smrp,
-    ssp,
-    startDate,
-    time, // in object {startTime:"",endTime:""}
-    benefits,
-    maxCapacity,
-    meetlink,
-    videoLink,
-    speakerDetails
+    data
   ) => {
-    console.log(simg);
     const response = await fetch(`${host}/api/event/createEvent`, {
       method: "POST",
       headers: {
@@ -397,25 +380,7 @@ const ServiceState = (props) => {
       },
 
       //body: JSON.stringify({ sname:sname,sdesc:sdesc,ldesc:ldesc,slug:slug,simg:simg,surl:surl,stype:stype,isPaid:isPaid,smrp:smrp,ssp:ssp }),
-      body: JSON.stringify({
-        sname,
-        sdesc,
-        ldesc,
-        slug,
-        simg,
-        tags,
-        stype,
-        isPaid,
-        smrp,
-        ssp,
-        startDate,
-        time, // in object {startTime:"",endTime:""}
-        benefits,
-        maxCapacity,
-        meetlink,
-        videoLink,
-        speakerDetails,
-      }),
+      body: JSON.stringify(data),
     });
     const json = await response.json();
     return json;
@@ -574,8 +539,12 @@ const ServiceState = (props) => {
   };
 
   const geteventusingid = async (id) => {
-    const response = await fetch(`${host}/api/event/geteventusingid/${id}`, {
+    const response = await fetch(`${host}/api/event/getEventUsingId/${id}`, {
       method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "jwt-token": localStorage.getItem("jwtToken"),
+      },
     });
     const json = await response.json();
     if (json.success) {

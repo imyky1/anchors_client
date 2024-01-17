@@ -62,6 +62,25 @@
   width: 100%;
 }
 
+
+.toolTipBox_textField{
+  border-radius: 4px;
+  background: #121212;
+  padding: 4px 21px;
+  color:  #BDBDBD;
+  font-family: "Inter";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  position: absolute;
+  left: 101%;
+  width: max-content;
+  z-index: 999;
+  max-width: 300px;
+}
+
+
 /* labels type ----------------------------------------- */
 .label_type_01 {
   font-family: "Inter";
@@ -69,12 +88,12 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  color: #9a9a9a;
+  color: #BDBDBD;
   margin-bottom: 6px;
 }
 
-.helper_text_label_type_01{
-  color: #FF5C5C;
+.helper_text_label_type_01 {
+  color: #ff5c5c;
   margin-left: 8px;
   display: inline-flex;
   align-items: center;
@@ -111,7 +130,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  color: #9a9a9a;
+  color: #BDBDBD;
   margin-bottom: 6px;
   position: relative;
 
@@ -127,8 +146,8 @@
 /* input type --------------------------------------------- */
 .input_type_01 {
   background: transparent;
-  border: 0.5px solid #475569;
-  border-radius: 5px;
+  border: 0.5px solid #424242;
+  border-radius: 4px;
   /* width: 465px; */
   width: 100%;
   height: 45px;
@@ -138,7 +157,7 @@
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 17px;
   color: #ffffff;
 }
@@ -147,6 +166,12 @@
   filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(130deg)
     brightness(95%) contrast(80%);
 }
+
+.input_type_01[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(130deg)
+    brightness(95%) contrast(80%);
+}
+
 
 .input_type_01::placeholder {
   color: #888888;
@@ -455,25 +480,42 @@ input:checked + .slider_type_01:before {
   color: red;
 }
 
-.button_04_css{
+.button_04_css {
   min-width: 164px;
   padding: 12px 20px;
   border-radius: 5px;
   font-family: "Inter";
+  font-size: 12px;
   font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 17px;
-  color: #FAFAFA;
+  font-weight: 400;
+  color: #fafafa;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: #FF5C5C;
+  background-color: #ff5c5c;
   border: none;
 }
 
+.button_05_css {
+  min-width: 164px;
+  padding: 12px 20px;
+  color: var(--Primary-300, #FF5C5C);
+  font-family: "Inter";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background-color: transparent;
+  border-radius: 4px;
+  border: 1px solid var(--Primary-300, #FF5C5C);
+}
 
 /* tags section --------------------------------------------------- */
 
@@ -594,6 +636,33 @@ input:checked + .slider_type_01:before {
   border: 1px solid #666;
 }
 
+.select_button_type_02 {
+  color: #bdbdbd;
+  font-family: "Inter";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding: 12px 20px;
+  border-radius: 4px;
+  border: 1px solid #757575;
+  cursor: pointer;
+  text-transform: capitalize;
+  border-radius: 200px;
+}
+
+.select_button_type_02:hover {
+  background: #ff5c5c;
+  border: 1px solid #ff5c5c;
+  color:#FAFAFA;
+}
+
+.select_button_type_02_active {
+  background: #ff5c5c;
+  border: 1px solid #ff5c5c;
+  color:#FAFAFA;
+}
+
 .tooltip-component-box {
   position: absolute;
   background-color: #333;
@@ -613,7 +682,7 @@ input:checked + .slider_type_01:before {
   font-size: 12px;
   line-height: 20px;
   color: #ffffff;
-  z-index: 99999;
+  z-index: 999999999;
 }
 
 .tooltip-component-box > ul {
@@ -713,71 +782,66 @@ input:checked + .slider_type_01:before {
   line-height: 20px; /* 166.667% */
 }
 
-
-@media (max-width:600px) {
-  
-  .label_type_01{
+@media (max-width: 600px) {
+  .label_type_01 {
     font-size: 12px;
   }
 
-  .label_type_02{
+  .label_type_02 {
     font-size: 12px;
   }
 
-  .label_type_03{
+  .label_type_03 {
     font-size: 10px;
   }
 
-  .label_type_04{
+  .label_type_04 {
     font-size: 12px;
   }
 
-  .input_type_01{
+  .input_type_01 {
     font-size: 10px;
     height: unset;
     padding: 16px 20px;
   }
 
-  .input_type_03{
+  .input_type_03 {
     font-size: 10px;
   }
 
-  .select_button_type_01{
+  .select_button_type_01 {
     padding: 10px 20px;
   }
 
-
   /* buttons ------ */
 
-  .button_01_css{
+  .button_01_css {
     width: 100%;
     font-size: 12px;
   }
 
-
   /* tables */
 
-  .table_component_wrapper01{
+  .table_component_wrapper01 {
     width: 200%;
   }
 
-  .table_component_wrapper01 > section > span{
+  .table_component_wrapper01 > section > span {
     font-size: 12px;
   }
 
-  .table_component_wrapper01 > section{
+  .table_component_wrapper01 > section {
     padding: 8px 12px;
     border-radius: 8px 8px 0px 0px;
   }
 
-  .table_component_body01 > span{
+  .table_component_body01 > span {
     font-size: 10px;
   }
 
-  .table_component_body01{
+  .table_component_body01 {
     padding: 8px 12px;
   }
-
 
   /* tooltip */
 
@@ -789,8 +853,7 @@ input:checked + .slider_type_01:before {
     max-width: 100px;
   }
 
-
-  .ql-editor{
+  .ql-editor {
     font-size: 10px;
   }
 }

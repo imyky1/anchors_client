@@ -33,11 +33,11 @@ import EditEvent from "../Edit Services/EditEvent";
 import ServiceStats2 from "../ServiceStats/ServiceStats2";
 import Template from "../Sharing Template/Sharing";
 import Create from "../Create Services/Create";
-import CreateEvent from "../Create Services/CreateEvent";
 import SelectCertificate from "../../../EventCertifcates/SelectCertificate";
 import mixpanel from "mixpanel-browser";
 import logo from "../../../../Utils/Images/logo-invite-only.png";
 import { siteControlContext } from "../../../../Context/SiteControlsState";
+import CreateEvent from "../../../../Pages/Dashboard/CreateEvent/CreateEvent";
 
 function Home(props) {
   const location = useLocation();
@@ -62,9 +62,6 @@ function Home(props) {
     getCreatorExtraDetails,
   } = useContext(creatorContext);
 
-  const {
-    verifiedData
-  } = useContext(linkedinContext);
 
   const { getRatingCreator } = useContext(feedbackcontext);
   const {setShortSidebar} = useContext(siteControlContext)
@@ -72,14 +69,30 @@ function Home(props) {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    let array = ["/dashboard/createevent","/dashboard/createservice"]
+    let array = ["/dashboard/createevent","/dashboard/createservice"];
 
-    if(array.includes(location.pathname)){
-      setShortSidebar(true)
+    if (array.includes(location.pathname)) {
+      setShortSidebar(true);
+    } else {
+      setShortSidebar(false);
     }
-    else{
-      setShortSidebar(false)
-    }
+
+    // page reload warning -------------
+    window.addEventListener('beforeunload', function (event) {
+      const confirmationMessage = 'Are you sure you want to leave?';
+    
+      // Check if the user is on the desired pages
+      const allowedPages = ['/dashboard/createevent']; // Replace with your actual pathnames
+      const currentPathname = window.location.pathname;
+    
+      if (allowedPages.includes(currentPathname)) {
+        // Standard for most browsers
+        event.returnValue = confirmationMessage;
+    
+        // For some older browsers
+        return confirmationMessage;
+      }
+    });
 
   }, [location]);
   

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./Success.css";
 import { BsWhatsapp } from "react-icons/bs";
 import { AiOutlineArrowRight } from "react-icons/ai";
@@ -14,6 +14,11 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { FiDownload } from "react-icons/fi";
 import mixpanel from "mixpanel-browser";
 import { MainNewFooter } from "../../../Footer/Footer";
+import { HiOutlineCheckBadge } from "react-icons/hi2";
+import { LiaDownloadSolid } from "react-icons/lia";
+import { MdDateRange } from "react-icons/md";
+import { CiGlobe } from "react-icons/ci";
+import { AddToCalendarButton } from "add-to-calendar-button-react";
 
 function TableComponent({ userComponent, name, points, index }) {
   return (
@@ -22,14 +27,13 @@ function TableComponent({ userComponent, name, points, index }) {
       style={
         userComponent
           ? {
-              background:
-                "linear-gradient(180deg, #7D0000 0%, #A90F0F 49.48%, #610000 100%)",
+              background: "#FF5E5E",
             }
           : {}
       }
     >
       <span>{index}</span>
-      <span>{name}</span>
+      <span>{name?.split(" ")[0]}</span>
       <span>{points}</span>
     </div>
   );
@@ -139,6 +143,7 @@ const SuccessModal = ({ onClose }) => {
 function Success() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const benefitRef = useRef();
 
   const [openSuccessModal, setOpenSuccessModal] = useState(false); // User Modal open
   const [userDetails, setUserDetails] = useState(); // stores the user data
@@ -153,7 +158,7 @@ function Success() {
   const { geteventinfo, eventInfo, getLeaderBoardData } =
     useContext(ServiceContext);
   const params = new URLSearchParams(window.location.search);
-
+  // console.log(leaderBoardData);
   // Countdonw timer difference
   let getDateDiff = () => {
     // Parse the given date string
@@ -169,7 +174,6 @@ function Success() {
       setCountDownDuration(originalDate - currentDate);
     }
   };
-
   useEffect(() => {
     // Loading mixpanel ------
     mixpanel.track("Page Visit");
@@ -195,9 +199,8 @@ function Success() {
   }, []);
 
   useEffect(() => {
-    if (document.getElementById("benefits-success")) {
-      document.getElementById("benefits-success").innerHTML =
-        eventInfo?.event?.benefits;
+    if (benefitRef?.current) {
+      benefitRef.current.innerHTML = eventInfo?.event?.benefits;
     }
 
     checkfororder(
@@ -266,6 +269,10 @@ function Success() {
 
           <div className="main_hero_details_benefits">
             <section className="left_benefit_section_hero_success">
+              <div className="benefit_section_check_badge">
+                <HiOutlineCheckBadge />
+              </div>
+              <h2>Registration Successful</h2>
               <div className="banner_success_page">
                 <LazyLoadImage
                   src={
@@ -274,184 +281,153 @@ function Success() {
                   }
                   alt="Event Banner"
                 />
-                <span
-                  onClick={(e) =>
-                    eligible?.order?.eventBannerImage && handleDonwload(e)
-                  }
+
+                {/* <span
+                 
                 >
                   <FiDownload
                     size={20}
                     style={{ position: "relative", left: "5px", bottom: "5px" }}
                   />
-                </span>
+                </span> */}
               </div>
-              {/* <h2>
-                Share with your friends and invite them using your unique
-                referral code.
-              </h2>
-
               <div
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                onClick={() => {
-                  mixpanel.track("Copy Invite Code link");
-                  navigator.clipboard.writeText(shareLink);
-                  toast.success("Copied Link Successfully", {
-                    position: "top-center",
-                    autoClose: 2000,
-                  });
-                }}
+                className="left_benefit_section_hero_success_download_image"
+                onClick={(e) =>
+                  {mixpanel.track("Download Your Content Card");
+                  eligible?.order?.eventBannerImage && handleDonwload(e)}
+                }
               >
-                <input
-                  type="text"
-                  placeholder="Unique Referral link"
-                  value={shareLink}
-                  disabled
-                />
-                <IoCopy
-                  style={{ position: "absolute", right: "10px" }}
-                  color="black"
-                  size={20}
-                />
-              </div> */}
-
-              {/* <section>
-                <BsWhatsapp
+                <LiaDownloadSolid /> Download Your Content Card
+              </div>
+              <AddToCalendarButton
+                styleLight="--btn-background: transparent; --btn-text: #BDBDBD; --btn-border: #3460DC; --btn-border-radius: 100px;--btn-padding-x:20px;--btn-padding-y:8px"
+                name={eventInfo?.event?.sname}
+                startDate={eventInfo?.event?.startDate?.slice(0, 10)}
+                startTime={eventInfo?.event?.time?.startTime}
+                endTime={eventInfo?.event?.time?.endTime}
+                options={["Apple", "Google", "Yahoo", "iCal"]}
+                timeZone="Asia/Kolkata"
+              ></AddToCalendarButton>
+              <h3 className="left_benefit_section_hero_success_referal_message">
+                Share your referral link to your friends to climb the
+                leaderboard and secure <b> Referral Benefit</b>
+              </h3>
+              <div className="left_benefit_section_hero_success_referal_link">
+                <CiGlobe />
+                {shareLink?.slice(0, 30)}...{" "}
+                <IoCopyOutline
+                  style={{ cursor: "pointer" }}
                   onClick={() => {
-                    mixpanel.track("Share Invite Code on WhatsApp");
-                    window.open(`https://api.whatsapp.com/send?text=Hey,%0A
+                    mixpanel.track("Copy Invite Code link");
+                    navigator.clipboard.writeText(shareLink);
+                    toast.success("Copied Link Successfully", {
+                      position: "top-center",
+                      autoClose: 2000,
+                    });
+                  }}
+                />
+              </div>
+              <button
+                onClick={() => {
+                  mixpanel.track("Share Invite Code on WhatsApp");
+                  window.open(`https://api.whatsapp.com/send?text=Hey,%0A
 I just signed up for this amazing event, *${eventInfo?.event?.sname}*, and I thought you might be interested too!%0A%0A
 
 🎉 Join me by registering here: ${shareLink} %0A%0A
 
 Let's experience this together!%0A
 Catch you there`);
-                  }}
-                />
-
-                <LinkedinShareButton
-                  url={shareLink}
-                  title={eventInfo?.event?.sname}
-                  source="anchors.in"
-                  summary={`Hey,
-I just signed up for this amazing event, *${eventInfo?.event?.sname}*, and I thought you might be interested too!%0A%0A
-
-🎉 Join me by registering here: ${shareLink} %0A%0A
-
-Let's experience this together!%0A
-Catch you there`}
-                  onClick={()=>{
-                    mixpanel.track("Share Invite Code on LinkedIn")
-                  }}
-                >
-                  <FaLinkedinIn />
-                </LinkedinShareButton>
-                <FacebookShareButton url={shareLink} quote={"Hello user"} onClick={()=>{
-                    mixpanel.track("Share Invite Code on FaceBook")
-                  }}>
-                  <FaFacebookF />
-                </FacebookShareButton>
-              </section> */}
+                }}
+                className="left_benefit_section_hero_success_share_button"
+              >
+                <BsWhatsapp />
+                Share on WhatsApp
+              </button>
             </section>
 
-            {window.screen.width > 600 && (
+            {/* {window.screen.width > 600 && (
               <section className="right_benefit_section_hero_success">
                 <EventCountDown duration={countDownDuration} />
               </section>
-            )}
+            )} */}
+            <section className="right_benefit_section_hero_success">
+              <div className="leaderboard_rest_data_success_wrapper">
+                {
+                  <section className="leaderboard_rest_data_success_page">
+                    <section className="leader_board_referral_benefit">
+                      <h1>Referral Benefit</h1>
+
+                      <div ref={benefitRef}></div>
+                    </section>
+                    <section className="leader_board_table_heading">
+                      <h1>Referral Rank Leaderboard</h1>
+                    </section>
+
+                    {/* Table for other ranks ------------- */}
+
+                    <div className="leader_board_table_success">
+                      <section className="table_head_leaderboard_success">
+                        <span>Rank</span>
+                        <span>Name</span>
+                        <span>Referral Count</span>
+                      </section>
+
+                      <div>
+                        {leaderBoardData?.data
+                          ?.filter((e) => {
+                            return e?.isUser;
+                          })
+                          ?.map((element, i) => {
+                            return (
+                              <>
+                                <div
+                                  className="table_body_leaderboard_success"
+                                  style={{
+                                    background: "#FF5E5E",
+                                  }}
+                                >
+                                  <span>{element?.userRank ?? "--"}</span>
+                                  <span>{element?.name?.split(" ")[0]}</span>
+                                  <span>{element?.points}</span>
+                                </div>
+                              </>
+                            );
+                          })}
+
+                        {leaderBoardData?.data
+                          ?.filter((e) => {
+                            return !e?.isUser;
+                          })
+                          .map((element, i) => {
+                            return (
+                              <>
+                                <TableComponent
+                                  key={element?.id}
+                                  {...element}
+                                  index={
+                                    leaderBoardData?.showUserInExtra?.value ||
+                                    element?.points === 0
+                                      ? "--"
+                                      : i + 1
+                                  }
+                                />
+                              </>
+                            );
+                          })}
+                      </div>
+                    </div>
+                  </section>
+                }
+              </div>
+            </section>
           </div>
         </section>
 
-        <section className="referal_benefits_section_event_success_page">
+        {/* <section className="referal_benefits_section_event_success_page">
           <h1>Top Referral Benefits</h1>
           <p id="benefits-success"></p>
-        </section>
-
-        {(leaderBoardData?.data?.length > 3 ||
-          leaderBoardData?.showUserInExtra?.value) && (
-          <section className="leaderboard_rest_data_success_page">
-            <section>
-              <h1>Leader Board</h1>
-              <p className="leaderboard_status_text_event_success">
-                {leaderBoardData?.text}
-              </p>
-            </section>
-
-            {/* Table for other ranks ------------- */}
-
-            <div className="leader_board_table_success">
-              <section className="table_head_leaderboard_success">
-                <span>Rank</span>
-                <span>User name</span>
-                <span>Referrals</span>
-              </section>
-
-              {leaderBoardData?.data?.map((element, i) => {
-                return (
-                  <TableComponent
-                    key={element?.id}
-                    {...element}
-                    index={
-                      leaderBoardData?.showUserInExtra?.value ||
-                      element?.points === 0
-                        ? "--"
-                        : i + 1
-                    }
-                    userComponent={element.isUser}
-                  />
-                );
-              })}
-            </div>
-          </section>
-        )}
-
-        {/* Floater ------------- */}
-
-        <div className="floater_success_page_events">
-          <section
-            onClick={() => {
-              mixpanel.track("Copy Invite Code link");
-              navigator.clipboard.writeText(shareLink);
-              toast.success("Copied Link Successfully", {
-                position: "top-center",
-                autoClose: 2000,
-              });
-            }}
-          >
-            <input
-              type="text"
-              value={
-                shareLink?.length > 80
-                  ? shareLink?.slice(0, 80) + "..."
-                  : shareLink
-              }
-              readOnly
-            />
-            <IoCopyOutline
-              size={window.screen.width > 600 ? 30 : 20}
-              color="#D0D0D0"
-            />
-          </section>
-          <BsWhatsapp
-            size={window.screen.width > 600 ? 40 : 25}
-            color="#D0D0D0"
-            onClick={() => {
-              mixpanel.track("Share Invite Code on WhatsApp");
-              window.open(`https://api.whatsapp.com/send?text=Hey,%0A
-I just signed up for this amazing event, *${eventInfo?.event?.sname}*, and I thought you might be interested too!%0A%0A
-
-🎉 Join me by registering here: ${shareLink} %0A%0A
-
-Let's experience this together!%0A
-Catch you there`);
-            }}
-          />
-        </div>
-
+        </section> */}
         <MainNewFooter
           onEvents={true}
           hostEventButton={true}

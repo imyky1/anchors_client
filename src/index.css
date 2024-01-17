@@ -3,6 +3,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@200;300;400;500;600;700;800&display=swap');
 
 
 body {
@@ -32,3 +33,32 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+
+@font-face {
+  font-family: 'Gilroy-Black';
+  src: url("https://anchors-files.s3.ap-south-1.amazonaws.com/fonts/Gilroy-Black.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Gilroy-Bold';
+  src: url("https://anchors-files.s3.ap-south-1.amazonaws.com/fonts/Gilroy-Bold.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Gilroy-Medium';
+  src: url("https://anchors-files.s3.ap-south-1.amazonaws.com/fonts/Gilroy-Medium.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Gilroy-Light';
+  src: url("https://anchors-files.s3.ap-south-1.amazonaws.com/fonts/Gilroy-Light.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Gilroy-SemiBold';
+  src: url("https://anchors-files.s3.ap-south-1.amazonaws.com/fonts/Gilroy-SemiBold.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Gilroy-Regular';
+  src: url("https://anchors-files.s3.ap-south-1.amazonaws.com/fonts/Gilroy-Regular.ttf") format('truetype');
+}
+@font-face {
+  font-family: 'Gilroy Medium';
+  src: url('https://anchors-assets.s3.ap-south-1.amazonaws.com/fonts/Gilroy-Medium.ttf') format('truetype');
+}

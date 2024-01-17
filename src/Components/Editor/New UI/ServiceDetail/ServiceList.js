@@ -24,6 +24,7 @@ import {
   BsTelegram,
   BsWhatsapp,
 } from "react-icons/bs";
+import { RiEdit2Fill } from "react-icons/ri";
 import { IoCopy, IoCopyOutline } from "react-icons/io5";
 import { TbSend } from "react-icons/tb";
 import { LinkedinShareButton, TelegramShareButton } from "react-share";
@@ -157,12 +158,12 @@ const ContentCard = ({
   return (
     <div className="mycontent_card_for_service">
       <img
-        src={mobileSimg ?? simg}
+        src={mobileSimg ?? simg ?? "https://startup.mp.gov.in/assets/img/img-not-found.png"}
         alt=""
         onClick={() => {
-          selected === "events"
+          status ===1 ? selected === "events"
             ? window.open(`/e/${slug}`)
-            : window.open(`/s/${slug}`);
+            : window.open(`/s/${slug}`) : console.log("no")
         }}
       />
       <section>
@@ -172,6 +173,8 @@ const ContentCard = ({
             gap: window.screen.width > 600 ? "16px" : "8px",
             flexDirection: "column",
             width: "100%",
+            justifyContent: "space-between",
+            height: "100%"
           }}
         >
           <h2
@@ -185,7 +188,7 @@ const ContentCard = ({
           </h2>
 
           <div className="props_mycontent_card_service">
-            <section>
+           {status !== 3 ? <section>
               <p
                 style={{ cursor: "pointer" }}
                 onClick={() => {
@@ -240,8 +243,16 @@ const ContentCard = ({
               </button>)}
 
             </section>
+            :
+            <section>
+              <p>
+                Drafted On :<span>{getDateTime()}</span>
+              </p>
+            </section>
+          
+          }
 
-            <div className="buttons_div_section_mycontent_card">
+            {status !==3 ? <div className="buttons_div_section_mycontent_card">
               <button
                 onClick={() => {
                   mixpanel.track("Tracking Link");
@@ -305,6 +316,21 @@ const ContentCard = ({
                 )}
               </button>
             </div>
+            :
+            <div className="buttons_div_section_mycontent_card">
+              <button onClick={() => {
+                  mixpanel.track("Continue Editing the draft");
+                  selected === "events"
+                    ? 
+                      window.open(
+                        `/dashboard/createevent?draft=${_id}`,"_self"
+                      )
+                    : window.open(`/dashboard/createservice?draft=${_id}`,"_self");
+                }}>
+              <RiEdit2Fill /> Continue Editing
+              </button>
+              </div>
+          }
           </div>
         </div>
 
@@ -328,7 +354,7 @@ const ContentCard = ({
         >
           <div className="servicelist_wrap">
             <div className="servicelist_popuptop">
-              {(selected !== "events" || new Date(startDate) > new Date()) && (
+              {(selected !== "events" || new Date(startDate) > new Date()) && status !== 3 &&  (
                 <div
                   className="modaloptions_servicelist"
                   onClick={() => {
@@ -366,15 +392,7 @@ const ContentCard = ({
                   Duplicate Service
                 </div>
               )}
-              {/* <div
-                                  className="modaloptions_servicelist"
-                                  onClick={() => {
-                                    setCurrSelected(elem);
-                                    setOpenModel2(true);
-                                  }}
-                                >
-                                  Notify Users
-                                </div> */}
+
               <div
                 className="modaloptions_servicelist"
                 onClick={() => {
@@ -382,8 +400,9 @@ const ContentCard = ({
                   removeOptionPopup();
                 }}
               >
-                Delete Service
+                Delete {selected === "events" ? "Event" : "Service"}
               </div>
+
               {selected !== "events" && (
                 <div
                   className="modaloptions_servicelist"
@@ -396,7 +415,8 @@ const ContentCard = ({
                   User Reviews
                 </div>
               )}
-              <div className="modaloptions_servicelist_status">
+
+              {status !== 3 && <div className="modaloptions_servicelist_status">
                 Active Status
                 <span onClick={() => handleCheckClick()}>
                   <label className="switch_type_01">
@@ -408,7 +428,7 @@ const ContentCard = ({
                     <span className="slider_type_01 round_type_01"></span>
                   </label>
                 </span>
-              </div>
+              </div>}
             </div>
           </div>
         </div>

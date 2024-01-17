@@ -212,7 +212,7 @@ export default function UserLogin2({ open, onClose, setOpenDataForm }) {
 export function Dataform({ open, onClose, setOpenOTP }) {
   const [cookies, setCookie] = useCookies();
   const { verifiedData } = useContext(linkedinContext);
-  const { updateUserInfo, checkUserIsLogined } = useContext(userContext);
+  const { updateUserInfo, checkUserIsLogined,setHandleUserLoginForm } = useContext(userContext);
 
   const [data, setdata] = useState({ name: null, email: null, number: null });
 
@@ -238,6 +238,7 @@ export function Dataform({ open, onClose, setOpenOTP }) {
             position: "top-center",
             autoClose: 1500,
           });
+          setHandleUserLoginForm(false)
           onClose();
         } else {
           toast.error("Something wrong happened, Try Again !!!", {
