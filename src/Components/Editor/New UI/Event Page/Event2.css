@@ -54,6 +54,8 @@
   justify-content: center;
   gap: 40px;
   flex-direction: column;
+  width: 100%;
+  word-break: break-word;
 }
 
 .main_header_component_event_page > div {
@@ -161,7 +163,7 @@
 }
 
 .testimonial_card_wrapper_event_page{
-  height: 195px;
+  min-height: 195px;
   width: 25vw;
   border-radius: 4px;
   background:  #131825;
@@ -181,11 +183,12 @@
 
 
 .testimonial_card_wrapper_event_page > p{
-  height: 92px;
+  height: auto;
   margin-top: 20px;
   margin-bottom: 10px;
-  overflow: auto;
   font-size: 12px;
+  width: 100%;
+  overflow-wrap: break-word;
 }
 
 .testimonial_card_wrapper_event_page > span{
@@ -473,6 +476,7 @@
   font: inherit !important;
   background-color: inherit !important;
   color: inherit !important;
+  overflow-wrap: break-word;
 }
 
 .description_event_page_content li {
@@ -697,6 +701,7 @@
   border-radius: 4px;
   background: #14181f;
   box-sizing: border-box;
+  overflow-wrap: break-word;
 }
 
 .speaker_card_event_page_wrapper > h3 {
@@ -1061,7 +1066,7 @@
 
   .testimonial_card_wrapper_event_page{
     width: 91vw;
-    height: 51vw;
+    /* height: 51vw; */
   }
 
   .speakers_event_page_wrapper {

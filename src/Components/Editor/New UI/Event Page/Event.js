@@ -1478,6 +1478,7 @@ function Event2() {
                               ) : data?.type === "Text" ? (
                                 <div className="testimonial_card_wrapper_event_page">
                                   <BsQuote />
+                                  <p>{data?.title}</p>
                                   <p id={`testimonialText${i}`}>{
                                     document.getElementById(`testimonialText${i}`) ? document.getElementById(`testimonialText${i}`).innerHTML = data?.review : null
                                   }</p>

@@ -238,6 +238,19 @@ function Success() {
     link.click();
   };
 
+  const getDate = (date) => {
+    let d = new Date(date);
+    let newDate = d.toDateString()
+    const originalDate = new Date(newDate);
+    return `${originalDate.getFullYear()}-${(originalDate.getMonth() + 1).toString().padStart(2, '0')}-${originalDate.getDate().toString().padStart(2, '0')}`;
+  };
+  // let d = new Date(eventInfo?.event?.startDate);
+  // let newDate = d.toDateString()
+  // console.log(newDate)
+  
+  // console.log(originalDate)
+  // console.log(formattedDate);
+
   if (!localStorage.getItem("jwtToken") || !eligible?.success) {
     navigate(`/e/${slug}`);
     return null;
@@ -251,7 +264,7 @@ function Success() {
     navigate("/");
     return null;
   }
-
+  console.log(eventInfo)
   return (
     <>
       {/* creates custom banner for the user on the basis of the event */}
@@ -303,7 +316,9 @@ function Success() {
               <AddToCalendarButton
                 styleLight="--btn-background: transparent; --btn-text: #BDBDBD; --btn-border: #3460DC; --btn-border-radius: 100px;--btn-padding-x:20px;--btn-padding-y:8px"
                 name={eventInfo?.event?.sname}
-                startDate={eventInfo?.event?.startDate?.slice(0, 10)}
+                // startDate={eventInfo?.event?.startDate?.slice(0, 10)}
+                // startDate="2024-02-21"
+                startDate={getDate(eventInfo?.event?.startDate)}
                 startTime={eventInfo?.event?.time?.startTime}
                 endTime={eventInfo?.event?.time?.endTime}
                 options={["Apple", "Google", "Yahoo", "iCal"]}

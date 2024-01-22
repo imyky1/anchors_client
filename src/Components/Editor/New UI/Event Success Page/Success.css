@@ -236,6 +236,7 @@
 }
 .leader_board_referral_benefit {
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -243,6 +244,8 @@
   border-radius: 8px;
   background: #171e25;
   padding: 18px;
+  word-break: break-all;
+  overflow-wrap: break-word;
 }
 .leader_board_referral_benefit div {
   display: flex;
