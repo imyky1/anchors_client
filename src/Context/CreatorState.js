@@ -105,7 +105,7 @@ const CreatorState = (props) => {
     const json = await response.json();
     if (json?.success) {
       await getBasicCreatorInfo(json?.res._id);
-      return json?.res._id;
+      return json?.res;
     } else {
       //alert(json.error)
     }

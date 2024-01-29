@@ -8,6 +8,12 @@ import TelgramIcon from "../../../../Utils/Icons/telegram.svg";
 import YoutubeIcon from "../../../../Utils/Icons/youtube.svg";
 import topmateIcon from "../../../../Utils/Icons/topmate.svg";
 import linkedinIcon from "../../../../Utils/Icons/linkedin.svg";
+import TwitterIcon from "../../../../Utils/Icons/twitter.svg"
+import { TbBrandLinkedin } from "react-icons/tb";
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { RiTelegramLine } from "react-icons/ri";
+import { CiFacebook } from "react-icons/ci";
+import { IoIosGlobe } from "react-icons/io";
 import {
   AiOutlineArrowRight,
   AiOutlineClockCircle,
@@ -37,6 +43,7 @@ import { ReviewCards } from "../Service Page/Components/ReviewsSection";
 import { ServiceCards } from "../Service Page/Components/MoreServices";
 import { MdOutlineLaptop } from "react-icons/md";
 import "react-toastify/dist/ReactToastify.css";
+import CreatorProfile from "./CreatorProfile";
 
 const convertTime = (inputTime) => {
   if (inputTime) {
@@ -66,32 +73,20 @@ const getDate = (date) => {
   return newDate[2] + " " + newDate[1];
 };
 
-const ExtraCard = ({ data, type }) => {
+const ExtraCard = ({ data, type, style }) => {
   const navigate = useNavigate();
-
   return (
-    <div className="extra_card_new_profile_page">
-      <section>
-        {type === "event" ? (
-          <>
-            <MdOutlineLaptop color="#EF4444" /> Event
-          </>
-        ) : (
-          <>
-            <AiOutlineFire color="#EF4444" /> Most Popular Service{" "}
-          </>
-        )}
-      </section>
+    <div className="host_extra_card_new_profile_page">
 
-      <div className="extra_card_profile_details">
+      <div className="host_extra_card_profile_details">
         <LazyLoadImage src={data?.simg} alt="" />
 
         <section>
-          <h2>{data?.sname}</h2>
+          <h2 style={{fontFamily:style}}>{data?.sname}</h2>
           <div>
             {type === "event" ? (
-              <span>
-                <AiOutlineClockCircle color="#EF4444" />
+              <span style={{fontFamily:style}}>
+                <AiOutlineClockCircle color="#94A3B8" size={14} />
                 {getDate(data?.startDate) +
                   " | " +
                   convertTime(data?.time?.startTime) +
@@ -118,12 +113,6 @@ const ExtraCard = ({ data, type }) => {
               </>
             )}
           </div>
-
-          <section
-            style={data?.isPaid ? { color: "#EF4444" } : { color: "#10B981" }}
-          >
-            {data?.isPaid ? "Paid" : "Free"}
-          </section>
         </section>
 
         <span>
@@ -140,6 +129,308 @@ const ExtraCard = ({ data, type }) => {
   );
 };
 
+const HostProfile = ({
+  openModelRequest,
+  setOpenModelRequest,
+  basicCreatorInfo,
+  UserDetails,
+  creatorRatingData,
+  feedbacks,
+  UpcomingExtraCardData,
+}) => {
+  const [eventCategory, SetEventCategory] = useState("Upcoming Event");
+  const handleCategory = (value) => {
+    SetEventCategory(value);
+  };
+  return (
+    <>
+      <ToastContainer theme="dark" />
+
+      <Request_Modal
+        open={openModelRequest}
+        onClose={() => {
+          setOpenModelRequest(false);
+        }}
+        id={basicCreatorInfo?.creatorID}
+        cname={basicCreatorInfo?.name}
+        UserDetails={UserDetails ? UserDetails : ""}
+      />
+
+      <div className="host_new_creator_page_outer_wrapper">
+        {/* Navbar */}
+        <Navbar2 LogoImage = {basicCreatorInfo?.profile} LogoName = {basicCreatorInfo?.name}/>
+
+        <div className="host_outerframe_new_creator_page">
+          {/* main details sections ---------------- */}
+          <section className="host_main_creator_details_creator_page">
+            <div
+              style={{
+                width: "100%",
+                background:
+                  "linear-gradient(180deg, #3E3E3E 0%, rgba(18, 18, 18, 0) 100%)",
+              }}
+            >
+              <LazyLoadImage
+                src={basicCreatorInfo?.profile}
+                alt={basicCreatorInfo?.name}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = PNGIMG;
+                }}
+              />
+            </div>
+            <div>
+              <h1 style={{fontFamily:basicCreatorInfo?.style}} className="host_text_creator_profile_page-01">
+                {basicCreatorInfo?.name}
+              </h1>
+              
+              <p style={{fontFamily:basicCreatorInfo?.style}} className="host_text_creator_profile_page-02">
+                {basicCreatorInfo?.tagLine}
+              </p>
+              {window.screen.width > 600 && (
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row-reverse",
+                      width: "max-content",
+                      gap: "20px",
+                    }}
+                  >
+                    <div className="host_social-icons-new-creator-page">
+                      {basicCreatorInfo?.linkedInLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Linkedin redirect");
+                            window.open(basicCreatorInfo?.linkedInLink);
+                          }}
+                        >
+                          <TbBrandLinkedin size={24} color="#94A3B8"/>
+                          {/* <img src={<TbBrandLinkedin / >} alt="" /> */}
+                        </div>
+                      )}
+
+                      {basicCreatorInfo?.fbLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Fb redirect");
+                            window.open(basicCreatorInfo?.fbLink);
+                          }}
+                        >
+                          <CiFacebook size={24} color="#94A3B8"/>
+                          {/* <img src={fbIcon} alt="" /> */}
+                        </div>
+                      )}
+
+                      {basicCreatorInfo?.instaLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Instagram redirect");
+                            window.open(basicCreatorInfo?.instaLink);
+                          }}
+                        >
+                          <img src={InstagramIcon} alt="" />
+                        </div>
+                      )}
+
+                      {basicCreatorInfo?.teleLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Telegram redirect");
+                            window.open(basicCreatorInfo?.teleLink);
+                          }}
+                        >
+                          <RiTelegramLine  size={24} color="#94A3B8"/>
+                          {/* <img src={TelgramIcon} alt="" /> */}
+                        </div>
+                      )}
+
+                      {basicCreatorInfo?.ytLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Youtube redirect");
+                            window.open(basicCreatorInfo?.ytLink);
+                          }}
+                        >
+                          <img src={YoutubeIcon} alt="" />
+                        </div>
+                      )}
+
+                      {basicCreatorInfo?.twitterLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("twitter redirect");
+                            window.open(basicCreatorInfo?.twitterLink);
+                          }}
+                        >
+                          {/* <FaSquareXTwitter size={24} color="#94A3B8"/> */}
+                          <img src={TwitterIcon} alt="" />
+                        </div>
+                      )}
+                      {basicCreatorInfo?.websiteLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("website redirect");
+                            window.open(basicCreatorInfo?.websiteLink);
+                          }}
+                        >
+                          <IoIosGlobe size={24} color="#94A3B8"/>
+                          {/* <img src={YoutubeIcon} alt="" /> */}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </section>
+          {/* Deatils section for mobile --------- */}
+          {window.screen.width < 600 && (
+            <section style={{ width: "100%" }}>
+              <div className="host_social-icons-new-creator-page">
+                      {basicCreatorInfo?.linkedInLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Linkedin redirect");
+                            window.open(basicCreatorInfo?.linkedInLink);
+                          }}
+                        >
+                          <TbBrandLinkedin size={24} color="#94A3B8"/>
+                          {/* <img src={<TbBrandLinkedin / >} alt="" /> */}
+                        </div>
+                      )}
+
+                      {basicCreatorInfo?.fbLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Fb redirect");
+                            window.open(basicCreatorInfo?.fbLink);
+                          }}
+                        >
+                          <CiFacebook size={24} color="#94A3B8"/>
+                          {/* <img src={fbIcon} alt="" /> */}
+                        </div>
+                      )}
+
+                      {basicCreatorInfo?.instaLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Instagram redirect");
+                            window.open(basicCreatorInfo?.instaLink);
+                          }}
+                        >
+                          <img src={InstagramIcon} alt="" />
+                        </div>
+                      )}
+
+                      {basicCreatorInfo?.teleLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Telegram redirect");
+                            window.open(basicCreatorInfo?.teleLink);
+                          }}
+                        >
+                          <RiTelegramLine  size={24} color="#94A3B8"/>
+                          {/* <img src={TelgramIcon} alt="" /> */}
+                        </div>
+                      )}
+
+                      {basicCreatorInfo?.ytLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("Youtube redirect");
+                            window.open(basicCreatorInfo?.ytLink);
+                          }}
+                        >
+                          <img src={YoutubeIcon} alt="" />
+                        </div>
+                      )}
+
+                      {basicCreatorInfo?.twitterLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("twitter redirect");
+                            window.open(basicCreatorInfo?.twitterLink);
+                          }}
+                        >
+                          {/* <FaSquareXTwitter size={24} color="#94A3B8"/> */}
+                          <img src={TwitterIcon} alt="" />
+                        </div>
+                      )}
+                      {basicCreatorInfo?.websiteLink?.length !== 0 && (
+                        <div
+                          onClick={() => {
+                            mixpanel.track("website redirect");
+                            window.open(basicCreatorInfo?.websiteLink);
+                          }}
+                        >
+                          <IoIosGlobe size={24} color="#94A3B8"/>
+                          {/* <img src={YoutubeIcon} alt="" /> */}
+                        </div>
+                      )}
+                    </div>
+            </section>
+          )}
+          {/* About Section ------------- */}
+          <section className="host_about_section_new_creator_profile">
+            <h2 style={{fontFamily:basicCreatorInfo?.style}} className="host_text_creator_profile_page-03">About</h2>
+
+            <p style={{fontFamily:basicCreatorInfo?.style}}
+              className="host_text_creator_profile_page-04"
+              id="about_creator_profile"
+            ></p>
+          </section>
+
+          {/* past and upcoming events section */}
+          <section className="host_past_and_upcoming_section_profile">
+            <button style={{fontFamily:basicCreatorInfo?.style}}
+              className={eventCategory === "Upcoming Event" ? "selected" : ""}
+              onClick={() => {
+                handleCategory("Upcoming Event");
+              }}
+            >
+              Upcoming Event
+            </button>
+            <button style={{fontFamily:basicCreatorInfo?.style}}
+              className={eventCategory === "Past Event" ? "selected" : ""}
+              onClick={() => {
+                handleCategory("Past Event");
+              }}
+            >
+              Past Event
+            </button>
+          </section>
+          {eventCategory === "Upcoming Event" && UpcomingExtraCardData && (
+            <section className="host_extra_cards_section_new_creator_profile">
+              {UpcomingExtraCardData?.event?.map((item) => {
+                return <ExtraCard data={item} type="event" style={basicCreatorInfo?.style}cd an/>;
+              })}
+            </section>
+          )}
+          {eventCategory === "Past Event" && UpcomingExtraCardData && (
+            <section className="host_extra_cards_section_new_creator_profile">
+              {UpcomingExtraCardData?.past?.map((item) => {
+                return <ExtraCard data={item} type="event" style={basicCreatorInfo?.style} />;
+              })}
+            </section>
+          )}
+        </div>
+        <Footer3 />
+      </div>
+
+      {/* SEO friendly changes -------------------------------- */}
+      <Seo
+        title={`Meet ${basicCreatorInfo?.name} on anchors`}
+        description={basicCreatorInfo?.tagLine}
+        keywords={`${basicCreatorInfo?.name},${basicCreatorInfo?.name} profile,Content creator ${basicCreatorInfo?.name},Social media influencer ${basicCreatorInfo?.name},Creative portfolio ${basicCreatorInfo?.name},${basicCreatorInfo?.name}'s online presence,Collaborations ${basicCreatorInfo?.name},${basicCreatorInfo?.name}'s creations,Anchors community ${basicCreatorInfo?.name},Creator economy ${basicCreatorInfo?.name},Monetization opportunities ${basicCreatorInfo?.name},Engagement metrics ${basicCreatorInfo?.name},Audience insights ${basicCreatorInfo?.name},Influencer marketing ${basicCreatorInfo?.name},Partnership opportunities ${basicCreatorInfo?.name}`}
+        imgUrl={basicCreatorInfo?.profile}
+      />
+    </>
+  );
+};
+
+
+
 function ProfilePage() {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -150,6 +441,9 @@ function ProfilePage() {
   const [creatorRatingData, setCreatorRatingData] = useState(0); // creator rating data
   const [moreAbout, setMoreAbout] = useState(false);
   const [UpcomingExtraCardData, setUpcomingExtraCardData] = useState();
+  const [status, setStatus] = useState();
+  const [eventStatus, setEventStatus] = useState();
+  const [eventCategory, SetEventCategory] = useState("Upcoming Event");
 
   //   Contexts ----------------------
   const { services, getallservicesusingid } = useContext(ServiceContext);
@@ -159,6 +453,7 @@ function ProfilePage() {
     basicCdata,
     getCreatorUpcomingData,
   } = useContext(creatorContext);
+
   const { getallfeedback, feedbacks, getRatingCreator } =
     useContext(feedbackcontext);
   const { getUserDetails } = useContext(userContext);
@@ -172,13 +467,16 @@ function ProfilePage() {
   useEffect(() => {
     const process = async () => {
       getcreatoridUsingSlug(slug).then((data) => {
-        getallfeedback(data);
-        getRatingCreator(data).then((e) => {
+        setStatus(data.status);
+        setEventStatus(data.eventStatus);
+        getallfeedback(data._id);
+        getRatingCreator(data._id).then((e) => {
           // getting the creator's rating
           setCreatorRatingData(e);
         });
-        getallservicesusingid(data).then(() => {});
-        getCreatorUpcomingData(data).then((e) => {
+        getallservicesusingid(data._id).then((e) => {});
+        getCreatorUpcomingData(data._id).then((e) => {
+          // console.log(e);
           setUpcomingExtraCardData(e);
         });
       });
@@ -241,404 +539,46 @@ function ProfilePage() {
   }, [moreAbout, basicCreatorInfo]);
 
   // checks for a status 0 creator
-  if (basicCdata?.status === 0) {
+  if (basicCdata?.status === 0 && eventStatus === 0) {
     navigate("/");
     return alert("The Creator doesn't exist");
   }
 
+  const handleCategory = (value) => {
+    SetEventCategory(value);
+  };
+
+
   return (
     <>
-      <ToastContainer theme="dark" />
-
-      <Request_Modal
-        open={openModelRequest}
-        onClose={() => {
-          setOpenModelRequest(false);
-        }}
-        id={basicCreatorInfo?.creatorID}
-        cname={basicCreatorInfo?.name}
-        UserDetails={UserDetails ? UserDetails : ""}
-      />
-
-      <div className="new_creator_page_outer_wrapper">
-        {/* Navbar */}
-        <Navbar2 />
-
-        <div className="outerframe_new_creator_page">
-          {/* main details sections ---------------- */}
-          <section className="main_creator_details_creator_page">
-            <LazyLoadImage
-              src={basicCreatorInfo?.profile}
-              alt={basicCreatorInfo?.name}
-              onError={({ currentTarget }) => {
-                currentTarget.onerror = null; // prevents looping
-                currentTarget.src = PNGIMG;
-              }}
-            />
-
-            <div>
-              <h1 className="text_creator_profile_page-01">
-                {basicCreatorInfo?.name}
-              </h1>
-              {creatorRatingData && (
-                <span>
-                  {" "}
-                  <RiStarSFill
-                    rSFill
-                    size={18}
-                    color="rgba(255, 214, 0, 1)"
-                  />{" "}
-                  {creatorRatingData}/5
-                  <span>
-                    {feedbacks &&
-                      feedbacks.length !== 0 &&
-                      `(${feedbacks.length})`}
-                  </span>
-                </span>
-              )}
-              {window.screen.width > 600 && (
-                <>
-                  <p className="text_creator_profile_page-02">
-                    {basicCreatorInfo?.tagLine}
-                  </p>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row-reverse",
-                      width: "max-content",
-                      gap: "20px",
-                    }}
-                  >
-                    <div className="social-icons-new-creator-page">
-                      {basicCreatorInfo?.linkedInLink?.length !== 0 && (
-                        <div
-                          onClick={() => {
-                            mixpanel.track("Linkedin redirect");
-                            window.open(basicCreatorInfo?.linkedInLink);
-                          }}
-                        >
-                          <img src={linkedinIcon} alt="" />
-                        </div>
-                      )}
-
-                      {basicCreatorInfo?.fbLink?.length !== 0 && (
-                        <div
-                          onClick={() => {
-                            mixpanel.track("Fb redirect");
-                            window.open(basicCreatorInfo?.fbLink);
-                          }}
-                        >
-                          <img src={fbIcon} alt="" />
-                        </div>
-                      )}
-
-                      {basicCreatorInfo?.instaLink?.length !== 0 && (
-                        <div
-                          onClick={() => {
-                            mixpanel.track("Instagram redirect");
-                            window.open(basicCreatorInfo?.instaLink);
-                          }}
-                        >
-                          <img src={InstagramIcon} alt="" />
-                        </div>
-                      )}
-
-                      {basicCreatorInfo?.teleLink?.length !== 0 && (
-                        <div
-                          onClick={() => {
-                            mixpanel.track("Telegram redirect");
-                            window.open(basicCreatorInfo?.teleLink);
-                          }}
-                        >
-                          <img src={TelgramIcon} alt="" />
-                        </div>
-                      )}
-
-                      {basicCreatorInfo?.ytLink?.length !== 0 && (
-                        <div
-                          onClick={() => {
-                            mixpanel.track("Youtube redirect");
-                            window.open(basicCreatorInfo?.ytLink);
-                          }}
-                        >
-                          <img src={YoutubeIcon} alt="" />
-                        </div>
-                      )}
-
-                      {basicCreatorInfo?.topmateLink?.length !== 0 && (
-                        <div
-                          onClick={() => {
-                            mixpanel.track("Topmate redirect");
-                            window.open(basicCreatorInfo?.topmateLink);
-                          }}
-                        >
-                          <img src={topmateIcon} alt="" />
-                        </div>
-                      )}
-                    </div>
-                    <button
-                      className="button01_new_crator_profile"
-                      onClick={() => {
-                        mixpanel.track("Request Resources");
-                        setOpenModelRequest(true);
-                      }}
-                    >
-                      Request Resource
-                    </button>{" "}
-                  </div>
-                </>
-              )}
-            </div>
-          </section>
-
-          {/* Deatils section for mobile --------- */}
-          {window.screen.width < 600 && (
-            <section style={{ width: "100%" }}>
-              <p className="text_creator_profile_page-02">
-                {basicCreatorInfo?.tagLine}
-              </p>
-
-              <div className="social-icons-new-creator-page">
-                {basicCreatorInfo?.linkedInLink?.length !== 0 && (
-                  <div
-                    onClick={() => {
-                      mixpanel.track("Linkedin redirect");
-                      window.open(basicCreatorInfo?.linkedInLink);
-                    }}
-                  >
-                    <img src={linkedinIcon} alt="" />
-                  </div>
-                )}
-
-                {basicCreatorInfo?.fbLink?.length !== 0 && (
-                  <div
-                    onClick={() => {
-                      mixpanel.track("Fb redirect");
-                      window.open(basicCreatorInfo?.fbLink);
-                    }}
-                  >
-                    <img src={fbIcon} alt="" />
-                  </div>
-                )}
-
-                {basicCreatorInfo?.instaLink?.length !== 0 && (
-                  <div
-                    onClick={() => {
-                      mixpanel.track("Instagram redirect");
-                      window.open(basicCreatorInfo?.instaLink);
-                    }}
-                  >
-                    <img src={InstagramIcon} alt="" />
-                  </div>
-                )}
-
-                {basicCreatorInfo?.teleLink?.length !== 0 && (
-                  <div
-                    onClick={() => {
-                      mixpanel.track("Telegram redirect");
-                      window.open(basicCreatorInfo?.teleLink);
-                    }}
-                  >
-                    <img src={TelgramIcon} alt="" />
-                  </div>
-                )}
-
-                {basicCreatorInfo?.ytLink?.length !== 0 && (
-                  <div
-                    onClick={() => {
-                      mixpanel.track("Youtube redirect");
-                      window.open(basicCreatorInfo?.ytLink);
-                    }}
-                  >
-                    <img src={YoutubeIcon} alt="" />
-                  </div>
-                )}
-
-                {basicCreatorInfo?.topmateLink?.length !== 0 && (
-                  <div
-                    onClick={() => {
-                      mixpanel.track("Topmate redirect");
-                      window.open(basicCreatorInfo?.topmateLink);
-                    }}
-                  >
-                    <img src={topmateIcon} alt="" />
-                  </div>
-                )}
-              </div>
-
-              <button
-                className="button01_new_crator_profile"
-                onClick={() => {
-                  mixpanel.track("Request Resources");
-                  setOpenModelRequest(true);
-                }}
-              >
-                Request Resource
-              </button>
-            </section>
-          )}
-
-          {/* About Section ------------- */}
-          <section className="about_section_new_creator_profile">
-            <h2 className="text_creator_profile_page-03">About</h2>
-
-            <p
-              className="text_creator_profile_page-04"
-              id="about_creator_profile"
-            ></p>
-
-            {window.screen.width < 600 && (
-              <div style={{ textAlign: "center", width: "100%" }}>
-                {moreAbout ? (
-                  <AiOutlineUp
-                    color="white"
-                    onClick={() => {
-                      setMoreAbout(!moreAbout);
-                    }}
-                  />
-                ) : (
-                  <AiOutlineDown
-                    color="white"
-                    onClick={() => {
-                      setMoreAbout(!moreAbout);
-                    }}
-                  />
-                )}
-              </div>
-            )}
-          </section>
-
-          {/* most popular section ---------------  */}
-          {UpcomingExtraCardData &&
-            (window.screen.width > 600
-              ? ((UpcomingExtraCardData?.service &&
-                  Object.keys(UpcomingExtraCardData?.service)?.length !== 0) ||
-                  (UpcomingExtraCardData?.event &&
-                    Object.keys(UpcomingExtraCardData?.event)?.length !==
-                      0)) && (
-                  <section className="extra_cards_section_new_creator_profile">
-                    {Object.keys(UpcomingExtraCardData?.service)?.length !==
-                      0 && (
-                      <ExtraCard
-                        data={UpcomingExtraCardData?.service}
-                        type="service"
-                      />
-                    )}
-                    {Object.keys(UpcomingExtraCardData?.event)?.length !==
-                      0 && (
-                      <ExtraCard
-                        data={UpcomingExtraCardData?.event}
-                        type="event"
-                      />
-                    )}
-                  </section>
-                )
-              : UpcomingExtraCardData &&
-                Object.keys(UpcomingExtraCardData?.event).length !== 0 && (
-                  <section className="extra_cards_mobile_view_new_creator_profile">
-                    <h4>{UpcomingExtraCardData?.event?.sname}</h4>
-                    <span>
-                      <AiOutlineClockCircle color="#94A3B8" />
-                      {getDate(UpcomingExtraCardData?.event?.startDate) +
-                        " | " +
-                        convertTime(
-                          UpcomingExtraCardData?.event?.time?.startTime
-                        ) +
-                        " - " +
-                        convertTime(
-                          UpcomingExtraCardData?.event?.time?.endTime
-                        )}
-                    </span>
-                    <div>
-                      <span
-                        style={
-                          UpcomingExtraCardData?.event?.isPaid
-                            ? { color: "#EF4444" }
-                            : { color: "#10B981" }
-                        }
-                      >
-                        {UpcomingExtraCardData?.event?.isPaid ? "Paid" : "Free"}
-                      </span>
-
-                      <p
-                        onClick={() => {
-                          navigate(`/e/${UpcomingExtraCardData?.event?.slug}`);
-                        }}
-                      >
-                        Explore
-                        <span>
-                          <AiOutlineArrowRight />
-                        </span>
-                      </p>
-                    </div>
-                  </section>
-                ))}
-
-          {/* other services or events */}
-          {services?.res?.filter((e1) => {
-            return e1?.status === 1;
-          })?.length !== 0 && (
-            <section className="other_services_new_creator_profile">
-              <section>
-                <h3 className="text_creator_profile_page-05">Service List</h3>
-                {/* <div className="filter_option_new_creator_profile">
-                Event <AiOutlineDown />
-              </div> */}
-              </section>
-
-              <div>
-                {services.res
-                  ?.filter((e1) => {
-                    return e1?.status === 1;
-                  })
-                  .sort((a, b) => {
-                    return b?.downloads - a?.downloads;
-                  })
-                  ?.sort((a, b) => {
-                    return b?.smrp - a?.smrp;
-                  })
-                  ?.map((e, i) => {
-                    return (
-                      <ServiceCards
-                        {...e}
-                        key={i}
-                        onClick={() => {
-                          mixpanel.track("Explore resources");
-                          navigate(`/s/${e?.slug}`);
-                        }}
-                      />
-                    );
-                  })}
-              </div>
-            </section>
-          )}
-
-          {/* user reviews */}
-          {feedbacks?.filter((e) => e?.status === 1)?.length !== 0 && (
-            <section className="other_reviews_new_creator_profile">
-              <h3 className="text_creator_profile_page-05">User Reviews</h3>
-
-              <div>
-                {feedbacks
-                  ?.filter((e) => e?.status === 1)
-                  ?.map((e, i) => {
-                    return <ReviewCards {...e} key={i} />;
-                  })}
-              </div>
-            </section>
-          )}
-        </div>
-
-        <Footer3 />
-      </div>
-
-      {/* SEO friendly changes -------------------------------- */}
-      <Seo
-        title={`Meet ${basicCreatorInfo?.name} on anchors`}
-        description={basicCreatorInfo?.tagLine}
-        keywords={`${basicCreatorInfo?.name},${basicCreatorInfo?.name} profile,Content creator ${basicCreatorInfo?.name},Social media influencer ${basicCreatorInfo?.name},Creative portfolio ${basicCreatorInfo?.name},${basicCreatorInfo?.name}'s online presence,Collaborations ${basicCreatorInfo?.name},${basicCreatorInfo?.name}'s creations,Anchors community ${basicCreatorInfo?.name},Creator economy ${basicCreatorInfo?.name},Monetization opportunities ${basicCreatorInfo?.name},Engagement metrics ${basicCreatorInfo?.name},Audience insights ${basicCreatorInfo?.name},Influencer marketing ${basicCreatorInfo?.name},Partnership opportunities ${basicCreatorInfo?.name}`}
-        imgUrl={basicCreatorInfo?.profile}
-      />
+      {
+        status === 1 && 
+        (
+          <CreatorProfile
+            openModelRequest={openModelRequest}
+            setOpenModelRequest={setOpenModelRequest}
+            basicCreatorInfo={basicCreatorInfo}
+            UserDetails={UserDetails}
+            creatorRatingData={creatorRatingData}
+            feedbacks={feedbacks}
+            UpcomingExtraCardData={UpcomingExtraCardData}
+            moreAbout = {moreAbout}
+            setMoreAbout = {setMoreAbout}
+            services = {services}
+          />
+        )
+      }
+      {status === 0 && eventStatus === 1 && (
+        <HostProfile
+          openModelRequest={openModelRequest}
+          setOpenModelRequest={setOpenModelRequest}
+          basicCreatorInfo={basicCreatorInfo}
+          UserDetails={UserDetails}
+          creatorRatingData={creatorRatingData}
+          feedbacks={feedbacks}
+          UpcomingExtraCardData={UpcomingExtraCardData}
+        />
+      )}
     </>
   );
 }

@@ -149,20 +149,23 @@ export const Navbar2 = ({
   noAccount = false,
   backgroundDark = false,
   noCloseLogin = false,
+  LogoImage,
+  LogoName,
 }) => {
   const [openModel, setOpenModel] = useState(false); // opens user login
   const [openUserMenu, setOpenUserMenu] = useState(false); // opens hamburger menu
   const [userDetails, setUserDetails] = useState({});
   const [userIsCreator, setUserIsCreator] = useState(false);
 
-  const [openDataForm, setOpenDataForm] = useState(false)
+  const [openDataForm, setOpenDataForm] = useState(false);
 
-  const [openOTP, setOpenOTP] = useState({open:false,data:null})
+  const [openOTP, setOpenOTP] = useState({ open: false, data: null });
 
   const navigate = useNavigate();
 
   // User context ---------------
-  const { getUserDetails, userSignInAsCreator, handleUserLoginForm } = useContext(userContext);
+  const { getUserDetails, userSignInAsCreator, handleUserLoginForm } =
+    useContext(userContext);
 
   // controlls the closing of user menu
   openUserMenu &&
@@ -223,13 +226,11 @@ export const Navbar2 = ({
     }
   }, []);
 
-
   useEffect(() => {
-   if(handleUserLoginForm){
-    setOpenDataForm(true)
-   }
-  }, [handleUserLoginForm])
-  
+    if (handleUserLoginForm) {
+      setOpenDataForm(true);
+    }
+  }, [handleUserLoginForm]);
 
   // by default opens the user login modal
   useEffect(() => {
@@ -250,11 +251,11 @@ export const Navbar2 = ({
       />
 
       <Dataform
-       open={openDataForm}
-       onClose={() => {
-         setOpenDataForm(false)
-       }}
-       setOpenOTP={setOpenOTP}
+        open={openDataForm}
+        onClose={() => {
+          setOpenDataForm(false);
+        }}
+        setOpenOTP={setOpenOTP}
       />
 
       <OtpForm {...openOTP} />
@@ -264,11 +265,25 @@ export const Navbar2 = ({
         style={backgroundDark ? { backgroundColor: "#101010" } : {}}
       >
         <div>
-          <img
-            src={require("../../../Utils/Images/logo-invite-only.png")}
-            alt=""
-            onClick={handleLogoClick}
-          />
+          {LogoImage ? (
+            <>
+              {" "}
+              <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:'8px'}}>
+                <img
+                  style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+                  src={LogoImage}
+                  onClick={handleLogoClick}
+                />{" "}
+                <div style={{fontSize:'20px',fontWeight:'600',fontFamily:'Inter',color:'#E2E8F0'}}>{LogoName? LogoName : ''}</div>
+              </div>
+            </>
+          ) : (
+            <img
+              src={require("../../../Utils/Images/logo-invite-only.png")}
+              alt=""
+              onClick={handleLogoClick}
+            />
+          )}
         </div>
 
         {!noAccount ? (

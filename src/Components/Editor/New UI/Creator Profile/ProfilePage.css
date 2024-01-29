@@ -1,68 +1,88 @@
-.new_creator_page_outer_wrapper {
+@font-face {
+  font-family: "Apple Chancery";
+  src: url("/src/fonts/Apple-Chancery-100.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Tims Grocery Store";
+  src: url("/src/fonts/Tims Grocery Store.ttf") format("truetype");
+}
+.host_new_creator_page_outer_wrapper {
   width: 100vw;
   min-height: 100vh;
   background: #101010;
 }
 
-.outerframe_new_creator_page {
+.host_outerframe_new_creator_page {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   flex-direction: column;
-  padding: 0 10%;
   width: 100%;
   box-sizing: border-box;
-  margin-top: 22px;
-  gap: 80px;
+  /* margin-top: 22px; */
+  gap: 20px;
   margin-bottom: 50px;
   min-height: 85vh;
+  background-color: rgba(18, 18, 18);
 }
 
 /* text type creator profile page */
 
-.text_creator_profile_page-01 {
-  color: #fff;
-  font-family: "Gilroy-Bold", sans-serif;
-  font-size: 40px;
-  font-style: normal;
-  line-height: normal;
-}
-
-.text_creator_profile_page-02 {
-  color: #94a3b8;
-  font-family: "Gilroy-Regular", sans-serif;
+.host_text_creator_profile_page-01 {
+  color: #E2E8F0;
+  font-family: Inter;
   font-size: 24px;
-  font-style: normal;
-  line-height: normal;
+  font-weight: 700;
+  line-height: 29px;
+  letter-spacing: 0em;
+  text-align: center;
+
 }
 
-.text_creator_profile_page-03 {
-  color: #fff;
-  font-family: "Gilroy-Bold", sans-serif;
-  font-size: 24px;
-  font-style: normal;
-  line-height: normal;
-}
-
-.text_creator_profile_page-04 {
-  color: #cbd5e1;
-  font-family: "Gilroy-Regular", sans-serif;
+.host_text_creator_profile_page-02 {
+  color: #94A3B8;
+  font-family: Inter;
   font-size: 16px;
-  font-style: normal;
   font-weight: 400;
-  line-height: 26px;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: center;
+  width: 100%;
 }
 
-.text_creator_profile_page-04 * {
+.host_text_creator_profile_page-03 {
+  font-family: Inter;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 29px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #CBD5E1;
+
+}
+
+.host_text_creator_profile_page-04 {
+  color: #94A3B8;
+  font-family: Inter;
+font-size: 16px;
+font-weight: 400;
+line-height: 19px;
+letter-spacing: 0em;
+text-align: center;
+width: 100%;
+
+}
+
+.host_text_creator_profile_page-04 * {
   font: inherit !important;
   background-color: inherit !important;
   color: inherit !important;
 }
 
-.text_creator_profile_page-04 ul {
+.host_text_creator_profile_page-04 ul {
   padding-left: 20px;
 }
 
-.text_creator_profile_page-04 ol {
+.host_text_creator_profile_page-04 ol {
   padding-left: 20px;
 }
 
@@ -76,28 +96,36 @@
 
 /* Main section creator profile */
 
-.main_creator_details_creator_page {
+.host_main_creator_details_creator_page {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
   gap: 40px;
+  overflow-wrap: break-word;
+  background: linear-gradient(180deg, #3E3E3E 0%, rgba(18, 18, 18, 0) 100%);
+  padding-top: 20px;
 }
 
-.main_creator_details_creator_page > img {
-  width: 240px;
-  min-width: 240px;
-  height: 240px;
-  min-height: 240px;
-  border-radius: 16px;
+.host_main_creator_details_creator_page >div > img {
+  width: 120px;
+  min-width: 120px;
+  height: 120px;
+  min-height: 120px;
+  border-radius: 50%;
 }
 
-.main_creator_details_creator_page > div {
+.host_main_creator_details_creator_page > div {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   flex-direction: column;
   gap: 16px;
+  width: 60%;
+  word-break: break-word;
 }
 
-.main_creator_details_creator_page > div > span {
+.host_main_creator_details_creator_page > div > span {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -110,7 +138,7 @@
   line-height: normal;
 }
 
-.main_creator_details_creator_page > div > span > span {
+.host_main_creator_details_creator_page > div > span > span {
   font-size: 16px;
   color: Gray;
 }
@@ -133,39 +161,60 @@
   background: #323232;
 }
 
-.social-icons-new-creator-page {
+.host_social-icons-new-creator-page {
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: center;
+  gap: 20px;
   margin: 4px 0;
 }
 
-.social-icons-new-creator-page > div {
-  width: 40px;
-  height: 40px;
-  padding: 8px;
+.host_social-icons-new-creator-page > div {
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  background: #212121;
+  /* background: #212121; */
   cursor: pointer;
 }
 
 /* About section ------------- */
 
-.about_section_new_creator_profile {
+.host_about_section_new_creator_profile {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  gap: 20px;
+  width: 713px;
+  background-color: #12121200;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+/* Past and upcoming section */
+.host_past_and_upcoming_section_profile{
+  display: flex;
+  width: 80%;
+  margin: 36px 10% 0 10%;
   gap: 20px;
 }
-
+.host_past_and_upcoming_section_profile button{
+  background: transparent;
+  border: transparent;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #475569;
+  cursor: pointer;
+}
+.host_past_and_upcoming_section_profile .selected{
+  color: #FF8A8A;
+  text-decoration:  underline ;
+}
 /* Extra card sections --------------- */
 
-.extra_cards_section_new_creator_profile {
-  width: 100%;
-}
 
 /* Other Services ---------------- */
 
@@ -255,34 +304,38 @@
 }
 
 /* Extra section --------------- */
-.extra_cards_section_new_creator_profile {
-  width: 100%;
+.host_extra_cards_section_new_creator_profile {
+  width: 80%;
+  margin: 0 auto;
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  gap: 20px;
 }
 
-.extra_card_new_profile_page {
+.host_extra_card_new_profile_page {
   display: flex;
   align-items: flex-start;
-  padding: 20px;
-  width: 48%;
+  padding: 5px;
+  width: 346px;
+  height: auto;
   box-sizing: border-box;
   flex-direction: column;
   border-radius: 8px;
   background: #212121;
   gap: 16px;
   position: relative;
+  background: transparent;
+  border: 1px solid #475569
 }
 
-.extra_card_new_profile_page > section {
+.host_extra_card_new_profile_page > section {
   padding: 4px 8px;
   display: flex;
   align-items: center;
   gap: 8px;
   border-radius: 4px;
   background: #28292a;
-
   color: #e2e8f0;
   text-align: center;
   font-family: "Gilroy-Medium", sans-serif;
@@ -291,72 +344,81 @@
   line-height: normal;
 }
 
-.extra_card_profile_details {
+.host_extra_card_profile_details {
   display: flex;
+  width: 100%;
+  flex-direction: column;
   align-items: flex-start;
   gap: 20px;
 }
 
-.extra_card_profile_details > img {
-  width: 180px;
-  height: 90px;
+.host_extra_card_profile_details > img {
+  width: 100%;
+  height: 187px;
   border-radius: 8px;
 }
 
-.extra_card_profile_details > section {
+.host_extra_card_profile_details > section {
   display: flex;
   align-items: flex-start;
   gap: 10px;
   flex-direction: column;
+  width: 100%;
+  overflow-wrap: break-word;
+  margin-left: 10px;
 }
 
-.extra_card_profile_details > section > h2 {
+.host_extra_card_profile_details > section > h2 {
   color: #fff;
   overflow: hidden;
-  font-family: "Gilroy-Regular", sans-serif;
+  font-family: Inter;
   font-size: 16px;
+  font-weight: 600;
+  line-height: 19px;
   font-style: normal;
-  line-height: normal;
+  width: 95%;
+  /* line-height: normal; */
 }
 
-.extra_card_profile_details > section > div {
+.host_extra_card_profile_details > section > div {
   display: flex;
   align-items: center;
   gap: 16px;
 
   color: #94a3b8;
-  font-family: " Gilroy-Regular", sans-serif;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 18px;
+  font-family: Inter;
+font-size: 12px;
+font-weight: 400;
+line-height: 15px;
+letter-spacing: 0em;
+text-align: left;
+
 }
 
-.extra_card_profile_details > section > div > span {
+.host_extra_card_profile_details > section > div > span {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.extra_card_profile_details > section > div > span > img {
+.host_extra_card_profile_details > section > div > span > img {
   width: 12px;
   height: 12px;
 }
 
-.extra_card_profile_details > section > section {
+.host_extra_card_profile_details > section > section {
   color: #34d399;
-  font-family: "Gilroy-Regular", sans-serif;
+  font-family: Inter;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 }
 
-.extra_card_profile_details > span {
+.host_extra_card_profile_details > span {
   width: 40px;
   height: 40px;
   border-radius: 40px;
-  background-color: #28292a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -368,34 +430,40 @@
   cursor: pointer;
 }
 
-.extra_card_profile_details > span:hover {
+.host_extra_card_profile_details > span:hover {
   background-color: #363637;
+}
+@media (max-width : 767px) {
+  .host_text_creator_profile_page-04 {
+    font-size: 14px;
+    width: 328px;
+  }
 }
 
 @media (max-width: 600px) {
-  .outerframe_new_creator_page {
-    padding: 0 6%;
+  .host_outerframe_new_creator_page {
+    
     gap: 10px;
-    align-items: flex-start;
   }
 
   /* text types -----------------  */
 
-  .text_creator_profile_page-01 {
+  .host_text_creator_profile_page-01 {
     font-size: 24px;
   }
 
-  .text_creator_profile_page-02 {
+  .host_text_creator_profile_page-02 {
     font-size: 15px;
-    margin: 14px 0;
+    /* margin: 14px 0; */
   }
 
-  .text_creator_profile_page-03 {
+  .host_text_creator_profile_page-03 {
     font-size: 20px;
   }
 
-  .text_creator_profile_page-04 {
+  .host_text_creator_profile_page-04 {
     font-size: 14px;
+    width: 90%;
   }
 
   .text_creator_profile_page-05 {
@@ -404,25 +472,25 @@
 
   /* main creator section -------------- */
 
-  .main_creator_details_creator_page {
+  .host_main_creator_details_creator_page {
     gap: 20px;
     width: 100%;
   }
 
-  .main_creator_details_creator_page > div {
+  .host_main_creator_details_creator_page > div {
     gap: 8px;
   }
 
-  .main_creator_details_creator_page > div > span {
+  .host_main_creator_details_creator_page > div > span {
     font-size: 12px;
     gap: 2px;
   }
 
-  .main_creator_details_creator_page > div > span span {
+  .host_main_creator_details_creator_page > div > span span {
     font-size: 10px;
   }
 
-  .main_creator_details_creator_page > img {
+  .host_main_creator_details_creator_page > img {
     width: 122px;
     height: 121px;
     border-radius: 8px;
@@ -430,11 +498,15 @@
     min-height: unset;
   }
 
-  .social-icons-new-creator-page {
+  .host_social-icons-new-creator-page {
     margin: 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
   }
 
-  .social-icons-new-creator-page > div {
+  .host_social-icons-new-creator-page > div {
     width: 32px;
     height: 32px;
     padding: 8px;
@@ -450,8 +522,8 @@
 
   /* about section ---------------- */
 
-  .about_section_new_creator_profile {
-    margin-top: 40px;
+  .host_about_section_new_creator_profile{
+    width: 100%;
   }
 
   /* other service section ----------- */
@@ -478,52 +550,55 @@
 
   /* extra section -------------- */
 
-  .extra_cards_section_new_creator_profile {
+  .host_extra_cards_section_new_creator_profile {
     flex-direction: column;
     gap: 15px;
-    margin-top: 40px;
+    /* margin-top: 40px; */
+    align-items: center;
+    width: 90%;
   }
 
-  .extra_card_new_profile_page {
-    width: 100%;
+  .host_extra_card_new_profile_page {
+    width: 328px;
+    height: auto;
     padding: 8px;
     gap: 8px;
   }
 
-  .extra_card_new_profile_page > section {
+  .host_extra_card_new_profile_page > section {
     font-size: 12px;
   }
 
-  .extra_card_profile_details {
+  .host_extra_card_profile_details {
     justify-content: space-between;
   }
 
-  .extra_card_profile_details > img {
-    width: 36vw;
-    height: 66px;
+  .host_extra_card_profile_details > img {
+    width: 100%;
+    height: 177px;
   }
 
-  .extra_card_profile_details > section {
+  .host_extra_card_profile_details > section {
     gap: 6px;
   }
 
-  .extra_card_profile_details > section > h2 {
+  .host_extra_card_profile_details > section > h2 {
     font-size: 12px;
   }
 
-  .extra_card_profile_details > section > div {
+  .host_extra_card_profile_details > section > div {
     font-size: 12px;
   }
 
-  .extra_card_profile_details > section > section {
+  .host_extra_card_profile_details > section > section {
     font-size: 12px;
   }
 
-  .extra_card_profile_details > span {
+  .host_extra_card_profile_details > span {
     width: 24px;
     height: 24px;
-    right: 0;
-    bottom: -4px;
+    /* right: 0; */
+    /* bottom: -4px; */
     font-size: 12px;
   }
 
